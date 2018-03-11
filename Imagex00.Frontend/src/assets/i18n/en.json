@@ -1,0 +1,9 @@
+{
+  "articleList": {
+    "clickToLoad": "Click to load the articles",
+    "loading": "Loading"
+  },
+  "languageSelector": {
+    "loading": "Loading"
+  }
+}

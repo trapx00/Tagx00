@@ -1,0 +1,43 @@
+stages:
+  - build
+  - test
+  
+cache:
+  paths:
+     - ./Imagex00.Backend/.gradle/wrapper
+     - ./Imagex00.Backend/.gradle/caches
+     - ./Imagex00.Frontend/node_modules
+
+backendBuildJob:
+  stage: build
+  script:
+    - cd ./Imagex00.Backend/
+    - chmod +x gradlew
+    - ./gradlew assemble
+
+frontendBuildJob:
+  stage: build
+  script:
+    - cd ./Imagex00.Frontend
+    - npm install
+    - npm run build
+
+
+backendTestjob:
+  stage: test
+  script:
+    - cd ./Imagex00.Backend/
+    - chmod +x gradlew
+    - ./gradlew test
+  only:
+    - develop
+    - master
+
+frontendTestJob:
+  stage: test
+  script:
+    - cd ./Imagex00.Frontend/
+    - npm run test
+  only:
+    - develop
+    - master

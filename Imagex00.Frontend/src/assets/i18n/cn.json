@@ -1,0 +1,9 @@
+{
+  "articleList": {
+    "clickToLoad": "点击加载文章列表",
+    "loading": "加载中"
+  },
+  "languageSelector": {
+    "loading": "载入中"
+  }
+}
