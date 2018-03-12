@@ -1,14 +1,13 @@
 package trapx00.imagex00.entity.user;
 
 
-import trapx00.imagex00.entity.annotation.Column;
+import trapx00.imagex00.entity.annotation.*;
 import trapx00.imagex00.entity.Entity;
-import trapx00.imagex00.entity.annotation.Id;
-import trapx00.imagex00.entity.annotation.Table;
 
 @Table(name = "user")
 public class User extends Entity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "username")
     private String username;
     @Column(name = "password")
