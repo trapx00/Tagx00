@@ -1,6 +1,7 @@
 stages:
   - build
-  - test
+  # - test
+  - deploy
   
 cache:
   paths:
@@ -8,12 +9,12 @@ cache:
      - Imagex00.Backend/.gradle/caches/
      - Imagex00.Frontend/node_modules/
 
-backendBuildJob:
-  stage: build
-  script:
-    - cd ./Imagex00.Backend/
-    - chmod +x gradlew
-    - ./gradlew assemble
+# backendBuildJob:
+#   stage: build
+#   script:
+#     - cd ./Imagex00.Backend/
+#     - chmod +x gradlew
+#     - ./gradlew assemble
 
 frontendBuildJob:
   stage: build
@@ -23,15 +24,15 @@ frontendBuildJob:
     - npm run build
 
 
-backendTestjob:
-  stage: test
-  script:
-    - cd ./Imagex00.Backend/
-    - chmod +x gradlew
-    - ./gradlew test
-  only:
-    - develop
-    - master
+# backendTestjob:
+#   stage: test
+#   script:
+#     - cd ./Imagex00.Backend/
+#     - chmod +x gradlew
+#     - ./gradlew test
+#   only:
+#     - develop
+#     - master
 
 frontendTestJob:
   stage: test
@@ -41,3 +42,14 @@ frontendTestJob:
   only:
     - develop
     - master
+
+frontendDeployJob:
+  stage: deploy
+  script:
+    - cd ./Imagex00.Frontend/
+    - chmod +x ./deploy.sh
+    - ./deploy.sh
+  only:
+    - master
+
+
