@@ -4,9 +4,9 @@ stages:
   
 cache:
   paths:
-     - ./Imagex00.Backend/.gradle/wrapper
-     - ./Imagex00.Backend/.gradle/caches
-     - ./Imagex00.Frontend/node_modules
+     - Imagex00.Backend/.gradle/wrapper/
+     - Imagex00.Backend/.gradle/caches/
+     - Imagex00.Frontend/node_modules/
 
 backendBuildJob:
   stage: build
