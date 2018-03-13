@@ -1,4 +1,4 @@
-package trapx00.tagx00.springcontroller.user;
+package trapx00.tagx00.springcontroller.account;
 
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +12,12 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserAlreadyExistsException;
 import trapx00.tagx00.exception.viewexception.WrongUsernameOrPasswordException;
 import trapx00.tagx00.response.Response;
+import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.user.UserLoginResponse;
 import trapx00.tagx00.response.user.UserRegisterResponse;
 import trapx00.tagx00.vo.user.UserSaveVo;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 @RestController
 public class UserController {
@@ -47,9 +47,7 @@ public class UserController {
     @RequestMapping(value = "${jwt.route.authentication.login}", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Success", response = UserLoginResponse.class),
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = 404, message = "Not Found"),
+            @ApiResponse(code = 401, message = "Unauthorized", response = WrongResponse.class),
             @ApiResponse(code = 500, message = "Failure")})
     @ResponseBody
     public ResponseEntity<Response> login(
@@ -59,7 +57,7 @@ public class UserController {
             return new ResponseEntity<>(userLoginResponse, HttpStatus.OK);
         } catch (WrongUsernameOrPasswordException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -67,10 +65,8 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST, path = "${jwt.route.authentication.register}", produces = "application/json")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Success", response = UserRegisterResponse.class),
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 500, message = "Failure")})
+            @ApiResponse(code = 409, message = "conflict", response = WrongResponse.class),
+            @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
     public ResponseEntity<Response> register(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email) {
         try {

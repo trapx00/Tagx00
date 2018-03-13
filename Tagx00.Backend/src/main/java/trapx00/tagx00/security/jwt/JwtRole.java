@@ -1,6 +1,7 @@
 package trapx00.tagx00.security.jwt;
 
 import io.jsonwebtoken.Jwt;
+import net.sf.json.JSONObject;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.core.GrantedAuthority;
 import trapx00.tagx00.entity.user.Role;
@@ -12,8 +13,12 @@ public class JwtRole implements GrantedAuthority {
 
     private String roleName;
 
-    private JwtRole(String roleName){
+    private JwtRole(String roleName) {
         this.roleName = roleName;
+    }
+
+    public JwtRole(JSONObject jsonObject) {
+        this.roleName = (String) jsonObject.get("name");
     }
 
     public JwtRole(Role role) {

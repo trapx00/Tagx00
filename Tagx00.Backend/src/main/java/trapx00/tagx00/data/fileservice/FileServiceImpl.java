@@ -82,7 +82,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
      */
     @Override
     public  T findOne(String info, Class<T> clazz) {
-        String methodName = new Exception().getStackTrace()[1].getMethodName();
+        String methodName = new Exception().getStackTrace()[2].getMethodName();
         String columnName = methodName.split("By")[1].toLowerCase();
         String tableName = AnnotationUtil.getTableName(clazz);
 
