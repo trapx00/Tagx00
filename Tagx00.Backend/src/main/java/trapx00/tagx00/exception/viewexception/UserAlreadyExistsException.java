@@ -1,11 +1,11 @@
 package trapx00.tagx00.exception.viewexception;
 
-import trapx00.tagx00.vo.response.Response;
+import trapx00.tagx00.response.WrongResponse;
 
 public class UserAlreadyExistsException extends Exception {
-    private Response response = new Response(10002, "User already exists.");
+    private WrongResponse response = new WrongResponse(10002, "User already exists.");
 
-    public Response getResponse() {
+    public WrongResponse getResponse() {
         return response;
     }
 }

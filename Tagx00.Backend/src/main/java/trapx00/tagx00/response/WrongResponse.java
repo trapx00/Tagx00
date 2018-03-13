@@ -1,15 +1,12 @@
-package trapx00.tagx00.vo.response;
+package trapx00.tagx00.response;
 
-public class Response {
+public class WrongResponse extends Response {
     private int infoCode;
     private String description;
 
-    public Response(int infoCode, String description) {
+    public WrongResponse(int infoCode, String description) {
         this.infoCode = infoCode;
         this.description = description;
-    }
-
-    public Response() {
     }
 
     public int getInfoCode() {

@@ -11,8 +11,9 @@ import trapx00.tagx00.entity.user.Role;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserAlreadyExistsException;
 import trapx00.tagx00.exception.viewexception.WrongUsernameOrPasswordException;
-import trapx00.tagx00.vo.response.Response;
-import trapx00.tagx00.vo.response.SuccessResponse;
+import trapx00.tagx00.response.Response;
+import trapx00.tagx00.response.user.UserLoginResponse;
+import trapx00.tagx00.response.user.UserRegisterResponse;
 import trapx00.tagx00.vo.user.UserSaveVo;
 
 import java.util.ArrayList;
@@ -42,10 +43,10 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "createAuthenticationToken", nickname = "createAuthentication")
+    @ApiOperation(value = "login", nickname = "login")
     @RequestMapping(value = "${jwt.route.authentication.login}", method = RequestMethod.GET)
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Success", response = Response.class),
+            @ApiResponse(code = 201, message = "Success", response = UserLoginResponse.class),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
@@ -54,9 +55,8 @@ public class UserController {
     public ResponseEntity<Response> login(
             @RequestParam("username") String username, @RequestParam("password") String password) {
         try {
-            final String token = userBlService.login(username, password);
-            Response response = new Response(10000, token);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            UserLoginResponse userLoginResponse = userBlService.login(username, password);
+            return new ResponseEntity<>(userLoginResponse, HttpStatus.OK);
         } catch (WrongUsernameOrPasswordException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.BAD_REQUEST);
@@ -66,7 +66,7 @@ public class UserController {
     @ApiOperation(value = "register", nickname = "register")
     @RequestMapping(method = RequestMethod.POST, path = "${jwt.route.authentication.register}", produces = "application/json")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Success", response = Response.class),
+            @ApiResponse(code = 201, message = "Success", response = UserRegisterResponse.class),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
@@ -76,8 +76,7 @@ public class UserController {
         try {
             ArrayList<Role> roles = new ArrayList<>();
             roles.add(Role.WORKER);
-            userBlService.signUp(new UserSaveVo(username, password, email, roles));
-            return new ResponseEntity<>(new SuccessResponse(), HttpStatus.CREATED);
+            return new ResponseEntity<>(userBlService.signUp(new UserSaveVo(username, password, email, roles)), HttpStatus.OK);
         } catch (UserAlreadyExistsException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);

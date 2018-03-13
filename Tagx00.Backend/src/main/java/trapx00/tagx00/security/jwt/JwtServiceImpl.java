@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.entity.user.Role;
 import trapx00.tagx00.entity.user.User;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -38,9 +35,9 @@ public class JwtServiceImpl implements JwtService {
         Claims claims;
         try {
             claims = Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody();
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token)
+                    .getBody();
         } catch (Exception e) {
             e.printStackTrace();
             claims = null;
@@ -57,17 +54,17 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public JwtUser convertUserToJwtUser(User user) {
         return new JwtUser(
-            user.getUsername(),
-            user.getPassword(),
-            user.getEmail(),
-            mapToJwtRole(user.getRoles())
+                user.getUsername(),
+                user.getPassword(),
+                user.getEmail(),
+                mapToJwtRole(user.getRoles())
         );
     }
 
     private List<JwtRole> mapToJwtRole(List<Role> roles) {
         return roles.stream()
-            .map(JwtRole::new)
-            .collect(Collectors.toList());
+                .map(JwtRole::new)
+                .collect(Collectors.toList());
     }
 
 
@@ -88,9 +85,21 @@ public class JwtServiceImpl implements JwtService {
         claims.put(claimKeyUsername, userDetails.getUsername());
         claims.put(claimKeyAuthorities, userDetails.getAuthorities());
         return Jwts.builder()
-            .setClaims(claims)
-            .setExpiration(generateExpirationDate())
-            .signWith(SignatureAlgorithm.HS512, secret)
-            .compact();
+                .setClaims(claims)
+                .setExpiration(generateExpirationDate())
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+    }
+
+    @Override
+    public String generateToken(String username, Collection<JwtRole> jwtRoles) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(claimKeyUsername, username);
+        claims.put(claimKeyAuthorities, jwtRoles);
+        return Jwts.builder()
+                .setClaims(claims)
+                .setExpiration(generateExpirationDate())
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
     }
 }

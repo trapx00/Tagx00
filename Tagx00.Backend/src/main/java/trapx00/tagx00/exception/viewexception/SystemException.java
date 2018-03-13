@@ -1,11 +1,11 @@
 package trapx00.tagx00.exception.viewexception;
 
-import trapx00.tagx00.vo.response.Response;
+import trapx00.tagx00.response.WrongResponse;
 
 public class SystemException extends Exception {
-    private Response response = new Response(10001, "System is error.");
+    private WrongResponse response = new WrongResponse(10001, "System is error.");
 
-    public Response getResponse() {
+    public WrongResponse getResponse() {
         return response;
     }
 }

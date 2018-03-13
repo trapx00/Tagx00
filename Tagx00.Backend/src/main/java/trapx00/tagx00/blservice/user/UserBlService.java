@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserAlreadyExistsException;
 import trapx00.tagx00.exception.viewexception.WrongUsernameOrPasswordException;
+import trapx00.tagx00.response.user.UserLoginResponse;
+import trapx00.tagx00.response.user.UserRegisterResponse;
 import trapx00.tagx00.vo.user.UserSaveVo;
 
 @Service
@@ -13,7 +15,7 @@ public interface UserBlService {
      *
      * @param userSaveVo the user to be registered
      */
-    void signUp(UserSaveVo userSaveVo) throws UserAlreadyExistsException, SystemException;
+    UserRegisterResponse signUp(UserSaveVo userSaveVo) throws UserAlreadyExistsException, SystemException;
 
-    String login(String username, String password) throws WrongUsernameOrPasswordException;
+    UserLoginResponse login(String username, String password) throws WrongUsernameOrPasswordException;
 }

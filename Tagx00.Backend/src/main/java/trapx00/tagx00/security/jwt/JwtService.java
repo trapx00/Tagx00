@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import trapx00.tagx00.entity.user.User;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface JwtService {
     boolean validateToken(String authToken);
 
     String generateToken(UserDetails userDetails);
+
+    String generateToken(String username, Collection<JwtRole> jwtRoles);
 }

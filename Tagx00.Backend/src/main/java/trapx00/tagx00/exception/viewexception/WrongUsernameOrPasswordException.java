@@ -1,11 +1,11 @@
 package trapx00.tagx00.exception.viewexception;
 
-import trapx00.tagx00.vo.response.Response;
+import trapx00.tagx00.response.WrongResponse;
 
 public class WrongUsernameOrPasswordException extends Exception {
-    private Response response = new Response(10003, "Username or password is wrong.");
+    private WrongResponse response = new WrongResponse(10003, "Username or password is wrong.");
 
-    public Response getResponse() {
+    public WrongResponse getResponse() {
         return response;
     }
 }
