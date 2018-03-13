@@ -1,0 +1,19 @@
+server:
+  port: 8080
+logging:
+  level:
+    org.springframework:
+      data: DEBUG
+      security: DEBUG
+jwt:
+  claimKey:
+    username: "username"
+    authorities: "authorities"
+  secret: "wfhg9hr-1jfpjf-p3j-=vgf0pvmo3k=2-3rj0-3j=gn[=3-g[mj"
+  header: Authorization
+  expiration: 604800
+  tokenHead: "Bearer "
+  route:
+    authentication:
+      register: "account/register"
+      login: "account/login"

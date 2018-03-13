@@ -1,0 +1,96 @@
+package trapx00.tagx00.security.jwt;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+import trapx00.tagx00.entity.user.Role;
+import trapx00.tagx00.entity.user.User;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+
+@Service
+public class JwtServiceImpl implements JwtService {
+
+    @Value("${jwt.claimKey.username}")
+    private String claimKeyUsername;
+
+    @Value("${jwt.claimKey.authorities}")
+    private String claimKeyAuthorities;
+
+    @Value("${jwt.secret}")
+    private String secret;
+
+    @Value("${jwt.expiration}")
+    private long expiration;
+
+    @Override
+    public Claims getClaimsFromToken(String token) {
+        Claims claims;
+        try {
+            claims = Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
+        } catch (Exception e) {
+            e.printStackTrace();
+            claims = null;
+        }
+        return claims;
+    }
+
+    @Override
+    public String getUsernameFromToken(String token) {
+        Claims claims = getClaimsFromToken(token);
+        return (String) claims.get(claimKeyUsername);
+    }
+
+    @Override
+    public JwtUser convertUserToJwtUser(User user) {
+        return new JwtUser(
+            user.getUsername(),
+            user.getPassword(),
+            user.getEmail(),
+            mapToJwtRole(user.getRoles())
+        );
+    }
+
+    private List<JwtRole> mapToJwtRole(List<Role> roles) {
+        return roles.stream()
+            .map(JwtRole::new)
+            .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public Date generateExpirationDate() {
+        return new Date(System.currentTimeMillis() + expiration * 1000);
+    }
+
+    @Override
+    public boolean validateToken(String authToken) {
+        Claims claims = getClaimsFromToken(authToken);
+        return new Date().getTime() <= claims.getExpiration().getTime();
+    }
+
+    @Override
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(claimKeyUsername, userDetails.getUsername());
+        claims.put(claimKeyAuthorities, userDetails.getAuthorities());
+        return Jwts.builder()
+            .setClaims(claims)
+            .setExpiration(generateExpirationDate())
+            .signWith(SignatureAlgorithm.HS512, secret)
+            .compact();
+    }
+}
