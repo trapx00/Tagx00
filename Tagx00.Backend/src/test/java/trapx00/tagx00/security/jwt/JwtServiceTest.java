@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 
 import static org.junit.Assert.assertEquals;
 
-
+@SuppressWarnings("unchecked")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class JwtServiceTest {

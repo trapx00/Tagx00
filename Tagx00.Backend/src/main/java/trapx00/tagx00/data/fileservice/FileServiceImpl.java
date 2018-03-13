@@ -1,15 +1,18 @@
-package trapx00.tagx00.util;
+package trapx00.tagx00.data.fileservice;
 
 import net.sf.json.JSONObject;
+import org.springframework.stereotype.Service;
 import trapx00.tagx00.MainApplication;
 import trapx00.tagx00.entity.Entity;
 import trapx00.tagx00.exception.daoexception.IdDoesNotExistException;
+import trapx00.tagx00.util.AnnotationUtil;
 
 import java.io.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-public class FileUtil {
+@Service
+public class FileServiceImpl<T extends Entity> implements FileService<T> {
     private final static String savePath = MainApplication.class.getResource("../../../resources/data/").getPath();
     private final static String fileType = ".txt";
 
@@ -19,7 +22,8 @@ public class FileUtil {
      * @param entity the entity object
      * @return the entity if success else return null
      */
-    public static <T extends Entity> T saveTuple(T entity) {
+    @Override
+    public T saveTuple(T entity) {
         Class<? extends Entity> clazz = entity.getClass();
         String tableName = AnnotationUtil.getTableName(clazz);
         ArrayList<String> fileContent = new ArrayList<>();
@@ -29,7 +33,7 @@ public class FileUtil {
 
         int maxId = 0;
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(savePath + tableName + fileType)))) {
+            new FileInputStream(savePath + tableName + fileType)))) {
             boolean isUpdate = false;
             String jsonLine;
             while ((jsonLine = bufferedReader.readLine()) != null) {
@@ -76,13 +80,14 @@ public class FileUtil {
      * @param info the key info to find
      * @return the entity
      */
-    public static <T> T findOne(String info, Class<T> clazz) {
+    @Override
+    public  T findOne(String info, Class<T> clazz) {
         String methodName = new Exception().getStackTrace()[1].getMethodName();
         String columnName = methodName.split("By")[1].toLowerCase();
         String tableName = AnnotationUtil.getTableName(clazz);
 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(savePath + tableName + fileType)))) {
+            new FileInputStream(savePath + tableName + fileType)))) {
             String json;
             while ((json = bufferedReader.readLine()) != null) {
                 JSONObject jsonObject = JSONObject.fromObject(json);
@@ -99,11 +104,12 @@ public class FileUtil {
         return null;
     }
 
-    public static <T> void delete(String id, Class<T> clazz) {
+    @Override
+    public void delete(String id, Class<T> clazz) {
         String tableName = AnnotationUtil.getTableName(clazz);
         ArrayList<String> fileContent = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(savePath + tableName + fileType)))) {
+            new FileInputStream(savePath + tableName + fileType)))) {
             boolean isExist = false;
             String jsonLine;
             while ((jsonLine = bufferedReader.readLine()) != null) {
@@ -134,7 +140,7 @@ public class FileUtil {
         }
     }
 
-    private static <T> T fromJsonToObject(JSONObject jsonObject, Class<T> clazz) {
+    private T fromJsonToObject(JSONObject jsonObject, Class<T> clazz) {
         try {
             T t = clazz.newInstance();
             ArrayList<String> columns = AnnotationUtil.getAllFieldName(clazz);

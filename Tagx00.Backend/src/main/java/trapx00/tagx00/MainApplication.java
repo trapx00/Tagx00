@@ -15,7 +15,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @SpringBootApplication
 @EnableSwagger2
-@ServletComponentScan
 public class MainApplication {
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class, args);
@@ -26,7 +25,7 @@ public class MainApplication {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("trapx00.imagex00.springcontroller"))
+                .apis(RequestHandlerSelectors.basePackage(getClass().getPackage().getName()))
                 .paths(PathSelectors.any())
                 .build();
     }

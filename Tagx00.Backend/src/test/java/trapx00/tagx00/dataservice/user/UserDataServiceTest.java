@@ -37,6 +37,7 @@ public class UserDataServiceTest {
 
     @Test
     public void saveUser() {
+        System.out.println(userDataService);
         User user = new User("123", "345","test@tagx00.ml", Arrays.asList(Role.WORKER));
         try {
             userDataService.saveUser(user);

@@ -6,14 +6,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import trapx00.tagx00.dataservice.user.UserDataService;
-import trapx00.tagx00.vo.response.Response;
+import trapx00.tagx00.response.Response;
+import trapx00.tagx00.response.user.UserLoginResponse;
 
 import static org.junit.Assert.*;
 
@@ -61,7 +62,7 @@ public class UserControllerIntegrationTest {
 
     public HttpHeaders getAuthenticatedHeaders() {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer "+login().getBody().getDescription());
+        headers.set("Authorization", "Bearer "+login().getBody().getToken());
         return headers;
     }
 
@@ -69,15 +70,15 @@ public class UserControllerIntegrationTest {
         return "http://localhost:" + port + "/" + route;
     }
 
-    private ResponseEntity<Response> login() {
+    private ResponseEntity<UserLoginResponse> login() {
         String url = getRoute(loginRoute) + "?username=test&password=test";
-        return testRestTemplate.getForEntity(url, Response.class);
+        return testRestTemplate.getForEntity(url, UserLoginResponse.class);
     }
 
 
     @Test
     public void loginShouldSuccess() {
-        ResponseEntity<Response> response = login();
+        ResponseEntity<UserLoginResponse> response = login();
         assertEquals(HttpStatus.OK,response.getStatusCode());
     }
 
