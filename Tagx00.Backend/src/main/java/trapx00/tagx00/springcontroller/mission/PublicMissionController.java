@@ -13,10 +13,9 @@ import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 
 @RestController
 public class PublicMissionController {
-    @ApiOperation(value = "login", nickname = "login")
-    @RequestMapping(value = "/mission", method = RequestMethod.POST)
+    @RequestMapping(value = "/mission", method = RequestMethod.GET)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = MissionPublicResponse.class)
+            @ApiResponse(code = 200, message = "Success", response = MissionPublicResponse.class)
     })
     @ResponseBody
     public ResponseEntity<Response> getAllMissions() {

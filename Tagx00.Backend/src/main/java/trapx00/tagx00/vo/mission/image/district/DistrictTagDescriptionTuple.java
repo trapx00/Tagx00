@@ -7,7 +7,6 @@ import trapx00.tagx00.vo.mission.image.TagDescriptionTuple;
 import java.util.List;
 
 public class DistrictTagDescriptionTuple {
-    private List<Line> lines;
-    private Point innerPoint;
+    private List<Point> pointsInside;
     private TagDescriptionTuple tagDescriptionTuple;
 }

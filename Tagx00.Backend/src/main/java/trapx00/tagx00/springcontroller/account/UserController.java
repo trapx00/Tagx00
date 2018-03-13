@@ -29,7 +29,6 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('" + Role.WORKER_NAME + "')")
-    @ApiOperation(value = "try", nickname = "try")
     @RequestMapping(value = "/try", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Success", response = String.class),
@@ -43,8 +42,7 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "login", nickname = "login")
-    @RequestMapping(value = "${jwt.route.authentication.login}", method = RequestMethod.GET)
+    @RequestMapping(value = "account/login", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Success", response = UserLoginResponse.class),
             @ApiResponse(code = 401, message = "Unauthorized", response = WrongResponse.class),
@@ -61,8 +59,7 @@ public class UserController {
         }
     }
 
-    @ApiOperation(value = "register", nickname = "register")
-    @RequestMapping(method = RequestMethod.POST, path = "${jwt.route.authentication.register}", produces = "application/json")
+    @RequestMapping(method = RequestMethod.POST, path = "account/register", produces = "application/json")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Success", response = UserRegisterResponse.class),
             @ApiResponse(code = 409, message = "conflict", response = WrongResponse.class),
