@@ -1,13 +1,13 @@
 stages:
   - build
-  # - test
+  - test
   - deploy
   
 cache:
   paths:
-     - Imagex00.Backend/.gradle/wrapper/
-     - Imagex00.Backend/.gradle/caches/
-     - Imagex00.Frontend/node_modules/
+    - Imagex00.Backend/.gradle/wrapper/
+    - Imagex00.Backend/.gradle/caches/
+    - Imagex00.Frontend/node_modules/
 
 # backendBuildJob:
 #   stage: build
@@ -17,6 +17,7 @@ cache:
 #     - ./gradlew assemble
 
 frontendBuildJob:
+  image: node:latest
   stage: build
   script:
     - cd ./Imagex00.Frontend
@@ -35,6 +36,7 @@ frontendBuildJob:
 #     - master
 
 frontendTestJob:
+  image: node:latest
   stage: test
   script:
     - cd ./Imagex00.Frontend/
@@ -44,6 +46,7 @@ frontendTestJob:
     - master
 
 frontendDeployJob:
+  image: node:latest
   stage: deploy
   script:
     - cd ./Imagex00.Frontend/
