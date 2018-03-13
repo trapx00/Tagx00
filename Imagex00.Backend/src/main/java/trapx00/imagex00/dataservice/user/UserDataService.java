@@ -21,4 +21,13 @@ public interface UserDataService {
      * @return whether the operation is success or not
      */
     void saveUser(User user) throws SystemException;
+
+    /**
+     * confirm the password
+     *
+     * @param username the username
+     * @param password the password
+     * @return true if password is correct else false
+     */
+    boolean confirmPassword(String username, String password);
 }

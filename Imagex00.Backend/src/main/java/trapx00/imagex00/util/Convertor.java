@@ -11,6 +11,6 @@ public class Convertor {
      * @return the user
      */
     public static User userSaveVoToUser(UserSaveVo userSaveVo) {
-        return new User(userSaveVo.getUsername(), userSaveVo.getPassword());
+        return new User(userSaveVo.getUsername(), userSaveVo.getPassword(), userSaveVo.getEmail(), userSaveVo.getRoles());
     }
 }

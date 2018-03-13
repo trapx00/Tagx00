@@ -14,7 +14,7 @@ public class AnnotationUtil {
 
     public static ArrayList<String> getAllFieldName(Class clazz) {
         ArrayList<String> columns = new ArrayList<>();
-        Field[] fields = clazz.getFields();
+        Field[] fields = clazz.getDeclaredFields();
         if (fields != null) {
             for (Field field : fields) {
                 if (!field.isAccessible()) {
