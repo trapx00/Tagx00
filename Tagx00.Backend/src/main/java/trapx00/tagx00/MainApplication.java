@@ -32,7 +32,7 @@ public class MainApplication {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Image x00 API")
+                .title("Tag x00 API")
                 .termsOfServiceUrl("")
                 .contact(new Contact("Trap x00", "https://github.com/trapx00", "445073309@qq.com"))
                 .version("1.0")
