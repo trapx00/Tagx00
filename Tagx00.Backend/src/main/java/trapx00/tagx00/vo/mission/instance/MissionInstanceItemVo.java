@@ -1,4 +1,4 @@
-package trapx00.tagx00.vo.mission.requester.instance;
+package trapx00.tagx00.vo.mission.instance;
 
 import java.util.Date;
 

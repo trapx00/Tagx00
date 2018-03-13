@@ -33,7 +33,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
 
         int maxId = 0;
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-            new FileInputStream(savePath + tableName + fileType)))) {
+                new FileInputStream(savePath + tableName + fileType)))) {
             boolean isUpdate = false;
             String jsonLine;
             while ((jsonLine = bufferedReader.readLine()) != null) {
@@ -61,6 +61,13 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
             return null;
         }
 
+        try (FileWriter writer = new FileWriter(savePath + tableName + fileType)) {
+            writer.write("");
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         try (FileWriter writer = new FileWriter(savePath + tableName + fileType, true)) {
             for (String tuple : fileContent) {
                 writer.write(tuple);
@@ -81,13 +88,13 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
      * @return the entity
      */
     @Override
-    public  T findOne(String info, Class<T> clazz) {
+    public T findOne(String info, Class<T> clazz) {
         String methodName = new Exception().getStackTrace()[2].getMethodName();
         String columnName = methodName.split("By")[1].toLowerCase();
         String tableName = AnnotationUtil.getTableName(clazz);
 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-            new FileInputStream(savePath + tableName + fileType)))) {
+                new FileInputStream(savePath + tableName + fileType)))) {
             String json;
             while ((json = bufferedReader.readLine()) != null) {
                 JSONObject jsonObject = JSONObject.fromObject(json);
@@ -109,7 +116,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
         String tableName = AnnotationUtil.getTableName(clazz);
         ArrayList<String> fileContent = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
-            new FileInputStream(savePath + tableName + fileType)))) {
+                new FileInputStream(savePath + tableName + fileType)))) {
             boolean isExist = false;
             String jsonLine;
             while ((jsonLine = bufferedReader.readLine()) != null) {
@@ -125,6 +132,13 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (FileWriter writer = new FileWriter(savePath + tableName + fileType)) {
+            writer.write("");
+            writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }

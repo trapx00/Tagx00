@@ -1,7 +1,7 @@
 package trapx00.tagx00.vo.mission.worker;
 
-import trapx00.tagx00.vo.mission.missiontype.MissionState;
 import trapx00.tagx00.vo.mission.missiontype.MissionVo;
+import trapx00.tagx00.vo.mission.instance.MissionInstanceState;
 
 public class MissionWorkerQueryItemVo {
     private String title;
