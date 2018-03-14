@@ -83,7 +83,7 @@ public class WorkerMissionController {
     }
 
     @Authorization(value = "工人")
-    @ApiOperation(value = "工人提交任务", notes = "工人提交当前任务")
+    @ApiOperation(value = "工人提交任务", notes = "工人提交当前任务,如果是空的就是接受任务")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "dataType", value = "任务类型", required = true, dataType = "MissionType"),
             @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
