@@ -8,7 +8,8 @@ import java.util.List;
 public class MissionCreateVo {
     private String title;
     private String description;
-    private List<String>  topics;
+    private List<String> topics;
+    private boolean allowCustomTag;
     private List<String> allowedTags;
     private MissionVo mission;
     private Date start;
