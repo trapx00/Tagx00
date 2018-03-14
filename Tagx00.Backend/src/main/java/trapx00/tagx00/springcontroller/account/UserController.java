@@ -28,19 +28,6 @@ public class UserController {
         this.userBlService = userBlService;
     }
 
-    @PreAuthorize("hasRole('" + Role.WORKER_NAME + "')")
-    @RequestMapping(value = "/try", method = RequestMethod.GET)
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Success", response = String.class),
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
-            @ApiResponse(code = 404, message = "Not Found"),
-            @ApiResponse(code = 500, message = "Failure")})
-    @ResponseBody
-    public String trial() {
-        return "123";
-    }
-
     @ApiOperation(value = "用户登录", notes = "验证用户登录并返回token")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),

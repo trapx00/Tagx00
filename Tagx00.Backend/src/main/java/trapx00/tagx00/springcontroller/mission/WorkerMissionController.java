@@ -31,6 +31,9 @@ public class WorkerMissionController {
 
     @Authorization(value = "工人")
     @ApiOperation(value = "工人放弃任务", notes = "工人放弃自己已接的所有任务")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "Integer", paramType = "path")
+    })
     @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.DELETE)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Mission abandoned.", response = SuccessResponse.class),
@@ -39,12 +42,15 @@ public class WorkerMissionController {
             @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> abandon(@PathVariable("missionId") int missionId) {
+    public ResponseEntity<Response> abort(@PathVariable("missionId") int missionId) {
         return null;
     }
 
     @Authorization(value = "工人")
     @ApiOperation(value = "工人获取任务信息", notes = "工人获取自己领取任务的实例的信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "Integer", paramType = "path")
+    })
     @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Returns the instance", response = MissionInstanceDetailVo.class),
@@ -60,7 +66,8 @@ public class WorkerMissionController {
     @Authorization(value = "工人")
     @ApiOperation(value = "工人保存任务进度", notes = "工人保存当前任务的实例的进度")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "dataType", value = "数据种类", required = true, dataType = "MissionType")
+            @ApiImplicitParam(name = "dataType", value = "任务类型", required = true, dataType = "MissionType"),
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "Integer", paramType = "path")
     })
     @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.PUT) // save progress
     @ApiResponses(value = {
@@ -78,7 +85,8 @@ public class WorkerMissionController {
     @Authorization(value = "工人")
     @ApiOperation(value = "工人提交任务", notes = "工人提交当前任务")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "dataType", value = "数据种类", required = true, dataType = "MissionType")
+            @ApiImplicitParam(name = "dataType", value = "任务类型", required = true, dataType = "MissionType"),
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "Integer", paramType = "path")
     })
     @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.POST) // save progress
     @ApiResponses(value = {
