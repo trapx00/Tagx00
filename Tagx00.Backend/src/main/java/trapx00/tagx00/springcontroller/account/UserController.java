@@ -28,6 +28,13 @@ public class UserController {
         this.userBlService = userBlService;
     }
 
+    @PreAuthorize(value = "hasRole('" + Role.REQUESTOR_NAME + "')")
+    @RequestMapping(value = "account/try", method = RequestMethod.GET)
+    @ResponseBody
+    public String trial() {
+        return "123";
+    }
+
     @ApiOperation(value = "用户登录", notes = "验证用户登录并返回token")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),

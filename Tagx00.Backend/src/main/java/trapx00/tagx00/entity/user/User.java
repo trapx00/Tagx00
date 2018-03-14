@@ -15,6 +15,7 @@ public class User extends Entity {
     private String password;
     @Column(name = "email")
     private String email;
+    @ElementCollection(targetClass = Role.class)
     @Column(name = "roles")
     private List<Role> roles;
 

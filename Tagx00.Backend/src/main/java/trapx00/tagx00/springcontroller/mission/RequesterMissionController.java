@@ -52,7 +52,7 @@ public class RequesterMissionController {
     @Authorization(value = "发布者")
     @ApiOperation(value = "查看任务细节", notes = "查询该任务细节")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "Integer", paramType = "path")
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
     })
     @RequestMapping(value = "/mission/requester/{missionId}", method = RequestMethod.GET)
     @ApiResponses(value = {
@@ -69,7 +69,7 @@ public class RequesterMissionController {
     @Authorization(value = "发布者")
     @ApiOperation(value = "查看任务的实例", notes = "查询任务实例")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "Integer", paramType = "path")
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
     })
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Returns instances of the mission", response = MissionInstancesQueryResponse.class),
@@ -85,8 +85,8 @@ public class RequesterMissionController {
     @Authorization(value = "发布者")
     @ApiOperation(value = "查看任务实例详情", notes = "查询任务实例的详情")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "Integer", paramType = "path"),
-            @ApiImplicitParam(name = "instanceId", value = "实例ID", required = true, dataType = "Integer", paramType = "path")
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "instanceId", value = "实例ID", required = true, dataType = "int", paramType = "path")
     })
     @RequestMapping(value = "/mission/requester/{missionId}/instances/{instanceId}", method = RequestMethod.GET)
     @ApiResponses(value = {

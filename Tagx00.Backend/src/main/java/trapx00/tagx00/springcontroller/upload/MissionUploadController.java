@@ -20,9 +20,9 @@ public class MissionUploadController {
     @ApiOperation(value = "发布者上传文件", notes = "发布者上传本次任务的图片，传输时限为10min")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "multipartFile", value = "图片", required = true, dataType = "MultipartFile"),
-            @ApiImplicitParam(name = "order", value = "图片顺序", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "isCover", value = "图片是否是封面图", required = true, dataType = "Boolean"),
-            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "Integer", paramType = "path")
+            @ApiImplicitParam(name = "order", value = "图片顺序", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "isCover", value = "图片是否是封面图", required = true, dataType = "bool"),
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
     })
     @RequestMapping(value = "/upload/mission/image/{missionId}", method = RequestMethod.POST)
     @ApiResponses(value = {

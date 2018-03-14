@@ -12,7 +12,7 @@ public class AnnotationUtil {
         return table.name();
     }
 
-    public static ArrayList<String> getAllFieldName(Class clazz) {
+    public static ArrayList<String> getAllColumnName(Class clazz) {
         ArrayList<String> columns = new ArrayList<>();
         Field[] fields = clazz.getDeclaredFields();
         if (fields != null) {
