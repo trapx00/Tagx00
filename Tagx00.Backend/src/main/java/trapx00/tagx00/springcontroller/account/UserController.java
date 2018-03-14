@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import trapx00.tagx00.blservice.user.UserBlService;
+import trapx00.tagx00.blservice.account.UserBlService;
 import trapx00.tagx00.entity.user.Role;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserAlreadyExistsException;
@@ -62,7 +62,8 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "String"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "email", value = "电子邮箱地址", required = true, dataType = "String")
+            @ApiImplicitParam(name = "email", value = "电子邮箱地址", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "role", value = "注册的角色", required = true, dataType = "Role")
     })
     @RequestMapping(method = RequestMethod.POST, path = "account/register", produces = "application/json")
     @ApiResponses(value = {
@@ -70,10 +71,10 @@ public class UserController {
             @ApiResponse(code = 409, message = "Conflict", response = WrongResponse.class),
             @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
-    public ResponseEntity<Response> register(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email) {
+    public ResponseEntity<Response> register(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email, @RequestParam("role") Role role) {
         try {
             ArrayList<Role> roles = new ArrayList<>();
-            roles.add(Role.WORKER);
+            roles.add(role);
             return new ResponseEntity<>(userBlService.signUp(new UserSaveVo(username, password, email, roles)), HttpStatus.CREATED);
         } catch (UserAlreadyExistsException e) {
             e.printStackTrace();

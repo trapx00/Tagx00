@@ -1,4 +1,4 @@
-package trapx00.tagx00.dataservice.image;
+package trapx00.tagx00.dataservice.upload;
 
 import trapx00.tagx00.exception.viewexception.SystemException;
 

@@ -1,4 +1,4 @@
-package trapx00.tagx00.dataservice.user;
+package trapx00.tagx00.dataservice.account;
 
 import org.junit.After;
 import org.junit.Before;
@@ -11,7 +11,6 @@ import trapx00.tagx00.entity.user.Role;
 import trapx00.tagx00.entity.user.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;

@@ -1,6 +1,5 @@
-package trapx00.tagx00.dataservice.user;
+package trapx00.tagx00.dataservice.account;
 
-import org.springframework.stereotype.Service;
 import trapx00.tagx00.entity.user.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
 

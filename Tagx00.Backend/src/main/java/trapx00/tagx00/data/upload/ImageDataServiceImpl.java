@@ -1,4 +1,4 @@
-package trapx00.tagx00.data.image;
+package trapx00.tagx00.data.upload;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -8,7 +8,7 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.MainApplication;
-import trapx00.tagx00.dataservice.image.ImageDataService;
+import trapx00.tagx00.dataservice.upload.ImageDataService;
 import trapx00.tagx00.exception.viewexception.SystemException;
 
 import javax.imageio.stream.FileImageOutputStream;

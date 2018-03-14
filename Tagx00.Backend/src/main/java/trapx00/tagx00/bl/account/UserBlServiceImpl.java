@@ -1,14 +1,12 @@
-package trapx00.tagx00.bl.user;
+package trapx00.tagx00.bl.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import trapx00.tagx00.blservice.user.UserBlService;
-import trapx00.tagx00.dataservice.user.UserDataService;
-import trapx00.tagx00.entity.user.Role;
+import trapx00.tagx00.blservice.account.UserBlService;
+import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.entity.user.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserAlreadyExistsException;
@@ -31,16 +29,19 @@ public class UserBlServiceImpl implements UserBlService {
     private final JwtService jwtService;
 
     @Autowired
-    public UserBlServiceImpl(UserDataService userDataService, UserDetailsService userDetailsService, JwtService jwtService) {
+    public UserBlServiceImpl(UserDataService userDataService, @Qualifier("jwtUserDetailsServiceImpl") UserDetailsService userDetailsService, JwtService jwtService) {
         this.userDataService = userDataService;
         this.userDetailsService = userDetailsService;
         this.jwtService = jwtService;
     }
 
     /**
-     * sign up
+     * user sign up
      *
-     * @param userSaveVo the user to be registered
+     * @param userSaveVo the user info to be saved
+     * @return the register info to response
+     * @throws UserAlreadyExistsException the user already exists
+     * @throws SystemException            the system has error
      */
     @Override
     public UserRegisterResponse signUp(UserSaveVo userSaveVo) throws UserAlreadyExistsException, SystemException {
@@ -61,6 +62,14 @@ public class UserBlServiceImpl implements UserBlService {
         }
     }
 
+    /**
+     * login
+     *
+     * @param username the username of the user
+     * @param password the password of the user
+     * @return the login info to response
+     * @throws WrongUsernameOrPasswordException the username or password is error
+     */
     @Override
     public UserLoginResponse login(String username, String password) throws WrongUsernameOrPasswordException {
         if (userDataService.confirmPassword(username, password)) {

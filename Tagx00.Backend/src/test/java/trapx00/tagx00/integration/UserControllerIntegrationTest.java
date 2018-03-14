@@ -12,8 +12,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-import trapx00.tagx00.dataservice.user.UserDataService;
-import trapx00.tagx00.response.Response;
+import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.response.user.UserLoginResponse;
 
 import static org.junit.Assert.*;
