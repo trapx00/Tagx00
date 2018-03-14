@@ -1,8 +1,8 @@
-package trapx00.tagx00.data.imageservice;
+package trapx00.tagx00.dataservice.image;
 
 import trapx00.tagx00.exception.viewexception.SystemException;
 
-public interface ImageService {
+public interface ImageDataService {
     /**
      * upload the image to the oos cloud
      *

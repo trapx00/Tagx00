@@ -1,4 +1,4 @@
-package trapx00.tagx00.data.imageservice;
+package trapx00.tagx00.data.image;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -8,18 +8,16 @@ import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.MainApplication;
+import trapx00.tagx00.dataservice.image.ImageDataService;
 import trapx00.tagx00.exception.viewexception.SystemException;
 
 import javax.imageio.stream.FileImageOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Date;
 
 @Service
-public class ImageServiceImpl implements ImageService {
+public class ImageDataServiceImpl implements ImageDataService {
     private final static String TEMP_PATH = MainApplication.class.getResource("../../../resources/temp/temp.jpg").getPath();
     private static final long EXPIRATION = new Date().getTime() + 1000 * 60 * 60 * 24 * 100;
 
