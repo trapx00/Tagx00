@@ -6,7 +6,7 @@ import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 public interface RequesterMissionBlService {
 
     /**
-     * 获得本站所有现有有的任务信息
+     * create a mission
      *
      * @param mission
      * @return the combination of the id and token
@@ -14,7 +14,7 @@ public interface RequesterMissionBlService {
     MissionCreateResponse createMission(MissionCreateVo mission);
 
     /**
-     * 获得本发布者已发布的所有任务
+     * get all missions of the publisher
      *
      * @param username
      * @return the list of MissionRequesterQueryItemVo
@@ -22,7 +22,7 @@ public interface RequesterMissionBlService {
     MissionQueryResponse queryOnes(String username);
 
     /**
-     * 获得任务详情
+     * get the detail of a mission
      *
      * @param missionId
      * @return MissionRequesterQueryDetailVo
@@ -31,7 +31,7 @@ public interface RequesterMissionBlService {
 
 
     /**
-     * 查询某一任务的实例
+     * query to get instances of a mission
      *
      * @param missionId
      * @return the list of MissionInstanceItemVo

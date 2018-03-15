@@ -5,7 +5,7 @@ import trapx00.tagx00.response.mission.MissionPublicResponse;
 
 public class PublicMissionBlServiceImpl implements PublicMissionBlService {
     /**
-     * 获得本站所有现有有的任务信息
+     * get All missions
      *
      * @return the list of MissionPublicItemVo
      */

@@ -17,9 +17,11 @@ public class PublicMissionController {
             @ApiResponse(code = 200, message = "Success", response = MissionPublicResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> getAllMissions() {
+    public ResponseEntity<Response> getMissions() {
         return null;
     }
+
+
 
 
 }

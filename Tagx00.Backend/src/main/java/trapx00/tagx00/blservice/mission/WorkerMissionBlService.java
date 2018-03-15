@@ -7,14 +7,14 @@ import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 
 public interface WorkerMissionBlService {
     /**
-     * 工人查询已接任务`
+     * query to get all missions of workers
      * @param username
      * @return the list of MissionRequesterQueryItemVo
      */
     MissionQueryResponse queryOnesAllMissions(String username);
 
     /**
-     * 工人放弃某一任务
+     * workers abort one mission
      * @param missionId
      * @param username
      * @return whether the abortion is successful
@@ -22,7 +22,7 @@ public interface WorkerMissionBlService {
     SuccessResponse abort (int missionId,String username);
 
     /**
-     * 工人工人获取自己领取任务的实例的信息
+     * get the infomation of the instance of workers
      * @param missionId
      * @param username
      * @return MissionInstanceDetailVo the detail of the mission
@@ -30,10 +30,11 @@ public interface WorkerMissionBlService {
     MissionInstanceDetailVo getInstanceInformation(int missionId,String username);
 
     /**
-     * 工人保存当前任务的实例的进度或提交任务若返回为空就是获取新任务
+     * save the progress of the instance
      * @param username
      * @param missionId
      * @param mission
+     * @return whether to save successful or not
      */
     SuccessResponse saveProgress(String username,int missionId,MissionVo mission) ;
 }
