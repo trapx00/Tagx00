@@ -1,10 +1,12 @@
 package trapx00.tagx00.springcontroller.upload;
 
 import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import trapx00.tagx00.blservice.upload.MissionUploadBlService;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
@@ -13,6 +15,13 @@ import trapx00.tagx00.response.upload.UploadMissionImageResponse;
 @PreAuthorize(value = "hasRole('" + Role.REQUESTOR_NAME + "')")
 @RestController
 public class MissionUploadController {
+    private final MissionUploadBlService missionUploadBlService;
+
+    @Autowired
+    public MissionUploadController(MissionUploadBlService missionUploadBlService) {
+        this.missionUploadBlService = missionUploadBlService;
+    }
+
 
     @Authorization(value = "发布者")
     @ApiOperation(value = "发布者上传文件", notes = "发布者上传本次任务的图片，传输时限为10min")
