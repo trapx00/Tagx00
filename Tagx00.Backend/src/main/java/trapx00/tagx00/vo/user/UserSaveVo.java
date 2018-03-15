@@ -1,6 +1,6 @@
 package trapx00.tagx00.vo.user;
 
-import trapx00.tagx00.entity.user.Role;
+import trapx00.tagx00.entity.account.Role;
 
 import java.util.List;
 

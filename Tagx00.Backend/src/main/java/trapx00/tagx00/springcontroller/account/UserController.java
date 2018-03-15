@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.account.UserBlService;
-import trapx00.tagx00.entity.user.Role;
+import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserAlreadyExistsException;
 import trapx00.tagx00.exception.viewexception.WrongUsernameOrPasswordException;

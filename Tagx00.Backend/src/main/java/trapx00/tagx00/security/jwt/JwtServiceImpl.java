@@ -4,12 +4,10 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import trapx00.tagx00.entity.user.Role;
-import trapx00.tagx00.entity.user.User;
+import trapx00.tagx00.entity.account.Role;
+import trapx00.tagx00.entity.account.User;
 
 import java.util.*;
 import java.util.stream.Collectors;

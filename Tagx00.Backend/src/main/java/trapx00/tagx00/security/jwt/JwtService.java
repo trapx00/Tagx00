@@ -1,13 +1,11 @@
 package trapx00.tagx00.security.jwt;
 
 import io.jsonwebtoken.Claims;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import trapx00.tagx00.entity.user.User;
+import trapx00.tagx00.entity.account.User;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 public interface JwtService {
 

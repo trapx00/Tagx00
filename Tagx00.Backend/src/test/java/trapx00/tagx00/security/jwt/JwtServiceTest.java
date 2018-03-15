@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import trapx00.tagx00.entity.user.Role;
+import trapx00.tagx00.entity.account.Role;
 
 import java.util.ArrayList;
 import java.util.Arrays;

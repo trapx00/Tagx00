@@ -1,14 +1,12 @@
 package trapx00.tagx00.springcontroller.upload;
 
 import io.swagger.annotations.*;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import trapx00.tagx00.entity.user.Role;
+import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.response.Response;
-import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.upload.UploadMissionImageResponse;
 

@@ -1,6 +1,6 @@
 package trapx00.tagx00.dataservice.account;
 
-import trapx00.tagx00.entity.user.User;
+import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
 
 public interface UserDataService {

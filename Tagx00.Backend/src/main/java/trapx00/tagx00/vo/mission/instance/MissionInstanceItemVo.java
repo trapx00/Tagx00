@@ -1,5 +1,7 @@
 package trapx00.tagx00.vo.mission.instance;
 
+import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
+
 import java.util.Date;
 
 public class MissionInstanceItemVo {

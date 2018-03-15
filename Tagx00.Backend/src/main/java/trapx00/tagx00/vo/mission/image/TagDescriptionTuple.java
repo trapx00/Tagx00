@@ -4,5 +4,5 @@ import java.util.List;
 
 public class TagDescriptionTuple {
     private List<TagTuple> tagTuples;
-    private String description;
+    private List<String> descriptions;
 }

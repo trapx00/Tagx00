@@ -1,4 +1,4 @@
-package trapx00.tagx00.entity.user;
+package trapx00.tagx00.entity.account;
 
 
 import trapx00.tagx00.entity.annotation.*;

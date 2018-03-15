@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.user.UserDao;
 import trapx00.tagx00.data.fileservice.FileService;
-import trapx00.tagx00.entity.user.User;
+import trapx00.tagx00.entity.account.User;
 
 @Service
 public class UserDaoImpl implements UserDao {
