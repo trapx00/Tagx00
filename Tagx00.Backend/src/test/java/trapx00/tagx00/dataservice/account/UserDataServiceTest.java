@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import trapx00.tagx00.entity.user.Role;
 import trapx00.tagx00.entity.user.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.util.PathUtil;
 
 import java.util.Arrays;
 
@@ -37,7 +38,7 @@ public class UserDataServiceTest {
     @Test
     public void saveUser() {
         System.out.println(userDataService);
-        User user = new User("123", "345","test@tagx00.ml", Arrays.asList(Role.WORKER));
+        User user = new User("123", "345", "test@tagx00.ml", Arrays.asList(Role.WORKER));
         try {
             userDataService.saveUser(user);
         } catch (SystemException e) {

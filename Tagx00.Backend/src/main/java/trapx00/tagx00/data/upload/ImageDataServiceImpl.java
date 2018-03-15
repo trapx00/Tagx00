@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.MainApplication;
 import trapx00.tagx00.dataservice.upload.ImageDataService;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.util.PathUtil;
 
 import javax.imageio.stream.FileImageOutputStream;
 import java.io.File;
@@ -18,7 +19,7 @@ import java.util.Date;
 
 @Service
 public class ImageDataServiceImpl implements ImageDataService {
-    private final static String TEMP_PATH = MainApplication.class.getResource("../../../resources/temp/temp.jpg").getPath();
+    private final static String TEMP_PATH = PathUtil.getTmpPath();
     private static final long EXPIRATION = new Date().getTime() + 1000 * 60 * 60 * 24 * 100;
 
     @Value("${oos.accessKey}")

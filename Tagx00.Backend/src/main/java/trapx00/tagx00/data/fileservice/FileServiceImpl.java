@@ -9,6 +9,7 @@ import trapx00.tagx00.entity.Entity;
 import trapx00.tagx00.entity.annotation.ElementCollection;
 import trapx00.tagx00.exception.daoexception.IdDoesNotExistException;
 import trapx00.tagx00.util.AnnotationUtil;
+import trapx00.tagx00.util.PathUtil;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @Service
 public class FileServiceImpl<T extends Entity> implements FileService<T> {
-    private final static String savePath = MainApplication.class.getResource("../../../resources/data/").getPath();
+    private final static String savePath = PathUtil.getDatabasePath();
     private final static String fileType = ".txt";
 
     /**
