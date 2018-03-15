@@ -20,7 +20,7 @@ frontendBuildJob:
   image: node:latest
   stage: build
   script:
-    - cd ./Imagex00.Frontend
+    - cd ./Tagx00.Frontend
     - npm install
     - npm run build
 
@@ -39,7 +39,7 @@ frontendTestJob:
   image: node:latest
   stage: test
   script:
-    - cd ./Imagex00.Frontend/
+    - cd ./Tagx00.Frontend/
     - npm run test
   only:
     - develop
@@ -49,7 +49,7 @@ frontendDeployJob:
   image: node:latest
   stage: deploy
   script:
-    - cd ./Imagex00.Frontend/
+    - cd ./Tagx00.Frontend/
     - chmod +x ./deploy.sh
     - ./deploy.sh
   only:
