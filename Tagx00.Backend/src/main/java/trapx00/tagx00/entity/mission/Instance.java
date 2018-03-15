@@ -1,12 +1,14 @@
 package trapx00.tagx00.entity.mission;
 
+import trapx00.tagx00.entity.Entity;
 import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 
 import java.util.Date;
 import java.util.List;
 
-public class Instance {
+@Table(name = "instance")
+public class Instance extends Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -30,4 +32,70 @@ public class Instance {
 
     @Column(name = "isSubmitted")
     private boolean isSubmitted;
+
+    public Instance(String workerUsername, MissionInstanceState missionInstanceState, Date acceptDate, Date submitDate, List<Integer> imageIds, boolean isSubmitted) {
+        this.id = id;
+        this.workerUsername = workerUsername;
+        this.missionInstanceState = missionInstanceState;
+        this.acceptDate = acceptDate;
+        this.submitDate = submitDate;
+        this.imageIds = imageIds;
+        this.isSubmitted = isSubmitted;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getWorkerUsername() {
+        return workerUsername;
+    }
+
+    public void setWorkerUsername(String workerUsername) {
+        this.workerUsername = workerUsername;
+    }
+
+    public MissionInstanceState getMissionInstanceState() {
+        return missionInstanceState;
+    }
+
+    public void setMissionInstanceState(MissionInstanceState missionInstanceState) {
+        this.missionInstanceState = missionInstanceState;
+    }
+
+    public Date getAcceptDate() {
+        return acceptDate;
+    }
+
+    public void setAcceptDate(Date acceptDate) {
+        this.acceptDate = acceptDate;
+    }
+
+    public Date getSubmitDate() {
+        return submitDate;
+    }
+
+    public void setSubmitDate(Date submitDate) {
+        this.submitDate = submitDate;
+    }
+
+    public List<Integer> getImageIds() {
+        return imageIds;
+    }
+
+    public void setImageIds(List<Integer> imageIds) {
+        this.imageIds = imageIds;
+    }
+
+    public boolean isSubmitted() {
+        return isSubmitted;
+    }
+
+    public void setSubmitted(boolean submitted) {
+        isSubmitted = submitted;
+    }
 }

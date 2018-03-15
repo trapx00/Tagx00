@@ -55,6 +55,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
                         serId = (int) idField.get(entity);
                     }
                     fields[i].setAccessible(true);
+                    serId = serId == 0 ? 1 : serId;
 
                     FileOutputStream fileOut =
                             new FileOutputStream(PathUtil.getSerPath() + columns.get(i) + "_" + serId);
@@ -131,7 +132,13 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
     @Override
     public T findOne(String info, Class<T> clazz) {
         String methodName = new Exception().getStackTrace()[2].getMethodName();
-        String columnName = methodName.split("By")[1].toLowerCase();
+        String columnName = methodName.split("By")[1];
+        columnName = columnName.replaceFirst(columnName.substring(0, 1), columnName.substring(0, 1).toLowerCase());
+        try {
+            columnName = clazz.getDeclaredField(columnName).getAnnotation(Column.class).name();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
         String tableName = AnnotationUtil.getTableName(clazz);
 
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
@@ -139,7 +146,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
             String json;
             while ((json = bufferedReader.readLine()) != null) {
                 JSONObject jsonObject = JSONObject.fromObject(json);
-                if (jsonObject.get(columnName).equals(info)) {
+                if (jsonObject.get(columnName).toString().equals(info)) {
                     return fromJsonToObject(jsonObject, clazz);
                 }
             }
@@ -155,6 +162,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
     @Override
     public void delete(String id, Class<T> clazz) {
         String tableName = AnnotationUtil.getTableName(clazz);
+        String idName = AnnotationUtil.getKey(clazz);
         ArrayList<String> fileContent = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                 new FileInputStream(savePath + tableName + fileType)))) {
@@ -162,7 +170,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
             String jsonLine;
             while ((jsonLine = bufferedReader.readLine()) != null) {
                 JSONObject jsonObject = JSONObject.fromObject(jsonLine);
-                if (jsonObject.get(id).equals(id)) {
+                if (jsonObject.get(idName).toString().equals(id)) {
                     isExist = true;
                 } else {
                     fileContent.add(jsonLine);

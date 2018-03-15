@@ -1,4 +1,4 @@
-package trapx00.tagx00.data.user;
+package trapx00.tagx00.data.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
