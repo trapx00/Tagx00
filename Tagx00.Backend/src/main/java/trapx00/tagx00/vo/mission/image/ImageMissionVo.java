@@ -1,6 +1,7 @@
 package trapx00.tagx00.vo.mission.image;
 
 import trapx00.tagx00.publicdatas.mission.MissionType;
+import trapx00.tagx00.publicdatas.mission.image.ImageJob;
 import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 
 import java.util.List;

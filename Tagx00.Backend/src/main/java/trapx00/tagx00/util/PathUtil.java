@@ -14,4 +14,8 @@ public class PathUtil {
     public static String getDatabasePath() {
         return MainApplication.class.getResource("../../../resources/data/").getPath();
     }
+
+    public static String getSerPath() {
+        return MainApplication.class.getResource("../../../resources/data/ser/").getPath();
+    }
 }
