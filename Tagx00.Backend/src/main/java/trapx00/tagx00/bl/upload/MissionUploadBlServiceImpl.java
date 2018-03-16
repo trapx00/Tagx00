@@ -4,20 +4,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import trapx00.tagx00.blservice.upload.MissionUploadBlService;
+import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.dataservice.upload.ImageDataService;
+import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.upload.UploadMissionImageResponse;
 
 import java.io.IOException;
+import java.util.List;
+
 
 @Service
 public class MissionUploadBlServiceImpl implements MissionUploadBlService {
 
     private final ImageDataService imageDataService;
+    private final RequesterMissionDataService requesterMissionDataService;
 
     @Autowired
-    public MissionUploadBlServiceImpl(ImageDataService imageDataService) {
+    public MissionUploadBlServiceImpl(ImageDataService imageDataService, RequesterMissionDataService requesterMissionDataService) {
         this.imageDataService = imageDataService;
+        this.requesterMissionDataService = requesterMissionDataService;
     }
 
     /**
@@ -30,14 +37,22 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
      * @return the url of the image
      */
     @Override
-    public UploadMissionImageResponse uploadFiles(int missionId, MultipartFile multipartFile, int order, boolean isCover) throws SystemException {
+    public UploadMissionImageResponse uploadFiles(int missionId, MultipartFile multipartFile, int order, boolean isCover) throws SystemException, MissionIdDoesNotExistException {
         try {
-            imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
+            Mission mission = requesterMissionDataService.getMissionByMissionId(missionId);
+            if (mission != null) {
+                String url = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
+                List<String> urls = mission.getUrls();
+                urls.add(url);
+                mission.setUrls(urls);
+                return new UploadMissionImageResponse(url);
+            } else {
+                throw new MissionIdDoesNotExistException();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             throw new SystemException();
         }
-        return null;
     }
 
     private String generateImageKey(int missionId, int order, boolean isCover) {

@@ -1,6 +1,7 @@
 package trapx00.tagx00.data.mission;
 
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
+import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
 import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryItemVo;
@@ -41,6 +42,18 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     public MissionInstanceItemVo[] getInstanceByUsername(String username) {
         return new MissionInstanceItemVo[0];
     }
+
+    /**
+     * get mission by mission id
+     *
+     * @param missionId the id of the mission
+     * @return the mission object
+     */
+    @Override
+    public Mission getMissionByMissionId(int missionId) {
+        return null;
+    }
+
     /**
      * get the instance by username and missionId
      * @param username
