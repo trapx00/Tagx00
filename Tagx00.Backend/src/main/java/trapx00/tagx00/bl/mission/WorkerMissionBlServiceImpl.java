@@ -1,11 +1,13 @@
 package trapx00.tagx00.bl.mission;
 
+import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.mission.MissionQueryResponse;
 import trapx00.tagx00.vo.mission.instance.MissionInstanceDetailVo;
 import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 
+@Service
 public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
 
     /**
@@ -21,6 +23,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
 
     /**
      * workers abort one mission
+     *
      * @param missionId
      * @param username
      * @return whether the abortion is successful
@@ -32,6 +35,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
 
     /**
      * get the infomation of the instance of workers
+     *
      * @param missionId
      * @param username
      * @return MissionInstanceDetailVo the detail of the mission
@@ -43,9 +47,10 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
 
     /**
      * save the progress of the instance
+     *
      * @param username
      * @param missionId
-     * @param mission missionVo
+     * @param mission   missionVo
      * @return whether to save successful or not
      */
     @Override

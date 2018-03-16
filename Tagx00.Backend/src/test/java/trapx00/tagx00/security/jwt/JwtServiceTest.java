@@ -34,7 +34,7 @@ public class JwtServiceTest {
     @Autowired
     private JwtService service;
 
-    private JwtUser user = new JwtUser("test","test","test@test.com", Arrays.asList(JwtRole.WORKER));
+    private JwtUser user = new JwtUser("test", "test", "test@test.com", Arrays.asList(JwtRole.WORKER));
 
     @Test
     public void convertUserToJwtUser() {
@@ -46,7 +46,7 @@ public class JwtServiceTest {
     }
 
     public String getToken() {
-        return service.generateToken(user);
+        return service.generateToken(user, 604800);
     }
 
 
