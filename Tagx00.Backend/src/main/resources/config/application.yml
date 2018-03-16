@@ -11,7 +11,6 @@ jwt:
     authorities: "authorities"
   secret: "wfhg9hr-1jfpjf-p3j-=vgf0pvmo3k=2-3rj0-3j=gn[=3-g[mj"
   header: Authorization
-  expiration: 604800
   tokenHead: "Bearer "
 oos:
   accessKey: "c4582dec5d0809103126"

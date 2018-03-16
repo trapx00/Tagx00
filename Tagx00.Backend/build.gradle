@@ -2,8 +2,11 @@ group 'trapx00'
 version '1.0'
 
 buildscript {
+    ext {
+        springBootVersion = '2.0.0.M4'
+    }
     repositories {
-        maven {url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         mavenLocal()
         mavenCentral()
     }
@@ -22,19 +25,20 @@ apply plugin: "com.github.johnrengelman.shadow"
 sourceCompatibility = 1.8
 
 repositories {
-    maven {url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     mavenLocal()
     mavenCentral()
 }
 
 dependencies {
-    compile 'com.amazonaws:aws-java-sdk-s3:1.10.66'
+    compile 'org.springframework:spring-core'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-autoconfigure'
+    compile 'org.springframework.boot:spring-boot-starter-tomcat'
+    compile 'org.springframework.boot:spring-boot-starter-security'
 
     compile 'net.sf.json-lib:json-lib:2.4:jdk15'
-    compile 'org.springframework.boot:spring-boot-starter'
-    compile 'org.springframework.boot:spring-boot-starter-actuator'
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'com.amazonaws:aws-java-sdk-s3:1.10.66'
     compile 'io.jsonwebtoken:jjwt:0.6.0'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.4.0'
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.4.0'
@@ -55,8 +59,6 @@ jar {
 //依赖编译，然后打包JAR
 task taskJar(type: Jar, dependsOn: compileJava) {
     from 'build/classes'
-    destinationDir = file('build/libs')
-    from 'build/resources/main'
     destinationDir = file('build/libs')
 }
 
