@@ -9,10 +9,14 @@ import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
+import org.springframework.stereotype.Service;
+import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
+import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
 import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryItemVo;
 
+@Service
 public class RequesterMissionDataServiceImpl implements RequesterMissionDataService {
 
     private final InstanceDao instanceDao;
@@ -33,8 +37,10 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
             throw new SystemException();
         }
     }
+
     /**
      * get missionid by username
+     *
      * @param username
      * @return the list of  the MissionRequesterQueryItemVo
      */
@@ -51,8 +57,10 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
             return null;
         }
     }
+
     /**
      * get instance by instanceId
+     *
      * @param instanceId
      * @return the specific MissionInstanceItemVo
      */
@@ -66,8 +74,10 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
             return null;
         }
     }
+
     /**
      * get all instances of the user by username
+     *
      * @param username
      * @return the list of missionIstanceItemVo
      */
@@ -83,8 +93,21 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
             return null;
         }
     }
+
+    /**
+     * get mission by mission id
+     *
+     * @param missionId the id of the mission
+     * @return the mission object
+     */
+    @Override
+    public Mission getMissionByMissionId(int missionId) {
+        return null;
+    }
+
     /**
      * get the instance by username and missionId
+     *
      * @param username
      * @param missionId
      * @return the instance matching username and missionId

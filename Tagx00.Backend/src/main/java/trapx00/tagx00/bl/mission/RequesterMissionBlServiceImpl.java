@@ -1,6 +1,7 @@
 package trapx00.tagx00.bl.mission;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.entity.mission.Mission;
@@ -9,6 +10,7 @@ import trapx00.tagx00.response.mission.*;
 import trapx00.tagx00.security.jwt.JwtService;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 
+@Service
 public class RequesterMissionBlServiceImpl implements RequesterMissionBlService {
 
     private final RequesterMissionDataService  requesterMissionDataService;
@@ -36,6 +38,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
 
         return new MissionCreateResponse();
     }
+
     /**
      * get all missions of the publisher
      *
@@ -46,6 +49,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     public MissionQueryResponse queryOnes(String username) {
         return null;
     }
+
     /**
      * get the detail of a mission
      *
@@ -56,6 +60,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     public MissionQueryDetailResponse queryMissionDetail(int missionId) {
         return null;
     }
+
     /**
      * query to get instances of a mission
      *
@@ -66,6 +71,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     public MissionInstancesQueryResponse queryInstances(int missionId) {
         return null;
     }
+
     /**
      * query to get the instance of the mission
      *

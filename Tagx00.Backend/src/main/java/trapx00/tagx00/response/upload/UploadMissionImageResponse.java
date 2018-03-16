@@ -1,5 +1,19 @@
 package trapx00.tagx00.response.upload;
 
-public class UploadMissionImageResponse {
+import trapx00.tagx00.response.Response;
+
+public class UploadMissionImageResponse extends Response {
     private String url;
+
+    public UploadMissionImageResponse(String url) {
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

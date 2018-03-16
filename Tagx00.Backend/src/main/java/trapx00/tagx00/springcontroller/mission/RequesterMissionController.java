@@ -12,11 +12,18 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.*;
+import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 
 @PreAuthorize(value = "hasRole('" + Role.REQUESTOR_NAME + "')")
 @RestController
 public class RequesterMissionController {
+    private final RequesterMissionBlService requesterMissionBlService;
+
+    @Autowired
+    public RequesterMissionController(RequesterMissionBlService requesterMissionBlService) {
+        this.requesterMissionBlService = requesterMissionBlService;
+    }
 
 
     @Authorization(value = "发布者")
@@ -37,7 +44,11 @@ public class RequesterMissionController {
             @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
     public ResponseEntity<Response> createMission(@RequestBody MissionCreateVo mission) {
-     return null;
+        try {
+            return new ResponseEntity<>(requesterMissionBlService.createMission(mission), HttpStatus.OK);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 
@@ -51,8 +62,11 @@ public class RequesterMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> queryOnes() {
-        
-        return null;
+        try {
+            return new ResponseEntity<>(requesterMissionBlService.queryOnes(UserInfoUtil.getUsername()), HttpStatus.OK);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Authorization(value = "发布者")
@@ -69,7 +83,11 @@ public class RequesterMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> queryMissionDetail(@PathVariable("missionId") int missionId) {
-        return null;
+        try {
+            return new ResponseEntity<>(requesterMissionBlService.queryMissionDetail(missionId), HttpStatus.OK);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Authorization(value = "发布者")
@@ -77,6 +95,7 @@ public class RequesterMissionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
     })
+    @RequestMapping(value = "/mission/requester/{missionId}/instances/", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Returns instances of the mission", response = MissionInstancesQueryResponse.class),
             @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
@@ -85,7 +104,11 @@ public class RequesterMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> queryInstances(@PathVariable("missionId") int missionId) {
-        return null;
+        try {
+            return new ResponseEntity<>(requesterMissionBlService.queryInstances(missionId), HttpStatus.OK);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Authorization(value = "发布者")
@@ -103,7 +126,11 @@ public class RequesterMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> queryInstance(@PathVariable("missionId") int missionId, @PathVariable("instanceId") int instanceId) {
-        return null;
+        try {
+            return new ResponseEntity<>(requesterMissionBlService.queryInstance(instanceId), HttpStatus.OK);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

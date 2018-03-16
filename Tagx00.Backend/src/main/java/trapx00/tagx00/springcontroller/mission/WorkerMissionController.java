@@ -1,20 +1,31 @@
 package trapx00.tagx00.springcontroller.mission;
 
 import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.WrongResponse;
+import trapx00.tagx00.response.mission.MissionQueryDetailResponse;
 import trapx00.tagx00.response.mission.MissionQueryResponse;
-import trapx00.tagx00.vo.mission.instance.MissionInstanceDetailVo;
+import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 
 @PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "')")
 @RestController
 public class WorkerMissionController {
+    private final WorkerMissionBlService workerMissionBlService;
+
+    @Autowired
+    public WorkerMissionController(WorkerMissionBlService workerMissionBlService) {
+        this.workerMissionBlService = workerMissionBlService;
+    }
+
     @Authorization(value = "工人")
     @ApiOperation(value = "工人查看所有任务", notes = "工人查看自己已接的所有任务")
     @RequestMapping(value = "/mission/worker", method = RequestMethod.GET)
@@ -25,7 +36,11 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> queryOnesAllMissions() {
-        return null;
+        try {
+            return new ResponseEntity<>(workerMissionBlService.queryOnesAllMissions(UserInfoUtil.getUsername()), HttpStatus.OK);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 
@@ -43,7 +58,11 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> abort(@PathVariable("missionId") int missionId) {
-        return null;
+        try {
+            return new ResponseEntity<>(workerMissionBlService.abort(missionId, UserInfoUtil.getUsername()), HttpStatus.OK);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Authorization(value = "工人")
@@ -53,14 +72,18 @@ public class WorkerMissionController {
     })
     @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.GET)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Returns the instance", response = MissionInstanceDetailVo.class),
+            @ApiResponse(code = 200, message = "Returns the instance", response = MissionQueryDetailResponse.class),
             @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
             @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
             @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
     })
     @ResponseBody
     public ResponseEntity<Response> getInstanceInformation(@PathVariable("missionId") int missionId) {
-        return null;
+        try {
+            return new ResponseEntity<>(workerMissionBlService.getInstanceInformation(missionId, UserInfoUtil.getUsername()), HttpStatus.OK);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Authorization(value = "工人")
@@ -69,7 +92,7 @@ public class WorkerMissionController {
             @ApiImplicitParam(name = "dataType", value = "任务类型", required = true, dataType = "MissionType"),
             @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
     })
-    @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.PUT) // save progress
+    @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.PUT)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Progress saved.", response = SuccessResponse.class),
             @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
@@ -79,7 +102,11 @@ public class WorkerMissionController {
     @ResponseBody
     public ResponseEntity<Response> saveProgress(
             @PathVariable("missionId") int missionId, @RequestBody MissionVo mission) {
-        return null;
+        try {
+            return new ResponseEntity<>(workerMissionBlService.saveProgress(UserInfoUtil.getUsername(), missionId, mission), HttpStatus.OK);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Authorization(value = "工人")
@@ -88,7 +115,7 @@ public class WorkerMissionController {
             @ApiImplicitParam(name = "dataType", value = "任务类型", required = true, dataType = "MissionType"),
             @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
     })
-    @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.POST) // save progress
+    @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.POST)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Progress saved.", response = SuccessResponse.class),
             @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
@@ -98,7 +125,11 @@ public class WorkerMissionController {
     @ResponseBody
     public ResponseEntity<Response> submit(
             @PathVariable("missionId") int missionId, @RequestBody MissionVo mission) {
-        return null;
+        try {
+            return new ResponseEntity<>(workerMissionBlService.submit(UserInfoUtil.getUsername(), missionId, mission), HttpStatus.OK);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }
