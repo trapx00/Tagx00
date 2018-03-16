@@ -48,6 +48,18 @@ frontendTestJob:
     - develop
     - master
 
+backendDeployJob:
+  image: gradle:4.6.0-jdk8-alpine
+  stage: deploy
+  script:
+    - cd ./Tagx00.Backend/
+    - chmod +x ./deploy/deploy.sh
+    - chmod +x gradlew
+    - ./gradlew shadowJar
+    - ./deploy.sh
+  only:
+    - master
+
 frontendDeployJob:
   image: node:taobao
   stage: deploy
