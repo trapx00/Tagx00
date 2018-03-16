@@ -31,7 +31,13 @@ public interface RequesterMissionDataService {
      * @return the specific MissionInstanceItemVo
      */
     MissionInstanceItemVo getInstanceById(int instanceId);
-
+    /**
+     * get instance by instanceId
+     *
+     * @param missionId
+     * @return the specific MissionInstanceItemVo
+     */
+    MissionInstanceItemVo getInstanceBymissionId(int missionId);
 
     /**
      * get all instances of the user by username

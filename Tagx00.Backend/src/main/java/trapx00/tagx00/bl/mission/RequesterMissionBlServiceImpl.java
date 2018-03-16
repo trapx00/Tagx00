@@ -4,15 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
+import trapx00.tagx00.entity.mission.Instance;
 import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.response.mission.*;
 import trapx00.tagx00.security.jwt.JwtService;
+import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
+import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryDetailVo;
+import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryItemVo;
+
+import java.util.Arrays;
 
 @Service
 public class RequesterMissionBlServiceImpl implements RequesterMissionBlService {
-
+    private final static long EXPIRATION = 604800;
     private final RequesterMissionDataService  requesterMissionDataService;
     private final JwtService jwtService;
 
@@ -33,10 +40,10 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     @Override
     public MissionCreateResponse createMission(MissionCreateVo mission) {
 
-        requesterMissionDataService.saveMission(new Mission(mission.getTitle(),mission.getDescription(),
+        int missiondId=requesterMissionDataService.saveMission(new Mission(mission.getTitle(),mission.getDescription(),
                 mission.getTopics(),mission.getCustomTag(),mission.getAllowedTags(), MissionType.IMAGE,));
-
-        return new MissionCreateResponse();
+        String token = jwtService.generateToken(jwtUser, EXPIRATION);
+        return new MissionCreateResponse(token,String.valueOf(missiondId));
     }
 
     /**
@@ -47,7 +54,10 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public MissionQueryResponse queryOnes(String username) {
-        return null;
+
+        MissionRequesterQueryItemVo[]result= requesterMissionDataService.getMissionByUsername(username);
+
+        return new MissionQueryResponse(Arrays.asList(result));
     }
 
     /**
@@ -58,7 +68,11 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public MissionQueryDetailResponse queryMissionDetail(int missionId) {
-        return null;
+
+        Mission mission=requesterMissionDataService.getMissionByMissionId(missionId);
+        return new MissionQueryDetailResponse(new MissionRequesterQueryDetailVo(mission.getTitle(),
+                mission.getDescription(),new MissionVo(mission.getMissionType()), MissionState.ACTIVE,mission.getCoverUrl(),
+                mission.getUrls()));
     }
 
     /**
@@ -68,7 +82,9 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return the list of MissionInstanceItemVo
      */
     @Override
-    public MissionInstancesQueryResponse queryInstances(int missionId) {
+    public MissionInstancesQueryResponse queryInstances(int missionId)
+    {
+        Instance instance=requesterMissionDataService.getInstanceBymissionId(missionId);
         return null;
     }
 

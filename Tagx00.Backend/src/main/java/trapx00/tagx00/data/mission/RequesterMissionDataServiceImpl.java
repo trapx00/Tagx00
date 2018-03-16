@@ -19,6 +19,7 @@ import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryItemVo;
 @Service
 public class RequesterMissionDataServiceImpl implements RequesterMissionDataService {
 
+
     private final InstanceDao instanceDao;
     private final MissionDao missionDao;
 
@@ -73,6 +74,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         }else{
             return null;
         }
+    }
+
+    @Override
+    public MissionInstanceItemVo getInstanceBymissionId(int missionId) {
+        return null;
     }
 
     /**
