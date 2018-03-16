@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import trapx00.tagx00.blservice.upload.MissionUploadBlService;
 import trapx00.tagx00.entity.account.Role;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.upload.UploadMissionImageResponse;
-
-import java.io.IOException;
 
 @PreAuthorize(value = "hasRole('" + Role.REQUESTOR_NAME + "')")
 @RestController
@@ -48,6 +47,8 @@ public class MissionUploadController {
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionIdDoesNotExistException e) {
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }
 }
