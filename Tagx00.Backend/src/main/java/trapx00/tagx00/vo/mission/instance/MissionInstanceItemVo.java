@@ -10,8 +10,20 @@ public class MissionInstanceItemVo {
     private String workerUsername;
     private MissionInstanceState state;
     private Date acceptDate;
+
+    public MissionInstanceItemVo(int missionId, String workerUsername, MissionInstanceState state, Date acceptDate, Date submitDate, int completedCount, int totalCount) {
+        this.missionId = missionId;
+        this.workerUsername = workerUsername;
+        this.state = state;
+        this.acceptDate = acceptDate;
+        this.submitDate = submitDate;
+        this.completedCount = completedCount;
+        this.totalCount = totalCount;
+    }
+
     private Date submitDate;
     private int completedCount;
     private int totalCount;
+
 
 }

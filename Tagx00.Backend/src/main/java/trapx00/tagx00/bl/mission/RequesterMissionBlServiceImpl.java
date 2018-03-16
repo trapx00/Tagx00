@@ -1,10 +1,26 @@
 package trapx00.tagx00.bl.mission;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
+import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
+import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.response.mission.*;
+import trapx00.tagx00.security.jwt.JwtService;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 
 public class RequesterMissionBlServiceImpl implements RequesterMissionBlService {
+
+    private final RequesterMissionDataService  requesterMissionDataService;
+    private final JwtService jwtService;
+
+
+    @Autowired
+    public RequesterMissionBlServiceImpl(RequesterMissionDataService requesterMissionDataService,JwtService jwtService) {
+        this.requesterMissionDataService = requesterMissionDataService;
+        this.jwtService = jwtService;
+
+    }
 
     /**
      * create a mission
@@ -14,7 +30,11 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public MissionCreateResponse createMission(MissionCreateVo mission) {
-        return null;
+
+        requesterMissionDataService.saveMission(new Mission(mission.getTitle(),mission.getDescription(),
+                mission.getTopics(),mission.getCustomTag(),mission.getAllowedTags(), MissionType.IMAGE,));
+
+        return new MissionCreateResponse();
     }
     /**
      * get all missions of the publisher

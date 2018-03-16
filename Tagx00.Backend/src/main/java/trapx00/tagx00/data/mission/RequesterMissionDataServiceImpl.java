@@ -1,18 +1,37 @@
 package trapx00.tagx00.data.mission;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import trapx00.tagx00.data.dao.mission.InstanceDao;
+import trapx00.tagx00.data.dao.mission.MissionDao;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
+import trapx00.tagx00.entity.mission.Instance;
+import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.publicdatas.mission.MissionState;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
 import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryItemVo;
 
 public class RequesterMissionDataServiceImpl implements RequesterMissionDataService {
+
+    private final InstanceDao instanceDao;
+    private final MissionDao missionDao;
+
+    @Autowired
+    public RequesterMissionDataServiceImpl(InstanceDao instanceDao,MissionDao missionDao) {
+        this.instanceDao=instanceDao;
+        this.missionDao=missionDao;
+    }
     /**
      * save mission
-     * @param missionVo
+     * @param mission
      */
     @Override
-    public void saveMission(MissionVo missionVo) {
-
+    public void saveMission(Mission mission) throws SystemException {
+        if (missionDao.saveMssion(mission) == null) {
+            throw new SystemException();
+        }
     }
     /**
      * get missionid by username
@@ -21,7 +40,16 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      */
     @Override
     public MissionRequesterQueryItemVo[] getMissionByUsername(String username) {
-        return new MissionRequesterQueryItemVo[0];
+        Mission mission=missionDao.findMissionByusername(username);
+        MissionRequesterQueryItemVo[] requesterQueryItemVos=new MissionRequesterQueryItemVo[1];
+        if(mission!=null)
+        {
+            requesterQueryItemVos[0]=new MissionRequesterQueryItemVo(mission.getTitle(),mission.getDescription(),
+                    new MissionVo(MissionType.IMAGE), MissionState.ACTIVE,mission.getCoverUrl());
+            return requesterQueryItemVos;
+        }else{
+            return null;
+        }
     }
     /**
      * get instance by instanceId
@@ -30,7 +58,13 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      */
     @Override
     public MissionInstanceItemVo getInstanceById(int instanceId) {
-        return null;
+        Instance instance=instanceDao.findInstanceByinstanceId(instanceId);
+        if(instance!=null){
+            return new MissionInstanceItemVo(instanceId,instance.getWorkerUsername(),instance.getMissionInstanceState(),
+                    instance.getAcceptDate(),instance.getSubmitDate(),0,instance.getImageIds().size());
+        }else{
+            return null;
+        }
     }
     /**
      * get all instances of the user by username
@@ -39,7 +73,15 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      */
     @Override
     public MissionInstanceItemVo[] getInstanceByUsername(String username) {
-        return new MissionInstanceItemVo[0];
+        Instance instance=instanceDao.findInstanceByusername(username)[0];
+        MissionInstanceItemVo[]missionInstanceItemVos=new MissionInstanceItemVo[1];
+        if(instance!=null){
+            missionInstanceItemVos[0]= new MissionInstanceItemVo(instance.getId(),instance.getWorkerUsername(),instance.getMissionInstanceState(),
+                    instance.getAcceptDate(),instance.getSubmitDate(),0,instance.getImageIds().size());
+            return missionInstanceItemVos;
+        }else{
+            return null;
+        }
     }
     /**
      * get the instance by username and missionId
@@ -49,6 +91,14 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      */
     @Override
     public MissionInstanceItemVo getInstanceByUsernameAndMissionId(String username, int missionId) {
-        return null;
+        Instance instance=instanceDao.findInstanceByUsernameAndmissionId(username,missionId);
+        MissionInstanceItemVo[]missionInstanceItemVos=new MissionInstanceItemVo[1];
+        if(instance!=null){
+            return new MissionInstanceItemVo(instance.getId(),instance.getWorkerUsername(),instance.getMissionInstanceState(),
+                    instance.getAcceptDate(),instance.getSubmitDate(),0,instance.getImageIds().size());
+
+        }else{
+            return null;
+        }
     }
 }
