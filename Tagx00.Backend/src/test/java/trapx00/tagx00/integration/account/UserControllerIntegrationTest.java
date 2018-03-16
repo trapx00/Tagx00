@@ -1,4 +1,4 @@
-package trapx00.tagx00.integration;
+package trapx00.tagx00.integration.account;
 
 import org.junit.After;
 import org.junit.Before;

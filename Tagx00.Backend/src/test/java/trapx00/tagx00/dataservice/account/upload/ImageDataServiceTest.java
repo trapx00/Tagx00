@@ -1,4 +1,4 @@
-package trapx00.tagx00.dataservice.account;
+package trapx00.tagx00.dataservice.account.upload;
 
 import org.junit.After;
 import org.junit.Before;
@@ -7,19 +7,17 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import trapx00.tagx00.entity.account.Role;
-import trapx00.tagx00.entity.account.User;
+import trapx00.tagx00.dataservice.upload.ImageDataService;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.publicdatas.mission.image.ImageJob;
 
-import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserDataServiceTest {
+public class ImageDataServiceTest {
     @Autowired
-    private UserDataService userDataService;
+    private ImageDataService imageDataService;
 
     @Before
     public void setUp() throws Exception {
@@ -30,18 +28,21 @@ public class UserDataServiceTest {
     }
 
     @Test
-    public void isTheUserExists() {
-        assertEquals(true, userDataService.isUserExistent("123"));
-    }
-
-    @Test
-    public void saveUser() {
-        System.out.println(userDataService);
-        User user = new User("123", "345", "test@tagx00.ml", Arrays.asList(Role.WORKER));
+    public void uploadImage() {
         try {
-            userDataService.saveUser(user);
+            imageDataService.uploadImage("0000",null);
         } catch (SystemException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void deleteImage() {
+        try {
+            imageDataService.uploadImage("0000",null);
+        } catch (SystemException e) {
+            e.printStackTrace();
+        }
+        imageDataService.deleteImage("0000");
     }
 }
