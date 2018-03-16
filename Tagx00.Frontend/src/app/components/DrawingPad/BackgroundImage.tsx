@@ -1,6 +1,5 @@
 import React, {CSSProperties} from "react";
-import {action, observable} from "mobx";
-import {observer} from "mobx-react";
+
 
 interface BackgroundImageProps {
   imageUrl: string;
@@ -19,7 +18,7 @@ export class BackgroundImage extends React.Component<BackgroundImageProps, {}> {
     const style: CSSProperties = {
       position: "absolute"
     };
-    return <img style={style} src={this.props.imageUrl} onLoad={this.onLoad}/>;
+    return <img src={this.props.imageUrl} onLoad={this.onLoad} style={style} />;
 
   }
 }
