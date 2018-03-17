@@ -5,11 +5,11 @@ import { observer } from "mobx-react";
 import { action, observable } from "mobx";
 import { Rectangle } from "./Rectangle";
 
-import { RectPad } from "./RectPad";
+import { RectCanvas } from "./RectCanvas";
 import { Part } from "./Part";
 import { NotationItem } from "./NotationItem";
 
-interface DrawingPadProps {
+interface PartTagPanelProps {
   imageUrl: string;
 
 }
@@ -18,7 +18,7 @@ interface DrawingPadProps {
 
 
 @observer
-export class PartTagConsole extends React.Component<DrawingPadProps, {}> {
+export class PartTagPanel extends React.Component<PartTagPanelProps, {}> {
   @observable addingNotation: boolean = false;
   @observable parts: Part[] = [];
 
@@ -50,7 +50,7 @@ export class PartTagConsole extends React.Component<DrawingPadProps, {}> {
   render() {
     return <div>
       <p>局部标注</p>
-      <RectPad
+      <RectCanvas
         drawingMode={this.addingNotation}
         onDrawComplete={this.onDrawComplete}
         onRectangleClicked={this.onRecClicked}

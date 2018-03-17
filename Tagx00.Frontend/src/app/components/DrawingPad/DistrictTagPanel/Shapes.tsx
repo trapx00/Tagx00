@@ -119,16 +119,7 @@ export class DistrictUnit {
 }
 
 export class District {
-  districts: DistrictUnit[];
-
-
-  constructor(districts: DistrictUnit[]) {
-    this.districts = districts;
-  }
-
-  addUnit(unit: DistrictUnit) {
-    this.districts.push(unit);
-  }
+  districts: DistrictUnit[] = [];
 
   isInside(point: Point) {
     return !!this.districts.find(x => x.isInside(point));

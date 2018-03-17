@@ -1,4 +1,4 @@
-import { Rectangle } from "./PartTagConsole/Rectangle";
+import { Rectangle } from "./PartTagPanel/Rectangle";
 
 export interface Point {
   x: number;

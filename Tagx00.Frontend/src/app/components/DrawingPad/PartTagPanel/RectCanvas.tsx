@@ -4,6 +4,7 @@ import { PadProps, Point } from "../PadProps";
 import { observer } from "mobx-react";
 import { action, observable } from "mobx";
 import { BackgroundStage } from "../BackgroundStage";
+import { DrawingSession } from "../DrawingSession";
 
 interface RectPadProps {
   drawingMode: boolean;
@@ -15,9 +16,8 @@ interface RectPadProps {
 
 let id = 1;
 
-class DrawingSession {
+class RectDrawingSession extends DrawingSession {
   rectangle: Rectangle;
-  imageData: ImageData;
 
   set start(point: Point) {
     this.rectangle.start = point;
@@ -27,7 +27,8 @@ class DrawingSession {
     this.rectangle.end = point;
   }
 
-  constructor() {
+  constructor(context: CanvasRenderingContext2D) {
+    super(context);
     this.rectangle = new Rectangle({id});
     id++;
   }
@@ -36,12 +37,12 @@ class DrawingSession {
 }
 
 @observer
-export class RectPad extends React.Component<RectPadProps, any> {
+export class RectCanvas extends React.Component<RectPadProps, any> {
 
   @observable height: number = 200;
   @observable width: number = 200;
 
-  session: DrawingSession;
+  session: RectDrawingSession;
   canvas: HTMLCanvasElement;
   canvasContext: CanvasRenderingContext2D;
 
@@ -53,13 +54,7 @@ export class RectPad extends React.Component<RectPadProps, any> {
     };
   }
 
-  storeInitialImageData = () => {
-    this.session.imageData = this.canvasContext.getImageData(0, 0, this.canvas.clientWidth, this.canvas.clientHeight);
-  };
 
-  restoreInitialImageData = () => {
-    this.canvasContext.putImageData(this.session.imageData, 0, 0);
-  };
 
   findClickedRectangle = (position: Point) => {
     return this.props.rectangles.find(x => x.isOnSides(position));
@@ -70,8 +65,8 @@ export class RectPad extends React.Component<RectPadProps, any> {
     const position = this.getCursorPosition(e);
     if (this.props.drawingMode) {
       console.log("rec start");
-      this.session = new DrawingSession();
-      this.storeInitialImageData();
+      this.session = new RectDrawingSession(this.context);
+      this.session.saveImageData();
       this.session.start = position;
     } else {
       const selected = this.findClickedRectangle(position);
@@ -85,7 +80,7 @@ export class RectPad extends React.Component<RectPadProps, any> {
   onMouseMove = (e) => {
     if (this.props.drawingMode && this.session) {
       const position = this.getCursorPosition(e);
-      this.restoreInitialImageData();
+      this.session.putImageData();
       this.session.end = position;
       this.drawRectangle(this.session.rectangle);
     }
@@ -96,7 +91,7 @@ export class RectPad extends React.Component<RectPadProps, any> {
     if (this.props.drawingMode && this.session) {
       this.onMouseMove(e);
       this.props.onDrawComplete(this.session.rectangle);
-      this.restoreInitialImageData();
+      this.session.putImageData();
       this.session = null;
 
     }
@@ -110,7 +105,6 @@ export class RectPad extends React.Component<RectPadProps, any> {
 
   renderAllRectangles = () => {
     this.canvasContext.clearRect(0, 0, this.width, this.height);
-    console.log(this.props.rectangles);
     this.props.rectangles.forEach(this.drawRectangle);
   };
 
