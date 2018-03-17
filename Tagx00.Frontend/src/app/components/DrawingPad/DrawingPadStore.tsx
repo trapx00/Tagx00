@@ -1,6 +1,6 @@
 import * as React from "react";
 import { action, computed, observable } from "mobx";
-import { Rectangle } from "./RectPad/Rectangle";
+import { Rectangle } from "./pads/RectPad/Rectangle";
 // import { Rectangle, RectangleTool } from "./Tools/Rectangle";
 
 interface Tag {
@@ -13,11 +13,6 @@ interface TagDescriptionTuple {
   descriptions: string[];
 }
 
-export enum LayerState {
-  Drawing,
-  ListeningSelection,
-  Idle
-}
 
 
 export class TagUnit {
@@ -25,7 +20,6 @@ export class TagUnit {
   @observable rectangle: Rectangle;
   tuple: TagDescriptionTuple;
 
-  @observable state: LayerState = LayerState.Drawing;
   @observable selected: boolean = false;
 
   constructor(rectangle: Rectangle) {

@@ -4,8 +4,10 @@ import { BackgroundImage } from "./BackgroundImage";
 import { observer } from "mobx-react";
 import { action, observable } from "mobx";
 import { DrawingPadStore } from "./DrawingPadStore";
-import { RectPad } from "./RectPad";
-import { Point, Rectangle } from "./RectPad/Rectangle";
+import { RectPad } from "./pads/RectPad";
+import { Rectangle } from "./pads/RectPad/Rectangle";
+import { FreePad } from "./pads/FreePad";
+import { Point } from "./pads/PadProps";
 
 interface DrawingPadProps {
   imageUrl: string;
@@ -40,32 +42,11 @@ export class DrawingPad extends React.Component<DrawingPadProps, {}> {
     this.store.pushInRectangle(rec);
   };
 
-  judgeIfOnSide(point: Point, rec: Rectangle) {
-    const error = 5;
-    const leftUpper = {
-      x: rec.x, y: rec.y
-    };
-    const rightUpper = {
-      x: rec.x + rec.width, y: rec.y
-    };
-    const leftDown = {
-      x: rec.x, y: rec.y + rec.height
-    };
 
-    const rightDown = {
-      x: rec.x+rec.width, y: rec.y + rec.height
-    };
-
-    return (Math.abs(point.y - leftUpper.y) <= error && point.x - leftUpper.x <= rec.width)
-    || (Math.abs(point.y - leftDown.y) <= error && point.x - leftDown.x <= rec.width )
-    || (Math.abs(point.x - leftUpper.x) <= error && point.y - leftUpper.y <= rec.height)
-    || (Math.abs(point.x  - rightDown.x) <= error && point.y - rightUpper.y <= rec.height);
-
-  }
 
   selectOnClick = (point: Point) => {
 
-    const unit = this.store.units.find(x => this.judgeIfOnSide(point, x.rectangle));
+    const unit = this.store.units.find(x => x.rectangle.isOnSides(point));
     if (unit) {
       if (unit.selected) {
         unit.unselect();
@@ -91,9 +72,9 @@ export class DrawingPad extends React.Component<DrawingPadProps, {}> {
                          initialWidth={this.width}
                          imageUrl={this.props.imageUrl}
                          onLoad={this.backgroundImageLoaded}/>
-        <RectPad rectangles={this.store.rectangles}
-                 allowDrawing={this.allowEditing}
-                 onDrawComplete={this.drawComplete}
+        <FreePad districts={[]}
+                 drawingMode={this.allowEditing}
+                 onDrawComplete={()=>{}}
                  width={this.width}
                  height={this.height}
                  onMouseClicked={this.selectOnClick}

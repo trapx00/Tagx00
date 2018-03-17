@@ -1,20 +1,11 @@
 import * as React from "react";
-import { action, autorun, observable } from "mobx";
-import { observer } from "mobx-react";
-import { TagUnit } from "../DrawingPadStore";
-import { Point, Rectangle } from "./Rectangle";
+import { Rectangle } from "./Rectangle";
+import { PadProps, Point } from "../PadProps";
 // import { RectangleTool } from "./Tools/Rectangle";
 
 
-interface RectPadProps {
-
+interface RectPadProps extends PadProps<Rectangle> {
   rectangles: Rectangle[];
-  allowDrawing: boolean;
-  onDrawComplete: (rec: Rectangle) => void;
-  width: number;
-  height: number;
-  onMouseClicked: (point: Point) => void;
-
 }
 
 export class RectPad extends React.Component<RectPadProps, any> {
@@ -44,7 +35,7 @@ export class RectPad extends React.Component<RectPadProps, any> {
 
 
   onMouseDown = (e) => {
-    if (this.props.allowDrawing) {
+    if (this.props.drawingMode) {
       console.log("rec start");
       const position = this.getCursorPosition(e);
       this.rectangle = new Rectangle();
@@ -57,7 +48,7 @@ export class RectPad extends React.Component<RectPadProps, any> {
   };
 
   onMouseMove = (e) => {
-    if (this.props.allowDrawing && this.rectangle) {
+    if (this.props.drawingMode && this.rectangle) {
       const position = this.getCursorPosition(e);
       this.restoreInitialImageData();
       this.rectangle.end = position;
@@ -67,7 +58,7 @@ export class RectPad extends React.Component<RectPadProps, any> {
   };
 
   onMouseUp = (e) => {
-    if (this.props.allowDrawing && this.rectangle) {
+    if (this.props.drawingMode && this.rectangle) {
       this.onMouseMove(e);
       this.props.onDrawComplete(this.rectangle);
       this.rectangle = null;
@@ -76,7 +67,6 @@ export class RectPad extends React.Component<RectPadProps, any> {
   };
 
   ref = (ref) => {
-    console.log(ref);
     this.canvas = ref;
     this.canvasContext = this.canvas.getContext("2d")
 

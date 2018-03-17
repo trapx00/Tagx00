@@ -13,6 +13,7 @@
     "noImplicitReturns": true,
     "removeComments": true,
     "strictNullChecks": false,
+    "downlevelIteration": true,
     "allowSyntheticDefaultImports": true,
     "outDir": "build",
     "lib": [
