@@ -1,9 +1,35 @@
 {
+  "frameMenu": {
+    "home": "首页",
+    "imageLabel": "图片标注",
+    "videoLabel": "视频标注",
+    "textLabel": "文字标注"
+  },
   "articleList": {
     "clickToLoad": "点击加载文章列表",
     "loading": "加载中"
   },
   "languageSelector": {
     "loading": "载入中"
+  },
+  "registerForm": {
+    "submit": "提交",
+    "role": "角色",
+    "worker": "工人",
+    "requester": "发布者",
+    "username": "用户名",
+    "requireUsername": "请输入用户名",
+    "password": "密码",
+    "requirePassword": "请输入密码",
+    "requireConfirmPassword": "请确认密码",
+    "confirmPassword": "确认密码",
+    "notEqualPassword": "您输入的两次密码不相同",
+    "email": "邮箱地址",
+    "requireEmail": "请输入您的邮箱地址",
+    "wrongEmailFormat": "邮箱地址格式不正确",
+    "passwordForgot": "找回密码",
+    "step1": "填写信息",
+    "step2": "邮箱确认",
+    "step3": "注册成功"
   }
 }

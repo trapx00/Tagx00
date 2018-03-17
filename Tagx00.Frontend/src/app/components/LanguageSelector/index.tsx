@@ -38,14 +38,13 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps, any
 
   constructChildren() {
     const locale = this.props[STORE_LOCALE];
-    console.log(locale.allLanguages);
     return locale.allLanguages.filter(x => x.id !== locale.currentLanguage.id).map(x =>
       <Menu.Item key={x.id}>
         <a onClick={this.languageOnClickProducer(x.id)}>
           {x.name}
-          {this.switchingToId == x.id ? <LocaleMessage id={"languageSelector.loading"}/> : null} 
+          {this.switchingToId == x.id ? <LocaleMessage id={"languageSelector.loading"}/> : null}
         </a>
-        
+
       </Menu.Item>
     );
   }
