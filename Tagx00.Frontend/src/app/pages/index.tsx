@@ -46,8 +46,8 @@ export const registerPageConfig: PageConfig = {
 
 export const pageConfigs: PageConfig[] = [
     homePageConfig,
-    notFoundPageConfig,
-    registerPageConfig
+    registerPageConfig,
+    notFoundPageConfig
 ];
 
 export function getPage(pathname: string) {

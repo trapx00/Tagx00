@@ -1,51 +1,117 @@
-import {Form, Input, Button} from 'antd';
-import * as React from "react";
-import {FormItem} from "./FormItem";
+import React from "react";
+import {Form, Input, Button, Radio, message} from 'antd';
+import {Localize} from "../../internationalization/components";
+import {LocaleStoreProps} from "../../internationalization";
+import {FormComponentProps} from "antd/lib/form";
 
-interface RegisterFormProps {
-    form?: any
+interface RegisterFormProps extends LocaleStoreProps, FormComponentProps {
 }
 
-export class RegisterForm extends React.Component<RegisterFormProps, any> {
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });
+class RegisterTable extends React.Component<RegisterFormProps, any> {
+    handleSubmit = () => {
+        message.success('Register Success');
     }
 
     render() {
-        const tailFormItemLayout = {
-            wrapperCol: {
-                xs: {
-                    span: 24,
-                    offset: 0,
-                },
-                sm: {
-                    span: 16,
-                    offset: 8,
-                },
-            },
+        const {getFieldDecorator} = this.props.form;
+        const formItemLayout = {
+            labelCol: {span: 4},
+            wrapperCol: {span: 14},
+        };
+        const buttonItemLayout = {
+            wrapperCol: {span: 14, offset: 4},
         };
         return (
-            <Form onSubmit={this.handleSubmit}>
-                <FormItem label={"registerForm.username"} inputType="username"
-                          requireMessage={"registerForm.requireUsername"}/>
-                <FormItem label={"registerForm.password"} inputType="password"
-                          requireMessage={"registerForm.requirePassword"}/>
-                <FormItem label={"registerForm.confirmPassword"} inputType="password"
-                          wrongMessage={"registerForm.notEqualPassword"}
-                          requireMessage={"registerForm.requireConfirmPassword"}/>
-                <FormItem label={"registerForm.email"} inputType="email"
-                          wrongMessage={"registerForm.wrongEmailFormat"}
-                          requireMessage={"registerForm.requireEmail"}/>
-                <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">Register</Button>
-                </Form.Item>
-            </Form>
-        )
-            ;
+            <Localize submitLabel={"registerForm.submit"} roleLabel={"registerForm.role"}
+                      roleWorker={"registerForm.worker"} roleRequester={"registerForm.requester"}
+                      usernameLabel={"registerForm.username"} usernameRequire={"registerForm.requireUsername"}
+                      passwordLabel={"registerForm.password"} passwordRequire={"registerForm.requirePassword"}
+                      passwordConfirmLabel={"registerForm.confirmPassword"}
+                      passwordNotEqual={"registerForm.notEqualPassword"}
+                      passwordConfirmRequire={"registerForm.requireConfirmPassword"}
+                      emailLabel={"registerForm.email"} emailWrongFormat={"registerForm.wrongEmailFormat"}
+                      emailRequire={"registerForm.requireEmail"} passwordForgot={"registerForm.passwordForgot"}>{
+                (props) => {
+                    return <Form layout="horizontal">
+                        <Form.Item
+                            label={props.roleLabel}
+                            {...formItemLayout}
+                        >
+                            <Radio.Group defaultValue="ROLE_WORKER">
+                                <Radio.Button value="ROLE_WORKER">{props.roleWorker}</Radio.Button>
+                                <Radio.Button value="ROLE_REQUESTER">{props.roleRequester}</Radio.Button>
+                            </Radio.Group>
+                        </Form.Item>
+                        <Form.Item
+                            label={props.usernameLabel}
+                            {...formItemLayout}
+                        >
+                            {getFieldDecorator('username', {
+                                rules: [{
+                                    required: true, message: props.usernameRequire,
+                                }],
+                            })(
+                                <Input/>
+                            )}
+                        </Form.Item>
+                        <Form.Item
+                            label={props.passwordLabel}
+                            {...formItemLayout}
+                        >
+                            {getFieldDecorator('password', {
+                                rules: [{
+                                    required: true, message: props.passwordRequire,
+                                }],
+                            })(
+                                <Input type="password"/>
+                            )}
+                        </Form.Item>
+                        <Form.Item
+                            label={props.passwordConfirmLabel}
+                            {...formItemLayout}
+                        >
+                            {getFieldDecorator('passwordConfirm', {
+                                rules: [{
+                                    required: true, message: props.passwordConfirmRequire,
+                                }, {
+                                    validator: (rule, value, callback) => {
+                                        const form = this.props.form;
+                                        if (value && value !== form.getFieldValue('password')) {
+                                            callback(props.passwordNotEqual);
+                                        } else {
+                                            callback();
+                                        }
+                                    },
+                                }],
+                            })(
+                                <Input type="password"/>
+                            )}
+                        </Form.Item>
+                        <Form.Item
+                            label={props.emailLabel}
+                            {...formItemLayout}
+                        >
+                            {getFieldDecorator('email', {
+                                rules: [{
+                                    type: 'email', message: props.emailWrongFormat,
+                                }, {
+                                    required: true, message: props.emailRequire,
+                                }],
+                            })(
+                                <Input/>
+                            )}
+                        </Form.Item>
+                        <Form.Item {...buttonItemLayout}>
+                            <Button type="primary" size="large" style={{textAlign: 'center'}}
+                                    onClick={this.handleSubmit}>{props.submitLabel}</Button>
+                            <a href="#" style={{float: 'right'}}>{props.passwordForgot}</a>
+                        </Form.Item>
+                    </Form>
+                }
+            }
+            </Localize>
+        );
     }
 }
+
+export const RegisterForm = Form.create({})(RegisterTable);

@@ -1,4 +1,10 @@
 {
+  "frameMenu": {
+    "home": "Home",
+    "imageLabel": "Image Label",
+    "videoLabel": "Video Label",
+    "textLabel": "Text Label"
+  },
   "articleList": {
     "clickToLoad": "Click to load the articles",
     "loading": "Loading"
@@ -7,6 +13,10 @@
     "loading": "Loading"
   },
   "registerForm": {
+    "submit": "Submit",
+    "role": "Role",
+    "worker": "Worker",
+    "requester": "Requester",
     "username": "Username",
     "requireUsername": "Please input your username!",
     "password": "Password",
@@ -16,6 +26,10 @@
     "notEqualPassword": "Two passwords that you enter is inconsistent!",
     "email": "Email",
     "requireEmail": "Please input your E-mail!",
-    "wrongEmailFormat": "The input is not valid E-mail!"
+    "wrongEmailFormat": "The input is not valid E-mail!",
+    "passwordForgot": "look for password",
+    "step1": "Fill information",
+    "step2": "Confirm in email",
+    "step3": "Register successfully"
   }
 }
