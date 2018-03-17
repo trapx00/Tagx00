@@ -4,7 +4,6 @@ import { BackgroundImage } from "./BackgroundImage";
 import { observer } from "mobx-react";
 import { action, observable } from "mobx";
 import { DrawingPadStore } from "./DrawingPadStore";
-import { RectPad } from "./pads/RectPad";
 import { Rectangle } from "./pads/RectPad/Rectangle";
 import { FreePad } from "./pads/FreePad";
 import { Point } from "./pads/PadProps";

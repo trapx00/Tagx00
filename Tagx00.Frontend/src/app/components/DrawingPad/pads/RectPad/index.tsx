@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Rectangle } from "./Rectangle";
 import { PadProps, Point } from "../PadProps";
+import { Localize } from "../../../../internationalization/components";
 // import { RectangleTool } from "./Tools/Rectangle";
 
 
@@ -97,7 +98,6 @@ export class RectPad extends React.Component<RectPadProps, any> {
   };
 
   render() {
-
     return <canvas
       style={{position: "absolute"}}
       ref={this.ref}

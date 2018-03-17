@@ -1,7 +1,7 @@
 import React from "react";
 import { Rectangle } from "../RectPad/Rectangle";
 import { PadProps, Point } from "../PadProps";
-import { Boundary, District, DistrictUnit } from "./District";
+import { Boundary, District, DistrictUnit, isCross } from "./District";
 
 interface FreePadProps extends PadProps<District> {
 
@@ -47,12 +47,19 @@ export class FreePad extends React.Component<FreePadProps, any>{
     this.canvasContext.stroke();
   };
 
+  colorStartPoint  = (position: Point) => {
+    this.canvasContext.fillRect(position.x-1, position.y-1,3,3);
+  };
+
   onMouseDown = (e) => {
     if (this.props.drawingMode) {
       console.log("district start");
       const position = this.getCursorPosition(e);
       this.startPoint = position;
       this.storeInitialImageData();
+      this.colorStartPoint(position);
+
+
       this.boundary = new Boundary();
       this.boundary.push(position);
     } else {
@@ -67,12 +74,27 @@ export class FreePad extends React.Component<FreePadProps, any>{
     }
   };
 
+  checkCross = (start: Point, end: Point) => {
+    for (const line of this.boundary.lines()) {
+      if (isCross(line, { start, end })) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   onMouseMove = (e) => {
     if (this.props.drawingMode && this.boundary) {
       const position = this.getCursorPosition(e);
       const start = this.boundary.points.slice(-1)[0];
-      this.drawLine(start, position);
-      this.boundary.push(position);
+      if (this.checkCross(position, start)) {
+        this.districtComplete(false);
+        console.log("cross");
+      } else {
+        this.drawLine(start, position);
+        this.boundary.push(position);
+      }
+
     }
 
   };
@@ -93,7 +115,7 @@ export class FreePad extends React.Component<FreePadProps, any>{
   };
 
   endsAtStartPoint = (point: Point) => {
-    const error = 5;
+    const error = 2;
     return Math.abs(point.x - this.startPoint.x) <= error
       && Math.abs(point.y - this.startPoint.y) <= error;
   };
