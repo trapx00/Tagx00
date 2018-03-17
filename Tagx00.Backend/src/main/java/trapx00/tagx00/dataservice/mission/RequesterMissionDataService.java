@@ -13,7 +13,7 @@ public interface RequesterMissionDataService {
 
      * @param mission
      */
-    void saveMission (Mission mission)throws SystemException;
+    int saveMission (Mission mission)throws SystemException;
 
 
     /**

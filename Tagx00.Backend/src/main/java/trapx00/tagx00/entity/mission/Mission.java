@@ -39,7 +39,7 @@ public class Mission extends Entity {
     @Column(name = "requesterUsername")
     private String requesterUsername;
 
-    public Mission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, List<String> urls, String coverUrl, String requesterUsername) {
+    public  Mission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, List<String> urls, String coverUrl, String requesterUsername) {
         this.id = id;
         this.title = title;
         this.description = description;

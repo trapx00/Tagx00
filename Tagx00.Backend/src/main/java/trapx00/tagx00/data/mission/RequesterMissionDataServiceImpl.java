@@ -33,10 +33,12 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param mission
      */
     @Override
-    public void saveMission(Mission mission) throws SystemException {
-        if (missionDao.saveMssion(mission) == null) {
+    public int saveMission(Mission mission) throws SystemException {
+        Mission result;
+        if ((result=missionDao.saveMssion(mission) )== null) {
             throw new SystemException();
         }
+        return result.getId();
     }
 
     /**

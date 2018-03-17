@@ -21,6 +21,62 @@ public class MissionInstanceItemVo {
         this.totalCount = totalCount;
     }
 
+    public int getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(int missionId) {
+        this.missionId = missionId;
+    }
+
+    public String getWorkerUsername() {
+        return workerUsername;
+    }
+
+    public void setWorkerUsername(String workerUsername) {
+        this.workerUsername = workerUsername;
+    }
+
+    public MissionInstanceState getState() {
+        return state;
+    }
+
+    public void setState(MissionInstanceState state) {
+        this.state = state;
+    }
+
+    public Date getAcceptDate() {
+        return acceptDate;
+    }
+
+    public void setAcceptDate(Date acceptDate) {
+        this.acceptDate = acceptDate;
+    }
+
+    public Date getSubmitDate() {
+        return submitDate;
+    }
+
+    public void setSubmitDate(Date submitDate) {
+        this.submitDate = submitDate;
+    }
+
+    public int getCompletedCount() {
+        return completedCount;
+    }
+
+    public void setCompletedCount(int completedCount) {
+        this.completedCount = completedCount;
+    }
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
     private Date submitDate;
     private int completedCount;
     private int totalCount;
