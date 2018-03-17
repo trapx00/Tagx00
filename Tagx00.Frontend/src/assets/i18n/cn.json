@@ -5,5 +5,16 @@
   },
   "languageSelector": {
     "loading": "载入中"
+  },
+  "registerForm": {
+    "username": "用户名",
+    "password": "密码",
+    "requirePassword": "请输入密码",
+    "requireConfirmPassword": "请确认密码",
+    "confirmPassword": "确认密码",
+    "notEqualPassword": "您输入的两次密码不相同",
+    "email": "邮箱地址",
+    "requireEmail": "请输入您的邮箱地址",
+    "wrongEmailFormat": "邮箱地址格式不正确"
   }
 }

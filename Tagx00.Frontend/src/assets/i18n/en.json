@@ -5,5 +5,17 @@
   },
   "languageSelector": {
     "loading": "Loading"
+  },
+  "registerForm": {
+    "username": "Username",
+    "requireUsername": "Please input your username!",
+    "password": "Password",
+    "requirePassword": "Please input your password!",
+    "requireConfirmPassword": "Please confirm your password!",
+    "confirmPassword": "Confirm Password",
+    "notEqualPassword": "Two passwords that you enter is inconsistent!",
+    "email": "Email",
+    "requireEmail": "Please input your E-mail!",
+    "wrongEmailFormat": "The input is not valid E-mail!"
   }
 }
