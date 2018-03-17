@@ -18,6 +18,15 @@ export class Boundary {
     this.points.push(point);
   }
 
+  cross(other: Line) {
+    for (const line of this.lines()) {
+      if (lineCross(line, other)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   contains(point: Point) {
     return this.points.contains(point);
   }
@@ -26,7 +35,7 @@ export class Boundary {
 
 
 
-export function isCross(line1: Line, line2: Line): boolean {
+export function lineCross(line1: Line, line2: Line): boolean {
 //线段ab的法线N1
 
   const a = line1.end, b=line1.start, c=line2.end, d=line2.start;
@@ -71,10 +80,8 @@ export class DistrictUnit {
   isInside(point: Point) {
     const line = { start: this.innerPoint, end: point};
     for (const boundary of this.boundaries) {
-      for (const boundaryLine of boundary.lines()) {
-        if (isCross(line, boundaryLine)) {
-          return false;
-        }
+      if (boundary.cross(line)) {
+        return false;
       }
     }
     return true;

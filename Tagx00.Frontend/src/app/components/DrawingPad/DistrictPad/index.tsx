@@ -1,10 +1,13 @@
 import React from "react";
-import { Rectangle } from "../RectPad/Rectangle";
+import { Rectangle } from "../PartTagConsole/Rectangle";
 import { PadProps, Point } from "../PadProps";
-import { Boundary, District, DistrictUnit, isCross } from "./District";
+import { Boundary, District, DistrictUnit, lineCross } from "./District";
 
 interface FreePadProps extends PadProps<District> {
-
+  width: number;
+  height: number;
+  onMouseClicked: (point: Point) => void;
+  drawingMode: boolean;
   districts: District[];
 }
 
@@ -75,12 +78,7 @@ export class FreePad extends React.Component<FreePadProps, any>{
   };
 
   checkCross = (start: Point, end: Point) => {
-    for (const line of this.boundary.lines()) {
-      if (isCross(line, { start, end })) {
-        return true;
-      }
-    }
-    return false;
+     return this.boundary.cross({start,end});
   };
 
   onMouseMove = (e) => {
