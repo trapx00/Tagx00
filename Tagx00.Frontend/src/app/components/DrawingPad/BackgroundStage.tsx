@@ -3,15 +3,20 @@ import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 
 
-interface BackgroundStageProps {
+interface Props {
   imageUrl: string;
   onImageLoaded: (width: number, height: number) => void;
-  width: number;
-  height: number;
 }
 
-export class BackgroundStage extends React.Component<BackgroundStageProps, {}> {
+@observer
+export class BackgroundStage extends React.Component<Props, {}> {
+
+  @observable width: number;
+  @observable height: number;
+
   @action onLoad = ({target}) => {
+    this.width = target.width;
+    this.height = target.height;
     this.props.onImageLoaded(target.width, target.height);
   };
 
@@ -22,11 +27,11 @@ export class BackgroundStage extends React.Component<BackgroundStageProps, {}> {
 
     const stageStyle: CSSProperties = {
       position: "relative",
-      width: this.props.width,
-      height: this.props.height
+      width: this.width,
+      height: this.height
     };
     return <div style={stageStyle}>
-      <img src={this.props.imageUrl} onLoad={this.onLoad} style={imgStyle}/>
+    <img src={this.props.imageUrl} onLoad={this.onLoad} style={imgStyle}/>
       {this.props.children}
     </div>
   }

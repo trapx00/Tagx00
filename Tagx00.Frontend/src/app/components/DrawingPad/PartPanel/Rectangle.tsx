@@ -1,5 +1,4 @@
-import { Point } from "../PadProps";
-
+import { Point } from "../ImageLib/Shapes";
 
 export class Rectangle {
   id: number;

@@ -1,8 +1,9 @@
 import React from "react";
-import { DistrictCanvas } from "./DistrictCanvas";
+import { CanvasLayer } from "./DistrictCanvas/CanvasLayer";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
-import { District } from "./Shapes";
+import { District } from "./Districts";
+import { DistrictCanvasContainer } from "./DistrictCanvas/DistrictCanvasContainer";
 
 interface DistrictTagPanelProps {
   imageUrl: string;
@@ -25,7 +26,7 @@ export class DistrictTagPanel extends React.Component<DistrictTagPanelProps, {}>
   render() {
     return <div>
       <p>区域标注</p>
-      <DistrictCanvas
+      <DistrictCanvasContainer
         drawingMode={this.addingNotation}
         onDistrictComplete={this.onDistrictComplete}
         onDistrictClicked={()=>{}}

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { ArticleListDisplay } from "../../components/ArticleListDisplay";
 import { LanguageSelector } from "../../components/LanguageSelector";
-import {PartTagPanel} from "../../components/DrawingPad/PartTagPanel/index";
-import { DistrictTagPanel } from "../../components/DrawingPad/DistrictTagPanel";
+import {PartPanel} from "../../components/DrawingPad/PartPanel/index";
+import { DistrictTagPanel } from "../../components/DrawingPad/DistrictPanel";
 
 export class HomePage extends React.Component<any, any> {
 

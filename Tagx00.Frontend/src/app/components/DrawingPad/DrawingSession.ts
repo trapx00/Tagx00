@@ -1,5 +1,4 @@
-import { Point } from "./PadProps";
-import { Rectangle } from "./PartTagPanel/Rectangle";
+;
 
 export class DrawingSession {
   imageData: ImageData;
