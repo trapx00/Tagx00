@@ -3,6 +3,7 @@ import { ArticleListDisplay } from "../../components/ArticleListDisplay";
 import { LanguageSelector } from "../../components/LanguageSelector";
 import {PartPanel} from "../../components/DrawingPad/PartPanel/index";
 import { DistrictTagPanel } from "../../components/DrawingPad/DistrictPanel";
+import { PartPanelContainer } from "../../components/DrawingPad/PartPanel/PartPanelContainer";
 
 export class HomePage extends React.Component<any, any> {
 

@@ -1,15 +1,6 @@
-import { ImageMap, Line, Point } from "../../ImageLib/Shapes";
+import { Line, Point } from "../../ImageLib/Shapes";
 import { Stack } from "../../../../../utils/Stack";
-
-type Boundary = Point[];
-
-
-const offsets = [
-  [-1,0],
-  [0,1],
-  [1,0],
-  [0,-1]
-];
+import { Boundary } from "../Districts";
 
 export class DistrictDrawer {
   context: CanvasRenderingContext2D;
@@ -22,45 +13,15 @@ export class DistrictDrawer {
     this.height = context.canvas.clientHeight;
   }
 
-  mapize(b: Boundary): ImageMap {
-    const map = new ImageMap(this.width, this.height);
-    for (const p of b) {
-      map.set(p.x, p.y,1);
-    }
-    return map;
-  }
+  drawArea(boundary: Line[], color: string) {
+    this.context.save();
+    this.context.fillStyle = color;
+    this.context.beginPath();
+    for (const line of boundary) {
 
-  mergeBoundariesIntoOneMap(boundaries: Boundary[]) {
-
-    const maps = boundaries.map(x => this.mapize(x));
-
-    const array = [];
-    for (let x = 0;x<this.width;x++) {
-      const inner = [];
-      for (let y = 0; y < this.height; y++) {
-        inner.push(maps.reduce((prev, curr) => prev || curr, 0));
-      }
-      array.push(inner);
-    }
-    return array;
-
-  }
-
-  private fillAreaRec(map: ImageMap, point: Point, color: string) {
-    // 1 for boundary, 2 for colored, 0 for not processed
-    const { x,y } = point;
-    if (map.get(x,y) == 0) {
-      this.drawPoint(point, color);
-      map.set(x,y,2);
-      for (const offset of offsets) {
-        this.fillAreaRec(map, {x: x+offset[0], y: y+offset[1]}, color);
-      }
     }
   }
 
-  fillArea(map: ImageMap, point: Point, color: string) {
-    this.fillAreaRec(map, point, color);
-  }
 
   drawPoint(point: Point, color: string) {
     this.context.save();
@@ -70,6 +31,45 @@ export class DistrictDrawer {
     this.context.restore();
 
   }
+
+  drawBoundary = (boundary: Boundary, color: string) => {
+    this.context.save();
+    this.context.globalCompositeOperation = 'source-over';
+    this.context.lineJoin = 'round';
+    this.context.lineCap = 'round';
+    this.context.strokeStyle = color;
+    this.context.beginPath();
+    const {x, y} = boundary.points[0];
+    this.context.moveTo(x,y);
+
+    for (const line of boundary.lines()) {
+      this.context.lineTo(line.start.x, line.start.y);
+    }
+
+    this.context.closePath();
+    this.context.stroke();
+    this.context.restore();
+  };
+
+  fillBoundary = (boundary: Boundary, color: string)  => {
+    this.fillPolygon(boundary.points, color);
+  };
+
+  fillPolygon(points: Point[], color: string) {
+    this.context.save();
+    this.context.beginPath();
+    const {x,y} = points[0];
+    this.context.moveTo(x, y);
+    for (const line of points) {
+      this.context.lineTo(line.x, line.y);
+    }
+    this.context.closePath();
+    this.context.fillStyle = color;
+    this.context.fill();
+    this.context.restore();
+  }
+
+
 
   drawLine(start: Point, end: Point, color: string) {
     this.context.save();

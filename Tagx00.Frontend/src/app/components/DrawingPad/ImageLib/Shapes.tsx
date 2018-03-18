@@ -11,34 +11,6 @@ export interface Point {
   y: number;
 }
 
-export class ImageMap {
-
-  map: number[][];
-
-  get(x: number, y: number) {
-    return this.map[Math.trunc(x)][Math.trunc(y)];
-  }
-
-  set(x: number,y: number, value: number) {
-    this.map[Math.trunc(x)][Math.trunc(y)] = value;
-  }
-
-  constructor(num1: number, num2: number) {
-    const array = [];
-    for (let x = 0;x<num1;x++) {
-      const innerArray = [];
-      for (let y =0;y<num2;y++) {
-        innerArray.push(0);
-      }
-      array.push(innerArray);
-    }
-    this.map = array;
-  }
-
-
-}
-
-
 export function lineCross(line1: Line, line2: Line): boolean {
 //线段ab的法线N1
 

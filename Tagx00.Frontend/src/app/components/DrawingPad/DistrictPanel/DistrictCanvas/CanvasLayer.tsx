@@ -1,22 +1,21 @@
 import React from "react";
-import { lineCross, Point } from "../../ImageLib/Shapes";
+import { Line, lineCross, Point } from "../../ImageLib/Shapes";
 import { observer } from "mobx-react";
 import { BackgroundStage } from "../../BackgroundStage";
 import { DistrictDrawingSession, Step } from "./DistrictDrawingSession";
-import { Terminal } from "../Terminal";
-import { Stack } from "../../../../../utils/Stack";
+import { CanvasController } from "./CanvasController";
 import { DistrictDrawer } from "./Drawer";
-import { Boundary, District, DistrictUnit } from "../Districts";
+import { Boundary, District } from "../Districts";
 
 interface CanvasProps {
-  onDistrictComplete: (dis: District) => void;
   width: number;
   height: number;
+
+  session: DistrictDrawingSession;
 }
 
-
+@observer
 export class CanvasLayer extends React.Component<CanvasProps, {}> {
-  session: DistrictDrawingSession;
   drawer: DistrictDrawer;
   canvas: HTMLCanvasElement;
   canvasContext: CanvasRenderingContext2D;
@@ -25,80 +24,57 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
   getCursorPosition(e): Point {
     const {top, left} = this.canvas.getBoundingClientRect();
     return {
-      x: e.clientX - left,
-      y: e.clientY - top
+      x: Math.trunc(e.clientX - left),
+      y: Math.trunc(e.clientY - top)
     };
   }
 
-  drawLine = (start: Point, end: Point) => {
-    this.canvasContext.lineJoin = 'round';
-    this.canvasContext.lineCap = 'round';
-    this.canvasContext.beginPath();
-    this.canvasContext.globalCompositeOperation = 'source-over';
-    this.canvasContext.moveTo(start.x, start.y);
-    this.canvasContext.lineTo(end.x, end.y);
-    this.canvasContext.closePath();
-    this.canvasContext.stroke();
-  };
-
-  drawBoundary = (boundary: Boundary) => {
-
-    for (let line of boundary.lines()) {
-      console.log(line);
-      this.drawLine(line.start, line.end);
-    }
-  };
-
-
-
-  drawDistrictUnit = (unit: DistrictUnit) => {
-    this.drawer.fillArea(unit.densifiedBoundaryMap, unit.innerPoint, "#692045")
-  };
 
   colorStartPoint = (position: Point) => {
     this.canvasContext.fillRect(position.x - 1, position.y - 1, 3, 3);
   };
 
-  checkCross = (start: Point, end: Point) => {
-    return this.session.boundary.cross({start, end});
+  checkCross = (line: Line) => {
+    return this.props.session.boundary.cross(line);
   };
 
   boundaryComplete = (save: boolean) => {
-    this.session.putImageData();
-    this.session.boundaryComplete(save);
-    this.session.unit.boundaries.forEach(this.drawBoundary);
+    this.props.session.putImageData();
+    this.props.session.boundaryComplete(save);
+    this.redrawAllBoundaries();
 
   };
 
+  redrawAllBoundaries() {
+    this.canvasContext.clearRect(0,0, this.props.width, this.props.height);
+    this.props.session.district.boundaries.forEach((x) => this.drawer.drawBoundary(x, "rgba(255，0，0，100)"))
+  }
+
   endsAtStartPoint = (point: Point) => {
     const error = 2;
-    return Math.abs(point.x - this.session.startPoint.x) <= error
-      && Math.abs(point.y - this.session.startPoint.y) <= error;
+    return Math.abs(point.x - this.props.session.startPoint.x) <= error
+      && Math.abs(point.y - this.props.session.startPoint.y) <= error;
   };
 
   onMouseDown = (e) => {
     const position = this.getCursorPosition(e);
-    if (this.session.canContinueDrawing) {
-      this.session.saveImageData();
-
+    if (this.props.session.canContinueDrawing) {
       this.colorStartPoint(position);
-      this.session.startDrawingBoundary(position);
-
+      this.props.session.startDrawingBoundary(position);
     }
-
 
   };
 
   onMouseMove = (e) => {
-    if (this.session.step === Step.DrawingBoundary) {
+    if (this.props.session.step === Step.DrawingBoundary) {
       const position = this.getCursorPosition(e);
-      const start = this.session.boundary.points.slice(-1)[0];
-      if (this.checkCross(position, start)) {
+      const start = this.props.session.boundary.points.slice(-1)[0];
+      if (this.checkCross({start, end: position})) {
         this.boundaryComplete(false);
         console.log("cross");
       } else {
-        this.drawLine(start, position);
-        this.session.boundary.push(position);
+        this.drawer.drawLine(start, position,"#000000");
+        this.props.session.boundary.push(position);
       }
 
     }
@@ -107,26 +83,26 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
 
   onMouseUp = (e) => {
     const position = this.getCursorPosition(e);
-    if (this.session.step === Step.DrawingBoundary) {
+    if (this.props.session.step === Step.DrawingBoundary) {
 
-      this.onMouseMove(e);
-      this.boundaryComplete(this.endsAtStartPoint(position));
-    } else if (this.session.step === Step.SelectingArea) { //step : select area
-      const unit = this.session.selectArea(position);
-      this.drawDistrictUnit(unit);
+      if (this.endsAtStartPoint(position)) {
+        this.props.session.boundary.push(this.props.session.startPoint); // last point
+        this.boundaryComplete(true);
+      } else {
+        this.boundaryComplete(false);
+      }
+
     }
-  };
-
-
-  onDistrictComplete = () => {
-    this.props.onDistrictComplete(this.session.district);
   };
 
   ref = (ref) => {
     this.canvas = ref;
     this.canvasContext = this.canvas.getContext("2d");
-    this.session = new DistrictDrawingSession(this.canvasContext);
+
     this.drawer = new DistrictDrawer(this.canvasContext);
+    this.props.session.init(this.canvasContext);
+    this.props.session.saveImageData();
+
     this.forceUpdate();
   };
 
