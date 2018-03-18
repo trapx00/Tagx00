@@ -125,7 +125,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
         if(missionInstanceItemVo==null)
             throw new InstanceNotExistException();
         MissionInstanceQueryDetailResponse missionInstanceQueryDetailResponse=new MissionInstanceQueryDetailResponse(
-                new MissionInstanceDetailVo(missionInstanceItemVo.getMissionId(),missionInstanceItemVo.getWorkerUsername(),
+                new MissionInstanceDetailVo(missionInstanceItemVo.getId(),missionInstanceItemVo.getMissionId(),missionInstanceItemVo.getWorkerUsername(),
                         MissionInstanceState.IN_PROGRESS,missionInstanceItemVo.getAcceptDate(),missionInstanceItemVo.getSubmitDate(),
                         missionInstanceItemVo.getCompletedCount(),missionInstanceItemVo.getTotalCount(),true,
                         new MissionVo(MissionType.IMAGE))

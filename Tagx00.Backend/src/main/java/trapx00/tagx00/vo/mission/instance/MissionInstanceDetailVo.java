@@ -10,8 +10,9 @@ public class MissionInstanceDetailVo extends MissionInstanceItemVo {
     private boolean allowCustomTag;
     private MissionVo mission;
 
-    public MissionInstanceDetailVo(int missionId, String workerUsername, MissionInstanceState state, Date acceptDate, Date submitDate, int completedCount, int totalCount, boolean allowCustomTag, MissionVo mission) {
-        super(missionId, workerUsername, state, acceptDate, submitDate, completedCount, totalCount);
+
+    public MissionInstanceDetailVo(int id,int missionId, String workerUsername, MissionInstanceState state, Date acceptDate, Date submitDate, int completedCount, int totalCount, boolean allowCustomTag, MissionVo mission) {
+        super(id,missionId, workerUsername, state, acceptDate, submitDate, completedCount, totalCount);
         this.allowCustomTag = allowCustomTag;
         this.mission = mission;
     }

@@ -17,6 +17,11 @@ public class InstanceDaoImpl implements InstanceDao {
 
 
     @Override
+    public Instance saveInstance(Instance instance) {
+        return fileService.saveTuple(instance);
+    }
+
+    @Override
     public Instance[] findInstancesBymissionId(int missionId) {
         Instance[]result=new Instance[1];
         result[0]=fileService.findOne(String.valueOf(missionId),Instance.class);
@@ -36,7 +41,8 @@ public class InstanceDaoImpl implements InstanceDao {
     }
 
     @Override
-    public Instance findInstanceByUsernameAndmissionId(String username, int missionId) {
-        return null;
+    public boolean deleteInstance(int instanceid) {
+        fileService.delete(String.valueOf(instanceid),Instance.class);
+        return true;
     }
 }

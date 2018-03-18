@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.entity.mission.Instance;
 @Service
 public interface InstanceDao {
+    Instance saveInstance(Instance instance);
 
     Instance[] findInstancesBymissionId(int missionId);
 
@@ -11,6 +12,5 @@ public interface InstanceDao {
 
     Instance findInstanceByinstanceId(int instanceId);
 
-
-    Instance findInstanceByUsernameAndmissionId(String username,int missionId);
+    boolean deleteInstance(int instanceid);
 }

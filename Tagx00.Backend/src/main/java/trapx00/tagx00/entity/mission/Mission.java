@@ -2,6 +2,7 @@ package trapx00.tagx00.entity.mission;
 
 import trapx00.tagx00.entity.Entity;
 import trapx00.tagx00.entity.annotation.*;
+import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
 import java.util.Date;
@@ -27,6 +28,17 @@ public class Mission extends Entity {
     private List<String> allowedTags;
     @Column(name = "missionType")
     private MissionType missionType;
+
+    public MissionState getMissionState() {
+        return missionState;
+    }
+
+    public void setMissionState(MissionState missionState) {
+        this.missionState = missionState;
+    }
+
+    @Column(name = "missionType")
+    private MissionState missionState;
     @Column(name = "start")
     private Date start;
     @Column(name = "end")
@@ -52,6 +64,7 @@ public class Mission extends Entity {
         this.urls = urls;
         this.coverUrl = coverUrl;
         this.requesterUsername = requesterUsername;
+        this.missionState=MissionState.PENDING;
     }
 
     public int getId() {
