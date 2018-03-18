@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import trapx00.tagx00.blservice.mission.PublicMissionBlService;
+import trapx00.tagx00.exception.viewexception.NotMissionException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
 
@@ -30,7 +31,13 @@ public class PublicMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> getMissions() {
-        return new ResponseEntity(publicMissionBlService.getAllMissions(), HttpStatus.OK);
+        try{
+            return new ResponseEntity(publicMissionBlService.getAllMissions(), HttpStatus.OK);
+        }catch (NotMissionException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
+        }
+
     }
 
 

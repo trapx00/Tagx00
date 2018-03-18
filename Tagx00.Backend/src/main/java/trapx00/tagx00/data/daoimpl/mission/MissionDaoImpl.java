@@ -35,5 +35,10 @@ public class MissionDaoImpl implements MissionDao {
         return fileService.findOne(username,Mission.class);
     }
 
+    @Override
+    public Mission[] getAllmission() {
+        return fileService.findOnes("",Mission.class);
+    }
+
 
 }
