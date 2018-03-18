@@ -3,7 +3,8 @@
     "home": "首页",
     "imageLabel": "图片标注",
     "videoLabel": "视频标注",
-    "textLabel": "文字标注"
+    "textLabel": "文字标注",
+    "aboutLabel": "关于我们"
   },
   "articleList": {
     "clickToLoad": "点击加载文章列表",

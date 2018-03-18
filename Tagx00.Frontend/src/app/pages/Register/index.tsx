@@ -8,12 +8,12 @@ const {Header, Footer, Content} = Layout;
 const Step = Steps.Step;
 
 const menuItemStyle = {
-    width: '22.5%',
+    width: '20%',
     textAlign: 'center'
 }
-const languageItemStyle = {
+const helperItemStyle = {
     width: '10%',
-    textAlign: 'right'
+    textAlign: 'center'
 }
 const stepStyle = {
     marginTop: "5%",
@@ -27,6 +27,7 @@ export class RegisterPage extends React.Component<any, any> {
         return <div>
             <Localize homeLabel={"frameMenu.home"} imageLabel={"frameMenu.imageLabel"}
                       videoLabel={"frameMenu.videoLabel"} textLabel={"frameMenu.textLabel"}
+                      aboutLabel={"frameMenu.aboutLabel"}
                       step1Label={"registerForm.step1"} step2Label={"registerForm.step2"}
                       step3Label={"registerForm.step3"}>{
                 (props) => {
@@ -45,9 +46,12 @@ export class RegisterPage extends React.Component<any, any> {
                                     <Icon type="youtube"/>{props.videoLabel}
                                 </Menu.Item>
                                 <Menu.Item key="text" style={menuItemStyle}>
-                                    <Icon type="file-text"/>{props.textLabel}
+                                    <Icon type="customer-service" />{props.textLabel}
                                 </Menu.Item>
-                                <Menu.Item key="language" style={languageItemStyle}>
+                                <Menu.Item key="about" style={helperItemStyle}>
+                                    <Icon type="file-text"/>{props.aboutLabel}
+                                </Menu.Item>
+                                <Menu.Item key="language" style={helperItemStyle}>
                                     <LanguageSelector/>
                                 </Menu.Item>
                             </Menu>

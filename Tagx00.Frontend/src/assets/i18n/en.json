@@ -3,7 +3,8 @@
     "home": "Home",
     "imageLabel": "Image Label",
     "videoLabel": "Video Label",
-    "textLabel": "Text Label"
+    "textLabel": "Text Label",
+    "aboutLabel": "About Us"
   },
   "articleList": {
     "clickToLoad": "Click to load the articles",
