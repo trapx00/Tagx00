@@ -1,10 +1,12 @@
 import * as React from "react";
-import {RegisterForm} from "../../components/RegisterForm";
 import {Layout, Menu, Icon, Row, Col, Steps} from 'antd';
 import {Localize} from "../../internationalization/components";
 import {LanguageSelector} from "../../components/LanguageSelector";
+import {observer} from "mobx-react";
+import {registerStore} from "../../components/Register/RegisterStore";
+import {Register} from "../../components/Register";
 
-const {Header, Footer, Content} = Layout;
+const {Footer, Content} = Layout;
 const Step = Steps.Step;
 
 const menuItemStyle = {
@@ -22,6 +24,7 @@ const stepStyle = {
     paddingRight: "5%"
 }
 
+@observer
 export class RegisterPage extends React.Component<any, any> {
     render() {
         return <div>
@@ -32,49 +35,38 @@ export class RegisterPage extends React.Component<any, any> {
                       step3Label={"registerForm.step3"}>{
                 (props) => {
                     return <Layout>
-                        <Header>
-                            <Menu
-                                theme="light"
-                                mode="horizontal">
-                                <Menu.Item key="home" style={menuItemStyle}>
-                                    <Icon type="home"/>{props.homeLabel}
-                                </Menu.Item>
-                                <Menu.Item key="image" style={menuItemStyle}>
-                                    <Icon type="camera"/>{props.imageLabel}
-                                </Menu.Item>
-                                <Menu.Item key="video" style={menuItemStyle}>
-                                    <Icon type="youtube"/>{props.videoLabel}
-                                </Menu.Item>
-                                <Menu.Item key="text" style={menuItemStyle}>
-                                    <Icon type="customer-service" />{props.textLabel}
-                                </Menu.Item>
-                                <Menu.Item key="about" style={helperItemStyle}>
-                                    <Icon type="file-text"/>{props.aboutLabel}
-                                </Menu.Item>
-                                <Menu.Item key="language" style={helperItemStyle}>
-                                    <LanguageSelector/>
-                                </Menu.Item>
-                            </Menu>
-                        </Header>
+                        <Menu
+                            theme="light"
+                            mode="horizontal">
+                            <Menu.Item key="home" style={menuItemStyle}>
+                                <Icon type="home"/>{props.homeLabel}
+                            </Menu.Item>
+                            <Menu.Item key="image" style={menuItemStyle}>
+                                <Icon type="camera"/>{props.imageLabel}
+                            </Menu.Item>
+                            <Menu.Item key="video" style={menuItemStyle}>
+                                <Icon type="youtube"/>{props.videoLabel}
+                            </Menu.Item>
+                            <Menu.Item key="text" style={menuItemStyle}>
+                                <Icon type="file-text"/>{props.textLabel}
+                            </Menu.Item>
+                            <Menu.Item key="about" style={helperItemStyle}>
+                                <Icon type="customer-service"/>{props.aboutLabel}
+                            </Menu.Item>
+                            <Menu.Item key="language" style={helperItemStyle}>
+                                <LanguageSelector/>
+                            </Menu.Item>
+                        </Menu>
                         <Layout>
                             <Content>
-                                <Steps current={0} style={stepStyle}>
+                                <Steps current={registerStore.currentStep} style={stepStyle}>
                                     <Step title={props.step1Label}/>
                                     <Step title={props.step2Label}/>
                                     <Step title={props.step3Label}/>
                                 </Steps>
                             </Content>
                             <Content>
-                                <Row>
-                                    <Col span={12}>
-                                        <img id="logo" src={require('../../../assets/logo.png')}
-                                             alt="" style={{padding: '5%', paddingLeft: '20%'}}/>
-                                    </Col>
-                                    <Col span={12}>
-                                        <div style={{padding: '5%', paddingRight: '10%'}}>
-                                            <RegisterForm/></div>
-                                    </Col>
-                                </Row>
+                                <Register/>
                             </Content>
                         </Layout>
                         <Footer style={{textAlign: 'center'}}>

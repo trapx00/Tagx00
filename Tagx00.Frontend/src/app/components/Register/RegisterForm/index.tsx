@@ -1,8 +1,9 @@
 import React from "react";
 import {Form, Input, Button, Radio, message} from 'antd';
-import {Localize} from "../../internationalization/components";
-import {LocaleStoreProps} from "../../internationalization";
+import {Localize} from "../../../internationalization/components/index";
+import {LocaleStoreProps} from "../../../internationalization/index";
 import {FormComponentProps} from "antd/lib/form";
+import {registerStore} from "../RegisterStore";
 
 interface RegisterFormProps extends LocaleStoreProps, FormComponentProps {
 }
@@ -10,6 +11,7 @@ interface RegisterFormProps extends LocaleStoreProps, FormComponentProps {
 class RegisterTable extends React.Component<RegisterFormProps, any> {
     handleSubmit = () => {
         message.success('Register Success');
+        registerStore.nextStep();
     }
 
     render() {
