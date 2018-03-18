@@ -1,28 +1,29 @@
 import React from "react";
 import { Rectangle } from "./Rectangle";
 import { Point } from "../ImageLib/Shapes";
-import { Drawer } from "./Drawer";
+import { RectangleDrawer } from "./RectangleDrawer";
+import { RectangleNotation } from "./RectangleNotation";
 
 interface Props {
-  rectangles: Rectangle[];
+  rectangles: RectangleNotation[];
   width: number;
   height: number;
-  onRectangleClicked: (rec: Rectangle) => void;
+  onRectangleClicked: (rec: RectangleNotation) => void;
 }
 
 export class ExistingLayer extends React.Component<Props, any> {
 
   canvas: HTMLCanvasElement;
   canvasContext: CanvasRenderingContext2D;
-  drawer: Drawer;
+  drawer: RectangleDrawer;
 
   findClickedRectangle = (position: Point) => {
-    return this.props.rectangles.find(x => x.isOnSides(position));
+    return this.props.rectangles.find(x => x.rectangle.isOnSides(position));
   };
 
   renderAllRectangles = () => {
     this.canvasContext.clearRect(0, 0, this.props.width, this.props.height);
-    this.props.rectangles.forEach(x => this.drawer.drawRectangle(x));
+    this.props.rectangles.forEach(x => this.drawer.drawRectangle(x.rectangle, x.color));
   };
 
   componentDidUpdate() {
@@ -52,7 +53,7 @@ export class ExistingLayer extends React.Component<Props, any> {
   ref = (ref) => {
     this.canvas = ref;
     this.canvasContext = this.canvas.getContext("2d");
-    this.drawer = new Drawer(this.canvasContext);
+    this.drawer = new RectangleDrawer(this.canvasContext);
   };
 
   render() {

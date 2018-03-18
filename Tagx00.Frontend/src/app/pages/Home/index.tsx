@@ -1,15 +1,14 @@
 import * as React from "react";
 import { ArticleListDisplay } from "../../components/ArticleListDisplay";
 import { LanguageSelector } from "../../components/LanguageSelector";
-import {PartPanel} from "../../components/DrawingPad/PartPanel/index";
-import { DistrictTagPanel } from "../../components/DrawingPad/DistrictPanel";
-import { PartPanelContainer } from "../../components/DrawingPad/PartPanel/PartPanelContainer";
+import { DistrictPanel } from "../../components/DrawingPad/DistrictPanel";
+import { RectangleCanvasContainer } from "../../components/DrawingPad/RectanglePanel/RectangleCanvasContainer";
 
 export class HomePage extends React.Component<any, any> {
 
   render() {
      return <div>
-       <DistrictTagPanel imageUrl={"https://www.google.ru/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png"}/>
+       <DistrictPanel imageUrl={"https://cdn.pixabay.com/photo/2017/12/03/17/23/fantasy-2995326__340.jpg"}/>
     </div>;
   }
 }

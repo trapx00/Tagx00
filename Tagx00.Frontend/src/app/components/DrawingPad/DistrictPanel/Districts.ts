@@ -1,4 +1,7 @@
 import { Line, lineCross, Point } from "../ImageLib/Shapes";
+import { Notation } from "../utils/Notation";
+import { computed, observable } from "mobx";
+import { DistrictDrawer } from "./DistrictCanvas/DistrictDrawer";
 
 
 export class Boundary {
@@ -23,8 +26,8 @@ export class Boundary {
     return false;
   }
 
-  isInside(point: Point, width: number) {
-    const testLine = {start: point, end: {x: width - 1, y: point.y}};
+  isInside(point: Point) {
+    const testLine = {start: point, end: {x: 0, y: point.y}};
     let inside = false;
     for (const line of this.lines()) {
       if (lineCross(line, testLine)) {
@@ -66,8 +69,16 @@ export class Boundary {
 //
 // }
 
+let id =1;
+
 export class District {
+  id: number;
   boundaries: Boundary[] = [];
+
+  constructor() {
+    this.id = id;
+    id++;
+  }
 
   get added() {
     return this.boundaries.length > 0;
@@ -77,7 +88,29 @@ export class District {
     this.boundaries.push(boundary);
   }
 
-  isInside(point: Point, width: number) {
-    return this.boundaries.find(x => x.isInside(point, width));
+  isInside(point: Point) {
+    return this.boundaries.find(x => x.isInside(point)) != null;
   }
+}
+
+export class DistrictNotation extends Notation {
+  @observable district: District;
+
+  constructor(district: District) {
+    super();
+    this.district = district;
+  }
+
+  @computed get draw() {
+    if (this.selected) {
+      return (drawer: DistrictDrawer) => {
+        drawer.fillDistrict(this.district, "rgba(255,0,0,0.4)");
+      }
+    } else {
+      return (drawer: DistrictDrawer) => {
+        drawer.strokeDistrict(this.district, "rgba(255,0,0,1)");
+      }
+    }
+  }
+
 }

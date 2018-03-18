@@ -1,6 +1,6 @@
 import { Line, Point } from "../../ImageLib/Shapes";
 import { Stack } from "../../../../../utils/Stack";
-import { Boundary } from "../Districts";
+import { Boundary, District } from "../Districts";
 
 export class DistrictDrawer {
   context: CanvasRenderingContext2D;
@@ -13,30 +13,20 @@ export class DistrictDrawer {
     this.height = context.canvas.clientHeight;
   }
 
-  drawArea(boundary: Line[], color: string) {
-    this.context.save();
-    this.context.fillStyle = color;
-    this.context.beginPath();
-    for (const line of boundary) {
-
-    }
+  fillDistrict(district: District, color: string) {
+    district.boundaries.forEach(x => {
+      this.fillBoundary(x, color);
+    })
   }
 
-
-  drawPoint(point: Point, color: string) {
-    this.context.save();
-    this.context.strokeStyle = color;
-    this.context.rect(point.x, point.y, 1,1);
-    this.context.stroke();
-    this.context.restore();
-
+  strokeDistrict(district: District, color: string) {
+    district.boundaries.forEach(x => {
+      this.strokeBoundary(x, color);
+    })
   }
 
-  drawBoundary = (boundary: Boundary, color: string) => {
+  private strokeBoundary = (boundary: Boundary, color: string) => {
     this.context.save();
-    this.context.globalCompositeOperation = 'source-over';
-    this.context.lineJoin = 'round';
-    this.context.lineCap = 'round';
     this.context.strokeStyle = color;
     this.context.beginPath();
     const {x, y} = boundary.points[0];
@@ -55,7 +45,7 @@ export class DistrictDrawer {
     this.fillPolygon(boundary.points, color);
   };
 
-  fillPolygon(points: Point[], color: string) {
+  private fillPolygon(points: Point[], color: string) {
     this.context.save();
     this.context.beginPath();
     const {x,y} = points[0];
@@ -71,7 +61,7 @@ export class DistrictDrawer {
 
 
 
-  drawLine(start: Point, end: Point, color: string) {
+  strokeLine(start: Point, end: Point, color: string) {
     this.context.save();
     this.context.lineJoin = 'round';
     this.context.lineCap = 'round';
@@ -80,7 +70,6 @@ export class DistrictDrawer {
     this.context.strokeStyle = color;
     this.context.moveTo(start.x, start.y);
     this.context.lineTo(end.x, end.y);
-    this.context.closePath();
     this.context.stroke();
     this.context.restore();
   };

@@ -1,10 +1,10 @@
 import React from "react";
 import { Line, lineCross, Point } from "../../ImageLib/Shapes";
 import { observer } from "mobx-react";
-import { BackgroundStage } from "../../BackgroundStage";
+import { BackgroundStage } from "../../utils/BackgroundStage";
 import { DistrictDrawingSession, Step } from "./DistrictDrawingSession";
 import { CanvasController } from "./CanvasController";
-import { DistrictDrawer } from "./Drawer";
+import { DistrictDrawer } from "./DistrictDrawer";
 import { Boundary, District } from "../Districts";
 
 interface CanvasProps {
@@ -41,13 +41,13 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
   boundaryComplete = (save: boolean) => {
     this.props.session.putImageData();
     this.props.session.boundaryComplete(save);
-    this.redrawAllBoundaries();
+    this.refillAllBoundaries();
 
   };
 
-  redrawAllBoundaries() {
+  refillAllBoundaries() {
     this.canvasContext.clearRect(0,0, this.props.width, this.props.height);
-    this.props.session.district.boundaries.forEach((x) => this.drawer.drawBoundary(x, "rgba(255，0，0，100)"))
+    this.props.session.district.boundaries.forEach((x) => this.drawer.fillBoundary(x, "rgba(255,0,0,0.4)"))
   }
 
   endsAtStartPoint = (point: Point) => {
@@ -73,7 +73,7 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
         this.boundaryComplete(false);
         console.log("cross");
       } else {
-        this.drawer.drawLine(start, position,"#000000");
+        this.drawer.strokeLine(start, position,"#000000");
         this.props.session.boundary.push(position);
       }
 
@@ -97,13 +97,16 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
 
   ref = (ref) => {
     this.canvas = ref;
-    this.canvasContext = this.canvas.getContext("2d");
+    if (ref) {
+      this.canvasContext = this.canvas.getContext("2d");
 
-    this.drawer = new DistrictDrawer(this.canvasContext);
-    this.props.session.init(this.canvasContext);
-    this.props.session.saveImageData();
+      this.drawer = new DistrictDrawer(this.canvasContext);
+      this.props.session.init(this.canvasContext);
+      this.props.session.saveImageData();
 
-    this.forceUpdate();
+      this.forceUpdate();
+    }
+
   };
 
 

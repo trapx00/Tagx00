@@ -1,17 +1,17 @@
 import React, { CSSProperties } from "react";
-import { BackgroundStage } from "../BackgroundStage";
+import { BackgroundStage } from "../utils/BackgroundStage";
 // import {RectangleTool} from "./Tools/Rectangle";
 import { observer } from "mobx-react";
 import { action, observable } from "mobx";
 import { Rectangle } from "./Rectangle";
 
 import { CanvasLayer } from "./CanvasLayer";
-import { Part } from "./Part";
-import { NotationItem } from "./NotationItem";
+import { RectangleNotation } from "./RectangleNotation";
+import { RectangleNotationItemComponent } from "./RectangleNotationItemComponent";
 import { ExistingLayer } from "./ExistingLayer";
-import { PartPanelContainer } from "./PartPanelContainer";
+import { RectangleCanvasContainer } from "./RectangleCanvasContainer";
 
-interface PartTagPanelProps {
+interface Props {
   imageUrl: string;
 
 }
@@ -20,13 +20,13 @@ interface PartTagPanelProps {
 
 
 @observer
-export class PartPanel extends React.Component<PartTagPanelProps, {}> {
+export class RectanglePanel extends React.Component<Props, {}> {
   @observable addingNotation: boolean = false;
-  @observable parts: Part[] = [];
+  @observable parts: RectangleNotation[] = [];
 
 
   @action onDrawComplete = (rectangle: Rectangle) => {
-    const part = new Part(rectangle);
+    const part = new RectangleNotation(rectangle);
     part.select();
     part.modify();
     this.parts = this.parts.concat([part]);
@@ -37,16 +37,13 @@ export class PartPanel extends React.Component<PartTagPanelProps, {}> {
     this.addingNotation = true;
   };
 
-  @action onRecClicked = (rec: Rectangle) => {
-    const part = this.parts.find(x => x.rectangle === rec);
-    if (part){
-      this.toggleSelect(part);
-    }
+  @action onRecClicked = (rec: RectangleNotation) => {
+    this.toggleSelect(rec);
   };
 
-  @action toggleSelect = (other: Part) => {
+  @action toggleSelect = (other: RectangleNotation) => {
     other.toggleSelect();
-    this.parts = this.parts.filter(x => true);
+    this.parts = this.parts.filter(x => true); // force existing layer refresh
   };
 
 
@@ -54,11 +51,11 @@ export class PartPanel extends React.Component<PartTagPanelProps, {}> {
   render() {
     return <div>
       <p>局部标注</p>
-      <PartPanelContainer
+      <RectangleCanvasContainer
         drawingMode={this.addingNotation}
         onRectangleComplete={this.onDrawComplete}
         onRectangleClicked={this.onRecClicked}
-        rectangles={this.parts.map(x => x.rectangle)}
+        rectangles={this.parts}
         imageUrl={this.props.imageUrl}
         />
 
@@ -69,9 +66,9 @@ export class PartPanel extends React.Component<PartTagPanelProps, {}> {
 
       <p>已有局部：</p>
       {this.parts.map(x => {
-        return <NotationItem key={x.rectangle.id}
-                             onSelect={() => this.toggleSelect(x)}
-                             part={x}/>
+        return <RectangleNotationItemComponent key={x.rectangle.id}
+                                               onSelect={() => this.toggleSelect(x)}
+                                               part={x}/>
       })}
     </div>;
   }

@@ -1,22 +1,23 @@
 import { Rectangle } from "./Rectangle";
 import React from "react";
-import { BackgroundStage } from "../BackgroundStage";
+import { BackgroundStage } from "../utils/BackgroundStage";
 import { ExistingLayer } from "./ExistingLayer";
-import { NotationItem } from "./NotationItem";
+import { RectangleNotationItemComponent } from "./RectangleNotationItemComponent";
 import { CanvasLayer } from "./CanvasLayer";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
+import { RectangleNotation } from "./RectangleNotation";
 
 interface Props {
   drawingMode: boolean;
   onRectangleComplete: (rec: Rectangle) => void;
-  onRectangleClicked: (rec: Rectangle) => void;
-  rectangles: Rectangle[];
+  onRectangleClicked: (rec: RectangleNotation) => void;
+  rectangles: RectangleNotation[];
   imageUrl: string;
 }
 
 @observer
-export class PartPanelContainer extends React.Component<Props,{}> {
+export class RectangleCanvasContainer extends React.Component<Props,{}> {
   @observable width: number;
   @observable height: number;
 

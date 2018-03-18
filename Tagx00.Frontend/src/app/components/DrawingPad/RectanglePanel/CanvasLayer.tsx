@@ -2,10 +2,10 @@ import * as React from "react";
 import { Rectangle } from "./Rectangle";
 import { observer } from "mobx-react";
 import { action, observable } from "mobx";
-import { BackgroundStage } from "../BackgroundStage";
-import { DrawingSession } from "../DrawingSession";
+import { BackgroundStage } from "../utils/BackgroundStage";
+import { DrawingSession } from "../utils/DrawingSession";
 import { Point } from "../ImageLib/Shapes";
-import { Drawer } from "./Drawer";
+import { RectangleDrawer } from "./RectangleDrawer";
 
 interface Props {
   onRectangleComplete: (rec: Rectangle) => void;
@@ -39,7 +39,7 @@ class RectDrawingSession extends DrawingSession {
 export class CanvasLayer extends React.Component<Props, {}> {
 
   session: RectDrawingSession;
-  drawer: Drawer;
+  drawer: RectangleDrawer;
   canvas: HTMLCanvasElement;
   canvasContext: CanvasRenderingContext2D;
 
@@ -64,7 +64,7 @@ export class CanvasLayer extends React.Component<Props, {}> {
       const position = this.getCursorPosition(e);
       this.session.putImageData();
       this.session.end = position;
-      this.drawer.drawRectangle(this.session.rectangle);
+      this.drawer.drawRectangle(this.session.rectangle,"#000000");
     }
 
   };
@@ -84,7 +84,7 @@ export class CanvasLayer extends React.Component<Props, {}> {
     if (ref) {
       this.canvasContext = this.canvas.getContext("2d");
       // this.session = new RectDrawingSession(this.canvasContext);
-      this.drawer = new Drawer(this.canvasContext);
+      this.drawer = new RectangleDrawer(this.canvasContext);
     }
 
   };

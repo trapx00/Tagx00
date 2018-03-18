@@ -4,7 +4,6 @@ export class Rectangle {
   id: number;
   start: Point = {x: 0, y: 0};
   end: Point = {x: 0, y: 0};
-  color: string = "#000000";
 
   constructor(params: Partial<Rectangle> = {}) {
     Object.assign(this, params);

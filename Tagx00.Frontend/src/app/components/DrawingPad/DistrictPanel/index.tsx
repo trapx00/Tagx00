@@ -2,8 +2,9 @@ import React from "react";
 import { CanvasLayer } from "./DistrictCanvas/CanvasLayer";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
-import { District } from "./Districts";
-import { DistrictCanvasContainer } from "./DistrictCanvas/DistrictCanvasContainer";
+import { District, DistrictNotation } from "./Districts";
+import { DistrictCanvasContainer } from "./DistrictCanvasContainer";
+import { DistrictItemComponent } from "./DistrictItemComponent";
 
 interface DistrictTagPanelProps {
   imageUrl: string;
@@ -11,8 +12,9 @@ interface DistrictTagPanelProps {
 }
 
 @observer
-export class DistrictTagPanel extends React.Component<DistrictTagPanelProps, {}> {
+export class DistrictPanel extends React.Component<DistrictTagPanelProps, {}> {
   @observable addingNotation: boolean = false;
+  @observable districts: DistrictNotation[] = [];
 
   @action addOne = () => {
     this.addingNotation = true;
@@ -20,7 +22,16 @@ export class DistrictTagPanel extends React.Component<DistrictTagPanelProps, {}>
 
   @action onDistrictComplete = (dis: District) => {
     this.addingNotation = false;
-    console.log(dis);
+    this.districts = this.districts.concat([new DistrictNotation(dis)]);
+  };
+
+  @action toggleSelect = (district: DistrictNotation) => {
+    district.toggleSelect();
+    this.districts = this.districts.filter(x => true); // force existing layer refresh
+  };
+
+  @action onDistrictClicked = (district: DistrictNotation) => {
+    this.toggleSelect(district);
   };
 
   render() {
@@ -29,21 +40,21 @@ export class DistrictTagPanel extends React.Component<DistrictTagPanelProps, {}>
       <DistrictCanvasContainer
         drawingMode={this.addingNotation}
         onDistrictComplete={this.onDistrictComplete}
-        onDistrictClicked={()=>{}}
-        districts={[]}
+        onDistrictClicked={this.onDistrictClicked}
+        districts={this.districts}
         imgUrl={this.props.imageUrl}
       />
       {this.addingNotation
-        ? <button disabled>请开始你的标记</button>
+        ? <button disabled>请进行你的标记</button>
         : <button onClick={this.addOne}>增加一个标记</button>
       }
 
       <p>已有局部：</p>
-      {/*{this.parts.map(x => {*/}
-        {/*return <NotationItem key={x.rectangle.id}*/}
-                             {/*onSelect={() => this.toggleSelect(x)}*/}
-                             {/*part={x}/>*/}
-      {/*})}*/}
+      {this.districts.map(x => {
+        return <DistrictItemComponent key={x.district.id}
+                             onSelect={() => this.toggleSelect(x)}
+                             district={x}/>
+      })}
     </div>;
   }
 }

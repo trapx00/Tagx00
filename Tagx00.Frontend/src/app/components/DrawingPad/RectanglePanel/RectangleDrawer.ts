@@ -1,6 +1,6 @@
 import { Rectangle } from "./Rectangle";
 
-export class Drawer {
+export class RectangleDrawer {
   context: CanvasRenderingContext2D;
 
 
@@ -8,10 +8,10 @@ export class Drawer {
     this.context = context;
   }
 
-  drawRectangle(rec: Rectangle) {
+  drawRectangle(rec: Rectangle, color: string) {
     this.context.save();
     this.context.beginPath();
-    this.context.strokeStyle = rec.color;
+    this.context.strokeStyle = color;
     this.context.rect(rec.x, rec.y, rec.width, rec.height);
     this.context.stroke();
     this.context.restore();

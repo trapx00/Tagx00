@@ -1,16 +1,16 @@
 import React from "react";
-import { Part } from "./Part";
+import { RectangleNotation } from "./RectangleNotation";
 import { runInAction } from "mobx";
-import { TagDescriptionEditor } from "./TagDescriptionEditor";
+import { TagDescriptionEditor } from "../utils/TagDescriptionEditor";
 import { observer } from "mobx-react";
 
-interface NotationItemProps {
-  part: Part;
+interface Props {
+  part: RectangleNotation;
   onSelect: ()=>void;
 }
 
 @observer
-export class NotationItem extends React.Component<NotationItemProps, any> {
+export class RectangleNotationItemComponent extends React.Component<Props, any> {
   render() {
     const x = this.props.part;
     return <div>

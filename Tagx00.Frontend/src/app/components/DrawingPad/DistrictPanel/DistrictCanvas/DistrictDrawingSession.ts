@@ -1,5 +1,5 @@
 import { Point } from "../../ImageLib/Shapes";
-import { DrawingSession } from "../../DrawingSession";
+import { DrawingSession } from "../../utils/DrawingSession";
 import { action, computed, observable } from "mobx";
 import { start } from "repl";
 import { Boundary, District } from "../Districts";
