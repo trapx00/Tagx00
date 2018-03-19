@@ -1,18 +1,20 @@
 import React from "react";
 import {Form, Input, Button, Radio, message} from 'antd';
-import {Localize} from "../../../internationalization/components/index";
-import {LocaleStoreProps} from "../../../internationalization/index";
+import {Localize} from "../../../internationalization/components";
 import {FormComponentProps} from "antd/lib/form";
-import {registerStore} from "../RegisterStore";
+import { inject, observer } from "mobx-react";
+import { RegisterProps, STORE_REGISTER } from "../RegisterStore";
 
-interface RegisterFormProps extends LocaleStoreProps, FormComponentProps {
+interface RegisterFormProps extends FormComponentProps, RegisterProps  {
 }
 
+@inject(STORE_REGISTER)
+@observer
 class RegisterTable extends React.Component<RegisterFormProps, any> {
     handleSubmit = () => {
         message.success('Register Success');
-        registerStore.nextStep();
-    }
+        this.props[STORE_REGISTER].nextStep();
+    };
 
     render() {
         const {getFieldDecorator} = this.props.form;

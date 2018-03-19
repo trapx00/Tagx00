@@ -3,11 +3,12 @@ import * as React from "react";
 import { ReactNode } from "react";
 import { LocaleStoreProps } from "..";
 import { STORE_LOCALE } from "../../constants/stores";
+import { Replacement } from "../LocaleStore";
 
 
 interface LocaleMessageProps extends LocaleStoreProps {
   id: string;
-  replacements?: {[id:string] : ReactNode }
+  replacements?: {[s: string]: Replacement}
 
 }
 
