@@ -7,4 +7,8 @@ import java.util.List;
 
 public class MissionPublicResponse extends Response {
     private List<MissionPublicItemVo> items;
+
+    public MissionPublicResponse(List<MissionPublicItemVo> items) {
+        this.items = items;
+    }
 }

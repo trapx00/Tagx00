@@ -28,5 +28,8 @@ public interface FileService<T> {
     T findOne(String info, Class<T> clazz);
 
     void delete(String id, Class<T> clazz);
+
+
+    T[] findOnes(String info,Class<T> clazz);
 }
 

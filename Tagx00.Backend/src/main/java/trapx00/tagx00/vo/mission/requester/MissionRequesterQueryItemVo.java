@@ -9,4 +9,12 @@ public class MissionRequesterQueryItemVo {
     private MissionVo mission;
     private MissionState state;
     private String coverUrl; //封面url
+
+    public MissionRequesterQueryItemVo(String title,String description,MissionVo mission,MissionState missionState,String coverUrl){
+        this.coverUrl=coverUrl;
+        this.title=title;
+        this.description=description;
+        this.mission=mission;
+        this.state=missionState;
+    }
 }

@@ -211,6 +211,11 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
         }
     }
 
+    @Override
+    public T[] findOnes(String info, Class<T> clazz) {
+        return null;
+    }
+
     private T fromJsonToObject(JSONObject jsonObject, Class<T> clazz) {
         try {
             T t = clazz.newInstance();

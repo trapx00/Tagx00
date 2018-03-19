@@ -1,6 +1,7 @@
 package trapx00.tagx00.dataservice.mission;
 
 import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
 import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryItemVo;
@@ -9,10 +10,11 @@ public interface RequesterMissionDataService {
 
     /**
      * save mission
-     *
-     * @param missionVo
+
+     * @param mission
      */
-    void saveMission(MissionVo missionVo);
+    int saveMission (Mission mission)throws SystemException;
+
 
     /**
      * get missionid by username
@@ -29,7 +31,13 @@ public interface RequesterMissionDataService {
      * @return the specific MissionInstanceItemVo
      */
     MissionInstanceItemVo getInstanceById(int instanceId);
-
+    /**
+     * get instance by instanceId
+     *
+     * @param missionId
+     * @return the specific MissionInstanceItemVo
+     */
+    MissionInstanceItemVo getInstanceBymissionId(int missionId);
 
     /**
      * get all instances of the user by username
