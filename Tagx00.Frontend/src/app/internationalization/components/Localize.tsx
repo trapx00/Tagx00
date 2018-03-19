@@ -1,13 +1,13 @@
 import * as React from "react";
 import { ReactNode } from "react";
 import { inject, observer } from "mobx-react";
-import { LocaleStore } from "../LocaleStore";
+import { LocaleStore, Replacement } from "../LocaleStore";
 import { LocaleStoreProps} from "..";
 import { STORE_LOCALE } from "../../constants/stores";
 
 interface LocalizeProps extends LocaleStoreProps { 
   children: (props) => ReactNode;
-  [s: string]: ReactNode
+  [s: string]: Replacement;
 }
 
 @inject(STORE_LOCALE)

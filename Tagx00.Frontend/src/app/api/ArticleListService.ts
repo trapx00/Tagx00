@@ -1,4 +1,4 @@
-import { ArticleBrief } from './../models/Article';
+import { ArticleBrief } from '../models/Article';
 import { BaseService, NetworkResponse } from "./BaseService";
 
 export class ArticleListService extends BaseService {
