@@ -1,22 +1,45 @@
 package trapx00.tagx00.data.mission;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import trapx00.tagx00.data.dao.mission.InstanceDao;
+import trapx00.tagx00.data.dao.mission.MissionDao;
+import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
+import trapx00.tagx00.entity.mission.Instance;
+import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.publicdatas.mission.MissionState;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.vo.mission.instance.MissionInstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
 import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryItemVo;
 
 @Service
 public class RequesterMissionDataServiceImpl implements RequesterMissionDataService {
+
+
+    private final InstanceDao instanceDao;
+    private final MissionDao missionDao;
+
+    @Autowired
+    public RequesterMissionDataServiceImpl(InstanceDao instanceDao,MissionDao missionDao) {
+        this.instanceDao=instanceDao;
+        this.missionDao=missionDao;
+    }
     /**
      * save mission
-     *
-     * @param missionVo
+     * @param mission
      */
     @Override
-    public void saveMission(MissionVo missionVo) {
-
+    public int saveMission(Mission mission) throws SystemException {
+        Mission result;
+        if ((result=missionDao.saveMssion(mission) )== null) {
+            throw new SystemException();
+        }
+        return result.getId();
     }
 
     /**
@@ -27,7 +50,20 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      */
     @Override
     public MissionRequesterQueryItemVo[] getMissionByUsername(String username) {
-        return new MissionRequesterQueryItemVo[0];
+        Mission[] mission=missionDao.findMissionByusername(username);
+        if(mission==null)
+            return null;
+        MissionRequesterQueryItemVo[] requesterQueryItemVos=new MissionRequesterQueryItemVo[mission.length];
+        if(mission!=null)
+        {
+            for(int i=0;i<mission.length;i++){
+                requesterQueryItemVos[i]=new MissionRequesterQueryItemVo(mission[i].getTitle(),mission[i].getDescription(),
+                        new MissionVo(mission[i].getMissionType()), mission[i].getMissionState(),mission[i].getCoverUrl());
+            }
+            return requesterQueryItemVos;
+        }else{
+            return null;
+        }
     }
 
     /**
@@ -38,18 +74,28 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      */
     @Override
     public MissionInstanceItemVo getInstanceById(int instanceId) {
-        return null;
+        Instance instance=instanceDao.findInstanceByinstanceId(instanceId);
+        if(instance!=null){
+            return new MissionInstanceItemVo(instanceId,instance.getMissionId(),instance.getWorkerUsername(),instance.getMissionInstanceState(),
+                    instance.getAcceptDate(),instance.getSubmitDate(),instance.getImageIds().size(),instance.getTotalCount());
+        }else{
+            return null;
+        }
     }
 
-    /**
-     * get all instances of the user by username
-     *
-     * @param username
-     * @return the list of missionIstanceItemVo
-     */
     @Override
-    public MissionInstanceItemVo[] getInstanceByUsername(String username) {
-        return new MissionInstanceItemVo[0];
+    public MissionInstanceItemVo[] getInstanceBymissionId(int missionId)
+    {
+        Instance[] instances=instanceDao.findInstancesBymissionId(missionId);
+        if(instances==null)
+            return null;
+        MissionInstanceItemVo[] missionInstanceItemVos=new MissionInstanceItemVo[instances.length];
+        for(int i=0;i<missionInstanceItemVos.length;i++)
+            missionInstanceItemVos[i]=new MissionInstanceItemVo(instances[i].getId(),instances[i].getMissionId(),instances[i].getWorkerUsername(),
+                    instances[i].getMissionInstanceState(),instances[i].getAcceptDate(),instances[i].getSubmitDate(),instances[i].getImageIds().size(),
+                    instances[i].getTotalCount()
+                    );
+        return missionInstanceItemVos;
     }
 
     /**
@@ -60,18 +106,9 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      */
     @Override
     public Mission getMissionByMissionId(int missionId) {
-        return null;
+        Mission mission=missionDao.findMissionByMissionId(missionId);
+        return mission;
     }
 
-    /**
-     * get the instance by username and missionId
-     *
-     * @param username
-     * @param missionId
-     * @return the instance matching username and missionId
-     */
-    @Override
-    public MissionInstanceItemVo getInstanceByUsernameAndMissionId(String username, int missionId) {
-        return null;
-    }
+
 }

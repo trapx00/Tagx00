@@ -8,6 +8,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
 import trapx00.tagx00.entity.account.Role;
+import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
+import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
+import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.*;
@@ -23,6 +27,7 @@ public class RequesterMissionController {
     public RequesterMissionController(RequesterMissionBlService requesterMissionBlService) {
         this.requesterMissionBlService = requesterMissionBlService;
     }
+
 
     @Authorization(value = "发布者")
     @ApiOperation(value = "发布任务", notes = "发布者发布一个任务")
@@ -44,8 +49,9 @@ public class RequesterMissionController {
     public ResponseEntity<Response> createMission(@RequestBody MissionCreateVo mission) {
         try {
             return new ResponseEntity<>(requesterMissionBlService.createMission(mission), HttpStatus.OK);
-        } catch (Exception e) {
-            return null;
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 
@@ -62,8 +68,9 @@ public class RequesterMissionController {
     public ResponseEntity<Response> queryOnes() {
         try {
             return new ResponseEntity<>(requesterMissionBlService.queryOnes(UserInfoUtil.getUsername()), HttpStatus.OK);
-        } catch (Exception e) {
-            return null;
+        } catch (MissionDoesNotExistFromUsernameException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
         }
     }
 
@@ -83,8 +90,9 @@ public class RequesterMissionController {
     public ResponseEntity<Response> queryMissionDetail(@PathVariable("missionId") int missionId) {
         try {
             return new ResponseEntity<>(requesterMissionBlService.queryMissionDetail(missionId), HttpStatus.OK);
-        } catch (Exception e) {
-            return null;
+        } catch (MissionIdDoesNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
         }
     }
 
@@ -104,8 +112,9 @@ public class RequesterMissionController {
     public ResponseEntity<Response> queryInstances(@PathVariable("missionId") int missionId) {
         try {
             return new ResponseEntity<>(requesterMissionBlService.queryInstances(missionId), HttpStatus.OK);
-        } catch (Exception e) {
-            return null;
+        } catch (InstanceNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
         }
     }
 
@@ -126,8 +135,9 @@ public class RequesterMissionController {
     public ResponseEntity<Response> queryInstance(@PathVariable("missionId") int missionId, @PathVariable("instanceId") int instanceId) {
         try {
             return new ResponseEntity<>(requesterMissionBlService.queryInstance(instanceId), HttpStatus.OK);
-        } catch (Exception e) {
-            return null;
+        } catch (InstanceNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
         }
     }
 

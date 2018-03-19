@@ -17,6 +17,12 @@ public class Instance extends Entity {
     @Column(name = "workerUsername")
     private String workerUsername;
 
+    @Column(name = "missionId")
+    private int missionId;
+
+    @Column(name = "totalCount")
+    private int totalCount;
+
     @Column(name = "missionInstanceState")
     private MissionInstanceState missionInstanceState;
 
@@ -26,6 +32,7 @@ public class Instance extends Entity {
     @Column(name = "submitDate")
     private Date submitDate;
 
+
     @ElementCollection(targetClass = Integer.class)
     @Column(name = "imageIds")
     private List<Integer> imageIds;
@@ -33,14 +40,31 @@ public class Instance extends Entity {
     @Column(name = "isSubmitted")
     private boolean isSubmitted;
 
-    public Instance(String workerUsername, MissionInstanceState missionInstanceState, Date acceptDate, Date submitDate, List<Integer> imageIds, boolean isSubmitted) {
+    public Instance(int missionId,String workerUsername, MissionInstanceState missionInstanceState, Date acceptDate, Date submitDate, List<Integer> imageIds, boolean isSubmitted) {
         this.id = id;
+        this.missionId=missionId;
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
         this.acceptDate = acceptDate;
         this.submitDate = submitDate;
         this.imageIds = imageIds;
         this.isSubmitted = isSubmitted;
+    }
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public int getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(int missionId) {
+        this.missionId = missionId;
     }
 
     public int getId() {
