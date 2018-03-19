@@ -15,11 +15,11 @@ public interface JwtService {
 
     JwtUser convertUserToJwtUser(User user);
 
-    Date generateExpirationDate();
+    Date generateExpirationDate(long expiration);
 
     boolean validateToken(String authToken);
 
-    String generateToken(UserDetails userDetails);
+    String generateToken(UserDetails userDetails, long expiration);
 
-    String generateToken(String username, Collection<JwtRole> jwtRoles);
+    String generateToken(String username, Collection<JwtRole> jwtRoles, long expiration);
 }

@@ -24,6 +24,8 @@ import java.util.Collection;
 @Service
 public class UserBlServiceImpl implements UserBlService {
 
+    private final static long EXPIRATION = 604800;
+
     private final UserDataService userDataService;
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
@@ -55,7 +57,7 @@ public class UserBlServiceImpl implements UserBlService {
             User user = Convertor.userSaveVoToUser(userSaveVo);
             JwtUser jwtUser = jwtService.convertUserToJwtUser(user);
             userDataService.saveUser(user);
-            String token = jwtService.generateToken(jwtUser);
+            String token = jwtService.generateToken(jwtUser, EXPIRATION);
             String email = jwtUser.getEmail();
             Collection<JwtRole> jwtRoles = jwtUser.getAuthorities();
             return new UserRegisterResponse(token, jwtRoles, email);
@@ -74,7 +76,7 @@ public class UserBlServiceImpl implements UserBlService {
     public UserLoginResponse login(String username, String password) throws WrongUsernameOrPasswordException {
         if (userDataService.confirmPassword(username, password)) {
             JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
-            String token = jwtService.generateToken(jwtUser);
+            String token = jwtService.generateToken(jwtUser, EXPIRATION);
             String email = jwtUser.getEmail();
             Collection<JwtRole> jwtRoles = jwtUser.getAuthorities();
             return new UserLoginResponse(token, jwtRoles, email);

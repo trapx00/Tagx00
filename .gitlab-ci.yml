@@ -5,9 +5,9 @@ stages:
   
 cache:
   paths:
-    - Imagex00.Backend/.gradle/wrapper/
-    - Imagex00.Backend/.gradle/caches/
-    - Imagex00.Frontend/node_modules/
+    - Tagx00.Backend/.gradle/wrapper/
+    - Tagx00.Backend/.gradle/caches/
+    - Tagx00.Frontend/node_modules/
 
 # backendBuildJob:
 #   stage: build
@@ -17,7 +17,7 @@ cache:
 #     - ./gradlew assemble
 
 frontendBuildJob:
-  image: node:latest
+  image: node:taobao
   stage: build
   script:
     - cd ./Tagx00.Frontend
@@ -36,21 +36,35 @@ frontendBuildJob:
 #     - master
 
 frontendTestJob:
-  image: node:latest
+  image: node:taobao
   stage: test
   script:
     - cd ./Tagx00.Frontend/
+    - npm install
     - npm run test
   only:
     - develop
     - master
 
+backendDeployJob:
+  image: gradle:4.6.0-jdk8-alpine
+  stage: deploy
+  script:
+    - cd ./Tagx00.Backend/
+    - chmod +x ./deploy/deploy.sh
+    - chmod +x gradlew
+    - ./gradlew shadowJar
+    - ./deploy.sh
+  only:
+    - master
+
 frontendDeployJob:
-  image: node:latest
+  image: node:taobao
   stage: deploy
   script:
     - cd ./Tagx00.Frontend/
-    - chmod +x ./deploy.sh
+    - chmod +x ./deploy/deploy.sh
+    - npm install
     - ./deploy.sh
   only:
     - master
