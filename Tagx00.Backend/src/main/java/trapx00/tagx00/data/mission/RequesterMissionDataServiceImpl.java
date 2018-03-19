@@ -50,12 +50,16 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      */
     @Override
     public MissionRequesterQueryItemVo[] getMissionByUsername(String username) {
-        Mission mission=missionDao.findMissionByusername(username);
-        MissionRequesterQueryItemVo[] requesterQueryItemVos=new MissionRequesterQueryItemVo[1];
+        Mission[] mission=missionDao.findMissionByusername(username);
+        if(mission==null)
+            return null;
+        MissionRequesterQueryItemVo[] requesterQueryItemVos=new MissionRequesterQueryItemVo[mission.length];
         if(mission!=null)
         {
-            requesterQueryItemVos[0]=new MissionRequesterQueryItemVo(mission.getTitle(),mission.getDescription(),
-                    new MissionVo(MissionType.IMAGE), MissionState.ACTIVE,mission.getCoverUrl());
+            for(int i=0;i<mission.length;i++){
+                requesterQueryItemVos[i]=new MissionRequesterQueryItemVo(mission[i].getTitle(),mission[i].getDescription(),
+                        new MissionVo(mission[i].getMissionType()), mission[i].getMissionState(),mission[i].getCoverUrl());
+            }
             return requesterQueryItemVos;
         }else{
             return null;
@@ -73,34 +77,25 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         Instance instance=instanceDao.findInstanceByinstanceId(instanceId);
         if(instance!=null){
             return new MissionInstanceItemVo(instanceId,instance.getMissionId(),instance.getWorkerUsername(),instance.getMissionInstanceState(),
-                    instance.getAcceptDate(),instance.getSubmitDate(),0,instance.getImageIds().size());
+                    instance.getAcceptDate(),instance.getSubmitDate(),instance.getImageIds().size(),instance.getTotalCount());
         }else{
             return null;
         }
     }
 
     @Override
-    public MissionInstanceItemVo getInstanceBymissionId(int missionId) {
-        return null;
-    }
-
-    /**
-     * get all instances of the user by username
-     *
-     * @param username
-     * @return the list of missionIstanceItemVo
-     */
-    @Override
-    public MissionInstanceItemVo[] getInstanceByUsername(String username) {
-        Instance instance=instanceDao.findInstanceByusername(username)[0];
-        MissionInstanceItemVo[]missionInstanceItemVos=new MissionInstanceItemVo[1];
-        if(instance!=null){
-            missionInstanceItemVos[0]= new MissionInstanceItemVo(instance.getId(),instance.getMissionId(),instance.getWorkerUsername(),instance.getMissionInstanceState(),
-                    instance.getAcceptDate(),instance.getSubmitDate(),0,instance.getImageIds().size());
-            return missionInstanceItemVos;
-        }else{
+    public MissionInstanceItemVo[] getInstanceBymissionId(int missionId)
+    {
+        Instance[] instances=instanceDao.findInstancesBymissionId(missionId);
+        if(instances==null)
             return null;
-        }
+        MissionInstanceItemVo[] missionInstanceItemVos=new MissionInstanceItemVo[instances.length];
+        for(int i=0;i<missionInstanceItemVos.length;i++)
+            missionInstanceItemVos[i]=new MissionInstanceItemVo(instances[i].getId(),instances[i].getMissionId(),instances[i].getWorkerUsername(),
+                    instances[i].getMissionInstanceState(),instances[i].getAcceptDate(),instances[i].getSubmitDate(),instances[i].getImageIds().size(),
+                    instances[i].getTotalCount()
+                    );
+        return missionInstanceItemVos;
     }
 
     /**
@@ -115,32 +110,5 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         return mission;
     }
 
-    /**
-     * get the instance by username and missionId
-     *
-     * @param username
-     * @param missionId
-     * @return the instance matching username and missionId
-     */
-    @Override
-    public MissionInstanceItemVo getInstanceByUsernameAndMissionId(String username, int missionId) {
-        Instance result;
-        Instance[] instances = instanceDao.findInstanceByusername(username);
-        Instance[] instances1 = instanceDao.findInstancesBymissionId(missionId);
-        Mission temp = missionDao.findMissionByMissionId(missionId);
-        if ((instances == null) && (instances1 == null))
-            return null;
-        for (int i = 0; i < instances.length; i++) {
-            for (int j = 0; j < instances1.length; j++) {
-                if (instances[i].getId() == instances1[j].getId()) {
-                    result = instances[i];
-                    MissionInstanceDetailVo instanceDetailVo = new MissionInstanceDetailVo(result.getId(),missionId, result.getWorkerUsername(),
-                            result.getMissionInstanceState(), result.getAcceptDate(), result.getSubmitDate(), result.getImageIds().size(),
-                            result.getTotalCount(), temp.getAllowedTags().size() != 0, new MissionVo(temp.getMissionType()));
-                    return instanceDetailVo;
-                }
-            }
-        }
-        return null;
-    }
+
 }

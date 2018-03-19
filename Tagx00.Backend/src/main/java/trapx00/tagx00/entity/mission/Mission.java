@@ -29,14 +29,6 @@ public class Mission extends Entity {
     @Column(name = "missionType")
     private MissionType missionType;
 
-    public MissionState getMissionState() {
-        return missionState;
-    }
-
-    public void setMissionState(MissionState missionState) {
-        this.missionState = missionState;
-    }
-
     @Column(name = "missionType")
     private MissionState missionState;
     @Column(name = "start")
@@ -65,6 +57,13 @@ public class Mission extends Entity {
         this.coverUrl = coverUrl;
         this.requesterUsername = requesterUsername;
         this.missionState=MissionState.PENDING;
+    }
+    public MissionState getMissionState() {
+        return missionState;
+    }
+
+    public void setMissionState(MissionState missionState) {
+        this.missionState = missionState;
     }
 
     public int getId() {

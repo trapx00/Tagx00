@@ -23,16 +23,14 @@ public class InstanceDaoImpl implements InstanceDao {
 
     @Override
     public Instance[] findInstancesBymissionId(int missionId) {
-        Instance[]result=new Instance[1];
-        result[0]=fileService.findOne(String.valueOf(missionId),Instance.class);
-        return result;
+
+        return  fileService.findOnes(String.valueOf(missionId),Instance.class);
     }
 
     @Override
-    public Instance[] findInstanceByusername(String username) {
-        Instance[]result=new Instance[1];
-        result[0]=fileService.findOne(String.valueOf(username),Instance.class);
-        return result;
+    public Instance[] findInstanceByWorkerUsername(String workerusername) {
+
+        return fileService.findOnes(workerusername,Instance.class);
     }
 
     @Override

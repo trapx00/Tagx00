@@ -6,6 +6,16 @@ import java.util.Date;
 import java.util.List;
 
 public class MissionCreateVo {
+    private String title;
+    private String description;
+    private List<String> topics;
+    private boolean allowCustomTag;
+    private List<String> allowedTags;
+    private MissionVo mission;
+    private Date start;
+    private Date end;
+    private String username;
+
     public String getTitle() {
         return title;
     }
@@ -69,20 +79,13 @@ public class MissionCreateVo {
     public void setEnd(Date end) {
         this.end = end;
     }
+
     public boolean getCustomTag(){
         return allowCustomTag;
     }
+
     public void setCustomTag(boolean allowCustomTag){
         this.allowCustomTag=allowCustomTag;
     }
-    private String title;
-    private String description;
-    private List<String> topics;
-    private boolean allowCustomTag;
-    private List<String> allowedTags;
-    private MissionVo mission;
-    private Date start;
-    private Date end;
-    private String username;
 
 }

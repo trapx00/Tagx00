@@ -27,6 +27,8 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
     @Override
     public MissionPublicItemVo[] getMissions() {
         Mission[]  missions=missionDao.getAllmission();
+        if(missions==null)
+            return null;
         MissionPublicItemVo[] result=new MissionPublicItemVo[missions.length];
         for(int i=0;i<missions.length;i++){
             result[i]=new MissionPublicItemVo(missions[i].getTitle(),missions[i].getTopics(), new MissionVo(MissionType.IMAGE),

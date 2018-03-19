@@ -25,19 +25,19 @@ public interface WorkerMissionDataService {
 
 
     /**
-     * get missionid by username
-     * @param username
+     * get instance by username
+     * @param workerusername
      * @return the list of  the MissionWorkerQueryItemVo
      */
-    MissionWorkerQueryItemVo[] getMissionByUsername(String username);
+    MissionWorkerQueryItemVo[] getInstanceByWorkerUsername(String workerusername);
 
     /**
      * get the infomation of  instance by username and missionId
-     * @param username
+     * @param workerusername
      * @param missionId
      * @return the instance matching username and missionId
      */
-    MissionInstanceDetailVo getInstanceByUsernameAndMissionId(String username, int missionId);
+    MissionInstanceDetailVo getInstanceByUsernameAndMissionId(String workerusername, int missionId);
 
     /**
      * delte the mission of a worker

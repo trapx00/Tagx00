@@ -8,7 +8,7 @@ public interface InstanceDao {
 
     Instance[] findInstancesBymissionId(int missionId);
 
-    Instance[] findInstanceByusername(String username);
+    Instance[] findInstanceByWorkerUsername(String workerusername);
 
     Instance findInstanceByinstanceId(int instanceId);
 

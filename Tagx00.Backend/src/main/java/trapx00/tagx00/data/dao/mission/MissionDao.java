@@ -11,7 +11,7 @@ public interface MissionDao {
 
     Mission  findMissionByMissionId(int missionId);
 
-    Mission findMissionByusername(String username);
+    Mission[] findMissionByusername(String username);
 
     Mission[] getAllmission();
 

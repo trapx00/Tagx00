@@ -1,5 +1,6 @@
 package trapx00.tagx00.data.mission;
 
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.mission.InstanceDao;
@@ -47,21 +48,23 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     /**
      * get missionid by username
      *
-     * @param username
+     * @param workerusername
      * @return the list of  the MissionWorkerQueryItemVo
      */
     @Override
-    public MissionWorkerQueryItemVo[] getMissionByUsername(String username) {
-        Mission mission=missionDao.findMissionByusername(username);
-        MissionWorkerQueryItemVo[] requesterQueryItemVos=new MissionWorkerQueryItemVo[1];
-        if(mission!=null)
-        {
-            requesterQueryItemVos[0]=new MissionWorkerQueryItemVo(mission.getTitle(),mission.getDescription(),
-                    new MissionVo(MissionType.IMAGE), MissionInstanceState.IN_PROGRESS,mission.getCoverUrl(),mission.getId());
-            return requesterQueryItemVos;
-        }else{
+    public MissionWorkerQueryItemVo[] getInstanceByWorkerUsername(String workerusername) {
+        Instance []instances=instanceDao.findInstanceByWorkerUsername(workerusername);
+        if(instances==null)
             return null;
+        MissionWorkerQueryItemVo[] requesterQueryItemVos=new MissionWorkerQueryItemVo[instances.length];
+        for(int i=0;i<instances.length;i++){
+            Mission mission=missionDao.findMissionByMissionId(instances[i].getMissionId());
+            requesterQueryItemVos[i]=new MissionWorkerQueryItemVo(mission.getTitle(),mission.getDescription(),
+                new MissionVo(mission.getMissionType()), instances[i].getMissionInstanceState(),mission.getCoverUrl(),instances[i].getMissionId());
+
         }
+        return requesterQueryItemVos;
+
     }
     /**
      * get mission by mission id
@@ -77,15 +80,15 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     /**
      * get the infomation of  instance by username and missionId
      *
-     * @param username
+     * @param workerusername
      * @param missionId
      * @return the instance matching username and missionId
      */
     @Override
-    public MissionInstanceDetailVo getInstanceByUsernameAndMissionId(String username, int missionId) {
+    public MissionInstanceDetailVo getInstanceByUsernameAndMissionId(String workerusername, int missionId) {
 
         Instance result;
-        Instance[] instances = instanceDao.findInstanceByusername(username);
+        Instance[] instances = instanceDao.findInstanceByWorkerUsername(workerusername);
         Instance[] instances1 = instanceDao.findInstancesBymissionId(missionId);
         Mission temp = missionDao.findMissionByMissionId(missionId);
         if ((instances == null) && (instances1 == null))

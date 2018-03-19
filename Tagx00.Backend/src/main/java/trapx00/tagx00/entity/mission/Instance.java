@@ -17,24 +17,8 @@ public class Instance extends Entity {
     @Column(name = "workerUsername")
     private String workerUsername;
 
-    public int getMissionId() {
-        return missionId;
-    }
-
-    public void setMissionId(int missionId) {
-        this.missionId = missionId;
-    }
-
     @Column(name = "missionId")
     private int missionId;
-
-    public int getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
 
     @Column(name = "totalCount")
     private int totalCount;
@@ -47,7 +31,6 @@ public class Instance extends Entity {
 
     @Column(name = "submitDate")
     private Date submitDate;
-
 
 
     @ElementCollection(targetClass = Integer.class)
@@ -66,6 +49,22 @@ public class Instance extends Entity {
         this.submitDate = submitDate;
         this.imageIds = imageIds;
         this.isSubmitted = isSubmitted;
+    }
+
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public int getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(int missionId) {
+        this.missionId = missionId;
     }
 
     public int getId() {

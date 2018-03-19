@@ -7,6 +7,25 @@ import java.util.List;
 
 public class MissionInstanceItemVo {
 
+    private int id;
+    private int missionId;
+    private String workerUsername;
+    private MissionInstanceState state;
+    private Date acceptDate;
+    private List<Integer> imageIds;
+    private boolean isSubmitted;
+
+    public MissionInstanceItemVo(int id,int missionId, String workerUsername, MissionInstanceState state, Date acceptDate, Date submitDate, int completedCount, int totalCount) {
+        this.id=id;
+        this.missionId = missionId;
+        this.workerUsername = workerUsername;
+        this.state = state;
+        this.acceptDate = acceptDate;
+        this.submitDate = submitDate;
+        this.completedCount = completedCount;
+        this.totalCount = totalCount;
+        this.isSubmitted=false;
+    }
     public int getId() {
         return id;
     }
@@ -14,12 +33,6 @@ public class MissionInstanceItemVo {
     public void setId(int id) {
         this.id = id;
     }
-
-    private int id;
-    private int missionId;
-    private String workerUsername;
-    private MissionInstanceState state;
-    private Date acceptDate;
 
     public List<Integer> getImageIds() {
         return imageIds;
@@ -35,21 +48,6 @@ public class MissionInstanceItemVo {
 
     public void setSubmitted(boolean submitted) {
         isSubmitted = submitted;
-    }
-
-    private List<Integer> imageIds;
-    private boolean isSubmitted;
-
-    public MissionInstanceItemVo(int id,int missionId, String workerUsername, MissionInstanceState state, Date acceptDate, Date submitDate, int completedCount, int totalCount) {
-        this.id=id;
-        this.missionId = missionId;
-        this.workerUsername = workerUsername;
-        this.state = state;
-        this.acceptDate = acceptDate;
-        this.submitDate = submitDate;
-        this.completedCount = completedCount;
-        this.totalCount = totalCount;
-        this.isSubmitted=false;
     }
 
     public int getMissionId() {

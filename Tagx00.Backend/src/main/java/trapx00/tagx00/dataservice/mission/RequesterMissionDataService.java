@@ -37,15 +37,7 @@ public interface RequesterMissionDataService {
      * @param missionId
      * @return the specific MissionInstanceItemVo
      */
-    MissionInstanceItemVo getInstanceBymissionId(int missionId);
-
-    /**
-     * get all instances of the user by username
-     *
-     * @param username
-     * @return the list of missionIstanceItemVo
-     */
-    MissionInstanceItemVo[] getInstanceByUsername(String username);
+    MissionInstanceItemVo[] getInstanceBymissionId(int missionId);
 
     /**
      * get mission by mission id
@@ -55,13 +47,6 @@ public interface RequesterMissionDataService {
      */
     Mission getMissionByMissionId(int missionId);
 
-    /**
-     * get the instance by username and missionId
-     *
-     * @param username
-     * @param missionId
-     * @return the instance matching username and missionId
-     */
-    MissionInstanceItemVo getInstanceByUsernameAndMissionId(String username, int missionId);
+
 
 }

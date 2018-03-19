@@ -213,7 +213,33 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
 
     @Override
     public T[] findOnes(String info, Class<T> clazz) {
-        return null;
+        String methodName = new Exception().getStackTrace()[2].getMethodName();
+        String columnName = methodName.split("By")[1];
+        columnName = columnName.replaceFirst(columnName.substring(0, 1), columnName.substring(0, 1).toLowerCase());
+        try {
+            columnName = clazz.getDeclaredField(columnName).getAnnotation(Column.class).name();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        String tableName = AnnotationUtil.getTableName(clazz);
+
+        ArrayList<T> tArrayList = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(savePath + tableName + fileType)))) {
+            String json;
+            while ((json = bufferedReader.readLine()) != null) {
+                JSONObject jsonObject = JSONObject.fromObject(json);
+                if (jsonObject.get(columnName).toString().equals(info)) {
+                    tArrayList.add(fromJsonToObject(jsonObject, clazz));
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        T[]result=(T[])tArrayList.toArray();
+        return result;
     }
 
     private T fromJsonToObject(JSONObject jsonObject, Class<T> clazz) {

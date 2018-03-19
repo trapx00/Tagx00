@@ -7,16 +7,10 @@ public class MissionWorkerQueryItemVo {
     private String title;
     private String description;
     private MissionVo mission;
-
-    public int getMissionId() {
-        return missionId;
-    }
-
-    public void setMissionId(int missionId) {
-        this.missionId = missionId;
-    }
-
     private int missionId;
+    private MissionInstanceState state;
+    private String coverUrl; //封面url
+
 
     public MissionWorkerQueryItemVo(String title, String description, MissionVo mission, MissionInstanceState state, String coverUrl,int missionId) {
         this.title = title;
@@ -24,6 +18,14 @@ public class MissionWorkerQueryItemVo {
         this.mission = mission;
         this.state = state;
         this.coverUrl = coverUrl;
+    }
+
+    public int getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(int missionId) {
+        this.missionId = missionId;
     }
 
     public String getTitle() {
@@ -66,6 +68,5 @@ public class MissionWorkerQueryItemVo {
         this.coverUrl = coverUrl;
     }
 
-    private MissionInstanceState state;
-    private String coverUrl; //封面url
+
 }
