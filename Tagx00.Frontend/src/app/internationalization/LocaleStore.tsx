@@ -2,6 +2,7 @@ import { action, computed, observable, runInAction } from "mobx";
 import * as React from "react";
 import { cloneElement, ReactNode } from "react";
 import config from '../../assets/i18n/index.json';
+import { STORE_LOCALE } from "../constants/stores";
 
 interface Language {
   id: string;
@@ -15,7 +16,9 @@ interface LanguageConfig {
   languages: Language[]
 }
 
-export type Replacement = string | ((key: number) => ReactNode);
+export type Replacement = string | JSX.Element;
+
+export type ReplacementMap = {[s: string]: Replacement};
 
 const idSeparator = '.';
 
@@ -25,7 +28,7 @@ function currentBrowserLanguage(fallback: string) {
   return window ? window.navigator.language : fallback;
 }
 
-function format(content: string, replacements?: {[s: string]: Replacement}) : Array<ReactNode> | string {
+function format(content: string, replacements?: ReplacementMap) : Array<ReactNode> | string {
   const splitter = /({[0-9a-zA-Z]+})/;
   let array = content.split(splitter);
   let newArray = array as Array<ReactNode>;
@@ -35,11 +38,11 @@ function format(content: string, replacements?: {[s: string]: Replacement}) : Ar
       const tag = array[i].substr(1,array[i].length - 2);
       const replacement = replacements[tag];
       if (replacement) {
-        if (typeof replacement == 'function') {
-          elementReplaced = true;
-          newArray[i] = replacement[i];
+        if (typeof replacement == 'string') {
+          newArray[i] = replacement;
         } else {
-          newArray[i] = replacements[tag];
+          elementReplaced = true;
+          newArray[i] = <React.Fragment key={i}>{replacement}</React.Fragment>;
         }
       }
     }
@@ -94,7 +97,7 @@ export class LocaleStore {
     this.currentLanguage = await this.loadLanguage(currentBrowserLanguage(config.fallbackId));
   }
 
-  public get(id: string, replacements?: {[s: string]: Replacement}) : Array<ReactNode> | string {
+  public get(id: string, replacements?: ReplacementMap) : Array<ReactNode> | string {
     const definition = this.retrieveDefinition(id);
     return format(definition, replacements);
   };
@@ -120,7 +123,7 @@ export class LocaleStore {
       }
     }
     if (typeof content !== "string") {
-      throw new RangeError(`id ${id} does not refer to a string. value: ${content}`)
+      throw new RangeError(`id ${id} does not refer to a string. actual value: ${content}`)
     }
     return content;
   };
@@ -133,4 +136,8 @@ export class LocaleStore {
     });
 
   };
+}
+
+export interface LocaleStoreProps {
+  [STORE_LOCALE]?: LocaleStore;
 }

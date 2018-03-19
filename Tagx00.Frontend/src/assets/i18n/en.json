@@ -1,14 +1,16 @@
 {
+  "navbar": {
+    "home": "Home",
+    "browse": "Browse",
+    "tag": "Tag",
+    "about": "About"
+  },
   "frameMenu": {
     "home": "Home",
     "imageLabel": "Image Label",
     "videoLabel": "Video Label",
     "textLabel": "Text Label",
     "aboutLabel": "About Us"
-  },
-  "articleList": {
-    "clickToLoad": "Click to load the articles",
-    "loading": "Loading"
   },
   "languageSelector": {
     "loading": "Loading"
