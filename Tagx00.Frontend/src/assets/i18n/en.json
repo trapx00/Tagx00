@@ -32,5 +32,8 @@
     "step1": "Fill information",
     "step2": "Confirm in email",
     "step3": "Register successfully"
+  },
+  "searchBar": {
+    "searchPlaceholder": "Input key words to start search"
   }
 }

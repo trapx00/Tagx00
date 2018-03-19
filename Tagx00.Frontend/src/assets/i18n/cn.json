@@ -32,5 +32,8 @@
     "step1": "填写信息",
     "step2": "邮箱确认",
     "step3": "注册成功"
+  },
+  "searchBar": {
+    "searchPlaceholder": "输入关键字以开始搜索"
   }
 }
