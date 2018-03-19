@@ -56,7 +56,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
 
             String username= UserInfoUtil.getUsername();
             int missiondId=requesterMissionDataService.saveMission(new Mission(mission.getTitle(),mission.getDescription(),
-                    mission.getTopics(),mission.getCustomTag(),mission.getAllowedTags(), MissionType.IMAGE,mission.getStart(),
+                    mission.getTopics(),mission.getCustomTag(),mission.getAllowedTags(), mission.getMissionType(),mission.getStart(),
                     mission.getEnd(),null,null,username));
             JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
             String token = jwtService.generateToken(jwtUser, EXPIRATION);
@@ -93,7 +93,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
         if(mission==null)
             throw new MissionIdDoesNotExistException();
         return new MissionQueryDetailResponse(new MissionRequesterQueryDetailVo(mission.getTitle(),
-                mission.getDescription(),new MissionVo(mission.getMissionType()), MissionState.ACTIVE,mission.getCoverUrl(),
+                mission.getDescription(),new MissionVo(mission.getMissionType()),mission.getMissionState(),mission.getCoverUrl(),
                 mission.getUrls()));
     }
 
@@ -106,7 +106,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     @Override
     public MissionInstancesQueryResponse queryInstances(int missionId) throws InstanceNotExistException
     {
-        MissionInstanceItemVo instance=requesterMissionDataService.getInstanceBymissionId(missionId);
+        MissionInstanceItemVo[] instance=requesterMissionDataService.getInstanceBymissionId(missionId);
         if(instance==null)
             throw new InstanceNotExistException();
         MissionInstancesQueryResponse missionRequesterQueryItemVo=new MissionInstancesQueryResponse(Arrays.asList(instance));
@@ -122,13 +122,14 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     @Override
     public MissionInstanceQueryDetailResponse queryInstance(int instanceId) throws InstanceNotExistException{
         MissionInstanceItemVo missionInstanceItemVo=requesterMissionDataService.getInstanceById(instanceId);
+        Mission mission=requesterMissionDataService.getMissionByMissionId(missionInstanceItemVo.getMissionId());
         if(missionInstanceItemVo==null)
             throw new InstanceNotExistException();
         MissionInstanceQueryDetailResponse missionInstanceQueryDetailResponse=new MissionInstanceQueryDetailResponse(
                 new MissionInstanceDetailVo(missionInstanceItemVo.getId(),missionInstanceItemVo.getMissionId(),missionInstanceItemVo.getWorkerUsername(),
                         MissionInstanceState.IN_PROGRESS,missionInstanceItemVo.getAcceptDate(),missionInstanceItemVo.getSubmitDate(),
-                        missionInstanceItemVo.getCompletedCount(),missionInstanceItemVo.getTotalCount(),true,
-                        new MissionVo(MissionType.IMAGE))
+                        missionInstanceItemVo.getCompletedCount(),missionInstanceItemVo.getTotalCount(),mission.isAllowCustomTag(),
+                        new MissionVo(mission.getMissionType()))
         );
         /**
          * 参数中有参数未解决

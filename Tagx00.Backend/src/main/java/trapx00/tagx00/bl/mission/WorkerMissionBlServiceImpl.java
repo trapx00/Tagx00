@@ -31,15 +31,15 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
     }
 
     /**
-     * query to get all missions of workers
+     * query to get all instances of workers
      *
-     * @param username
+     * @param workerusername
      * @return the list of MissionRequesterQueryItemVo
      */
     @Override
-    public MissionQueryResponse queryOnesAllMissions(String username) throws MissionDoesNotExistFromUsernameException {
+    public MissionQueryResponse queryOnesAllMissions(String workerusername) throws MissionDoesNotExistFromUsernameException {
 
-        MissionWorkerQueryItemVo[]result= workerMissionDataService.getMissionByUsername(username);
+        MissionWorkerQueryItemVo[]result= workerMissionDataService.getInstanceByWorkerUsername(workerusername);
 
         if(result==null)
             throw new MissionDoesNotExistFromUsernameException();
@@ -57,12 +57,12 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * workers abort one mission
      *
      * @param missionId
-     * @param username
+     * @param workerusername
      * @return whether the abortion is successful
      */
     @Override
-    public SuccessResponse abort(int missionId, String username) {
-        workerMissionDataService.deleteInstance(missionId, username) ;
+    public SuccessResponse abort(int missionId, String workerusername) {
+        workerMissionDataService.deleteInstance(missionId, workerusername) ;
         return new SuccessResponse("Success Delete");
     }
 
@@ -70,12 +70,12 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * get the infomation of the instance of workers
      *
      * @param missionId
-     * @param username
+     * @param workerusername
      * @return MissionQueryDetailResponse the detail of the mission
      */
     @Override
-    public MissionQueryDetailResponse getInstanceInformation(int missionId, String username) throws InstanceNotExistException {
-        MissionInstanceDetailVo missionInstanceDetailVo= workerMissionDataService.getInstanceByUsernameAndMissionId(username, missionId) ;
+    public MissionQueryDetailResponse getInstanceInformation(int missionId, String workerusername) throws InstanceNotExistException {
+        MissionInstanceDetailVo missionInstanceDetailVo= workerMissionDataService.getInstanceByUsernameAndMissionId(workerusername, missionId) ;
         if(missionInstanceDetailVo==null)
             throw new InstanceNotExistException();
         Mission mission=workerMissionDataService.getMissionByMissionId(missionInstanceDetailVo.getMissionId());

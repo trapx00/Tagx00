@@ -11,30 +11,30 @@ import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 
 public interface WorkerMissionBlService {
     /**
-     * query to get all missions of workers
+     * query to get all instances of workers
      *
-     * @param username
+     * @param workerusername
      * @return the list of MissionRequesterQueryItemVo
      */
-    MissionQueryResponse queryOnesAllMissions(String username)throws MissionDoesNotExistFromUsernameException;
+    MissionQueryResponse queryOnesAllMissions(String workerusername)throws MissionDoesNotExistFromUsernameException;
 
     /**
      * workers abort one mission
      *
      * @param missionId
-     * @param username
+     * @param workerusername
      * @return whether the abortion is successful
      */
-    SuccessResponse abort(int missionId, String username);
+    SuccessResponse abort(int missionId, String workerusername);
 
     /**
      * get the infomation of the instance of workers
      *
      * @param missionId
-     * @param username
+     * @param workerusername
      * @return MissionQueryDetailResponse the detail of the mission
      */
-    MissionQueryDetailResponse getInstanceInformation(int missionId, String username)throws InstanceNotExistException;
+    MissionQueryDetailResponse getInstanceInformation(int missionId, String workerusername)throws InstanceNotExistException;
 
     /**
      * save the progress of the instance

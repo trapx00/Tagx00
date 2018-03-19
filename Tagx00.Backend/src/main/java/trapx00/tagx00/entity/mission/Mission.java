@@ -28,7 +28,6 @@ public class Mission extends Entity {
     private List<String> allowedTags;
     @Column(name = "missionType")
     private MissionType missionType;
-
     @Column(name = "missionType")
     private MissionState missionState;
     @Column(name = "start")
