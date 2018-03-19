@@ -26,15 +26,24 @@ class RegisterTable extends React.Component<RegisterFormProps, any> {
             wrapperCol: {span: 14, offset: 4},
         };
         return (
-            <Localize submitLabel={"registerForm.submit"} roleLabel={"registerForm.role"}
-                      roleWorker={"registerForm.worker"} roleRequester={"registerForm.requester"}
-                      usernameLabel={"registerForm.username"} usernameRequire={"registerForm.requireUsername"}
-                      passwordLabel={"registerForm.password"} passwordRequire={"registerForm.requirePassword"}
-                      passwordConfirmLabel={"registerForm.confirmPassword"}
-                      passwordNotEqual={"registerForm.notEqualPassword"}
-                      passwordConfirmRequire={"registerForm.requireConfirmPassword"}
-                      emailLabel={"registerForm.email"} emailWrongFormat={"registerForm.wrongEmailFormat"}
-                      emailRequire={"registerForm.requireEmail"} passwordForgot={"registerForm.passwordForgot"}>{
+            <Localize replacements={{
+              submitLabel: "registerForm.submit",
+              roleLabel: "registerForm.role",
+              roleWorker: "registerForm.worker",
+              roleRequester: "registerForm.requester",
+              usernameLabel: "registerForm.username",
+              usernameRequire: "registerForm.requireUsername",
+              passwordLabel: "registerForm.password",
+              passwordRequire: "registerForm.requirePassword",
+              passwordConfirmLabel: "registerForm.confirmPassword",
+              passwordNotEqual: "registerForm.notEqualPassword",
+              passwordConfirmRequire: "registerForm.requireConfirmPassword",
+              emailLabel: "registerForm.email",
+              emailWrongFormat: "registerForm.wrongEmailFormat",
+              emailRequire: "registerForm.requireEmail",
+              passwordForgot: "registerForm.passwordForgot",
+            }}
+              >{
                 (props) => {
                     return <Form layout="horizontal">
                         <Form.Item

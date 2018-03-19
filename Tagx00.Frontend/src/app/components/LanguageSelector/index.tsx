@@ -2,9 +2,10 @@ import { inject, observer } from "mobx-react";
 import { STORE_LOCALE } from "../../constants/stores";
 import * as React from "react";
 import { CSSProperties } from "react";
-import { LocaleStoreProps, LocaleMessage } from "../../internationalization";
+import { LocaleMessage } from "../../internationalization";
 import { action, observable, runInAction } from "mobx";
 import { Menu, Dropdown, Icon } from 'antd';
+import { LocaleStoreProps } from "../../internationalization/LocaleStore";
 
 interface LanguageSelectorProps extends LocaleStoreProps {
 
@@ -34,7 +35,7 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps, any
       this.switchingToId = "";
     });
 
-  })
+  });
 
   constructChildren() {
     const locale = this.props[STORE_LOCALE];

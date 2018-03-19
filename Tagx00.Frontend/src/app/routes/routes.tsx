@@ -3,6 +3,7 @@ import React from "react";
 import { BaseLayout } from "../layouts/BaseLayout";
 
 export interface RouteConfig {
+  id: string;
   useBaseLayout: boolean;
   isThisPage: (pathname: string) => boolean;
   path: string;
@@ -11,6 +12,7 @@ export interface RouteConfig {
 }
 
 export const homePage: RouteConfig = {
+  id: "Home",
   path: "/",
   useBaseLayout: false,
   render: async (props) => {
@@ -23,20 +25,22 @@ export const homePage: RouteConfig = {
   exact: true
 };
 
-export const startPage: RouteConfig = {
-  path: "/start",
+export const browsePage: RouteConfig = {
+  id: "Browse",
+  path: "/browse",
   useBaseLayout: true,
   render: async (props) => {
-    const StartPage = (await import("../pages/StartPage")).StartPage;
-    return <StartPage/>;
+    const BrowsePage = (await import("../pages/BrowsePage")).BrowsePage;
+    return <BrowsePage/>;
   },
   isThisPage: (pathname: string) => {
-    return pathname === "/start";
+    return pathname === "/browse";
   },
   exact: true
 };
 
 export const registerPage: RouteConfig = {
+  id: "Register",
   path: "/register",
   useBaseLayout: true,
   render: async (props) => {
@@ -49,8 +53,23 @@ export const registerPage: RouteConfig = {
   exact: true
 };
 
+export const aboutPage: RouteConfig = {
+  id: "About",
+  path: "/about",
+  useBaseLayout: true,
+  render: async (props) => {
+    const AboutPage = (await import("../pages/AboutPage")).AboutPage;
+    return <AboutPage/>;
+  },
+  isThisPage: (pathname: string) => {
+    return pathname === "/about";
+  },
+  exact: true
+};
+
 export const notFoundPage: RouteConfig = {
-  path: "/register",
+  id: "NotFound",
+  path: "",
   useBaseLayout: true,
   isThisPage: (pathname: string) => true,
   render: async (props) => {
@@ -60,9 +79,11 @@ export const notFoundPage: RouteConfig = {
   exact: false
 };
 
+
 export default [
   homePage,
-  startPage,
+  browsePage,
+  aboutPage,
   registerPage,
   notFoundPage
 ]

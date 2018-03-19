@@ -6,9 +6,11 @@
     "textLabel": "文字标注",
     "aboutLabel": "关于我们"
   },
-  "articleList": {
-    "clickToLoad": "点击加载文章列表",
-    "loading": "加载中"
+  "navbar": {
+    "home": "主页",
+    "browse": "浏览",
+    "tag": "标注",
+    "about": "关于"
   },
   "languageSelector": {
     "loading": "载入中"

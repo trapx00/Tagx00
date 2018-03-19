@@ -33,11 +33,13 @@ export class RegisterPage extends React.Component<any, any> {
     };
     return <Provider {...store} >
       <div>
-        <Localize homeLabel={"frameMenu.home"} imageLabel={"frameMenu.imageLabel"}
-                  videoLabel={"frameMenu.videoLabel"} textLabel={"frameMenu.textLabel"}
-                  aboutLabel={"frameMenu.aboutLabel"}
-                  step1Label={"registerForm.step1"} step2Label={"registerForm.step2"}
-                  step3Label={"registerForm.step3"}>{
+        <Localize replacements={{
+          homeLabel: "frameMenu.home", imageLabel: "frameMenu.imageLabel",
+          videoLabel: "frameMenu.videoLabel", textLabel: "frameMenu.textLabel",
+          aboutLabel: "frameMenu.aboutLabel",
+          step1Label: "registerForm.step1", step2Label: "registerForm.step2",
+          step3Label: "registerForm.step3",
+        }}>{
           (props) => {
             return <Layout>
                 <Content>
