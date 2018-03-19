@@ -1,13 +1,6 @@
 package trapx00.tagx00.data.fileservice;
 
-import net.sf.json.JSONObject;
-import trapx00.tagx00.entity.Entity;
-import trapx00.tagx00.exception.daoexception.IdDoesNotExistException;
-import trapx00.tagx00.util.AnnotationUtil;
-
-import java.io.*;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface FileService<T> {
 
@@ -30,6 +23,6 @@ public interface FileService<T> {
     void delete(String id, Class<T> clazz);
 
 
-    T[] findOnes(String info,Class<T> clazz);
+    List<T> findOnes(String info, Class<T> clazz);
 }
 
