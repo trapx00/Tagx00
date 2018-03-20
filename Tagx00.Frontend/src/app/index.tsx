@@ -2,36 +2,30 @@ import React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'mobx-react';
-import { Router } from 'react-router';
 import { STORE_LOCALE, STORE_ROUTER, STORE_UI, STORE_USER } from './constants/stores';
-import switches from "./router";
 import { RouterStore } from './router/RouterStore';
 import { LocaleStore } from './internationalization';
 import { UserStore } from "./stores/UserStore";
-import { App } from "./layouts";
 import { UiStore } from "./stores/UiStore";
 import { configure } from "mobx";
+import { App } from "./root";
 
 // enable MobX strict mode
-configure({ enforceActions: true });
+configure({enforceActions: true});
 
+const history = createBrowserHistory();
+const routerStore = new RouterStore(history);
 
 function render(stores) {
   // render react DOM
   ReactDOM.render(
     <Provider {...stores}>
-      <App>
-      <Router history={history}>
-        {switches}
-      </Router>
-      </App>
+      <App history={history}/>
     </Provider>,
     document.getElementById('root')
   );
 }
 
-const history = createBrowserHistory();
-const routerStore = new RouterStore(history);
 
 async function resetStore() {
   const userStore = new UserStore();

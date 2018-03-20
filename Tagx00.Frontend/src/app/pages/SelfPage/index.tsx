@@ -8,9 +8,7 @@ const { Header, Content, Footer, Sider } = Layout;
 export class SelfPage extends React.Component<any, any> {
   render() {
     return <SelfCenterLayout>
-      <div>
-        Content
-      </div>
+      {this.props.children}
     </SelfCenterLayout>;
   }
 }

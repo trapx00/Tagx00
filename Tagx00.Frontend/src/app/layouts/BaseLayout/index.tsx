@@ -22,13 +22,3 @@ export class BaseLayout extends React.Component<any, any> {
     </Layout>;
   }
 }
-
-export function UseBaseLayout<T extends IReactComponent>(target: T) : T {
-  return class WrappedComponent extends React.Component {
-    render() {
-      return <BaseLayout>
-        {React.createElement(target, this.props)}
-      </BaseLayout>
-    }
-  } as T;
-}

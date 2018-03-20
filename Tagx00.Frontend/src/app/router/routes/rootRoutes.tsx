@@ -48,5 +48,5 @@ export const aboutPage: RouteConfig = new NormalPageConfig({
 
 
 export default [
-  homePage, browsePage, registerPage, aboutPage
+  browsePage, registerPage, aboutPage
 ]

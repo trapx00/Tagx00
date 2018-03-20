@@ -8,7 +8,7 @@ export const dashboardPage: RouteConfig = new NormalPageConfig({
     return <Page/>;
   },
   identify: (pathname) => {
-    return pathname === "/self";
+    return pathname === "/self/dashboard";
   },
 });
 
