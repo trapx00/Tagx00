@@ -1,7 +1,7 @@
-import * as React from "react";
+import React from "react"
 import { ReactNode } from "react";
 import { inject, observer } from "mobx-react";
-import { LocaleStore, Replacement, ReplacementMap } from "../LocaleStore";
+import { ReplacementMap } from "../LocaleStore";
 import { STORE_LOCALE } from "../../constants/stores";
 
 interface LocalizeProps {

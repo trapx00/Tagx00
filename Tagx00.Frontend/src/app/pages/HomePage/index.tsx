@@ -1,9 +1,5 @@
 import React from "react";
-import { STORE_ROUTER } from "../../constants/stores";
-import { inject } from "mobx-react";
-import { RouterStoreProps } from "../../routes/RouterStore";
-import { Link } from "../../components/Common/Link";
-
+import { Link } from "react-router-dom";
 
 export class HomePage extends React.Component<{}, any> {
   render() {

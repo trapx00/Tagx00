@@ -1,8 +1,5 @@
-import * as React from "react";
+import React from "react"
 import { Rectangle } from "./Rectangle";
-import { observer } from "mobx-react";
-import { action, observable } from "mobx";
-import { BackgroundStage } from "../utils/BackgroundStage";
 import { DrawingSession } from "../utils/DrawingSession";
 import { Point } from "../ImageLib/Shapes";
 import { RectangleDrawer } from "./RectangleDrawer";

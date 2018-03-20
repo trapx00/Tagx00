@@ -1,10 +1,10 @@
 import React from "react";
-import { Modal, Button } from 'antd';
-import { LocaleMessage, Localize } from "../../../internationalization/components";
+import { Button, Modal } from 'antd';
+import { Localize } from "../../../internationalization/components";
 import { inject, observer, Provider } from "mobx-react";
 import { STORE_UI } from "../../../constants/stores";
 import { UiStoreProps } from "../../../stores/UiStore";
-import { LoginController, LoginState } from "./LoginController";
+import { LoginController } from "./LoginController";
 import { LoginForm } from "./Form";
 import { action } from "mobx";
 

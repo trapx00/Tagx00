@@ -1,7 +1,6 @@
 import React from "react";
 import { DistrictDrawingSession, Step } from "./DistrictDrawingSession";
 import { observer } from "mobx-react";
-import { action } from "mobx";
 import { District } from "../Districts";
 
 interface Props {

@@ -13,7 +13,14 @@
     "about": "关于",
     "login": "登录",
     "logout": "登出",
-    "welcome": "欢迎，{username}"
+    "welcome": "欢迎，{username}",
+    "selfCenter": "个人中心"
+  },
+  "selfCenter": {
+    "dashboard": "仪表盘",
+    "myMissions": "我的任务",
+    "achievement": "成就",
+    "personalInfo": "我的信息"
   },
   "loginModal": {
     "title": "登录",

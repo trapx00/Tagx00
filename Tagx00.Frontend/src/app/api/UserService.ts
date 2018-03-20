@@ -1,4 +1,4 @@
-import { BaseService, NetworkResponse } from "./BaseService";
+import { BaseService } from "./BaseService";
 import { HttpMethod } from "./utils";
 
 export interface LoginResult {
@@ -13,14 +13,14 @@ function encryptPassword(password: string) {
 
 export class UserService extends BaseService {
   constructor() {
-    super("Account");
+    super("account");
   }
 
   async login(username: string, password: string) {
     password = encryptPassword(password);
 
     return await this.fetch({
-      route: "Login",
+      route: "login",
       queryParams: {username, password}
     });
   }
@@ -29,7 +29,7 @@ export class UserService extends BaseService {
     password = encryptPassword(password);
 
     return await this.fetch({
-      route: "Register",
+      route: "register",
       body: {username, password},
       method: HttpMethod.POST
     });

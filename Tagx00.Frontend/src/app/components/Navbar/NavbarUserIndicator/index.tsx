@@ -1,6 +1,6 @@
 import React from "react";
 import { inject, observer } from "mobx-react";
-import { STORE_UI, STORE_USER } from "../../../constants/stores";
+import { STORE_USER } from "../../../constants/stores";
 import { UserStoreProps } from "../../../stores/UserStore";
 import { LoginButton } from "./LoginButton";
 import { UserIndicator } from "./UserIndicator";

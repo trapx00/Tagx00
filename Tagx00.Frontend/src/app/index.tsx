@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'mobx-react';
 import { Router } from 'react-router';
-import { STORE_ROUTER, STORE_UI, STORE_USER, STORE_LOCALE } from './constants/stores';
-import switches from "./routes";
-import { RouterStore } from './routes/RouterStore';
+import { STORE_LOCALE, STORE_ROUTER, STORE_UI, STORE_USER } from './constants/stores';
+import switches from "./router";
+import { RouterStore } from './router/RouterStore';
 import { LocaleStore } from './internationalization';
 import { UserStore } from "./stores/UserStore";
 import { App } from "./layouts";

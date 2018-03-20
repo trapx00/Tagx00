@@ -1,7 +1,7 @@
 import React from "react";
-import {Form, Input, Button, Radio, message} from 'antd';
-import {Localize} from "../../../internationalization/components";
-import {FormComponentProps} from "antd/lib/form";
+import { Button, Form, Input, message, Radio } from 'antd';
+import { Localize } from "../../../internationalization/components";
+import { FormComponentProps } from "antd/lib/form";
 import { inject, observer } from "mobx-react";
 import { RegisterProps, STORE_REGISTER } from "../RegisterStore";
 

@@ -1,11 +1,8 @@
 import React from "react";
-import { Line, lineCross, Point } from "../../ImageLib/Shapes";
+import { Line, Point } from "../../ImageLib/Shapes";
 import { observer } from "mobx-react";
-import { BackgroundStage } from "../../utils/BackgroundStage";
 import { DistrictDrawingSession, Step } from "./DistrictDrawingSession";
-import { CanvasController } from "./CanvasController";
 import { DistrictDrawer } from "./DistrictDrawer";
-import { Boundary, District } from "../Districts";
 
 interface CanvasProps {
   width: number;
