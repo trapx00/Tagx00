@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { inject, observer } from "mobx-react";
-import ScrollUpButton from "react-scroll-up-button"
 import { AsyncComponent } from "../routes/AsyncComponent";
 import { STORE_ROUTER } from "../constants/stores";
 import { RouterStoreProps } from "../routes/RouterStore";
@@ -28,7 +27,6 @@ export class App extends React.Component<AppProps, {}> {
   render() {
     const router = this.props[STORE_ROUTER];
     return <div>
-      <ScrollUpButton/>
       {router.currentPage.useBaseLayout
         ? <BaseLayout>
           {this.props.children}

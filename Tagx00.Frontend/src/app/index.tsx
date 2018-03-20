@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createBrowserHistory } from 'history';
-import { useStrict } from 'mobx';
 import { Provider } from 'mobx-react';
 import { Router } from 'react-router';
 import { STORE_ROUTER, STORE_UI, STORE_USER, STORE_LOCALE } from './constants/stores';
@@ -10,9 +9,11 @@ import { RouterStore } from './routes/RouterStore';
 import { LocaleStore } from './internationalization';
 import { UserStore } from "./stores/UserStore";
 import { App } from "./layouts";
+import { UiStore } from "./stores/UiStore";
+import { configure } from "mobx";
 
 // enable MobX strict mode
-useStrict(true);
+configure({ enforceActions: true });
 
 
 function render(stores) {
@@ -35,12 +36,14 @@ const routerStore = new RouterStore(history);
 async function resetStore() {
   const userStore = new UserStore();
   const localeStore = new LocaleStore();
+  const uiStore = new UiStore();
   await localeStore.init();
 
   return {
     [STORE_ROUTER]: routerStore,
     [STORE_LOCALE]: localeStore,
-    [STORE_USER]: userStore
+    [STORE_USER]: userStore,
+    [STORE_UI]: uiStore
   };
 }
 

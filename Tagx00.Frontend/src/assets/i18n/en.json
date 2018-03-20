@@ -3,7 +3,10 @@
     "home": "Home",
     "browse": "Browse",
     "tag": "Tag",
-    "about": "About"
+    "about": "About",
+    "login": "Login",
+    "logout": "登出",
+    "welcome": "Welcome, {username}"
   },
   "frameMenu": {
     "home": "Home",
@@ -11,6 +14,18 @@
     "videoLabel": "Video Label",
     "textLabel": "Text Label",
     "aboutLabel": "About Us"
+
+  },
+  "loginModal": {
+    "title": "Login",
+    "username": "Username",
+    "requireUsername": "Please input your username!",
+    "password": "Password",
+    "requirePassword": "Please input your password!",
+    "login": "Login",
+    "forgetPassword": "Forgot password",
+    "remember": "Remember me",
+    "cancel": "Cancel"
   },
   "languageSelector": {
     "loading": "Loading"

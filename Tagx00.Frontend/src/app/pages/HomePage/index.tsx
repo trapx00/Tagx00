@@ -2,17 +2,19 @@ import React from "react";
 import { STORE_ROUTER } from "../../constants/stores";
 import { inject } from "mobx-react";
 import { RouterStoreProps } from "../../routes/RouterStore";
+import { Link } from "../../components/Common/Link";
 
 
-@inject(STORE_ROUTER)
-export class HomePage extends React.Component<RouterStoreProps, any> {
+export class HomePage extends React.Component<{}, any> {
   render() {
     return <div>
       <p>
         this is the true homepage and as you see, it doesn't share the same layout as other pages;
       </p>
-      <p onClick={() => this.props[STORE_ROUTER].push("/browse")}>
-        Click this to go to browse.
+      <p>
+        <Link to={"/browse"}>
+          click this to /browse
+        </Link>
       </p>
     </div>
 
