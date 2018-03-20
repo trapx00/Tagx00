@@ -8,12 +8,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.entity.account.Role;
+import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
+import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
+import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.MissionQueryDetailResponse;
 import trapx00.tagx00.response.mission.MissionQueryResponse;
 import trapx00.tagx00.util.UserInfoUtil;
+import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
 import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 
 @PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "')")
@@ -38,8 +42,9 @@ public class WorkerMissionController {
     public ResponseEntity<Response> queryOnesAllMissions() {
         try {
             return new ResponseEntity<>(workerMissionBlService.queryOnesAllMissions(UserInfoUtil.getUsername()), HttpStatus.OK);
-        } catch (Exception e) {
-            return null;
+        } catch (MissionDoesNotExistFromUsernameException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
         }
     }
 
@@ -81,8 +86,9 @@ public class WorkerMissionController {
     public ResponseEntity<Response> getInstanceInformation(@PathVariable("missionId") int missionId) {
         try {
             return new ResponseEntity<>(workerMissionBlService.getInstanceInformation(missionId, UserInfoUtil.getUsername()), HttpStatus.OK);
-        } catch (Exception e) {
-            return null;
+        } catch (InstanceNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
         }
     }
 
@@ -100,12 +106,12 @@ public class WorkerMissionController {
             @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> saveProgress(
-            @PathVariable("missionId") int missionId, @RequestBody MissionVo mission) {
+    public ResponseEntity<Response> saveProgress(@RequestBody MissionInstanceItemVo mission) {
         try {
-            return new ResponseEntity<>(workerMissionBlService.saveProgress(UserInfoUtil.getUsername(), missionId, mission), HttpStatus.OK);
-        } catch (Exception e) {
-            return null;
+            return new ResponseEntity<>(workerMissionBlService.saveProgress( mission), HttpStatus.OK);
+        }catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 
@@ -124,11 +130,12 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> submit(
-            @PathVariable("missionId") int missionId, @RequestBody MissionVo mission) {
+            @RequestBody MissionInstanceItemVo mission) {
         try {
-            return new ResponseEntity<>(workerMissionBlService.submit(UserInfoUtil.getUsername(), missionId, mission), HttpStatus.OK);
-        } catch (Exception e) {
-            return null;
+            return new ResponseEntity<>(workerMissionBlService.submit(mission), HttpStatus.OK);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 

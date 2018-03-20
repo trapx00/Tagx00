@@ -6,18 +6,10 @@ import { RegisterStore, STORE_REGISTER } from "../../components/Register/Registe
 import { Register } from "../../components/Register";
 import { BaseLayout } from "../../layouts/BaseLayout";
 
-const {Footer, Content} = Layout;
+const {Content} = Layout;
 const Step = Steps.Step;
 
 
-const menuItemStyle = {
-  width: '20%',
-  textAlign: 'center'
-};
-const helperItemStyle = {
-  width: '10%',
-  textAlign: 'center'
-};
 const stepStyle = {
   marginTop: "5%",
   marginBottom: "5%",
@@ -43,16 +35,16 @@ export class RegisterPage extends React.Component<any, any> {
         }}>{
           (props) => {
             return <Layout>
-                <Content>
-                  <Steps current={store[STORE_REGISTER].currentStep} style={stepStyle}>
-                    <Step title={props.step1Label}/>
-                    <Step title={props.step2Label}/>
-                    <Step title={props.step3Label}/>
-                  </Steps>
-                </Content>
-                <Content>
-                  <Register/>
-                </Content>
+              <Content>
+                <Steps current={store[STORE_REGISTER].currentStep} style={stepStyle}>
+                  <Step title={props.step1Label}/>
+                  <Step title={props.step2Label}/>
+                  <Step title={props.step3Label}/>
+                </Steps>
+              </Content>
+              <Content>
+                <Register/>
+              </Content>
             </Layout>
           }
         }

@@ -5,4 +5,8 @@ import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryDetailVo;
 
 public class MissionQueryDetailResponse extends Response {
     private MissionRequesterQueryDetailVo detail;
+
+    public MissionQueryDetailResponse(MissionRequesterQueryDetailVo detail) {
+        this.detail = detail;
+    }
 }

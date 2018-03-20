@@ -1,8 +1,12 @@
 package trapx00.tagx00.blservice.mission;
 
+import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
+import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
+import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.mission.MissionQueryDetailResponse;
 import trapx00.tagx00.response.mission.MissionQueryResponse;
+import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
 import trapx00.tagx00.vo.mission.missiontype.MissionVo;
 
 public interface WorkerMissionBlService {
@@ -12,7 +16,7 @@ public interface WorkerMissionBlService {
      * @param username
      * @return the list of MissionRequesterQueryItemVo
      */
-    MissionQueryResponse queryOnesAllMissions(String username);
+    MissionQueryResponse queryOnesAllMissions(String username)throws MissionDoesNotExistFromUsernameException;
 
     /**
      * workers abort one mission
@@ -30,25 +34,21 @@ public interface WorkerMissionBlService {
      * @param username
      * @return MissionQueryDetailResponse the detail of the mission
      */
-    MissionQueryDetailResponse getInstanceInformation(int missionId, String username);
+    MissionQueryDetailResponse getInstanceInformation(int missionId, String username)throws InstanceNotExistException;
 
     /**
      * save the progress of the instance
      *
-     * @param username
-     * @param missionId
-     * @param mission
+     * @param missionInstanceItemVo
      * @return whether to save successful or not
      */
-    SuccessResponse saveProgress(String username, int missionId, MissionVo mission);
+    SuccessResponse saveProgress(MissionInstanceItemVo missionInstanceItemVo)throws SystemException;
 
     /**
      * save the progress of the instance and submit it
      *
-     * @param username
-     * @param missionId
-     * @param mission
+     * @param missionInstanceItemVo
      * @return whether to save and submit successful or not
      */
-    SuccessResponse submit(String username, int missionId, MissionVo mission);
+    SuccessResponse submit(MissionInstanceItemVo missionInstanceItemVo)throws SystemException;
 }

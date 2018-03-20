@@ -59,5 +59,9 @@
     "step1": "Fill information",
     "step2": "Confirm in email",
     "step3": "Register successfully"
+  },
+  "searchBar": {
+    "searchPlaceholder": "Press enter to search",
+    "searchAll": "All"
   }
 }

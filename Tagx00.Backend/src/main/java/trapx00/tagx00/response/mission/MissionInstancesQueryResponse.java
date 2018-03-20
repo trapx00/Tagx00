@@ -7,4 +7,8 @@ import java.util.List;
 
 public class MissionInstancesQueryResponse extends Response {
     private List<MissionInstanceItemVo> items;
+
+    public MissionInstancesQueryResponse(List<MissionInstanceItemVo> items) {
+        this.items = items;
+    }
 }
