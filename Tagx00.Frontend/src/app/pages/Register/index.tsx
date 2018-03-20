@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Layout, Menu, Icon, Row, Col, Steps } from 'antd';
+import React from "react"
+import { Layout, Steps } from 'antd';
 import { Localize } from "../../internationalization/components";
-import { LanguageSelector } from "../../components/LanguageSelector";
 import { observer, Provider } from "mobx-react";
 import { RegisterStore, STORE_REGISTER } from "../../components/Register/RegisterStore";
 import { Register } from "../../components/Register";
+import { BaseLayout } from "../../layouts/BaseLayout";
 
 const {Footer, Content} = Layout;
 const Step = Steps.Step;
@@ -31,7 +31,8 @@ export class RegisterPage extends React.Component<any, any> {
     const store = {
       [STORE_REGISTER]: new RegisterStore()
     };
-    return <Provider {...store} >
+    return <BaseLayout>
+    <Provider {...store} >
       <div>
         <Localize replacements={{
           homeLabel: "frameMenu.home", imageLabel: "frameMenu.imageLabel",
@@ -58,6 +59,7 @@ export class RegisterPage extends React.Component<any, any> {
         </Localize>
 
       </div>
-    </Provider>;
+    </Provider>
+    </BaseLayout>;
   }
 }

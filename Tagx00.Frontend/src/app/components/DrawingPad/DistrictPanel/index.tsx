@@ -1,5 +1,4 @@
 import React from "react";
-import { CanvasLayer } from "./DistrictCanvas/CanvasLayer";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import { District, DistrictNotation } from "./Districts";

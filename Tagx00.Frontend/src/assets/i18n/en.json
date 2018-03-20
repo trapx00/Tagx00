@@ -5,8 +5,9 @@
     "tag": "Tag",
     "about": "About",
     "login": "Login",
-    "logout": "登出",
-    "welcome": "Welcome, {username}"
+    "logout": "Logout",
+    "welcome": "Welcome, {username}",
+    "selfCenter": "Personal Center"
   },
   "frameMenu": {
     "home": "Home",
@@ -15,6 +16,12 @@
     "textLabel": "Text Label",
     "aboutLabel": "About Us"
 
+  },
+  "selfCenter": {
+    "dashboard": "Dashboard",
+    "myMissions": "My missions",
+    "achievement": "Achievement",
+    "personalInfo": "My info"
   },
   "loginModal": {
     "title": "Login",

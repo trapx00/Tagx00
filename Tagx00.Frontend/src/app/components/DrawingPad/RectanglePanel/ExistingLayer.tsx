@@ -1,5 +1,4 @@
 import React from "react";
-import { Rectangle } from "./Rectangle";
 import { Point } from "../ImageLib/Shapes";
 import { RectangleDrawer } from "./RectangleDrawer";
 import { RectangleNotation } from "./RectangleNotation";

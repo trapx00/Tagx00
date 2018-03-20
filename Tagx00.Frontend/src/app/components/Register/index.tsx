@@ -1,8 +1,8 @@
 import React from "react";
-import {RegisterForm} from "./RegisterForm";
-import {Row, Col} from 'antd';
+import { RegisterForm } from "./RegisterForm";
+import { Col, Row } from 'antd';
 import { inject, observer } from "mobx-react";
-import {RegisterEmailSender} from "./RegisterEmailSender";
+import { RegisterEmailSender } from "./RegisterEmailSender";
 import { RegisterProps, STORE_REGISTER } from "./RegisterStore";
 
 @inject(STORE_REGISTER)

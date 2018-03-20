@@ -1,13 +1,12 @@
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
-const FormItem = Form.Item;
+import { Checkbox, Form, Icon, Input } from 'antd';
 import React from 'react';
-import { FormComponentProps } from "antd/lib/form";
-import { RegisterProps } from "../../Register/RegisterStore";
 import { Localize } from "../../../internationalization/components";
 import { inject, observer } from "mobx-react";
 import { LoginFormFields } from "./LoginController";
 import { action } from "mobx";
 import { FormItemProps } from "antd/lib/form/FormItem";
+
+const FormItem = Form.Item;
 
 interface Props  {
   fields?: LoginFormFields;

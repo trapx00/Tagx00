@@ -2,18 +2,12 @@ import { History } from 'history';
 import { RouterStore as BaseRouterStore, syncHistoryWithStore } from 'mobx-react-router';
 import { action, computed } from "mobx";
 import { STORE_ROUTER } from "../constants/stores";
-import routes, { notFoundPage, RouteConfig } from "./routes";
+import routes from './routes';
 
 
-function getPage(pathname: string) {
-  for (const p of routes) {
-    if (p.isThisPage(pathname)) {
-      return p;
-    }
-  }
-  return notFoundPage;
+function matchRoute(pathname: string) {
+  return routes.filter(x => x.identify(pathname));
 }
-
 
 export class RouterStore extends BaseRouterStore {
   constructor(history?: History) {
@@ -23,9 +17,14 @@ export class RouterStore extends BaseRouterStore {
     }
   }
 
-  @computed get currentPage(): RouteConfig {
-    return getPage(this.location.pathname);
+  @computed get matchedPages() {
+    return matchRoute(this.path);
   }
+
+  @computed get path() {
+    return this.location.pathname;
+  }
+
 
   @action jumpTo = (path: string) => {
     this.push(path);
@@ -33,5 +32,5 @@ export class RouterStore extends BaseRouterStore {
 }
 
 export interface RouterStoreProps {
-  [STORE_ROUTER]?: RouterStore
+  [STORE_ROUTER]?: RouterStore;
 }

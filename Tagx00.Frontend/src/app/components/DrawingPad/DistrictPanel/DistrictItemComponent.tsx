@@ -1,6 +1,6 @@
-import { District, DistrictNotation } from "./Districts";
+import { DistrictNotation } from "./Districts";
 import React from "react";
-import { observable, runInAction } from "mobx";
+import { runInAction } from "mobx";
 import { TagDescriptionEditor } from "../utils/TagDescriptionEditor";
 import { observer } from "mobx-react";
 

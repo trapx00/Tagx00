@@ -1,33 +1,40 @@
-import * as React from "react";
+import React from "react";
 import { Button } from 'antd';
-import { STORE_LOCALE, STORE_UI } from "../../../constants/stores";
+import { STORE_LOCALE, STORE_UI, STORE_USER } from "../../../constants/stores";
 import { inject, observer } from "mobx-react";
-import { observable } from "mobx";
 import { UiStoreProps } from "../../../stores/UiStore";
-import { LocaleMessage, Localize } from "../../../internationalization/components";
-import { LocaleStore } from "../../../internationalization";
-import { LocaleStoreProps } from "../../../internationalization/LocaleStore";
-import { LoginModal } from "../../Modals/LoginModal";
+import { Localize } from "../../../internationalization/components";
+import { UserStoreProps } from "../../../stores/UserStore";
 
-interface Props extends UiStoreProps {
+interface Props extends UiStoreProps, UserStoreProps {
 
 }
 
-@inject(STORE_UI)
+@inject(STORE_UI, STORE_USER)
 @observer
 export class LoginButton extends React.Component<Props, {}>{
 
+  onButtonClick = () => {
+    // const ui = this.props[STORE_UI];
+    // ui.toggleLoginModalShown();
+
+    const user = this.props[STORE_USER];
+    user.login({
+        token: "123",
+        username: "test",
+        role: "WORKER"
+    });
+  };
+
   render() {
-    const ui = this.props[STORE_UI];
+
     const locale = this.props[STORE_LOCALE];
-      return <div>
-        <Localize replacements={{ text: "navbar.login"}}>
-          {props => <Button onClick={ui.toggleLoginModalShown}>
+      return <Localize replacements={{ text: "navbar.login"}}>
+          {props => <Button onClick={this.onButtonClick}>
               {props.text}
           </Button>
           }
         </Localize>
-        <LoginModal/>
-      </div>
+
     }
 }

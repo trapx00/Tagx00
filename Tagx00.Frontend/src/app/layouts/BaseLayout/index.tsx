@@ -1,7 +1,8 @@
-import * as React from "react";
-import { Layout, Menu, Breadcrumb } from 'antd';
+import React from "react";
+import { Layout } from 'antd';
 import { Footer } from "../../components/Footer";
 import { Navbar } from "../../components/Navbar";
+import { IReactComponent } from "mobx-react";
 
 const {Header, Content} = Layout;
 
@@ -13,7 +14,7 @@ export class BaseLayout extends React.Component<any, any> {
         <Navbar/>
       </Header>
       <Content style={{padding: '8px 8px'}}>
-        <div style={{background: '#fff', padding: 24, minHeight: 280}}>
+        <div style={{background: '#fff', padding: 8, minHeight: 280}}>
           {this.props.children}
         </div>
       </Content>
@@ -22,3 +23,12 @@ export class BaseLayout extends React.Component<any, any> {
   }
 }
 
+export function UseBaseLayout<T extends IReactComponent>(target: T) : T {
+  return class WrappedComponent extends React.Component {
+    render() {
+      return <BaseLayout>
+        {React.createElement(target, this.props)}
+      </BaseLayout>
+    }
+  } as T;
+}

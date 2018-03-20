@@ -1,5 +1,4 @@
-import { Line, Point } from "../../ImageLib/Shapes";
-import { Stack } from "../../../../../utils/Stack";
+import { Point } from "../../ImageLib/Shapes";
 import { Boundary, District } from "../Districts";
 
 export class DistrictDrawer {

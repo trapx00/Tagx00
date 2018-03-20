@@ -6,7 +6,7 @@ export enum UserRole {
 
 
 export class User {
-  public name: string;
+  public username: string;
   public role: UserRole;
   public token: string;
 

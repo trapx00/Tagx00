@@ -2,7 +2,6 @@ import { Rectangle } from "./Rectangle";
 import React from "react";
 import { BackgroundStage } from "../utils/BackgroundStage";
 import { ExistingLayer } from "./ExistingLayer";
-import { RectangleNotationItemComponent } from "./RectangleNotationItemComponent";
 import { CanvasLayer } from "./CanvasLayer";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
