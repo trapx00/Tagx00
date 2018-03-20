@@ -19,7 +19,10 @@
   },
   "selfCenter": {
     "dashboard": "Dashboard",
-    "myMissions": "My missions",
+    "myMissions": {
+      "menuText": "Missions",
+      "title": "My Missions"
+    },
     "achievement": "Achievement",
     "personalInfo": "My info"
   },

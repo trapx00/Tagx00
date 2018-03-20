@@ -18,7 +18,10 @@
   },
   "selfCenter": {
     "dashboard": "仪表盘",
-    "myMissions": "我的任务",
+    "myMissions": {
+      "menuText": "我的任务",
+      "title": "我的任务"
+    },
     "achievement": "成就",
     "personalInfo": "我的信息"
   },

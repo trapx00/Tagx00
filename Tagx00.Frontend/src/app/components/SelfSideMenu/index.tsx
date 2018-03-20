@@ -21,7 +21,7 @@ const routes = [
   {
     path: "/self/missions",
     iconName: "tag-o",
-    id: "selfCenter.myMissions"
+    id: "selfCenter.myMissions.menuText"
   },
   {
     path: "/self/achievement",
