@@ -36,6 +36,7 @@
     "step3": "Register successfully"
   },
   "searchBar": {
-    "searchPlaceholder": "Input key words to start search"
+    "searchPlaceholder": "Press enter to search",
+    "searchAll": "All"
   }
 }

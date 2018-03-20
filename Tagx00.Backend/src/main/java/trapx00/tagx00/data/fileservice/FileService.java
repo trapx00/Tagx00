@@ -1,7 +1,5 @@
 package trapx00.tagx00.data.fileservice;
 
-import java.util.List;
-
 public interface FileService<T> {
 
     /**
@@ -23,6 +21,6 @@ public interface FileService<T> {
     void delete(String id, Class<T> clazz);
 
 
-    List<T> findOnes(String info, Class<T> clazz);
+    T[] findOnes(String info, Class<T> clazz);
 }
 

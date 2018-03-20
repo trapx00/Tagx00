@@ -36,6 +36,7 @@
     "step3": "注册成功"
   },
   "searchBar": {
-    "searchPlaceholder": "输入关键字以开始搜索"
+    "searchPlaceholder": "按回车以搜索",
+    "searchAll": "全部"
   }
 }

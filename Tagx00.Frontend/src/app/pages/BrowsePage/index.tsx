@@ -1,12 +1,19 @@
 import * as React from "react";
-import { Layout, Menu, Breadcrumb } from 'antd';
-import { BaseLayout } from "../../layouts/BaseLayout";
-const { Header, Content, Footer } = Layout;
+import { Layout } from 'antd';
+import { SearchBar } from "../../components/SearchBar";
 
-export class BrowsePage extends React.Component<any, any> {
+const {Content} = Layout;
 
-  render() {
-     return "browse";
-  }
+const fillContent = {
+  minHeight: '300px'
 }
 
+export class BrowsePage extends React.Component<any, any> {
+  render() {
+    return (
+      <div style={fillContent}>
+        <SearchBar/>
+      </div>
+    )
+  }
+}
