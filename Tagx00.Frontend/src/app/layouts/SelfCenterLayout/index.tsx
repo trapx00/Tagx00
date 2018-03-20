@@ -4,7 +4,6 @@ import { SelfSideMenu } from "../../components/SelfSideMenu";
 import { inject, IReactComponent, observer } from "mobx-react";
 import { STORE_USER } from "../../constants/stores";
 import { UserStoreProps } from "../../stores/UserStore";
-import { BaseLayout, UseBaseLayout } from "../BaseLayout";
 
 const {SubMenu} = Menu;
 const {Header, Content, Footer, Sider} = Layout;
@@ -33,16 +32,4 @@ export class SelfCenterLayout extends React.Component<Props, any> {
     }
 
   }
-}
-
-export function UseSelfCenterLayout<T extends IReactComponent>(target: T): T {
-  return class WrappedComponent extends React.Component {
-    render() {
-      return <BaseLayout>
-        <SelfCenterLayout>
-          {React.createElement(target, this.props)}
-        </SelfCenterLayout>
-      </BaseLayout>
-    }
-  } as T;
 }

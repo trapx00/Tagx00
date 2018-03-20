@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Menu, Row } from 'antd';
+import { Col, Menu, Row, Icon } from 'antd';
 import { LocaleMessage } from "../../internationalization/components";
 import { inject, observer } from "mobx-react";
 import { STORE_ROUTER } from "../../constants/stores";
@@ -10,7 +10,27 @@ import { LanguageSelector } from "../LanguageSelector";
 import * as style from './style.css';
 import { NavbarModals } from "./NavbarModals";
 import { notFoundPage } from "../../router/routes/notFoundRoute";
-import { homePage } from "../../router/routes/rootRoutes";
+import { NavMenuItem } from "../Common/NavMenuItem";
+
+// import pages will result in circular dependency and I can't figure out why
+// hard-code is the only option :(
+
+const routes = [
+  {
+    path: "/",
+    iconName: "home",
+    id: "navbar.home"
+  }, {
+    path: "/browse",
+    iconName: "cloud",
+    id: "navbar.browse"
+  }, {
+    path: "/about",
+    iconName: "info-circle",
+    id: "navbar.about"
+  }
+];
+
 
 
 @inject(STORE_ROUTER)
@@ -19,13 +39,12 @@ export class Navbar extends React.Component<RouterStoreProps, any> {
 
   get selectedRoute() {
     const router = this.props[STORE_ROUTER];
-    const currentRoute = [].find(x => x.identify(router.path)) || notFoundPage;
-    return currentRoute.path;
+    return router.matchedPages.map(x => x.path);
   }
 
   render() {
 
-
+    console.log(this.selectedRoute);
 
     return <Row>
       {/*<span>*/}
@@ -38,24 +57,14 @@ export class Navbar extends React.Component<RouterStoreProps, any> {
         <Menu
           theme="light"
           mode="horizontal"
-          selectedKeys={[this.selectedRoute]}
+          selectedKeys={this.selectedRoute}
           style={{lineHeight: '64px'}}
         >
-          {/*<Menu.Item key={homePage.path}>*/}
-            {/*<Link to={homePage.path}>*/}
-              {/*<LocaleMessage id={"navbar.home"}/>*/}
-            {/*</Link>*/}
-          {/*</Menu.Item>*/}
-          {/*<Menu.Item key={browsePage.path}>*/}
-            {/*<Link to={browsePage.path}>*/}
-              {/*<LocaleMessage id={"navbar.browse"}/>*/}
-            {/*</Link>*/}
-          {/*</Menu.Item>*/}
-          {/*<Menu.Item key={aboutPage.path}>*/}
-            {/*<Link to={aboutPage.path}>*/}
-              {/*<LocaleMessage id={"navbar.about"}/>*/}
-            {/*</Link>*/}
-          {/*</Menu.Item>*/}
+          {routes.map(x => <Menu.Item key={x.path}>
+            <Link to={x.path}>
+              <span><Icon type={x.iconName} /><LocaleMessage id={x.id}/></span>
+            </Link>
+          </Menu.Item>)}
         </Menu>
       </Col>
       <Col span={10}>
