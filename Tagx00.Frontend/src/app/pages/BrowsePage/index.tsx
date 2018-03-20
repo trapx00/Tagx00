@@ -1,26 +1,14 @@
-import * as React from "react";
-import { SearchBar } from "../../components/Browser/SearchBar";
-import { BrowserMissionList } from "../../components/Browser/BrowserMissionList";
-import { UseBaseLayout } from "../../layouts/BaseLayout";
+import React from "react";
 import { Motion, spring } from 'react-motion';
-import { Provider } from "mobx-react";
+import { observer, Provider } from "mobx-react";
 import { BrowserStore, STORE_BROWSER } from "../../components/Browser/BrowserStore";
 import { observable } from "mobx";
+import { SearchBar } from "../../components/Browser/SearchBar";
+import { BrowserMissionList } from "../../components/Browser/BrowserMissionList";
 
-const fillContent = {
-  WebkitTransform: 'translate3d(0, ${x}px, 0)',
-  transform: 'translate3d(0, ${x}px, 0)'
-};
 
-@observable
-@UseBaseLayout
+@observer
 export class BrowsePage extends React.Component<any, any> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: false
-    };
-  };
 
   render() {
     const store = {
@@ -28,13 +16,21 @@ export class BrowsePage extends React.Component<any, any> {
     };
     return (
       <Provider {...store} >
-        <Motion style={{x: spring(store[STORE_BROWSER] ? -200 : 0)}}>{
-          ({x}) =>
-            <div style={fillContent}>
-              <SearchBar/>
-              <BrowserMissionList/>
-            </div>
-        }</Motion>
+        <div>
+          Browser
+        {/*<Motion style={{x: spring(store[STORE_BROWSER] ? -200 : 0)}}>{*/}
+          {/*({x}) => {*/}
+            {/*const fillContent = {*/}
+              {/*transform: `translate3d(0, ${x}px, 0)`*/}
+            {/*};*/}
+            {/*return  <div style={fillContent}>*/}
+              {/*<SearchBar/>*/}
+              {/*<BrowserMissionList/>*/}
+            {/*</div>*/}
+          {/*}*/}
+
+        {/*}</Motion>*/}
+        </div>
       </Provider>
     )
   }
