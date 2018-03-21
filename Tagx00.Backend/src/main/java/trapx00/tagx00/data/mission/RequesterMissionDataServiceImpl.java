@@ -10,7 +10,6 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
-import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryItemVo;
 
 @Service
 public class RequesterMissionDataServiceImpl implements RequesterMissionDataService {

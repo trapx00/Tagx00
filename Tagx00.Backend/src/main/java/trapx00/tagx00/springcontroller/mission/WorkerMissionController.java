@@ -110,7 +110,7 @@ public class WorkerMissionController {
     @ResponseBody
     public ResponseEntity<Response> saveProgress(@RequestBody InstanceDetailVo instanceDetail, @PathVariable("missionId") String missionId) {
         try {
-            return new ResponseEntity<>(workerMissionBlService.saveProgress( mission), HttpStatus.OK);
+            return new ResponseEntity<>(workerMissionBlService.saveProgress( instanceDetail), HttpStatus.OK);
         }catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
@@ -132,9 +132,9 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> submit(
-            @RequestBody InstanceDetailVo mission) {
+            @RequestBody InstanceDetailVo instanceDetailVo) {
         try {
-            return new ResponseEntity<>(workerMissionBlService.submit(mission), HttpStatus.OK);
+            return new ResponseEntity<>(workerMissionBlService.submit(instanceDetailVo), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);

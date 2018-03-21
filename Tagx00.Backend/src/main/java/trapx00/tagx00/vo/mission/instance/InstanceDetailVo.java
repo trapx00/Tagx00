@@ -5,4 +5,7 @@ import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 public class InstanceDetailVo {
     private InstanceVo instance;
 
+    public InstanceDetailVo(InstanceVo instance) {
+        this.instance = instance;
+    }
 }

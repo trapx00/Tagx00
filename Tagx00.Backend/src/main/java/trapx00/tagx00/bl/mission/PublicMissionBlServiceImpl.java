@@ -6,7 +6,9 @@ import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.NotMissionException;
+import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
+import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 
 import java.util.Arrays;
@@ -34,5 +36,14 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         }
 
         return new MissionPublicResponse(Arrays.asList(missionPublicItemVos));
+    }
+
+    @Override
+    public MissionDetailResponse getOneMissionDetail(int missionId) throws NotMissionException {
+
+        MissionDetailVo missionDetailVos=publicMissionDataService.getOneMissionDetail(missionId);
+        if(missionDetailVos==null)
+            throw new NotMissionException();
+        return  new MissionDetailResponse(missionDetailVos);
     }
 }

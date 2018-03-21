@@ -4,19 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
-import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
 import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.SuccessResponse;
-import trapx00.tagx00.response.mission.MissionQueryDetailResponse;
-import trapx00.tagx00.response.mission.MissionQueryResponse;
+import trapx00.tagx00.response.mission.InstanceDetailResponse;
+import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
-import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
-import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryDetailVo;
-import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryItemVo;
-import trapx00.tagx00.vo.mission.worker.MissionWorkerQueryItemVo;
 
 import java.util.Arrays;
 
@@ -36,20 +31,12 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return the list of MissionRequesterQueryItemVo
      */
     @Override
-    public MissionQueryResponse queryOnesAllMissions(String workerusername) throws MissionDoesNotExistFromUsernameException {
+    public InstanceResponse queryOnesAllMissions(String workerusername) throws MissionDoesNotExistFromUsernameException {
 
-        MissionWorkerQueryItemVo[]result= workerMissionDataService.getInstanceByWorkerUsername(workerusername);
-
+        InstanceVo[]result= workerMissionDataService.getInstanceByWorkerUsername(workerusername);
         if(result==null)
             throw new MissionDoesNotExistFromUsernameException();
-        MissionRequesterQueryItemVo[]requesterQueryItemVos=new MissionRequesterQueryItemVo[result.length];
-        for(int i=0;i<requesterQueryItemVos.length;i++){
-            Mission mission=workerMissionDataService.getMissionByMissionId(result[i].getMissionId());
-            requesterQueryItemVos[i]=new MissionRequesterQueryItemVo(result[i].getTitle(),
-                    result[i].getDescription(),result[i].getMission(),mission.getMissionState(),
-                    result[i].getCoverUrl());
-        }
-        return new MissionQueryResponse(Arrays.asList(requesterQueryItemVos));
+        return new InstanceResponse(Arrays.asList(result));
     }
 
     /**
@@ -73,15 +60,12 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return MissionQueryDetailResponse the detail of the mission
      */
     @Override
-    public MissionQueryDetailResponse getInstanceInformation(int missionId, String workerusername) throws InstanceNotExistException {
-        InstanceDetailVo missionInstanceDetailVo= workerMissionDataService.getInstanceByUsernameAndMissionId(workerusername, missionId) ;
-        if(missionInstanceDetailVo==null)
+    public InstanceDetailResponse getInstanceInformation(int missionId, String workerusername) throws InstanceNotExistException {
+        InstanceDetailVo instanceDetailVo= workerMissionDataService.getInstanceByUsernameAndMissionId(workerusername, missionId) ;
+        if(instanceDetailVo==null)
             throw new InstanceNotExistException();
-        Mission mission=workerMissionDataService.getMissionByMissionId(missionInstanceDetailVo.getMissionId());
-        MissionQueryDetailResponse missionQueryDetailResponse=new MissionQueryDetailResponse(new MissionRequesterQueryDetailVo(mission.getTitle(),
-                mission.getDescription(),new MissionProperties(mission.getMissionType()),
-                mission.getMissionState(),mission.getCoverUrl(),mission.getUrls()));
-        return missionQueryDetailResponse;
+        InstanceDetailResponse instanceDetailResponse=new InstanceDetailResponse(instanceDetailVo);
+        return instanceDetailResponse;
     }
 
 
@@ -92,7 +76,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return whether to save successful or not
      */
     @Override
-    public SuccessResponse saveProgress(InstanceVo instanceVo) throws SystemException {
+    public SuccessResponse saveProgress(InstanceDetailVo instanceVo) throws SystemException {
         workerMissionDataService.saveInstance(instanceVo);
         return new SuccessResponse("Success Save");
     }
@@ -104,7 +88,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return whether to save and submit successful or not
      */
     @Override
-    public SuccessResponse submit(InstanceVo instanceVo) throws SystemException {
+    public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException {
         workerMissionDataService.saveInstance(instanceVo);
         return null;
     }
