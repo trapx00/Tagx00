@@ -1,7 +1,7 @@
 package trapx00.tagx00.vo.mission.requester;
 
 import trapx00.tagx00.publicdatas.mission.MissionType;
-import trapx00.tagx00.vo.mission.missiontype.MissionVo;
+import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
 import java.util.Date;
 import java.util.List;
@@ -12,10 +12,9 @@ public class MissionCreateVo {
     private List<String> topics;
     private boolean allowCustomTag;
     private List<String> allowedTags;
-    private MissionVo mission;
+    private MissionProperties properties;
     private Date start;
     private Date end;
-    private String username;
 
     public MissionType getMissionType() {
         return missionType;
@@ -67,12 +66,12 @@ public class MissionCreateVo {
         this.allowedTags = allowedTags;
     }
 
-    public MissionVo getMission() {
-        return mission;
+    public MissionProperties getProperties() {
+        return properties;
     }
 
-    public void setMission(MissionVo mission) {
-        this.mission = mission;
+    public void setProperties(MissionProperties properties) {
+        this.properties = properties;
     }
 
     public Date getStart() {

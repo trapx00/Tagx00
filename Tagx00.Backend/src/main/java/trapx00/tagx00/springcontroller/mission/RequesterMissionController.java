@@ -55,46 +55,47 @@ public class RequesterMissionController {
         }
     }
 
+    // /mission?requesterUsername=""
 
-    @Authorization(value = "发布者")
-    @ApiOperation(value = "获得已发布的任务", notes = "获得本发布者已发布的所有任务")
-    @RequestMapping(value = "/mission/requester", method = RequestMethod.GET)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Returns current user's missions", response = MissionQueryResponse.class),
-            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
-            @ApiResponse(code = 403, message = "Not requester", response = WrongResponse.class)
-    })
-    @ResponseBody
-    public ResponseEntity<Response> queryOnes() {
-        try {
-            return new ResponseEntity<>(requesterMissionBlService.queryOnes(UserInfoUtil.getUsername()), HttpStatus.OK);
-        } catch (MissionDoesNotExistFromUsernameException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
-        }
-    }
+//    @Authorization(value = "发布者")
+//    @ApiOperation(value = "获得已发布的任务", notes = "获得本发布者已发布的所有任务")
+//    @RequestMapping(value = "/mission/requester", method = RequestMethod.GET)
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Returns current user's missions", response = MissionQueryResponse.class),
+//            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
+//            @ApiResponse(code = 403, message = "Not requester", response = WrongResponse.class)
+//    })
+//    @ResponseBody
+//    public ResponseEntity<Response> queryOnes() {
+//        try {
+//            return new ResponseEntity<>(requesterMissionBlService.queryOnes(UserInfoUtil.getUsername()), HttpStatus.OK);
+//        } catch (MissionDoesNotExistFromUsernameException e) {
+//            e.printStackTrace();
+//            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
+//        }
+//    }
 
-    @Authorization(value = "发布者")
-    @ApiOperation(value = "查看任务细节", notes = "查询该任务细节")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
-    })
-    @RequestMapping(value = "/mission/requester/{missionId}", method = RequestMethod.GET)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Returns the detail of the mission", response = MissionQueryDetailResponse.class),
-            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
-            @ApiResponse(code = 403, message = "Not requester or not the author of the mission", response = WrongResponse.class),
-            @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
-    })
-    @ResponseBody
-    public ResponseEntity<Response> queryMissionDetail(@PathVariable("missionId") int missionId) {
-        try {
-            return new ResponseEntity<>(requesterMissionBlService.queryMissionDetail(missionId), HttpStatus.OK);
-        } catch (MissionIdDoesNotExistException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
-        }
-    }
+//    @Authorization(value = "发布者")
+//    @ApiOperation(value = "查看任务细节", notes = "查询该任务细节")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
+//    })
+//    @RequestMapping(value = "/mission/requester/{missionId}", method = RequestMethod.GET)
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Returns the detail of the mission", response = MissionQueryDetailResponse.class),
+//            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
+//            @ApiResponse(code = 403, message = "Not requester or not the author of the mission", response = WrongResponse.class),
+//            @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
+//    })
+//    @ResponseBody
+//    public ResponseEntity<Response> queryMissionDetail(@PathVariable("missionId") int missionId) {
+//        try {
+//            return new ResponseEntity<>(requesterMissionBlService.queryMissionDetail(missionId), HttpStatus.OK);
+//        } catch (MissionIdDoesNotExistException e) {
+//            e.printStackTrace();
+//            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
+//        }
+//    }
 
     @Authorization(value = "发布者")
     @ApiOperation(value = "查看任务的实例", notes = "查询任务实例")
@@ -103,7 +104,7 @@ public class RequesterMissionController {
     })
     @RequestMapping(value = "/mission/requester/{missionId}/instances/", method = RequestMethod.GET)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Returns instances of the mission", response = MissionInstancesQueryResponse.class),
+            @ApiResponse(code = 200, message = "Returns instances of the mission", response = InstanceResponse.class),
             @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
             @ApiResponse(code = 403, message = "Not requester or not the author of the mission", response = WrongResponse.class),
             @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
@@ -126,7 +127,7 @@ public class RequesterMissionController {
     })
     @RequestMapping(value = "/mission/requester/{missionId}/instances/{instanceId}", method = RequestMethod.GET)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Returns the instance", response = MissionInstanceQueryDetailResponse.class),
+            @ApiResponse(code = 200, message = "Returns the instance", response = InstanceDetailResponse.class),
             @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
             @ApiResponse(code = 403, message = "Not requester or not the author of the mission", response = WrongResponse.class),
             @ApiResponse(code = 404, message = "mission or instance not found", response = WrongResponse.class)

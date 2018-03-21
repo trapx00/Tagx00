@@ -1,18 +1,18 @@
 package trapx00.tagx00.vo.mission.worker;
 
-import trapx00.tagx00.vo.mission.missiontype.MissionVo;
+import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 
 public class MissionWorkerQueryItemVo {
     private String title;
     private String description;
-    private MissionVo mission;
+    private MissionProperties mission;
     private int missionId;
     private MissionInstanceState state;
     private String coverUrl; //封面url
 
 
-    public MissionWorkerQueryItemVo(String title, String description, MissionVo mission, MissionInstanceState state, String coverUrl,int missionId) {
+    public MissionWorkerQueryItemVo(String title, String description, MissionProperties mission, MissionInstanceState state, String coverUrl, int missionId) {
         this.title = title;
         this.description = description;
         this.mission = mission;
@@ -44,11 +44,11 @@ public class MissionWorkerQueryItemVo {
         this.description = description;
     }
 
-    public MissionVo getMission() {
+    public MissionProperties getMission() {
         return mission;
     }
 
-    public void setMission(MissionVo mission) {
+    public void setMission(MissionProperties mission) {
         this.mission = mission;
     }
 

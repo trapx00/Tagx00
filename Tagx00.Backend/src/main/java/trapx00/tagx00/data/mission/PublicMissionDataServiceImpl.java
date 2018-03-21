@@ -7,7 +7,7 @@ import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
-import trapx00.tagx00.vo.mission.missiontype.MissionVo;
+import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
 @Service
 public class PublicMissionDataServiceImpl implements PublicMissionDataService {
@@ -31,7 +31,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
             return null;
         MissionPublicItemVo[] result=new MissionPublicItemVo[missions.length];
         for(int i=0;i<missions.length;i++){
-            result[i]=new MissionPublicItemVo(missions[i].getTitle(),missions[i].getTopics(), new MissionVo(MissionType.IMAGE),
+            result[i]=new MissionPublicItemVo(missions[i].getTitle(),missions[i].getTopics(), new MissionProperties(MissionType.IMAGE),
                    missions[i].getStart(),missions[i].getEnd() );
         }
         return result;

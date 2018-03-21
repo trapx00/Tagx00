@@ -1,21 +1,21 @@
 package trapx00.tagx00.publicdatas.mission.image;
 
-import trapx00.tagx00.vo.mission.image.ImageJobType;
+import trapx00.tagx00.vo.mission.image.ImageMissionType;
 
 import java.io.Serializable;
 
 public class ImageJob implements Serializable{
-    private ImageJobType type;
+    private ImageMissionType type;
 
-    public ImageJob(ImageJobType type) {
+    public ImageJob(ImageMissionType type) {
         this.type = type;
     }
 
-    public ImageJobType getType() {
+    public ImageMissionType getType() {
         return type;
     }
 
-    public void setType(ImageJobType type) {
+    public void setType(ImageMissionType type) {
         this.type = type;
     }
 }

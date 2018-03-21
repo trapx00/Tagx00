@@ -2,9 +2,8 @@ package trapx00.tagx00.dataservice.mission;
 
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.SystemException;
-import trapx00.tagx00.vo.mission.instance.MissionInstanceDetailVo;
-import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
-import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryItemVo;
+import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
+import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.worker.MissionWorkerQueryItemVo;
 
 public interface WorkerMissionDataService {
@@ -19,9 +18,9 @@ public interface WorkerMissionDataService {
      * save the progress of the instance.
      * if not accpet the mission before, the system will create a instance for workers
      * also use to abort the instance
-     * @param missionInstanceItemVo
+     * @param instanceVo
      */
-    int saveInstance(MissionInstanceItemVo missionInstanceItemVo)throws SystemException;
+    int saveInstance(InstanceVo instanceVo)throws SystemException;
 
 
     /**
@@ -37,7 +36,7 @@ public interface WorkerMissionDataService {
      * @param missionId
      * @return the instance matching username and missionId
      */
-    MissionInstanceDetailVo getInstanceByUsernameAndMissionId(String workerusername, int missionId);
+    InstanceDetailVo getInstanceByUsernameAndMissionId(String workerusername, int missionId);
 
     /**
      * delte the mission of a worker

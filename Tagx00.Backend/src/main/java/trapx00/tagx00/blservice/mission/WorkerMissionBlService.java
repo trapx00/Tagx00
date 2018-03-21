@@ -6,8 +6,7 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.mission.MissionQueryDetailResponse;
 import trapx00.tagx00.response.mission.MissionQueryResponse;
-import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
-import trapx00.tagx00.vo.mission.missiontype.MissionVo;
+import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
 public interface WorkerMissionBlService {
     /**
@@ -39,16 +38,16 @@ public interface WorkerMissionBlService {
     /**
      * save the progress of the instance
      *
-     * @param missionInstanceItemVo
+     * @param instanceVo
      * @return whether to save successful or not
      */
-    SuccessResponse saveProgress(MissionInstanceItemVo missionInstanceItemVo)throws SystemException;
+    SuccessResponse saveProgress(InstanceVo instanceVo)throws SystemException;
 
     /**
      * save the progress of the instance and submit it
      *
-     * @param missionInstanceItemVo
+     * @param instanceVo
      * @return whether to save and submit successful or not
      */
-    SuccessResponse submit(MissionInstanceItemVo missionInstanceItemVo)throws SystemException;
+    SuccessResponse submit(InstanceVo instanceVo)throws SystemException;
 }

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
-import trapx00.tagx00.entity.mission.Instance;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
 import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
@@ -12,9 +11,9 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.mission.MissionQueryDetailResponse;
 import trapx00.tagx00.response.mission.MissionQueryResponse;
-import trapx00.tagx00.vo.mission.instance.MissionInstanceDetailVo;
-import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
-import trapx00.tagx00.vo.mission.missiontype.MissionVo;
+import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
+import trapx00.tagx00.vo.mission.instance.InstanceVo;
+import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryDetailVo;
 import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryItemVo;
 import trapx00.tagx00.vo.mission.worker.MissionWorkerQueryItemVo;
@@ -75,12 +74,12 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public MissionQueryDetailResponse getInstanceInformation(int missionId, String workerusername) throws InstanceNotExistException {
-        MissionInstanceDetailVo missionInstanceDetailVo= workerMissionDataService.getInstanceByUsernameAndMissionId(workerusername, missionId) ;
+        InstanceDetailVo missionInstanceDetailVo= workerMissionDataService.getInstanceByUsernameAndMissionId(workerusername, missionId) ;
         if(missionInstanceDetailVo==null)
             throw new InstanceNotExistException();
         Mission mission=workerMissionDataService.getMissionByMissionId(missionInstanceDetailVo.getMissionId());
         MissionQueryDetailResponse missionQueryDetailResponse=new MissionQueryDetailResponse(new MissionRequesterQueryDetailVo(mission.getTitle(),
-                mission.getDescription(),new MissionVo(mission.getMissionType()),
+                mission.getDescription(),new MissionProperties(mission.getMissionType()),
                 mission.getMissionState(),mission.getCoverUrl(),mission.getUrls()));
         return missionQueryDetailResponse;
     }
@@ -89,24 +88,24 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
     /**
      * save the progress of the instance
      *
-     * @param missionInstanceItemVo
+     * @param instanceVo
      * @return whether to save successful or not
      */
     @Override
-    public SuccessResponse saveProgress(MissionInstanceItemVo missionInstanceItemVo) throws SystemException {
-        workerMissionDataService.saveInstance(missionInstanceItemVo);
+    public SuccessResponse saveProgress(InstanceVo instanceVo) throws SystemException {
+        workerMissionDataService.saveInstance(instanceVo);
         return new SuccessResponse("Success Save");
     }
 
     /**
      * save the progress of the instance and submit it
      *
-     * @param missionInstanceItemVo
+     * @param instanceVo
      * @return whether to save and submit successful or not
      */
     @Override
-    public SuccessResponse submit(MissionInstanceItemVo missionInstanceItemVo) throws SystemException {
-        workerMissionDataService.saveInstance(missionInstanceItemVo);
+    public SuccessResponse submit(InstanceVo instanceVo) throws SystemException {
+        workerMissionDataService.saveInstance(instanceVo);
         return null;
     }
 }

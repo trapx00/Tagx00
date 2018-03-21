@@ -12,8 +12,8 @@ import java.util.List;
 public class Mission extends Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private int id;
+    @Column(name = "missionId")
+    private int missionId;
     @Column(name = "title")
     private String title;
     @Column(name = "description")
@@ -28,22 +28,19 @@ public class Mission extends Entity {
     private List<String> allowedTags;
     @Column(name = "missionType")
     private MissionType missionType;
-    @Column(name = "missionType")
+    @Column(name = "missionState")
     private MissionState missionState;
     @Column(name = "start")
     private Date start;
     @Column(name = "end")
     private Date end;
-    @ElementCollection(targetClass = String.class)
-    @Column(name = "urls")
-    private List<String> urls;
     @Column(name = "coverUrl")
     private String coverUrl;
     @Column(name = "requesterUsername")
     private String requesterUsername;
 
-    public  Mission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, List<String> urls, String coverUrl, String requesterUsername) {
-        this.id = id;
+    public  Mission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end,  String coverUrl, String requesterUsername) {
+        this.missionId = missionId;
         this.title = title;
         this.description = description;
         this.topics = topics;
@@ -52,7 +49,6 @@ public class Mission extends Entity {
         this.missionType = missionType;
         this.start = start;
         this.end = end;
-        this.urls = urls;
         this.coverUrl = coverUrl;
         this.requesterUsername = requesterUsername;
         this.missionState=MissionState.PENDING;
@@ -65,12 +61,12 @@ public class Mission extends Entity {
         this.missionState = missionState;
     }
 
-    public int getId() {
-        return id;
+    public int getMissionId() {
+        return missionId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMissionId(int missionId) {
+        this.missionId = missionId;
     }
 
     public String getTitle() {
@@ -137,13 +133,6 @@ public class Mission extends Entity {
         this.end = end;
     }
 
-    public List<String> getUrls() {
-        return urls;
-    }
-
-    public void setUrls(List<String> urls) {
-        this.urls = urls;
-    }
 
     public String getCoverUrl() {
         return coverUrl;

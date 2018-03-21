@@ -2,8 +2,7 @@ package trapx00.tagx00.dataservice.mission;
 
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.SystemException;
-import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
-import trapx00.tagx00.vo.mission.missiontype.MissionVo;
+import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryItemVo;
 
 public interface RequesterMissionDataService {
@@ -30,14 +29,14 @@ public interface RequesterMissionDataService {
      * @param instanceId
      * @return the specific MissionInstanceItemVo
      */
-    MissionInstanceItemVo getInstanceById(int instanceId);
+    InstanceVo getInstanceById(int instanceId);
     /**
      * get instance by instanceId
      *
      * @param missionId
      * @return the specific MissionInstanceItemVo
      */
-    MissionInstanceItemVo[] getInstanceBymissionId(int missionId);
+    InstanceVo[] getInstanceBymissionId(int missionId);
 
     /**
      * get mission by mission id

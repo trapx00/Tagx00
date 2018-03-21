@@ -2,12 +2,12 @@ package trapx00.tagx00.publicdatas.mission.image.whole;
 
 import trapx00.tagx00.publicdatas.mission.TagDescriptionTuple;
 import trapx00.tagx00.publicdatas.mission.image.ImageJob;
-import trapx00.tagx00.vo.mission.image.ImageJobType;
+import trapx00.tagx00.vo.mission.image.ImageMissionType;
 
 public class ImageWholeJob extends ImageJob {
     private TagDescriptionTuple tuple;
 
-    public ImageWholeJob(ImageJobType type, TagDescriptionTuple tuple) {
+    public ImageWholeJob(ImageMissionType type, TagDescriptionTuple tuple) {
         super(type);
         this.tuple = tuple;
     }

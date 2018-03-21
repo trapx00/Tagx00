@@ -1,16 +1,16 @@
 package trapx00.tagx00.data.dao.mission;
 
 import org.springframework.stereotype.Service;
-import trapx00.tagx00.entity.mission.Instance;
+import trapx00.tagx00.entity.mission.ImageInstance;
 @Service
 public interface InstanceDao {
-    Instance saveInstance(Instance instance);
+    ImageInstance saveInstance(ImageInstance imageInstance);
 
-    Instance[] findInstancesBymissionId(int missionId);
+    ImageInstance[] findInstancesBymissionId(int missionId);
 
-    Instance[] findInstanceByWorkerUsername(String workerusername);
+    ImageInstance[] findInstanceByWorkerUsername(String workerusername);
 
-    Instance findInstanceByinstanceId(int instanceId);
+    ImageInstance findInstanceByinstanceId(int instanceId);
 
     boolean deleteInstance(int instanceid);
 }
