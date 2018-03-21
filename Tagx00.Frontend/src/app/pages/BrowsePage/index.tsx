@@ -6,6 +6,7 @@ import { BrowserMissionList } from "../../components/Browser/BrowserMissionList"
 import TweenOne from 'rc-tween-one';
 
 
+@observer
 export class BrowsePage extends React.Component<any, any> {
   contentAnimation = [
     {scale: 1},

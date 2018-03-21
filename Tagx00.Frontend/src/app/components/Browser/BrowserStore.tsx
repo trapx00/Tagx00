@@ -18,6 +18,10 @@ export class BrowserStore {
     this._paused = !this._paused;
   };
 
+  @computed get isBrowsing(): boolean {
+    return !this._paused;
+  }
+
   @computed get reverse(): boolean {
     return this._reverse;
   }
