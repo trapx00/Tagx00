@@ -1,14 +1,14 @@
 package trapx00.tagx00.publicdatas.mission.image.part;
 
 import trapx00.tagx00.publicdatas.mission.image.ImageJob;
-import trapx00.tagx00.vo.mission.image.ImageJobType;
+import trapx00.tagx00.vo.mission.image.ImageMissionType;
 
 import java.util.List;
 
 public class ImagePartJob extends ImageJob {
     private List<PartTagDescriptionTuple> tuples;
 
-    public ImagePartJob(ImageJobType type, List<PartTagDescriptionTuple> tuples) {
+    public ImagePartJob(ImageMissionType type, List<PartTagDescriptionTuple> tuples) {
         super(type);
         this.tuples = tuples;
     }

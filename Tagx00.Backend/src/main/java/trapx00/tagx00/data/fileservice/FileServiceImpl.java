@@ -238,8 +238,8 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return (T[]) tArrayList.toArray();
+        T[]result=(T[])tArrayList.toArray();
+        return result;
     }
 
     private T fromJsonToObject(JSONObject jsonObject, Class<T> clazz) {

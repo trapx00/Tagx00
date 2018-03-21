@@ -6,22 +6,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
-import trapx00.tagx00.entity.mission.Instance;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
 import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
-import trapx00.tagx00.publicdatas.mission.MissionState;
-import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.response.mission.*;
 import trapx00.tagx00.security.jwt.JwtService;
 import trapx00.tagx00.security.jwt.JwtUser;
 import trapx00.tagx00.util.UserInfoUtil;
-import trapx00.tagx00.vo.mission.instance.MissionInstanceDetailVo;
-import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
-import trapx00.tagx00.vo.mission.missiontype.MissionVo;
+import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
+import trapx00.tagx00.vo.mission.instance.InstanceVo;
+import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryDetailVo;
 import trapx00.tagx00.vo.mission.requester.MissionRequesterQueryItemVo;
@@ -56,7 +53,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
 
             String username= UserInfoUtil.getUsername();
             int missiondId=requesterMissionDataService.saveMission(new Mission(mission.getTitle(),mission.getDescription(),
-                    mission.getTopics(),mission.getCustomTag(),mission.getAllowedTags(), MissionType.IMAGE,mission.getStart(),
+                    mission.getTopics(),mission.getCustomTag(),mission.getAllowedTags(), mission.getMissionType(),mission.getStart(),
                     mission.getEnd(),null,null,username));
             JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
             String token = jwtService.generateToken(jwtUser, EXPIRATION);
@@ -93,7 +90,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
         if(mission==null)
             throw new MissionIdDoesNotExistException();
         return new MissionQueryDetailResponse(new MissionRequesterQueryDetailVo(mission.getTitle(),
-                mission.getDescription(),new MissionVo(mission.getMissionType()), MissionState.ACTIVE,mission.getCoverUrl(),
+                mission.getDescription(),new MissionProperties(mission.getMissionType()),mission.getMissionState(),mission.getCoverUrl(),
                 mission.getUrls()));
     }
 
@@ -106,7 +103,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     @Override
     public MissionInstancesQueryResponse queryInstances(int missionId) throws InstanceNotExistException
     {
-        MissionInstanceItemVo instance=requesterMissionDataService.getInstanceBymissionId(missionId);
+        InstanceVo[] instance=requesterMissionDataService.getInstanceBymissionId(missionId);
         if(instance==null)
             throw new InstanceNotExistException();
         MissionInstancesQueryResponse missionRequesterQueryItemVo=new MissionInstancesQueryResponse(Arrays.asList(instance));
@@ -121,14 +118,15 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public MissionInstanceQueryDetailResponse queryInstance(int instanceId) throws InstanceNotExistException{
-        MissionInstanceItemVo missionInstanceItemVo=requesterMissionDataService.getInstanceById(instanceId);
-        if(missionInstanceItemVo==null)
+        InstanceVo instanceVo =requesterMissionDataService.getInstanceById(instanceId);
+        Mission mission=requesterMissionDataService.getMissionByMissionId(instanceVo.getMissionId());
+        if(instanceVo ==null)
             throw new InstanceNotExistException();
         MissionInstanceQueryDetailResponse missionInstanceQueryDetailResponse=new MissionInstanceQueryDetailResponse(
-                new MissionInstanceDetailVo(missionInstanceItemVo.getId(),missionInstanceItemVo.getMissionId(),missionInstanceItemVo.getWorkerUsername(),
-                        MissionInstanceState.IN_PROGRESS,missionInstanceItemVo.getAcceptDate(),missionInstanceItemVo.getSubmitDate(),
-                        missionInstanceItemVo.getCompletedCount(),missionInstanceItemVo.getTotalCount(),true,
-                        new MissionVo(MissionType.IMAGE))
+                new InstanceDetailVo(instanceVo.getInstanceId(), instanceVo.getMissionId(), instanceVo.getWorkerUsername(),
+                        MissionInstanceState.IN_PROGRESS, instanceVo.getAcceptDate(), instanceVo.getSubmitDate(),
+                        instanceVo.getCompletedCount(), instanceVo.getTotalCount(),mission.isAllowCustomTag(),
+                        new MissionProperties(mission.getMissionType()))
         );
         /**
          * 参数中有参数未解决
