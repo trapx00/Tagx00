@@ -3,10 +3,11 @@ import { observer, Provider } from "mobx-react";
 import { BrowserStore, STORE_BROWSER } from "../../components/Browser/BrowserStore";
 import { SearchBar } from "../../components/Browser/SearchBar";
 import { BrowserMissionList } from "../../components/Browser/BrowserMissionList";
-
+import TweenOne from 'rc-tween-one';
 
 @observer
 export class BrowsePage extends React.Component<any, any> {
+  animation = {left: '20%', yoyo: true, repeat: -1, duration: 1000};
 
   render() {
     const store = {
@@ -14,12 +15,13 @@ export class BrowsePage extends React.Component<any, any> {
     };
     return (
       <Provider {...store} >
-        <div>
-        <img id="logo" src={require('../../../assets/logo.png')}
-                             alt="" style={{padding: '5%',textAlign:'center',height:'20px'}}/>
+        <TweenOne animation={this.animation}
+                  paused={this.props.paused}
+                  style={{left: '-20%'}}
+                  className="code-box-shape">
           <SearchBar/>
           <BrowserMissionList/>
-        </div>
+        </TweenOne>
       </Provider>
     )
   }
