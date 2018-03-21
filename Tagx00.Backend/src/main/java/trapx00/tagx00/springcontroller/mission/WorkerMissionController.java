@@ -14,11 +14,13 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.WrongResponse;
+import trapx00.tagx00.response.mission.InstanceDetailResponse;
+import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.response.mission.MissionQueryDetailResponse;
 import trapx00.tagx00.response.mission.MissionQueryResponse;
 import trapx00.tagx00.util.UserInfoUtil;
-import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
-import trapx00.tagx00.vo.mission.missiontype.MissionVo;
+import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
+import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
 @PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "')")
 @RestController
@@ -31,10 +33,10 @@ public class WorkerMissionController {
     }
 
     @Authorization(value = "工人")
-    @ApiOperation(value = "工人查看所有任务", notes = "工人查看自己已接的所有任务")
+    @ApiOperation(value = "工人查看所有任务的实例", notes = "工人查看自己已接的所有任务的实例")
     @RequestMapping(value = "/mission/worker", method = RequestMethod.GET)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Returns current user's missions", response = MissionQueryResponse.class),
+            @ApiResponse(code = 200, message = "Returns current user's instances", response = InstanceResponse.class),
             @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
             @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class)
     })
@@ -50,7 +52,7 @@ public class WorkerMissionController {
 
 
     @Authorization(value = "工人")
-    @ApiOperation(value = "工人放弃任务", notes = "工人放弃自己已接的所有任务")
+    @ApiOperation(value = "工人放弃任务", notes = "工人放弃自己已接的任务")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
     })
@@ -77,7 +79,7 @@ public class WorkerMissionController {
     })
     @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.GET)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Returns the instance", response = MissionQueryDetailResponse.class),
+            @ApiResponse(code = 200, message = "Returns the instance", response = InstanceDetailResponse.class),
             @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
             @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
             @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
@@ -106,9 +108,9 @@ public class WorkerMissionController {
             @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> saveProgress(@RequestBody MissionInstanceItemVo mission) {
+    public ResponseEntity<Response> saveProgress(@RequestBody InstanceDetailVo instanceDetail, @PathVariable("missionId") String missionId) {
         try {
-            return new ResponseEntity<>(workerMissionBlService.saveProgress( mission), HttpStatus.OK);
+            return new ResponseEntity<>(workerMissionBlService.saveProgress( instanceDetail), HttpStatus.OK);
         }catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
@@ -116,7 +118,7 @@ public class WorkerMissionController {
     }
 
     @Authorization(value = "工人")
-    @ApiOperation(value = "工人提交任务", notes = "工人提交当前任务,如果是空的就是接受任务")
+    @ApiOperation(value = "工人提交任务", notes = "工人用当前的进度提交任务,如果是空的就是接受任务")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "dataType", value = "任务类型", required = true, dataType = "MissionType"),
             @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
@@ -130,9 +132,9 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> submit(
-            @RequestBody MissionInstanceItemVo mission) {
+            @RequestBody InstanceDetailVo instanceDetailVo) {
         try {
-            return new ResponseEntity<>(workerMissionBlService.submit(mission), HttpStatus.OK);
+            return new ResponseEntity<>(workerMissionBlService.submit(instanceDetailVo), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);

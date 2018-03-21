@@ -11,7 +11,7 @@ import trapx00.tagx00.entity.mission.workresult.ImageResult;
 import trapx00.tagx00.publicdatas.mission.TagDescriptionTuple;
 import trapx00.tagx00.publicdatas.mission.image.ImageJob;
 import trapx00.tagx00.publicdatas.mission.image.whole.ImageWholeJob;
-import trapx00.tagx00.vo.mission.image.ImageJobType;
+import trapx00.tagx00.vo.mission.image.ImageMissionType;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class FileServiceImplTest {
         arrayList.add("123");
         TagDescriptionTuple tagDescriptionTuple = new TagDescriptionTuple(null, arrayList);
         tagDescriptionTuple.setDescriptions(arrayList);
-        ImageWholeJob imageJob = new ImageWholeJob(ImageJobType.WHOLE, tagDescriptionTuple);
+        ImageWholeJob imageJob = new ImageWholeJob(ImageMissionType.WHOLE, tagDescriptionTuple);
         ImageJob trial = imageJob;
         ImageResult imageResult = new ImageResult(trial, null);
         fileService.saveTuple(imageResult);

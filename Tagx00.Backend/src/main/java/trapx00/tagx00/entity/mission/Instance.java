@@ -1,79 +1,29 @@
 package trapx00.tagx00.entity.mission;
 
-import trapx00.tagx00.entity.Entity;
 import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 
 import java.util.Date;
 import java.util.List;
 
-@Table(name = "instance")
-public class Instance extends Entity {
+public class Instance {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private int id;
+    @Column(name = "instanceId")
+    private int instanceId;
 
     @Column(name = "workerUsername")
     private String workerUsername;
 
-    public int getMissionId() {
-        return missionId;
-    }
-
-    public void setMissionId(int missionId) {
-        this.missionId = missionId;
-    }
-
-    @Column(name = "missionId")
-    private int missionId;
-
-    public int getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    @Column(name = "totalCount")
-    private int totalCount;
-
     @Column(name = "missionInstanceState")
     private MissionInstanceState missionInstanceState;
 
-    @Column(name = "acceptDate")
-    private Date acceptDate;
-
-    @Column(name = "submitDate")
-    private Date submitDate;
-
-
-
-    @ElementCollection(targetClass = Integer.class)
-    @Column(name = "imageIds")
-    private List<Integer> imageIds;
-
-    @Column(name = "isSubmitted")
-    private boolean isSubmitted;
-
-    public Instance(int missionId,String workerUsername, MissionInstanceState missionInstanceState, Date acceptDate, Date submitDate, List<Integer> imageIds, boolean isSubmitted) {
-        this.id = id;
-        this.missionId=missionId;
-        this.workerUsername = workerUsername;
-        this.missionInstanceState = missionInstanceState;
-        this.acceptDate = acceptDate;
-        this.submitDate = submitDate;
-        this.imageIds = imageIds;
-        this.isSubmitted = isSubmitted;
+    public int getInstanceId() {
+        return instanceId;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setInstanceId(int instanceId) {
+        this.instanceId = instanceId;
     }
 
     public String getWorkerUsername() {
@@ -92,6 +42,14 @@ public class Instance extends Entity {
         this.missionInstanceState = missionInstanceState;
     }
 
+    public int getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(int missionId) {
+        this.missionId = missionId;
+    }
+
     public Date getAcceptDate() {
         return acceptDate;
     }
@@ -108,14 +66,6 @@ public class Instance extends Entity {
         this.submitDate = submitDate;
     }
 
-    public List<Integer> getImageIds() {
-        return imageIds;
-    }
-
-    public void setImageIds(List<Integer> imageIds) {
-        this.imageIds = imageIds;
-    }
-
     public boolean isSubmitted() {
         return isSubmitted;
     }
@@ -123,4 +73,27 @@ public class Instance extends Entity {
     public void setSubmitted(boolean submitted) {
         isSubmitted = submitted;
     }
+
+    @Column(name = "missionId")
+    private int missionId;
+
+    public Instance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted) {
+        this.instanceId = instanceId;
+        this.workerUsername = workerUsername;
+        this.missionInstanceState = missionInstanceState;
+        this.missionId = missionId;
+        this.acceptDate = acceptDate;
+        this.submitDate = submitDate;
+        this.isSubmitted = isSubmitted;
+    }
+
+    @Column(name = "acceptDate")
+    private Date acceptDate;
+
+    @Column(name = "submitDate")
+    private Date submitDate;
+
+
+    @Column(name = "isSubmitted")
+    private boolean isSubmitted;
 }

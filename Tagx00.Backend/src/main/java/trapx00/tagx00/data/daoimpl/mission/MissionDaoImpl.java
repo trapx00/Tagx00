@@ -3,8 +3,6 @@ package trapx00.tagx00.data.daoimpl.mission;
 import org.springframework.beans.factory.annotation.Autowired;
 import trapx00.tagx00.data.dao.mission.MissionDao;
 import trapx00.tagx00.data.fileservice.FileService;
-import trapx00.tagx00.entity.account.User;
-import trapx00.tagx00.entity.mission.Instance;
 import trapx00.tagx00.entity.mission.Mission;
 
 public class MissionDaoImpl implements MissionDao {
@@ -31,8 +29,8 @@ public class MissionDaoImpl implements MissionDao {
     }
 
     @Override
-    public Mission findMissionByusername(String username) {
-        return fileService.findOne(username,Mission.class);
+    public Mission[] findMissionByusername(String username) {
+        return fileService.findOnes(username,Mission.class);
     }
 
     @Override

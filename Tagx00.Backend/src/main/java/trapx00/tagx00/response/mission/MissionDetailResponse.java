@@ -3,8 +3,10 @@ package trapx00.tagx00.response.mission;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 
-public class MissionQueryDetailResponse extends Response {
+public class MissionDetailResponse extends Response {
     private MissionDetailVo detail;
 
-
+    public MissionDetailResponse(MissionDetailVo detail) {
+        this.detail = detail;
+    }
 }
