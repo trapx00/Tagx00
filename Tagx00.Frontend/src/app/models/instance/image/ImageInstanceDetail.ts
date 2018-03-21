@@ -1,7 +1,7 @@
 import { InstanceDetail } from "../InstanceDetail";
 import { ImageResult } from "./ImageResult";
 
-export interface ImageInstanceDetailVo extends InstanceDetail {
+export interface ImageInstanceDetail extends InstanceDetail {
   results: ImageResult[];
 
 }
