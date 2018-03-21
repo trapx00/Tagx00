@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.response.user.UserLoginResponse;
+import trapx00.tagx00.response.user.UserRegisterResponse;
 
 import static org.junit.Assert.*;
 
@@ -47,16 +48,25 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
-    public void registerShouldSucceedAndReturnToken() throws Exception {
-    }
-
-    @Test
     public void trial() {
         RestTemplate restTemplate = testRestTemplate.getRestTemplate();
         HttpEntity<String> entity = new HttpEntity<>(getAuthenticatedHeaders());
         ResponseEntity<String> response = restTemplate.exchange(getRoute("try"), HttpMethod.GET, entity, String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("123", response.getBody());
+    }
+
+    @Test
+    public void registerShouldSucceedAndReturnToken() {
+        ResponseEntity<UserRegisterResponse> response = register();
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertEquals("Authorization",response.getBody().getToken());
+    }
+
+    @Test
+    public void loginShouldSuccess() {
+        ResponseEntity<UserLoginResponse> response = login();
+        assertEquals(HttpStatus.OK,response.getStatusCode());
     }
 
     public HttpHeaders getAuthenticatedHeaders() {
@@ -74,11 +84,12 @@ public class UserControllerIntegrationTest {
         return testRestTemplate.getForEntity(url, UserLoginResponse.class);
     }
 
-
-    @Test
-    public void loginShouldSuccess() {
-        ResponseEntity<UserLoginResponse> response = login();
-        assertEquals(HttpStatus.OK,response.getStatusCode());
+    private ResponseEntity<UserRegisterResponse> register() {
+        String url = getRoute(registerRoute) + "?username=test&password=test";
+        return testRestTemplate.getForEntity(url,UserRegisterResponse.class);
     }
+
+
+
 
 }

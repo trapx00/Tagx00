@@ -7,17 +7,16 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import trapx00.tagx00.data.mission.PublicMissionDataServiceImpl;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
-import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 
-import java.util.Date;
+import static org.junit.Assert.assertEquals;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PublicMissionDataServiceTest {
-
-    private PublicMissionDataService publicMissionDataService = new PublicMissionDataServiceImpl();
+    @Autowired
+    private PublicMissionDataService publicMissionDataService;
 
     @Before
     public void setUp() throws Exception {
@@ -29,7 +28,7 @@ public class PublicMissionDataServiceTest {
 
     @Test
     public void getMissions() {
-        MissionPublicItemVo missionPublicItemVo = new MissionPublicItemVo("ImageMission", null, null,  new Date(), new Date());
-        publicMissionDataService.getMissions();
+        assertEquals(0,publicMissionDataService.getMissions().length);
+
     }
 }

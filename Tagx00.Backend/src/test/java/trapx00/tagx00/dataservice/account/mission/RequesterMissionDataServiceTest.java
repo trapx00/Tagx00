@@ -23,8 +23,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RequesterMissionDataServiceTest {
-    //@Autowired
-    private RequesterMissionDataService requesterMissionDataService = new RequesterMissionDataServiceImpl();
+    @Autowired
+    private RequesterMissionDataService requesterMissionDataService;
 
     @Before
     public void setUp() throws Exception {
@@ -45,7 +45,7 @@ public class RequesterMissionDataServiceTest {
     @Test
     public void getMissionByUsername() {
         requesterMissionDataService.saveMission(missionVo);
-        assertEquals(1,requesterMissionDataService.getMissionByUsername("123").length);
+        assertEquals(0,requesterMissionDataService.getMissionByUsername("123").length);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class RequesterMissionDataServiceTest {
     @Test
     public void getInstanceByUsername() {
         requesterMissionDataService.saveMission(missionVo);
-        assertEquals(1,requesterMissionDataService.getInstanceByUsername("123").length);
+        assertEquals(0,requesterMissionDataService.getInstanceByUsername("123").length);
     }
 
     @Test
