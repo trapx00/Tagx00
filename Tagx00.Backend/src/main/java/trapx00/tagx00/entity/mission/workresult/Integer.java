@@ -5,7 +5,7 @@ import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.publicdatas.mission.image.ImageJob;
 
 @Table(name = "imageResult")
-public class ImageResult extends Entity {
+public class Integer extends Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -15,17 +15,17 @@ public class ImageResult extends Entity {
     private int instanceId;
 
     @JsonSerialize
-    @ElementCollection(targetClass = Integer.class)
+    @ElementCollection(targetClass = java.lang.Integer.class)
     @Column(name = "imageJob")
     private ImageJob imageJob;
 
     @Column(name = "filename")
     private String url;
 
-    public ImageResult() {
+    public Integer() {
     }
 
-    public ImageResult(ImageJob imageJob, String url) {
+    public Integer(ImageJob imageJob, String url) {
         this.imageJob = imageJob;
         this.url = url;
     }

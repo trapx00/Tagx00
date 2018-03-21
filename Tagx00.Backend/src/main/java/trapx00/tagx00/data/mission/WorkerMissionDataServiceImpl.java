@@ -6,8 +6,11 @@ import trapx00.tagx00.data.dao.mission.InstanceDao;
 import trapx00.tagx00.data.dao.mission.MissionDao;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
 import trapx00.tagx00.entity.mission.ImageInstance;
+import trapx00.tagx00.entity.mission.Instance;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.publicdatas.mission.MissionType;
+import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
@@ -31,13 +34,29 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
      * @param instanceVo
      */
     @Override
-    public int saveInstance(InstanceVo instanceVo) throws SystemException {
-        ImageInstance result;
-        if ((result=instanceDao.saveInstance(new ImageInstance(instanceVo.getMissionId(), instanceVo.getWorkerUsername(), instanceVo.getState(),
-                instanceVo.getAcceptDate(), instanceVo.getSubmitDate(), instanceVo.getImageIds()
-                , instanceVo.isSubmitted())) )== null) {
-            throw new SystemException();
-        }
+    public int saveInstance(InstanceDetailVo instanceVo) throws SystemException {
+         Instance result=null;
+
+         if(missionDao.findMissionByMissionId(instanceVo.getInstance().getMissionId()).
+                 getMissionType().equals(MissionType.IMAGE)){
+             ImageInstanceDetailVo instanceDetailVo=(ImageInstanceDetailVo)instanceVo;
+             if(instanceDao.findInstanceBymissionIdandworkerUsername(instanceVo.getInstance().getMissionId(),
+                     instanceVo.getInstance().getWorkerUsername())==null){
+                 instanceDao.saveInstance(new ImageInstance(instanceVo.getInstance().getInstanceId(),instanceVo.getInstance().getWorkerUsername(),
+                         instanceVo.getInstance().getMissionInstanceState(),instanceVo.getInstance().getMissionId(),
+                         instanceVo.getInstance().getAcceptDate(),instanceVo.getInstance().getSubmitDate(),
+                         instanceVo.getInstance().isSubmitted(),instanceDetailVo.getImageIds()
+                         ));
+             }
+             else if ((result=instanceDao.saveInstance(new ImageInstance(instanceVo.getInstance().getInstanceId()
+                     , instanceVo.getInstance().getWorkerUsername(), instanceVo.getInstance().getMissionInstanceState(),
+                     instanceVo.getInstance().getMissionId(), instanceVo.getInstance().getAcceptDate(),
+                     instanceVo.getInstance().getSubmitDate(),instanceVo.getInstance().isSubmitted()
+                     ,instanceDetailVo.getImageIds() )) )== null) {
+                 throw new SystemException();
+             }
+         }
+
         return result.getInstanceId();
     }
 
@@ -48,8 +67,8 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
      * @return the list of  the MissionWorkerQueryItemVo
      */
     @Override
-    public MissionWorkerQueryItemVo[] getInstanceByWorkerUsername(String workerusername) {
-        ImageInstance[] imageInstances =instanceDao.findInstanceByWorkerUsername(workerusername);
+    public InstanceVo[] getInstanceByWorkerUsername(String workerusername) {
+        Instance[] imageInstances =instanceDao.findInstanceByWorkerUsername(workerusername);
         if(imageInstances ==null)
             return null;
         MissionWorkerQueryItemVo[] requesterQueryItemVos=new MissionWorkerQueryItemVo[imageInstances.length];
@@ -73,6 +92,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         Mission mission=missionDao.findMissionByMissionId(missionId);
         return mission;
     }
+
     /**
      * get the infomation of  instance by username and missionId
      *
@@ -83,9 +103,9 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     @Override
     public InstanceDetailVo getInstanceByUsernameAndMissionId(String workerusername, int missionId) {
 
-        ImageInstance result;
-        ImageInstance[] imageInstances = instanceDao.findInstanceByWorkerUsername(workerusername);
-        ImageInstance[] instances1 = instanceDao.findInstancesBymissionId(missionId);
+        Instance result;
+        Instance[] imageInstances = instanceDao.findInstanceByWorkerUsername(workerusername);
+        Instance[] instances1 = instanceDao.findInstancesBymissionId(missionId);
         Mission temp = missionDao.findMissionByMissionId(missionId);
         if ((imageInstances == null) && (instances1 == null))
             return null;

@@ -4,42 +4,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import trapx00.tagx00.data.dao.mission.InstanceDao;
 import trapx00.tagx00.data.fileservice.FileService;
 import trapx00.tagx00.entity.mission.ImageInstance;
+import trapx00.tagx00.entity.mission.Instance;
 
 public class InstanceDaoImpl implements InstanceDao {
 
-    private final FileService<ImageInstance> fileService;
+    private final FileService<Instance> fileService;
 
     @Autowired
-    public InstanceDaoImpl(FileService<ImageInstance> fileService) {
+    public InstanceDaoImpl(FileService<Instance> fileService) {
         this.fileService = fileService;
     }
 
 
     @Override
-    public ImageInstance saveInstance(ImageInstance imageInstance) {
-        return fileService.saveTuple(imageInstance);
+    public Instance saveInstance(Instance instance) {
+        return fileService.saveTuple(instance);
     }
 
     @Override
-    public ImageInstance[] findInstancesBymissionId(int missionId) {
+    public Instance[] findInstancesBymissionId(int missionId) {
 
-        return  fileService.findOnes(String.valueOf(missionId),ImageInstance.class);
+        return  fileService.findOnes(String.valueOf(missionId),Instance.class);
     }
 
     @Override
-    public ImageInstance[] findInstanceByWorkerUsername(String workerusername) {
+    public Instance[] findInstanceByWorkerUsername(String workerusername) {
 
-        return fileService.findOnes(workerusername,ImageInstance.class);
+        return fileService.findOnes(workerusername,Instance.class);
     }
 
     @Override
-    public ImageInstance findInstanceByinstanceId(int instanceId) {
-        return fileService.findOne(String.valueOf(instanceId), ImageInstance.class);
+    public Instance findInstanceByinstanceId(int instanceId) {
+        return fileService.findOne(String.valueOf(instanceId), Instance.class);
     }
 
     @Override
     public boolean deleteInstance(int instanceid) {
-        fileService.delete(String.valueOf(instanceid),ImageInstance.class);
+        fileService.delete(String.valueOf(instanceid),Instance.class);
         return true;
     }
 }
