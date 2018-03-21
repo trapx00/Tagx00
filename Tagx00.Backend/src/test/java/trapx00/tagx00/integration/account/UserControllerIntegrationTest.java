@@ -30,9 +30,6 @@ public class UserControllerIntegrationTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    @Autowired
-    private UserDataService dataService;
-
     @Value("${jwt.route.authentication.login}")
     private String loginRoute;
 
@@ -85,11 +82,9 @@ public class UserControllerIntegrationTest {
     }
 
     private ResponseEntity<UserRegisterResponse> register() {
-        String url = getRoute(registerRoute) + "?username=test&password=test";
+        String url = getRoute(registerRoute) + "?username=test&password=test&email=test&role=worker";
         return testRestTemplate.getForEntity(url,UserRegisterResponse.class);
     }
-
-
 
 
 }
