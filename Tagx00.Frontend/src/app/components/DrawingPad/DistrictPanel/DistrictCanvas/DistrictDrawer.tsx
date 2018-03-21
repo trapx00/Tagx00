@@ -1,4 +1,4 @@
-import { Point } from "../../ImageLib/Shapes";
+import { Point } from "../../../../models/instance/image/Shapes";
 import { Boundary, District } from "../Districts";
 
 export class DistrictDrawer {

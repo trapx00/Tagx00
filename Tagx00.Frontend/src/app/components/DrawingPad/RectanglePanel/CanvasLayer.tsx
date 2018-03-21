@@ -1,7 +1,7 @@
 import React from "react"
 import { Rectangle } from "./Rectangle";
 import { DrawingSession } from "../utils/DrawingSession";
-import { Point } from "../ImageLib/Shapes";
+import { Point } from "../../../models/instance/image/Shapes";
 import { RectangleDrawer } from "./RectangleDrawer";
 
 interface Props {

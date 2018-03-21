@@ -5,7 +5,6 @@ import React from 'react';
 export abstract class RouteConfig {
   path: string = "";
   exact: boolean = true;
-  identify: (pathname: string) => boolean = () => false;
   abstract construct();
 
 }

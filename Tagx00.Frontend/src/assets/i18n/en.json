@@ -3,6 +3,7 @@
     "home": "Home",
     "browse": "Browse",
     "tag": "Tag",
+    "mission": "Mission",
     "about": "About",
     "login": "Login",
     "logout": "Logout",
@@ -21,7 +22,18 @@
     "dashboard": "Dashboard",
     "myMissions": {
       "menuText": "Missions",
-      "title": "My Missions"
+      "title": "My Missions",
+      "loadingCard": "Loading mission",
+      "cardState": {
+        "submitted": "Submitted",
+        "abandoned": "Abandoned",
+        "inProgress": "In Progress"
+      },
+      "cardActions": {
+        "continue": "Continue",
+        "abandon": "Abandon",
+        "seeMore": "See more"
+      }
     },
     "achievement": "Achievement",
     "personalInfo": "My info"

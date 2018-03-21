@@ -1,5 +1,5 @@
 import React from "react";
-import { Line, Point } from "../../ImageLib/Shapes";
+import { Line, Point } from "../../../../models/instance/image/Shapes";
 import { observer } from "mobx-react";
 import { DistrictDrawingSession, Step } from "./DistrictDrawingSession";
 import { DistrictDrawer } from "./DistrictDrawer";

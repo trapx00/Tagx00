@@ -19,18 +19,25 @@ const routes = [
   {
     path: "/",
     iconName: "home",
-    id: "navbar.home"
+    id: "navbar.home",
+    match: (pathname: string) => pathname == "/"
   }, {
     path: "/browse",
     iconName: "cloud",
-    id: "navbar.browse"
+    id: "navbar.browse",
+    match: (pathname: string) => pathname.startsWith("/browse")
+  }, {
+    path: "/missions",
+    iconName: "tag-o",
+    id: "navbar.mission",
+    match: (pathname: string) => pathname.startsWith("/missions")
   }, {
     path: "/about",
     iconName: "info-circle",
-    id: "navbar.about"
-  }
+    id: "navbar.about",
+    match: (pathname: string) => pathname.startsWith("/about")
+  },
 ];
-
 
 
 @inject(STORE_ROUTER)
@@ -39,7 +46,7 @@ export class Navbar extends React.Component<RouterStoreProps, any> {
 
   get selectedRoute() {
     const router = this.props[STORE_ROUTER];
-    return router.matchedPages.map(x => x.path);
+    return routes.filter(x => x.match(router.path)).map(x => x.path)
   }
 
   render() {
@@ -53,26 +60,27 @@ export class Navbar extends React.Component<RouterStoreProps, any> {
       <Col span={4}>
         <span>Tag x00</span>
       </Col>
-      <Col span={10}>
-        <Menu
-          theme="light"
-          mode="horizontal"
-          selectedKeys={this.selectedRoute}
-          style={{lineHeight: '64px'}}
-        >
-          {routes.map(x => <Menu.Item key={x.path}>
-            <Link to={x.path}>
-              <span><Icon type={x.iconName} /><LocaleMessage id={x.id}/></span>
-            </Link>
-          </Menu.Item>)}
-        </Menu>
-      </Col>
-      <Col span={10}>
-        <div className={style.rightButtons}>
+      <Col span={20}>
+        <div className={style.right}>
           <LanguageSelector/>
         </div>
-        <div className={style.rightButtons}>
+        <div className={style.right}>
           <NavbarUserIndicator/>
+        </div>
+        <div className={style.right}>
+          <Menu
+            theme="light"
+            mode="horizontal"
+            selectedKeys={this.selectedRoute}
+            style={{lineHeight: '64px'}}
+          >
+            {routes.map(x => <Menu.Item key={x.path}>
+              <Link to={x.path}>
+                <span><Icon type={x.iconName}/><LocaleMessage id={x.id}/></span>
+              </Link>
+
+            </Menu.Item>)}
+          </Menu>
         </div>
         <NavbarModals/>
       </Col>

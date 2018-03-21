@@ -1,4 +1,4 @@
-import { Point } from "../ImageLib/Shapes";
+import { Point } from "../../../models/instance/image/Shapes";
 
 export class Rectangle {
   id: number;

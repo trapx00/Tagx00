@@ -1,26 +1,24 @@
 import React from "react";
+import { Spin } from 'antd';
 import { LocaleMessage } from "../../internationalization/components";
-import { MissionRequesterQueryItem } from "../../models/mission/image/MissionRequesterQueryItem";
-import { MissionState } from "../../models/mission/Mission";
 import { MissionCardPane } from "../../components/MyMission/MissionCardPane";
+import { missionService } from "../../api/MissionService";
+import { workerService } from "../../api/WorkerService";
+import { AsyncComponent } from "../../router/AsyncComponent";
 
-
-
-const item = [1,2,3,4,5].map(x =>
-  new MissionRequesterQueryItem({
-    title: `Title${x}`,
-    description: `Description `.repeat(x),
-    mission: null,
-    state: MissionState.ACTIVE,
-    coverUrl: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" //封面url
-  })
-);
+const spin = <Spin size="large" />;
 
 export class MissionsPage extends React.Component<any, any> {
+
+  renderList = async () => {
+    const instances = await workerService.getAllInstances();
+    return <MissionCardPane items={instances}/>;
+  };
+
   render() {
     return  <div>
       <h1><LocaleMessage id={"selfCenter.myMissions.title"}/></h1>
-      <MissionCardPane items={item}/>
+      <AsyncComponent render={this.renderList} componentWhenLoading={spin}/>
     </div>
   }
 }

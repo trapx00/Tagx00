@@ -1,35 +1,53 @@
 import { BaseService } from "./BaseService";
-import {
-  MissionRequesterQueryDetailItem,
-  MissionRequesterQueryItem
-} from "../models/mission/image/MissionRequesterQueryItem";
+import { Instance } from "../models/instance/Instance";
+import { ImageMissionType } from "../models/mission/ImageMission";
+import { MissionInstanceState } from "../models/instance/MissionInstanceState";
+import { MissionState } from "../models/mission/Mission";
+import { waitForMs } from "../../utils/Wait";
 
 export class WorkerService extends BaseService {
 
-  private token: string;
-
-  constructor(token: string) {
+  constructor() {
     super("mission/worker");
-    this.token = token;
   }
 
-  async getAllMissions() {
-    const res = await this.fetch({
-      token: this.token
-    });
+  async getAllInstances(): Promise<Instance[]> {
+    //mock
+    return [1, 2, 3, 4, 5].map(x =>
+      ({
+        instanceId: x,
+        workerUsername: "123",
+        title: `Title${x}`,
+        description: `Description `.repeat(x),
+        missionId: 123,
+        acceptDate: new Date(),
+        submitDate: x%2 ===0 ? new Date() : null,
+        isSubmitted: x%2 ===0,
+        completedJobCount: x*2,
+        missionInstanceState: x%2 ===0
+          ? MissionInstanceState.SUBMITTED
+          : MissionInstanceState.IN_PROGRESS,
+      })
+    );
 
-    return res.response.items as MissionRequesterQueryItem[];
+    // const res = await this.fetch({
+    //   token: this.token
+    // });
+    //
+    // return res.response.instances as Instance[];
 
   }
 
-  async getAMission(missionId: number) {
+  async getInstanceDetail<T extends Instance = Instance>(missionId: number, token: string) {
     const res = await this.fetch({
-      token: this.token,
-      route: missionId+"",
+      token: token,
+      route: missionId + "",
     });
 
-    return res.response.detail as MissionRequesterQueryDetailItem;
+    return res.response.detail as T;
   }
 
 
 }
+
+export const workerService = new WorkerService();

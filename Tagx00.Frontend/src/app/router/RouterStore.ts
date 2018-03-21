@@ -6,20 +6,12 @@ import routes from './routes';
 import { RouteConfig } from "./routes/RouteConfig";
 
 
-function matchRoute(pathname: string): RouteConfig[] {
-  return routes.filter(x => x.identify(pathname));
-}
-
 export class RouterStore extends BaseRouterStore {
   constructor(history?: History) {
     super();
     if (history) {
       this.history = syncHistoryWithStore(history, this);
     }
-  }
-
-  @computed get matchedPages() {
-    return matchRoute(this.path);
   }
 
   @computed get path() {
