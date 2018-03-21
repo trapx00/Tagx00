@@ -5,6 +5,7 @@ interface listDataProps {
   coverUrl: string,
   title: string,
   tags: any,
+  startDate: string,
   description: string
 }
 
@@ -23,6 +24,10 @@ export class BrowserStore {
 
   @computed get paused(): boolean {
     return this._paused;
+  }
+
+  @computed get listData(): listDataProps[] {
+    return this._listData;
   }
 }
 

@@ -13,14 +13,7 @@ const smallerDiv = {
   display: 'inline',
 };
 
-const handleClick = (e) => {
-  this.setState({
-    searchValue: e.target.innerHTML
-  });
-  this.handleSearch();
-};
-
-const listData = [];
+/*const listData = [];
 for (let i = 0; i < 5; i++) {
   const tags = (
     <div>
@@ -36,25 +29,13 @@ for (let i = 0; i < 5; i++) {
     coverUrl: 'http://ant.design',
     title: `ant design part ${i}`,
     tags: tags,
+    startDate: "123",
     description: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.'
   });
-}
+}*/
 
-const pagination = {
-  pageSize: 10,
-  current: 1,
-  total: listData.length,
-  onChange: (() => {
-  }),
-};
-
-const IconText = ({type, text}) => (
-  <span>
-    <Icon type={type} style={{marginRight: 8}}/>
-    {text}
-  </span>
-);
-
+@inject(STORE_BROWSER)
+@observer
 export class BrowserMissionList extends React.Component<any, any> {
   render() {
     return (
@@ -66,7 +47,7 @@ export class BrowserMissionList extends React.Component<any, any> {
               itemLayout="vertical"
               size="large"
               pagination={false}
-              dataSource={listData}
+              dataSource={this.props[STORE_BROWSER].listData}
               renderItem={item => (
                 <List.Item
                   key={item.title}
@@ -80,6 +61,7 @@ export class BrowserMissionList extends React.Component<any, any> {
                     description={item.tags}
                   />
                   {item.description}
+                  <div style={{textAlign: 'right'}}>{item.startDate}</div>
                 </List.Item>
               )}
             />
