@@ -7,7 +7,7 @@ import TweenOne from 'rc-tween-one';
 
 @observer
 export class BrowsePage extends React.Component<any, any> {
-  animation = {left: '20%', yoyo: true, repeat: -1, duration: 1000};
+  animation = {paddingTop: '20%', yoyo: true, repeat: -1, duration: 1000};
 
   render() {
     const store = {
@@ -17,7 +17,7 @@ export class BrowsePage extends React.Component<any, any> {
       <Provider {...store} >
         <TweenOne animation={this.animation}
                   paused={this.props.paused}
-                  style={{left: '-20%'}}
+                  style={{height: '-20%'}}
                   className="code-box-shape">
           <SearchBar/>
           <BrowserMissionList/>
