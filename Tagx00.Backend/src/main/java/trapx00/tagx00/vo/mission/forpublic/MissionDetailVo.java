@@ -12,9 +12,8 @@ public abstract class MissionDetailVo {
     private MissionPublicItemVo publicItem;
     private MissionState missionState;
 
-
-    public MissionDetailVo(int missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, String requesterUsername, MissionState missionState) {
-        super(missionId, title, description, topics, allowCustomTag, allowedTags, missionType, start, end, coverUrl, requesterUsername);
+    public MissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState) {
+        this.publicItem = publicItem;
         this.missionState = missionState;
     }
 }
