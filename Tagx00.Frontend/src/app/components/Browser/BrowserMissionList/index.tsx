@@ -24,18 +24,19 @@ const listData = [];
 for (let i = 0; i < 5; i++) {
   const tags = (
     <div>
-      <Tag color="geekblue" style={smallerDiv}>主题词</Tag>
+      <Tag color="#108ee9" style={smallerDiv}>任务类型</Tag>
       <Tag color="geekblue" style={smallerDiv}>主题词</Tag>
       <Tag color="geekblue" style={smallerDiv}>主题词</Tag>
       <Tag color="geekblue" style={smallerDiv}>主题词</Tag>
       <Tag color="geekblue" style={smallerDiv}>主题词</Tag>
     </div>
-  )
+  );
   listData.push({
-    href: 'http://ant.design',
+    missionId: 0,
+    coverUrl: 'http://ant.design',
     title: `ant design part ${i}`,
-    description: tags,
-    content: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+    tags: tags,
+    description: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.'
   });
 }
 
@@ -69,16 +70,16 @@ export class BrowserMissionList extends React.Component<any, any> {
               renderItem={item => (
                 <List.Item
                   key={item.title}
-                  actions={[<Button type="primary">领取</Button>, <IconText type="like-o" text="156"/>,
-                    <IconText type="message" text="2"/>]}
+                  actions={[<Button type="primary" ghost={true} size="small" icon="check"/>,
+                    <Button size="small" shape="circle" icon="ellipsis"/>]}
                   extra={<img width={272} alt="logo"
                               src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"/>}
                 >
                   <List.Item.Meta
                     title={<a href={item.href}>{item.title}</a>}
-                    description={item.description}
+                    description={item.tags}
                   />
-                  {item.content}
+                  {item.description}
                 </List.Item>
               )}
             />
