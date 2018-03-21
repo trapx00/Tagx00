@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Tag, Icon, List, Button, Divider } from "antd";
+import { Tag, Icon, List, Button, Divider, Pagination } from "antd";
 import { Localize } from "../../../internationalization/components/index";
 import { STORE_BROWSER } from "../BrowserStore";
 import { inject, observer } from "mobx-react";
@@ -64,7 +64,7 @@ export class BrowserMissionList extends React.Component<any, any> {
             <List
               itemLayout="vertical"
               size="large"
-              pagination={pagination}
+              pagination={false}
               dataSource={listData}
               renderItem={item => (
                 <List.Item
@@ -82,6 +82,9 @@ export class BrowserMissionList extends React.Component<any, any> {
                 </List.Item>
               )}
             />
+            <div style={{textAlign: 'center'}}>
+              <Pagination defaultCurrent={1} total={1}/>
+            </div>
           </div>
         }
       }</Localize>)
