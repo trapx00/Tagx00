@@ -7,9 +7,6 @@ export const dashboardPage: RouteConfig = new NormalPageConfig({
     const Page = (await import("../../pages/SelfPage/DashboardPage")).DashboardPage;
     return <Page/>;
   },
-  identify: (pathname) => {
-    return pathname === "/self/dashboard";
-  },
 });
 
 export const achievementPage: RouteConfig = new NormalPageConfig({
@@ -17,9 +14,6 @@ export const achievementPage: RouteConfig = new NormalPageConfig({
   render: async (props) => {
     const Page = (await import("../../pages/SelfPage/AchievementPage")).AchievementPage;
     return <Page/>;
-  },
-  identify: (pathname) => {
-    return pathname === "/self/achievement";
   },
 });
 
@@ -29,9 +23,6 @@ export const personalInfoPage: RouteConfig = new NormalPageConfig({
     const Page = (await import("../../pages/SelfPage/PersonalInfoPage")).PersonalInfoPage;
     return <Page/>;
   },
-  identify: (pathname) => {
-    return pathname === "/self/personalInfo";
-  },
 });
 
 export const missionsPage: RouteConfig = new NormalPageConfig({
@@ -39,9 +30,6 @@ export const missionsPage: RouteConfig = new NormalPageConfig({
   render: async (props) => {
     const Page = (await import("../../pages/SelfPage/MissionsPage")).MissionsPage;
     return <Page/>;
-  },
-  identify: (pathname) => {
-    return pathname.startsWith("/self/missions");
   },
 });
 

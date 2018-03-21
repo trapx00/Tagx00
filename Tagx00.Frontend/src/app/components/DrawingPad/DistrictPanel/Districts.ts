@@ -1,7 +1,8 @@
-import { Line, lineCross, Point } from "../ImageLib/Shapes";
+import { Line, Point } from "../../../models/instance/image/Shapes";
 import { Notation } from "../utils/Notation";
 import { computed, observable } from "mobx";
 import { DistrictDrawer } from "./DistrictCanvas/DistrictDrawer";
+import { lineCross } from "../ImageLib/utils";
 
 
 export class Boundary {

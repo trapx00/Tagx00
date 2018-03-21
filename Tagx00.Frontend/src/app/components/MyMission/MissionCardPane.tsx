@@ -1,10 +1,10 @@
 import React from "react";
-import { MissionRequesterQueryItem } from "../../models/mission/image/MissionRequesterQueryItem";
 import { Col, Row, Layout, List } from 'antd';
 import { MyMissionCard } from "./MyMissionCard";
+import { Instance } from "../../models/instance/Instance";
 
 interface Props {
-  items: MissionRequesterQueryItem[];
+  items: Instance[];
 
 }
 
@@ -15,7 +15,7 @@ export class MissionCardPane extends React.Component<Props, any> {
       dataSource={this.props.items}
       renderItem={item => (
         <List.Item>
-          <MyMissionCard item={item}/>
+          <MyMissionCard instance={item}/>
         </List.Item>
       )}
     />

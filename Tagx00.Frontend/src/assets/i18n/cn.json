@@ -9,6 +9,7 @@
   "navbar": {
     "home": "主页",
     "browse": "浏览",
+    "mission": "任务",
     "tag": "标注",
     "about": "关于",
     "login": "登录",
@@ -20,7 +21,18 @@
     "dashboard": "仪表盘",
     "myMissions": {
       "menuText": "我的任务",
-      "title": "我的任务"
+      "title": "我的任务",
+      "loadingCard": "加载任务",
+      "cardState": {
+        "submitted": "已提交",
+        "abandoned": "已放弃",
+        "inProgress": "正在进行"
+      },
+      "cardActions": {
+        "continue": "继续做任务",
+        "abandon": "放弃",
+        "seeMore": "查看详细信息"
+      }
     },
     "achievement": "成就",
     "personalInfo": "我的信息"

@@ -1,4 +1,4 @@
-import { Point } from "../../ImageLib/Shapes";
+import { Point } from "../../../../models/instance/image/Shapes";
 import { DrawingSession } from "../../utils/DrawingSession";
 import { action, computed, observable } from "mobx";
 import { Boundary, District } from "../Districts";

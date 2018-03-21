@@ -16,22 +16,26 @@ const routes = [
   {
     path: "/self/dashboard",
     iconName: "dashboard",
-    id: "selfCenter.dashboard"
+    id: "selfCenter.dashboard",
+    match: (pathname: string) => pathname.startsWith("/self/dashboard")
   },
   {
     path: "/self/missions",
     iconName: "tag-o",
-    id: "selfCenter.myMissions.menuText"
+    id: "selfCenter.myMissions.menuText",
+    match: (pathname: string) => pathname.startsWith("/self/missions")
   },
   {
     path: "/self/achievement",
     iconName: "star-o",
-    id: "selfCenter.achievement"
+    id: "selfCenter.achievement",
+    match: (pathname: string) => pathname.startsWith("/self/achievement")
   },
   {
     path: "/self/personalInfo",
     iconName: "info",
-    id: "selfCenter.personalInfo"
+    id: "selfCenter.personalInfo",
+    match: (pathname: string) => pathname.startsWith("/self/personalInfo")
   }
 ];
 
@@ -43,7 +47,7 @@ export class SelfSideMenu extends React.Component<Props, any> {
 
   get selectedRoutes() {
     const router = this.props[STORE_ROUTER];
-    return router.matchedPages.map(x => x.path);
+    return routes.filter(x => x.match(router.path)).map(x => x.path);
   }
 
   render() {

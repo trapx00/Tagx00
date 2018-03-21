@@ -26,9 +26,6 @@ export class SearchBar extends React.Component<BrowserProps, any> {
       searchValue: "",
       open: false
     };
-    this.handleClick = this.handleClick.bind(this);
-    this.handleSearchAll = this.handleSearchAll.bind(this);
-    this.setSearchValue = this.setSearchValue.bind(this);
   };
 
   handleClick = (e) => {
