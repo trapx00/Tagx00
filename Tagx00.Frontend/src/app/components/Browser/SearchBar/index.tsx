@@ -5,6 +5,7 @@ import { ClickableTag } from "../../ClickableTag";
 import { inject } from "mobx-react";
 import { STORE_BROWSER } from "../BrowserStore";
 import { observable } from "mobx";
+import { BrowserProps } from "../../../stores/BrowserStore";
 
 const Search = Input.Search;
 
@@ -19,7 +20,7 @@ const centerAndPadding = {
 
 @inject(STORE_BROWSER)
 @observable
-export class SearchBar extends React.Component<any, any> {
+export class SearchBar extends React.Component<BrowserProps, any> {
   constructor(props) {
     super(props);
     this.state = {
