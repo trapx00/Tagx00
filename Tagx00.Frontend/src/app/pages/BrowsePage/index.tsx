@@ -5,7 +5,7 @@ import { SearchBar } from "../../components/Browser/SearchBar";
 import { BrowserMissionList } from "../../components/Browser/BrowserMissionList";
 
 
-@observer
+
 export class BrowsePage extends React.Component<any, any> {
 
   render() {

@@ -2,7 +2,7 @@ import * as React from "react";
 import { Input, Tag } from "antd";
 import { Localize } from "../../../internationalization/components";
 import { ClickableTag } from "../../ClickableTag";
-import { inject } from "mobx-react";
+import { inject, observer } from "mobx-react";
 import { STORE_BROWSER } from "../BrowserStore";
 import { observable } from "mobx";
 import { BrowserProps } from "../../../stores/BrowserStore";
@@ -19,7 +19,7 @@ const centerAndPadding = {
 
 
 @inject(STORE_BROWSER)
-@observable
+@observer
 export class SearchBar extends React.Component<BrowserProps, any> {
   constructor(props) {
     super(props);
@@ -27,9 +27,6 @@ export class SearchBar extends React.Component<BrowserProps, any> {
       searchValue: "",
       open: false
     };
-    this.handleClick = this.handleClick.bind(this);
-    this.handleSearchAll = this.handleSearchAll.bind(this);
-    this.setSearchValue = this.setSearchValue.bind(this);
   };
 
   handleClick = (e) => {
