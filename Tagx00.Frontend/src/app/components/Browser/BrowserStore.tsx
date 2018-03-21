@@ -1,14 +1,19 @@
 import { action, computed, observable } from "mobx";
 
 export class BrowserStore {
-  @observable private isBrowsing: boolean = false;
+  @observable private _paused: boolean = true;
+  @observable private _reverse: boolean = true;
   @action public reverseBrowsing = () => {
-    this.isBrowsing = !this.isBrowsing;
+    this._reverse = !this._reverse;
+    this._paused = !this._paused;
   };
 
-  @computed
-  public get browsing() {
-    return this.isBrowsing;
+  @computed get reverse(): boolean {
+    return this._reverse;
+  }
+
+  @computed get paused(): boolean {
+    return this._paused;
   }
 }
 

@@ -4,6 +4,10 @@ import { Localize } from "../../../internationalization/components/index";
 import { STORE_BROWSER } from "../BrowserStore";
 import { inject, observer } from "mobx-react";
 
+const centerDivider = {
+  marginTop: '-10%',
+  marginBottom: '10%'
+};
 
 const smallerDiv = {
   display: 'inline',
@@ -50,34 +54,36 @@ const IconText = ({type, text}) => (
   </span>
 );
 
-@inject(STORE_BROWSER)
-@observer
 export class BrowserMissionList extends React.Component<any, any> {
   render() {
     return (
-      <div>
-        <Divider/>
-        <List
-          itemLayout="vertical"
-          size="large"
-          pagination={pagination}
-          dataSource={listData}
-          renderItem={item => (
-            <List.Item
-              key={item.title}
-              actions={[<Button type="primary">领取</Button>, <IconText type="like-o" text="156"/>,
-                <IconText type="message" text="2"/>]}
-              extra={<img width={272} alt="logo"
-                          src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"/>}
-            >
-              <List.Item.Meta
-                title={<a href={item.href}>{item.title}</a>}
-                description={item.description}
-              />
-              {item.content}
-            </List.Item>
-          )}
-        />
-      </div>)
+      <Localize replacements={{dividerText: "browserMissionList.dividerText"}}>{
+        (props) => {
+          return <div>
+            <Divider style={centerDivider}>{props.dividerText}</Divider>
+            <List
+              itemLayout="vertical"
+              size="large"
+              pagination={pagination}
+              dataSource={listData}
+              renderItem={item => (
+                <List.Item
+                  key={item.title}
+                  actions={[<Button type="primary">领取</Button>, <IconText type="like-o" text="156"/>,
+                    <IconText type="message" text="2"/>]}
+                  extra={<img width={272} alt="logo"
+                              src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"/>}
+                >
+                  <List.Item.Meta
+                    title={<a href={item.href}>{item.title}</a>}
+                    description={item.description}
+                  />
+                  {item.content}
+                </List.Item>
+              )}
+            />
+          </div>
+        }
+      }</Localize>)
   }
 }

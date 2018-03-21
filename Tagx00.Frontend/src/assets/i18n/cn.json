@@ -62,5 +62,8 @@
   "searchBar": {
     "searchPlaceholder": "按回车以搜索",
     "searchAll": "全部"
+  },
+  "browserMissionList": {
+    "dividerText": "任务列表"
   }
 }

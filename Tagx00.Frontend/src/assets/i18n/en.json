@@ -15,7 +15,6 @@
     "videoLabel": "Video Label",
     "textLabel": "Text Label",
     "aboutLabel": "About Us"
-
   },
   "selfCenter": {
     "dashboard": "Dashboard",
@@ -63,5 +62,8 @@
   "searchBar": {
     "searchPlaceholder": "Press enter to search",
     "searchAll": "All"
+  },
+  "browserMissionList": {
+    "dividerText": "Mission List"
   }
 }
