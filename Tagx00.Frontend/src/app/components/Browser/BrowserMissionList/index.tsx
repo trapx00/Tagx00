@@ -2,8 +2,7 @@ import * as React from "react";
 import { Tag, Icon, List, Button, Divider } from "antd";
 import { Localize } from "../../../internationalization/components/index";
 import { STORE_BROWSER } from "../BrowserStore";
-import { inject } from "mobx-react";
-import { observable } from "mobx";
+import { inject, observer } from "mobx-react";
 
 
 const smallerDiv = {
@@ -52,7 +51,7 @@ const IconText = ({type, text}) => (
 );
 
 @inject(STORE_BROWSER)
-@observable
+@observer
 export class BrowserMissionList extends React.Component<any, any> {
   render() {
     return (

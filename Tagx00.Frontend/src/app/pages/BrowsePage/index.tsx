@@ -15,6 +15,8 @@ export class BrowsePage extends React.Component<any, any> {
     return (
       <Provider {...store} >
         <div>
+        <img id="logo" src={require('../../../assets/logo.png')}
+                             alt="" style={{padding: '5%',textAlign:'center',height:'20px'}}/>
           <SearchBar/>
           <BrowserMissionList/>
         </div>
