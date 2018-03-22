@@ -21,14 +21,6 @@ export class RectangleNotationItemComponent extends React.Component<Props, any> 
             {x.selected ? "Deselect" : "Select"}
         </button>
       </p>
-      <TagDescriptionEditor tag={x.tag}
-                            description={x.description}
-                            allowEditing={x.modifying}
-                            onTagChange={(tag) => runInAction(() => x.tag=tag)}
-                            onDescriptionChange={(des) => runInAction(() => x.description = des)}
-                            onFinish={() => x.completeModify()}
-                            onModify={() => x.modify()}
-      />
 
     </div>
   }

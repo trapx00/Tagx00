@@ -17,7 +17,12 @@ export class TagModificationModal extends React.Component<Props, {}> {
   @observable tuple: TagTuple = this.props.tagTuple;
 
   onOk = () => {
-    this.props.onChange(this.tuple);
+    if (this.tuple.tag.length == 0) {
+      this.props.onRemove(this.props.tagTuple);
+    } else {
+      this.props.onChange(this.tuple);
+    }
+
   };
 
   onCancel = () => {

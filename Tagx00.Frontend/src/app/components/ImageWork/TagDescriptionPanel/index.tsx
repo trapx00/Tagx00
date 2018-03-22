@@ -4,7 +4,6 @@ import { observer } from "mobx-react";
 import { action, observable } from "mobx";
 import { TagDescriptionTuple, TagTuple } from "../../../models/instance/TagTuple";
 import { AddableInputGroup } from "../AddableInputGroup";
-import { ClickableTag } from "../../ClickableTag/index";
 import { TagPanel } from "./TagPanel";
 
 interface Props {
@@ -25,24 +24,26 @@ export class TagDescriptionTuplePanel extends React.Component<Props, {}> {
 
   @observable tuple: TagDescriptionTuple;
 
-  fillTuple() {
-    const { tuple } = this.props;
+  @action componentWillMount() {
+    this.fillTuple(this.props);
+  }
+
+  @action componentWillReceiveProps(nextProps: Props) {
+    this.fillTuple(nextProps);
+  }
+
+  @action fillTuple(props: Props) {
+    const { tuple } = props;
     if (!tuple) {
       this.tuple = {
         descriptions: [],
         tagTuples: []
       }
     } else {
-      this.tuple = {
-        descriptions: tuple.descriptions || [],
-        tagTuples: tuple.tagTuples || []
-      }
+      this.tuple = this.props.tuple;
+      this.tuple.descriptions = this.tuple.descriptions || [];
+      this.tuple.tagTuples = this.tuple.tagTuples || [];
     }
-  }
-
-  constructor(props) {
-    super(props);
-    this.fillTuple();
   }
 
   @action onDescriptionsInputChange = (newItems: string[]) => {

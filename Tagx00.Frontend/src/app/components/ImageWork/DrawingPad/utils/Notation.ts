@@ -2,7 +2,6 @@ import { action, observable } from "mobx";
 
 export class Notation {
   @observable selected: boolean = false;
-  @observable modifying: boolean = false;
   @observable tag: string;
   @observable description: string;
 
@@ -21,12 +20,5 @@ export class Notation {
       this.select();
     }
   }
-
-  @action modify() {
-    this.modifying = true;
-  }
-
-  @action completeModify() {
-    this.modifying = false;
-  }
+  
 }

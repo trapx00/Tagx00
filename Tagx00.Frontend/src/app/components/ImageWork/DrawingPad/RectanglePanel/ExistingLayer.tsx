@@ -5,6 +5,7 @@ import { Point } from "../../../../models/instance/image/Shapes";
 
 interface Props {
   rectangles: RectangleNotation[];
+  selectedRectangle: RectangleNotation;
   width: number;
   height: number;
   onRectangleClicked: (rec: RectangleNotation) => void;
@@ -22,7 +23,13 @@ export class ExistingLayer extends React.Component<Props, any> {
 
   renderAllRectangles = () => {
     this.canvasContext.clearRect(0, 0, this.props.width, this.props.height);
-    this.props.rectangles.forEach(x => this.drawer.drawRectangle(x.rectangle, x.color));
+    this.props.rectangles.forEach(x => {
+      if (x === this.props.selectedRectangle) {
+        this.drawer.drawRectangle(x.rectangle, "#FF0000");
+      } else {
+        this.drawer.drawRectangle(x.rectangle, "#FFFFFF");
+      }
+    });
   };
 
   componentDidUpdate() {
@@ -51,8 +58,11 @@ export class ExistingLayer extends React.Component<Props, any> {
 
   ref = (ref) => {
     this.canvas = ref;
-    this.canvasContext = this.canvas.getContext("2d");
-    this.drawer = new RectangleDrawer(this.canvasContext);
+    if (ref) {
+      this.canvasContext = this.canvas.getContext("2d");
+      this.drawer = new RectangleDrawer(this.canvasContext);
+    }
+
   };
 
   render() {

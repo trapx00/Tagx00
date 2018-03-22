@@ -24,6 +24,14 @@ export class TagPanel extends React.Component<Props, {}> {
   @observable showModal: boolean = false;
   @observable selectedIndex: number = -1;
 
+  @action fillTuples() {
+    this.tagTuples = this.props.tagTuples;
+  }
+
+  @action componentDidUpdate() {
+    this.fillTuples();
+  }
+
   @computed get selectedTagTuple() {
     if (this.selectedIndex >= 0 && this.selectedIndex < this.tagTuples.length) {
       return this.tagTuples[this.selectedIndex];

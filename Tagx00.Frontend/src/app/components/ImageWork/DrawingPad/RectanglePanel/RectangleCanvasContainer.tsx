@@ -6,11 +6,13 @@ import { CanvasLayer } from "./CanvasLayer";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import { RectangleNotation } from "./RectangleNotation";
+import { PartJobTuple } from "../../../../models/instance/image/job/PartJob";
 
 interface Props {
   drawingMode: boolean;
   onRectangleComplete: (rec: Rectangle) => void;
   onRectangleClicked: (rec: RectangleNotation) => void;
+  selectedRectangle: RectangleNotation;
   rectangles: RectangleNotation[];
   imageUrl: string;
 }
@@ -32,7 +34,9 @@ export class RectangleCanvasContainer extends React.Component<Props,{}> {
       <ExistingLayer rectangles={this.props.rectangles}
                      width={this.width}
                      height={this.height}
-                     onRectangleClicked={this.props.onRectangleClicked}/>
+                     onRectangleClicked={this.props.onRectangleClicked}
+                     selectedRectangle={this.props.selectedRectangle}
+      />
       {this.props.drawingMode
         ? <CanvasLayer
           onRectangleComplete={this.props.onRectangleComplete}

@@ -56,7 +56,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
 
 
   chooseWorkPage() {
-    const currentWork = this.store.currentWork;
+    const currentWork: ImageNotation = this.store.currentWork;
     if (!currentWork) {
       return <CompleteModal shown={true}/>;
     }

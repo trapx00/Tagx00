@@ -24,6 +24,14 @@ export class Rectangle {
   get y() {
     return Math.min(this.start.y, this.end.y);
   }
+  
+  get leftTop() {
+    return {x: this.x, y: this.y};
+  }
+  
+  get rightBottom() {
+    return {x: this.x+ this.width, y: this.y + this.height};
+  }
 
   isOnSides(point: Point) {
     const error = 5;

@@ -10,11 +10,4 @@ export class RectangleNotation extends Notation {
     this.rectangle = rectangle;
   }
 
-  @computed get color() {
-    if (this.selected) {
-      return "#FF0000";
-    } else {
-      return "#000000";
-    }
-  }
 }
