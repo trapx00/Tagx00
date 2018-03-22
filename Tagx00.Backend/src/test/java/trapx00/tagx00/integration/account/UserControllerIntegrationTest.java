@@ -1,5 +1,6 @@
 package trapx00.tagx00.integration.account;
 
+import org.apache.commons.collections.map.MultiValueMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +12,12 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import trapx00.tagx00.dataservice.account.UserDataService;
+import trapx00.tagx00.entity.account.User;
+import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.user.UserLoginResponse;
 import trapx00.tagx00.response.user.UserRegisterResponse;
 
@@ -26,6 +31,9 @@ public class UserControllerIntegrationTest {
 
     @LocalServerPort
     private int port;
+
+    @Autowired
+    UserDataService userDataService;
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -44,6 +52,10 @@ public class UserControllerIntegrationTest {
     public void tearDown() throws Exception {
     }
 
+    private String getRoute(String route) {
+        return "http://localhost:" + port + "/" + route;
+    }
+
     @Test
     public void trial() {
         RestTemplate restTemplate = testRestTemplate.getRestTemplate();
@@ -55,15 +67,34 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void registerShouldSucceedAndReturnToken() {
-        ResponseEntity<UserRegisterResponse> response = register();
-        assertEquals(HttpStatus.OK,response.getStatusCode());
-        assertEquals("Authorization",response.getBody().getToken());
+        LinkedMultiValueMap multiValueMap = new LinkedMultiValueMap();
+        multiValueMap.add("username","李四");//该用户已经存在，换名字可pass
+        multiValueMap.add("password","456");
+        multiValueMap.add("email","123");
+        multiValueMap.add("role","ROLE_WORKER");
+        String url = getRoute("account/register");
+        HttpEntity entity = new HttpEntity(multiValueMap,new HttpHeaders());
+        ResponseEntity<Response> response = testRestTemplate.exchange(url,HttpMethod.POST,entity,Response.class);
+        assertEquals(HttpStatus.CREATED,response.getStatusCode());
+        userDataService.deleteUser("李四");//未实现，无法删除
     }
 
     @Test
     public void loginShouldSuccess() {
-        ResponseEntity<UserLoginResponse> response = login();
+        try {
+            User test = new User("123","123","",null);
+            userDataService.saveUser(test);
+        } catch (SystemException e) {
+            e.printStackTrace();
+        }
+        LinkedMultiValueMap map = new LinkedMultiValueMap();
+        map.add("username","123");
+        map.add("password","123");
+        String url = getRoute("account/login");
+        HttpEntity entity = new HttpEntity(map);
+        ResponseEntity<Response> response = testRestTemplate.exchange(url,HttpMethod.GET,entity,Response.class);
         assertEquals(HttpStatus.OK,response.getStatusCode());
+        userDataService.deleteUser("123");
     }
 
     public HttpHeaders getAuthenticatedHeaders() {
@@ -72,18 +103,11 @@ public class UserControllerIntegrationTest {
         return headers;
     }
 
-    private String getRoute(String route) {
-        return "http://localhost:" + port + "/" + route;
-    }
+
 
     private ResponseEntity<UserLoginResponse> login() {
         String url = getRoute(loginRoute) + "?username=test&password=test";
         return testRestTemplate.getForEntity(url, UserLoginResponse.class);
-    }
-
-    private ResponseEntity<UserRegisterResponse> register() {
-        String url = getRoute(registerRoute) + "?username=test&password=test&email=test&role=worker";
-        return testRestTemplate.getForEntity(url,UserRegisterResponse.class);
     }
 
 
