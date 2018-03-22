@@ -1,7 +1,7 @@
 import React from "react";
-import { Point } from "../../../models/instance/image/Shapes";
 import { RectangleDrawer } from "./RectangleDrawer";
 import { RectangleNotation } from "./RectangleNotation";
+import { Point } from "../../../../models/instance/image/Shapes";
 
 interface Props {
   rectangles: RectangleNotation[];

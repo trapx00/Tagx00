@@ -1,7 +1,8 @@
-import { Point } from "../../../../models/instance/image/Shapes";
+
 import { DrawingSession } from "../../utils/DrawingSession";
 import { action, computed, observable } from "mobx";
 import { Boundary, District } from "../Districts";
+import { Point } from "../../../../../models/instance/image/Shapes";
 
 export enum Step {
   ReadyToDraw,

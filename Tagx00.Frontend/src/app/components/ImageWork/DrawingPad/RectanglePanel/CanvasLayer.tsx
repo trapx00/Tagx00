@@ -1,8 +1,8 @@
 import React from "react"
 import { Rectangle } from "./Rectangle";
 import { DrawingSession } from "../utils/DrawingSession";
-import { Point } from "../../../models/instance/image/Shapes";
 import { RectangleDrawer } from "./RectangleDrawer";
+import { Point } from "../../../../models/instance/image/Shapes";
 
 interface Props {
   onRectangleComplete: (rec: Rectangle) => void;

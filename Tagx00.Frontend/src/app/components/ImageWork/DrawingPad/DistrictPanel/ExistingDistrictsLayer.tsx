@@ -1,8 +1,8 @@
 import { DistrictNotation } from "./Districts";
 import React from "react"
 import { DistrictDrawer } from "./DistrictCanvas/DistrictDrawer";
-import { Point } from "../../../models/instance/image/Shapes";
 import { observer } from "mobx-react";
+import { Point } from "../../../../models/instance/image/Shapes";
 
 interface ExistingDistrictsLayerProps {
   districts: DistrictNotation[];
