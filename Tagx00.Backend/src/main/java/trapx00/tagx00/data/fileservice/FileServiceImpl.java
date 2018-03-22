@@ -202,7 +202,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
     }
 
     @Override
-    public T[] findOnes(String info, Class<T> clazz) {
+    public ArrayList<T> findOnes(String info, Class<T> clazz) {
         String methodName = new Exception().getStackTrace()[2].getMethodName();
         String columnName = methodName.split("By")[1];
         columnName = columnName.replaceFirst(columnName.substring(0, 1), columnName.substring(0, 1).toLowerCase());
@@ -229,7 +229,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
             e.printStackTrace();
         }
 
-        return (T[]) tArrayList.toArray();
+        return tArrayList;
     }
 
     @Override

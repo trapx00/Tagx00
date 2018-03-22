@@ -5,7 +5,9 @@ import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 
 import java.util.Date;
+import java.util.List;
 
+@Table(name = "instance")
 public class Instance extends Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,6 +17,7 @@ public class Instance extends Entity {
     @Column(name = "workerUsername")
     private String workerUsername;
 
+    @EnumTranslate(targetClass = MissionInstanceState.class)
     @Column(name = "missionInstanceState")
     private MissionInstanceState missionInstanceState;
 
@@ -32,17 +35,26 @@ public class Instance extends Entity {
     @Column(name = "missionId")
     private int missionId;
 
+
+    @JsonSerialize
+    @Column(name = "resultIds")
+    private List<Integer> resultIds;
+
+    public List<Integer> getResultIds() {
+        return resultIds;
+    }
+
     public Instance() {
     }
 
-    public Instance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted) {
-        this.instanceId = instanceId;
+    public Instance(String workerUsername, MissionInstanceState missionInstanceState, int missionId,  Date acceptDate, Date submitDate, boolean isSubmitted,List<Integer> resultIds) {
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
-        this.missionId = missionId;
         this.acceptDate = acceptDate;
         this.submitDate = submitDate;
         this.isSubmitted = isSubmitted;
+        this.missionId = missionId;
+        this.resultIds = resultIds;
     }
 
     public int getInstanceId() {
@@ -99,5 +111,9 @@ public class Instance extends Entity {
 
     public void setSubmitted(boolean submitted) {
         isSubmitted = submitted;
+    }
+
+    public void setResultIds(List<Integer> resultIds) {
+        this.resultIds = resultIds;
     }
 }

@@ -2,6 +2,7 @@ package trapx00.tagx00.bl.mission;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
@@ -9,6 +10,7 @@ import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.response.mission.*;
 import trapx00.tagx00.security.jwt.JwtService;
 import trapx00.tagx00.security.jwt.JwtUser;
@@ -47,8 +49,9 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
 
             String username= UserInfoUtil.getUsername();
             int missiondId=requesterMissionDataService.saveMission(new Mission(mission.getTitle(),mission.getDescription(),
-                    mission.getTopics(),mission.getCustomTag(),mission.getAllowedTags(), mission.getMissionType(),mission.getStart(),
-                    mission.getEnd(),null,null));
+                    mission.getTopics(),mission.getCustomTag(),mission.getAllowedTags(), mission.getMissionType(),
+                    MissionState.PENDING,mission.getStart(),
+                    mission.getEnd(),null,UserInfoUtil.getUsername(),null,null));
             JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
             String token = jwtService.generateToken(jwtUser, EXPIRATION);
             return new MissionCreateResponse(token,String.valueOf(missiondId));

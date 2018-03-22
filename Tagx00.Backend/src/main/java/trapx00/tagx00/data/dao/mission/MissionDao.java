@@ -12,7 +12,7 @@ public interface MissionDao {
 
     Mission findMissionByMissionId(int missionId);
 
-    Mission[] findMissionByRequesterUsername(String requesterUsername);
+    ArrayList<Mission> findMissionByRequesterUsername(String requesterUsername);
 
     ArrayList<Mission> findAll();
 }

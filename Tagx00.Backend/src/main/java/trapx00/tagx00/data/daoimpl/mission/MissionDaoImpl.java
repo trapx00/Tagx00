@@ -34,7 +34,7 @@ public class MissionDaoImpl implements MissionDao {
     }
 
     @Override
-    public Mission[] findMissionByRequesterUsername(String requesterUsername) {
+    public ArrayList<Mission> findMissionByRequesterUsername(String requesterUsername) {
         return fileService.findOnes(requesterUsername, Mission.class);
     }
 

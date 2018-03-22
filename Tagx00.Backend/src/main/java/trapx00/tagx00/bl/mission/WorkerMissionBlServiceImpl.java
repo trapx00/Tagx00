@@ -10,6 +10,7 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
+import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
@@ -89,7 +90,12 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException {
-        workerMissionDataService.saveInstance(instanceVo);
-        return null;
+        if(workerMissionDataService.getInstanceByUsernameAndMissionId(UserInfoUtil.getUsername(),instanceVo.getInstance().getMissionId())==null)
+             workerMissionDataService.saveInstance(instanceVo);
+        else{
+            instanceVo.getInstance().setSubmitted(true);
+            workerMissionDataService.saveInstance(instanceVo);
+        }
+        return  new SuccessResponse("Success Save");
     }
 }
