@@ -6,11 +6,14 @@ import org.springframework.web.multipart.MultipartFile;
 import trapx00.tagx00.blservice.upload.MissionUploadBlService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.dataservice.upload.ImageDataService;
+import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.response.upload.UploadMissionImageResponse;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -41,11 +44,16 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
         try {
             Mission mission = requesterMissionDataService.getMissionByMissionId(missionId);
             if (mission != null) {
-                String url = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
-                List<String> urls = mission.getUrls();
-                urls.add(url);
-                mission.setUrls(urls);
-                return new UploadMissionImageResponse(url);
+                if(mission.getMissionType().equals(MissionType.IMAGE))
+                {
+                    ImageMission imageMission=(ImageMission)mission;
+                    String url = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
+                    List<String> urls = imageMission.getImageUrls();
+                    urls.add(url);
+                    ((ImageMission) mission).setImageUrls(urls);
+                    return new UploadMissionImageResponse(url);
+                }
+
             } else {
                 throw new MissionIdDoesNotExistException();
             }
@@ -53,6 +61,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
             e.printStackTrace();
             throw new SystemException();
         }
+        return null;
     }
 
     private String generateImageKey(int missionId, int order, boolean isCover) {
