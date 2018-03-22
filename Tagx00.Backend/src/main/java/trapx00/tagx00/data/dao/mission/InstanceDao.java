@@ -15,7 +15,5 @@ public interface InstanceDao {
 
     Instance findInstanceByInstanceId(int instanceId);
 
-    Instance findInstanceByMissionIdAndWorkerUsername(int missionId, String workerUsername);
-
     boolean deleteInstance(int instanceid);
 }

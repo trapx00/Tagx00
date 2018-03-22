@@ -11,4 +11,12 @@ public class MissionPublicResponse extends Response {
     public MissionPublicResponse(List<MissionPublicItemVo> items) {
         this.items = items;
     }
+
+    public List<MissionPublicItemVo> getItems() {
+        return items;
+    }
+
+    public void setItems(List<MissionPublicItemVo> items) {
+        this.items = items;
+    }
 }

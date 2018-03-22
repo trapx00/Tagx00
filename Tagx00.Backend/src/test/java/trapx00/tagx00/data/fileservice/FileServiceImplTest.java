@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import trapx00.tagx00.entity.mission.workresult.Integer;
+import trapx00.tagx00.entity.mission.workresult.ImageResult;
 import trapx00.tagx00.publicdatas.mission.TagDescriptionTuple;
 import trapx00.tagx00.publicdatas.mission.image.ImageJob;
 import trapx00.tagx00.publicdatas.mission.image.whole.ImageWholeJob;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class FileServiceImplTest {
 
     @Autowired
-    private FileService<Integer> fileService;
+    private FileService<ImageResult> fileService;
 
     @Before
     public void setUp() throws Exception {
@@ -38,18 +38,18 @@ public class FileServiceImplTest {
         tagDescriptionTuple.setDescriptions(arrayList);
         ImageWholeJob imageJob = new ImageWholeJob(ImageMissionType.WHOLE, tagDescriptionTuple);
         ImageJob trial = imageJob;
-        Integer integer = new Integer(trial, null);
+        ImageResult integer = new ImageResult(trial, null);
         fileService.saveTuple(integer);
     }
 
     @Test
     public void findImageResultById() {
-        Integer integer = fileService.findOne("1", Integer.class);
+        ImageResult integer = fileService.findOne("1", ImageResult.class);
         System.out.println(((ImageWholeJob) integer.getImageJob()).getTuple().getDescriptions().get(0));
     }
 
     @Test
     public void delete() {
-        fileService.delete("1", Integer.class);
+        fileService.delete("1", ImageResult.class);
     }
 }

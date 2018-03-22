@@ -5,7 +5,9 @@ import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 
 import java.util.Date;
+import java.util.List;
 
+@Table(name = "instance")
 public class Instance extends Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,6 +17,7 @@ public class Instance extends Entity {
     @Column(name = "workerUsername")
     private String workerUsername;
 
+    @EnumTranslate(targetClass = MissionInstanceState.class)
     @Column(name = "missionInstanceState")
     private MissionInstanceState missionInstanceState;
 
@@ -26,22 +29,32 @@ public class Instance extends Entity {
     @Column(name = "submitDate")
     private Date submitDate;
 
-    @Column(name = "isSubmitted")
-    private boolean isSubmitted;
+    @Column(name = "submitted")
+    private boolean submitted;
 
     @Column(name = "missionId")
     private int missionId;
 
+
+    @JsonSerialize
+    @Column(name = "resultIds")
+    private List<Integer> resultIds;
+
+    public List<Integer> getResultIds() {
+        return resultIds;
+    }
+
     public Instance() {
     }
 
-    public Instance(String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted) {
+    public Instance(String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean submitted, List<Integer> resultIds) {
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
-        this.missionId = missionId;
         this.acceptDate = acceptDate;
         this.submitDate = submitDate;
-        this.isSubmitted = isSubmitted;
+        this.submitted = submitted;
+        this.missionId = missionId;
+        this.resultIds = resultIds;
     }
 
     public int getInstanceId() {
@@ -93,10 +106,14 @@ public class Instance extends Entity {
     }
 
     public boolean isSubmitted() {
-        return isSubmitted;
+        return submitted;
     }
 
     public void setSubmitted(boolean submitted) {
-        isSubmitted = submitted;
+        this.submitted = submitted;
+    }
+
+    public void setResultIds(List<Integer> resultIds) {
+        this.resultIds = resultIds;
     }
 }

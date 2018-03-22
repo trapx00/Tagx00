@@ -14,7 +14,7 @@ export class NetworkResponse<T = any> {
   constructor(statusCode: number, response: T, error?: any) {
     this.statusCode = statusCode;
     this.response = response;
-    this.ok = 200 <= statusCode && statusCode <300;
+    this.ok = 200 <= statusCode && statusCode < 300;
     this.error = {
       info: error,
       isNetworkError: statusCode === NetworkErrorCode,
@@ -33,7 +33,7 @@ export interface FetchInfo {
   token?: string
 }
 
-declare var APIROOTURL: string;
+let APIROOTURL: string = "http://localhost:8080/";
 
 
 export abstract class BaseService {
@@ -46,16 +46,16 @@ export abstract class BaseService {
 
   protected async fetch<T = any>(fetchInfo: FetchInfo = {}): Promise<NetworkResponse<T>> {
     const authHeader = fetchInfo.token
-      ? {"Authorization": `Bearer ${fetchInfo.token}`} 
+      ? {"Authorization": `Bearer ${fetchInfo.token}`}
       : {};
-    const body = fetchInfo.body 
-      ? { body: JSON.stringify(fetchInfo.body)}
+    const body = fetchInfo.body
+      ? {body: JSON.stringify(fetchInfo.body)}
       : {};
 
     const url = urlJoin(this.endpoint, fetchInfo.route);
 
     try {
-      const res = await fetch(appendQueryString(url,fetchInfo.queryParams), {
+      const res = await fetch(appendQueryString(url, fetchInfo.queryParams), {
         method: fetchInfo.method || HttpMethod.GET,
         headers: {
           'Content-Type': 'application/json',

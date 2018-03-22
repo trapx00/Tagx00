@@ -4,6 +4,7 @@ import trapx00.tagx00.entity.Entity;
 import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
+import trapx00.tagx00.vo.mission.image.ImageMissionType;
 
 import java.util.Date;
 import java.util.List;
@@ -43,21 +44,33 @@ public class Mission extends Entity {
     @Column(name = "requesterUsername")
     private String requesterUsername;
 
+    @JsonSerialize
+    @Column(name = "imageUrls")
+    private List<String> imageUrls;
+    @JsonSerialize
+    @Column(name = "imageMissionType")
+    private List<ImageMissionType> imageMissionTypes;
+
     public Mission() {
     }
 
-    public Mission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, String requesterUsername) {
+    public Mission(String title, String description, List<String> topics, boolean allowCustomTag,
+                   List<String> allowedTags, MissionType missionType, MissionState missionState,
+                   Date start, Date end, String coverUrl, String requesterUsername,
+                   List<String> imageUrls, List<ImageMissionType> imageMissionTypes) {
         this.title = title;
         this.description = description;
         this.topics = topics;
         this.allowCustomTag = allowCustomTag;
         this.allowedTags = allowedTags;
         this.missionType = missionType;
+        this.missionState = missionState;
         this.start = start;
         this.end = end;
         this.coverUrl = coverUrl;
         this.requesterUsername = requesterUsername;
-        this.missionState = MissionState.PENDING;
+        this.imageUrls = imageUrls;
+        this.imageMissionTypes = imageMissionTypes;
     }
 
     public MissionState getMissionState() {
@@ -140,6 +153,21 @@ public class Mission extends Entity {
         this.end = end;
     }
 
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
+    public List<ImageMissionType> getImageMissionTypes() {
+        return imageMissionTypes;
+    }
+
+    public void setImageMissionTypes(List<ImageMissionType> imageMissionTypes) {
+        this.imageMissionTypes = imageMissionTypes;
+    }
 
     public String getCoverUrl() {
         return coverUrl;

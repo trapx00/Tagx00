@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
-import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.NotMissionException;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
@@ -17,22 +16,24 @@ import java.util.Arrays;
 public class PublicMissionBlServiceImpl implements PublicMissionBlService {
 
     private final PublicMissionDataService publicMissionDataService;
+
     @Autowired
-    public PublicMissionBlServiceImpl(PublicMissionDataService publicMissionDataService){
-     this.publicMissionDataService=publicMissionDataService;
+    public PublicMissionBlServiceImpl(PublicMissionDataService publicMissionDataService) {
+        this.publicMissionDataService = publicMissionDataService;
 
     }
+
     /**
      * get All missions
      *
      * @return the list of MissionPublicItemVo
      */
     @Override
-    public MissionPublicResponse getAllMissions() throws NotMissionException{
+    public MissionPublicResponse getAllMissions() throws NotMissionException {
 
-        MissionPublicItemVo[] missionPublicItemVos=publicMissionDataService.getMissions();
-        if(missionPublicItemVos==null){
-             throw new NotMissionException();
+        MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
+        if (missionPublicItemVos == null) {
+            throw new NotMissionException();
         }
 
         return new MissionPublicResponse(Arrays.asList(missionPublicItemVos));
@@ -41,9 +42,9 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
     @Override
     public MissionDetailResponse getOneMissionDetail(int missionId) throws NotMissionException {
 
-        MissionDetailVo missionDetailVos=publicMissionDataService.getOneMissionDetail(missionId);
-        if(missionDetailVos==null)
+        MissionDetailVo missionDetailVos = publicMissionDataService.getOneMissionDetail(missionId);
+        if (missionDetailVos == null)
             throw new NotMissionException();
-        return  new MissionDetailResponse(missionDetailVos);
+        return new MissionDetailResponse(missionDetailVos);
     }
 }
