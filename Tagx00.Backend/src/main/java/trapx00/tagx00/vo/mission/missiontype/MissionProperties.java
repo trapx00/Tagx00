@@ -9,4 +9,8 @@ import java.util.List;
 
 public class MissionProperties {
     private MissionType type;
+
+    public MissionProperties(MissionType type) {
+        this.type = type;
+    }
 }

@@ -20,7 +20,7 @@ public interface RequesterMissionDataService {
      * @param instanceId
      * @return the specific MissionInstanceItemVo
      */
-    InstanceDetailVo getInstanceById(int instanceId);
+    InstanceDetailVo getInstanceByinstanceId(int instanceId);
     /**
      * get instance by instanceId
      *

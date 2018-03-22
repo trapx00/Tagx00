@@ -82,7 +82,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public InstanceDetailResponse queryInstance(int instanceId) throws InstanceNotExistException{
-        InstanceDetailVo instanceVo =requesterMissionDataService.getInstanceById(instanceId);
+        InstanceDetailVo instanceVo =requesterMissionDataService.getInstanceByinstanceId(instanceId);
         if(instanceVo ==null)
             throw new InstanceNotExistException();
         InstanceDetailResponse instanceDetailResponse=new InstanceDetailResponse(instanceVo);
