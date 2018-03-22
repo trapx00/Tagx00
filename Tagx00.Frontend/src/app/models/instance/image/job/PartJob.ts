@@ -1,9 +1,13 @@
 import { Point } from "../Shapes";
-import { TagDescriptionTuple } from "../../TagDescriptionTuple";
+import { TagDescriptionTuple } from "../../TagTuple";
 import { ImageJob } from "./ImageJob";
 
-export interface PartTagDescriptionTuple extends ImageJob {
+export interface PartJobTuple {
   leftTopPoint: Point;
   rightBottomPoint: Point;
   tagDescriptionTuple: TagDescriptionTuple;
+}
+
+export interface PartJob extends ImageJob {
+  tuples: PartJobTuple[];
 }

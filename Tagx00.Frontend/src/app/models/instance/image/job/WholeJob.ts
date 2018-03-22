@@ -1,5 +1,5 @@
 import { ImageJob } from "./ImageJob";
-import { TagDescriptionTuple } from "../../TagDescriptionTuple";
+import { TagDescriptionTuple } from "../../TagTuple";
 
 export interface WholeJob extends ImageJob {
   tuple: TagDescriptionTuple;
