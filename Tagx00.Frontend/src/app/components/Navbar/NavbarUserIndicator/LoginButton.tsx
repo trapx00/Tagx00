@@ -15,15 +15,15 @@ interface Props extends UiStoreProps, UserStoreProps {
 export class LoginButton extends React.Component<Props, {}>{
 
   onButtonClick = () => {
-    // const ui = this.props[STORE_UI];
-    // ui.toggleLoginModalShown();
+    const ui = this.props[STORE_UI];
+    ui.toggleLoginModalShown();
 
-    const user = this.props[STORE_USER];
+    /*const user = this.props[STORE_USER];
     user.login({
         token: "123",
         username: "test",
         role: "WORKER"
-    });
+    });*/
   };
 
   render() {

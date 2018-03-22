@@ -9,31 +9,6 @@ const centerDivider = {
   marginBottom: '10%'
 };
 
-const smallerDiv = {
-  display: 'inline',
-};
-
-/*const listData = [];
-for (let i = 0; i < 5; i++) {
-  const tags = (
-    <div>
-      <Tag color="#108ee9" style={smallerDiv}>任务类型</Tag>
-      <Tag color="geekblue" style={smallerDiv}>主题词</Tag>
-      <Tag color="geekblue" style={smallerDiv}>主题词</Tag>
-      <Tag color="geekblue" style={smallerDiv}>主题词</Tag>
-      <Tag color="geekblue" style={smallerDiv}>主题词</Tag>
-    </div>
-  );
-  listData.push({
-    missionId: 0,
-    coverUrl: 'http://ant.design',
-    title: `ant design part ${i}`,
-    tags: tags,
-    startDate: "123",
-    description: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.'
-  });
-}*/
-
 @inject(STORE_BROWSER)
 @observer
 export class BrowserMissionList extends React.Component<any, any> {

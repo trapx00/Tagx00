@@ -1,7 +1,6 @@
 package trapx00.tagx00.data.account;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.user.UserDao;
 import trapx00.tagx00.dataservice.UserDataService;
@@ -52,7 +51,7 @@ public class UserDataServiceImpl implements UserDataService {
     public boolean confirmPassword(String username, String password) {
         User user = userDao.findUserByUsername(username);
         if (user != null) {
-            if (BCrypt.checkpw(password, user.getPassword())) {
+            if (password.equals(user.getPassword())) {
                 return true;
             }
             return false;

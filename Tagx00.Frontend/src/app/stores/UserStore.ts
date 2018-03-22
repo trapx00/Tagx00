@@ -8,7 +8,6 @@ export class UserStore {
   @observable user: User = null;
 
 
-
   @computed get loggedIn() {
     return !!this.user;
   }
@@ -27,7 +26,8 @@ export class UserStore {
   };
 
 
-  @action async login(response: LoginResult) {
+  @action
+  async login(response: LoginResult) {
     this.user = new User(response);
   };
 
