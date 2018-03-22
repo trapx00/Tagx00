@@ -16,6 +16,22 @@ public class ImageMission  extends Mission {
     @Column(name="imageMissionType")
     private List<ImageMissionType> imageMissionTypes;
 
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
+    public List<ImageMissionType> getImageMissionTypes() {
+        return imageMissionTypes;
+    }
+
+    public void setImageMissionTypes(List<ImageMissionType> imageMissionTypes) {
+        this.imageMissionTypes = imageMissionTypes;
+    }
+
     public ImageMission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, String requesterUsername) {
         super(title, description, topics, allowCustomTag, allowedTags, missionType, start, end, coverUrl, requesterUsername);
     }
