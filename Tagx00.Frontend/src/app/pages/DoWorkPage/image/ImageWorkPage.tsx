@@ -47,16 +47,22 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   };
 
   goNext = () => {
-    this.store.nextWork();
+    this.store.nextWork1();
   };
 
   goPrevious = () => {
-    this.store.previousWork();
+    this.store.previousWork1();
   };
 
 
   chooseWorkPage() {
     const currentWork: ImageNotation = this.store.currentWork;
+
+    if (typeof currentWork === 'undefined') {
+      this.store.doSecondStep();
+      return <div/>; // unmount previous page to restore state.
+    }
+
     if (!currentWork) {
       return <CompleteModal shown={true}/>;
     }

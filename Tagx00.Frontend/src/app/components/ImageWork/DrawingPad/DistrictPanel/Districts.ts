@@ -13,7 +13,6 @@ export class Boundary {
     }
   };
 
-
   push(point: Point) {
     this.points.push(point);
   }
@@ -74,11 +73,12 @@ let id =1;
 
 export class District {
   id: number;
-  boundaries: Boundary[] = [];
+  boundaries: Boundary[];
 
-  constructor() {
+  constructor(boundaries: Boundary[] = []) {
     this.id = id;
     id++;
+    this.boundaries = boundaries;
   }
 
   get added() {
@@ -100,18 +100,6 @@ export class DistrictNotation extends Notation {
   constructor(district: District) {
     super();
     this.district = district;
-  }
-
-  @computed get draw() {
-    if (this.selected) {
-      return (drawer: DistrictDrawer) => {
-        drawer.fillDistrict(this.district, "rgba(255,0,0,0.4)");
-      }
-    } else {
-      return (drawer: DistrictDrawer) => {
-        drawer.strokeDistrict(this.district, "rgba(255,0,0,1)");
-      }
-    }
   }
 
 }

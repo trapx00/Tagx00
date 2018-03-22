@@ -9,29 +9,25 @@ interface Props {
   onChange: (newItems: string[]) => void;
 }
 
-@observer
 export class AddableInputGroup extends React.Component<Props, any> {
 
-  @observable items: string[] = this.props.items;
 
-  @action onInputChange = (newValue: string, index: number) => {
-    this.items[index] = newValue;
-    this.callOnChange();
+  onInputChange = (newValue: string, index: number) => {
+    const items = this.props.items.slice();
+    items[index] = newValue;
+    this.props.onChange(items);
+
   };
 
-  @action addADescription = () => {
-    this.items.push("");
-    this.callOnChange();
+  addADescription = () => {
+    this.props.onChange(this.props.items.concat([""]));
   };
 
-  @action removeOne = (index: number) => {
-    removeElementAt(this.items, index);
-    this.callOnChange();
+  removeOne = (index: number) => {
+    const items = this.props.items.slice();
+    items.splice(index,1);
+    this.props.onChange(items);
   };
-
-  callOnChange() {
-    this.props.onChange(this.items);
-  }
 
   render() {
     return <>

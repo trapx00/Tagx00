@@ -27,7 +27,7 @@ export class ExistingLayer extends React.Component<Props, any> {
       if (x === this.props.selectedRectangle) {
         this.drawer.drawRectangle(x.rectangle, "#FF0000");
       } else {
-        this.drawer.drawRectangle(x.rectangle, "#FFFFFF");
+        this.drawer.drawRectangle(x.rectangle, "#000000");
       }
     });
   };

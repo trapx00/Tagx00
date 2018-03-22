@@ -6,15 +6,15 @@ import { action, observable } from "mobx";
 import { ExistingDistrictsLayer } from "./ExistingDistrictsLayer";
 import { CanvasLayer } from "./DistrictCanvas/CanvasLayer";
 import { DistrictDrawingSession } from "./DistrictCanvas/DistrictDrawingSession";
-import { CanvasController } from "./DistrictCanvas/CanvasController";
 
 interface DistrictCanvasContainerProps {
 
   drawingMode: boolean;
+  session: DistrictDrawingSession;
   districts: DistrictNotation[];
-  onDistrictComplete: (dis: District) => void;
   onDistrictClicked: (dis: DistrictNotation) => void;
   imgUrl: string;
+  selectedNotation: DistrictNotation;
 }
 
 @observer
@@ -29,38 +29,26 @@ export class DistrictCanvasContainer extends React.Component<DistrictCanvasConta
     this.width = width;
   };
 
-  onDistrictComplete = (district: District) => {
-    this.props.onDistrictComplete(district);
-  };
-
   render() {
-    let session;
-    if (this.props.drawingMode) {
-      session = new DistrictDrawingSession();
-    }
     return <div>
       <BackgroundStage imageUrl={this.props.imgUrl}
                        onImageLoaded={this.onBackgroundImageLoaded}>
 
         <ExistingDistrictsLayer
+          selectedDistrict={this.props.selectedNotation}
           districts={this.props.districts}
           onDistrictSelected={this.props.onDistrictClicked}
           width={this.width}
           height={this.height}/>
         {this.props.drawingMode
           ? <CanvasLayer
-            session={session}
+            session={this.props.session}
             width={this.width}
             height={this.height}
           />
-
           : null}
       </BackgroundStage>
-      {this.props.drawingMode
-        ? <CanvasController
-          session={session}
-          onDistrictComplete={this.onDistrictComplete}/>
-        : null}
+
     </div>
   }
 }

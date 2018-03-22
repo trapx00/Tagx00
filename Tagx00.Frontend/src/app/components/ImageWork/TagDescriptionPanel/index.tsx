@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Input, Button, Icon, Tag, Tooltip, Modal } from 'antd';
 import { observer } from "mobx-react";
-import { action, observable } from "mobx";
+import { action, observable, toJS } from "mobx";
 import { TagDescriptionTuple, TagTuple } from "../../../models/instance/TagTuple";
 import { AddableInputGroup } from "../AddableInputGroup";
 import { TagPanel } from "./TagPanel";
@@ -19,56 +19,31 @@ export const panelStyle = {
 
 
 
-@observer
 export class TagDescriptionTuplePanel extends React.Component<Props, {}> {
 
-  @observable tuple: TagDescriptionTuple;
-
-  @action componentWillMount() {
-    this.fillTuple(this.props);
-  }
-
-  @action componentWillReceiveProps(nextProps: Props) {
-    this.fillTuple(nextProps);
-  }
-
-  @action fillTuple(props: Props) {
-    const { tuple } = props;
-    if (!tuple) {
-      this.tuple = {
-        descriptions: [],
-        tagTuples: []
-      }
-    } else {
-      this.tuple = this.props.tuple;
-      this.tuple.descriptions = this.tuple.descriptions || [];
-      this.tuple.tagTuples = this.tuple.tagTuples || [];
-    }
-  }
-
-  @action onDescriptionsInputChange = (newItems: string[]) => {
-    this.tuple.descriptions = newItems;
-    this.callOnChange();
+  onDescriptionsInputChange = (newItems: string[]) => {
+    this.props.onChange({
+      ...this.props.tuple,
+      descriptions: newItems
+    });
   };
 
-  @action onTagsChange = (tags: TagTuple[]) => {
-    this.tuple.tagTuples = tags;
-    this.callOnChange();
+  onTagsChange = (tags: TagTuple[]) => {
+    this.props.onChange({
+      ...this.props.tuple,
+      tagTuples: tags
+    });
   };
 
-
-  callOnChange() {
-    this.props.onChange(this.tuple);
-  }
 
   render() {
 
 
     return <div>
-      <TagPanel tagTuples={this.tuple.tagTuples} onChange={this.onTagsChange}/>
+      <TagPanel tagTuples={this.props.tuple.tagTuples} onChange={this.onTagsChange}/>
       <Card style={panelStyle} title={"descriptions"}>
 
-        <AddableInputGroup items={this.tuple.descriptions}
+        <AddableInputGroup items={this.props.tuple.descriptions}
                            onChange={this.onDescriptionsInputChange}/>
 
       </Card>

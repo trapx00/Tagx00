@@ -1,9 +1,7 @@
 import { ImageMissionType } from "../models/mission/ImageMission";
 import { action, computed, observable } from "mobx";
-import { ImageInstance } from "../models/instance/image/ImageInstance";
 import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
 import { ImageJob } from "../models/instance/image/job/ImageJob";
-import { RectangleNotationItemComponent } from "../components/ImageWork/DrawingPad/RectanglePanel/RectangleNotationItemComponent";
 
 export interface ImageNotation<T extends ImageJob = ImageJob> {
   imageUrl: string;
@@ -55,6 +53,10 @@ export class ImageWorkStore {
   }
 
   @computed get currentWork(): ImageNotation {
+    if ((this.workIndex+"").indexOf(".")>=0) {
+      return undefined;
+    }
+
     if (this.workIndex == this.currentNotations.length) {
       return null;
     } else {
@@ -67,13 +69,31 @@ export class ImageWorkStore {
     this.currentNotations[this.workIndex] = notation;
   }
 
-  @action nextWork() {
-    this.workIndex++;
+  @action nextWork1() { // first step of going next work
+    this.workIndex+=0.6;
   }
 
-  @action previousWork() {
+  @action nextWork2() { // second step of going next work
+    this.workIndex+=0.4;
+  }
+
+  @action previousWork1() {
     if (this.workIndex > 0) {
-      this.workIndex--;
+      this.workIndex-= 0.6;
+    }
+  }
+
+  @action previousWork2() {
+    if (this.workIndex >0) {
+      this.workIndex -= 0.4;
+    }
+  }
+
+  @action doSecondStep() {
+    if (this.workIndex - parseInt(this.workIndex+"") == 0.4) { // number ends with 0.4, therefore it's going previous
+      this.previousWork2();
+    } else {
+      this.nextWork2();
     }
   }
 

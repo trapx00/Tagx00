@@ -4,7 +4,6 @@ import { observer } from "mobx-react";
 import { action, observable } from "mobx";
 import { Rectangle } from "./Rectangle";
 import { RectangleNotation } from "./RectangleNotation";
-import { RectangleNotationItemComponent } from "./RectangleNotationItemComponent";
 import { RectangleCanvasContainer } from "./RectangleCanvasContainer";
 import { PartJobTuple } from "../../../../models/instance/image/job/PartJob";
 import { Point, pointEquals } from "../../../../models/instance/image/Shapes";
@@ -27,10 +26,9 @@ function tupleAndNotationPointsToTheSameRect(tuple: PartJobTuple, notation: Rect
   || pointEquals(tuple.rightBottomPoint, notation.rectangle.rightBottom);
 }
 
-@observer
 export class RectanglePanel extends React.Component<Props, {}> {
 
-  @action onDrawComplete = (rectangle: Rectangle) => {
+  onDrawComplete = (rectangle: Rectangle) => {
     this.props.onDrawComplete({
       leftTopPoint: rectangle.leftTop,
       rightBottomPoint: rectangle.rightBottom,
@@ -41,8 +39,7 @@ export class RectanglePanel extends React.Component<Props, {}> {
     });
   };
 
-
-  @action onRecClicked = (rec: RectangleNotation) => {
+  onRecClicked = (rec: RectangleNotation) => {
     const selectedTuple = this.props.tuples.find(x => tupleAndNotationPointsToTheSameRect(x, rec));
     if (selectedTuple) {
       this.props.onTupleSelected(selectedTuple);

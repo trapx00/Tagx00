@@ -69,6 +69,7 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
     const { imageUrl, job } = this.props.notation;
 
     const { missionDetail, controllerProps } = this.props;
+    const selectedTuple = this.selectedTuple;
     console.log(toJS(this.selectedTuple));
     return <div>
 
@@ -80,7 +81,7 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
                             onDrawComplete={this.onTupleCreated}
                             addingMode={this.addingMode}
                             onTupleSelected={this.onTupleSelected}
-                            selectedTuple={this.selectedTuple}
+                            selectedTuple={selectedTuple}
             />
 
           </Card>
@@ -91,8 +92,8 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
                           allowCustomTag={missionDetail.publicItem.allowCustomTag}
           />
           <PartAddingModeController start={this.startAdding} addingMode={this.addingMode}/>
-          {this.selectedTuple
-          ?  <TagDescriptionTuplePanel tuple={this.selectedTuple.tagDescriptionTuple}
+          {selectedTuple
+          ?  <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
                                        onChange={this.onTupleChanged}/>
           : null}
 

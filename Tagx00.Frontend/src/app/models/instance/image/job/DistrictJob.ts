@@ -3,7 +3,7 @@ import { Point } from "../Shapes";
 import { TagDescriptionTuple } from "../../TagTuple";
 
 export interface Boundary {
-  points: Point;
+  points: Point[];
 }
 
 export interface DistrictTagDescriptionTuple {

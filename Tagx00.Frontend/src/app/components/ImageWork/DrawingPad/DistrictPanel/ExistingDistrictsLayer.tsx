@@ -6,6 +6,7 @@ import { Point } from "../../../../models/instance/image/Shapes";
 
 interface ExistingDistrictsLayerProps {
   districts: DistrictNotation[];
+  selectedDistrict: DistrictNotation;
   width: number;
   height: number;
   onDistrictSelected: (district: DistrictNotation) =>void;
@@ -21,8 +22,11 @@ export class ExistingDistrictsLayer extends React.Component<ExistingDistrictsLay
 
   ref = (ref) => {
     this.canvas = ref;
-    this.canvasContext = this.canvas.getContext("2d");
-    this.drawer = new DistrictDrawer(this.canvasContext);
+    if (ref) {
+      this.canvasContext = this.canvas.getContext("2d");
+      this.drawer = new DistrictDrawer(this.canvasContext);
+    }
+
   };
 
   componentDidMount() {
@@ -36,9 +40,14 @@ export class ExistingDistrictsLayer extends React.Component<ExistingDistrictsLay
   renderAllDistricts = () => {
     this.canvasContext.clearRect(0, 0, this.props.width, this.props.height);
     this.props.districts.forEach(x => {
-      x.draw(this.drawer);
+      if (x === this.props.selectedDistrict) {
+        this.drawer.fillDistrict(x.district,"rgba(255,0,0,0.4)");
+      } else {
+        this.drawer.strokeDistrict(x.district, "rgba(255,0,0,1)");
+      }
     });
   };
+
 
   getCursorPosition(e): Point {
     const {top, left} = this.canvas.getBoundingClientRect();

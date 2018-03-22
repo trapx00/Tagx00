@@ -16,65 +16,54 @@ interface Props {
   onChange: (tags: TagTuple[]) => void;
 }
 
-
 @observer
 export class TagPanel extends React.Component<Props, {}> {
 
-  @observable tagTuples: TagTuple[] = this.props.tagTuples;
-  @observable showModal: boolean = false;
   @observable selectedIndex: number = -1;
 
-  @action fillTuples() {
-    this.tagTuples = this.props.tagTuples;
-  }
-
-  @action componentDidUpdate() {
-    this.fillTuples();
-  }
-
   @computed get selectedTagTuple() {
-    if (this.selectedIndex >= 0 && this.selectedIndex < this.tagTuples.length) {
-      return this.tagTuples[this.selectedIndex];
+    if (this.selectedIndex >= 0 && this.selectedIndex < this.props.tagTuples.length) {
+      return this.props.tagTuples[this.selectedIndex];
     } else {
       return null;
     }
   }
 
   @action onTagRemove = (tagTuple: TagTuple) => {
-    this.tagTuples = this.tagTuples.filter(x => x !== tagTuple);
+    this.props.onChange(this.props.tagTuples.filter(x => x !== tagTuple));
     this.selectedIndex = -1;
-    this.callOnChange();
   };
 
-  @action addNewTag = () => {
+  addNewTag = () => {
     const newTuple = {
       tag: "",
       descriptions: []
     };
-    this.tagTuples = this.tagTuples.concat([newTuple]);
-    this.selectTag(this.tagTuples.length-1);
+
+    this.props.onChange(this.props.tagTuples.concat([newTuple]));
+    this.selectTag(this.props.tagTuples.length);
   };
 
   @action selectTag(index: number) {
     this.selectedIndex = index;
-    this.showModal = true;
   }
 
-  @action onTagChanged = (tag: TagTuple) => {
-    this.tagTuples[this.selectedIndex] = tag;
-    this.showModal = false;
+
+  @action onTagChangeComplete = (tag: TagTuple) => {
+    const items = this.props.tagTuples.slice();
+    items[this.selectedIndex] = tag;
     this.selectedIndex = -1;
-    this.callOnChange();
+    this.props.onChange(items);
   };
 
-  callOnChange() {
-    this.props.onChange(this.tagTuples);
-  }
+  @action onTagChangeCancelled = () => {
+    this.selectedIndex = -1;
+  };
 
   render() {
 
     return <Card style={panelStyle} title={"Tags"}>
-      {this.tagTuples.map(({tag},index) => {
+      {this.props.tagTuples.map(({tag},index) => {
         const isLongTag = tag.length > 20;
 
         const tagElem = (
@@ -95,7 +84,11 @@ export class TagPanel extends React.Component<Props, {}> {
         <Icon type="plus" /> New Tag
       </AnyTag>
       {this.selectedTagTuple
-        ? <TagModificationModal onRemove={this.onTagRemove} tagTuple={this.selectedTagTuple} onChange={this.onTagChanged}/>
+        ? <TagModificationModal onRemove={this.onTagRemove}
+                                tagTuple={this.selectedTagTuple}
+                                onComplete={this.onTagChangeComplete}
+                                onCancel={this.onTagChangeCancelled}
+        />
         : null
       }
     </Card>

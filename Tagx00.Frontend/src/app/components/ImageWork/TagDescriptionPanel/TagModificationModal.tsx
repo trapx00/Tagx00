@@ -7,26 +7,27 @@ import { action, observable } from "mobx";
 
 interface Props {
   tagTuple: TagTuple;
-  onChange: (tagTuple: TagTuple) => void;
   onRemove: (tagTuple: TagTuple) => void;
+  onComplete: (tagTuple: TagTuple) => void;
+  onCancel: () => void;
 }
 
 @observer
 export class TagModificationModal extends React.Component<Props, {}> {
 
-  @observable tuple: TagTuple = this.props.tagTuple;
+  @observable tuple: TagTuple = {...this.props.tagTuple};
+
+  constructor(props) {
+    super(props);
+    console.log("new modal");
+  }
 
   onOk = () => {
-    if (this.tuple.tag.length == 0) {
-      this.props.onRemove(this.props.tagTuple);
-    } else {
-      this.props.onChange(this.tuple);
-    }
-
+    this.props.onComplete(this.tuple);
   };
 
   onCancel = () => {
-    this.props.onChange(this.props.tagTuple);
+    this.props.onCancel();
   };
 
   @action onTagNameChange = (e) => {
@@ -40,7 +41,6 @@ export class TagModificationModal extends React.Component<Props, {}> {
   onRemove = () => {
     this.props.onRemove(this.props.tagTuple);
   };
-
 
   render() {
     return <Modal
