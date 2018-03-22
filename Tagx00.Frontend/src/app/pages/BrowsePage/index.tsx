@@ -3,8 +3,10 @@ import { observer, Provider } from "mobx-react";
 import { BrowserStore, STORE_BROWSER } from "../../components/Browser/BrowserStore";
 import { SearchBar } from "../../components/Browser/SearchBar";
 import { BrowserMissionList } from "../../components/Browser/BrowserMissionList";
+import { Layout } from "antd";
 import TweenOne from 'rc-tween-one';
 
+const {Content} = Layout;
 
 @observer
 export class BrowsePage extends React.Component<any, any> {
@@ -40,7 +42,9 @@ export class BrowsePage extends React.Component<any, any> {
                     reverse={this.store[STORE_BROWSER].reverse}
                     className="code-box-shape">
             <SearchBar/>
-            <BrowserMissionList/>
+            <Content>
+              <BrowserMissionList/>
+            </Content>
           </TweenOne>
         </div>
       </Provider>

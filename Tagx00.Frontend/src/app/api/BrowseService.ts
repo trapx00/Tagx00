@@ -12,7 +12,7 @@ import { HttpMethod } from "./utils";
 export class BrowseService extends BaseService {
 
   constructor() {
-    super("mission");
+    super("");
   }
 
   async getAllMissions(): Promise<MissionPublicItem[]> {
@@ -21,7 +21,7 @@ export class BrowseService extends BaseService {
       route: "mission",
       method: HttpMethod.GET
     });
-    return res.response as MissionPublicItem[];
+    return res.response.items as MissionPublicItem[];
     // return [1, 2, 3, 4, 5].map(x =>
     //   ({
     //     missionId: x,

@@ -29,8 +29,8 @@ public class Instance extends Entity {
     @Column(name = "submitDate")
     private Date submitDate;
 
-    @Column(name = "isSubmitted")
-    private boolean isSubmitted;
+    @Column(name = "submitted")
+    private boolean submitted;
 
     @Column(name = "missionId")
     private int missionId;
@@ -47,12 +47,12 @@ public class Instance extends Entity {
     public Instance() {
     }
 
-    public Instance(String workerUsername, MissionInstanceState missionInstanceState, int missionId,  Date acceptDate, Date submitDate, boolean isSubmitted,List<Integer> resultIds) {
+    public Instance(String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean submitted, List<Integer> resultIds) {
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
         this.acceptDate = acceptDate;
         this.submitDate = submitDate;
-        this.isSubmitted = isSubmitted;
+        this.submitted = submitted;
         this.missionId = missionId;
         this.resultIds = resultIds;
     }
@@ -106,11 +106,11 @@ public class Instance extends Entity {
     }
 
     public boolean isSubmitted() {
-        return isSubmitted;
+        return submitted;
     }
 
     public void setSubmitted(boolean submitted) {
-        isSubmitted = submitted;
+        this.submitted = submitted;
     }
 
     public void setResultIds(List<Integer> resultIds) {

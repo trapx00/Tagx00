@@ -18,6 +18,7 @@ const smallerDiv = {
 };
 
 export class BrowserStore {
+  private static _maxLengthOfDescription = 100;
   @observable private _paused: boolean = true;
   @observable private _reverse: boolean = true;
   @observable private _listData: ListDataProps[] = [];
@@ -27,7 +28,7 @@ export class BrowserStore {
   };
 
   @action public search = async (info) => {
-    let missions: MissionPublicItem[] = await browseService.getAllMissions();
+    let missions: MissionPublicItem[] = (await browseService.getAllMissions());
     runInAction(() => {
       for (let i = 0; i < missions.length; i++) {
         let tagText = [];
@@ -60,8 +61,8 @@ export class BrowserStore {
             )}
           </div>
         );
-        listProp.startDate = missions[i].start.toDateString();
-        listProp.description = missions[i].description;
+        listProp.startDate = new Date(missions[i].start).toDateString();
+        listProp.description = missions[i].description.length > BrowserStore._maxLengthOfDescription ? missions[i].description.substring(0, BrowserStore._maxLengthOfDescription) + "……" : missions[i].description;
         this._listData.push(listProp);
       }
     })
