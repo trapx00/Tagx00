@@ -63,7 +63,7 @@ public class RequesterMissionDataServiceTest {
         } catch (SystemException e) {
             e.printStackTrace();
         }
-        assertEquals("123", requesterMissionDataService.getMissionByMissionId(0).getTitle());
+        assertEquals("123", requesterMissionDataService.getMissionByMissionId(1).getTitle());
     }
 
     @Test
