@@ -1,6 +1,7 @@
 package trapx00.tagx00.data.mission;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.mission.InstanceDao;
 import trapx00.tagx00.data.dao.mission.MissionDao;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
@@ -8,13 +9,11 @@ import trapx00.tagx00.entity.mission.ImageInstance;
 import trapx00.tagx00.entity.mission.Instance;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.SystemException;
-import org.springframework.stereotype.Service;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
-import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
 @Service
 public class RequesterMissionDataServiceImpl implements RequesterMissionDataService {
@@ -24,18 +23,20 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     private final MissionDao missionDao;
 
     @Autowired
-    public RequesterMissionDataServiceImpl(InstanceDao instanceDao,MissionDao missionDao) {
-        this.instanceDao=instanceDao;
-        this.missionDao=missionDao;
+    public RequesterMissionDataServiceImpl(InstanceDao instanceDao, MissionDao missionDao) {
+        this.instanceDao = instanceDao;
+        this.missionDao = missionDao;
     }
+
     /**
      * save mission
+     *
      * @param mission
      */
     @Override
     public int saveMission(Mission mission) throws SystemException {
         Mission result;
-        if ((result=missionDao.saveMssion(mission) )== null) {
+        if ((result = missionDao.saveMission(mission)) == null) {
             throw new SystemException();
         }
         return result.getMissionId();
@@ -48,37 +49,35 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @return the specific MissionInstanceItemVo
      */
     @Override
-    public InstanceDetailVo  getInstanceByinstanceId(int instanceId) {
-        Instance instance =instanceDao.findInstanceByinstanceId(instanceId);
-        Mission mission=missionDao.findMissionByMissionId(instance.getMissionId());
-        if(instance !=null) {
+    public InstanceDetailVo getInstanceByinstanceId(int instanceId) {
+        Instance instance = instanceDao.findInstanceByInstanceId(instanceId);
+        Mission mission = missionDao.findMissionByMissionId(instance.getMissionId());
+        if (instance != null) {
             if (mission.getMissionType().equals(MissionType.IMAGE)) {
-                ImageInstance instanceVo = (ImageInstance) instanceDao.findInstanceByinstanceId(instanceId);
+                ImageInstance instanceVo = (ImageInstance) instanceDao.findInstanceByInstanceId(instanceId);
                 return new ImageInstanceDetailVo(new InstanceVo(instanceId, instance.getWorkerUsername(), instance.getMissionInstanceState(), instance.getMissionId()
                         , instance.getAcceptDate(), instance.getSubmitDate(), instance.isSubmitted(), instanceVo.getResultIds().size()), instanceVo.getResultIds());
             }
-        }
-        else
+        } else
             return null;
         return null;
     }
 
     @Override
-    public InstanceVo[] getInstanceBymissionId(int missionId)
-    {
-        Instance[] instances =instanceDao.findInstancesBymissionId(missionId);
-        if(instances ==null)
+    public InstanceVo[] getInstanceBymissionId(int missionId) {
+        Instance[] instances = instanceDao.findInstancesByMissionId(missionId);
+        if (instances == null)
             return null;
-        InstanceVo[] instanceVos =new InstanceVo[instances.length];
+        InstanceVo[] instanceVos = new InstanceVo[instances.length];
         if (missionDao.findMissionByMissionId(missionId).getMissionType().equals(MissionType.IMAGE))
-            for(int i = 0; i< instanceVos.length; i++){
+            for (int i = 0; i < instanceVos.length; i++) {
                 ImageInstance instanceVo = (ImageInstance) instances[i];
-                instanceVos[i]=new ImageInstanceVo(instances[i].getInstanceId(), instances[i].getWorkerUsername(),
-                    instances[i].getMissionInstanceState(),  instances[i].getMissionId(),
+                instanceVos[i] = new ImageInstanceVo(instances[i].getInstanceId(), instances[i].getWorkerUsername(),
+                        instances[i].getMissionInstanceState(), instances[i].getMissionId(),
                         instances[i].getAcceptDate(), instances[i].getSubmitDate(), instances[i].isSubmitted(),
-                   instanceVo.getResultIds().size()
-            );
-        }
+                        instanceVo.getResultIds().size()
+                );
+            }
 
         return instanceVos;
     }
@@ -91,7 +90,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      */
     @Override
     public Mission getMissionByMissionId(int missionId) {
-        Mission mission=missionDao.findMissionByMissionId(missionId);
+        Mission mission = missionDao.findMissionByMissionId(missionId);
         return mission;
     }
 

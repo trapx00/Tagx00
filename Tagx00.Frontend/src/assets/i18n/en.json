@@ -1,4 +1,15 @@
 {
+  "navbar": {
+    "home": "Home",
+    "browse": "Browse",
+    "tag": "Tag",
+    "mission": "Mission",
+    "about": "About",
+    "login": "Login",
+    "logout": "Logout",
+    "welcome": "Welcome, {username}",
+    "selfCenter": "Personal Center"
+  },
   "frameMenu": {
     "home": "Home",
     "imageLabel": "Image Label",
@@ -6,9 +17,36 @@
     "textLabel": "Text Label",
     "aboutLabel": "About Us"
   },
-  "articleList": {
-    "clickToLoad": "Click to load the articles",
-    "loading": "Loading"
+  "selfCenter": {
+    "dashboard": "Dashboard",
+    "myMissions": {
+      "menuText": "Missions",
+      "title": "My Missions",
+      "loadingCard": "Loading mission",
+      "cardState": {
+        "submitted": "Submitted",
+        "abandoned": "Abandoned",
+        "inProgress": "In Progress"
+      },
+      "cardActions": {
+        "continue": "Continue",
+        "abandon": "Abandon",
+        "seeMore": "See more"
+      }
+    },
+    "achievement": "Achievement",
+    "personalInfo": "My info"
+  },
+  "loginModal": {
+    "title": "Login",
+    "username": "Username",
+    "requireUsername": "Please input your username!",
+    "password": "Password",
+    "requirePassword": "Please input your password!",
+    "login": "Login",
+    "forgetPassword": "Forgot password",
+    "remember": "Remember me",
+    "cancel": "Cancel"
   },
   "languageSelector": {
     "loading": "Loading"
@@ -32,5 +70,12 @@
     "step1": "Fill information",
     "step2": "Confirm in email",
     "step3": "Register successfully"
+  },
+  "searchBar": {
+    "searchPlaceholder": "Press enter to search",
+    "searchAll": "All"
+  },
+  "browserMissionList": {
+    "dividerText": "Mission List"
   }
 }

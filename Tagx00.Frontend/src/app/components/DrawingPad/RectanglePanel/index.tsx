@@ -1,14 +1,10 @@
-import React, { CSSProperties } from "react";
-import { BackgroundStage } from "../utils/BackgroundStage";
+import React from "react";
 // import {RectangleTool} from "./Tools/Rectangle";
 import { observer } from "mobx-react";
 import { action, observable } from "mobx";
 import { Rectangle } from "./Rectangle";
-
-import { CanvasLayer } from "./CanvasLayer";
 import { RectangleNotation } from "./RectangleNotation";
 import { RectangleNotationItemComponent } from "./RectangleNotationItemComponent";
-import { ExistingLayer } from "./ExistingLayer";
 import { RectangleCanvasContainer } from "./RectangleCanvasContainer";
 
 interface Props {

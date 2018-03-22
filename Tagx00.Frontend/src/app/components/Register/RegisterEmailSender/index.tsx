@@ -1,6 +1,6 @@
-import * as React from "react";
-import {Localize} from "../../../internationalization/components";
-import {Icon} from "antd";
+import React from "react"
+import { Localize } from "../../../internationalization/components";
+import { Icon } from "antd";
 
 export class RegisterEmailSender extends React.Component<any, any> {
     render() {

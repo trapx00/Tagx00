@@ -1,10 +1,8 @@
-
 import { inject, observer } from "mobx-react";
-import * as React from "react";
+import React from "react"
 import * as moment from 'moment';
 import { MomentInput } from 'moment';
-import { LocaleStore } from "../LocaleStore";
-import { LocaleStoreProps } from "..";
+import { LocaleStoreProps } from "../LocaleStore";
 import { STORE_LOCALE } from "../../constants/stores";
 
 

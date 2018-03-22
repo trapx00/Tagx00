@@ -26,12 +26,16 @@ public class Mission extends Entity {
     @ElementCollection(targetClass = String.class)
     @Column(name = "allowedTags")
     private List<String> allowedTags;
+    @EnumTranslate(targetClass = MissionType.class)
     @Column(name = "missionType")
     private MissionType missionType;
+    @EnumTranslate(targetClass = MissionState.class)
     @Column(name = "missionState")
     private MissionState missionState;
+    @JsonSerialize
     @Column(name = "start")
     private Date start;
+    @JsonSerialize
     @Column(name = "end")
     private Date end;
     @Column(name = "coverUrl")
@@ -39,7 +43,10 @@ public class Mission extends Entity {
     @Column(name = "requesterUsername")
     private String requesterUsername;
 
-    public  Mission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end,  String coverUrl, String requesterUsername) {
+    public Mission() {
+    }
+
+    public Mission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, String requesterUsername) {
         this.missionId = missionId;
         this.title = title;
         this.description = description;
@@ -51,8 +58,9 @@ public class Mission extends Entity {
         this.end = end;
         this.coverUrl = coverUrl;
         this.requesterUsername = requesterUsername;
-        this.missionState=MissionState.PENDING;
+        this.missionState = MissionState.PENDING;
     }
+
     public MissionState getMissionState() {
         return missionState;
     }
