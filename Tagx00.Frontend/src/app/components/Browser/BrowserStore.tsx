@@ -27,7 +27,7 @@ export class BrowserStore {
   };
 
   @action public search = async (info) => {
-    let missions: MissionPublicItem[] = await browseService.getAllMissions();
+    let missions: MissionPublicItem[] = (await browseService.getAllMissions());
     runInAction(() => {
       for (let i = 0; i < missions.length; i++) {
         let tagText = [];
@@ -60,7 +60,7 @@ export class BrowserStore {
             )}
           </div>
         );
-        listProp.startDate = missions[i].start.toDateString();
+        listProp.startDate = new Date(missions[i].start).toDateString();
         listProp.description = missions[i].description;
         this._listData.push(listProp);
       }

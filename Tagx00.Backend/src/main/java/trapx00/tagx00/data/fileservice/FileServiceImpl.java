@@ -38,36 +38,9 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
         //将json的key变为column的name,建立序列化文件
         Field[] fields = clazz.getDeclaredFields();
         ArrayList<String> columns = AnnotationUtil.getAllColumnName(clazz);
-        Field idField = null;
         for (int i = 0; i < columns.size(); i++) {
             Object object = json.remove(fields[i].getName());
-            if (fields[i].getAnnotation(Id.class) != null) {
-                idField = fields[i];
-            }
-            if (fields[i].getAnnotation(JsonSerialize.class) != null) {
-                try {
-                    int serId = 0;
-                    if (idField != null) {
-                        idField.setAccessible(true);
-                        serId = (int) idField.get(entity);
-                    }
-                    fields[i].setAccessible(true);
-                    serId = serId == 0 ? 1 : serId;
-
-                    FileOutputStream fileOut =
-                            new FileOutputStream(PathUtil.getSerPath() + columns.get(i) + "_" + serId);
-                    ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                    out.writeObject(fields[i].get(entity));
-                    out.close();
-                    fileOut.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                json.put(columns.get(i), object);
-            }
+            json.put(columns.get(i), object);
         }
 
         int maxId = 0;
@@ -98,6 +71,26 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+
+        for (int i = 0; i < columns.size(); i++) {
+            if (fields[i].getAnnotation(JsonSerialize.class) != null) {
+                try {
+                    int serId = maxId + 1;
+                    fields[i].setAccessible(true);
+
+                    FileOutputStream fileOut =
+                            new FileOutputStream(PathUtil.getSerPath() + columns.get(i) + "_" + serId);
+                    ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                    out.writeObject(fields[i].get(entity));
+                    out.close();
+                    fileOut.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         try (FileWriter writer = new FileWriter(savePath + tableName + fileType)) {
