@@ -28,15 +28,14 @@ public class InstanceDaoImpl implements InstanceDao {
     }
 
     @Override
-    public Instance[] findInstancesByissionId(int missionId) {
+    public Instance[] findInstancesByMissionId(int missionId) {
 
         return fileService.findOnes(String.valueOf(missionId), Instance.class);
     }
 
     @Override
-    public Instance[] findInstanceByWorkerUsername(String workerusername) {
-
-        return fileService.findOnes(workerusername, Instance.class);
+    public Instance[] findInstancesByWorkerUsername(String workerUsername) {
+        return fileService.findOnes(workerUsername, Instance.class);
     }
 
     @Override
@@ -45,7 +44,7 @@ public class InstanceDaoImpl implements InstanceDao {
     }
 
     @Override
-    public Instance findInstanceBymissionIdandworkerUsername(int missionId, String workerusername) {
+    public Instance findInstanceByMissionIdAndWorkerUsername(int missionId, String workerusername) {
         Instance[] intances = fileService.findOnes(String.valueOf(missionId), Instance.class);
         Instance[] instances1 = fileService.findOnes(workerusername, Instance.class);
         Mission temp = fileService1.findOne(String.valueOf(missionId), Mission.class);
@@ -68,8 +67,8 @@ public class InstanceDaoImpl implements InstanceDao {
     }
 
     @Override
-    public boolean deleteInstance(int instanceid) {
-        fileService.delete(String.valueOf(instanceid), Instance.class);
+    public boolean deleteInstance(int instanceId) {
+        fileService.delete(String.valueOf(instanceId), Instance.class);
         return true;
     }
 }

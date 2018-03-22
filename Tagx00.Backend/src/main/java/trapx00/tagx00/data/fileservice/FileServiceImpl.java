@@ -5,10 +5,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.entity.Entity;
-import trapx00.tagx00.entity.annotation.Column;
-import trapx00.tagx00.entity.annotation.ElementCollection;
-import trapx00.tagx00.entity.annotation.Id;
-import trapx00.tagx00.entity.annotation.JsonSerialize;
+import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.exception.daoexception.IdDoesNotExistException;
 import trapx00.tagx00.util.AnnotationUtil;
 import trapx00.tagx00.util.PathUtil;
@@ -242,6 +239,27 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
         return (T[]) tArrayList.toArray();
     }
 
+    @Override
+    public ArrayList<T> findAll(Class<T> clazz) {
+        String tableName = AnnotationUtil.getTableName(clazz);
+
+        ArrayList<T> tArrayList = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
+                new FileInputStream(savePath + tableName + fileType)))) {
+            String json;
+            while ((json = bufferedReader.readLine()) != null) {
+                JSONObject jsonObject = JSONObject.fromObject(json);
+                tArrayList.add(fromJsonToObject(jsonObject, clazz));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return tArrayList;
+    }
+
     private T fromJsonToObject(JSONObject jsonObject, Class<T> clazz) {
         try {
             T t = clazz.newInstance();
@@ -252,6 +270,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
                 fields[i].setAccessible(true);
                 ElementCollection elementCollection = fields[i].getAnnotation(ElementCollection.class);
                 JsonSerialize jsonSerialize = fields[i].getAnnotation(JsonSerialize.class);
+                EnumTranslate enumTranslate = fields[i].getAnnotation(EnumTranslate.class);
                 if (fields[i].getAnnotation(Id.class) != null) {
                     idName = columns.get(i);
                 }
@@ -281,6 +300,9 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
                     JSONArray jsonArray = jsonObject.getJSONArray(columns.get(i));
                     List<?> list = JSONArray.toList(jsonArray, listClazz.newInstance(), new JsonConfig());
                     fields[i].set(t, list);
+                } else if (enumTranslate != null) {
+                    Class enumClass = enumTranslate.targetClass();
+                    fields[i].set(t, Enum.valueOf(enumClass, jsonObject.get(columns.get(i)).toString()));
                 } else {
                     fields[i].set(t, jsonObject.get(columns.get(i)));
                 }

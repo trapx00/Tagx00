@@ -1,5 +1,7 @@
 package trapx00.tagx00.data.fileservice;
 
+import java.util.ArrayList;
+
 public interface FileService<T> {
 
     /**
@@ -8,7 +10,7 @@ public interface FileService<T> {
      * @param entity the entity object
      * @return the entity if success else return null
      */
-     T saveTuple(T entity);
+    T saveTuple(T entity);
 
     /**
      * find a entity
@@ -20,7 +22,8 @@ public interface FileService<T> {
 
     void delete(String id, Class<T> clazz);
 
-
     T[] findOnes(String info, Class<T> clazz);
+
+    ArrayList<T> findAll(Class<T> clazz);
 }
 

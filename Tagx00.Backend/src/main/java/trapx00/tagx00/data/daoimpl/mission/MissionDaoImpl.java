@@ -6,6 +6,8 @@ import trapx00.tagx00.data.dao.mission.MissionDao;
 import trapx00.tagx00.data.fileservice.FileService;
 import trapx00.tagx00.entity.mission.Mission;
 
+import java.util.ArrayList;
+
 
 @Service
 public class MissionDaoImpl implements MissionDao {
@@ -19,7 +21,7 @@ public class MissionDaoImpl implements MissionDao {
 
 
     @Override
-    public Mission saveMssion(Mission mission) {
+    public Mission saveMission(Mission mission) {
         return fileService.saveTuple(mission);
     }
 
@@ -32,13 +34,13 @@ public class MissionDaoImpl implements MissionDao {
     }
 
     @Override
-    public Mission[] findMissionByusername(String username) {
-        return fileService.findOnes(username, Mission.class);
+    public Mission[] findMissionByRequesterUsername(String requesterUsername) {
+        return fileService.findOnes(requesterUsername, Mission.class);
     }
 
     @Override
-    public Mission[] getAllmission() {
-        return fileService.findOnes("", Mission.class);
+    public ArrayList<Mission> findAll() {
+        return fileService.findAll(Mission.class);
     }
 
 

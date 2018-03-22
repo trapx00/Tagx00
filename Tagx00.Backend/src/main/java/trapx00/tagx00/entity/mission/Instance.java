@@ -1,12 +1,12 @@
 package trapx00.tagx00.entity.mission;
 
+import trapx00.tagx00.entity.Entity;
 import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 
 import java.util.Date;
-import java.util.List;
 
-public class Instance {
+public class Instance extends Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "instanceId")
@@ -17,6 +17,33 @@ public class Instance {
 
     @Column(name = "missionInstanceState")
     private MissionInstanceState missionInstanceState;
+
+    @JsonSerialize
+    @Column(name = "acceptDate")
+    private Date acceptDate;
+
+    @JsonSerialize
+    @Column(name = "submitDate")
+    private Date submitDate;
+
+    @Column(name = "isSubmitted")
+    private boolean isSubmitted;
+
+    @Column(name = "missionId")
+    private int missionId;
+
+    public Instance() {
+    }
+
+    public Instance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted) {
+        this.instanceId = instanceId;
+        this.workerUsername = workerUsername;
+        this.missionInstanceState = missionInstanceState;
+        this.missionId = missionId;
+        this.acceptDate = acceptDate;
+        this.submitDate = submitDate;
+        this.isSubmitted = isSubmitted;
+    }
 
     public int getInstanceId() {
         return instanceId;
@@ -73,27 +100,4 @@ public class Instance {
     public void setSubmitted(boolean submitted) {
         isSubmitted = submitted;
     }
-
-    @Column(name = "missionId")
-    private int missionId;
-
-    public Instance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted) {
-        this.instanceId = instanceId;
-        this.workerUsername = workerUsername;
-        this.missionInstanceState = missionInstanceState;
-        this.missionId = missionId;
-        this.acceptDate = acceptDate;
-        this.submitDate = submitDate;
-        this.isSubmitted = isSubmitted;
-    }
-
-    @Column(name = "acceptDate")
-    private Date acceptDate;
-
-    @Column(name = "submitDate")
-    private Date submitDate;
-
-
-    @Column(name = "isSubmitted")
-    private boolean isSubmitted;
 }
