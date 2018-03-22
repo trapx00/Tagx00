@@ -5,7 +5,9 @@ import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 
 import java.util.Date;
+import java.util.List;
 
+@Table(name = "imageInstance")
 public class Instance extends Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,16 +34,26 @@ public class Instance extends Entity {
     @Column(name = "missionId")
     private int missionId;
 
+
+    @ElementCollection(targetClass = Integer.class)
+    @Column(name = "resultIds")
+    private List<Integer> resultIds;
+
+    public List<Integer> getResultIds() {
+        return resultIds;
+    }
+
     public Instance() {
     }
 
-    public Instance(String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted) {
+    public Instance(String workerUsername, MissionInstanceState missionInstanceState, Date acceptDate, Date submitDate, boolean isSubmitted, int missionId, List<Integer> resultIds) {
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
-        this.missionId = missionId;
         this.acceptDate = acceptDate;
         this.submitDate = submitDate;
         this.isSubmitted = isSubmitted;
+        this.missionId = missionId;
+        this.resultIds = resultIds;
     }
 
     public int getInstanceId() {
@@ -98,5 +110,9 @@ public class Instance extends Entity {
 
     public void setSubmitted(boolean submitted) {
         isSubmitted = submitted;
+    }
+
+    public void setResultIds(List<Integer> resultIds) {
+        this.resultIds = resultIds;
     }
 }
