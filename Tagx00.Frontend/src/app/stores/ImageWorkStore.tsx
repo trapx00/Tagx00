@@ -3,6 +3,7 @@ import { action, computed, observable } from "mobx";
 import { ImageInstance } from "../models/instance/image/ImageInstance";
 import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
 import { ImageJob } from "../models/instance/image/job/ImageJob";
+import { RectangleNotationItemComponent } from "../components/ImageWork/DrawingPad/RectanglePanel/RectangleNotationItemComponent";
 
 export interface ImageNotation<T extends ImageJob = ImageJob> {
   imageUrl: string;
@@ -53,7 +54,7 @@ export class ImageWorkStore {
     return this.workIndex;
   }
 
-  @computed get currentWork() {
+  @computed get currentWork(): ImageNotation {
     if (this.workIndex == this.currentNotations.length) {
       return null;
     } else {
@@ -68,6 +69,12 @@ export class ImageWorkStore {
 
   @action nextWork() {
     this.workIndex++;
+  }
+
+  @action previousWork() {
+    if (this.workIndex > 0) {
+      this.workIndex--;
+    }
   }
 
 }

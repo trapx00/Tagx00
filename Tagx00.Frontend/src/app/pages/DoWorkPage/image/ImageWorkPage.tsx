@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { ImageMissionDetail, ImageMissionType } from "../../../models/mission/ImageMission";
 import { ImageInstanceDetail } from "../../../models/instance/image/ImageInstanceDetail";
 import { ImageNotation, ImageWorkStore } from "../../../stores/ImageWorkStore";
@@ -7,10 +7,11 @@ import { ImagePartWorkPage } from "./ImagePartWorkPage";
 import { PartJob } from "../../../models/instance/image/job/PartJob";
 import { ImageDistrictWorkPage } from "./ImageDistrictWorkPage";
 import { ImageWholeWorkPage } from "./ImageWholeWorkPage";
-import { Progress } from 'antd';
+import { Progress, message } from 'antd';
 import { CompleteModal } from "../../../components/ImageWork/CompleteModal";
 import { WholeJob } from "../../../models/instance/image/job/WholeJob";
 import { ImageJob } from "../../../models/instance/image/job/ImageJob";
+import { ProgressController } from "../../../components/ProgressController";
 
 interface Props {
   instanceDetail: ImageInstanceDetail;
@@ -21,6 +22,12 @@ export interface ImageWorkPageProps<T extends ImageJob> {
   notation: ImageNotation<T>;
   submit: (notation: ImageNotation) => void;
   missionDetail: ImageMissionDetail;
+  controllerProps: {
+    goNext: () => void;
+    goPrevious: () => void;
+    previousAvailable: boolean;
+  }
+
 }
 
 @observer
@@ -34,9 +41,17 @@ export class ImageWorkPage extends React.Component<Props, {}> {
     this.store = new ImageWorkStore(missionDetail.imageUrls, missionDetail.imageMissionTypes, instanceDetail);
   }
 
-  saveAndNext = (notation: ImageNotation) => {
+  saveWork = (notation: ImageNotation) => {
     this.store.saveWork(notation);
+    message.success("work saved successfully");
+  };
+
+  goNext = () => {
     this.store.nextWork();
+  };
+
+  goPrevious = () => {
+    this.store.previousWork();
   };
 
 
@@ -48,8 +63,13 @@ export class ImageWorkPage extends React.Component<Props, {}> {
 
     const params = {
       notation: currentWork as any,
-      submit: this.saveAndNext,
-      missionDetail: this.props.missionDetail
+      submit: this.saveWork,
+      missionDetail: this.props.missionDetail,
+      controllerProps: {
+        goNext: this.goNext,
+        goPrevious: this.goPrevious,
+        previousAvailable: this.store.workIndex != 0
+      }
     };
 
     switch (currentWork.job.type) {
@@ -67,9 +87,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
 
     return <div>
       <h1>{missionDetail.publicItem.title}</h1>
-      <Provider store={this.store}>
-        {this.chooseWorkPage()}
-      </Provider>
+      {this.chooseWorkPage()}
       <div>
         <Progress percent={this.store.progress / this.store.totalCount * 100}
                   status="active"
@@ -77,7 +95,9 @@ export class ImageWorkPage extends React.Component<Props, {}> {
         />
       </div>
       <div>
-        <button onClick={() => this.store.nextWork()}>Next work</button>
+        <button onClick={this.goNext}>
+          Go next
+        </button>
       </div>
     </div>;
   }

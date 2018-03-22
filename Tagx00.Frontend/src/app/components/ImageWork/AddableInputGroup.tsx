@@ -2,6 +2,7 @@ import React from "react";
 import { Input, Icon, Button } from 'antd';
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
+import { removeElementAt } from "../../../utils/Array";
 
 interface Props {
   items: string[];
@@ -24,7 +25,7 @@ export class AddableInputGroup extends React.Component<Props, any> {
   };
 
   @action removeOne = (index: number) => {
-    this.items.splice(index, 1);
+    removeElementAt(this.items, index);
     this.callOnChange();
   };
 
