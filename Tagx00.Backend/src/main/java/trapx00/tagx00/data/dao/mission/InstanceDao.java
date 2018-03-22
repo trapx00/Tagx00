@@ -8,13 +8,13 @@ import trapx00.tagx00.entity.mission.Instance;
 public interface InstanceDao {
     Instance saveInstance(Instance imageInstance);
 
-    Instance[] findInstancesBymissionId(int missionId);
+    Instance[] findInstancesByissionId(int missionId);
 
     Instance[] findInstanceByWorkerUsername(String workerusername);
 
-    Instance findInstanceByinstanceId(int instanceId);
+    Instance findInstanceBynstanceId(int instanceId);
 
-    Instance findInstanceBymissionIdandworkerUsername(int missionId,String workerusername);
+    Instance findInstanceBymissionIdndWorkerUsername(int missionId,String workerusername);
 
     boolean deleteInstance(int instanceid);
 }

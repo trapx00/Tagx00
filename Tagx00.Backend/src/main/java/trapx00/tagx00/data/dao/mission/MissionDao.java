@@ -12,7 +12,7 @@ public interface MissionDao {
 
     Mission[] findMissionByusername(String username);
 
-    Mission[] getAllmission();
+    Mission[] findMissionsByMission();
 
 
 

@@ -59,7 +59,7 @@ export class BrowserMissionList extends React.Component<any, any> {
                       actions={[<Button type="primary" ghost={true} size="small" icon="check"/>,
                         <Button size="small" shape="circle" icon="ellipsis"/>]}
                       extra={<img width={272} alt="logo"
-                                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"/>}
+                                  src={item.coverUrl}/>}
                     >
                       <List.Item.Meta
                         title={<a href={item.href}>{item.title}</a>}

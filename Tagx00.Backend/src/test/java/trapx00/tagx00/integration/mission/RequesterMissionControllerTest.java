@@ -13,13 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import trapx00.tagx00.blservice.account.UserBlService;
-import trapx00.tagx00.dataservice.account.UserDataService;
-import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.mission.*;
-import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
-
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
 
@@ -74,12 +69,12 @@ public class RequesterMissionControllerTest {
         assertEquals(HttpStatus.FORBIDDEN,response.getStatusCode());
     }
 
-    @Test
-    public void queryInstancesButNotLogin() {
-        String url = getRoute("mission/requester/0/instances/");
-        ResponseEntity<MissionInstancesQueryResponse> response = testRestTemplate.getForEntity(url,MissionInstancesQueryResponse.class);
-        assertEquals(HttpStatus.FORBIDDEN,response.getStatusCode());
-    }
+//    @Test
+//    public void queryInstancesButNotLogin() {
+//        String url = getRoute("mission/requester/0/instances/");
+//        ResponseEntity<MissionInstancesQueryResponse> response = testRestTemplate.getForEntity(url,MissionInstancesQueryResponse.class);
+//        assertEquals(HttpStatus.FORBIDDEN,response.getStatusCode());
+//    }
 
 
      /*@Test

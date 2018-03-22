@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.user.UserDao;
-import trapx00.tagx00.dataservice.account.UserDataService;
+import trapx00.tagx00.dataservice.UserDataService;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
 

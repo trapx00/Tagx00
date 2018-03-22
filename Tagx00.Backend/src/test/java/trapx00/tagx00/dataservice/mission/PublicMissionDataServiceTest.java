@@ -1,4 +1,4 @@
-package trapx00.tagx00.dataservice.account.mission;
+package trapx00.tagx00.dataservice.mission;
 
 import org.junit.After;
 import org.junit.Before;
@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 
 import static org.junit.Assert.assertEquals;
 
@@ -28,7 +27,7 @@ public class PublicMissionDataServiceTest {
 
     @Test
     public void getMissions() {
-        assertEquals(0,publicMissionDataService.getMissions().length);
+        assertEquals("凌尊", publicMissionDataService.getMissions()[0].getRequesterUsername());
 
     }
 }

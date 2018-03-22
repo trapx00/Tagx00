@@ -1,4 +1,4 @@
-package trapx00.tagx00.dataservice.account.mission;
+package trapx00.tagx00.dataservice.mission;
 
 import org.junit.After;
 import org.junit.Before;
@@ -30,20 +30,20 @@ public class WorkerMissionDataServiceTest {
     public void tearDown() throws Exception {
     }
 
-    @Test
-    public void saveInstance() {
-        workerMissionDataService.saveInstance(missionInstanceItem);
-    }
-
-    @Test
-    public void getMissionByUsername() {
-        workerMissionDataService.saveInstance(missionInstanceItem);
-        assertEquals(0,workerMissionDataService.getMissionByUsername("张三").length);
-    }
-
-    @Test
-    public void getInstanceByUsernameAndMissionId() {
-        workerMissionDataService.saveInstance(missionInstanceItem);
-        assertEquals(null,workerMissionDataService.getInstanceByUsernameAndMissionId("张三",1));
-    }
+//    @Test
+//    public void saveInstance() {
+//        workerMissionDataService.saveInstance(missionInstanceItem);
+//    }
+//
+//    @Test
+//    public void getMissionByUsername() {
+//        workerMissionDataService.saveInstance(missionInstanceItem);
+//        assertEquals(0,workerMissionDataService.getMissionByUsername("张三").length);
+//    }
+//
+//    @Test
+//    public void getInstanceByUsernameAndMissionId() {
+//        workerMissionDataService.saveInstance(missionInstanceItem);
+//        assertEquals(null,workerMissionDataService.getInstanceByUsernameAndMissionId("张三",1));
+//    }
 }

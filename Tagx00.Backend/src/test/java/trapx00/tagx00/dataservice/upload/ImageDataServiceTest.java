@@ -1,4 +1,4 @@
-package trapx00.tagx00.dataservice.account.upload;
+package trapx00.tagx00.dataservice.upload;
 
 import org.junit.After;
 import org.junit.Before;
