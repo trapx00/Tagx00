@@ -35,8 +35,7 @@ public class Instance extends Entity {
     public Instance() {
     }
 
-    public Instance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted) {
-        this.instanceId = instanceId;
+    public Instance(String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted) {
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
         this.missionId = missionId;

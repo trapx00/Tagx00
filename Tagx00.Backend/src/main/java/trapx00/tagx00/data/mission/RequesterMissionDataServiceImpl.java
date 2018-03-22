@@ -15,6 +15,8 @@ import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
+import java.util.ArrayList;
+
 @Service
 public class RequesterMissionDataServiceImpl implements RequesterMissionDataService {
 
@@ -65,16 +67,16 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
 
     @Override
     public InstanceVo[] getInstanceBymissionId(int missionId) {
-        Instance[] instances = instanceDao.findInstancesByMissionId(missionId);
+        ArrayList<Instance> instances = instanceDao.findInstancesByMissionId(missionId);
         if (instances == null)
             return null;
-        InstanceVo[] instanceVos = new InstanceVo[instances.length];
+        InstanceVo[] instanceVos = new InstanceVo[instances.size()];
         if (missionDao.findMissionByMissionId(missionId).getMissionType().equals(MissionType.IMAGE))
             for (int i = 0; i < instanceVos.length; i++) {
-                ImageInstance instanceVo = (ImageInstance) instances[i];
-                instanceVos[i] = new ImageInstanceVo(instances[i].getInstanceId(), instances[i].getWorkerUsername(),
-                        instances[i].getMissionInstanceState(), instances[i].getMissionId(),
-                        instances[i].getAcceptDate(), instances[i].getSubmitDate(), instances[i].isSubmitted(),
+                ImageInstance instanceVo = (ImageInstance) instances.get(i);
+                instanceVos[i] = new ImageInstanceVo(instanceVo.getInstanceId(), instanceVo.getWorkerUsername(),
+                        instanceVo.getMissionInstanceState(), instanceVo.getMissionId(),
+                        instanceVo.getAcceptDate(), instanceVo.getSubmitDate(), instanceVo.isSubmitted(),
                         instanceVo.getResultIds().size()
                 );
             }

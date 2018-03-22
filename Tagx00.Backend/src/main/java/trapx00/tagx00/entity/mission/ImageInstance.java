@@ -25,8 +25,8 @@ public class ImageInstance extends Instance {
     public ImageInstance() {
     }
 
-    public ImageInstance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted, List<Integer> resultIds) {
-        super(instanceId, workerUsername, missionInstanceState, missionId, acceptDate, submitDate, isSubmitted);
+    public ImageInstance(String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted, List<Integer> resultIds) {
+        super(workerUsername, missionInstanceState, missionId, acceptDate, submitDate, isSubmitted);
         this.resultIds = resultIds;
     }
 

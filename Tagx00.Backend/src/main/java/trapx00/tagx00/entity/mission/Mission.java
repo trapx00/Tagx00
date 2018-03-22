@@ -47,7 +47,6 @@ public class Mission extends Entity {
     }
 
     public Mission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, String requesterUsername) {
-        this.missionId = missionId;
         this.title = title;
         this.description = description;
         this.topics = topics;

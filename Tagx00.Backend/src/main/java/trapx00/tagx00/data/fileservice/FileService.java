@@ -22,7 +22,7 @@ public interface FileService<T> {
 
     void delete(String id, Class<T> clazz);
 
-    T[] findOnes(String info, Class<T> clazz);
+    ArrayList<T> findOnes(String info, Class<T> clazz);
 
     ArrayList<T> findAll(Class<T> clazz);
 }
