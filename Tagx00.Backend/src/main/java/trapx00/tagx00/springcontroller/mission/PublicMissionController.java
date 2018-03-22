@@ -32,16 +32,16 @@ public class PublicMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> getMissions() {
-        try{
+        try {
             return new ResponseEntity(publicMissionBlService.getAllMissions(), HttpStatus.OK);
-        }catch (NotMissionException e){
+        } catch (NotMissionException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
         }
 
     }
 
-    @PreAuthorize(value = "hasRole('" + Role.REQUESTOR_NAME + "') or hasRole('"+Role.WORKER_NAME + "')")
+    @PreAuthorize(value = "hasRole('" + Role.REQUESTOR_NAME + "') or hasRole('" + Role.WORKER_NAME + "')")
     @ApiOperation(value = "获得某一任务", notes = "获得某个任务信息")
     @RequestMapping(value = "/mission/{missionId}", method = RequestMethod.GET)
     @ApiResponses(value = {
@@ -51,9 +51,13 @@ public class PublicMissionController {
             @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> getOneMission(@PathVariable(name="missionId") Integer missionId){
-        return null;
+    public ResponseEntity<Response> getOneMission(@PathVariable(name = "missionId") Integer missionId) {
+        try {
+            return new ResponseEntity(publicMissionBlService.getOneMissionDetail(missionId), HttpStatus.OK);
+        } catch (NotMissionException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
+        }
+
     }
-
-
 }

@@ -1,14 +1,16 @@
 import React from "react";
-import {registerStore} from "./RegisterStore";
-import {RegisterForm} from "../../components/Register/RegisterForm";
-import {Row, Col} from 'antd';
-import {observer} from "mobx-react";
-import {RegisterEmailSender} from "./RegisterEmailSender";
+import { RegisterForm } from "./RegisterForm";
+import { Col, Row } from 'antd';
+import { inject, observer } from "mobx-react";
+import { RegisterEmailSender } from "./RegisterEmailSender";
+import { RegisterProps, STORE_REGISTER } from "./RegisterStore";
 
+@inject(STORE_REGISTER)
 @observer
-export class Register extends React.Component<any, any> {
+export class Register extends React.Component<RegisterProps, any> {
     render() {
-        switch (registerStore.currentStep) {
+        const store = this.props[STORE_REGISTER];
+        switch (store.currentStep) {
             case 0:
                 return (<Row>
                     <Col span={12}>

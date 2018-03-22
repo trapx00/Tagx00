@@ -25,7 +25,7 @@ export class NetworkResponse<T = any> {
 }
 
 
-interface FetchInfo {
+export interface FetchInfo {
   route?: string,
   method?: HttpMethod,
   queryParams?: any,

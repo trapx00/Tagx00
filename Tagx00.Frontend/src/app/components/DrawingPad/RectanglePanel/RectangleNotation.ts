@@ -1,4 +1,4 @@
-import { action, computed, observable } from "mobx";
+import { computed, observable } from "mobx";
 import { Rectangle } from "./Rectangle";
 import { Notation } from "../utils/Notation";
 

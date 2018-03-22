@@ -5,7 +5,11 @@ import trapx00.tagx00.publicdatas.mission.TagDescriptionTuple;
 
 import java.util.List;
 
+class Boundary {
+    List<Point> points;
+}
+
 public class DistrictTagDescriptionTuple {
-    private List<Point> pointsInside;
+    private List<Boundary> boundaries;
     private TagDescriptionTuple tagDescriptionTuple;
 }

@@ -1,6 +1,6 @@
-import {action, computed, observable} from "mobx";
+import { action, computed, observable } from "mobx";
 
-class RegisterStore {
+export class RegisterStore {
     @observable private step: number = 0;
     @action public nextStep = () => {
         this.step++;
@@ -15,4 +15,9 @@ class RegisterStore {
     }
 }
 
-export const registerStore = new RegisterStore();
+export const STORE_REGISTER  = "register";
+
+export interface RegisterProps {
+  [STORE_REGISTER]?: RegisterStore
+}
+

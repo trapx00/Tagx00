@@ -1,18 +1,20 @@
 import React from "react";
-import {Form, Input, Button, Radio, message} from 'antd';
-import {Localize} from "../../../internationalization/components/index";
-import {LocaleStoreProps} from "../../../internationalization/index";
-import {FormComponentProps} from "antd/lib/form";
-import {registerStore} from "../RegisterStore";
+import { Button, Form, Input, message, Radio } from 'antd';
+import { Localize } from "../../../internationalization/components";
+import { FormComponentProps } from "antd/lib/form";
+import { inject, observer } from "mobx-react";
+import { RegisterProps, STORE_REGISTER } from "../RegisterStore";
 
-interface RegisterFormProps extends LocaleStoreProps, FormComponentProps {
+interface RegisterFormProps extends FormComponentProps, RegisterProps  {
 }
 
+@inject(STORE_REGISTER)
+@observer
 class RegisterTable extends React.Component<RegisterFormProps, any> {
     handleSubmit = () => {
         message.success('Register Success');
-        registerStore.nextStep();
-    }
+        this.props[STORE_REGISTER].nextStep();
+    };
 
     render() {
         const {getFieldDecorator} = this.props.form;
@@ -24,15 +26,24 @@ class RegisterTable extends React.Component<RegisterFormProps, any> {
             wrapperCol: {span: 14, offset: 4},
         };
         return (
-            <Localize submitLabel={"registerForm.submit"} roleLabel={"registerForm.role"}
-                      roleWorker={"registerForm.worker"} roleRequester={"registerForm.requester"}
-                      usernameLabel={"registerForm.username"} usernameRequire={"registerForm.requireUsername"}
-                      passwordLabel={"registerForm.password"} passwordRequire={"registerForm.requirePassword"}
-                      passwordConfirmLabel={"registerForm.confirmPassword"}
-                      passwordNotEqual={"registerForm.notEqualPassword"}
-                      passwordConfirmRequire={"registerForm.requireConfirmPassword"}
-                      emailLabel={"registerForm.email"} emailWrongFormat={"registerForm.wrongEmailFormat"}
-                      emailRequire={"registerForm.requireEmail"} passwordForgot={"registerForm.passwordForgot"}>{
+            <Localize replacements={{
+              submitLabel: "registerForm.submit",
+              roleLabel: "registerForm.role",
+              roleWorker: "registerForm.worker",
+              roleRequester: "registerForm.requester",
+              usernameLabel: "registerForm.username",
+              usernameRequire: "registerForm.requireUsername",
+              passwordLabel: "registerForm.password",
+              passwordRequire: "registerForm.requirePassword",
+              passwordConfirmLabel: "registerForm.confirmPassword",
+              passwordNotEqual: "registerForm.notEqualPassword",
+              passwordConfirmRequire: "registerForm.requireConfirmPassword",
+              emailLabel: "registerForm.email",
+              emailWrongFormat: "registerForm.wrongEmailFormat",
+              emailRequire: "registerForm.requireEmail",
+              passwordForgot: "registerForm.passwordForgot",
+            }}
+              >{
                 (props) => {
                     return <Form layout="horizontal">
                         <Form.Item
