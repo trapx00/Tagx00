@@ -44,16 +44,20 @@ public class Mission extends Entity {
     @Column(name = "requesterUsername")
     private String requesterUsername;
 
-    @ElementCollection(targetClass = String.class)
+    @JsonSerialize
     @Column(name = "imageUrls")
     private List<String> imageUrls;
+    @JsonSerialize
     @Column(name = "imageMissionType")
     private List<ImageMissionType> imageMissionTypes;
 
     public Mission() {
     }
 
-    public Mission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, List<String> imageUrls, List<ImageMissionType> imageMissionTypes) {
+    public Mission(String title, String description, List<String> topics, boolean allowCustomTag,
+                   List<String> allowedTags, MissionType missionType, MissionState missionState,
+                   Date start, Date end, String coverUrl, String requesterUsername,
+                   List<String> imageUrls, List<ImageMissionType> imageMissionTypes) {
         this.title = title;
         this.description = description;
         this.topics = topics;

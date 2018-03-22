@@ -7,7 +7,7 @@ import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import java.util.Date;
 import java.util.List;
 
-@Table(name = "imageInstance")
+@Table(name = "instance")
 public class Instance extends Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,6 +17,7 @@ public class Instance extends Entity {
     @Column(name = "workerUsername")
     private String workerUsername;
 
+    @EnumTranslate(targetClass = MissionInstanceState.class)
     @Column(name = "missionInstanceState")
     private MissionInstanceState missionInstanceState;
 
@@ -35,7 +36,7 @@ public class Instance extends Entity {
     private int missionId;
 
 
-    @ElementCollection(targetClass = Integer.class)
+    @JsonSerialize
     @Column(name = "resultIds")
     private List<Integer> resultIds;
 
@@ -46,7 +47,7 @@ public class Instance extends Entity {
     public Instance() {
     }
 
-    public Instance(String workerUsername, MissionInstanceState missionInstanceState, Date acceptDate, Date submitDate, boolean isSubmitted, int missionId, List<Integer> resultIds) {
+    public Instance(String workerUsername, MissionInstanceState missionInstanceState, int missionId,  Date acceptDate, Date submitDate, boolean isSubmitted,List<Integer> resultIds) {
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
         this.acceptDate = acceptDate;

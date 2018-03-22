@@ -44,11 +44,11 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
             if (mission != null) {
                 if(mission.getMissionType().equals(MissionType.IMAGE))
                 {
-                    ImageMission imageMission=(ImageMission)mission;
+                    Mission imageMission=(Mission)mission;
                     String url = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
                     List<String> urls = imageMission.getImageUrls();
                     urls.add(url);
-                    ((ImageMission) mission).setImageUrls(urls);
+                    ((Mission) mission).setImageUrls(urls);
                     return new UploadMissionImageResponse(url);
                 }
 

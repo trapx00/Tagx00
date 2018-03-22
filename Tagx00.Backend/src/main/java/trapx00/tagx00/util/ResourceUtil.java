@@ -14,7 +14,7 @@ public class ResourceUtil {
 
     public static String getFilePathUnderRootDirOfJarFileOrClassDir(String relativePath) {
         String filePath = MainApplication.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        String[] paths = filePath.split(File.separator); // last item is the file name
+        String[] paths = filePath.split("\\"+File.separator); // last item is the file name
         String dir = Arrays.stream(paths)
                 .limit(paths.length-1)
                 .collect(Collectors.joining(File.separator)); // ignore the last item and join the directories

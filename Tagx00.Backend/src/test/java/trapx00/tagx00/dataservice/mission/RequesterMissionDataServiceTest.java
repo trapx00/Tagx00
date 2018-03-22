@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
+import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
@@ -39,7 +40,10 @@ public class RequesterMissionDataServiceTest {
         ArrayList<String> allowedTags = new ArrayList<>();
         allowedTags.add("风景画");
         allowedTags.add("灾难画");
-        mission = new Mission("123", "123123", topics, false, allowedTags, MissionType.IMAGE, new Date(), new Date(), "http://pic1.16xx8.com/allimg/170801/1-1FP116442T62.jpg", "凌尊");
+        mission = new Mission("123",
+                "123123", topics, false, allowedTags,
+                MissionType.IMAGE, MissionState.ACTIVE,new Date(), new Date(),
+                "http://pic1.16xx8.com/allimg/170801/1-1FP116442T62.jpg", "凌尊",null,null);
         missionInstanceItem = new MissionInstanceItemVo(0, "张三", MissionInstanceState.SUBMITTED, new Date(), new Date(), 100, 100);
     }
 
@@ -83,6 +87,6 @@ public class RequesterMissionDataServiceTest {
         } catch (SystemException e) {
             e.printStackTrace();
         }
-        assertEquals(null, requesterMissionDataService.getInstanceBymissionId(0));
+        assertEquals(null, requesterMissionDataService.getInstanceBymissionId(1));
     }
 }
