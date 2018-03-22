@@ -8,9 +8,9 @@ public interface MissionDao {
 
     Mission  saveMssion(Mission mission);
 
-    Mission  findMissionByMissionId(int missionId);
+    Mission findMissionBymissionId(int missionId);
 
-    Mission[] findMissionByusername(String username);
+    Mission[] findMissionByrequesterUsername(String username);
 
     Mission[] getAllmission();
 

@@ -21,7 +21,7 @@ public class MissionDaoImpl implements MissionDao {
     }
 
     @Override
-    public Mission findMissionByMissionId(int missionId) {
+    public Mission findMissionBymissionId(int missionId) {
         return fileService.findOne(String.valueOf(missionId),Mission.class);
         /**
          * 有点问题
@@ -29,7 +29,7 @@ public class MissionDaoImpl implements MissionDao {
     }
 
     @Override
-    public Mission[] findMissionByusername(String username) {
+    public Mission[] findMissionByrequesterUsername(String username) {
         return fileService.findOnes(username,Mission.class);
     }
 

@@ -8,9 +8,9 @@ import trapx00.tagx00.entity.mission.Instance;
 public interface InstanceDao {
     Instance saveInstance(Instance imageInstance);
 
-    Instance[] findInstancesBymissionId(int missionId);
+    Instance[] findInstanceBymissionId(int missionId);
 
-    Instance[] findInstanceByWorkerUsername(String workerusername);
+    Instance[] findInstanceByworkerUsername(String workerusername);
 
     Instance findInstanceByinstanceId(int instanceId);
 

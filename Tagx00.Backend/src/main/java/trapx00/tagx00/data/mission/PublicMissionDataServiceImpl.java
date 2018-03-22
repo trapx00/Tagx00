@@ -9,7 +9,6 @@ import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 import trapx00.tagx00.vo.mission.image.ImageMissionDetailVo;
-import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
 @Service
 public class PublicMissionDataServiceImpl implements PublicMissionDataService {
@@ -48,7 +47,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
      */
     @Override
     public MissionDetailVo getOneMissionDetail(int missionId) {
-        Mission mission=missionDao.findMissionByMissionId(missionId);
+        Mission mission=missionDao.findMissionBymissionId(missionId);
         if(mission==null)
             return null;
         MissionDetailVo missionDetailVo=null;

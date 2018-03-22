@@ -14,7 +14,6 @@ import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
-import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
 @Service
 public class RequesterMissionDataServiceImpl implements RequesterMissionDataService {
@@ -50,7 +49,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     @Override
     public InstanceDetailVo  getInstanceByinstanceId(int instanceId) {
         Instance instance =instanceDao.findInstanceByinstanceId(instanceId);
-        Mission mission=missionDao.findMissionByMissionId(instance.getMissionId());
+        Mission mission=missionDao.findMissionBymissionId(instance.getMissionId());
         if(instance !=null) {
             if (mission.getMissionType().equals(MissionType.IMAGE)) {
                 ImageInstance instanceVo = (ImageInstance) instanceDao.findInstanceByinstanceId(instanceId);
@@ -66,11 +65,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     @Override
     public InstanceVo[] getInstanceBymissionId(int missionId)
     {
-        Instance[] instances =instanceDao.findInstancesBymissionId(missionId);
+        Instance[] instances =instanceDao.findInstanceBymissionId(missionId);
         if(instances ==null)
             return null;
         InstanceVo[] instanceVos =new InstanceVo[instances.length];
-        if (missionDao.findMissionByMissionId(missionId).getMissionType().equals(MissionType.IMAGE))
+        if (missionDao.findMissionBymissionId(missionId).getMissionType().equals(MissionType.IMAGE))
             for(int i = 0; i< instanceVos.length; i++){
                 ImageInstance instanceVo = (ImageInstance) instances[i];
                 instanceVos[i]=new ImageInstanceVo(instances[i].getInstanceId(), instances[i].getWorkerUsername(),
@@ -91,7 +90,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      */
     @Override
     public Mission getMissionByMissionId(int missionId) {
-        Mission mission=missionDao.findMissionByMissionId(missionId);
+        Mission mission=missionDao.findMissionBymissionId(missionId);
         return mission;
     }
 

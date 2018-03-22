@@ -28,13 +28,13 @@ public class InstanceDaoImpl implements InstanceDao {
     }
 
     @Override
-    public Instance[] findInstancesBymissionId(int missionId) {
+    public Instance[] findInstanceBymissionId(int missionId) {
 
         return  fileService.findOnes(String.valueOf(missionId),Instance.class);
     }
 
     @Override
-    public Instance[] findInstanceByWorkerUsername(String workerusername) {
+    public Instance[] findInstanceByworkerUsername(String workerusername) {
 
         return fileService.findOnes(workerusername,Instance.class);
     }

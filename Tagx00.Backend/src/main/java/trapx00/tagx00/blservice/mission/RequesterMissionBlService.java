@@ -33,5 +33,6 @@ public interface RequesterMissionBlService {
      * @return the detail response with instance of a mission
      */
     InstanceDetailResponse queryInstance(int instanceId)throws InstanceNotExistException;
+
 }
 
