@@ -28,15 +28,16 @@ export class SearchBar extends React.Component<BrowserProps, any> {
     };
   };
 
-  handleClick = (e) => {
+  handleClick = async (e) => {
     this.setState({
       searchValue: e.target.innerHTML
     });
-    this.handleSearch();
+    await this.handleSearch();
   };
 
-  handleSearch = () => {
+  handleSearch = async () => {
     this.props[STORE_BROWSER].reverseBrowsing();
+    await this.props[STORE_BROWSER].search(this.state.searchValue);
   };
 
   handleSearchAll = () => {

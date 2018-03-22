@@ -55,7 +55,7 @@ export class BrowserMissionList extends React.Component<any, any> {
                   dataSource={this.props[STORE_BROWSER].listData}
                   renderItem={item => (
                     <List.Item
-                      key={item.title}
+                      key={item.missionId}
                       actions={[<Button type="primary" ghost={true} size="small" icon="check"/>,
                         <Button size="small" shape="circle" icon="ellipsis"/>]}
                       extra={<img width={272} alt="logo"
