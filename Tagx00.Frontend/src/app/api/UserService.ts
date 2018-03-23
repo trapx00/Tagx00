@@ -1,10 +1,10 @@
-import { BaseService } from "./BaseService";
+import { BaseService, NetworkResponse } from "./BaseService";
 import { HttpMethod } from "./utils";
 
 export interface LoginResult {
   token: string,
-  username: string,
-  role: string
+  jwtRoles: string[];
+  email: string;
 }
 
 function encryptPassword(password: string) {
@@ -16,13 +16,20 @@ export class UserService extends BaseService {
     super("account");
   }
 
-  async login(username: string, password: string) {
+  async login(username: string, password: string): Promise<NetworkResponse<LoginResult>> {
     password = encryptPassword(password);
 
-    return await this.fetch({
-      route: "login",
-      queryParams: {username, password}
-    });
+    return new NetworkResponse(200, {
+        token: "123",
+        jwtRoles: ["ROLE_WORKER"],
+        email: "1@1.com"
+      }
+    );
+
+    // return await this.fetch({
+    //   route: "login",
+    //   queryParams: {username, password}
+    // });
   }
 
   async register(username: string, password: string) {

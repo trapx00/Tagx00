@@ -8,9 +8,18 @@ export interface ImageNotation<T extends ImageJob = ImageJob> {
   job: T;
 }
 
+enum TransformDirection {
+  Next,
+  Previous,
+  Normal
+}
+
+
 export class ImageWorkStore {
   imageUrls: string[];
   types: ImageMissionType[];
+
+  @observable direction: TransformDirection = TransformDirection.Normal;
 
   currentNotations: ImageNotation[] = [];
 
@@ -53,7 +62,7 @@ export class ImageWorkStore {
   }
 
   @computed get currentWork(): ImageNotation {
-    if ((this.workIndex+"").indexOf(".")>=0) {
+    if (this.direction !== TransformDirection.Normal) {
       return undefined;
     }
 
@@ -70,29 +79,32 @@ export class ImageWorkStore {
   }
 
   @action nextWork1() { // first step of going next work
-    this.workIndex+=0.6;
+    this.direction = TransformDirection.Next;
   }
 
   @action nextWork2() { // second step of going next work
-    this.workIndex+=0.4;
+    this.workIndex++;
+    this.direction = TransformDirection.Normal;
   }
 
   @action previousWork1() {
     if (this.workIndex > 0) {
-      this.workIndex-= 0.6;
+      this.direction = TransformDirection.Previous;
     }
   }
 
   @action previousWork2() {
     if (this.workIndex >0) {
-      this.workIndex -= 0.4;
+      this.workIndex--;
+      this.direction = TransformDirection.Normal;
     }
   }
 
   @action doSecondStep() {
-    if (this.workIndex - parseInt(this.workIndex+"") == 0.4) { // number ends with 0.4, therefore it's going previous
+    if (this.direction === TransformDirection.Previous) {
       this.previousWork2();
-    } else {
+
+    } else if (this.direction === TransformDirection.Next) {
       this.nextWork2();
     }
   }

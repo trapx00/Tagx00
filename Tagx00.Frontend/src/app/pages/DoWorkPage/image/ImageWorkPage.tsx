@@ -54,12 +54,21 @@ export class ImageWorkPage extends React.Component<Props, {}> {
     this.store.previousWork1();
   };
 
-
-  chooseWorkPage() {
+  componentDidUpdate() {
     const currentWork: ImageNotation = this.store.currentWork;
 
     if (typeof currentWork === 'undefined') {
       this.store.doSecondStep();
+    }
+
+  }
+
+  chooseWorkPage() {
+    const currentWork: ImageNotation = this.store.currentWork;
+
+    console.log(this.store.workIndex);
+
+    if (typeof currentWork === 'undefined') {
       return <div/>; // unmount previous page to restore state.
     }
 
