@@ -108,7 +108,8 @@ export class LocaleStore {
     let onFallback = false;
     for (const key of id.split(idSeparator)) {
       if (typeof content === 'undefined') {
-        throw new RangeError(`unidentified id ${id}.`);
+        return id;
+        // throw new RangeError(`unidentified id ${id}.`);
       }
       if (key in content) {
         if (!onFallback) {
