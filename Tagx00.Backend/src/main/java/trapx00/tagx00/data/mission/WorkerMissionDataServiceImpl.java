@@ -85,7 +85,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
             Mission mission = missionDao.findMissionByMissionId(instances.get(i).getMissionId());
             if (mission.getMissionType().equals(MissionType.IMAGE)) {
                 Instance instance = instances.get(i);
-                int instanceResultIdsSize = instance.getResultIds() == null ? 0 : instance.getResultIds().size();
+                int instanceResultIdsSize = instance.getImageResults() == null ? 0 : instance.getImageResults().size();
                 instanceVos[i] = new ImageInstanceVo(instance.getInstanceId(), instance.getWorkerUsername(), instance.getMissionInstanceState(),
                         instance.getMissionId(), instance.getAcceptDate(), instance.getSubmitDate(),
                         instance.isSubmitted(), instanceResultIdsSize);
@@ -127,7 +127,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 if (instances.get(i).getInstanceId() == instances1.get(j).getInstanceId()) {
                     if (temp.getMissionType().equals(MissionType.IMAGE)) {
                         Instance instanceDetailVo = instances1.get(j);
-                        int instanceResultSizes = instanceDetailVo.getResultIds() == null ? 0 : instanceDetailVo.getResultIds().size();
+                        int instanceResultSizes = instanceDetailVo.getImageResults() == null ? 0 : instanceDetailVo.getImageResults().size();
                         return new ImageInstanceDetailVo(new InstanceVo(instanceDetailVo.getInstanceId(),
                                 instanceDetailVo.getWorkerUsername(), instanceDetailVo.getMissionInstanceState(),
                                 instanceDetailVo.getMissionId(), instanceDetailVo.getAcceptDate(), instanceDetailVo.getSubmitDate(),

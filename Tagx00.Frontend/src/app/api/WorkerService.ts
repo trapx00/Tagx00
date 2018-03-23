@@ -16,30 +16,30 @@ export class WorkerService extends BaseService {
     super("mission/worker");
   }
 
-  async getAllInstances(): Promise<Instance[]> {
+  async getAllInstances(token: string): Promise<Instance[]> {
     //mock
-    return [1, 2, 3, 4, 5].map(x =>
-      ({
-        instanceId: x,
-        workerUsername: "123",
-        title: `Title${x}`,
-        description: `Description `.repeat(x),
-        missionId: 123,
-        acceptDate: new Date(),
-        submitDate: x % 2 === 0 ? new Date() : null,
-        isSubmitted: x % 2 === 0,
-        completedJobCount: x * 2,
-        missionInstanceState: x % 2 === 0
-          ? MissionInstanceState.SUBMITTED
-          : MissionInstanceState.IN_PROGRESS,
-      })
-    );
+    // return [1, 2, 3, 4, 5].map(x =>
+    //   ({
+    //     instanceId: x,
+    //     workerUsername: "123",
+    //     title: `Title${x}`,
+    //     description: `Description `.repeat(x),
+    //     missionId: 123,
+    //     acceptDate: new Date(),
+    //     submitDate: x % 2 === 0 ? new Date() : null,
+    //     isSubmitted: x % 2 === 0,
+    //     completedJobCount: x * 2,
+    //     missionInstanceState: x % 2 === 0
+    //       ? MissionInstanceState.SUBMITTED
+    //       : MissionInstanceState.IN_PROGRESS,
+    //   })
+    // );
 
-    // const res = await this.fetch({
-    //   token: this.token
-    // });
-    //
-    // return res.response.instances as Instance[];
+    const res = await this.fetch({
+      token: token
+    });
+    console.log(res.response)
+    return res.response.instances as Instance[];
 
   }
 
