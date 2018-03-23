@@ -7,6 +7,8 @@ import { waitForMs } from "../../utils/Wait";
 import { InstanceDetail } from "../models/instance/InstanceDetail";
 import { imgs } from "./MissionService";
 import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
+import { HttpMethod } from "./utils";
+import { Response } from "../models/Response";
 
 export class WorkerService extends BaseService {
 
@@ -41,7 +43,7 @@ export class WorkerService extends BaseService {
 
   }
 
-  async getInstanceDetail(missionId: number, token: string) {
+  async getInstanceDetail(missionId: number, token: string): Promise<ImageInstanceDetail> {
 
     // mock
     return {
@@ -70,7 +72,66 @@ export class WorkerService extends BaseService {
     // return res.response.detail as T;
   }
 
+  async saveProgress(missionId: number, detail: InstanceDetail, token: string): Promise<boolean> {
 
+
+    return true;
+
+    // actual
+
+    // const res = await this.fetch({
+    //   token: token,
+    //   route: ""+missionId,
+    //   method: HttpMethod.PUT
+    // });
+    //
+    // return res.ok;
+  }
+
+  async submit(missionId: number, detail: InstanceDetail, token: string): Promise<boolean> {
+
+
+    return true;
+
+    // actual
+
+    // const res = await this.fetch({
+    //   token: token,
+    //   route: ""+missionId,
+    //   method: HttpMethod.POST
+    // });
+    //
+    // return res.ok;
+  }
+
+  async acceptMission(missionId: number, token: string): Promise<Response> {
+
+    return {
+      infoCode: 10000,
+      description: "success"
+    };
+
+    // actual
+
+    // const res = await this.fetch({
+    //   route: missionId+"",
+    //   body: {instance: null},
+    //   token,
+    //   method: HttpMethod.POST
+    // })
+    //
+    // return res.response;
+
+
+    // const instanceDetailVo: InstanceDetail = {instance: null};
+    // const res = await this.fetch({
+    //   route: `worker/${missionId}`,
+    //   body: instanceDetailVo,
+    //   token: "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MjIzNzYzMDMsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1dPUktFUiJ9XSwidXNlcm5hbWUiOiIyMzQifQ.CW2aPW0T6H7UTgg5K5VCzaTXwmNcq5Y1wFIXl83yBjvG3ND8KVSiHpn6-F7JpJlb9h8zPb-BS6vGY7N7aMYNyQ",
+    //   method: HttpMethod.POST
+    // });
+    // return res.response as Response;
+  }
 }
 
 export const workerService = new WorkerService();
