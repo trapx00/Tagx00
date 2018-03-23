@@ -58,8 +58,9 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         if (instance != null) {
             if (mission.getMissionType().equals(MissionType.IMAGE)) {
                 Instance instanceVo = (Instance) instanceDao.findInstanceByInstanceId(instanceId);
+                int imageResultSizes=instanceVo.getImageResults()==null?0:instanceVo.getImageResults().size();
                 return new ImageInstanceDetailVo(new InstanceVo(instanceId, instance.getWorkerUsername(), instance.getMissionInstanceState(), instance.getMissionId()
-                        , instance.getAcceptDate(), instance.getSubmitDate(), instance.isSubmitted(), instanceVo.getResultIds().size()), instanceVo.getResultIds());
+                        , instance.getAcceptDate(), instance.getSubmitDate(), instance.isSubmitted(),imageResultSizes ), instanceVo.getImageResults());
             }
         } else
             return null;
@@ -75,10 +76,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         if (missionDao.findMissionByMissionId(missionId).getMissionType().equals(MissionType.IMAGE))
             for (int i = 0; i < instanceVos.length; i++) {
                 Instance instanceVo = (Instance) instances.get(i);
+                int imageResultSizes=instanceVo.getImageResults()==null?0:instanceVo.getImageResults().size();
                 instanceVos[i] = new ImageInstanceVo(instanceVo.getInstanceId(), instanceVo.getWorkerUsername(),
                         instanceVo.getMissionInstanceState(), instanceVo.getMissionId(),
-                        instanceVo.getAcceptDate(), instanceVo.getSubmitDate(), instanceVo.isSubmitted(),
-                        instanceVo.getResultIds().size()
+                        instanceVo.getAcceptDate(), instanceVo.getSubmitDate(), instanceVo.isSubmitted(),imageResultSizes
+
                 );
             }
 

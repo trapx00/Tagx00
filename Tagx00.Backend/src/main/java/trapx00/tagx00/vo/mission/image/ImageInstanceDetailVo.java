@@ -1,5 +1,6 @@
 package trapx00.tagx00.vo.mission.image;
 
+import trapx00.tagx00.entity.mission.workresult.ImageResult;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
@@ -7,18 +8,18 @@ import java.util.List;
 
 public class ImageInstanceDetailVo extends InstanceDetailVo {
 
-    private List<Integer> imageIds;
+    private List<ImageResult> imageResults;
 
-    public List<Integer> getImageIds() {
-        return imageIds;
+    public List<ImageResult> getImageResults() {
+        return imageResults;
     }
 
-    public void setImageIds(List<Integer> imageIds) {
-        this.imageIds = imageIds;
+    public void setImageResults(List<ImageResult> imageResults) {
+        this.imageResults = imageResults;
     }
 
-    public ImageInstanceDetailVo(InstanceVo instance, List<Integer> imageIds) {
+    public ImageInstanceDetailVo(InstanceVo instance, List<ImageResult> imageResults) {
         super(instance);
-        this.imageIds = imageIds;
+        this.imageResults = imageResults;
     }
 }
