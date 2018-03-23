@@ -44,7 +44,7 @@
   "drawingPad": {
     "common": {
       "progressController": {
-        "save": "保存本张图",
+        "save": "保存进度",
         "backward": "前一张",
         "forward": "后一张"
       },

@@ -16,7 +16,7 @@ export interface Instance {
 
   isSubmitted: boolean;
 
-  completedJobCount: number;
+  completedJobsCount: number;
 }
 
 export function convertToInstance(json: any) {

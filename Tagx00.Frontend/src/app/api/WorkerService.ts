@@ -28,7 +28,7 @@ export class WorkerService extends BaseService {
     //     acceptDate: new Date(),
     //     submitDate: x % 2 === 0 ? new Date() : null,
     //     isSubmitted: x % 2 === 0,
-    //     completedJobCount: x * 2,
+    //     completedJobsCount: x * 2,
     //     missionInstanceState: x % 2 === 0
     //       ? MissionInstanceState.SUBMITTED
     //       : MissionInstanceState.IN_PROGRESS,
@@ -58,7 +58,7 @@ export class WorkerService extends BaseService {
     //       acceptDate: new Date(),
     //       submitDate: null,
     //       isSubmitted: false,
-    //       completedJobCount: 0,
+    //       completedJobsCount: 0,
     //       missionInstanceState: MissionInstanceState.IN_PROGRESS,
     //     }
     //
@@ -68,6 +68,7 @@ export class WorkerService extends BaseService {
       token: token,
       route: missionId + "",
     });
+    console.log(res.response.detail)
     return res.response.detail as ImageInstanceDetail;
   }
 
@@ -78,13 +79,14 @@ export class WorkerService extends BaseService {
 
     // actual
 
+    console.log(detail)
     const res = await this.fetch({
       token: token,
       route: "" + missionId,
+      body: detail,
       method: HttpMethod.PUT
     });
 
-    console.log(res.response)
     return res.ok;
   }
 

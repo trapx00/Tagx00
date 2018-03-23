@@ -44,9 +44,9 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
         }
 
         int maxId = 0;
+        boolean isUpdate = false;
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(
                 new FileInputStream(savePath + tableName + fileType)))) {
-            boolean isUpdate = false;
             String jsonLine;
             while ((jsonLine = bufferedReader.readLine()) != null) {
                 JSONObject jsonObject = JSONObject.fromObject(jsonLine);
@@ -76,7 +76,13 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
         for (int i = 0; i < columns.size(); i++) {
             if (fields[i].getAnnotation(JsonSerialize.class) != null) {
                 try {
-                    int serId = maxId + 1;
+                    //如果是update那么使用参数id，如果不是，那么创建新id
+                    int serId;
+                    if (isUpdate) {
+                        serId = (int) json.get(id);
+                    } else {
+                        serId = maxId + 1;
+                    }
                     fields[i].setAccessible(true);
 
                     FileOutputStream fileOut =

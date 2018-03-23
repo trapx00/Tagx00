@@ -1,5 +1,5 @@
 import { ImageMissionType } from "../models/mission/ImageMission";
-import { action, computed, observable, toJS } from "mobx";
+import { action, computed, get, observable, toJS } from "mobx";
 import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
 import { ImageJob } from "../models/instance/image/job/ImageJob";
 
@@ -46,6 +46,7 @@ export class ImageWorkStore {
     this.types = types;
 
     this.initialDetail = instanceDetail;
+
 
     for (const url of imageUrls) {
       for (const type of types) {

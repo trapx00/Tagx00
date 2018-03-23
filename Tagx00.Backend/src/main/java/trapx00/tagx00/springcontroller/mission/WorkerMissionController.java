@@ -1,5 +1,6 @@
 package trapx00.tagx00.springcontroller.mission;
 
+import com.google.gson.Gson;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -110,9 +111,12 @@ public class WorkerMissionController {
             @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> saveProgress(@RequestBody InstanceDetailVo instanceDetail, @PathVariable("missionId") String missionId) {
+    public ResponseEntity<Response> saveProgress(@RequestBody String instanceDetail, @PathVariable("missionId") String missionId) {
         try {
-            return new ResponseEntity<>(workerMissionBlService.saveProgress(instanceDetail), HttpStatus.OK);
+            Type listType = new TypeToken<List<WidgetAdapter>>() {}.getType();
+            List<WidgetAdapter> adapters = new Gson().fromJson( widgetsList, listType);
+            InstanceDetailVo instanceDetailVo = gson.fromJson(instanceDetail, InstanceDetailVo.class);
+            return new ResponseEntity<>(workerMissionBlService.saveProgress(instanceDetailVo), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
