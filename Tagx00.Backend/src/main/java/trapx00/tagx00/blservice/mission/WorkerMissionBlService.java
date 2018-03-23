@@ -1,6 +1,7 @@
 package trapx00.tagx00.blservice.mission;
 
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
+import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.SuccessResponse;
@@ -44,7 +45,7 @@ public interface WorkerMissionBlService {
      * @param instanceVo
      * @return whether to save successful or not
      */
-    SuccessResponse saveProgress(InstanceDetailVo instanceVo)throws SystemException;
+    SuccessResponse saveProgress(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
 
     /**
      * save the progress of the instance and submit it
@@ -52,5 +53,5 @@ public interface WorkerMissionBlService {
      * @param instanceVo
      * @return whether to save and submit successful or not
      */
-    SuccessResponse submit(InstanceDetailVo instanceVo)throws SystemException;
+    SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
 }

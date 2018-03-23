@@ -2,6 +2,7 @@ package trapx00.tagx00.dataservice.mission;
 
 import trapx00.tagx00.entity.mission.Instance;
 import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
@@ -21,7 +22,7 @@ public interface WorkerMissionDataService {
      * also use to abort the instance
      * @param instanceVo
      */
-    int saveInstance(InstanceDetailVo instanceVo)throws SystemException;
+    int saveInstance(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
 
 
     /**

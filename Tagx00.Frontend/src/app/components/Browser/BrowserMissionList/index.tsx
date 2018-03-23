@@ -17,11 +17,10 @@ const HasIdButton: any = Button;
 @observer
 export class BrowserMissionList extends React.Component<any, any> {
   handleAccept = async (e) => {
-    await browseService.acceptMission(e.target.id).then((response: Response) => {
-      if (response.infoCode === 10000) {
-        message.success('任务接受成功');
-      }
-    });
+    const response: Response = await browseService.acceptMission(e.target.id);
+    if (response.infoCode === 10000) {
+      message.success('任务接受成功');
+    }
   };
 
   render() {

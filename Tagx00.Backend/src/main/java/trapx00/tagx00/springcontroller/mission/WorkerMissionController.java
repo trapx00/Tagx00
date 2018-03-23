@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
+import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
@@ -115,6 +116,9 @@ public class WorkerMissionController {
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionAlreadyAcceptedException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);//to edit api
         }
     }
 
@@ -143,6 +147,9 @@ public class WorkerMissionController {
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionAlreadyAcceptedException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);//to edit api
         }
     }
 

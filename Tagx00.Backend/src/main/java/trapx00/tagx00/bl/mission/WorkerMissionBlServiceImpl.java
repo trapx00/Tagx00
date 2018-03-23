@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
+import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.SuccessResponse;
@@ -77,7 +78,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return whether to save successful or not
      */
     @Override
-    public SuccessResponse saveProgress(InstanceDetailVo instanceVo) throws SystemException {
+    public SuccessResponse saveProgress(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException {
         workerMissionDataService.saveInstance(instanceVo);
         return new SuccessResponse("Success Save");
     }
@@ -89,7 +90,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return whether to save and submit successful or not
      */
     @Override
-    public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException {
+    public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException {
         if (workerMissionDataService.getInstanceByUsernameAndMissionId(UserInfoUtil.getUsername(), instanceVo.getInstance().getMissionId()) == null)
             workerMissionDataService.saveInstance(instanceVo);
         else {
