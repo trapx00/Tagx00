@@ -9,4 +9,12 @@ public class InstanceDetailResponse extends Response {
     public InstanceDetailResponse(InstanceDetailVo detail) {
         this.detail = detail;
     }
+
+    public InstanceDetailVo getDetail() {
+        return detail;
+    }
+
+    public void setDetail(InstanceDetailVo detail) {
+        this.detail = detail;
+    }
 }

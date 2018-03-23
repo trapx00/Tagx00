@@ -9,4 +9,12 @@ public class MissionDetailResponse extends Response {
     public MissionDetailResponse(MissionDetailVo detail) {
         this.detail = detail;
     }
+
+    public MissionDetailVo getDetail() {
+        return detail;
+    }
+
+    public void setDetail(MissionDetailVo detail) {
+        this.detail = detail;
+    }
 }

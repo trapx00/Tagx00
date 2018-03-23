@@ -11,4 +11,12 @@ public class InstanceResponse extends Response {
     public InstanceResponse(List<InstanceVo> instances) {
         this.instances = instances;
     }
+
+    public List<InstanceVo> getInstances() {
+        return instances;
+    }
+
+    public void setInstances(List<InstanceVo> instances) {
+        this.instances = instances;
+    }
 }
