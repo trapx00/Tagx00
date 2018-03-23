@@ -8,17 +8,19 @@ import { InstanceDetail } from "../models/instance/InstanceDetail";
 import { imgs } from "./MissionService";
 import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
 import { HttpMethod } from "./utils";
+import { Response } from "../models/Response";
+import { userInfo } from "os";
 
 export class BrowseService extends BaseService {
 
   constructor() {
-    super("");
+    super("mission");
   }
 
   async getAllMissions(): Promise<MissionPublicItem[]> {
     //mock
     const res = await this.fetch({
-      route: "mission",
+      route: "",
       method: HttpMethod.GET
     });
     return res.response.items as MissionPublicItem[];
@@ -43,6 +45,16 @@ export class BrowseService extends BaseService {
     //
     // return res.response.instances as Instance[];
 
+  }
+
+  async acceptMission(missionId): Promise<Response> {
+    const instanceDetailVo: InstanceDetail = {instance: null};
+    const res = await this.fetch({
+      route: `worker/${missionId}`,
+      body: instanceDetailVo,
+      method: HttpMethod.POST
+    });
+    return res.response.items as Response;
   }
 
 }

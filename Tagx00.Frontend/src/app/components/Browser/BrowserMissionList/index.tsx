@@ -3,15 +3,22 @@ import { Tag, Spin, List, Button, Divider, Pagination } from "antd";
 import { Localize } from "../../../internationalization/components/index";
 import { STORE_BROWSER } from "../BrowserStore";
 import { inject, observer } from "mobx-react";
+import { browseService } from "../../../api/BrowseService";
 
 const centerDivider = {
   marginTop: '-10%',
   marginBottom: '10%'
 };
 
+const HasIdButton: any = Button;
+
 @inject(STORE_BROWSER)
 @observer
 export class BrowserMissionList extends React.Component<any, any> {
+  handleAccept = async (e) => {
+    await browseService.acceptMission(e.target.id);
+  };
+
   render() {
     if (this.props[STORE_BROWSER].isBrowsing) {
       if (this.props[STORE_BROWSER].listData.length == 0) {
@@ -31,8 +38,9 @@ export class BrowserMissionList extends React.Component<any, any> {
                   renderItem={item => (
                     <List.Item
                       key={item.missionId}
-                      actions={[<Button type="primary" ghost={true} size="small" icon="check"/>,
-                        <Button size="small" shape="circle" icon="ellipsis"/>]}
+                      actions={[<HasIdButton type="primary" ghost={true} size="small" icon="check"
+                                             onClick={this.handleAccept} id={item.missionId}/>,
+                        <HasIdButton size="small" shape="circle" icon="ellipsis"/>]}
                       extra={<img width={272} alt="logo"
                                   src={item.coverUrl}/>}
                     >
