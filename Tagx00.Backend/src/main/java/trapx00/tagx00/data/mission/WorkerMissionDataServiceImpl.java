@@ -131,7 +131,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         return new ImageInstanceDetailVo(new InstanceVo(instanceDetailVo.getInstanceId(),
                                 instanceDetailVo.getWorkerUsername(), instanceDetailVo.getMissionInstanceState(),
                                 instanceDetailVo.getMissionId(), instanceDetailVo.getAcceptDate(), instanceDetailVo.getSubmitDate(),
-                                instanceDetailVo.isSubmitted(), instanceResultSizes), instanceDetailVo.getResultIds());
+                                instanceDetailVo.isSubmitted(), instanceResultSizes), instanceDetailVo.getImageResults());
                     }
                 }
             }

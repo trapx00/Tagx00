@@ -51,7 +51,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
             int missiondId=requesterMissionDataService.saveMission(new Mission(mission.getTitle(),mission.getDescription(),
                     mission.getTopics(),mission.getCustomTag(),mission.getAllowedTags(), mission.getMissionType(),
                     MissionState.PENDING,mission.getStart(),
-                    mission.getEnd(),null,UserInfoUtil.getUsername(),null,null));
+                    mission.getEnd(),mission.getCoverUrls(),UserInfoUtil.getUsername(),mission.getUrls(),mission.getImageMissionType()));
             JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
             String token = jwtService.generateToken(jwtUser, EXPIRATION);
             return new MissionCreateResponse(token,String.valueOf(missiondId));
