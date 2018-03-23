@@ -20,12 +20,6 @@ const routes = [
     match: (pathname: string) => pathname.startsWith("/self/dashboard")
   },
   {
-    path: "/self/missions",
-    iconName: "tag-o",
-    id: "selfCenter.myMissions.menuText",
-    match: (pathname: string) => pathname.startsWith("/self/missions")
-  },
-  {
     path: "/self/achievement",
     iconName: "star-o",
     id: "selfCenter.achievement",

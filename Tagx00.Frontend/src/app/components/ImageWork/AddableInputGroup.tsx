@@ -1,12 +1,16 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Input, Icon, Button } from 'antd';
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 import { removeElementAt } from "../../../utils/Array";
+import { LocaleMessage } from "../../internationalization/components";
 
 interface Props {
   items: string[];
   onChange: (newItems: string[]) => void;
+  inputPrompt?: string;
+  addingButtonPlaceholder?: ReactNode;
+  readonly: boolean;
 }
 
 export class AddableInputGroup extends React.Component<Props, any> {
@@ -32,14 +36,18 @@ export class AddableInputGroup extends React.Component<Props, any> {
   render() {
     return <>
       {this.props.items.map((x, index) =>
-        <Input placeholder={"input description"}
+        <Input placeholder={this.props.inputPrompt}
                value={x}
                key={index}
                onChange={(e) => this.onInputChange(e.target.value, index)}
                addonAfter={<Icon type="minus-circle-o" onClick={() => this.removeOne(index)}/>}
         />)
       }
-      <Button type="dashed" onClick={this.addADescription}>Add one</Button>
+      {this.props.readonly ? null :
+        <Button type="dashed" onClick={this.addADescription}>
+          {this.props.addingButtonPlaceholder || null}
+        </Button>
+      }
     </>;
 
   }

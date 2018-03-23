@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Button} from 'antd';
+import { LocaleMessage } from "../../../../internationalization/components";
 
 interface Props {
   start: () => void;
@@ -9,12 +10,13 @@ interface Props {
 
 export class PartAddingModeController extends React.Component<Props, {}> {
   render() {
+    const prefix = "drawingPad.rectangle.";
     return <Card>
       <Button onClick={this.props.start} disabled={this.props.addingMode}>
-        Add
+        <LocaleMessage id={prefix+"add"}/>
       </Button>
       <Button onClick={this.props.removeSelected}>
-        Remove selected
+        <LocaleMessage id={prefix+"removeSelected"}/>
       </Button>
     </Card>
   }

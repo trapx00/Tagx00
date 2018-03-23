@@ -6,7 +6,23 @@ export const doWorkPage: RouteConfig = new NormalPageConfig({
   path: "/missions/:missionId/doWork",
   render: async (props) => {
     const DoWorkPage = (await import("../../pages/DoWorkPage")).DoWorkPage;
-    return <DoWorkPage missionId={props.match.params.missionId}/>;
+    return <DoWorkPage missionId={props.match.params.missionId} readonly={false}/>;
+  },
+});
+
+export const seeResultPage: RouteConfig = new NormalPageConfig({
+  path: "/missions/:missionId/result",
+  render: async (props) => {
+    const Page = (await import("../../pages/SeeResultPage")).SeeResultPage;
+    return <Page missionId={props.match.params.missionId}/>;
+  },
+});
+
+export const missionsPage: RouteConfig = new NormalPageConfig({
+  path: "/missions",
+  render: async (props) => {
+    const Page = (await import("../../pages/MissionsPage")).MissionsPage;
+    return <Page/>;
   },
 });
 
@@ -47,6 +63,8 @@ export const aboutPage: RouteConfig = new NormalPageConfig({
 
 
 export default [
+  missionsPage,
+  seeResultPage,
   doWorkPage,
   browsePage,
   registerPage,

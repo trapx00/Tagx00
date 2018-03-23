@@ -1,4 +1,7 @@
 {
+  "common": {
+    "loading": "加载中"
+  },
   "frameMenu": {
     "home": "首页",
     "imageLabel": "图片标注",
@@ -32,10 +35,78 @@
         "continue": "继续做任务",
         "abandon": "放弃",
         "seeMore": "查看详细信息"
+
       }
     },
     "achievement": "成就",
     "personalInfo": "我的信息"
+  },
+  "drawingPad": {
+    "common": {
+      "progressController": {
+        "save": "保存本张图",
+        "backward": "前一张",
+        "forward": "后一张"
+      },
+      "tagDescriptionTuplePanel": {
+        "tags" : "标签",
+        "descriptions": "描述",
+        "addOne": "增加一条描述",
+        "inputPrompt": "请输入描述",
+        "newTag": "新标签",
+        "tagName": "标签名",
+        "tagInformation": "标签信息",
+        "ok": "确定",
+        "remove": "移除",
+        "cancel": "取消"
+      },
+      "missionTipCard": {
+        "missionTitle": "任务标题",
+        "title": "任务目标",
+        "type": "类型：",
+        "allowedTags": "允许使用的标签",
+        "recommendedTags": "建议使用的标签",
+        "types": {
+          "WHOLE": "整体",
+          "PART": "局部",
+          "DISTRICT": "区域"
+        }
+      },
+      "finish": {
+        "editingComplete": "祝贺！您已经完成了这次任务的所有工作。您现在可以选择保存进度或者提交现在的进度。（一旦您选择了提交，您将无法再更改您的进度。）",
+        "editingCompleteTitle": "所有工作完成",
+        "submit": "提交",
+        "goBack": "返回",
+        "saveProgress": "保存进度但不提交",
+        "readonlyComplete": "这是最后一张了",
+        "workSaved": "工作已保存"
+      }
+    },
+    "district": {
+      "prompts": {
+        "readyToDraw": "按下并按住鼠标，画出一个封闭区域",
+        "drawingBoundary": "按住鼠标并滑动，画出一个封闭区域",
+        "boundaryDown": "您已经画出了封闭区域。您可以 {continueDrawing} 或者 {confirm}。",
+        "continueDrawing": "继续画更多的封闭区域",
+        "confirm": "确认",
+        "error": {
+          "errorTip": "错误提示",
+          "cross": "边界不能交叉",
+          "outOfBound": "鼠标不能移除画框",
+          "notEndsAtStartingPoint": "终点应该与出发点重合",
+          "": ""
+        }
+      },
+      "add": "增加一个区域",
+      "removeSelected": "移除当前选中的区域"
+    },
+    "rectangle": {
+      "add": "增加一个区域",
+      "removeSelected": "移除当前选中的区域"
+    }
+  },
+  "missions": {
+    "needLogin": "请先登录"
   },
   "loginModal": {
     "title": "登录",

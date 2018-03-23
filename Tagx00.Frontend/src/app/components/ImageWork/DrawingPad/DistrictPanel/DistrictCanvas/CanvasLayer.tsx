@@ -35,9 +35,9 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
     return this.props.session.boundary.cross(line);
   };
 
-  boundaryComplete = (save: boolean) => {
+  boundaryComplete = (save: boolean, error? : string) => {
     this.props.session.putImageData();
-    this.props.session.boundaryComplete(save);
+    this.props.session.boundaryComplete(save, error);
     this.refillAllBoundaries();
 
   };
@@ -62,13 +62,20 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
 
   };
 
+  outOfCanvas(point: Point) {
+    return point.x > this.props.width || point.y > this.props.height;
+  }
+
   onMouseMove = (e) => {
     if (this.props.session.step === Step.DrawingBoundary) {
       const position = this.getCursorPosition(e);
+      if (this.outOfCanvas(position)) {
+        this.boundaryComplete(false, "outOfBound");
+      }
+      this.props.session.clearError();
       const start = this.props.session.boundary.points.slice(-1)[0];
       if (this.checkCross({start, end: position})) {
-        this.boundaryComplete(false);
-        console.log("cross");
+        this.boundaryComplete(false, "cross");
       } else {
         this.drawer.strokeLine(start, position,"#000000");
         this.props.session.boundary.push(position);
@@ -86,7 +93,7 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
         this.props.session.boundary.push(this.props.session.startPoint); // last point
         this.boundaryComplete(true);
       } else {
-        this.boundaryComplete(false);
+        this.boundaryComplete(false, "notEndsAtStartingPoint");
       }
 
     }

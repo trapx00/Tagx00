@@ -25,13 +25,6 @@ export const personalInfoPage: RouteConfig = new NormalPageConfig({
   },
 });
 
-export const missionsPage: RouteConfig = new NormalPageConfig({
-  path: "/self/missions",
-  render: async (props) => {
-    const Page = (await import("../../pages/SelfPage/MissionsPage")).MissionsPage;
-    return <Page/>;
-  },
-});
 
 export const selfRedirect: RouteConfig = new RedirectConfig({
   path: "/self",
@@ -42,6 +35,5 @@ export default [
   dashboardPage,
   achievementPage,
   personalInfoPage,
-  missionsPage,
   selfRedirect,
 ]

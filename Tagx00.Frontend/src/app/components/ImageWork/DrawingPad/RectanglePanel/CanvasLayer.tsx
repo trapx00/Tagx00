@@ -48,6 +48,9 @@ export class CanvasLayer extends React.Component<Props, {}> {
     };
   }
 
+
+
+
   onMouseDown = (e) => {
     const position = this.getCursorPosition(e);
     this.session = new RectDrawingSession(this.canvasContext);
@@ -56,22 +59,36 @@ export class CanvasLayer extends React.Component<Props, {}> {
 
   };
 
+  outOfCanvas(point: Point) {
+    return point.x > this.props.width || point.y > this.props.height;
+  }
+
   onMouseMove = (e) => {
     if (this.session) {
       const position = this.getCursorPosition(e);
-      this.session.putImageData();
-      this.session.end = position;
-      this.drawer.drawRectangle(this.session.rectangle,"#000000");
+      if (this.outOfCanvas(position)) {
+        this.props.onRectangleComplete(null);
+        this.finalize();
+      } else {
+        this.session.putImageData();
+        this.session.end = position;
+        this.drawer.drawRectangle(this.session.rectangle,"#000000");
+      }
+
     }
 
   };
+
+  finalize() {
+    this.session.putImageData();
+    this.session = null;
+  }
 
   onMouseUp = (e) => {
     if (this.session) {
       this.onMouseMove(e);
       this.props.onRectangleComplete(this.session.rectangle);
-      this.session.putImageData();
-      this.session = null;
+      this.finalize();
 
     }
   };
