@@ -11,16 +11,17 @@ import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
 import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
-import trapx00.tagx00.response.mission.MissionQueryDetailResponse;
-import trapx00.tagx00.response.mission.MissionQueryResponse;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
+
+import java.util.Date;
 
 @PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "')")
 @RestController
@@ -110,8 +111,8 @@ public class WorkerMissionController {
     @ResponseBody
     public ResponseEntity<Response> saveProgress(@RequestBody InstanceDetailVo instanceDetail, @PathVariable("missionId") String missionId) {
         try {
-            return new ResponseEntity<>(workerMissionBlService.saveProgress( instanceDetail), HttpStatus.OK);
-        }catch (SystemException e) {
+            return new ResponseEntity<>(workerMissionBlService.saveProgress(instanceDetail), HttpStatus.OK);
+        } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
@@ -132,8 +133,12 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> submit(
-            @RequestBody InstanceDetailVo instanceDetailVo) {
+            @RequestBody InstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") int missionId) {
         try {
+            if (instanceDetailVo == null || instanceDetailVo.getInstance() == null) {
+                InstanceVo instanceVo = new InstanceVo(0, UserInfoUtil.getUsername(), MissionInstanceState.IN_PROGRESS, missionId, new Date(), null, false, 0);
+                instanceDetailVo.setInstance(instanceVo);
+            }
             return new ResponseEntity<>(workerMissionBlService.submit(instanceDetailVo), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();

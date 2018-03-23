@@ -2,6 +2,7 @@ package trapx00.tagx00.entity.mission;
 
 import trapx00.tagx00.entity.Entity;
 import trapx00.tagx00.entity.annotation.*;
+import trapx00.tagx00.entity.mission.workresult.ImageResult;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 
 import java.util.Date;
@@ -37,24 +38,24 @@ public class Instance extends Entity {
 
 
     @JsonSerialize
-    @Column(name = "resultIds")
-    private List<Integer> resultIds;
+    @Column(name = "imageResults")
+    private List<ImageResult> imageResults;
 
-    public List<Integer> getResultIds() {
-        return resultIds;
+    public List<ImageResult> getImageResults() {
+        return imageResults;
     }
 
     public Instance() {
     }
 
-    public Instance(String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean submitted, List<Integer> resultIds) {
+    public Instance(String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean submitted, List<ImageResult> imageResults) {
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
         this.acceptDate = acceptDate;
         this.submitDate = submitDate;
         this.submitted = submitted;
         this.missionId = missionId;
-        this.resultIds = resultIds;
+        this.imageResults = imageResults;
     }
 
     public int getInstanceId() {
@@ -113,7 +114,7 @@ public class Instance extends Entity {
         this.submitted = submitted;
     }
 
-    public void setResultIds(List<Integer> resultIds) {
-        this.resultIds = resultIds;
+    public void setImageResults(List<ImageResult> imageResults) {
+        this.imageResults = imageResults;
     }
 }

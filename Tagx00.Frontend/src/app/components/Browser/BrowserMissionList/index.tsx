@@ -1,42 +1,29 @@
 import * as React from "react";
-import { Tag, Spin, List, Button, Divider, Pagination } from "antd";
+import { message, Spin, List, Button, Divider, Pagination } from "antd";
 import { Localize } from "../../../internationalization/components/index";
 import { STORE_BROWSER } from "../BrowserStore";
 import { inject, observer } from "mobx-react";
+import { browseService } from "../../../api/BrowseService";
+import { Response } from "../../../models/Response";
 
 const centerDivider = {
   marginTop: '-10%',
   marginBottom: '10%'
 };
 
-const smallerDiv = {
-  display: 'inline',
-};
-
-/*const listData = [];
-for (let i = 0; i < 5; i++) {
-  const tags = (
-    <div>
-      <Tag color="#108ee9" style={smallerDiv}>任务类型</Tag>
-      <Tag color="geekblue" style={smallerDiv}>主题词</Tag>
-      <Tag color="geekblue" style={smallerDiv}>主题词</Tag>
-      <Tag color="geekblue" style={smallerDiv}>主题词</Tag>
-      <Tag color="geekblue" style={smallerDiv}>主题词</Tag>
-    </div>
-  );
-  listData.push({
-    missionId: 0,
-    coverUrl: 'http://ant.design',
-    title: `ant design part ${i}`,
-    tags: tags,
-    startDate: "123",
-    description: 'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.'
-  });
-}*/
+const HasIdButton: any = Button;
 
 @inject(STORE_BROWSER)
 @observer
 export class BrowserMissionList extends React.Component<any, any> {
+  handleAccept = async (e) => {
+    await browseService.acceptMission(e.target.id).then((response: Response) => {
+      if (response.infoCode === 10000) {
+        message.success('任务接受成功');
+      }
+    });
+  };
+
   render() {
     if (this.props[STORE_BROWSER].isBrowsing) {
       if (this.props[STORE_BROWSER].listData.length == 0) {
@@ -56,8 +43,9 @@ export class BrowserMissionList extends React.Component<any, any> {
                   renderItem={item => (
                     <List.Item
                       key={item.missionId}
-                      actions={[<Button type="primary" ghost={true} size="small" icon="check"/>,
-                        <Button size="small" shape="circle" icon="ellipsis"/>]}
+                      actions={[<HasIdButton type="primary" ghost={true} size="small" icon="check"
+                                             onClick={this.handleAccept} id={item.missionId}/>,
+                        <HasIdButton size="small" shape="circle" icon="ellipsis"/>]}
                       extra={<img width={272} alt="logo"
                                   src={item.coverUrl}/>}
                     >

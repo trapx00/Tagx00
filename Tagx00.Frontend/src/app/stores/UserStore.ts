@@ -8,7 +8,6 @@ export class UserStore {
   @observable user: User = null;
 
 
-
   @computed get loggedIn() {
     return !!this.user;
   }
@@ -27,8 +26,12 @@ export class UserStore {
   };
 
 
-  @action async login(response: LoginResult) {
-    this.user = new User(response);
+  @action login(username: string,response: LoginResult) {
+    this.user = new User({
+      username: username,
+      token: response.token,
+      role: UserRole[response.jwtRoles[0]]
+    });
   };
 
   remember() {

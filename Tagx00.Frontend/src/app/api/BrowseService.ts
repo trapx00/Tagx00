@@ -8,17 +8,19 @@ import { InstanceDetail } from "../models/instance/InstanceDetail";
 import { imgs } from "./MissionService";
 import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
 import { HttpMethod } from "./utils";
+import { Response } from "../models/Response";
+import { userInfo } from "os";
 
 export class BrowseService extends BaseService {
 
   constructor() {
-    super("");
+    super("mission");
   }
 
   async getAllMissions(): Promise<MissionPublicItem[]> {
     //mock
     const res = await this.fetch({
-      route: "mission",
+      route: "",
       method: HttpMethod.GET
     });
     return res.response.items as MissionPublicItem[];
@@ -43,6 +45,17 @@ export class BrowseService extends BaseService {
     //
     // return res.response.instances as Instance[];
 
+  }
+
+  async acceptMission(missionId): Promise<Response> {
+    const instanceDetailVo: InstanceDetail = {instance: null};
+    const res = await this.fetch({
+      route: `worker/${missionId}`,
+      body: instanceDetailVo,
+      token: "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MjIzNzYzMDMsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1dPUktFUiJ9XSwidXNlcm5hbWUiOiIyMzQifQ.CW2aPW0T6H7UTgg5K5VCzaTXwmNcq5Y1wFIXl83yBjvG3ND8KVSiHpn6-F7JpJlb9h8zPb-BS6vGY7N7aMYNyQ",
+      method: HttpMethod.POST
+    });
+    return res.response as Response;
   }
 
 }

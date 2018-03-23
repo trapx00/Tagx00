@@ -25,8 +25,6 @@ public class JwtServiceImpl implements JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
-    private final static long EXPIRATION = 604800;
-
     @Override
     public Claims getClaimsFromToken(String token) {
         Claims claims;
@@ -81,18 +79,6 @@ public class JwtServiceImpl implements JwtService {
         Map<String, Object> claims = new HashMap<>();
         claims.put(claimKeyUsername, userDetails.getUsername());
         claims.put(claimKeyAuthorities, userDetails.getAuthorities());
-        return Jwts.builder()
-                .setClaims(claims)
-                .setExpiration(generateExpirationDate(expiration))
-                .signWith(SignatureAlgorithm.HS512, secret)
-                .compact();
-    }
-
-    @Override
-    public String generateToken(String username, Collection<JwtRole> jwtRoles, long expiration) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(claimKeyUsername, username);
-        claims.put(claimKeyAuthorities, jwtRoles);
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(generateExpirationDate(expiration))
