@@ -1,5 +1,5 @@
 import { ImageMissionType } from "../models/mission/ImageMission";
-import { action, computed, observable } from "mobx";
+import { action, computed, observable, toJS } from "mobx";
 import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
 import { ImageJob } from "../models/instance/image/job/ImageJob";
 
@@ -23,6 +23,20 @@ export class ImageWorkStore {
 
   currentNotations: ImageNotation[] = [];
 
+  initialDetail: ImageInstanceDetail;
+
+  get currentInstanceDetail(): ImageInstanceDetail {
+    const { instance, results } = this.initialDetail;
+    return {
+      results: this.currentNotations.map((x,index) => ({
+        id: index,
+        instanceId: instance.instanceId,
+        imageJob: this.currentNotations[index].job,
+        url: this.currentNotations[index].imageUrl
+      })),
+      instance: instance
+    }
+  }
 
   @observable workIndex: number = 0;
 
@@ -30,6 +44,8 @@ export class ImageWorkStore {
   constructor(imageUrls: string[], types: ImageMissionType[], instanceDetail: ImageInstanceDetail) {
     this.imageUrls = imageUrls;
     this.types = types;
+
+    this.initialDetail = instanceDetail;
 
     for (const url of imageUrls ) {
       for (const type of types) {
@@ -39,7 +55,7 @@ export class ImageWorkStore {
             imageUrl: url,
             job : result.imageJob
           });
-          this.workIndex++; // existing job, resume progress
+          // this.workIndex++; // existing job, resume progress
         } else {
           this.currentNotations.push({
             imageUrl: url,
@@ -51,6 +67,10 @@ export class ImageWorkStore {
       }
     }
 
+  }
+
+  @computed get finished() {
+    return this.workIndex === this.currentNotations.length;
   }
 
   get totalCount() {
@@ -76,6 +96,7 @@ export class ImageWorkStore {
 
   @action saveWork(notation: ImageNotation) {
     this.currentNotations[this.workIndex] = notation;
+    console.log(this.currentNotations);
   }
 
   @action nextWork1() { // first step of going next work
