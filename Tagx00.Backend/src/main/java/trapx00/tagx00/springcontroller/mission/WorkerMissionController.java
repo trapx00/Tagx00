@@ -19,7 +19,10 @@ import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
+import trapx00.tagx00.util.GsonFactory;
 import trapx00.tagx00.util.UserInfoUtil;
+import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
+import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
@@ -113,9 +116,8 @@ public class WorkerMissionController {
     @ResponseBody
     public ResponseEntity<Response> saveProgress(@RequestBody String instanceDetail, @PathVariable("missionId") String missionId) {
         try {
-            Type listType = new TypeToken<List<WidgetAdapter>>() {}.getType();
-            List<WidgetAdapter> adapters = new Gson().fromJson( widgetsList, listType);
-            InstanceDetailVo instanceDetailVo = gson.fromJson(instanceDetail, InstanceDetailVo.class);
+
+            ImageInstanceDetailVo instanceDetailVo = GsonFactory.get().fromJson(instanceDetail, ImageInstanceDetailVo.class);
             return new ResponseEntity<>(workerMissionBlService.saveProgress(instanceDetailVo), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
