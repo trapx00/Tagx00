@@ -14,6 +14,10 @@ interface LocaleMessageProps extends LocaleStoreProps {
 @observer
 export class LocaleMessage extends React.Component<LocaleMessageProps, any> {
 
+  componentDidCatch(e) {
+    return this.props.id;
+  }
+
   render() {
     const locale = this.props[STORE_LOCALE];
     return locale.get(this.props.id, this.props.replacements);

@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, Button } from 'antd';
+import { LocaleMessage } from "../../internationalization/components";
 
 interface Props {
   shown: boolean;
@@ -23,17 +24,22 @@ export class CompleteModal extends React.Component<Props, any> {
   };
 
   render() {
+    const prefix = "drawingPad.common.finish.";
     return <Modal visible={this.props.shown}
-                  title={"completed"}
+                  title={<LocaleMessage id={prefix+"editingCompleteTitle"}/>}
                   footer={[
-                    <Button key="goBack" onClick={this.onCancel}>Go Back</Button>,
-                    <Button key="r" onClick={this.onSaveProgress}>Save Progress</Button>,
+                    <Button key="goBack" onClick={this.onCancel}>
+                      <LocaleMessage id={prefix+"goBack"}/>
+                    </Button>,
+                    <Button key="saveProgress" onClick={this.onSaveProgress}>
+                      <LocaleMessage id={prefix+"saveProgress"}/>
+                    </Button>,
                     <Button key="submit" type="primary" onClick={this.onSubmit}>
-                      Submit
+                      <LocaleMessage id={prefix+"submit"}/>
                     </Button>
                   ]}
     >
-      <p>Congrats! You have finished all jobs of this mission. You may choose to save progress or submit current work. (You won't be able to change your notations once you submitted your work.</p>
+      <p><LocaleMessage id={prefix+"editingComplete"}/></p>
     </Modal>
   }
 }

@@ -69,6 +69,7 @@ export class MyMissionCard extends React.Component<Props, any> {
 
   goDetail = () => {
     const missionId = this.props.instance.missionId;
+    this.props[STORE_ROUTER].jumpTo(`/missions/${missionId}/result`);
   };
 
   title(title: string) {

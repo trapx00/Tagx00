@@ -17,7 +17,7 @@ export class DistrictDrawingSession extends DrawingSession {
   district: District = new District();
   boundary: Boundary = null;
   startPoint: Point;
-  @observable error: string;
+  @observable error: string = "";
 
   width: number;
   height: number;
@@ -33,9 +33,15 @@ export class DistrictDrawingSession extends DrawingSession {
     return this.step in [Step.ReadyToDraw, Step.BoundaryDrawn];
   }
 
-  @action boundaryComplete(save: boolean) {
+  @action clearError() {
+    this.error = "";
+  }
+
+  @action boundaryComplete(save: boolean, error?: string) {
     if (save) {
       this.district.addBoundary(this.boundary);
+    } else {
+      this.error = error;
     }
     if (this.district.added) {
       this.step = Step.BoundaryDrawn;

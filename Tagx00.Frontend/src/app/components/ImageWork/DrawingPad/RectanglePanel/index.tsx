@@ -29,14 +29,19 @@ function tupleAndNotationPointsToTheSameRect(tuple: PartJobTuple, notation: Rect
 export class RectanglePanel extends React.Component<Props, {}> {
 
   onDrawComplete = (rectangle: Rectangle) => {
-    this.props.onDrawComplete({
-      leftTopPoint: rectangle.leftTop,
-      rightBottomPoint: rectangle.rightBottom,
-      tagDescriptionTuple: {
-        tagTuples: [],
-        descriptions: []
-      }
-    });
+    if (rectangle) {
+      this.props.onDrawComplete({
+        leftTopPoint: rectangle.leftTop,
+        rightBottomPoint: rectangle.rightBottom,
+        tagDescriptionTuple: {
+          tagTuples: [],
+          descriptions: []
+        }
+      });
+    } else {
+      this.props.onDrawComplete(null);
+    }
+
   };
 
   onRecClicked = (rec: RectangleNotation) => {

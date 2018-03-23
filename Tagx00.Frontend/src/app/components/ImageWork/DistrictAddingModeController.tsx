@@ -3,44 +3,62 @@ import { DistrictDrawingSession, Step } from "./DrawingPad/DistrictPanel/Distric
 import { District } from "./DrawingPad/DistrictPanel/Districts";
 import { Card, Button } from 'antd';
 import { observer } from "mobx-react";
+import { LocaleMessage } from "../../internationalization/components";
 
 interface Props {
   session: DistrictDrawingSession;
   onDistrictComplete: (dis: District) => void;
   start: () => void;
   addingMode: boolean;
+  onRemoveSelected: () => void;
 }
 
 @observer
 export class DistrictAddingModeController extends React.Component<Props, {}> {
   render() {
-
-    if (!this.props.addingMode) {
+    const { addingMode, session } = this.props;
+    const prefix = "drawingPad.district.";
+    if (!addingMode) {
       return <Card>
-        <Button onClick={this.props.start} disabled={this.props.addingMode}>
-          Add
+        <Button onClick={this.props.start} disabled={addingMode}>
+          <LocaleMessage id={prefix+"add"}/>
+        </Button>
+        <Button onClick={this.props.onRemoveSelected}>
+          <LocaleMessage id={prefix+"removeSelected"}/>
         </Button>
       </Card>;
     }
 
     let main;
-    switch (this.props.session.step) {
+    switch (session.step) {
       case Step.ReadyToDraw:
-        main = <p>请按下鼠标，开始滑动出闭合区域。</p>;
+        main = <p><LocaleMessage id={prefix+"prompts.readyToDraw"}/></p>;
         break;
       case Step.DrawingBoundary:
-        main = <p>请按住鼠标滑动出一块不相交的闭合区域。</p>;
+        main = <p><LocaleMessage id={prefix+"prompts.drawingBoundary"}/></p>;
         break;
       case Step.BoundaryDrawn:
-        main = <div>您已经滑动出一个闭合区域。您可以
-          <Button onClick={() => this.props.session.continueDrawing()}>继续滑动闭合区域</Button>
-          ，或者<Button onClick={() => this.props.onDistrictComplete(this.props.session.district)}> 确认区域</Button>。
+        main = <div><LocaleMessage id={prefix+"prompts.boundaryDown"} replacements={{
+          continueDrawing:
+            <Button onClick={() => session.continueDrawing()}>
+              <LocaleMessage id={prefix+"prompts.continueDrawing"}/>
+            </Button>,
+          confirm: <Button onClick={() => this.props.onDistrictComplete(session.district)}>
+            <LocaleMessage id={prefix+"prompts.confirm"}/>
+          </Button>
+        }}/>
         </div>
 
     }
 
     return <Card>
       {main}
+      { session.error
+        ? <div><hr/>
+      <p><strong><LocaleMessage id={prefix+"prompts.error.errorTip"}/></strong></p>
+      <p><LocaleMessage id={`${prefix}prompts.error.${session.error}`}/></p>
+        </div>
+        :null}
     </Card>
 
   }

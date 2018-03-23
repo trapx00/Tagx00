@@ -46,8 +46,10 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
   };
 
   @action onTupleCreated = (tuple: PartJobTuple) => {
-    this.notation.job.tuples = this.notation.job.tuples.concat([tuple]);
-    this.selectedIndex = this.notation.job.tuples.length-1;
+    if (tuple) {
+      this.notation.job.tuples = this.notation.job.tuples.concat([tuple]);
+      this.selectedIndex = this.notation.job.tuples.length-1;
+    }
     this.addingMode = false;
   };
 
@@ -74,7 +76,7 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
   render() {
     const { imageUrl, job } = this.props.notation;
 
-    const { missionDetail, controllerProps } = this.props;
+    const { missionDetail, controllerProps, readonlyMode } = this.props;
     const selectedTuple = this.selectedTuple;
     console.log(toJS(this.selectedTuple));
     return <div>
@@ -96,16 +98,22 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
           <MissionTipCard jobType={job.type}
                           tags={missionDetail.publicItem.allowedTags}
                           allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                          title={missionDetail.publicItem.title}
           />
-          <PartAddingModeController start={this.startAdding}
-                                    addingMode={this.addingMode}
-                                    removeSelected={this.removeSelected}/>
+          {readonlyMode ? null
+            :
+            <PartAddingModeController start={this.startAdding}
+                                      addingMode={this.addingMode}
+                                      removeSelected={this.removeSelected}/>
+          }
           {selectedTuple
           ?  <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
+                                       readonlyMode={readonlyMode}
                                        onChange={this.onTupleChanged}/>
           : null}
 
           <ProgressController {...this.props.controllerProps}
+                              readonlyMode={readonlyMode}
                               saveProgress={this.submit}
           />
         </Col>

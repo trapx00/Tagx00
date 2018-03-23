@@ -33,7 +33,7 @@ export interface FetchInfo {
   token?: string
 }
 
-let APIROOTURL: string = "http://localhost:8080/";
+declare var APIROOTURL: string;
 
 
 export abstract class BaseService {

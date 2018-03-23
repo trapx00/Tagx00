@@ -13,8 +13,8 @@ export class MissionCardPane extends React.Component<Props, any> {
     return <List
       grid={{ gutter: 16, xs: 1, sm: 2, xl: 3, xxl: 4 }}
       dataSource={this.props.items}
-      renderItem={item => (
-        <List.Item>
+      renderItem={(item: Instance) => (
+        <List.Item key={item.instanceId}>
           <MyMissionCard instance={item}/>
         </List.Item>
       )}
