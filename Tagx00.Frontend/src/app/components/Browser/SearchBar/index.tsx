@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Input, Tag } from "antd";
+import { Input, message, Tag } from "antd";
 import { Localize } from "../../../internationalization/components";
 import { ClickableTag } from "../../ClickableTag";
 import { inject, observer } from "mobx-react";

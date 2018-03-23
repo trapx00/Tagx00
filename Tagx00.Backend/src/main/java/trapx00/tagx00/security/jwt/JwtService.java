@@ -4,7 +4,6 @@ import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
 import trapx00.tagx00.entity.account.User;
 
-import java.util.Collection;
 import java.util.Date;
 
 public interface JwtService {
@@ -20,6 +19,4 @@ public interface JwtService {
     boolean validateToken(String authToken);
 
     String generateToken(UserDetails userDetails, long expiration);
-
-    String generateToken(String username, Collection<JwtRole> jwtRoles, long expiration);
 }

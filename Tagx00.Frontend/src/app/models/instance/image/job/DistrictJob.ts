@@ -1,9 +1,9 @@
 import { ImageJob } from "./ImageJob";
 import { Point } from "../Shapes";
-import { TagDescriptionTuple } from "../../TagDescriptionTuple";
+import { TagDescriptionTuple } from "../../TagTuple";
 
 export interface Boundary {
-  points: Point;
+  points: Point[];
 }
 
 export interface DistrictTagDescriptionTuple {
