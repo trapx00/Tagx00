@@ -7,6 +7,7 @@ import { ClickableTag } from "../../ClickableTag";
 import { panelStyle } from "./index";
 import { TagModificationModal } from "./TagModificationModal";
 import { removeElementAt } from "../../../../utils/Array";
+import { LocaleMessage } from "../../../internationalization/components";
 
 
 const AnyTag = Tag as any;
@@ -14,6 +15,7 @@ const AnyTag = Tag as any;
 interface Props {
   tagTuples: TagTuple[];
   onChange: (tags: TagTuple[]) => void;
+  readonly: boolean;
 }
 
 @observer
@@ -62,7 +64,7 @@ export class TagPanel extends React.Component<Props, {}> {
 
   render() {
 
-    return <Card style={panelStyle} title={"Tags"}>
+    return <Card style={panelStyle} title={<LocaleMessage id={"drawingPad.common.tagDescriptionTuplePanel.tags"}/>}>
       {this.props.tagTuples.map(({tag},index) => {
         const isLongTag = tag.length > 20;
 
@@ -77,17 +79,20 @@ export class TagPanel extends React.Component<Props, {}> {
           ? <Tooltip title={tag} key={index}>{tagElem}</Tooltip>
           : tagElem;
       })}
-      <AnyTag
+      {this.props.readonly ? null
+        : <AnyTag
         onClick={this.addNewTag}
         style={{ background: '#fff', borderStyle: 'dashed' }}
       >
-        <Icon type="plus" /> New Tag
-      </AnyTag>
+        <Icon type="plus" /> <LocaleMessage id={"drawingPad.common.tagDescriptionTuplePanel.newTag"}/>
+      </AnyTag>}
+
       {this.selectedTagTuple
         ? <TagModificationModal onRemove={this.onTagRemove}
                                 tagTuple={this.selectedTagTuple}
                                 onComplete={this.onTagChangeComplete}
                                 onCancel={this.onTagChangeCancelled}
+                                readonly={this.props.readonly}
         />
         : null
       }

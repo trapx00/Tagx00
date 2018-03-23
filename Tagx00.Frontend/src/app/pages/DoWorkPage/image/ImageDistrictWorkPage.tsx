@@ -78,14 +78,20 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
   };
 
   @action onTupleSelected = (tuple: DistrictTagDescriptionTuple) => {
-    const index = this.notation.job.tuples.indexOf(tuple);
-    this.selectedIndex = index;
+    this.selectedIndex = this.notation.job.tuples.indexOf(tuple);
+  };
+
+  @action removeSelected = () => {
+    if (this.selectedTuple) {
+      this.notation.job.tuples = this.notation.job.tuples.filter(x => x !== this.selectedTuple);
+    }
+
   };
 
   render() {
     const { imageUrl, job } = this.props.notation;
 
-    const { missionDetail, controllerProps } = this.props;
+    const { missionDetail, controllerProps, readonlyMode } = this.props;
     const selectedTuple = this.selectedTuple;
 
     let session;
@@ -112,15 +118,24 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
           <MissionTipCard jobType={job.type}
                           tags={missionDetail.publicItem.allowedTags}
                           allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                          title={missionDetail.publicItem.title}
           />
-          <DistrictAddingModeController session={session} start={this.startAdding} addingMode={this.addingMode}
-                                        onDistrictComplete={this.onDistrictComplete}/>
+          {readonlyMode ? null
+            : <DistrictAddingModeController session={session} start={this.startAdding}
+                                                      addingMode={this.addingMode}
+                                                      onDistrictComplete={this.onDistrictComplete}
+                                                      onRemoveSelected={this.removeSelected}
+            />
+          }
+
           {selectedTuple
             ?  <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
+                                         readonlyMode={readonlyMode}
                                          onChange={this.onTupleChanged}/>
             : null}
 
           <ProgressController {...this.props.controllerProps}
+            readonlyMode={readonlyMode}
                               saveProgress={this.submit}
           />
         </Col>

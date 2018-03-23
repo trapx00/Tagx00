@@ -4,23 +4,21 @@ import { Modal, Button, Input } from 'antd';
 import { AddableInputGroup } from "../AddableInputGroup";
 import { observer } from "mobx-react";
 import { action, observable } from "mobx";
+import { LocaleMessage, Localize } from "../../../internationalization/components";
 
 interface Props {
   tagTuple: TagTuple;
   onRemove: (tagTuple: TagTuple) => void;
   onComplete: (tagTuple: TagTuple) => void;
   onCancel: () => void;
+  readonly: boolean;
 }
+
 
 @observer
 export class TagModificationModal extends React.Component<Props, {}> {
 
   @observable tuple: TagTuple = {...this.props.tagTuple};
-
-  constructor(props) {
-    super(props);
-    console.log("new modal");
-  }
 
   onOk = () => {
     this.props.onComplete(this.tuple);
@@ -43,27 +41,38 @@ export class TagModificationModal extends React.Component<Props, {}> {
   };
 
   render() {
+    const prefix = "drawingPad.common.tagDescriptionTuplePanel.";
+
+    const footer = [<Button key="back" onClick={this.onCancel}>
+      <LocaleMessage id={prefix + "cancel"}/>
+    </Button>];
+
+    if (!this.props.readonly) {
+      footer.push(<Button key="remove" type="danger" onClick={this.onRemove}>
+          <LocaleMessage id={prefix + "remove"}/>
+        </Button>,
+        <Button key="submit" type="primary" onClick={this.onOk}>
+          <LocaleMessage id={prefix + "ok"}/>
+        </Button>);
+    }
+
     return <Modal
-      title={"Tag information"}
+      title={<LocaleMessage id={prefix + "tagInformation"}/>}
       visible={true}
       onOk={this.onOk}
       onCancel={this.onCancel}
-      footer={[
-        <Button key="back" onClick={this.onCancel}>Cancel</Button>,
-        <Button key="remove" type="danger" onClick={this.onRemove}>Remove</Button>,
-        <Button key="submit" type="primary" onClick={this.onOk}>
-          OK
-        </Button>,
-      ]}
+      footer={footer}
     >
-      <h3>Tag Name</h3>
-      <Input placeholder={"Tag Name"}
-             value={this.tuple.tag}
-             onChange={this.onTagNameChange}
-
-      />
-      <h3>Descriptions</h3>
+      <h3><LocaleMessage id={prefix + "tagName"}/></h3>
+      <Localize replacements={{placeholder: prefix + "tagName"}}>
+        {props => <Input placeholder={props.placeholder}
+                         value={this.tuple.tag}
+                         onChange={this.onTagNameChange}
+        />}
+      </Localize>
+      <h3><LocaleMessage id={prefix + "descriptions"}/></h3>
       <AddableInputGroup items={this.tuple.descriptions}
+                         readonly={this.props.readonly}
                          onChange={this.onDescriptionsChange}/>
     </Modal>
   }

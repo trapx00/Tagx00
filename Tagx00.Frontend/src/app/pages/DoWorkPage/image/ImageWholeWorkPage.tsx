@@ -62,9 +62,11 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
           <MissionTipCard jobType={job.type}
             tags={missionDetail.publicItem.allowedTags}
             allowCustomTag={missionDetail.publicItem.allowCustomTag}
+            title={missionDetail.publicItem.title}
           />
-          <TagDescriptionTuplePanel tuple={job.tuple} onChange={this.onTupleChange}/>
+          <TagDescriptionTuplePanel tuple={job.tuple} onChange={this.onTupleChange} readonlyMode={this.props.readonlyMode}/>
           <ProgressController {...this.props.controllerProps}
+            readonlyMode={this.props.readonlyMode}
             saveProgress={this.submit}
           />
         </Col>
