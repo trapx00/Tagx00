@@ -1,6 +1,7 @@
 package trapx00.tagx00.vo.mission.requester;
 
 import trapx00.tagx00.publicdatas.mission.MissionType;
+import trapx00.tagx00.vo.mission.image.ImageMissionType;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
 import java.util.Date;
@@ -15,6 +16,37 @@ public class MissionCreateVo {
     private MissionProperties properties;
     private Date start;
     private Date end;
+    private String coverUrls;
+
+    public String getCoverUrls() {
+        return coverUrls;
+    }
+
+    public void setCoverUrls(String coverUrls) {
+        this.coverUrls = coverUrls;
+    }
+
+    public List<String> getUrls() {
+        return urls;
+    }
+
+    public void setUrls(List<String> urls) {
+        this.urls = urls;
+    }
+
+    private List<String> urls;
+
+    public List<ImageMissionType> getImageMissionType() {
+        return imageMissionType;
+    }
+
+    public void setImageMissionType(List<ImageMissionType> imageMissionType) {
+        this.imageMissionType = imageMissionType;
+    }
+
+    private List<ImageMissionType> imageMissionType;
+
+
 
     public MissionType getMissionType() {
         return missionType;
