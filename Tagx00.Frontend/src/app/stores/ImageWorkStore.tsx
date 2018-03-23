@@ -26,9 +26,9 @@ export class ImageWorkStore {
   initialDetail: ImageInstanceDetail;
 
   get currentInstanceDetail(): ImageInstanceDetail {
-    const { instance, results } = this.initialDetail;
+    const {instance, results} = this.initialDetail;
     return {
-      results: this.currentNotations.map((x,index) => ({
+      results: this.currentNotations.map((x, index) => ({
         id: index,
         instanceId: instance.instanceId,
         imageJob: this.currentNotations[index].job,
@@ -47,13 +47,19 @@ export class ImageWorkStore {
 
     this.initialDetail = instanceDetail;
 
-    for (const url of imageUrls ) {
+    for (const url of imageUrls) {
       for (const type of types) {
-        const result = instanceDetail.results.find(x => x.url === url && x.imageJob && x.imageJob.type === type);
+        let result;
+        //confirm if results exists
+        if (instanceDetail.results) {
+          result = instanceDetail.results.find(x => x.url === url && x.imageJob && x.imageJob.type === type);
+        } else {
+          result = null;
+        }
         if (result) { //existing job, push in
           this.currentNotations.push({
             imageUrl: url,
-            job : result.imageJob
+            job: result.imageJob
           });
           // this.workIndex++; // existing job, resume progress
         } else {
@@ -75,7 +81,7 @@ export class ImageWorkStore {
 
   get totalCount() {
     return this.currentNotations.length;
-}
+  }
 
   @computed get progress() {
     return this.workIndex;
@@ -96,7 +102,6 @@ export class ImageWorkStore {
 
   @action saveWork(notation: ImageNotation) {
     this.currentNotations[this.workIndex] = notation;
-    console.log(this.currentNotations);
   }
 
   @action nextWork1() { // first step of going next work
@@ -115,7 +120,7 @@ export class ImageWorkStore {
   }
 
   @action previousWork2() {
-    if (this.workIndex >0) {
+    if (this.workIndex > 0) {
       this.workIndex--;
       this.direction = TransformDirection.Normal;
     }

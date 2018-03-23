@@ -68,40 +68,40 @@ export class WorkerService extends BaseService {
       token: token,
       route: missionId + "",
     });
-    console.log(res.response)
     return res.response.detail as ImageInstanceDetail;
   }
 
   async saveProgress(missionId: number, detail: InstanceDetail, token: string): Promise<boolean> {
 
 
-    return true;
+    // return true;
 
     // actual
 
-    // const res = await this.fetch({
-    //   token: token,
-    //   route: ""+missionId,
-    //   method: HttpMethod.PUT
-    // });
-    //
-    // return res.ok;
+    const res = await this.fetch({
+      token: token,
+      route: "" + missionId,
+      method: HttpMethod.PUT
+    });
+
+    console.log(res.response)
+    return res.ok;
   }
 
   async submit(missionId: number, detail: InstanceDetail, token: string): Promise<boolean> {
 
 
-    return true;
+    // return true;
 
     // actual
 
-    // const res = await this.fetch({
-    //   token: token,
-    //   route: ""+missionId,
-    //   method: HttpMethod.POST
-    // });
-    //
-    // return res.ok;
+    const res = await this.fetch({
+      token: token,
+      route: "" + missionId,
+      method: HttpMethod.POST
+    });
+
+    return res.ok;
   }
 
   async acceptMission(missionId: number, token: string): Promise<Response> {

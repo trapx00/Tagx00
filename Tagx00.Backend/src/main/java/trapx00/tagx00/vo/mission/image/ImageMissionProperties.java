@@ -12,4 +12,12 @@ public class ImageMissionProperties extends MissionProperties {
         super(type);
         this.imageMissionTypes = imageMissionTypes;
     }
+
+    public List<ImageMissionType> getImageMissionTypes() {
+        return imageMissionTypes;
+    }
+
+    public void setImageMissionTypes(List<ImageMissionType> imageMissionTypes) {
+        this.imageMissionTypes = imageMissionTypes;
+    }
 }

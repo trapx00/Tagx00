@@ -107,8 +107,6 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   };
 
   saveProgress = async () => {
-    console.log(this.store.currentInstanceDetail);
-    console.log(toJS(this.store.currentInstanceDetail));
     const result = await workerService.saveProgress(this.props.missionDetail.publicItem.missionId,
       this.store.currentInstanceDetail, this.props.token);
     if (result) {
@@ -138,7 +136,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
     }
 
     if (typeof currentWork === 'undefined') {
-      return <div/>; // unmount previous page to reset state.
+      return <div/>; // unmount previous page to reset missionState.
     }
 
 

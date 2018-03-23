@@ -23,26 +23,24 @@ export class DoWorkPage extends React.Component<Props, any> {
     const userStore = this.props[STORE_USER];
     const instanceDetail = await workerService.getInstanceDetail(this.props.missionId, userStore.token);
 
-    const missionDetail = await missionService.getAMission(this.props.missionId);
+    const missionDetail = await missionService.getAMission(this.props.missionId, userStore.token);
 
     return <Localize replacements={{
       workSaved: "drawingPad.common.finish.workSaved",
       readonlyComplete: "drawingPad.common.finish.readonlyComplete"
     }}>
       {props => <ImageWorkPage instanceDetail={instanceDetail}
-                          missionDetail={missionDetail}
-                          token={userStore.token}
-                          jumpBack={() => this.props[STORE_ROUTER].jumpTo("/missions")}
-                          readonlyMode={this.props.readonly}
+                               missionDetail={missionDetail}
+                               token={userStore.token}
+                               jumpBack={() => this.props[STORE_ROUTER].jumpTo("/missions")}
+                               readonlyMode={this.props.readonly}
                                readonlyCompleteText={props.readonlyComplete}
                                workSavedText={props.workSaved}
       />
-                               }
-
+      }
 
 
     </Localize>
-
 
 
   };

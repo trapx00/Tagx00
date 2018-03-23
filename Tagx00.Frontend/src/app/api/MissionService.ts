@@ -11,7 +11,6 @@ export const imgs = [
 ];
 
 
-
 export class MissionService extends BaseService {
 
   constructor() {
@@ -23,29 +22,40 @@ export class MissionService extends BaseService {
     return "";
   }
 
-  async getAMission(missionId: number) : Promise<ImageMissionDetail> {
+  async getAMission(missionId: number, token: string): Promise<ImageMissionDetail> {
     // mock
-    return  {
-      publicItem: {
-        missionId: missionId,
-        title: "Mission " + missionId,
-        description: "Description "+missionId,
-        topics: ["scenes"],
-        allowCustomTag: Math.random() < 0.5,
-        allowedTags: ["tag1", "tag2"],
-        missionType: MissionType.IMAGE,
-        start: new Date(),
-        end: new Date(),
-        coverUrl: "https://desk-fd.zol-img.com.cn/t_s960x600c5/g3/M0A/0F/09/Cg-4WFRplp2IYqiNACQ0TQPPChQAARbPQEM84oAJDRl464.jpg"
-      },
-      state: MissionState.ACTIVE,
-      imageUrls: imgs,
-      imageMissionTypes: [
-        ImageMissionType.DISTRICT,
-        ImageMissionType.PART,
-        ImageMissionType.WHOLE
-      ]
-    } as ImageMissionDetail;
+    // return  {
+    //   publicItem: {
+    //     missionId: missionId,
+    //     title: "Mission " + missionId,
+    //     description: "Description "+missionId,
+    //     topics: ["scenes"],
+    //     allowCustomTag: Math.random() < 0.5,
+    //     allowedTags: ["tag1", "tag2"],
+    //     missionType: MissionType.IMAGE,
+    //     start: new Date(),
+    //     end: new Date(),
+    //     coverUrl: "https://desk-fd.zol-img.com.cn/t_s960x600c5/g3/M0A/0F/09/Cg-4WFRplp2IYqiNACQ0TQPPChQAARbPQEM84oAJDRl464.jpg"
+    //   },
+    //   missionState: MissionState.ACTIVE,
+    //   imageUrls: imgs,
+    //   imageMissionTypes: [
+    //     ImageMissionType.DISTRICT,
+    //     ImageMissionType.PART,
+    //     ImageMissionType.WHOLE
+    //   ]
+    // } as ImageMissionDetail;
+    const res = await this.fetch({
+      route: missionId + "",
+      token,
+    });
+
+    if (res.ok) {
+      return res.response.detail;
+    } else {
+      throw res.error;
+    }
+
   }
 
 }
