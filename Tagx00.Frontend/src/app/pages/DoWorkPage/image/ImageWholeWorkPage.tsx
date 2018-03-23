@@ -31,6 +31,10 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
     console.log(toJS(this.notation));
   }
 
+  goNext = () => {
+    this.props.goNext(this.notation);
+  };
+
   constructor(props) {
     super(props);
     this.fillNotation();
@@ -66,6 +70,7 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
           />
           <TagDescriptionTuplePanel tuple={job.tuple} onChange={this.onTupleChange} readonlyMode={this.props.readonlyMode}/>
           <ProgressController {...this.props.controllerProps}
+            goNext={this.goNext}
             readonlyMode={this.props.readonlyMode}
             saveProgress={this.submit}
           />

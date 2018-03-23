@@ -4,7 +4,7 @@ import { PartJob, PartJobTuple } from "../../../models/instance/image/job/PartJo
 import { inject, observer } from "mobx-react";
 import { ImageWorkPageProps } from "./ImageWorkPage";
 import { action, computed, observable, toJS } from "mobx";
-import { Row, Col, Card} from 'antd';
+import { Row, Col, Card } from 'antd';
 import { WholeJob } from "../../../models/instance/image/job/WholeJob";
 import { TagDescriptionTuple } from "../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../components/ImageWork/MissionTipCard";
@@ -23,11 +23,11 @@ import { District } from "../../../components/ImageWork/DrawingPad/DistrictPanel
 @observer
 export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<DistrictJob>, any> {
   @observable notation: ImageNotation<DistrictJob> = this.props.notation;
-  @observable selectedIndex: number =1;
+  @observable selectedIndex: number = 1;
   @observable addingMode: boolean = false;
 
   @computed get selectedTuple() {
-    if (this.selectedIndex>=0 && this.selectedIndex < this.notation.job.tuples.length) {
+    if (this.selectedIndex >= 0 && this.selectedIndex < this.notation.job.tuples.length) {
       return this.notation.job.tuples[this.selectedIndex];
     } else {
       return null;
@@ -52,7 +52,7 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
 
   @action onTupleCreated = (tuple: DistrictTagDescriptionTuple) => {
     this.notation.job.tuples = this.notation.job.tuples.concat([tuple]);
-    this.selectedIndex = this.notation.job.tuples.length-1;
+    this.selectedIndex = this.notation.job.tuples.length - 1;
     this.addingMode = false;
   };
 
@@ -88,10 +88,15 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
 
   };
 
-  render() {
-    const { imageUrl, job } = this.props.notation;
+  goNext = () => {
+    this.props.goNext(this.notation);
+  };
 
-    const { missionDetail, controllerProps, readonlyMode } = this.props;
+
+  render() {
+    const {imageUrl, job} = this.props.notation;
+
+    const {missionDetail, controllerProps, readonlyMode} = this.props;
     const selectedTuple = this.selectedTuple;
 
     let session;
@@ -105,11 +110,11 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
         <Col span={16}>
           <Card>
             <DistrictPanel imageUrl={imageUrl}
-                            tuples={this.notation.job.tuples}
-                            addingMode={this.addingMode}
-                            session={session}
-                            onTupleSelected={this.onTupleSelected}
-                            selectedTuple={selectedTuple}
+                           tuples={this.notation.job.tuples}
+                           addingMode={this.addingMode}
+                           session={session}
+                           onTupleSelected={this.onTupleSelected}
+                           selectedTuple={selectedTuple}
             />
 
           </Card>
@@ -122,20 +127,21 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
           />
           {readonlyMode ? null
             : <DistrictAddingModeController session={session} start={this.startAdding}
-                                                      addingMode={this.addingMode}
-                                                      onDistrictComplete={this.onDistrictComplete}
-                                                      onRemoveSelected={this.removeSelected}
+                                            addingMode={this.addingMode}
+                                            onDistrictComplete={this.onDistrictComplete}
+                                            onRemoveSelected={this.removeSelected}
             />
           }
 
           {selectedTuple
-            ?  <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
-                                         readonlyMode={readonlyMode}
-                                         onChange={this.onTupleChanged}/>
+            ? <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
+                                        readonlyMode={readonlyMode}
+                                        onChange={this.onTupleChanged}/>
             : null}
 
           <ProgressController {...this.props.controllerProps}
-            readonlyMode={readonlyMode}
+                              goNext={this.goNext}
+                              readonlyMode={readonlyMode}
                               saveProgress={this.submit}
           />
         </Col>

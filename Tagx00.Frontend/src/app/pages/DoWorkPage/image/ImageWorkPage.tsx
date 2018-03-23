@@ -12,7 +12,7 @@ import { CompleteModal } from "../../../components/ImageWork/CompleteModal";
 import { WholeJob } from "../../../models/instance/image/job/WholeJob";
 import { ImageJob } from "../../../models/instance/image/job/ImageJob";
 import { ProgressController } from "../../../components/ProgressController";
-import { action, computed, observable, toJS } from "mobx";
+import { action, computed, observable, runInAction, toJS } from "mobx";
 import { workerService } from "../../../api/WorkerService";
 import { LocaleMessage } from "../../../internationalization/components";
 import { STORE_LOCALE } from "../../../constants/stores";
@@ -32,10 +32,11 @@ export interface ImageWorkPageProps<T extends ImageJob> {
   notation: ImageNotation<T>;
   submit: (notation: ImageNotation) => void;
   missionDetail: ImageMissionDetail;
+  goNext: (notation: ImageNotation) => void;
   controllerProps: {
-    goNext: () => void;
     goPrevious: () => void;
     previousAvailable: boolean;
+    saving: boolean;
   },
   readonlyMode: boolean;
 
@@ -47,7 +48,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   store: ImageWorkStore;
 
   @observable finishModalShown = true;
-
+  @observable saving: boolean= false;
 
 
   constructor(props) {
@@ -56,12 +57,18 @@ export class ImageWorkPage extends React.Component<Props, {}> {
     this.store = new ImageWorkStore(missionDetail.imageUrls, missionDetail.imageMissionTypes, instanceDetail);
   }
 
-  saveWork = (notation: ImageNotation) => {
+  @action saveWork = async (notation: ImageNotation) => { // 保存到远端
+    this.saving = true;
     this.store.saveWork(notation);
-    message.success(this.props.workSavedText);
+    await workerService.saveProgress(this.props.missionDetail.publicItem.missionId, this.store.currentInstanceDetail, this.props.token);
+    runInAction(() => {
+      this.saving = false;
+      message.success(this.props.workSavedText);
+    });
   };
 
-  goNext = () => {
+  goNext = (notation: ImageNotation) => {
+    this.store.saveWork(notation);
     this.store.nextWork1();
   };
 
@@ -144,11 +151,13 @@ export class ImageWorkPage extends React.Component<Props, {}> {
       notation: currentWork as any,
       submit: this.saveWork,
       missionDetail: this.props.missionDetail,
+      goNext: this.goNext,
       controllerProps: {
-        goNext: this.goNext,
         goPrevious: this.goPrevious,
-        previousAvailable: this.store.workIndex != 0
+        previousAvailable: this.store.workIndex != 0,
+        saving: this.saving
       },
+
       readonlyMode: this.props.readonlyMode
     };
 

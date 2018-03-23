@@ -73,6 +73,11 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
     }
   };
 
+  goNext = () => {
+    this.props.goNext(this.notation);
+  };
+
+
   render() {
     const {imageUrl, job} = this.props.notation;
 
@@ -112,7 +117,8 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
             : null}
 
           <ProgressController {...this.props.controllerProps}
-                              readonlyMode={readonlyMode}
+                              goNext={this.goNext}
+                              readonlyMode={this.props.readonlyMode}
                               saveProgress={this.submit}
           />
         </Col>

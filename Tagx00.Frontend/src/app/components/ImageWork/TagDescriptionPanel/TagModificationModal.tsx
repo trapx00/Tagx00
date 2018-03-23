@@ -71,9 +71,14 @@ export class TagModificationModal extends React.Component<Props, {}> {
         />}
       </Localize>
       <h3><LocaleMessage id={prefix + "descriptions"}/></h3>
-      <AddableInputGroup items={this.tuple.descriptions}
-                         readonly={this.props.readonly}
-                         onChange={this.onDescriptionsChange}/>
+      <Localize replacements={{ placeholder: prefix+"addOne"}}>
+        {props => <AddableInputGroup items={this.tuple.descriptions}
+                                     readonly={this.props.readonly}
+                                     onChange={this.onDescriptionsChange}
+                                     inputPrompt={props.placeholder}/>
+
+        }
+      </Localize>
     </Modal>
   }
 }
