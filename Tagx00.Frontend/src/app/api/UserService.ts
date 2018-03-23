@@ -19,17 +19,17 @@ export class UserService extends BaseService {
   async login(username: string, password: string): Promise<NetworkResponse<LoginResult>> {
     password = encryptPassword(password);
 
-    return new NetworkResponse(200, {
-        token: "123",
-        jwtRoles: ["ROLE_WORKER"],
-        email: "1@1.com"
-      }
-    );
+    // return new NetworkResponse(200, {
+    //     token: "123",
+    //     jwtRoles: ["ROLE_WORKER"],
+    //     email: "1@1.com"
+    //   }
+    // );
 
-    // return await this.fetch({
-    //   route: "login",
-    //   queryParams: {username, password}
-    // });
+    return await this.fetch({
+      route: "login",
+      queryParams: {username, password}
+    });
   }
 
   async register(username: string, password: string) {

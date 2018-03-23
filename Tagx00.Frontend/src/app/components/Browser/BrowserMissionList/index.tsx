@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Tag, Spin, List, Button, Divider, Pagination } from "antd";
+import { message, Spin, List, Button, Divider, Pagination } from "antd";
 import { Localize } from "../../../internationalization/components/index";
 import { STORE_BROWSER } from "../BrowserStore";
 import { inject, observer } from "mobx-react";
 import { browseService } from "../../../api/BrowseService";
+import { Response } from "../../../models/Response";
 
 const centerDivider = {
   marginTop: '-10%',
@@ -16,7 +17,11 @@ const HasIdButton: any = Button;
 @observer
 export class BrowserMissionList extends React.Component<any, any> {
   handleAccept = async (e) => {
-    await browseService.acceptMission(e.target.id);
+    await browseService.acceptMission(e.target.id).then((response: Response) => {
+      if (response.infoCode === 10000) {
+        message.success('任务接受成功');
+      }
+    });
   };
 
   render() {
