@@ -36,7 +36,6 @@ public class PathUtil {
 
         ArrayList<File> fileArrayList = new ArrayList<>();
         fileArrayList.add(new File(resourcePath + "/user.txt"));
-        fileArrayList.add(new File(resourcePath + "/imageResult.txt"));
         fileArrayList.add(new File(resourcePath + "/instance.txt"));
         fileArrayList.add(new File(resourcePath + "/mission.txt"));
 

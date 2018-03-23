@@ -46,30 +46,30 @@ export class WorkerService extends BaseService {
   async getInstanceDetail(missionId: number, token: string): Promise<ImageInstanceDetail> {
 
     // mock
-    return {
-      results: [],
-      instance:
-        {
-          instanceId: 1,
-          workerUsername: "123",
-          title: `Title`,
-          description: `Description `,
-          missionId: 123,
-          acceptDate: new Date(),
-          submitDate: null,
-          isSubmitted: false,
-          completedJobCount: 0,
-          missionInstanceState: MissionInstanceState.IN_PROGRESS,
-        }
-
-    } as ImageInstanceDetail;
-
-    // const res = await this.fetch({
-    //   token: token,
-    //   route: missionId + "",
-    // });
+    // return {
+    //   results: [],
+    //   instance:
+    //     {
+    //       instanceId: 1,
+    //       workerUsername: "123",
+    //       title: `Title`,
+    //       description: `Description `,
+    //       missionId: 123,
+    //       acceptDate: new Date(),
+    //       submitDate: null,
+    //       isSubmitted: false,
+    //       completedJobCount: 0,
+    //       missionInstanceState: MissionInstanceState.IN_PROGRESS,
+    //     }
     //
-    // return res.response.detail as T;
+    // } as ImageInstanceDetail;
+
+    const res = await this.fetch({
+      token: token,
+      route: missionId + "",
+    });
+    console.log(res.response)
+    return res.response.detail as ImageInstanceDetail;
   }
 
   async saveProgress(missionId: number, detail: InstanceDetail, token: string): Promise<boolean> {
@@ -106,21 +106,21 @@ export class WorkerService extends BaseService {
 
   async acceptMission(missionId: number, token: string): Promise<Response> {
 
-    return {
-      infoCode: 10000,
-      description: "success"
-    };
+    // return {
+    //   infoCode: 10000,
+    //   description: "success"
+    // };
 
     // actual
 
-    // const res = await this.fetch({
-    //   route: missionId+"",
-    //   body: {instance: null},
-    //   token,
-    //   method: HttpMethod.POST
-    // })
-    //
-    // return res.response;
+    const res = await this.fetch({
+      route: missionId + "",
+      body: {instance: null},
+      token,
+      method: HttpMethod.POST
+    });
+
+    return res.response;
 
 
     // const instanceDetailVo: InstanceDetail = {instance: null};

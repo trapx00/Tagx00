@@ -8,6 +8,9 @@ import java.util.List;
 public class MissionQueryResponse extends Response {
     private List<MissionPublicItemVo> items;
 
+    public MissionQueryResponse() {
+    }
+
     public MissionQueryResponse(List<MissionPublicItemVo> items) {
         this.items = items;
     }

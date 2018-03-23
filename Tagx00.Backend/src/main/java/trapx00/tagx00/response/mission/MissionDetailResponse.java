@@ -6,6 +6,9 @@ import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 public class MissionDetailResponse extends Response {
     private MissionDetailVo detail;
 
+    public MissionDetailResponse() {
+    }
+
     public MissionDetailResponse(MissionDetailVo detail) {
         this.detail = detail;
     }
