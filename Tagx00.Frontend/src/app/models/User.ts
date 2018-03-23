@@ -10,9 +10,8 @@ export class User {
   public role: UserRole;
   public token: string;
 
-  constructor(params) {
+  constructor(params: Partial<User>) {
     Object.assign(this, params);
-    this.role = UserRole[params.role as string];
   }
 
 }

@@ -65,6 +65,12 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
     this.selectedIndex = index;
   };
 
+  @action removeSelected = () => {
+    if (this.selectedIndex>=0) {
+      this.notation.job.tuples = this.notation.job.tuples.filter(x => x !== this.selectedTuple);
+    }
+  };
+
   render() {
     const { imageUrl, job } = this.props.notation;
 
@@ -91,7 +97,9 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
                           tags={missionDetail.publicItem.allowedTags}
                           allowCustomTag={missionDetail.publicItem.allowCustomTag}
           />
-          <PartAddingModeController start={this.startAdding} addingMode={this.addingMode}/>
+          <PartAddingModeController start={this.startAdding}
+                                    addingMode={this.addingMode}
+                                    removeSelected={this.removeSelected}/>
           {selectedTuple
           ?  <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
                                        onChange={this.onTupleChanged}/>

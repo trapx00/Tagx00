@@ -1,5 +1,7 @@
 import { action, computed, observable, runInAction } from "mobx";
 import { LoginResult, UserService } from "../../../api/UserService";
+import { UserStore } from "../../../stores/UserStore";
+import { STORE_USER } from "../../../constants/stores";
 
 
 export enum LoginState {
@@ -43,7 +45,7 @@ export class LoginFormFields {
     return !this.loginAttempted || !!this.password;
   }
 
-  @computed get validate() {
+  @computed get valid() {
     return this.usernameValid && this.passwordValid;
   }
 }
@@ -64,6 +66,18 @@ export class LoginController {
     return this.state === LoginState.LoggingIn;
   }
 
+  async doLogin(userStore: UserStore) {
+    try {
+      const res = await this.requestLogin(this.fields.username, this.fields.password);
+      userStore.login(this.fields.username, res);
+      if (this.fields.remember) {
+        userStore.remember();
+      }
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
 
   @action public requestLogin = async (username: string, password: string): Promise<LoginResult> => {
     this.state = LoginState.LoggingIn;
@@ -86,7 +100,7 @@ export class LoginController {
     } else if (error.isNetworkError) {
       throw {type: LoginErrorType.NetworkError, error: error.info};
     } else {
-      throw {type: LoginErrorType.ServerError, messages: response.errorDescriptions} as LoginServerError;
+      throw {type: LoginErrorType.ServerError, messages: (response as any).errorDescriptions} as LoginServerError;
     }
   }
 }

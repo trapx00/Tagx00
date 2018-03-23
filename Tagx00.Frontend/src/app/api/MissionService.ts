@@ -42,8 +42,8 @@ export class MissionService extends BaseService {
       imageUrls: imgs,
       imageMissionTypes: [
         ImageMissionType.DISTRICT,
-        // ImageMissionType.PART,
-        // ImageMissionType.WHOLE
+        ImageMissionType.PART,
+        ImageMissionType.WHOLE
       ]
     } as ImageMissionDetail;
   }
