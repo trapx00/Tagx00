@@ -65,6 +65,7 @@ frontendDeployJob:
     - cd ./Tagx00.Frontend/
     - chmod +x ./deploy/deploy.sh
     - npm install
+    - npm run build
     - ./deploy/deploy.sh
   only:
     - master
