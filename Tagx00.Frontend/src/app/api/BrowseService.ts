@@ -52,6 +52,7 @@ export class BrowseService extends BaseService {
     const res = await this.fetch({
       route: `worker/${missionId}`,
       body: instanceDetailVo,
+      token: "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE1MjIzNzYzMDMsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1dPUktFUiJ9XSwidXNlcm5hbWUiOiIyMzQifQ.CW2aPW0T6H7UTgg5K5VCzaTXwmNcq5Y1wFIXl83yBjvG3ND8KVSiHpn6-F7JpJlb9h8zPb-BS6vGY7N7aMYNyQ",
       method: HttpMethod.POST
     });
     return res.response.items as Response;

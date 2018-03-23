@@ -21,8 +21,8 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
     private final WorkerMissionDataService workerMissionDataService;
 
     @Autowired
-    public WorkerMissionBlServiceImpl(WorkerMissionDataService workerMissionDataService){
-        this.workerMissionDataService=workerMissionDataService;
+    public WorkerMissionBlServiceImpl(WorkerMissionDataService workerMissionDataService) {
+        this.workerMissionDataService = workerMissionDataService;
     }
 
     /**
@@ -34,8 +34,8 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
     @Override
     public InstanceResponse queryOnesAllMissions(String workerusername) throws MissionDoesNotExistFromUsernameException {
 
-        InstanceVo[]result= workerMissionDataService.getInstanceByWorkerUsername(workerusername);
-        if(result==null)
+        InstanceVo[] result = workerMissionDataService.getInstanceByWorkerUsername(workerusername);
+        if (result == null)
             throw new MissionDoesNotExistFromUsernameException();
         return new InstanceResponse(Arrays.asList(result));
     }
@@ -49,7 +49,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse abort(int missionId, String workerusername) {
-        workerMissionDataService.deleteInstance(missionId, workerusername) ;
+        workerMissionDataService.deleteInstance(missionId, workerusername);
         return new SuccessResponse("Success Delete");
     }
 
@@ -62,10 +62,10 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public InstanceDetailResponse getInstanceInformation(int missionId, String workerusername) throws InstanceNotExistException {
-        InstanceDetailVo instanceDetailVo= workerMissionDataService.getInstanceByUsernameAndMissionId(workerusername, missionId) ;
-        if(instanceDetailVo==null)
+        InstanceDetailVo instanceDetailVo = workerMissionDataService.getInstanceByUsernameAndMissionId(workerusername, missionId);
+        if (instanceDetailVo == null)
             throw new InstanceNotExistException();
-        InstanceDetailResponse instanceDetailResponse=new InstanceDetailResponse(instanceDetailVo);
+        InstanceDetailResponse instanceDetailResponse = new InstanceDetailResponse(instanceDetailVo);
         return instanceDetailResponse;
     }
 
@@ -90,12 +90,12 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException {
-        if(workerMissionDataService.getInstanceByUsernameAndMissionId(UserInfoUtil.getUsername(),instanceVo.getInstance().getMissionId())==null)
-             workerMissionDataService.saveInstance(instanceVo);
-        else{
+        if (workerMissionDataService.getInstanceByUsernameAndMissionId(UserInfoUtil.getUsername(), instanceVo.getInstance().getMissionId()) == null)
+            workerMissionDataService.saveInstance(instanceVo);
+        else {
             instanceVo.getInstance().setSubmitted(true);
             workerMissionDataService.saveInstance(instanceVo);
         }
-        return  new SuccessResponse("Success Save");
+        return new SuccessResponse("Success Save");
     }
 }
