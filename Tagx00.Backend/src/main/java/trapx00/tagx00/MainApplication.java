@@ -55,6 +55,7 @@ public class MainApplication {
 //            e.printStackTrace();
 //        }
         SpringApplication.run(MainApplication.class, args);
+        System.out.println(PathUtil.getDatabasePath());
     }
 
     @Bean
