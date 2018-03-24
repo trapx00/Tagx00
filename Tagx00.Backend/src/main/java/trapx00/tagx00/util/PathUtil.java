@@ -1,6 +1,7 @@
 package trapx00.tagx00.util;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -38,6 +39,15 @@ public class PathUtil {
         fileArrayList.add(new File(resourcePath + "/user.txt"));
         fileArrayList.add(new File(resourcePath + "/instance.txt"));
         fileArrayList.add(new File(resourcePath + "/mission.txt"));
+
+        try (FileWriter writer = new FileWriter(getDatabasePath() + "user.txt")) {
+            writer.write("{\"username\":\"234\",\"password\":\"$2a$10$nS3MuOe9PrYoIrVkuIV79uUuPyO/ZO0ypKPXEHa8rOJSvBaSHFO4S\",\"email\":\"456\",\"roles\":[{\"name\":\"ROLE_WORKER\"}]}\n" +
+                    "{\"username\":\"999\",\"password\":\"$2a$10$EQezV9FHSbCgagwHb6K8g.o.TmwFjh4wMLSUU.8f7PhSLpBpivhO.\",\"email\":\"456\",\"roles\":[{\"name\":\"ROLE_REQUESTER\"}]}\n");
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         for (File file : fileArrayList) {
             try {
