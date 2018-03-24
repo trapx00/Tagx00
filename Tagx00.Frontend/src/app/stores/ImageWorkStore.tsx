@@ -1,4 +1,4 @@
-import { ImageMissionType } from "../models/mission/ImageMission";
+import { ImageMissionType } from "../models/mission/image/ImageMission";
 import { action, computed, observable, toJS } from "mobx";
 import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
 import { ImageJob } from "../models/instance/image/job/ImageJob";

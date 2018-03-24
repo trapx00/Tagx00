@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { ImageMissionDetail, ImageMissionType } from "../../../models/mission/ImageMission";
+import { ImageMissionDetail, ImageMissionType } from "../../../models/mission/image/ImageMission";
 import { ImageInstanceDetail } from "../../../models/instance/image/ImageInstanceDetail";
 import { ImageNotation, ImageWorkStore } from "../../../stores/ImageWorkStore";
 import { inject, observer, Provider } from "mobx-react";
@@ -107,8 +107,6 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   };
 
   saveProgress = async () => {
-    console.log(this.store.currentInstanceDetail);
-    console.log(toJS(this.store.currentInstanceDetail));
     const result = await workerService.saveProgress(this.props.missionDetail.publicItem.missionId,
       this.store.currentInstanceDetail, this.props.token);
     if (result) {

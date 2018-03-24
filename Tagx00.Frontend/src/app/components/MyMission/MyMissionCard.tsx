@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Icon, Avatar, Tooltip, Tag } from 'antd';
 import { Instance } from "../../models/instance/Instance";
 import { missionService } from "../../api/MissionService";
-import { ImageMissionDetail } from "../../models/mission/ImageMission";
+import { ImageMissionDetail } from "../../models/mission/image/ImageMission";
 import { AsyncComponent } from "../../router/AsyncComponent";
 import { LocaleMessage, Localize } from "../../internationalization/components";
 import { InstanceDetail } from "../../models/instance/InstanceDetail";

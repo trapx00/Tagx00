@@ -1,4 +1,4 @@
-import { MissionDetail } from "./Mission";
+import { MissionDetail } from "../Mission";
 
 export enum ImageMissionType {
   DISTRICT = "DISTRICT",

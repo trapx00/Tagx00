@@ -3,8 +3,6 @@ import { message, Spin, List, Button, Divider, Pagination } from "antd";
 import { Localize } from "../../../internationalization/components/index";
 import { BrowserProps, STORE_BROWSER } from "../BrowserStore";
 import { inject, observer } from "mobx-react";
-import { browseService } from "../../../api/BrowseService";
-import { Response } from "../../../models/Response";
 import { workerService } from "../../../api/WorkerService";
 import { STORE_USER } from "../../../constants/stores";
 import { UserStoreProps } from "../../../stores/UserStore";

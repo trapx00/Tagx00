@@ -1,4 +1,5 @@
 import { appendQueryString, HttpMethod, NetworkErrorCode, urlJoin } from "./utils";
+import { formatDiagnostic } from "ts-node";
 
 
 export class NetworkResponse<T = any> {
@@ -26,11 +27,11 @@ export class NetworkResponse<T = any> {
 
 
 export interface FetchInfo {
-  route?: string,
-  method?: HttpMethod,
-  queryParams?: any,
-  body?: any,
-  token?: string
+  route?: string;
+  method?: HttpMethod;
+  queryParams?: any;
+  body?: any;
+  token?: string;
 }
 
 declare var APIROOTURL: string;
@@ -44,7 +45,27 @@ export abstract class BaseService {
     this.endpoint = urlJoin(APIROOTURL, endpoint);
   }
 
+  protected async sendFile<T = any>(files: FormData,
+                                    url: string,
+                                    queryParams?: any,
+                                    headers?: {[s: string]: string}): Promise<NetworkResponse<T>> {
+    const actualUrl = urlJoin(this.endpoint, url);
+    try {
+      const res = await fetch(appendQueryString(actualUrl, queryParams), {
+        method: HttpMethod.POST,
+        headers: headers,
+        body: files
+      });
+      const json = await res.json();
+      return new NetworkResponse(res.status, json);
+    } catch (e) {
+      return new NetworkResponse(NetworkErrorCode, null, e);
+    }
+  }
+
   protected async fetch<T = any>(fetchInfo: FetchInfo = {}): Promise<NetworkResponse<T>> {
+
+
     const authHeader = fetchInfo.token
       ? {"Authorization": `Bearer ${fetchInfo.token}`}
       : {};

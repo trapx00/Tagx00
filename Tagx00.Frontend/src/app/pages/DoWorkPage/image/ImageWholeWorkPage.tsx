@@ -1,5 +1,5 @@
 import React from "react";
-import { ImageMissionDetail, ImageMissionType } from "../../../models/mission/ImageMission";
+import { ImageMissionDetail, ImageMissionType } from "../../../models/mission/image/ImageMission";
 import { ImageInstanceDetail } from "../../../models/instance/image/ImageInstanceDetail";
 import { ImageNotation, ImageWorkStoreProps, STORE_IMAGEWORK } from "../../../stores/ImageWorkStore";
 import { WholeJob } from "../../../models/instance/image/job/WholeJob";

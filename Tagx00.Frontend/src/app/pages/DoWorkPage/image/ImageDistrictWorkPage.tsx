@@ -11,7 +11,7 @@ import { MissionTipCard } from "../../../components/ImageWork/MissionTipCard";
 import { ProgressController } from "../../../components/ProgressController";
 import { TagDescriptionTuplePanel } from "../../../components/ImageWork/TagDescriptionPanel";
 import { RectanglePanel } from "../../../components/ImageWork/DrawingPad/RectanglePanel";
-import { ImageMissionType } from "../../../models/mission/ImageMission";
+import { ImageMissionType } from "../../../models/mission/image/ImageMission";
 import { PartAddingModeController } from "../../../components/ImageWork/Part/PartAddingModeController";
 import { replaceElement } from "../../../../utils/Array";
 import { DistrictJob, DistrictTagDescriptionTuple } from "../../../models/instance/image/job/DistrictJob";
@@ -135,6 +135,7 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
             : null}
 
           <ProgressController {...this.props.controllerProps}
+
             readonlyMode={readonlyMode}
                               saveProgress={this.submit}
           />

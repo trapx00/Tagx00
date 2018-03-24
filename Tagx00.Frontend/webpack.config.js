@@ -41,7 +41,7 @@ const basePlugins = [
 
 const devPlugins = [
   new webpack.DefinePlugin({
-    APIROOTURL: JSON.stringify("http://vicblogapi.azurewebsites.net/")
+    APIROOTURL: JSON.stringify("http://localhost:8080")
   }),
 
 ];
