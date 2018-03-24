@@ -16,10 +16,16 @@ public class ResourceUtil {
     public static String getFilePathUnderRootDirOfJarFileOrClassDir(String relativePath) {
         String path = MainApplication.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         String[] paths = path.split("!");
-        File jarFile = new File(paths[0].split(":")[1]);
+        String filePath = paths[0];
 
-        System.out.println(jarFile.getParent());
-        return jarFile.getParent() + relativePath;
+        File jarFile = new File(paths[0]);
+        String parentDir = Arrays.stream(jarFile.getParent().split(":"))
+                .skip(1).collect(Collectors.joining(":"));
+
+
+        System.out.println(parentDir);
+        return parentDir + relativePath;
+
 
     }
 }
