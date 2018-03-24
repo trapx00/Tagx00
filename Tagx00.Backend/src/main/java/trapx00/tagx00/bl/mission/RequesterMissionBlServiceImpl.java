@@ -52,7 +52,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
         int missiondId = requesterMissionDataService.saveMission(new Mission(mission.getTitle(), mission.getDescription(),
                 mission.getTopics(), mission.getCustomTag(), mission.getAllowedTags(), mission.getMissionType(),
                 MissionState.PENDING, mission.getStart(),
-                mission.getEnd(), mission.getCoverUrls(), UserInfoUtil.getUsername(), mission.getUrls(), mission.getImageMissionType()));
+                mission.getEnd(), "", UserInfoUtil.getUsername(), mission.getUrls(), mission.getImageMissionType()));
         JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
         String token = jwtService.generateToken(jwtUser, EXPIRATION);
         return new MissionCreateResponse(token, String.valueOf(missiondId));
@@ -70,12 +70,11 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return the list of MissionInstanceItemVo
      */
     @Override
-    public InstanceResponse queryInstances(int missionId) throws InstanceNotExistException
-    {
-        InstanceVo[] instance=requesterMissionDataService.getInstanceBymissionId(missionId);
-        if(instance==null)
+    public InstanceResponse queryInstances(int missionId) throws InstanceNotExistException {
+        InstanceVo[] instance = requesterMissionDataService.getInstanceBymissionId(missionId);
+        if (instance == null)
             throw new InstanceNotExistException();
-        InstanceResponse instanceResponse=new InstanceResponse(Arrays.asList(instance));
+        InstanceResponse instanceResponse = new InstanceResponse(Arrays.asList(instance));
         return instanceResponse;
     }
 

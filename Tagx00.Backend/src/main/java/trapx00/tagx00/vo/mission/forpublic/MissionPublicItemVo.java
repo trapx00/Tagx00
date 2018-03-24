@@ -2,10 +2,11 @@ package trapx00.tagx00.vo.mission.forpublic;
 
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class MissionPublicItemVo {
+public class MissionPublicItemVo implements Serializable {
     private int missionId;
     private String title;
     private String description;

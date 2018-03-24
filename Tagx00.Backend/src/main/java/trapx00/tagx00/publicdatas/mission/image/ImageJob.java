@@ -4,8 +4,11 @@ import trapx00.tagx00.vo.mission.image.ImageMissionType;
 
 import java.io.Serializable;
 
-public class ImageJob implements Serializable{
+public class ImageJob implements Serializable {
     private ImageMissionType type;
+
+    public ImageJob() {
+    }
 
     public ImageJob(ImageMissionType type) {
         this.type = type;

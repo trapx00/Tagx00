@@ -21,6 +21,39 @@ public class MainApplication {
     }
 
     public static void main(String[] args) {
+//        FileInputStream fileIn = null;
+//        try {
+////            ArrayList<ImageResult> imageResults = new ArrayList<>();
+////            imageResults.add(new ImageResult(new ImageWholeJob(ImageMissionType.WHOLE, new TagDescriptionTuple(null, null)), "123"));
+////            imageResults.add(new ImageResult(new ImageWholeJob(ImageMissionType.WHOLE, new TagDescriptionTuple(null, null)), "456"));
+////            InstanceDetailVo instanceDetailVo = new ImageInstanceDetailVo(new InstanceVo(1, "123", MissionInstanceState.IN_PROGRESS, 1, null, null, false, 0), imageResults);
+////            FileOutputStream fileOut =
+////                    new FileOutputStream(PathUtil.getSerPath() + "imageResults_1");
+////            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+////            out.writeObject(instanceDetailVo);
+////            out.close();
+////            fileOut.close();
+//
+//            fileIn = new FileInputStream(PathUtil.getSerPath() + "imageResults_1");
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        ObjectInputStream in = null;
+//        try {
+//            in = new ObjectInputStream(fileIn);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            Object serObject = in.readObject();
+//            System.out.println(serObject);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
         SpringApplication.run(MainApplication.class, args);
     }
 

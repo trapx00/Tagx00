@@ -11,9 +11,6 @@ public class ImageResult extends Entity {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "instanceId")
-    private int instanceId;
-
     @JsonSerialize
     @ElementCollection(targetClass = java.lang.Integer.class)
     @Column(name = "imageJob")

@@ -2,7 +2,9 @@ package trapx00.tagx00.vo.mission.forpublic;
 
 import trapx00.tagx00.publicdatas.mission.MissionState;
 
-public abstract class MissionDetailVo {
+import java.io.Serializable;
+
+public abstract class MissionDetailVo implements Serializable {
 
     private MissionPublicItemVo publicItem;
     private MissionState missionState;

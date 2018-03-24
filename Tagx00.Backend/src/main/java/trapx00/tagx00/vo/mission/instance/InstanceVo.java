@@ -3,9 +3,10 @@ package trapx00.tagx00.vo.mission.instance;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class InstanceVo {
+public class InstanceVo implements Serializable {
 
 
     private int instanceId;

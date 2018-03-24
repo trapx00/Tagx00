@@ -41,13 +41,13 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
 
         if (missionDao.findMissionByMissionId(instanceVo.getInstance().getMissionId()).
                 getMissionType().equals(MissionType.IMAGE)) {
-            InstanceDetailVo instanceDetailVo = instanceVo;
+            ImageInstanceDetailVo imageInstanceDetailVo = (ImageInstanceDetailVo) instanceVo;
             if (this.getInstanceByUsernameAndMissionId(instanceVo.getInstance().getWorkerUsername(),
                     instanceVo.getInstance().getMissionId()) == null) {
                 Instance instance = instanceDao.saveInstance(new Instance(instanceVo.getInstance().getWorkerUsername(),
                         instanceVo.getInstance().getMissionInstanceState(), instanceVo.getInstance().getMissionId(),
                         instanceVo.getInstance().getAcceptDate(), instanceVo.getInstance().getSubmitDate(),
-                        instanceVo.getInstance().isSubmitted(), null
+                        instanceVo.getInstance().isSubmitted(), imageInstanceDetailVo.getImageResults()
                 ));
                 return instance.getInstanceId();
             } else {
@@ -57,7 +57,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 Instance instance = new Instance(instanceVo.getInstance().getWorkerUsername(), instanceVo.getInstance().getMissionInstanceState(),
                         instanceVo.getInstance().getMissionId(), instanceVo.getInstance().getAcceptDate(),
                         instanceVo.getInstance().getSubmitDate(), instanceVo.getInstance().isSubmitted()
-                        , null);
+                        , imageInstanceDetailVo.getImageResults());
                 instance.setInstanceId(instanceVo.getInstance().getInstanceId());
                 Instance result = instanceDao.saveInstance(instance);
                 if (result == null)
