@@ -4,10 +4,11 @@ import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.image.ImageMissionType;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class MissionCreateVo {
+public class MissionCreateVo implements Serializable {
     private String title;
     private String description;
     private List<String> topics;
@@ -16,37 +17,6 @@ public class MissionCreateVo {
     private MissionProperties properties;
     private Date start;
     private Date end;
-    private String coverUrls;
-
-    public String getCoverUrls() {
-        return coverUrls;
-    }
-
-    public void setCoverUrls(String coverUrls) {
-        this.coverUrls = coverUrls;
-    }
-
-    public List<String> getUrls() {
-        return urls;
-    }
-
-    public void setUrls(List<String> urls) {
-        this.urls = urls;
-    }
-
-    private List<String> urls;
-
-    public List<ImageMissionType> getImageMissionType() {
-        return imageMissionType;
-    }
-
-    public void setImageMissionType(List<ImageMissionType> imageMissionType) {
-        this.imageMissionType = imageMissionType;
-    }
-
-    private List<ImageMissionType> imageMissionType;
-
-
 
     public MissionType getMissionType() {
         return missionType;
@@ -122,12 +92,12 @@ public class MissionCreateVo {
         this.end = end;
     }
 
-    public boolean getCustomTag(){
+    public boolean getCustomTag() {
         return allowCustomTag;
     }
 
-    public void setCustomTag(boolean allowCustomTag){
-        this.allowCustomTag=allowCustomTag;
+    public void setCustomTag(boolean allowCustomTag) {
+        this.allowCustomTag = allowCustomTag;
     }
 
 }

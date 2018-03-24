@@ -1,8 +1,8 @@
 import { action, computed, observable, runInAction } from "mobx";
 import { Tag } from "antd";
 import { MissionPublicItem, MissionType } from "../../models/mission/Mission";
-import { browseService } from "../../api/BrowseService";
 import React from "react";
+import { missionService } from "../../api/MissionService";
 
 interface ListDataProps {
   missionId: number,
@@ -28,7 +28,7 @@ export class BrowserStore {
   };
 
   @action public search = async (info) => {
-    let missions: MissionPublicItem[] = (await browseService.getAllMissions());
+    let missions: MissionPublicItem[] = (await missionService.getAllMissions());
     runInAction(() => {
       for (let i = 0; i < missions.length; i++) {
         let tagText = [];

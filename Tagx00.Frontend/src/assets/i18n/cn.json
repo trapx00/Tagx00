@@ -44,7 +44,7 @@
   "drawingPad": {
     "common": {
       "progressController": {
-        "save": "保存本张图",
+        "save": "保存进度",
         "backward": "前一张",
         "forward": "后一张"
       },
@@ -106,7 +106,10 @@
     }
   },
   "missions": {
-    "needLogin": "请先登录"
+    "needLogin": "请先登录",
+    "createMission": {
+      "title": "创建任务"
+    }
   },
   "loginModal": {
     "title": "登录",

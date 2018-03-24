@@ -1,9 +1,11 @@
 package trapx00.tagx00.vo.mission.worker;
 
-import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
+import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
-public class MissionWorkerQueryItemVo {
+import java.io.Serializable;
+
+public class MissionWorkerQueryItemVo implements Serializable {
     private String title;
     private String description;
     private MissionProperties mission;

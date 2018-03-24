@@ -6,6 +6,9 @@ public class MissionCreateResponse extends Response {
     private String id;
     private String token;
 
+    public MissionCreateResponse() {
+    }
+
     public String getId() {
         return id;
     }

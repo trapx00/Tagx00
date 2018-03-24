@@ -2,12 +2,12 @@ import React from "react";
 import { Card, Icon, Avatar, Tooltip, Tag } from 'antd';
 import { Instance } from "../../models/instance/Instance";
 import { missionService } from "../../api/MissionService";
-import { ImageMissionDetail } from "../../models/mission/ImageMission";
+import { ImageMissionDetail } from "../../models/mission/image/ImageMission";
 import { AsyncComponent } from "../../router/AsyncComponent";
 import { LocaleMessage, Localize } from "../../internationalization/components";
 import { InstanceDetail } from "../../models/instance/InstanceDetail";
 import { MissionInstanceState } from "../../models/instance/MissionInstanceState";
-import { STORE_ROUTER } from "../../constants/stores";
+import { STORE_ROUTER, STORE_USER } from "../../constants/stores";
 import { inject } from "mobx-react";
 import { RouterStoreProps } from "../../router/RouterStore";
 
@@ -22,11 +22,9 @@ function processDescription(text: string) {
 }
 
 
-
-
-class CardAction extends React.Component<{type: string, onClick: () => void, hoverTextId: string},{}> {
+class CardAction extends React.Component<{ type: string, onClick: () => void, hoverTextId: string }, {}> {
   render() {
-    return <Localize replacements={{ title: this.props.hoverTextId }}>
+    return <Localize replacements={{title: this.props.hoverTextId}}>
       {props =>
         <Tooltip arrowPointAtCenter placement="topLeft" title={props.title}>
           <Icon type={this.props.type} onClick={this.props.onClick}/>
@@ -54,7 +52,7 @@ interface Props extends RouterStoreProps {
 }
 
 
-@inject(STORE_ROUTER)
+@inject(STORE_ROUTER, STORE_USER)
 export class MyMissionCard extends React.Component<Props, any> {
 
   goToDoMission = () => {
@@ -73,7 +71,7 @@ export class MyMissionCard extends React.Component<Props, any> {
   };
 
   title(title: string) {
-    const { missionInstanceState } = this.props.instance;
+    const {missionInstanceState} = this.props.instance;
     let tag;
     switch (missionInstanceState) {
       case MissionInstanceState.SUBMITTED:
@@ -99,16 +97,20 @@ export class MyMissionCard extends React.Component<Props, any> {
     switch (instance.missionInstanceState) {
       case MissionInstanceState.IN_PROGRESS:
         buttons.push(
-          <CardAction key={"continue"} type={"edit"} onClick={this.goToDoMission} hoverTextId={"selfCenter.myMissions.cardActions.continue"}/>,
-          <CardAction key={"delete"} type={"delete"} onClick={this.abandonMission} hoverTextId={"selfCenter.myMissions.cardActions.abandon"}/>);
-         break;
+          <CardAction key={"continue"} type={"edit"} onClick={this.goToDoMission}
+                      hoverTextId={"selfCenter.myMissions.cardActions.continue"}/>,
+          <CardAction key={"delete"} type={"delete"} onClick={this.abandonMission}
+                      hoverTextId={"selfCenter.myMissions.cardActions.abandon"}/>);
+        break;
       case MissionInstanceState.SUBMITTED:
         break;
       case MissionInstanceState.ABANDONED:
-        buttons.push(<CardAction key={"continue"} type={"edit"} onClick={this.goToDoMission} hoverTextId={"selfCenter.myMissions.cardActions.continue"}/>);
+        buttons.push(<CardAction key={"continue"} type={"edit"} onClick={this.goToDoMission}
+                                 hoverTextId={"selfCenter.myMissions.cardActions.continue"}/>);
     }
 
-    buttons.push(<CardAction key={"search"} type={"search"} onClick={this.goDetail} hoverTextId={"selfCenter.myMissions.cardActions.seeMore"}/>);
+    buttons.push(<CardAction key={"search"} type={"search"} onClick={this.goDetail}
+                             hoverTextId={"selfCenter.myMissions.cardActions.seeMore"}/>);
 
     return buttons;
 
@@ -116,7 +118,7 @@ export class MyMissionCard extends React.Component<Props, any> {
 
   renderCard = async () => {
     const {instance} = this.props;
-    const mission: ImageMissionDetail = await missionService.getAMission(instance.missionId);
+    const mission: ImageMissionDetail = await missionService.getAMission(instance.missionId, this.props[STORE_USER].token);
     const {publicItem} = mission;
     return <Card
       style={{width: 300}}

@@ -1,15 +1,13 @@
 package trapx00.tagx00.vo.mission.instance;
 
-import trapx00.tagx00.entity.annotation.Column;
-import trapx00.tagx00.entity.annotation.GeneratedValue;
-import trapx00.tagx00.entity.annotation.GenerationType;
-import trapx00.tagx00.entity.annotation.Id;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-public class InstanceVo {
+public class InstanceVo implements Serializable {
+
 
     private int instanceId;
 
@@ -75,6 +73,9 @@ public class InstanceVo {
 
     public void setCompletedJobsCount(int completedJobsCount) {
         this.completedJobsCount = completedJobsCount;
+    }
+
+    public InstanceVo() {
     }
 
     public InstanceVo(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted, int completedJobsCount) {

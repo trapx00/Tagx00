@@ -4,25 +4,25 @@ import { PartJob, PartJobTuple } from "../../../models/instance/image/job/PartJo
 import { inject, observer } from "mobx-react";
 import { ImageWorkPageProps } from "./ImageWorkPage";
 import { action, computed, observable, toJS } from "mobx";
-import { Row, Col, Card} from 'antd';
+import { Row, Col, Card } from 'antd';
 import { WholeJob } from "../../../models/instance/image/job/WholeJob";
 import { TagDescriptionTuple } from "../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../components/ImageWork/MissionTipCard";
 import { ProgressController } from "../../../components/ProgressController";
 import { TagDescriptionTuplePanel } from "../../../components/ImageWork/TagDescriptionPanel";
 import { RectanglePanel } from "../../../components/ImageWork/DrawingPad/RectanglePanel";
-import { ImageMissionType } from "../../../models/mission/ImageMission";
+import { ImageMissionType } from "../../../models/mission/image/ImageMission";
 import { PartAddingModeController } from "../../../components/ImageWork/Part/PartAddingModeController";
 import { replaceElement } from "../../../../utils/Array";
 
 @observer
 export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJob>, any> {
   @observable notation: ImageNotation<PartJob> = this.props.notation;
-  @observable selectedIndex: number =1;
+  @observable selectedIndex: number = 1;
   @observable addingMode: boolean = false;
 
   @computed get selectedTuple() {
-    if (this.selectedIndex>=0 && this.selectedIndex < this.notation.job.tuples.length) {
+    if (this.selectedIndex >= 0 && this.selectedIndex < this.notation.job.tuples.length) {
       return this.notation.job.tuples[this.selectedIndex];
     } else {
       return null;
@@ -48,7 +48,7 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
   @action onTupleCreated = (tuple: PartJobTuple) => {
     if (tuple) {
       this.notation.job.tuples = this.notation.job.tuples.concat([tuple]);
-      this.selectedIndex = this.notation.job.tuples.length-1;
+      this.selectedIndex = this.notation.job.tuples.length - 1;
     }
     this.addingMode = false;
   };
@@ -68,17 +68,21 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
   };
 
   @action removeSelected = () => {
-    if (this.selectedIndex>=0) {
+    if (this.selectedIndex >= 0) {
       this.notation.job.tuples = this.notation.job.tuples.filter(x => x !== this.selectedTuple);
     }
   };
 
-  render() {
-    const { imageUrl, job } = this.props.notation;
+  goNext = () => {
+    this.props.goNext(this.notation);
+  };
 
-    const { missionDetail, controllerProps, readonlyMode } = this.props;
+
+  render() {
+    const {imageUrl, job} = this.props.notation;
+
+    const {missionDetail, controllerProps, readonlyMode} = this.props;
     const selectedTuple = this.selectedTuple;
-    console.log(toJS(this.selectedTuple));
     return <div>
 
       <Row gutter={16}>
@@ -107,13 +111,14 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
                                       removeSelected={this.removeSelected}/>
           }
           {selectedTuple
-          ?  <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
-                                       readonlyMode={readonlyMode}
-                                       onChange={this.onTupleChanged}/>
-          : null}
+            ? <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
+                                        readonlyMode={readonlyMode}
+                                        onChange={this.onTupleChanged}/>
+            : null}
 
           <ProgressController {...this.props.controllerProps}
-                              readonlyMode={readonlyMode}
+                              goNext={this.goNext}
+                              readonlyMode={this.props.readonlyMode}
                               saveProgress={this.submit}
           />
         </Col>

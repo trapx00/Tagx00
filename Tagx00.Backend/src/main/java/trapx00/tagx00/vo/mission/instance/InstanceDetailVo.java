@@ -1,6 +1,8 @@
 package trapx00.tagx00.vo.mission.instance;
 
-public class InstanceDetailVo {
+import java.io.Serializable;
+
+public class InstanceDetailVo implements Serializable {
     private InstanceVo instance;
 
     public InstanceVo getInstance() {

@@ -1,5 +1,5 @@
 import React from "react";
-import { ImageMissionDetail, ImageMissionType } from "../../../models/mission/ImageMission";
+import { ImageMissionDetail, ImageMissionType } from "../../../models/mission/image/ImageMission";
 import { ImageInstanceDetail } from "../../../models/instance/image/ImageInstanceDetail";
 import { ImageNotation, ImageWorkStoreProps, STORE_IMAGEWORK } from "../../../stores/ImageWorkStore";
 import { WholeJob } from "../../../models/instance/image/job/WholeJob";
@@ -30,6 +30,10 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
     }
     console.log(toJS(this.notation));
   }
+
+  goNext = () => {
+    this.props.goNext(this.notation);
+  };
 
   constructor(props) {
     super(props);
@@ -66,6 +70,7 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
           />
           <TagDescriptionTuplePanel tuple={job.tuple} onChange={this.onTupleChange} readonlyMode={this.props.readonlyMode}/>
           <ProgressController {...this.props.controllerProps}
+            goNext={this.goNext}
             readonlyMode={this.props.readonlyMode}
             saveProgress={this.submit}
           />

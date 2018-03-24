@@ -8,7 +8,18 @@ import java.util.List;
 public class InstanceResponse extends Response {
     private List<InstanceVo> instances;
 
+    public InstanceResponse() {
+    }
+
     public InstanceResponse(List<InstanceVo> instances) {
+        this.instances = instances;
+    }
+
+    public List<InstanceVo> getInstances() {
+        return instances;
+    }
+
+    public void setInstances(List<InstanceVo> instances) {
         this.instances = instances;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
+import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
@@ -17,8 +18,9 @@ import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
+import trapx00.tagx00.util.GsonFactory;
 import trapx00.tagx00.util.UserInfoUtil;
-import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
+import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
 import java.util.Date;
@@ -109,12 +111,17 @@ public class WorkerMissionController {
             @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> saveProgress(@RequestBody InstanceDetailVo instanceDetail, @PathVariable("missionId") String missionId) {
+    public ResponseEntity<Response> saveProgress(@RequestBody String instanceDetail, @PathVariable("missionId") String missionId) {
         try {
-            return new ResponseEntity<>(workerMissionBlService.saveProgress(instanceDetail), HttpStatus.OK);
+
+            ImageInstanceDetailVo instanceDetailVo = GsonFactory.get().fromJson(instanceDetail, ImageInstanceDetailVo.class);
+            return new ResponseEntity<>(workerMissionBlService.saveProgress(instanceDetailVo), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionAlreadyAcceptedException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);//to edit api
         }
     }
 
@@ -133,7 +140,7 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> submit(
-            @RequestBody InstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") int missionId) {
+            @RequestBody ImageInstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") int missionId) {
         try {
             if (instanceDetailVo == null || instanceDetailVo.getInstance() == null) {
                 InstanceVo instanceVo = new InstanceVo(0, UserInfoUtil.getUsername(), MissionInstanceState.IN_PROGRESS, missionId, new Date(), null, false, 0);
@@ -143,6 +150,9 @@ public class WorkerMissionController {
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionAlreadyAcceptedException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);//to edit api
         }
     }
 

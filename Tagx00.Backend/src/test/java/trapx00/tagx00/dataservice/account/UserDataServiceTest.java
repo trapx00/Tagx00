@@ -30,7 +30,7 @@ public class UserDataServiceTest {
     public void tearDown() throws Exception {
     }
 
-    private final User user = new User("123", "345", "test@tagx00.ml", Arrays.asList(Role.WORKER));
+    private final User user = new User("999", "999", "test@tagx00.ml", Arrays.asList(Role.REQUESTOR));
 
     @Test
     public void saveUser() {

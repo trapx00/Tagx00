@@ -24,5 +24,5 @@ export interface MissionPublicItem {
 
 export interface MissionDetail {
   publicItem: MissionPublicItem;
-  state: MissionState;
+  missionState: MissionState;
 }

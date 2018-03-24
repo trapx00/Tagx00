@@ -17,7 +17,7 @@ export class UserStore {
   }
 
   @computed get isAdmin() {
-    return this.user && this.user.role === UserRole.Admin;
+    return this.user && this.user.role === UserRole.ROLE_ADMIN;
   }
 
   @action logout() {
@@ -26,11 +26,11 @@ export class UserStore {
   };
 
 
-  @action login(username: string,response: LoginResult) {
+  @action login(username: string, response: LoginResult) {
     this.user = new User({
       username: username,
       token: response.token,
-      role: UserRole[response.jwtRoles[0]]
+      role: UserRole[response.jwtRoles[0].authority]
     });
   };
 

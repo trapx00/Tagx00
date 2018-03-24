@@ -41,7 +41,7 @@ public class MissionUploadController {
             @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
             @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
-    public ResponseEntity<Response> uploadFiles(@PathVariable("missionId") int missionId, @RequestBody MultipartFile multipartFile, @RequestParam("order") int order, @RequestParam("isCover") boolean isCover) {
+    public ResponseEntity<Response> uploadFiles(@PathVariable("missionId") int missionId, @RequestParam("files[]") MultipartFile multipartFile, @RequestParam("order") int order, @RequestParam("isCover") boolean isCover) {
         try {
             return new ResponseEntity<>(missionUploadBlService.uploadFiles(missionId, multipartFile, order, isCover), HttpStatus.CREATED);
         } catch (SystemException e) {

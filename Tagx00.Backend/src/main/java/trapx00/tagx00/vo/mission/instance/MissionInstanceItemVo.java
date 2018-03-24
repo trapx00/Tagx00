@@ -2,9 +2,10 @@ package trapx00.tagx00.vo.mission.instance;
 
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MissionInstanceItemVo {
+public class MissionInstanceItemVo implements Serializable {
 
     private int missionId;
     private String workerUsername;

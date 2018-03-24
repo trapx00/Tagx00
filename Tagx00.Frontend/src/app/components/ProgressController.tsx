@@ -9,6 +9,7 @@ interface Props {
   previousAvailable: boolean;
   readonlyMode: boolean;
   saveProgress: () => void;
+  saving: boolean;
 }
 
 export class ProgressController extends React.Component<Props, {}> {
@@ -20,7 +21,7 @@ export class ProgressController extends React.Component<Props, {}> {
           <Icon type="left" /><LocaleMessage id={prefix+"backward"}/>
         </Button>
         {this.props.readonlyMode ? null :
-          <Button type="primary" onClick={this.props.saveProgress}>
+          <Button type="primary" onClick={this.props.saveProgress} loading={this.props.saving}>
             <Icon type="save"/><LocaleMessage id={prefix + "save"}/>
           </Button>
         }

@@ -8,6 +8,9 @@ import java.util.List;
 public class DistrictJob extends ImageJob {
     private List<DistrictTagDescriptionTuple> tuples;
 
+    public DistrictJob() {
+    }
+
     public DistrictJob(ImageMissionType type, List<DistrictTagDescriptionTuple> tuples) {
         super(type);
         this.tuples = tuples;

@@ -1,13 +1,11 @@
 import * as React from "react";
 import { message, Spin, List, Button, Divider, Pagination } from "antd";
 import { Localize } from "../../../internationalization/components/index";
-import { BrowserProps, STORE_BROWSER } from "../BrowserStore";
+import { STORE_BROWSER } from "../BrowserStore";
 import { inject, observer } from "mobx-react";
-import { browseService } from "../../../api/BrowseService";
 import { Response } from "../../../models/Response";
 import { workerService } from "../../../api/WorkerService";
 import { STORE_USER } from "../../../constants/stores";
-import { UserStoreProps } from "../../../stores/UserStore";
 
 const centerDivider = {
   marginTop: '-10%',
@@ -16,17 +14,12 @@ const centerDivider = {
 
 const HasIdButton: any = Button;
 
-interface Props extends BrowserProps, UserStoreProps {
-
-}
-
 @inject(STORE_BROWSER, STORE_USER)
 @observer
-export class BrowserMissionList extends React.Component<Props, any> {
+export class BrowserMissionList extends React.Component<any, any> {
   handleAccept = async (e) => {
-    const res = await workerService.acceptMission(e.target.id, "");
-
-    if (res.infoCode === 10000) {
+    const response: Response = await workerService.acceptMission(e.target.id, this.props[STORE_USER].token);
+    if (response.infoCode === 10000) {
       message.success('任务接受成功');
     }
   };
