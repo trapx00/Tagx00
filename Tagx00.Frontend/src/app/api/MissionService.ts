@@ -1,7 +1,8 @@
 import { BaseService } from "./BaseService";
 import { MissionDetail, MissionPublicItem, MissionState, MissionType } from "../models/mission/Mission";
-import { ImageMissionDetail, ImageMissionType } from "../models/mission/ImageMission";
+import { ImageMissionDetail, ImageMissionType } from "../models/mission/image/ImageMission";
 import { waitForMs } from "../../utils/Wait";
+import { HttpMethod } from "./utils";
 
 export const imgs = [
   "https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/0E/00/ChMkJlnJ4TOIAyeVAJqtjV-XTiAAAgzDAE7v40Amq2l708.jpg",
@@ -17,9 +18,29 @@ export class MissionService extends BaseService {
     super("mission");
   }
 
-  async getAllMissions() {
-    // mock
-    return "";
+  async getAllMissions() : Promise<MissionPublicItem[]> {
+
+    const res = await this.fetch({
+      route: "",
+      method: HttpMethod.GET
+    });
+    return res.response.items as MissionPublicItem[];
+
+    //mock
+    // return [1, 2, 3, 4, 5].map(x =>
+    //   ({
+    //     missionId: x,
+    //     title: `Title${x}`,
+    //     description: `Description `.repeat(x),
+    //     topics: ["动物", "植物"],
+    //     allowCustomTag: false,
+    //     allowedTags: ["动物画", "植物画"],
+    //     missionType: MissionType.IMAGE,
+    //     start: new Date(),
+    //     end: new Date(),
+    //     coverUrl: "http://pic1.16xx8.com/allimg/170801/1-1FP116442T62.jpg",
+    //   })
+    // );
   }
 
   async getAMission(missionId: number, token: string): Promise<ImageMissionDetail> {

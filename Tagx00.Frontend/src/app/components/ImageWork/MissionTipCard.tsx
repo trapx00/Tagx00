@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Tag } from 'antd';
-import { ImageMissionType } from "../../models/mission/ImageMission";
+import { ImageMissionType } from "../../models/mission/image/ImageMission";
 import { LocaleMessage } from "../../internationalization/components";
 
 interface Props {

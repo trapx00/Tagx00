@@ -1,6 +1,6 @@
 import { BaseService } from "./BaseService";
 import { Instance } from "../models/instance/Instance";
-import { ImageMissionDetail, ImageMissionType } from "../models/mission/ImageMission";
+import { ImageMissionDetail, ImageMissionType } from "../models/mission/image/ImageMission";
 import { MissionInstanceState } from "../models/instance/MissionInstanceState";
 import { MissionState } from "../models/mission/Mission";
 import { waitForMs } from "../../utils/Wait";
