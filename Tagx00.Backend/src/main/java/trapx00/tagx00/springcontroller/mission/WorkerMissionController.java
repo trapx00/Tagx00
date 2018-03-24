@@ -1,6 +1,5 @@
 package trapx00.tagx00.springcontroller.mission;
 
-import com.google.gson.Gson;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,8 +21,6 @@ import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.util.GsonFactory;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
-import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
-import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
 import java.util.Date;
@@ -143,7 +140,7 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> submit(
-            @RequestBody InstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") int missionId) {
+            @RequestBody ImageInstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") int missionId) {
         try {
             if (instanceDetailVo == null || instanceDetailVo.getInstance() == null) {
                 InstanceVo instanceVo = new InstanceVo(0, UserInfoUtil.getUsername(), MissionInstanceState.IN_PROGRESS, missionId, new Date(), null, false, 0);

@@ -29,7 +29,8 @@ export class MissionsPage extends React.Component<UserStoreProps, {}> {
     const store = this.props[STORE_USER];
 
     if (store.loggedIn) {
-      if (store.user.role === UserRole.Requester) {
+      console.log(store.user.role)
+      if (store.user.role === UserRole.ROLE_REQUESTER) {
         return <ImageMissionCreatePage/>;
       } else {
         return <div>

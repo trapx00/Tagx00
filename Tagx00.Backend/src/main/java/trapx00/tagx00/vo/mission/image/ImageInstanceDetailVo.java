@@ -18,6 +18,10 @@ public class ImageInstanceDetailVo extends InstanceDetailVo {
         this.imageResults = imageResults;
     }
 
+    public ImageInstanceDetailVo() {
+
+    }
+
     public ImageInstanceDetailVo(InstanceVo instance, List<ImageResult> imageResults) {
         super(instance);
         this.imageResults = imageResults;

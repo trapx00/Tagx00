@@ -2,8 +2,13 @@ package trapx00.tagx00.vo.mission.missiontype;
 
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
-public class MissionProperties {
+import java.io.Serializable;
+
+public class MissionProperties implements Serializable {
     private MissionType type;
+
+    public MissionProperties() {
+    }
 
     public MissionProperties(MissionType type) {
         this.type = type;

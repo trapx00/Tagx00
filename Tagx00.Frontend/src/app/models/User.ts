@@ -1,7 +1,7 @@
 export enum UserRole {
-  Requester = "ROLE_REQUESTER",
-  Worker = "ROLE_WORKER",
-  Admin = "ROLE_ADMIN"
+  ROLE_REQUESTER = "ROLE_REQUESTER",
+  ROLE_WORKER = "ROLE_WORKER",
+  ROLE_ADMIN = "ROLE_ADMIN"
 }
 
 

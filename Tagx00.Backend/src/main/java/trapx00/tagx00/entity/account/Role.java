@@ -6,7 +6,7 @@ import trapx00.tagx00.entity.annotation.Column;
 public class Role extends Entity {
     public final static String WORKER_NAME = "ROLE_WORKER";
 
-    public final static String REQUESTOR_NAME = "ROLE_REQUESTOR";
+    public final static String REQUESTOR_NAME = "ROLE_REQUESTER";
     public final static Role WORKER = new Role(WORKER_NAME);
     public final static Role REQUESTOR = new Role(REQUESTOR_NAME);
 

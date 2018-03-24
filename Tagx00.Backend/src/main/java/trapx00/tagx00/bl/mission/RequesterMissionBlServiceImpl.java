@@ -1,5 +1,6 @@
 package trapx00.tagx00.bl.mission;
 
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,11 +17,14 @@ import trapx00.tagx00.response.mission.MissionCreateResponse;
 import trapx00.tagx00.security.jwt.JwtService;
 import trapx00.tagx00.security.jwt.JwtUser;
 import trapx00.tagx00.util.UserInfoUtil;
+import trapx00.tagx00.vo.mission.image.ImageMissionProperties;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class RequesterMissionBlServiceImpl implements RequesterMissionBlService {
@@ -47,15 +51,14 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public MissionCreateResponse createMission(MissionCreateVo mission) throws SystemException {
-
         String username = UserInfoUtil.getUsername();
         int missiondId = requesterMissionDataService.saveMission(new Mission(mission.getTitle(), mission.getDescription(),
                 mission.getTopics(), mission.getCustomTag(), mission.getAllowedTags(), mission.getMissionType(),
                 MissionState.PENDING, mission.getStart(),
-                mission.getEnd(), "", UserInfoUtil.getUsername(), mission.getUrls(), mission.getImageMissionType()));
+                mission.getEnd(), "", UserInfoUtil.getUsername(), new ArrayList<>(), ((ImageMissionProperties)mission.getProperties()).getImageMissionTypes()));
         JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
         String token = jwtService.generateToken(jwtUser, EXPIRATION);
-        return new MissionCreateResponse(token, String.valueOf(missiondId));
+        return new MissionCreateResponse(String.valueOf(missiondId), token);
 
 
     }

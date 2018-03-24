@@ -100,7 +100,8 @@ export class WorkerService extends BaseService {
     const res = await this.fetch({
       token: token,
       route: "" + missionId,
-      method: HttpMethod.POST
+      method: HttpMethod.POST,
+      body: detail
     });
 
     return res.ok;

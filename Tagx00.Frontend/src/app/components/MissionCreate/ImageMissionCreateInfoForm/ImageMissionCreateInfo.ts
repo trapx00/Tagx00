@@ -29,7 +29,7 @@ export class ImageMissionCreateInfo {
       },
       start: new Date(),
       end: new Date(Date.now() + 5*24*3600*1000),
-
+      missionType: MissionType.IMAGE
     };
   }
 

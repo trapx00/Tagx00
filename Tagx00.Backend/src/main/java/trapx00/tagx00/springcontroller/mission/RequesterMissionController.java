@@ -15,6 +15,7 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.*;
+import trapx00.tagx00.util.GsonFactory;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 
@@ -46,9 +47,11 @@ public class RequesterMissionController {
             @ApiResponse(code = 401, message = "Unauthorized", response = WrongResponse.class),
             @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
-    public ResponseEntity<Response> createMission(@RequestBody MissionCreateVo mission) {
+    public ResponseEntity<Response> createMission(@RequestBody String mission) {
         try {
-            return new ResponseEntity<>(requesterMissionBlService.createMission(mission), HttpStatus.OK);
+            MissionCreateVo missionCreateVo = GsonFactory.get().fromJson(mission, MissionCreateVo.class);
+            return new ResponseEntity<>(requesterMissionBlService.createMission(missionCreateVo), HttpStatus.OK);
+
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);

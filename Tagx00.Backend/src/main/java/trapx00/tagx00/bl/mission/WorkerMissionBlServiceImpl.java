@@ -8,6 +8,7 @@ import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
 import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
@@ -95,6 +96,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
             workerMissionDataService.saveInstance(instanceVo);
         else {
             instanceVo.getInstance().setSubmitted(true);
+            instanceVo.getInstance().setMissionInstanceState(MissionInstanceState.SUBMITTED);
             workerMissionDataService.saveInstance(instanceVo);
         }
         return new SuccessResponse("Success Save");

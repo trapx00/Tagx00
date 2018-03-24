@@ -18,27 +18,6 @@ public class MissionCreateVo implements Serializable {
     private Date start;
     private Date end;
 
-    public List<String> getUrls() {
-        return urls;
-    }
-
-    public void setUrls(List<String> urls) {
-        this.urls = urls;
-    }
-
-    private List<String> urls;
-
-    public List<ImageMissionType> getImageMissionType() {
-        return imageMissionType;
-    }
-
-    public void setImageMissionType(List<ImageMissionType> imageMissionType) {
-        this.imageMissionType = imageMissionType;
-    }
-
-    private List<ImageMissionType> imageMissionType;
-
-
     public MissionType getMissionType() {
         return missionType;
     }

@@ -1,4 +1,5 @@
 import { MissionProperties } from "../MissionProperties";
+import { MissionType } from "../Mission";
 
 export interface MissionCreate<T extends MissionProperties = MissionProperties> {
   title: string;
@@ -9,4 +10,5 @@ export interface MissionCreate<T extends MissionProperties = MissionProperties> 
   properties: T;
   start: Date;
   end: Date;
+  missionType: MissionType;
 }

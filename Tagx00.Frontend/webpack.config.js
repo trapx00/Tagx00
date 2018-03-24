@@ -154,7 +154,8 @@ module.exports = {
             disableDotRule: true
         },
         stats: 'minimal',
-        open: true
+        open: true,
+        port: 3000
     },
 
 };
