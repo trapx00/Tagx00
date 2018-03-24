@@ -83,6 +83,8 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
       title: '上传成功',
       content: '任务创建成功',
     });
+
+    runInAction(() => this.uploading = false);
   };
 
 
@@ -118,7 +120,7 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
                         maxFileNum={Number.MAX_SAFE_INTEGER}
                         multiple={true}
       />
-      <Button type={"primary"} onClick={this.submit}>
+      <Button type={"primary"} onClick={this.submit} loading={this.uploading}>
         确认
       </Button>
     </Form>

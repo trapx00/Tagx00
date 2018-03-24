@@ -40,7 +40,7 @@ export class AddableInputGroup extends React.Component<Props, any> {
                value={x}
                key={index}
                onChange={(e) => this.onInputChange(e.target.value, index)}
-               addonAfter={<Icon type="minus-circle-o" onClick={() => this.removeOne(index)}/>}
+               addonAfter={this.props.readonly ? null : <Icon type="minus-circle-o" onClick={() => this.removeOne(index)}/>}
         />)
       }
       {this.props.readonly ? null :

@@ -68,7 +68,6 @@ export class WorkerService extends BaseService {
       token: token,
       route: missionId + "",
     });
-    console.log(res.response.detail)
     return res.response.detail as ImageInstanceDetail;
   }
 
@@ -78,8 +77,6 @@ export class WorkerService extends BaseService {
     // return true;
 
     // actual
-
-    console.log(detail)
     const res = await this.fetch({
       token: token,
       route: "" + missionId,
