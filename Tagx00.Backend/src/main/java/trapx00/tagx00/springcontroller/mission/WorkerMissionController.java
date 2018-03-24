@@ -113,7 +113,6 @@ public class WorkerMissionController {
     @ResponseBody
     public ResponseEntity<Response> saveProgress(@RequestBody String instanceDetail, @PathVariable("missionId") String missionId) {
         try {
-
             ImageInstanceDetailVo instanceDetailVo = GsonFactory.get().fromJson(instanceDetail, ImageInstanceDetailVo.class);
             return new ResponseEntity<>(workerMissionBlService.saveProgress(instanceDetailVo), HttpStatus.OK);
         } catch (SystemException e) {
@@ -140,8 +139,9 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> submit(
-            @RequestBody ImageInstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") int missionId) {
+            @RequestBody String instanceDetail, @PathVariable(name = "missionId") int missionId) {
         try {
+            ImageInstanceDetailVo instanceDetailVo = GsonFactory.get().fromJson(instanceDetail, ImageInstanceDetailVo.class);
             if (instanceDetailVo == null || instanceDetailVo.getInstance() == null) {
                 InstanceVo instanceVo = new InstanceVo(0, UserInfoUtil.getUsername(), MissionInstanceState.IN_PROGRESS, missionId, new Date(), null, false, 0);
                 instanceDetailVo.setInstance(instanceVo);
