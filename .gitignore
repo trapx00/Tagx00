@@ -52,3 +52,13 @@
 **/build
 **/dist
 **/node_modules
+Tagx00.Backend/data/instance.txt
+Tagx00.Backend/data/mission.txt
+Tagx00.Backend/data/user.txt
+Tagx00.Backend/data/ser/acceptDate_1
+Tagx00.Backend/data/ser/end_1
+Tagx00.Backend/data/ser/imageMissionType_1
+Tagx00.Backend/data/ser/imageResults_1
+Tagx00.Backend/data/ser/imageUrls_1
+Tagx00.Backend/data/ser/start_1
+Tagx00.Backend/data/ser/submitDate_1

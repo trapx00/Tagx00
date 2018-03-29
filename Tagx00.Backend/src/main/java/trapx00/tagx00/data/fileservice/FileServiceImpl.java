@@ -9,6 +9,7 @@ import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.exception.daoexception.IdDoesNotExistException;
 import trapx00.tagx00.util.AnnotationUtil;
 import trapx00.tagx00.util.PathUtil;
+import trapx00.tagx00.util.ReflectionUtil;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -37,7 +38,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
         Field idField = null;
 
         //将json的key变为column的name,建立序列化文件
-        Field[] fields = clazz.getDeclaredFields();
+        Field[] fields = ReflectionUtil.getAllFields(clazz);
         ArrayList<String> columns = AnnotationUtil.getAllColumnName(clazz);
         for (int i = 0; i < columns.size(); i++) {
             if (fields[i].getAnnotation(Id.class) != null) {
@@ -140,7 +141,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
         String columnName = methodName.split("By")[1];
         columnName = columnName.replaceFirst(columnName.substring(0, 1), columnName.substring(0, 1).toLowerCase());
         try {
-            columnName = clazz.getDeclaredField(columnName).getAnnotation(Column.class).name();
+            columnName = ReflectionUtil.getAllField(clazz, columnName).getAnnotation(Column.class).name();
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
@@ -190,7 +191,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
             e.printStackTrace();
         }
 
-        Field[] fields = clazz.getDeclaredFields();
+        Field[] fields = ReflectionUtil.getAllFields(clazz);
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getAnnotation(JsonSerialize.class) != null) {
                 String serFileName = PathUtil.getSerPath() + fields[i].getAnnotation(Column.class).name() + "_" + id;
@@ -225,7 +226,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
         String columnName = methodName.split("By")[1];
         columnName = columnName.replaceFirst(columnName.substring(0, 1), columnName.substring(0, 1).toLowerCase());
         try {
-            columnName = clazz.getDeclaredField(columnName).getAnnotation(Column.class).name();
+            columnName = ReflectionUtil.getAllField(clazz, columnName).getAnnotation(Column.class).name();
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
@@ -274,7 +275,7 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
     private T fromJsonToObject(JSONObject jsonObject, Class<T> clazz) {
         try {
             T t = clazz.newInstance();
-            Field[] fields = clazz.getDeclaredFields();
+            Field[] fields = ReflectionUtil.getAllFields(clazz);
             ArrayList<String> columns = AnnotationUtil.getAllColumnName(clazz);
             String idName = "";
             for (int i = 0; i < columns.size(); i++) {
