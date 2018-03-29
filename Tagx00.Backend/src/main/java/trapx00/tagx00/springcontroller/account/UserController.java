@@ -4,8 +4,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.account.UserBlService;
@@ -30,10 +29,11 @@ public class UserController {
         this.userBlService = userBlService;
     }
 
+    @PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "')")
     @RequestMapping(value = "account/try", method = RequestMethod.GET)
     @ResponseBody
     public String trial(@RequestParam("username") String username) {
-        System.out.println(((UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getName());
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
         return (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
     }
 

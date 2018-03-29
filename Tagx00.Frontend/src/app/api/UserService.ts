@@ -3,7 +3,7 @@ import { HttpMethod } from "./utils";
 
 export interface LoginResult {
   token: string,
-  jwtRoles: {authority: string}[];
+  jwtRoles: { authority: string }[];
   email: string;
 }
 

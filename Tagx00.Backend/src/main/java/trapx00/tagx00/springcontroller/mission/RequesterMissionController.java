@@ -9,14 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
-import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
-import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
-import trapx00.tagx00.response.mission.*;
-import trapx00.tagx00.util.GsonFactory;
-import trapx00.tagx00.util.UserInfoUtil;
+import trapx00.tagx00.response.mission.InstanceDetailResponse;
+import trapx00.tagx00.response.mission.InstanceResponse;
+import trapx00.tagx00.response.mission.MissionCreateResponse;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 
 @PreAuthorize(value = "hasRole('" + Role.REQUESTOR_NAME + "')")
@@ -47,11 +45,9 @@ public class RequesterMissionController {
             @ApiResponse(code = 401, message = "Unauthorized", response = WrongResponse.class),
             @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
-    public ResponseEntity<Response> createMission(@RequestBody String mission) {
+    public ResponseEntity<Response> createMission(@RequestBody MissionCreateVo missionCreateVo) {
         try {
-            MissionCreateVo missionCreateVo = GsonFactory.get().fromJson(mission, MissionCreateVo.class);
             return new ResponseEntity<>(requesterMissionBlService.createMission(missionCreateVo), HttpStatus.OK);
-
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
