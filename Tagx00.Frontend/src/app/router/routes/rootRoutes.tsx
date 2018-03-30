@@ -45,7 +45,7 @@ export const browsePage: RouteConfig = new NormalPageConfig({
 export const registerPage: RouteConfig = new NormalPageConfig( {
   path: "/register",
   render: async (props) => {
-    const RegisterPage = (await import("../../pages/Register")).RegisterPage;
+    const RegisterPage = (await import("../../pages/RegisterPage")).RegisterPage;
     return <RegisterPage/>;
   },
 });
