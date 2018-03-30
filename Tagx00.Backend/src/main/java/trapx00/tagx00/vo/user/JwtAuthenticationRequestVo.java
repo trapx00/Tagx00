@@ -1,8 +1,13 @@
 package trapx00.tagx00.vo.user;
 
-public class JwtAuthenticationRequestVo {
+import java.io.Serializable;
+
+public class JwtAuthenticationRequestVo implements Serializable {
     private String username;
     private String password;
+
+    public JwtAuthenticationRequestVo() {
+    }
 
     public JwtAuthenticationRequestVo(String username, String password) {
         this.username = username;

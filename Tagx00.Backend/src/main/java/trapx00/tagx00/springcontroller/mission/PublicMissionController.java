@@ -1,8 +1,6 @@
 package trapx00.tagx00.springcontroller.mission;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +24,10 @@ public class PublicMissionController {
     }
 
     @ApiOperation(value = "获得所有任务", notes = "获得本站所有现有有的任务信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageSize", value = "页面信息数", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "pageNumber", value = "页数", required = true, dataType = "int"),
+    })
     @RequestMapping(value = "/mission", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success", response = MissionPublicResponse.class)
@@ -41,8 +43,12 @@ public class PublicMissionController {
 
     }
 
-    @PreAuthorize(value = "hasRole('" + Role.REQUESTOR_NAME + "') or hasRole('" + Role.WORKER_NAME + "')")
+    @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
+    @Authorization(value = "工人、发布者、管理员")
     @ApiOperation(value = "获得某一任务", notes = "获得某个任务信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
+    })
     @RequestMapping(value = "/mission/{missionId}", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success", response = MissionDetailResponse.class),

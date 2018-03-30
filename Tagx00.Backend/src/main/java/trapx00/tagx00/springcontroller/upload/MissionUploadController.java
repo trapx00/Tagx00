@@ -15,7 +15,7 @@ import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.upload.UploadMissionImageResponse;
 
-@PreAuthorize(value = "hasRole('" + Role.REQUESTOR_NAME + "')")
+@PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "')")
 @RestController
 public class MissionUploadController {
     private final MissionUploadBlService missionUploadBlService;

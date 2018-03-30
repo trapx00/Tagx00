@@ -9,8 +9,11 @@ import java.util.List;
 public class ImageMissionPublicItemVo extends MissionPublicItemVo {
     public List<ImageMissionType> missionTypes;
 
-    public ImageMissionPublicItemVo(int missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, Date start, Date end, String coverUrl, String requesterUsername) {
-        super(missionId, title, description, topics, allowCustomTag, allowedTags, MissionType.IMAGE, start, end, coverUrl, requesterUsername);
+    public ImageMissionPublicItemVo() {
+    }
+
+    public ImageMissionPublicItemVo(int missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, String requesterUsername) {
+        super(missionId, title, description, topics, allowCustomTag, allowedTags, missionType, start, end, coverUrl, requesterUsername);
     }
 
     public List<ImageMissionType> getMissionTypes() {

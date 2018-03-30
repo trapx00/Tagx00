@@ -19,7 +19,7 @@ import trapx00.tagx00.response.mission.requester.MissionChargeResponse;
 import trapx00.tagx00.response.mission.requester.MissionRequestQueryResponse;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 
-@PreAuthorize(value = "hasRole('" + Role.REQUESTOR_NAME + "')")
+@PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "')")
 @RestController
 public class RequesterMissionController {
     private final RequesterMissionBlService requesterMissionBlService;
@@ -39,7 +39,10 @@ public class RequesterMissionController {
             @ApiImplicitParam(name = "allowedTags", value = "允许的标注", required = true, dataType = "List<String>"),
             @ApiImplicitParam(name = "missionVo", value = "任务种类", required = true, dataType = "MissionVo"),
             @ApiImplicitParam(name = "start", value = "开始时间", required = true, dataType = "Date"),
-            @ApiImplicitParam(name = "end", value = "结束时间", required = true, dataType = "Date")
+            @ApiImplicitParam(name = "end", value = "结束时间", required = true, dataType = "Date"),
+            @ApiImplicitParam(name = "level", value = "任务等级", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "credits", value = "积分", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "minimalWorkerLevel", value = "需求的用户最低等级", required = true, dataType = "int")
     })
     @RequestMapping(value = "/mission", method = RequestMethod.POST)
     @ApiResponses(value = {
@@ -58,32 +61,38 @@ public class RequesterMissionController {
 
     @Authorization(value = "发布者")
     @ApiOperation(value = "给任务充值", notes = "发布者在任务发布后给任务充值")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "credits", value = "积分", required = true, dataType = "int"),
+    })
     @RequestMapping(value = "/mission/requester/{missionId}", method = RequestMethod.PATCH)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = MissionChargeResponse.class),
-        @ApiResponse(code = 400, message = "mission not active or remaining credits not enough", response = WrongResponse.class),
-        @ApiResponse(code = 401, message = "Unauthorized", response = WrongResponse.class),
-        @ApiResponse(code = 403, message = "not requester of the mission", response = WrongResponse.class),
-        @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class),
-        @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
+            @ApiResponse(code = 200, message = "Success", response = MissionChargeResponse.class),
+            @ApiResponse(code = 400, message = "mission not active or remaining credits not enough", response = WrongResponse.class),
+            @ApiResponse(code = 401, message = "Unauthorized", response = WrongResponse.class),
+            @ApiResponse(code = 403, message = "not requester of the mission", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class),
+            @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
-    public ResponseEntity<Response> chargeMission(@PathVariable("missionId")int missionId, @RequestParam("credits")int credits) {
+    public ResponseEntity<Response> chargeMission(@PathVariable("missionId") int missionId, @RequestParam("credits") int credits) {
         return null;
     }
 
 
-
     @Authorization(value = "发布者")
     @ApiOperation(value = "查看剩余积分", notes = "查看剩余积分")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
+    })
     @RequestMapping(value = "/mission/requester/{missionId}", method = RequestMethod.GET)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = MissionRequestQueryResponse.class),
-        @ApiResponse(code = 401, message = "Unauthorized", response = WrongResponse.class),
-        @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class),
-        @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
+            @ApiResponse(code = 200, message = "Success", response = MissionRequestQueryResponse.class),
+            @ApiResponse(code = 401, message = "Unauthorized", response = WrongResponse.class),
+            @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> queryMission(@PathVariable("missionId")String missionId) {
+    public ResponseEntity<Response> queryMission(@PathVariable("missionId") String missionId) {
         return null;
     }
 
@@ -178,16 +187,16 @@ public class RequesterMissionController {
     @Authorization(value = "发布者")
     @ApiOperation(value = "评价任务实例", notes = "评价任务示例并结束实例")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path"),
-        @ApiImplicitParam(name = "instanceId", value = "实例ID", required = true, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path"),
+            @ApiImplicitParam(name = "instanceId", value = "实例ID", required = true, dataType = "int", paramType = "path")
     })
     @RequestMapping(value = "/mission/requester/{missionId}/instances/{instanceId}", method = RequestMethod.POST)
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Complete", response = InstanceDetailResponse.class),
-        @ApiResponse(code = 400, message = "Instance not submitted"),
-        @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
-        @ApiResponse(code = 403, message = "Not requester or not the author of the mission", response = WrongResponse.class),
-        @ApiResponse(code = 404, message = "mission or instance not found", response = WrongResponse.class)
+            @ApiResponse(code = 200, message = "Complete", response = InstanceDetailResponse.class),
+            @ApiResponse(code = 400, message = "Instance not submitted"),
+            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
+            @ApiResponse(code = 403, message = "Not requester or not the author of the mission", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "mission or instance not found", response = WrongResponse.class)
     })
     @ResponseBody
     public ResponseEntity<Response> finalize(@PathVariable("missionId") int missionId, @PathVariable("instanceId") int instanceId) {

@@ -34,7 +34,6 @@ public class UserController {
     @RequestMapping(value = "account/try", method = RequestMethod.GET)
     @ResponseBody
     public String trial(@RequestParam("username") String username) {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
         return (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
     }
 
@@ -88,14 +87,19 @@ public class UserController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, path="account/register/validate", produces = "application/json")
+    @ApiOperation(value = "用户注册邮箱验证码认证", notes = "验证用户输入的验证码是否是正确的邮箱验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "token", value = "token", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "code", value = "验证码", required = true, dataType = "String"),
+    })
+    @RequestMapping(method = RequestMethod.POST, path = "account/register/validate", produces = "application/json")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message="Success", response = UserRegisterConfirmationResponse.class),
-        @ApiResponse(code = 400, message = "Code doesn't match", response = WrongResponse.class),
-        @ApiResponse(code = 404, message = "token out of time", response = WrongResponse.class)
+            @ApiResponse(code = 200, message = "Success", response = UserRegisterConfirmationResponse.class),
+            @ApiResponse(code = 400, message = "Code doesn't match", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "token out of time", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> registerValidate(@RequestParam("token")String token, @RequestParam("code")String code) {
+    public ResponseEntity<Response> registerValidate(@RequestParam("token") String token, @RequestParam("code") String code) {
         return null;
     }
 }

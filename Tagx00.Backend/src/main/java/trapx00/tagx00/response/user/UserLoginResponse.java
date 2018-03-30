@@ -10,6 +10,9 @@ public class UserLoginResponse extends Response {
     private Collection<JwtRole> jwtRoles;
     private String email;
 
+    public UserLoginResponse() {
+    }
+
     public UserLoginResponse(String token, Collection<JwtRole> jwtRoles, String email) {
         this.token = token;
         this.jwtRoles = jwtRoles;

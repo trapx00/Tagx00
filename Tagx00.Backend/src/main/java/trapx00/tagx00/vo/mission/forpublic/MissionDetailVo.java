@@ -14,6 +14,9 @@ public abstract class MissionDetailVo implements Serializable {
         this.missionState = missionState;
     }
 
+    protected MissionDetailVo() {
+    }
+
     public MissionPublicItemVo getPublicItem() {
         return publicItem;
     }

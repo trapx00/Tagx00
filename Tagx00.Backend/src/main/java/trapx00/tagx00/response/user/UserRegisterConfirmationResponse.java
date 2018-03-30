@@ -2,12 +2,16 @@ package trapx00.tagx00.response.user;
 
 import trapx00.tagx00.security.jwt.JwtRole;
 
+import java.io.Serializable;
 import java.util.Collection;
 
-public class UserRegisterConfirmationResponse {
+public class UserRegisterConfirmationResponse implements Serializable {
     private String token;
     private Collection<JwtRole> jwtRoles;
     private String email;
+
+    public UserRegisterConfirmationResponse() {
+    }
 
     public UserRegisterConfirmationResponse(String token, Collection<JwtRole> jwtRoles, String email) {
         this.token = token;

@@ -15,6 +15,9 @@ public class MissionInstanceItemVo implements Serializable {
     private int completedCount;
     private int totalCount;
 
+    public MissionInstanceItemVo() {
+    }
+
     public MissionInstanceItemVo(int missionId, String workerUsername, MissionInstanceState state, Date acceptDate, Date submitDate, int completedCount, int totalCount) {
         this.missionId = missionId;
         this.workerUsername = workerUsername;
