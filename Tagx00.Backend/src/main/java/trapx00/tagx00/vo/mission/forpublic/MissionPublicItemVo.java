@@ -17,6 +17,33 @@ public class MissionPublicItemVo implements Serializable {
     private Date start;
     private Date end;
     private String coverUrl;
+    private int level;
+    private int credits;
+    private int minimalWorkerLevel;
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
+    public int getMinimalWorkerLevel() {
+        return minimalWorkerLevel;
+    }
+
+    public void setMinimalWorkerLevel(int minimalWorkerLevel) {
+        this.minimalWorkerLevel = minimalWorkerLevel;
+    }
 
     public int getMissionId() {
         return missionId;

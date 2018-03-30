@@ -31,7 +31,7 @@ public class PublicMissionController {
             @ApiResponse(code = 200, message = "Success", response = MissionPublicResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> getMissions() {
+    public ResponseEntity<Response> getMissions(@RequestParam("pageSize") Integer pageSize, @RequestParam("pageNumber") Integer pageNumber) {
         try {
             return new ResponseEntity(publicMissionBlService.getAllMissions(), HttpStatus.OK);
         } catch (NotMissionException e) {

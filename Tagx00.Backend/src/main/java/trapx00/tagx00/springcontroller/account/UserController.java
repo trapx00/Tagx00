@@ -15,6 +15,7 @@ import trapx00.tagx00.exception.viewexception.WrongUsernameOrPasswordException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.user.UserLoginResponse;
+import trapx00.tagx00.response.user.UserRegisterConfirmationResponse;
 import trapx00.tagx00.response.user.UserRegisterResponse;
 import trapx00.tagx00.vo.user.UserSaveVo;
 
@@ -85,5 +86,16 @@ public class UserController {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path="account/register/validate", produces = "application/json")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message="Success", response = UserRegisterConfirmationResponse.class),
+        @ApiResponse(code = 400, message = "Code doesn't match", response = WrongResponse.class),
+        @ApiResponse(code = 404, message = "token out of time", response = WrongResponse.class)
+    })
+    @ResponseBody
+    public ResponseEntity<Response> registerValidate(@RequestParam("token")String token, @RequestParam("code")String code) {
+        return null;
     }
 }

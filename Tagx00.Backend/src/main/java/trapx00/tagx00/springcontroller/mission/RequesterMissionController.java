@@ -15,6 +15,8 @@ import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.response.mission.MissionCreateResponse;
+import trapx00.tagx00.response.mission.requester.MissionChargeResponse;
+import trapx00.tagx00.response.mission.requester.MissionRequestQueryResponse;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 
 @PreAuthorize(value = "hasRole('" + Role.REQUESTOR_NAME + "')")
@@ -52,6 +54,37 @@ public class RequesterMissionController {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
+    }
+
+    @Authorization(value = "发布者")
+    @ApiOperation(value = "给任务充值", notes = "发布者在任务发布后给任务充值")
+    @RequestMapping(value = "/mission/requester/{missionId}", method = RequestMethod.PATCH)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success", response = MissionChargeResponse.class),
+        @ApiResponse(code = 400, message = "mission not active or remaining credits not enough", response = WrongResponse.class),
+        @ApiResponse(code = 401, message = "Unauthorized", response = WrongResponse.class),
+        @ApiResponse(code = 403, message = "not requester of the mission", response = WrongResponse.class),
+        @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class),
+        @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
+    @ResponseBody
+    public ResponseEntity<Response> chargeMission(@PathVariable("missionId")int missionId, @RequestParam("credits")int credits) {
+        return null;
+    }
+
+
+
+    @Authorization(value = "发布者")
+    @ApiOperation(value = "查看剩余积分", notes = "查看剩余积分")
+    @RequestMapping(value = "/mission/requester/{missionId}", method = RequestMethod.GET)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success", response = MissionRequestQueryResponse.class),
+        @ApiResponse(code = 401, message = "Unauthorized", response = WrongResponse.class),
+        @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class),
+        @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
+    })
+    @ResponseBody
+    public ResponseEntity<Response> queryMission(@PathVariable("missionId")String missionId) {
+        return null;
     }
 
     // /mission?requesterUsername=""
@@ -133,6 +166,31 @@ public class RequesterMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> queryInstance(@PathVariable("missionId") int missionId, @PathVariable("instanceId") int instanceId) {
+        try {
+            return new ResponseEntity<>(requesterMissionBlService.queryInstance(instanceId), HttpStatus.OK);
+        } catch (InstanceNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
+        }
+    }
+
+
+    @Authorization(value = "发布者")
+    @ApiOperation(value = "评价任务实例", notes = "评价任务示例并结束实例")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path"),
+        @ApiImplicitParam(name = "instanceId", value = "实例ID", required = true, dataType = "int", paramType = "path")
+    })
+    @RequestMapping(value = "/mission/requester/{missionId}/instances/{instanceId}", method = RequestMethod.POST)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Complete", response = InstanceDetailResponse.class),
+        @ApiResponse(code = 400, message = "Instance not submitted"),
+        @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
+        @ApiResponse(code = 403, message = "Not requester or not the author of the mission", response = WrongResponse.class),
+        @ApiResponse(code = 404, message = "mission or instance not found", response = WrongResponse.class)
+    })
+    @ResponseBody
+    public ResponseEntity<Response> finalize(@PathVariable("missionId") int missionId, @PathVariable("instanceId") int instanceId) {
         try {
             return new ResponseEntity<>(requesterMissionBlService.queryInstance(instanceId), HttpStatus.OK);
         } catch (InstanceNotExistException e) {

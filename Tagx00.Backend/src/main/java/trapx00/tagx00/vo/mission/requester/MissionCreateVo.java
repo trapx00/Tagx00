@@ -17,6 +17,9 @@ public class MissionCreateVo implements Serializable {
     private MissionProperties properties;
     private Date start;
     private Date end;
+    private int level;
+    private int credits;
+    private int minimalWorkerLevel;
 
     public MissionType getMissionType() {
         return missionType;
