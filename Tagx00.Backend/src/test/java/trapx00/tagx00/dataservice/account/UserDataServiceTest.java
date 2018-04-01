@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import trapx00.tagx00.dataservice.UserDataService;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -30,7 +29,7 @@ public class UserDataServiceTest {
     public void tearDown() throws Exception {
     }
 
-    private final User user = new User("999", "999", "test@tagx00.ml", Arrays.asList(Role.REQUESTOR));
+    private final User user = new User("999", "999", "test@tagx00.ml", Arrays.asList(Role.REQUESTER));
 
     @Test
     public void saveUser() {

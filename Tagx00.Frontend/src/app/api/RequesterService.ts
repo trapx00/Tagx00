@@ -17,12 +17,11 @@ export class RequesterService extends BaseService {
     // };
 
 
-
     const res = await this.fetch({
       route: "/mission",
       method: HttpMethod.POST,
       body: createVo,
-      token
+      token: token
     });
 
     return res.response;
@@ -39,9 +38,9 @@ export class RequesterService extends BaseService {
     const res = await this.sendFile(
       formData,
       `/upload/mission/image/${missionId}`,
-      { order, isCover},
-      { "Authorization": "Bearer "+ token}
-      );
+      {order, isCover},
+      {"Authorization": "Bearer " + token}
+    );
 
     return res.response;
   }

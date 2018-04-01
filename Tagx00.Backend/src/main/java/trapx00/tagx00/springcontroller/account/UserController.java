@@ -4,8 +4,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.account.UserBlService;
@@ -16,6 +15,7 @@ import trapx00.tagx00.exception.viewexception.WrongUsernameOrPasswordException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.user.UserLoginResponse;
+import trapx00.tagx00.response.user.UserRegisterConfirmationResponse;
 import trapx00.tagx00.response.user.UserRegisterResponse;
 import trapx00.tagx00.vo.user.UserSaveVo;
 
@@ -30,10 +30,10 @@ public class UserController {
         this.userBlService = userBlService;
     }
 
+    @PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "')")
     @RequestMapping(value = "account/try", method = RequestMethod.GET)
     @ResponseBody
     public String trial(@RequestParam("username") String username) {
-        System.out.println(((UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getName());
         return (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
     }
 
@@ -85,5 +85,21 @@ public class UserController {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
+    }
+
+    @ApiOperation(value = "用户注册邮箱验证码认证", notes = "验证用户输入的验证码是否是正确的邮箱验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "token", value = "token", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "code", value = "验证码", required = true, dataType = "String"),
+    })
+    @RequestMapping(method = RequestMethod.POST, path = "account/register/validate", produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success", response = UserRegisterConfirmationResponse.class),
+            @ApiResponse(code = 400, message = "Code doesn't match", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "token out of time", response = WrongResponse.class)
+    })
+    @ResponseBody
+    public ResponseEntity<Response> registerValidate(@RequestParam("token") String token, @RequestParam("code") String code) {
+        return null;
     }
 }

@@ -1,7 +1,6 @@
 package trapx00.tagx00.vo.mission.requester;
 
 import trapx00.tagx00.publicdatas.mission.MissionType;
-import trapx00.tagx00.vo.mission.image.ImageMissionType;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
 import java.io.Serializable;
@@ -17,6 +16,27 @@ public class MissionCreateVo implements Serializable {
     private MissionProperties properties;
     private Date start;
     private Date end;
+    private int level;
+    private int credits;
+    private int minimalWorkerLevel;
+
+    public MissionCreateVo() {
+    }
+
+    public MissionCreateVo(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionProperties properties, Date start, Date end, int level, int credits, int minimalWorkerLevel, MissionType missionType) {
+        this.title = title;
+        this.description = description;
+        this.topics = topics;
+        this.allowCustomTag = allowCustomTag;
+        this.allowedTags = allowedTags;
+        this.properties = properties;
+        this.start = start;
+        this.end = end;
+        this.level = level;
+        this.credits = credits;
+        this.minimalWorkerLevel = minimalWorkerLevel;
+        this.missionType = missionType;
+    }
 
     public MissionType getMissionType() {
         return missionType;
@@ -100,4 +120,27 @@ public class MissionCreateVo implements Serializable {
         this.allowCustomTag = allowCustomTag;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
+    public int getMinimalWorkerLevel() {
+        return minimalWorkerLevel;
+    }
+
+    public void setMinimalWorkerLevel(int minimalWorkerLevel) {
+        this.minimalWorkerLevel = minimalWorkerLevel;
+    }
 }

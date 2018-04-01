@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.account.UserBlService;
-import trapx00.tagx00.dataservice.UserDataService;
+import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserAlreadyExistsException;

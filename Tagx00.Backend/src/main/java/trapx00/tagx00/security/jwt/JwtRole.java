@@ -8,7 +8,7 @@ import trapx00.tagx00.entity.account.Role;
 public class JwtRole implements GrantedAuthority {
 
     public static final JwtRole WORKER = new JwtRole(Role.WORKER.getName());
-    public static final JwtRole REQUESTOR = new JwtRole(Role.REQUESTOR.getName());
+    public static final JwtRole REQUESTOR = new JwtRole(Role.REQUESTER.getName());
 
     private String roleName;
 

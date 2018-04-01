@@ -13,7 +13,7 @@ import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import trapx00.tagx00.dataservice.UserDataService;
+import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.Response;

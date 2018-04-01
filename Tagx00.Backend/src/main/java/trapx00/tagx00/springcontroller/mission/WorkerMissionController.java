@@ -18,7 +18,6 @@ import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
-import trapx00.tagx00.util.GsonFactory;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
@@ -111,9 +110,8 @@ public class WorkerMissionController {
             @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> saveProgress(@RequestBody String instanceDetail, @PathVariable("missionId") String missionId) {
+    public ResponseEntity<Response> saveProgress(@RequestBody ImageInstanceDetailVo instanceDetailVo, @PathVariable("missionId") String missionId) {
         try {
-            ImageInstanceDetailVo instanceDetailVo = GsonFactory.get().fromJson(instanceDetail, ImageInstanceDetailVo.class);
             return new ResponseEntity<>(workerMissionBlService.saveProgress(instanceDetailVo), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
@@ -139,9 +137,8 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> submit(
-            @RequestBody String instanceDetail, @PathVariable(name = "missionId") int missionId) {
+            @RequestBody ImageInstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") int missionId) {
         try {
-            ImageInstanceDetailVo instanceDetailVo = GsonFactory.get().fromJson(instanceDetail, ImageInstanceDetailVo.class);
             if (instanceDetailVo == null || instanceDetailVo.getInstance() == null) {
                 InstanceVo instanceVo = new InstanceVo(0, UserInfoUtil.getUsername(), MissionInstanceState.IN_PROGRESS, missionId, new Date(), null, false, 0);
                 instanceDetailVo.setInstance(instanceVo);

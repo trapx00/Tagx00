@@ -2,13 +2,17 @@ package trapx00.tagx00.vo.user;
 
 import trapx00.tagx00.entity.account.Role;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class UserSaveVo {
+public class UserSaveVo implements Serializable {
     private String username;
     private String password;
     private String email;
     private List<Role> roles;
+
+    public UserSaveVo() {
+    }
 
     public UserSaveVo(String username, String password, String email, List<Role> roles) {
         this.username = username;

@@ -14,7 +14,6 @@ import { ImageMissionCreateInfoForm } from "../../components/MissionCreate/Image
 import { ImageMissionCreatePage } from "./ImageMissionCreatePage";
 
 
-
 @inject(STORE_USER)
 @observer
 export class MissionsPage extends React.Component<UserStoreProps, {}> {
@@ -29,7 +28,7 @@ export class MissionsPage extends React.Component<UserStoreProps, {}> {
     const store = this.props[STORE_USER];
 
     if (store.loggedIn) {
-      console.log(store.user.role)
+      console.log(store.user.role);
       if (store.user.role === UserRole.ROLE_REQUESTER) {
         return <ImageMissionCreatePage/>;
       } else {
@@ -38,7 +37,6 @@ export class MissionsPage extends React.Component<UserStoreProps, {}> {
           <AsyncComponent render={this.renderList} componentWhenLoading={<Loading/>}/>
         </div>;
       }
-
     } else {
       return "login first";
     }

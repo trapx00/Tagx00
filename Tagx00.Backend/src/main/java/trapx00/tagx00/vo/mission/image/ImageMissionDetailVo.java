@@ -12,6 +12,14 @@ public class ImageMissionDetailVo extends MissionDetailVo {
 
     private List<ImageMissionType> imageMissionTypes;
 
+    public ImageMissionDetailVo() {
+    }
+
+    public ImageMissionDetailVo(List<String> imageUrls, List<ImageMissionType> imageMissionTypes) {
+        this.imageUrls = imageUrls;
+        this.imageMissionTypes = imageMissionTypes;
+    }
+
     public ImageMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, List<String> imageUrls, List<ImageMissionType> imageMissionTypes) {
         super(publicItem, missionState);
         this.imageUrls = imageUrls;

@@ -8,6 +8,13 @@ import java.util.List;
 public class ImageMissionProperties extends MissionProperties {
     private List<ImageMissionType> imageMissionTypes;
 
+    public ImageMissionProperties() {
+    }
+
+    public ImageMissionProperties(List<ImageMissionType> imageMissionTypes) {
+        this.imageMissionTypes = imageMissionTypes;
+    }
+
     public ImageMissionProperties(MissionType type, List<ImageMissionType> imageMissionTypes) {
         super(type);
         this.imageMissionTypes = imageMissionTypes;

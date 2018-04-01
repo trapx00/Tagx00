@@ -1,4 +1,4 @@
-package trapx00.tagx00.util;
+package trapx00.tagx00.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
