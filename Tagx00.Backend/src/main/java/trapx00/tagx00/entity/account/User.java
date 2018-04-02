@@ -1,8 +1,11 @@
 package trapx00.tagx00.entity.account;
 
 
-import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.entity.Entity;
+import trapx00.tagx00.entity.annotation.Column;
+import trapx00.tagx00.entity.annotation.ElementCollection;
+import trapx00.tagx00.entity.annotation.Id;
+import trapx00.tagx00.entity.annotation.Table;
 
 import java.util.List;
 
@@ -18,15 +21,18 @@ public class User extends Entity {
     @ElementCollection(targetClass = Role.class)
     @Column(name = "roles")
     private List<Role> roles;
+    @Column(name = "validationCode")
+    private String validationCode;
 
     public User() {
     }
 
-    public User(String username, String password, String email, List<Role> roles) {
+    public User(String username, String password, String email, List<Role> roles, String validationCode) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.roles = roles;
+        this.validationCode = validationCode;
     }
 
     public String getUsername() {
@@ -59,5 +65,13 @@ public class User extends Entity {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getValidationCode() {
+        return validationCode;
+    }
+
+    public void setValidationCode(String validationCode) {
+        this.validationCode = validationCode;
     }
 }

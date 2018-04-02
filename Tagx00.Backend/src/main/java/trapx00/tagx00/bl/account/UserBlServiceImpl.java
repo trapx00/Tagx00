@@ -12,6 +12,7 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserAlreadyExistsException;
 import trapx00.tagx00.exception.viewexception.WrongUsernameOrPasswordException;
 import trapx00.tagx00.response.user.UserLoginResponse;
+import trapx00.tagx00.response.user.UserRegisterConfirmationResponse;
 import trapx00.tagx00.response.user.UserRegisterResponse;
 import trapx00.tagx00.security.jwt.JwtRole;
 import trapx00.tagx00.security.jwt.JwtService;
@@ -58,10 +59,20 @@ public class UserBlServiceImpl implements UserBlService {
             JwtUser jwtUser = jwtService.convertUserToJwtUser(user);
             userDataService.saveUser(user);
             String token = jwtService.generateToken(jwtUser, EXPIRATION);
-            String email = jwtUser.getEmail();
-            Collection<JwtRole> jwtRoles = jwtUser.getAuthorities();
-            return new UserRegisterResponse(token, jwtRoles, email);
+            return new UserRegisterResponse(token);
         }
+    }
+
+    /**
+     * confirm user's validation code
+     *
+     * @param token the user's token
+     * @param code  the validation code
+     * @return the register confirmation info to response
+     */
+    @Override
+    public UserRegisterConfirmationResponse registerValidate(String token, String code) {
+        return null;
     }
 
     /**
