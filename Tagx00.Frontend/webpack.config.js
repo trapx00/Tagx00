@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 // variables
 const isProduction = process.argv.indexOf('-p') >= 0;
@@ -12,6 +11,8 @@ const moment = require("moment");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const tsImportPluginFactory = require('ts-import-plugin');
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const buildTime = moment();
 
 
@@ -50,9 +51,6 @@ const prodPlugins = [
     new webpack.DefinePlugin({
         APIROOTURL: JSON.stringify("http://localhost:8080/"),
     }),
-
-    new UglifyJSPlugin(),
-
 ];
 
 const plugins = basePlugins.concat(isProduction ? prodPlugins : devPlugins);
@@ -144,7 +142,16 @@ module.exports = {
                 }
             }
         },
-        runtimeChunk: true
+        runtimeChunk: true,
+        minimizer: isProduction
+          ? [
+            new UglifyJSPlugin({
+                cache: true,
+                parallel: true,
+                sourceMap: true // set to true if you want JS source maps
+            }),
+            new OptimizeCSSAssetsPlugin({})]
+          : []
     },
     devServer: {
         contentBase: sourcePath,
