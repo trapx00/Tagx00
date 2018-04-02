@@ -9,6 +9,7 @@ import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
+import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 import java.util.Arrays;
 
@@ -23,22 +24,6 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
 
     }
 
-    /**
-     * get All missions
-     *
-     * @return the list of MissionPublicItemVo
-     */
-    @Override
-    public MissionPublicResponse getAllMissions() throws NotMissionException {
-
-        MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
-        if (missionPublicItemVos == null) {
-            throw new NotMissionException();
-        }
-
-        return new MissionPublicResponse(Arrays.asList(missionPublicItemVos));
-    }
-
     @Override
     public MissionDetailResponse getOneMissionDetail(int missionId) throws NotMissionException {
 
@@ -46,5 +31,21 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         if (missionDetailVos == null)
             throw new NotMissionException();
         return new MissionDetailResponse(missionDetailVos);
+    }
+
+    /**
+     * get All missions
+     *
+     * @return the list of MissionPublicItemVo
+     */
+    @Override
+    public MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo)throws NotMissionException {
+
+        MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
+        if (missionPublicItemVos == null) {
+            throw new NotMissionException();
+        }
+
+        return new MissionPublicResponse();
     }
 }

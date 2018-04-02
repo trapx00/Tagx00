@@ -5,6 +5,7 @@ import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameExc
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.mission.*;
+import trapx00.tagx00.response.mission.requester.MissionChargeResponse;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 
 public interface RequesterMissionBlService {
@@ -33,6 +34,9 @@ public interface RequesterMissionBlService {
      * @return the detail response with instance of a mission
      */
     InstanceDetailResponse queryInstance(int instanceId)throws InstanceNotExistException;
+
+
+    MissionChargeResponse chargeMission(int missionId, int credits);
 
 }
 

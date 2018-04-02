@@ -13,6 +13,7 @@ import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
+import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 @RestController
 public class PublicMissionController {
@@ -35,7 +36,7 @@ public class PublicMissionController {
     @ResponseBody
     public ResponseEntity<Response> getMissions(@RequestParam("pageSize") Integer pageSize, @RequestParam("pageNumber") Integer pageNumber) {
         try {
-            return new ResponseEntity(publicMissionBlService.getAllMissions(), HttpStatus.OK);
+            return new ResponseEntity(publicMissionBlService.getMissions(new PagingQueryVo()), HttpStatus.OK);
         } catch (NotMissionException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
