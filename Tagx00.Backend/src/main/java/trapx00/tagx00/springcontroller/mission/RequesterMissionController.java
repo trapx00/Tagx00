@@ -18,6 +18,7 @@ import trapx00.tagx00.response.mission.MissionCreateResponse;
 import trapx00.tagx00.response.mission.requester.MissionChargeResponse;
 import trapx00.tagx00.response.mission.requester.MissionRequestQueryResponse;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
+import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 
 @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "')")
 @RestController
@@ -92,7 +93,7 @@ public class RequesterMissionController {
             @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> queryMission(@PathVariable("missionId") String missionId) {
+    public ResponseEntity<Response> queryMissionCredits(@PathVariable("missionId") String missionId) {
         return null;
     }
 
@@ -189,6 +190,7 @@ public class RequesterMissionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "instanceId", value = "实例ID", required = true, dataType = "int", paramType = "path")
+            //to add
     })
     @RequestMapping(value = "/mission/requester/{missionId}/instances/{instanceId}", method = RequestMethod.POST)
     @ApiResponses(value = {
@@ -199,9 +201,9 @@ public class RequesterMissionController {
             @ApiResponse(code = 404, message = "mission or instance not found", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> finalize(@PathVariable("missionId") int missionId, @PathVariable("instanceId") int instanceId) {
+    public ResponseEntity<Response> finalize(@PathVariable("missionId") int missionId, @PathVariable("instanceId") int instanceId, @RequestBody MissionFinalizeVo missionFinalizeVo) {
         try {
-            return new ResponseEntity<>(requesterMissionBlService.queryInstance(instanceId), HttpStatus.OK);
+            return new ResponseEntity<>(requesterMissionBlService.finalize(missionFinalizeVo), HttpStatus.OK);
         } catch (InstanceNotExistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);

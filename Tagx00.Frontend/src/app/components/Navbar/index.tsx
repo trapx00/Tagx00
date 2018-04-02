@@ -57,17 +57,17 @@ export class Navbar extends React.Component<RouterStoreProps, any> {
       {/*<span>*/}
       {/*<SvgImg filePath={"logo.svg"} width={56} height={56}/>*/}
       {/*</span>*/}
-      <Col span={4}>
+      <Col xs={24} md={4} className={style.center}>
         <span>Tag x00</span>
       </Col>
-      <Col span={20}>
-        <div className={style.right}>
+      <Col span={20} className={style.rightColumns}>
+        <div className={style.navItem}>
           <LanguageSelector/>
         </div>
-        <div className={style.right}>
+        <div className={style.navItem}>
           <NavbarUserIndicator/>
         </div>
-        <div className={style.right}>
+        <div className={style.navItem}>
           <Menu
             theme="light"
             mode="horizontal"

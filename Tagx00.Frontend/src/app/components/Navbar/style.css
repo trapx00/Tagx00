@@ -1,6 +1,23 @@
-.right {
+.navItem {
     float: right;
     display: inline-block;
     margin-left: 8px;
     margin-right: 8px;
+}
+
+.center {
+    display: inline-block;
+    margin: auto;
+    text-align:center;
+}
+
+.rightColumns {
+    display: inline-block;
+    float: right;
+}
+
+@media (max-width: 768px) {
+    .rightColumns {
+        display: none;
+    }
 }

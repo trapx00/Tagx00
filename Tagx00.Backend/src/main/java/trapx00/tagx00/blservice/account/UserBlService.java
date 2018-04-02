@@ -5,6 +5,7 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserAlreadyExistsException;
 import trapx00.tagx00.exception.viewexception.WrongUsernameOrPasswordException;
 import trapx00.tagx00.response.user.UserLoginResponse;
+import trapx00.tagx00.response.user.UserRegisterConfirmationResponse;
 import trapx00.tagx00.response.user.UserRegisterResponse;
 import trapx00.tagx00.vo.user.UserSaveVo;
 
@@ -19,6 +20,15 @@ public interface UserBlService {
      * @throws SystemException            the system has error
      */
     UserRegisterResponse signUp(UserSaveVo userSaveVo) throws UserAlreadyExistsException, SystemException;
+
+    /**
+     * confirm user's validation code
+     *
+     * @param token the user's token
+     * @param code  the validation code
+     * @return the register confirmation info to response
+     */
+    UserRegisterConfirmationResponse registerValidate(String token, String code);
 
     /**
      * login
