@@ -7,10 +7,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.account.UserBlService;
 import trapx00.tagx00.dataservice.account.UserDataService;
+import trapx00.tagx00.entity.account.TempUser;
 import trapx00.tagx00.entity.account.User;
-import trapx00.tagx00.exception.viewexception.SystemException;
-import trapx00.tagx00.exception.viewexception.UserAlreadyExistsException;
-import trapx00.tagx00.exception.viewexception.WrongUsernameOrPasswordException;
+import trapx00.tagx00.exception.viewexception.*;
 import trapx00.tagx00.response.user.UserLoginResponse;
 import trapx00.tagx00.response.user.UserRegisterConfirmationResponse;
 import trapx00.tagx00.response.user.UserRegisterResponse;
@@ -52,12 +51,14 @@ public class UserBlServiceImpl implements UserBlService {
             throw new UserAlreadyExistsException();
         } else {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String code = generateSecurityCode();
             final String rawPassword = userSaveVo.getPassword();
             userSaveVo.setPassword(encoder.encode(rawPassword));
 
-            User user = Converter.userSaveVoToUser(userSaveVo);
-            JwtUser jwtUser = jwtService.convertUserToJwtUser(user);
-            userDataService.saveUser(user);
+            TempUser tempUser = Converter.userSaveVoToTempUser(userSaveVo, code);
+            JwtUser jwtUser = jwtService.convertTempUserToJwtUser(tempUser);
+            userDataService.saveTempUser(tempUser);
+            userDataService.sendEmail(code, userSaveVo.getEmail());
             String token = jwtService.generateToken(jwtUser, EXPIRATION);
             return new UserRegisterResponse(token);
         }
@@ -71,8 +72,20 @@ public class UserBlServiceImpl implements UserBlService {
      * @return the register confirmation info to response
      */
     @Override
-    public UserRegisterConfirmationResponse registerValidate(String token, String code) {
-        return null;
+    public UserRegisterConfirmationResponse registerValidate(String token, String code) throws UserDoesNotExistException, WrongValidationCodeException, SystemException {
+        String username = (String) jwtService.getClaimsFromToken(token).get("username");
+        TempUser tempUser = userDataService.getTempUserByTempUsername(username);
+        String realCode = tempUser.getValidationCode();
+        if (realCode.equals(code)) {
+            User user = Converter.tempUserToUser(tempUser);
+            JwtUser jwtUser = jwtService.convertUserToJwtUser(user);
+            userDataService.saveUser(user);
+            userDataService.deleteTempUserByUsername(tempUser.getUsername());
+            String loginToken = jwtService.generateToken(jwtUser, EXPIRATION);
+            return new UserRegisterConfirmationResponse(loginToken, jwtUser.getAuthorities(), user.getEmail());
+        } else {
+            throw new WrongValidationCodeException();
+        }
     }
 
     /**
@@ -94,5 +107,13 @@ public class UserBlServiceImpl implements UserBlService {
         } else {
             throw new WrongUsernameOrPasswordException();
         }
+    }
+
+    private String generateSecurityCode() {
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < 6; i++) {
+            result.append((int) Math.floor(Math.random() * 10));
+        }
+        return new String(result);
     }
 }

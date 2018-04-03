@@ -7,9 +7,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.entity.account.Role;
+import trapx00.tagx00.entity.account.TempUser;
 import trapx00.tagx00.entity.account.User;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -53,6 +57,16 @@ public class JwtServiceImpl implements JwtService {
                 user.getPassword(),
                 user.getEmail(),
                 mapToJwtRole(user.getRoles())
+        );
+    }
+
+    @Override
+    public JwtUser convertTempUserToJwtUser(TempUser tempUser) {
+        return new JwtUser(
+                tempUser.getUsername(),
+                tempUser.getPassword(),
+                tempUser.getEmail(),
+                mapToJwtRole(tempUser.getRoles())
         );
     }
 

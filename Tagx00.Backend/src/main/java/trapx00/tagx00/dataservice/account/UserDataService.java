@@ -1,7 +1,9 @@
 package trapx00.tagx00.dataservice.account;
 
+import trapx00.tagx00.entity.account.TempUser;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.exception.viewexception.UserDoesNotExistException;
 
 public interface UserDataService {
     /**
@@ -38,7 +40,31 @@ public interface UserDataService {
     /**
      * send email to an user
      *
+     * @param code  the validation code
      * @param email the email address
      */
-    void sendEmail(String email);
+    void sendEmail(String code, String email);
+
+
+    /**
+     * save the temp user
+     *
+     * @param tempUser the temp user to be saved
+     */
+    void saveTempUser(TempUser tempUser) throws SystemException;
+
+    /**
+     * get the user's validation code by its username
+     *
+     * @param tempUsername the temp user's username
+     * @return the validation code
+     */
+    TempUser getTempUserByTempUsername(String tempUsername) throws UserDoesNotExistException;
+
+    /**
+     * delete the temp user by its username
+     *
+     * @param tempUsername the temp user's username
+     */
+    void deleteTempUserByUsername(String tempUsername);
 }
