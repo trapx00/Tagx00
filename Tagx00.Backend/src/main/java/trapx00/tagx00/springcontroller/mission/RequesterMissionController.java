@@ -203,7 +203,7 @@ public class RequesterMissionController {
     @ResponseBody
     public ResponseEntity<Response> finalize(@PathVariable("missionId") int missionId, @PathVariable("instanceId") int instanceId, @RequestBody MissionFinalizeVo missionFinalizeVo) {
         try {
-            return new ResponseEntity<>(requesterMissionBlService.finalize(missionFinalizeVo), HttpStatus.OK);
+            return new ResponseEntity<>(requesterMissionBlService.finalize(instanceId,missionFinalizeVo), HttpStatus.OK);
         } catch (InstanceNotExistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);

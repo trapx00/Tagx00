@@ -4,6 +4,7 @@ import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
+import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 
 public interface RequesterMissionDataService {
 
@@ -37,6 +38,19 @@ public interface RequesterMissionDataService {
      */
     Mission getMissionByMissionId(int missionId);
 
+    /**
+     * update the mission's credits
+     * @param missionId
+     * @param credits
+     */
+    void updateMission(int missionId,int credits);
+
+    /**
+     * finlize the instance
+     * @param instanceId
+     * @param missionFinalizeVo
+     */
+    void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo);
 
 
 }
