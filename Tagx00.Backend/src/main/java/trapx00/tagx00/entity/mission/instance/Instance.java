@@ -1,14 +1,11 @@
-package trapx00.tagx00.entity.mission;
+package trapx00.tagx00.entity.mission.instance;
 
 import trapx00.tagx00.entity.Entity;
 import trapx00.tagx00.entity.annotation.*;
-import trapx00.tagx00.entity.mission.workresult.ImageResult;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 
 import java.util.Date;
-import java.util.List;
 
-@Table(name = "instance")
 public class Instance extends Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,26 +33,25 @@ public class Instance extends Entity {
     @Column(name = "missionId")
     private int missionId;
 
+    @Column(name = "exp")
+    private double exp;
 
-    @JsonSerialize
-    @Column(name = "imageResults")
-    private List<ImageResult> imageResults;
-
-    public List<ImageResult> getImageResults() {
-        return imageResults;
-    }
+    @Column(name = "credits")
+    private int credits;
 
     public Instance() {
     }
 
-    public Instance(String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean submitted, List<ImageResult> imageResults) {
+    public Instance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, Date acceptDate, Date submitDate, boolean submitted, int missionId, double exp, int credits) {
+        this.instanceId = instanceId;
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
         this.acceptDate = acceptDate;
         this.submitDate = submitDate;
         this.submitted = submitted;
         this.missionId = missionId;
-        this.imageResults = imageResults;
+        this.exp = exp;
+        this.credits = credits;
     }
 
     public int getInstanceId() {
@@ -114,7 +110,19 @@ public class Instance extends Entity {
         this.submitted = submitted;
     }
 
-    public void setImageResults(List<ImageResult> imageResults) {
-        this.imageResults = imageResults;
+    public double getExp() {
+        return exp;
+    }
+
+    public void setExp(double exp) {
+        this.exp = exp;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
     }
 }

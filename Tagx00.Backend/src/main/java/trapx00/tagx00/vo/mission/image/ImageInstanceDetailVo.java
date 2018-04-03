@@ -1,6 +1,6 @@
 package trapx00.tagx00.vo.mission.image;
 
-import trapx00.tagx00.entity.mission.workresult.ImageResult;
+import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
