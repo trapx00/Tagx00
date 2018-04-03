@@ -201,7 +201,7 @@ public class RequesterMissionController {
             @ApiResponse(code = 404, message = "mission or instance not found", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> finalize(@PathVariable("missionId") int missionId, @PathVariable("instanceId") int instanceId, @RequestBody MissionFinalizeVo missionFinalizeVo) {
+    public ResponseEntity<Response> finalize(@PathVariable("instanceId") int instanceId, @RequestBody MissionFinalizeVo missionFinalizeVo) {
         try {
             return new ResponseEntity<>(requesterMissionBlService.finalize(instanceId,missionFinalizeVo), HttpStatus.OK);
         } catch (InstanceNotExistException e) {

@@ -4,12 +4,10 @@ import trapx00.tagx00.entity.Entity;
 import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
-import trapx00.tagx00.vo.mission.image.ImageMissionType;
 
 import java.util.Date;
 import java.util.List;
 
-@Table(name = "mission")
 public class Mission extends Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,21 +41,18 @@ public class Mission extends Entity {
     private String coverUrl;
     @Column(name = "requesterUsername")
     private String requesterUsername;
-
-    @JsonSerialize
-    @Column(name = "imageUrls")
-    private List<String> imageUrls;
-    @JsonSerialize
-    @Column(name = "imageMissionType")
-    private List<ImageMissionType> imageMissionTypes;
+    @Column(name = "level")
+    private int level;
+    @Column(name = "credits")
+    private int credits;
+    @Column(name = "minimalWorkerLevel")
+    private int minimalWorkerLevel;
 
     public Mission() {
     }
 
-    public Mission(String title, String description, List<String> topics, boolean allowCustomTag,
-                   List<String> allowedTags, MissionType missionType, MissionState missionState,
-                   Date start, Date end, String coverUrl, String requesterUsername,
-                   List<String> imageUrls, List<ImageMissionType> imageMissionTypes) {
+    public Mission(int missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel) {
+        this.missionId = missionId;
         this.title = title;
         this.description = description;
         this.topics = topics;
@@ -69,8 +64,9 @@ public class Mission extends Entity {
         this.end = end;
         this.coverUrl = coverUrl;
         this.requesterUsername = requesterUsername;
-        this.imageUrls = imageUrls;
-        this.imageMissionTypes = imageMissionTypes;
+        this.level = level;
+        this.credits = credits;
+        this.minimalWorkerLevel = minimalWorkerLevel;
     }
 
     public MissionState getMissionState() {
@@ -153,22 +149,6 @@ public class Mission extends Entity {
         this.end = end;
     }
 
-    public List<String> getImageUrls() {
-        return imageUrls;
-    }
-
-    public void setImageUrls(List<String> imageUrls) {
-        this.imageUrls = imageUrls;
-    }
-
-    public List<ImageMissionType> getImageMissionTypes() {
-        return imageMissionTypes;
-    }
-
-    public void setImageMissionTypes(List<ImageMissionType> imageMissionTypes) {
-        this.imageMissionTypes = imageMissionTypes;
-    }
-
     public String getCoverUrl() {
         return coverUrl;
     }
@@ -183,5 +163,29 @@ public class Mission extends Entity {
 
     public void setRequesterUsername(String requesterUsername) {
         this.requesterUsername = requesterUsername;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
+    public int getMinimalWorkerLevel() {
+        return minimalWorkerLevel;
+    }
+
+    public void setMinimalWorkerLevel(int minimalWorkerLevel) {
+        this.minimalWorkerLevel = minimalWorkerLevel;
     }
 }
