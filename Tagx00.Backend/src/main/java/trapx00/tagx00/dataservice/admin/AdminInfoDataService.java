@@ -6,7 +6,7 @@ import trapx00.tagx00.entity.mission.Mission;
 
 public interface AdminInfoDataService {
 
-    /**\
+    /**
      * get all userInfo
      * @return
      */

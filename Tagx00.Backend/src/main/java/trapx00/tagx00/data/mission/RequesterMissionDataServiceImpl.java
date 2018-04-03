@@ -13,6 +13,7 @@ import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
+import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 
 import java.util.ArrayList;
 
@@ -97,6 +98,24 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     public Mission getMissionByMissionId(int missionId) {
         Mission mission = missionDao.findMissionByMissionId(missionId);
         return mission;
+    }
+    /**
+     * update the mission's credits
+     * @param missionId
+     * @param credits
+     */
+    @Override
+    public void updateMission(int missionId, int credits) {
+
+    }
+    /**
+     * finlize the instance
+     * @param instanceId
+     * @param missionFinalizeVo
+     */
+    @Override
+    public void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo) {
+
     }
 
 

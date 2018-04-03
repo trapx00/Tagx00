@@ -14,6 +14,8 @@ import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.response.mission.MissionCreateResponse;
+import trapx00.tagx00.response.mission.requester.MissionChargeResponse;
+import trapx00.tagx00.response.mission.requester.MissionRequestQueryResponse;
 import trapx00.tagx00.security.jwt.JwtService;
 import trapx00.tagx00.security.jwt.JwtUser;
 import trapx00.tagx00.util.UserInfoUtil;
@@ -21,6 +23,7 @@ import trapx00.tagx00.vo.mission.image.ImageMissionProperties;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
+import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -94,5 +97,38 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
             throw new InstanceNotExistException();
         InstanceDetailResponse instanceDetailResponse = new InstanceDetailResponse(instanceVo);
         return instanceDetailResponse;
+    }
+
+    /**
+     * charge for the mission
+     * @param missionId
+     * @param credits
+     * @return  MissionChargeResponse
+     */
+    @Override
+    public MissionChargeResponse chargeMission(int missionId, int credits) {
+        return null;
+    }
+
+    /**
+     * query the mission's credits
+     * @param missionId
+     * @return MissionRequestQueryResponse
+     */
+    @Override
+    public MissionRequestQueryResponse queryMissionCredits(int missionId) {
+        return null;
+    }
+
+
+    /**
+     * finlize the instance
+     * @param instanceId
+     * @param missionFinalizeVo
+     * @return InstanceDetailResponse
+     */
+    @Override
+    public InstanceDetailResponse finalize(int instanceId, MissionFinalizeVo missionFinalizeVo) throws InstanceNotExistException {
+        return null;
     }
 }
