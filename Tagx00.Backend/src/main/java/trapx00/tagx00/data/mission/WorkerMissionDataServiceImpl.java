@@ -2,11 +2,12 @@ package trapx00.tagx00.data.mission;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import trapx00.tagx00.data.dao.mission.InstanceDao;
 import trapx00.tagx00.data.dao.mission.MissionDao;
+import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
-import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.entity.mission.instance.ImageInstance;
+import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.mission.MissionType;
@@ -19,12 +20,12 @@ import java.util.ArrayList;
 
 @Service
 public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
-    private final InstanceDao instanceDao;
+    private final ImageInstanceDao imageInstanceDao;
     private final MissionDao missionDao;
 
     @Autowired
-    public WorkerMissionDataServiceImpl(InstanceDao instanceDao, MissionDao missionDao) {
-        this.instanceDao = instanceDao;
+    public WorkerMissionDataServiceImpl(ImageInstanceDao imageInstanceDao, MissionDao missionDao) {
+        this.imageInstanceDao = imageInstanceDao;
         this.missionDao = missionDao;
     }
 
@@ -38,32 +39,35 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     @Override
     public int saveInstance(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException {
 
+        MissionType missionType = missionDao.findMissionByMissionId(instanceVo.getInstance().getMissionId()).getMissionType();
+        Instance instance;
+        if (this.getInstanceByUsernameAndMissionId(instanceVo.getInstance().getWorkerUsername(),
+                instanceVo.getInstance().getMissionId()) == null) {
 
-        if (missionDao.findMissionByMissionId(instanceVo.getInstance().getMissionId()).
-                getMissionType().equals(MissionType.IMAGE)) {
-            ImageInstanceDetailVo imageInstanceDetailVo = (ImageInstanceDetailVo) instanceVo;
-            if (this.getInstanceByUsernameAndMissionId(instanceVo.getInstance().getWorkerUsername(),
-                    instanceVo.getInstance().getMissionId()) == null) {
-                Instance instance = instanceDao.saveInstance(new Instance(instanceVo.getInstance().getWorkerUsername(),
-                        instanceVo.getInstance().getMissionInstanceState(), instanceVo.getInstance().getMissionId(),
-                        instanceVo.getInstance().getAcceptDate(), instanceVo.getInstance().getSubmitDate(),
-                        instanceVo.getInstance().isSubmitted(), imageInstanceDetailVo.getImageResults()
-                ));
-                return instance.getInstanceId();
-            } else {
-                if (instanceVo.getInstance().getInstanceId() == 0) {
-                    throw new MissionAlreadyAcceptedException();
-                }
-                Instance instance = new Instance(instanceVo.getInstance().getWorkerUsername(), instanceVo.getInstance().getMissionInstanceState(),
-                        instanceVo.getInstance().getMissionId(), instanceVo.getInstance().getAcceptDate(),
-                        instanceVo.getInstance().getSubmitDate(), instanceVo.getInstance().isSubmitted()
-                        , imageInstanceDetailVo.getImageResults());
-                instance.setInstanceId(instanceVo.getInstance().getInstanceId());
-                Instance result = instanceDao.saveInstance(instance);
-                if (result == null)
-                    throw new SystemException();
-                return instance.getInstanceId();
+            switch (missionType) {
+                case IMAGE:
+                    ImageInstanceDetailVo imageInstanceDetailVo = (ImageInstanceDetailVo) instanceVo;
+                    instance = imageInstanceDao.saveInstance(new ImageInstance(instanceVo.getInstance().getWorkerUsername(),
+                            instanceVo.getInstance().getMissionInstanceState(), instanceVo.getInstance().getMissionId(),
+                            instanceVo.getInstance().getAcceptDate(), instanceVo.getInstance().getSubmitDate(),
+                            instanceVo.getInstance().isSubmitted(), imageInstanceDetailVo.getImageResults()
+                    ));
+                    break;
             }
+            return instance.getInstanceId();
+        } else {
+            if (instanceVo.getInstance().getInstanceId() == 0) {
+                throw new MissionAlreadyAcceptedException();
+            }
+            Instance instance = new Instance(instanceVo.getInstance().getWorkerUsername(), instanceVo.getInstance().getMissionInstanceState(),
+                    instanceVo.getInstance().getMissionId(), instanceVo.getInstance().getAcceptDate(),
+                    instanceVo.getInstance().getSubmitDate(), instanceVo.getInstance().isSubmitted()
+                    , imageInstanceDetailVo.getImageResults());
+            instance.setInstanceId(instanceVo.getInstance().getInstanceId());
+            Instance result = instanceDao.saveInstance(instance);
+            if (result == null)
+                throw new SystemException();
+            return instance.getInstanceId();
         }
         return 0;
     }

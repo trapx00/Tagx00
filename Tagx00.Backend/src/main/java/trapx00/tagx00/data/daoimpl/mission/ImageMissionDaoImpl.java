@@ -2,7 +2,7 @@ package trapx00.tagx00.data.daoimpl.mission;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import trapx00.tagx00.data.dao.mission.MissionDao;
+import trapx00.tagx00.data.dao.mission.ImageMissionDao;
 import trapx00.tagx00.data.fileservice.FileService;
 import trapx00.tagx00.entity.mission.Mission;
 
@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 
 @Service
-public class MissionDaoImpl implements MissionDao {
+public class ImageMissionDaoImpl implements ImageMissionDao {
 
     private final FileService<Mission> fileService;
 
     @Autowired
-    public MissionDaoImpl(FileService<Mission> fileService) {
+    public ImageMissionDaoImpl(FileService<Mission> fileService) {
         this.fileService = fileService;
     }
 

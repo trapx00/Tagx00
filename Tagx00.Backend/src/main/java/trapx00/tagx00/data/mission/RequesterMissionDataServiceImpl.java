@@ -2,7 +2,7 @@ package trapx00.tagx00.data.mission;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import trapx00.tagx00.data.dao.mission.InstanceDao;
+import trapx00.tagx00.data.dao.mission.instance.InstanceDao;
 import trapx00.tagx00.data.dao.mission.MissionDao;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.entity.mission.instance.Instance;

@@ -1,11 +1,9 @@
-package trapx00.tagx00.data.dao.mission;
+package trapx00.tagx00.data.dao.mission.instance;
 
-import org.springframework.stereotype.Service;
 import trapx00.tagx00.entity.mission.instance.Instance;
 
 import java.util.ArrayList;
 
-@Service
 public interface InstanceDao {
     Instance saveInstance(Instance imageInstance);
 
