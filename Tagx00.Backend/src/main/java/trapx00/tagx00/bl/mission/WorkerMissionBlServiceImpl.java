@@ -51,7 +51,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse abort(int missionId, String workerusername) {
-        workerMissionDataService.deleteInstance(missionId, workerusername);
+        workerMissionDataService.deleteInstanceByMissionIdAndUsername(missionId, workerusername);
         return new SuccessResponse("Success Delete");
     }
 

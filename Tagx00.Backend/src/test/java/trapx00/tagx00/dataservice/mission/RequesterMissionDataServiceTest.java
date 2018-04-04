@@ -85,7 +85,7 @@ public class RequesterMissionDataServiceTest {
         } catch (SystemException e) {
             e.printStackTrace();
         }
-        assertEquals(null, requesterMissionDataService.getInstanceByinstanceId(0));
+        assertEquals(null, requesterMissionDataService.getInstanceByInstanceId(0, ));
     }
 
     @Test
@@ -95,6 +95,6 @@ public class RequesterMissionDataServiceTest {
         } catch (SystemException e) {
             e.printStackTrace();
         }
-        assertEquals(null, requesterMissionDataService.getInstanceBymissionId(1));
+        assertEquals(null, requesterMissionDataService.getInstancesByMissionId(1, ));
     }
 }

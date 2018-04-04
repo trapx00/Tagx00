@@ -3,51 +3,48 @@ package trapx00.tagx00.data.daoimpl.mission.instance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
-import trapx00.tagx00.data.dao.mission.instance.InstanceDao;
 import trapx00.tagx00.data.fileservice.FileService;
-import trapx00.tagx00.entity.mission.instance.Instance;
-import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.entity.mission.ImageMission;
+import trapx00.tagx00.entity.mission.instance.ImageInstance;
 
 import java.util.ArrayList;
 
 @Service
 public class ImageInstanceDaoImpl implements ImageInstanceDao {
 
-    private final FileService<Instance> fileService;
-    private final FileService<Mission> fileService1;
+    private final FileService<ImageInstance> imageInstanceFileService;
+    private final FileService<ImageMission> imageMissionFileService;
 
     @Autowired
-    public ImageInstanceDaoImpl(FileService<Instance> fileService, FileService<Mission> fileService1) {
-        this.fileService = fileService;
-        this.fileService1 = fileService1;
+    public ImageInstanceDaoImpl(FileService<ImageInstance> imageInstanceFileService, FileService<ImageMission> imageMissionFileService) {
+        this.imageInstanceFileService = imageInstanceFileService;
+        this.imageMissionFileService = imageMissionFileService;
     }
 
 
     @Override
-    public Instance saveInstance(Instance instance) {
-        return fileService.saveTuple(instance);
+    public ImageInstance saveInstance(ImageInstance imageInstance) {
+        return imageInstanceFileService.saveTuple(imageInstance);
     }
 
     @Override
-    public ArrayList<Instance> findInstancesByMissionId(int missionId) {
-
-        return fileService.findOnes(String.valueOf(missionId), Instance.class);
+    public ArrayList<ImageInstance> findInstancesByMissionId(int missionId) {
+        return imageInstanceFileService.findOnes(String.valueOf(missionId), ImageInstance.class);
     }
 
     @Override
-    public  ArrayList<Instance> findInstancesByWorkerUsername(String workerUsername) {
-        return fileService.findOnes(workerUsername, Instance.class);
+    public ArrayList<ImageInstance> findImageInstancesByWorkerUsername(String workerUsername) {
+        return imageInstanceFileService.findOnes(workerUsername, ImageInstance.class);
     }
 
     @Override
-    public Instance findInstanceByInstanceId(int instanceId) {
-        return fileService.findOne(String.valueOf(instanceId), Instance.class);
+    public ImageInstance findInstanceByInstanceId(int instanceId) {
+        return imageInstanceFileService.findOne(String.valueOf(instanceId), ImageInstance.class);
     }
-
 
     @Override
     public boolean deleteInstance(int instanceId) {
-        fileService.delete(String.valueOf(instanceId), Instance.class);
+        imageInstanceFileService.delete(String.valueOf(instanceId), ImageInstance.class);
         return true;
     }
 }

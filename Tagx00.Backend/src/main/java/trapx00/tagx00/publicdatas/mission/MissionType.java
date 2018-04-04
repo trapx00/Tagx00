@@ -4,11 +4,13 @@ import trapx00.tagx00.vo.mission.image.ImageMissionProperties;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
 public enum MissionType {
-    IMAGE(ImageMissionProperties.class);
+    IMAGE("image", ImageMissionProperties.class);
 
     public final Class<? extends MissionProperties> propertiesClass;
+    public final String name;
 
-    MissionType(Class<? extends MissionProperties> propertiesClass) {
+    MissionType(String name, Class<? extends MissionProperties> propertiesClass) {
+        this.name = name;
         this.propertiesClass = propertiesClass;
     }
 }

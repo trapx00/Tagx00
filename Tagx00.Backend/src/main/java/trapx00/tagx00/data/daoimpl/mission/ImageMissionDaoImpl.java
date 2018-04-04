@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.mission.ImageMissionDao;
 import trapx00.tagx00.data.fileservice.FileService;
-import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.entity.mission.ImageMission;
 
 import java.util.ArrayList;
 
@@ -12,35 +12,35 @@ import java.util.ArrayList;
 @Service
 public class ImageMissionDaoImpl implements ImageMissionDao {
 
-    private final FileService<Mission> fileService;
+    private final FileService<ImageMission> fileService;
 
     @Autowired
-    public ImageMissionDaoImpl(FileService<Mission> fileService) {
+    public ImageMissionDaoImpl(FileService<ImageMission> fileService) {
         this.fileService = fileService;
     }
 
 
     @Override
-    public Mission saveMission(Mission mission) {
-        return fileService.saveTuple(mission);
+    public ImageMission saveMission(ImageMission imageMission) {
+        return fileService.saveTuple(imageMission);
     }
 
     @Override
-    public Mission findMissionByMissionId(int missionId) {
-        return fileService.findOne(String.valueOf(missionId), Mission.class);
+    public ImageMission findMissionByMissionId(int missionId) {
+        return fileService.findOne(String.valueOf(missionId), ImageMission.class);
         /**
          * 有点问题
          */
     }
 
     @Override
-    public ArrayList<Mission> findMissionByRequesterUsername(String requesterUsername) {
-        return fileService.findOnes(requesterUsername, Mission.class);
+    public ArrayList<ImageMission> findMissionByRequesterUsername(String requesterUsername) {
+        return fileService.findOnes(requesterUsername, ImageMission.class);
     }
 
     @Override
-    public ArrayList<Mission> findAll() {
-        return fileService.findAll(Mission.class);
+    public ArrayList<ImageMission> findAll() {
+        return fileService.findAll(ImageMission.class);
     }
 
 

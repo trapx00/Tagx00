@@ -1,6 +1,5 @@
 package trapx00.tagx00.bl.mission;
 
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,7 +26,6 @@ import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class RequesterMissionBlServiceImpl implements RequesterMissionBlService {
@@ -77,7 +75,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public InstanceResponse queryInstances(int missionId) throws InstanceNotExistException {
-        InstanceVo[] instance = requesterMissionDataService.getInstanceBymissionId(missionId);
+        InstanceVo[] instance = requesterMissionDataService.getInstancesByMissionId(missionId, );
         if (instance == null)
             throw new InstanceNotExistException();
         InstanceResponse instanceResponse = new InstanceResponse(Arrays.asList(instance));
@@ -92,7 +90,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public InstanceDetailResponse queryInstance(int instanceId) throws InstanceNotExistException {
-        InstanceDetailVo instanceVo = requesterMissionDataService.getInstanceByinstanceId(instanceId);
+        InstanceDetailVo instanceVo = requesterMissionDataService.getInstanceByInstanceId(instanceId, );
         if (instanceVo == null)
             throw new InstanceNotExistException();
         InstanceDetailResponse instanceDetailResponse = new InstanceDetailResponse(instanceVo);

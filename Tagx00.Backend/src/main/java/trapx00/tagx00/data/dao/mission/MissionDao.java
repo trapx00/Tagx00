@@ -1,16 +1,14 @@
 package trapx00.tagx00.data.dao.mission;
 
-import trapx00.tagx00.entity.mission.Mission;
-
 import java.util.ArrayList;
 
-public interface MissionDao {
+public interface MissionDao<T> {
 
-    Mission saveMission(Mission mission);
+    T saveMission(T mission);
 
-    Mission findMissionByMissionId(int missionId);
+    T findMissionByMissionId(int missionId);
 
-    ArrayList<Mission> findMissionByRequesterUsername(String requesterUsername);
+    ArrayList<T> findMissionByRequesterUsername(String requesterUsername);
 
-    ArrayList<Mission> findAll();
+    ArrayList<T> findAll();
 }

@@ -1,17 +1,15 @@
 package trapx00.tagx00.data.dao.mission.instance;
 
-import trapx00.tagx00.entity.mission.instance.Instance;
-
 import java.util.ArrayList;
 
-public interface InstanceDao {
-    Instance saveInstance(Instance imageInstance);
+public interface InstanceDao<T> {
+    T saveInstance(T imageInstance);
 
-    ArrayList<Instance> findInstancesByMissionId(int missionId);
+    ArrayList<T> findInstancesByMissionId(int missionId);
 
-    ArrayList<Instance> findInstancesByWorkerUsername(String workerUsername);
+    ArrayList<T> findImageInstancesByWorkerUsername(String workerUsername);
 
-    Instance findInstanceByInstanceId(int instanceId);
+    T findInstanceByInstanceId(int instanceId);
 
     boolean deleteInstance(int instanceid);
 }
