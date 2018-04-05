@@ -1,30 +1,29 @@
 import React from "react";
-import { ImageNotation, ImageWorkStoreProps, STORE_IMAGEWORK } from "../../../stores/ImageWorkStore";
-import { PartJob, PartJobTuple } from "../../../models/instance/image/job/PartJob";
-import { inject, observer } from "mobx-react";
+import { ImageNotation } from "../../../stores/ImageWorkStore";
+import { observer } from "mobx-react";
 import { ImageWorkPageProps } from "./ImageWorkPage";
 import { action, computed, observable, toJS } from "mobx";
-import { Row, Col, Card } from 'antd';
-import { WholeJob } from "../../../models/instance/image/job/WholeJob";
+import { Card, Col, Row } from 'antd';
 import { TagDescriptionTuple } from "../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../components/ImageWork/MissionTipCard";
 import { ProgressController } from "../../../components/ProgressController";
 import { TagDescriptionTuplePanel } from "../../../components/ImageWork/TagDescriptionPanel";
-import { RectanglePanel } from "../../../components/ImageWork/DrawingPad/RectanglePanel";
 import { ImageMissionType } from "../../../models/mission/image/ImageMission";
-import { PartAddingModeController } from "../../../components/ImageWork/Part/PartAddingModeController";
-import { replaceElement } from "../../../../utils/Array";
 import { DistrictJob, DistrictTagDescriptionTuple } from "../../../models/instance/image/job/DistrictJob";
 import { DistrictPanel } from "../../../components/ImageWork/DrawingPad/DistrictPanel";
 import { DistrictAddingModeController } from "../../../components/ImageWork/DistrictAddingModeController";
 import { DistrictDrawingSession } from "../../../components/ImageWork/DrawingPad/DistrictPanel/DistrictCanvas/DistrictDrawingSession";
 import { District } from "../../../components/ImageWork/DrawingPad/DistrictPanel/Districts";
+import { ImageWorkPageLayout } from "./Layout";
 
 @observer
 export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<DistrictJob>, any> {
   @observable notation: ImageNotation<DistrictJob> = this.props.notation;
   @observable selectedIndex: number = 1;
   @observable addingMode: boolean = false;
+  @observable width: number = 1;
+  @observable height: number = 1;
+  @observable scale: number = 1;
 
   @computed get selectedTuple() {
     if (this.selectedIndex >= 0 && this.selectedIndex < this.notation.job.tuples.length) {
@@ -92,6 +91,18 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
     this.props.goNext(this.notation);
   };
 
+  @action onImageLoaded = (width, height) => {
+    this.width = width;
+    this.height = height;
+  };
+
+  @action setScale = (scale) => {
+    this.scale = scale;
+  };
+
+  getScale = () => {
+    return this.scale;
+  };
 
   render() {
     const {imageUrl, job} = this.props.notation;
@@ -104,22 +115,19 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
       session = new DistrictDrawingSession();
     }
 
-    return <div>
-
-      <Row gutter={16}>
-        <Col span={16}>
-          <Card>
+    return <ImageWorkPageLayout imageWidth={this.width} imageHeight={this.height} setScale={this.setScale}>
+          <>
             <DistrictPanel imageUrl={imageUrl}
                            tuples={this.notation.job.tuples}
                            addingMode={this.addingMode}
                            session={session}
                            onTupleSelected={this.onTupleSelected}
                            selectedTuple={selectedTuple}
+                           onImageLoad={this.onImageLoaded}
+                           getScale={this.getScale}
             />
-
-          </Card>
-        </Col>
-        <Col span={8}>
+        </>
+        <>
           <MissionTipCard jobType={job.type}
                           tags={missionDetail.publicItem.allowedTags}
                           allowCustomTag={missionDetail.publicItem.allowCustomTag}
@@ -144,8 +152,7 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
                               readonlyMode={readonlyMode}
                               saveProgress={this.submit}
           />
-        </Col>
-      </Row>
-    </div>
+        </>
+      </ImageWorkPageLayout>;
   }
 }

@@ -1,5 +1,6 @@
-import { BaseService, NetworkResponse } from "./BaseService";
+import { HttpService, NetworkResponse } from "./HttpService";
 import { HttpMethod } from "./utils";
+import { Inject, Injectable } from "react.di";
 
 export interface LoginResult {
   token: string,
@@ -11,23 +12,16 @@ function encryptPassword(password: string) {
   return password;
 }
 
-export class UserService extends BaseService {
-  constructor() {
-    super("account");
-  }
+@Injectable
+export class UserService {
+
+  constructor(@Inject private http: HttpService) { }
 
   async login(username: string, password: string): Promise<NetworkResponse<LoginResult>> {
     password = encryptPassword(password);
 
-    // return new NetworkResponse(200, {
-    //     token: "123",
-    //     jwtRoles: ["ROLE_WORKER"],
-    //     email: "1@1.com"
-    //   }
-    // );
-    //
-    return await this.fetch({
-      route: "login",
+    return await this.http.fetch({
+      path: "account/login",
       queryParams: {username, password}
     });
   }
@@ -35,8 +29,8 @@ export class UserService extends BaseService {
   async register(username: string, password: string) {
     password = encryptPassword(password);
 
-    return await this.fetch({
-      route: "register",
+    return await this.http.fetch({
+      path: "account/register",
       body: {username, password},
       method: HttpMethod.POST
     });

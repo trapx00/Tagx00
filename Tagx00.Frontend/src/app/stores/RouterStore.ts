@@ -1,9 +1,6 @@
 import { History } from 'history';
 import { RouterStore as BaseRouterStore, syncHistoryWithStore } from 'mobx-react-router';
 import { action, computed } from "mobx";
-import { STORE_ROUTER } from "../constants/stores";
-import routes from './routes';
-import { RouteConfig } from "./routes/RouteConfig";
 import { Injectable } from "react.di";
 
 @Injectable

@@ -1,9 +1,9 @@
 import { action, computed, observable, runInAction } from "mobx";
 import { Tag } from "antd";
-import { MissionPublicItem, MissionType } from "../../models/mission/Mission";
+import { MissionPublicItem } from "../../models/mission/Mission";
 import React from "react";
-import { missionService } from "../../api/MissionService";
-import { Injectable } from "react.di";
+import { MissionService } from "../../api/MissionService";
+import { Inject, Injectable } from "react.di";
 
 interface ListDataProps {
   missionId: number,
@@ -29,8 +29,10 @@ export class BrowserStore {
     this._paused = !this._paused;
   };
 
+  constructor(@Inject private missionService: MissionService) { }
+
   @action public search = async (info) => {
-    let missions: MissionPublicItem[] = (await missionService.getAllMissions());
+    let missions: MissionPublicItem[] = (await this.missionService.getAllMissions());
     runInAction(() => {
       for (let i = 0; i < missions.length; i++) {
         let tagText = [];

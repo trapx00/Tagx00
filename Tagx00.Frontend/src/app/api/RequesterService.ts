@@ -1,24 +1,18 @@
-import { BaseService } from "./BaseService";
+import { HttpService } from "./HttpService";
 import { MissionCreate } from "../models/mission/create/MissionCreate";
 import { MissionCreateResponse } from "../models/mission/create/MissionCreateResponse";
 import { HttpMethod } from "./utils";
 import { ImageUploadResponse } from "../models/mission/image/ImageUploadResponse";
+import { Inject, Injectable } from "react.di";
 
-export class RequesterService extends BaseService {
-  constructor() {
-    super("")
+@Injectable
+export class RequesterService {
+  constructor(@Inject private http: HttpService) {
   }
 
   async createMission(createVo: MissionCreate, token: string): Promise<MissionCreateResponse> {
-    // mock
-    // return {
-    //   id: "123",
-    //   token: "123"
-    // };
-
-
-    const res = await this.fetch({
-      route: "/mission",
+    const res = await this.http.fetch({
+      path: "/mission",
       method: HttpMethod.POST,
       body: createVo,
       token: token
@@ -29,13 +23,7 @@ export class RequesterService extends BaseService {
   }
 
   async uploadImageFile(missionId: string, formData: FormData, order: number, isCover: boolean, token: string): Promise<ImageUploadResponse> {
-
-    // mock
-    // return {
-    //   url: "123"
-    // };
-
-    const res = await this.sendFile(
+    const res = await this.http.sendFile(
       formData,
       `/upload/mission/image/${missionId}`,
       {order, isCover},
@@ -45,5 +33,3 @@ export class RequesterService extends BaseService {
     return res.response;
   }
 }
-
-export const requesterService = new RequesterService();

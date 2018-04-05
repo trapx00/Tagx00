@@ -1,4 +1,3 @@
-
 import { DrawingSession } from "../../utils/DrawingSession";
 import { action, computed, observable } from "mobx";
 import { Boundary, District } from "../Districts";

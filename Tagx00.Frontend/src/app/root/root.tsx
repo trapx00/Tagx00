@@ -1,9 +1,8 @@
 import React from 'react';
-import { Inject } from "react.di";
-import { RouterStore } from "../router/RouterStore";
 import { homePage } from "../router/routes/rootRoutes";
 import { Route, Router, Switch } from "react-router";
 import { AsyncComponent } from "../router/AsyncComponent";
+import { observer } from "mobx-react";
 
 interface Props {
   history;
@@ -19,6 +18,7 @@ async function renderDevTool() {
   }
 }
 
+@observer
 export class Root extends React.Component<Props, {}> {
 
   renderPagesWithBaseLayout = async () => {
@@ -26,7 +26,10 @@ export class Root extends React.Component<Props, {}> {
     return <Page history={this.props.history}/>
   };
 
+
+
   render() {
+
     return <div>
       <Router history={this.props.history}>
         <Switch>

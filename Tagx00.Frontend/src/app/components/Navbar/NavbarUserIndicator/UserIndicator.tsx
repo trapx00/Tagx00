@@ -1,8 +1,7 @@
 import { UserStore } from "../../../stores/UserStore";
 import React from "react";
-import { STORE_USER } from "../../../constants/stores";
 import { Dropdown, Icon, Menu } from 'antd';
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import { LocaleMessage } from "../../../internationalization/components";
 import { Link } from "react-router-dom";
 import { Inject } from "react.di";

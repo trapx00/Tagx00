@@ -1,6 +1,5 @@
 import { action, computed, observable } from "mobx";
 import { User, UserRole } from "../models/User";
-import { STORE_USER } from "../constants/stores";
 import { LoginResult } from "../api/UserService";
 import { localStorage } from './UiUtil';
 import { Injectable } from "react.di";

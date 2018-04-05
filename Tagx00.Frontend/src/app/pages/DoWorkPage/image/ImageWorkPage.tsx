@@ -10,7 +10,8 @@ import { message, Progress } from 'antd';
 import { CompleteModal } from "../../../components/ImageWork/CompleteModal";
 import { ImageJob } from "../../../models/instance/image/job/ImageJob";
 import { action, observable, runInAction } from "mobx";
-import { workerService } from "../../../api/WorkerService";
+import { WorkerService } from "../../../api/WorkerService";
+import { Inject } from "react.di";
 
 interface Props {
   instanceDetail: ImageInstanceDetail;
@@ -33,7 +34,6 @@ export interface ImageWorkPageProps<T extends ImageJob> {
     saving: boolean;
   },
   readonlyMode: boolean;
-
 }
 
 @observer
@@ -44,6 +44,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   @observable finishModalShown = true;
   @observable saving: boolean= false;
 
+  @Inject workerService: WorkerService;
 
   constructor(props) {
     super(props);
@@ -54,7 +55,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   @action saveWork = async (notation: ImageNotation) => { // 保存到远端
     this.saving = true;
     this.store.saveWork(notation);
-    await workerService.saveProgress(this.props.missionDetail.publicItem.missionId, this.store.currentInstanceDetail, this.props.token);
+    await this.workerService.saveProgress(this.props.missionDetail.publicItem.missionId, this.store.currentInstanceDetail, this.props.token);
     runInAction(() => {
       this.saving = false;
       message.success(this.props.workSavedText);
@@ -92,7 +93,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
 
   submit = async () => {
 
-    const result = await workerService.submit(this.props.missionDetail.publicItem.missionId,
+    const result = await this.workerService.submit(this.props.missionDetail.publicItem.missionId,
       this.store.currentInstanceDetail, this.props.token);
     if (result) {
       console.log("success");
@@ -108,7 +109,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   };
 
   saveProgress = async () => {
-    const result = await workerService.saveProgress(this.props.missionDetail.publicItem.missionId,
+    const result = await this.workerService.saveProgress(this.props.missionDetail.publicItem.missionId,
       this.store.currentInstanceDetail, this.props.token);
     if (result) {
       console.log("success");
@@ -151,7 +152,6 @@ export class ImageWorkPage extends React.Component<Props, {}> {
         previousAvailable: this.store.workIndex != 0,
         saving: this.saving
       },
-
       readonlyMode: this.props.readonlyMode
     };
 

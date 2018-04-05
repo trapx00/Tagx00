@@ -1,17 +1,14 @@
 import React from "react";
-import { Card, Icon, Avatar, Tooltip, Tag } from 'antd';
+import { Card, Icon, Tag, Tooltip } from 'antd';
 import { Instance } from "../../models/instance/Instance";
-import { missionService } from "../../api/MissionService";
 import { ImageMissionDetail } from "../../models/mission/image/ImageMission";
 import { AsyncComponent } from "../../router/AsyncComponent";
 import { LocaleMessage, Localize } from "../../internationalization/components";
-import { InstanceDetail } from "../../models/instance/InstanceDetail";
 import { MissionInstanceState } from "../../models/instance/MissionInstanceState";
-import { STORE_ROUTER, STORE_USER } from "../../constants/stores";
-import { inject } from "mobx-react";
-import { RouterStore } from "../../router/RouterStore";
+import { RouterStore } from "../../stores/RouterStore";
 import { UserStore } from "../../stores/UserStore";
 import { Inject } from "react.di";
+import { MissionService } from "../../api/MissionService";
 
 const {Meta} = Card;
 
@@ -58,6 +55,8 @@ export class MyMissionCard extends React.Component<Props, any> {
 
   @Inject userStore: UserStore;
   @Inject routerStore: RouterStore;
+
+  @Inject missionService: MissionService;
 
   goToDoMission = () => {
     const missionId = this.props.instance.missionId;
@@ -121,7 +120,7 @@ export class MyMissionCard extends React.Component<Props, any> {
 
   renderCard = async () => {
     const {instance} = this.props;
-    const mission: ImageMissionDetail = await missionService.getAMission(instance.missionId, this.userStore.token);
+    const mission: ImageMissionDetail = await this.missionService.getAMission(instance.missionId, this.userStore.token);
     const {publicItem} = mission;
     return <Card
       style={{width: 300}}

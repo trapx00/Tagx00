@@ -1,6 +1,6 @@
 import { observer } from "mobx-react";
 import React from "react"
-import { LocaleStore, Replacement } from "../LocaleStore";
+import { LocaleStore, Replacement } from "../../stores/LocaleStore";
 import { Inject } from "react.di";
 
 

@@ -6,6 +6,7 @@ import { BrowserMissionList } from "../../components/Browser/BrowserMissionList"
 import { Layout } from "antd";
 import TweenOne from 'rc-tween-one';
 import { Inject, Module } from "react.di";
+import { SvgImg } from "../../components/Common/SvgImg";
 
 const {Content} = Layout;
 
@@ -39,8 +40,7 @@ export class BrowsePage extends React.Component<any, any> {
                     reverse={this.browserStore.reverse}
                     className="code-box-shape">
             <div style={{textAlign: 'center', marginBottom: '-10%', marginTop: '5%'}}>
-              <img id="logo" src={require('../../../assets/logo.png')}
-                   alt="" style={{width: '20%'}}/>
+              <SvgImg filePath={"tag_x00_logo.svg"} height={200} width={200}/>
             </div>
           </TweenOne>
           <TweenOne animation={contentAnimation}

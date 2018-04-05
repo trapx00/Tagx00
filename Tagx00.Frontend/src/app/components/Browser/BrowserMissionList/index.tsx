@@ -4,7 +4,7 @@ import { Localize } from "../../../internationalization/components";
 import { BrowserStore } from "../BrowserStore";
 import { observer } from "mobx-react";
 import { Response } from "../../../models/Response";
-import { workerService } from "../../../api/WorkerService";
+import { WorkerService } from "../../../api/WorkerService";
 import { Inject } from "react.di";
 import { UserStore } from "../../../stores/UserStore";
 
@@ -15,15 +15,16 @@ const centerDivider = {
 
 const HasIdButton: any = Button;
 
+
 @observer
 export class BrowserMissionList extends React.Component<any, {}> {
   
   @Inject browserStore: BrowserStore;
   @Inject userStore: UserStore;
-  
+  @Inject workerService: WorkerService;
   
   handleAccept = async (e) => {
-    const response: Response = await workerService.acceptMission(e.target.id, this.userStore.token);
+    const response: Response = await this.workerService.acceptMission(e.target.id, this.userStore.token);
     if (response.infoCode === 10000) {
       message.success('任务接受成功');
     }

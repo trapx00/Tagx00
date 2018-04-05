@@ -1,11 +1,10 @@
 import React from "react";
-import { ImageNotation, ImageWorkStoreProps, STORE_IMAGEWORK } from "../../../stores/ImageWorkStore";
+import { ImageNotation } from "../../../stores/ImageWorkStore";
 import { PartJob, PartJobTuple } from "../../../models/instance/image/job/PartJob";
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import { ImageWorkPageProps } from "./ImageWorkPage";
 import { action, computed, observable, toJS } from "mobx";
-import { Row, Col, Card } from 'antd';
-import { WholeJob } from "../../../models/instance/image/job/WholeJob";
+import { Card, Col, Row } from 'antd';
 import { TagDescriptionTuple } from "../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../components/ImageWork/MissionTipCard";
 import { ProgressController } from "../../../components/ProgressController";
@@ -13,13 +12,17 @@ import { TagDescriptionTuplePanel } from "../../../components/ImageWork/TagDescr
 import { RectanglePanel } from "../../../components/ImageWork/DrawingPad/RectanglePanel";
 import { ImageMissionType } from "../../../models/mission/image/ImageMission";
 import { PartAddingModeController } from "../../../components/ImageWork/Part/PartAddingModeController";
-import { replaceElement } from "../../../../utils/Array";
+import * as localStyle from './style.css';
+import { ImageWorkPageLayout } from "./Layout";
 
 @observer
 export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJob>, any> {
   @observable notation: ImageNotation<PartJob> = this.props.notation;
   @observable selectedIndex: number = 1;
   @observable addingMode: boolean = false;
+  @observable width: number = 1;
+  @observable height: number = 1;
+  @observable scale: number = 1;
 
   @computed get selectedTuple() {
     if (this.selectedIndex >= 0 && this.selectedIndex < this.notation.job.tuples.length) {
@@ -73,32 +76,41 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
     }
   };
 
+  getScale = () => {
+    return this.scale;
+  };
+
   goNext = () => {
     this.props.goNext(this.notation);
   };
 
+  @action onImageLoaded = (width, height) => {
+    this.width = width;
+    this.height = height;
+  };
+
+  @action setScale = (scale) => {
+    this.scale = scale;
+  };
 
   render() {
     const {imageUrl, job} = this.props.notation;
 
     const {missionDetail, controllerProps, readonlyMode} = this.props;
     const selectedTuple = this.selectedTuple;
-    return <div>
-
-      <Row gutter={16}>
-        <Col span={16}>
-          <Card>
-            <RectanglePanel imageUrl={imageUrl}
-                            tuples={this.notation.job.tuples}
-                            onDrawComplete={this.onTupleCreated}
-                            addingMode={this.addingMode}
-                            onTupleSelected={this.onTupleSelected}
-                            selectedTuple={selectedTuple}
-            />
-
-          </Card>
-        </Col>
-        <Col span={8}>
+    return <ImageWorkPageLayout imageHeight={this.height} imageWidth={this.width} setScale={this.setScale}>
+        <>
+          <RectanglePanel imageUrl={imageUrl}
+                          tuples={this.notation.job.tuples}
+                          onDrawComplete={this.onTupleCreated}
+                          addingMode={this.addingMode}
+                          onTupleSelected={this.onTupleSelected}
+                          selectedTuple={selectedTuple}
+                          onImageLoaded={this.onImageLoaded}
+                          getScale={this.getScale}
+          />
+        </>
+        <>
           <MissionTipCard jobType={job.type}
                           tags={missionDetail.publicItem.allowedTags}
                           allowCustomTag={missionDetail.publicItem.allowCustomTag}
@@ -121,8 +133,7 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
                               readonlyMode={this.props.readonlyMode}
                               saveProgress={this.submit}
           />
-        </Col>
-      </Row>
-    </div>
+        </>
+      </ImageWorkPageLayout>;
   }
 }

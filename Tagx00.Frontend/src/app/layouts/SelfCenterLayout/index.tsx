@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout, Menu } from 'antd';
 import { SelfSideMenu } from "../../components/SelfSideMenu";
-import { inject, IReactComponent, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import { UserStore } from "../../stores/UserStore";
 import { Inject } from "react.di";
 

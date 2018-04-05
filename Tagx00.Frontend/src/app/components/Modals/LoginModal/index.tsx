@@ -1,23 +1,28 @@
 import React from "react";
 import { Button, Modal } from 'antd';
 import { Localize } from "../../../internationalization/components";
-import { inject, observer, Provider } from "mobx-react";
-import { STORE_UI, STORE_USER } from "../../../constants/stores";
+import { observer } from "mobx-react";
 import { UiStore } from "../../../stores/UiStore";
 import { LoginController } from "./LoginController";
 import { LoginForm } from "./Form";
 import { action } from "mobx";
 import { UserStore } from "../../../stores/UserStore";
-import { Inject } from "react.di";
+import { Inject, Module } from "react.di";
 
 interface Props  {
 
 }
 
+
+@Module({
+  providers: [
+    LoginController
+  ]
+})
 @observer
 export class LoginModal extends React.Component<Props, any> {
 
-  controller: LoginController = new LoginController();
+  @Inject controller: LoginController;
 
   @Inject userStore: UserStore;
   @Inject uiStore: UiStore;

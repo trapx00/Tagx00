@@ -1,12 +1,12 @@
 import React from "react";
-import { Menu, Icon } from 'antd';
-import { inject, observer } from "mobx-react";
-import { STORE_ROUTER, STORE_USER } from "../../constants/stores";
+import { Icon, Menu } from 'antd';
+import { observer } from "mobx-react";
 import { UserStore } from "../../stores/UserStore";
 import { Link } from 'react-router-dom';
-import { RouterStore } from "../../router/RouterStore";
+import { RouterStore } from "../../stores/RouterStore";
 import { LocaleMessage } from "../../internationalization/components";
 import { Inject } from "react.di";
+
 const { SubMenu } = Menu;
 
 interface Props {

@@ -1,9 +1,5 @@
 import React, { ReactNode } from "react";
-import { Input, Icon, Button } from 'antd';
-import { action, observable } from "mobx";
-import { observer } from "mobx-react";
-import { removeElementAt } from "../../../utils/Array";
-import { LocaleMessage } from "../../internationalization/components";
+import { Button, Icon, Input } from 'antd';
 
 interface Props {
   items: string[];

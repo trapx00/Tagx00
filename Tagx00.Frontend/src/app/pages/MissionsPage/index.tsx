@@ -1,16 +1,13 @@
 import React from "react";
-import { Spin } from 'antd';
 import { LocaleMessage } from "../../internationalization/components";
 import { MissionCardPane } from "../../components/MyMission/MissionCardPane";
-import { missionService } from "../../api/MissionService";
-import { workerService } from "../../api/WorkerService";
+import { MissionService } from "../../api/MissionService";
+import { WorkerService } from "../../api/WorkerService";
 import { AsyncComponent } from "../../router/AsyncComponent";
-import { inject, observer } from "mobx-react";
-import { STORE_USER } from "../../constants/stores";
+import { observer } from "mobx-react";
 import { Loading } from "../../components/Common/Loading";
-import { UserStore} from "../../stores/UserStore";
+import { UserStore } from "../../stores/UserStore";
 import { UserRole } from "../../models/User";
-import { ImageMissionCreateInfoForm } from "../../components/MissionCreate/ImageMissionCreateInfoForm";
 import { ImageMissionCreatePage } from "./ImageMissionCreatePage";
 import { Inject } from "react.di";
 
@@ -19,9 +16,11 @@ import { Inject } from "react.di";
 export class MissionsPage extends React.Component<{}, {}> {
 
   @Inject userStore: UserStore;
+  @Inject workerService: WorkerService;
+  @Inject missionService: MissionService;
 
   renderList = async () => {
-    const instances = await workerService.getAllInstances(this.userStore.token);
+    const instances = await this.workerService.getAllInstances(this.userStore.token);
     return <MissionCardPane items={instances}/>;
 
   };

@@ -1,7 +1,5 @@
 import React from 'react';
-import { observer } from "mobx-react";
-import { observable } from "mobx";
-import { Upload, Button, Icon, message } from 'antd';
+import { Button, Icon, Upload } from 'antd';
 import { UploadFile, UploadProps } from "antd/lib/upload/interface";
 
 interface Props {

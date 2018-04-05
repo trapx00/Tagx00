@@ -2,14 +2,13 @@ import React from "react";
 import { Col, Icon, Menu, Row } from 'antd';
 import { LocaleMessage } from "../../internationalization/components";
 import { observer } from "mobx-react";
-import { STORE_ROUTER } from "../../constants/stores";
 import { NavbarUserIndicator } from "./NavbarUserIndicator";
 import { Link } from "react-router-dom";
 import { LanguageSelector } from "../LanguageSelector";
 import * as style from './style.css';
 import { NavbarModals } from "./NavbarModals";
 import { Inject } from "react.di";
-import { RouterStore } from "../../router/RouterStore";
+import { RouterStore } from "../../stores/RouterStore";
 
 // import pages will result in circular dependency and I can't figure out why
 // hard-code is the only option :(
@@ -56,10 +55,10 @@ export class Navbar extends React.Component<{}, {}> {
       {/*<span>*/}
       {/*<SvgImg filePath={"logo.svg"} width={56} height={56}/>*/}
       {/*</span>*/}
-      <Col xs={24} md={4} className={style.center}>
+      <Col xs={24} md={3} className={style.center}>
         <span>Tag x00</span>
       </Col>
-      <Col span={20} className={style.rightColumns}>
+      <Col span={21} className={style.rightColumns}>
         <div className={style.navItem}>
           <LanguageSelector/>
         </div>

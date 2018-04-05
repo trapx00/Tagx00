@@ -1,7 +1,6 @@
-
 import React from "react";
 import { BaseLayout } from "../layouts/BaseLayout";
-import { Router, Switch } from "react-router";
+import { Switch } from "react-router";
 import { History } from "history";
 import rootRoutes from "../router/routes/rootRoutes";
 import { PagesWithSelfCenterLayout } from "./PagesWithSelfCenterLayout";

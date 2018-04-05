@@ -1,22 +1,24 @@
 import React from "react";
-import { ImageMissionDetail, ImageMissionType } from "../../../models/mission/image/ImageMission";
-import { ImageInstanceDetail } from "../../../models/instance/image/ImageInstanceDetail";
-import { ImageNotation, ImageWorkStoreProps, STORE_IMAGEWORK } from "../../../stores/ImageWorkStore";
+import { ImageMissionType } from "../../../models/mission/image/ImageMission";
+import { ImageNotation } from "../../../stores/ImageWorkStore";
 import { WholeJob } from "../../../models/instance/image/job/WholeJob";
-import { Row, Col, Card } from 'antd';
-import { TagDescriptionTuple, TagTuple } from "../../../models/instance/TagTuple";
-import { inject, observer } from "mobx-react";
+import { Card, Col, Row } from 'antd';
+import { TagDescriptionTuple } from "../../../models/instance/TagTuple";
+import { observer } from "mobx-react";
 import { ImageWorkPageProps } from "./ImageWorkPage";
 import { MissionTipCard } from "../../../components/ImageWork/MissionTipCard";
 import { TagDescriptionTuplePanel } from "../../../components/ImageWork/TagDescriptionPanel";
 import { ProgressController } from "../../../components/ProgressController";
 import { action, observable, toJS } from "mobx";
-
+import * as localStyle from './style.css';
+import { ImageWorkPageLayout } from "./Layout";
 
 @observer
 export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<WholeJob>, any> {
 
   @observable notation: ImageNotation<WholeJob> = this.props.notation;
+  @observable width: number = 1;
+  @observable height: number = 1;
 
   @action fillNotation() {
     if (!(this.notation.job && this.notation.job.tuple)) {
@@ -53,16 +55,12 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
 
     const { imageUrl, job } = this.notation;
     const { missionDetail, controllerProps } = this.props;
-    return <div>
-      <Row gutter={16}>
-        <Col span={16}>
-          <Card
-            cover={<img src={imageUrl} />}
-          >
-
-          </Card>
-        </Col>
-        <Col span={8}>
+    return <ImageWorkPageLayout imageWidth={this.width} imageHeight={this.height} setScale={() => {}}>
+      <>
+        <img src={imageUrl} />
+      </>
+      <>
+        <div className={localStyle.controller}>
           <MissionTipCard jobType={job.type}
             tags={missionDetail.publicItem.allowedTags}
             allowCustomTag={missionDetail.publicItem.allowCustomTag}
@@ -74,8 +72,8 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
             readonlyMode={this.props.readonlyMode}
             saveProgress={this.submit}
           />
-        </Col>
-      </Row>
-    </div>
+        </div>
+      </>
+    </ImageWorkPageLayout>
   }
 }

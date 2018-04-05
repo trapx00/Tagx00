@@ -3,6 +3,7 @@ import React from "react"
 import { DistrictDrawer } from "./DistrictCanvas/DistrictDrawer";
 import { observer } from "mobx-react";
 import { Point } from "../../../../models/instance/image/Shapes";
+import { getCursorPosition } from "../utils/getCursorPosition";
 
 interface ExistingDistrictsLayerProps {
   districts: DistrictNotation[];
@@ -10,6 +11,7 @@ interface ExistingDistrictsLayerProps {
   width: number;
   height: number;
   onDistrictSelected: (district: DistrictNotation) =>void;
+  getScale: () => number;
 }
 
 @observer
@@ -49,17 +51,9 @@ export class ExistingDistrictsLayer extends React.Component<ExistingDistrictsLay
   };
 
 
-  getCursorPosition(e): Point {
-    const {top, left} = this.canvas.getBoundingClientRect();
-    return {
-      x: Math.trunc(e.clientX - left),
-      y: Math.trunc(e.clientY - top)
-    };
-  }
-
 
   onMouseDown = (e) => {
-    const point = this.getCursorPosition(e);
+    const point = getCursorPosition(this.canvas,e, this.props.getScale());
     const clickedDistrict = this.props.districts.find(x=> x.district.isInside(point));
     console.log(clickedDistrict);
     if (clickedDistrict) {

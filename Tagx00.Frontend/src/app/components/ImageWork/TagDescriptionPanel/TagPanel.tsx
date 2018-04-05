@@ -2,11 +2,9 @@ import { observer } from "mobx-react";
 import { TagTuple } from "../../../models/instance/TagTuple";
 import React from "react";
 import { action, computed, observable } from "mobx";
-import { Icon, Card, Tooltip, Tag } from 'antd';
-import { ClickableTag } from "../../ClickableTag";
+import { Card, Icon, Tag, Tooltip } from 'antd';
 import { panelStyle } from "./index";
 import { TagModificationModal } from "./TagModificationModal";
-import { removeElementAt } from "../../../../utils/Array";
 import { LocaleMessage } from "../../../internationalization/components";
 
 

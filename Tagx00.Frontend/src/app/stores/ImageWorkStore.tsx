@@ -1,11 +1,13 @@
-import { action, computed, observable, toJS } from "mobx";
+import { action, computed, observable } from "mobx";
 import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
 import { ImageJob } from "../models/instance/image/job/ImageJob";
 import { ImageMissionType } from "../models/mission/image/ImageMission";
+import { ImageResult } from "../models/instance/image/ImageResult";
 
 export interface ImageNotation<T extends ImageJob = ImageJob> {
   imageUrl: string;
   job: T;
+  done: boolean;
 }
 
 enum TransformDirection {
@@ -32,7 +34,8 @@ export class ImageWorkStore {
         id: index,
         instanceId: instance.instanceId,
         imageJob: this.currentNotations[index].job,
-        url: this.currentNotations[index].imageUrl
+        url: this.currentNotations[index].imageUrl,
+        isDone: x.done
       })),
       instance: instance
     }
@@ -50,7 +53,7 @@ export class ImageWorkStore {
 
     for (const url of imageUrls) {
       for (const type of types) {
-        let result;
+        let result: ImageResult;
         //confirm if results exists
         if (instanceDetail.imageResults) {
           result = instanceDetail.imageResults.find(x => x.url === url && x.imageJob && x.imageJob.type === type);
@@ -60,7 +63,8 @@ export class ImageWorkStore {
         if (result) { //existing job, push in
           this.currentNotations.push({
             imageUrl: url,
-            job: result.imageJob
+            job: result.imageJob,
+            done: result.isDone
           });
           // this.workIndex++; // existing job, resume progress
         } else {
@@ -68,7 +72,8 @@ export class ImageWorkStore {
             imageUrl: url,
             job: {
               type: type
-            }
+            },
+            done: false
           });
         }
       }
@@ -102,6 +107,7 @@ export class ImageWorkStore {
   }
 
   @action saveWork(notation: ImageNotation) {
+    notation.done = true;
     this.currentNotations[this.workIndex] = notation;
   }
 

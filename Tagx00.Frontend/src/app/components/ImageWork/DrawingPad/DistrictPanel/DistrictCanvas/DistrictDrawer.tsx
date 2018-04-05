@@ -1,4 +1,3 @@
-
 import { Boundary, District } from "../Districts";
 import { Point } from "../../../../../models/instance/image/Shapes";
 

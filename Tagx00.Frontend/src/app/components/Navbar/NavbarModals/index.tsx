@@ -1,6 +1,5 @@
-import { STORE_UI } from "../../../constants/stores";
 import { UiStore } from "../../../stores/UiStore";
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import React from "react";
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { Inject } from "react.di";
