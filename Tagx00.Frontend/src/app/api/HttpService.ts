@@ -1,4 +1,4 @@
-import { appendQueryString, HttpMethod, NetworkErrorCode } from "./utils";
+import { appendQueryString, HttpMethod, NetworkErrorCode, urlJoin } from "./utils";
 import { Injectable } from "react.di";
 
 
@@ -40,11 +40,12 @@ declare var APIROOTURL: string;
 export class HttpService {
 
   async sendFile<T = any>(files: FormData,
-                                    url: string,
-                                    queryParams?: any,
-                                    headers?: {[s: string]: string}): Promise<NetworkResponse<T>> {
+                          url: string,
+                          queryParams?: any,
+                          headers?: {[s: string]: string}): Promise<NetworkResponse<T>> {
+    const actualUrl = urlJoin(APIROOTURL, url);
     try {
-      const res = await fetch(appendQueryString(url, queryParams), {
+      const res = await fetch(appendQueryString(actualUrl, queryParams), {
         method: HttpMethod.POST,
         headers: headers,
         body: files
@@ -66,8 +67,10 @@ export class HttpService {
       ? {body: JSON.stringify(fetchInfo.body)}
       : {};
 
+    const url = urlJoin(APIROOTURL, fetchInfo.path);
+
     try {
-      const res = await fetch(appendQueryString(fetchInfo.path, fetchInfo.queryParams), {
+      const res = await fetch(appendQueryString(url, fetchInfo.queryParams), {
         method: fetchInfo.method || HttpMethod.GET,
         headers: {
           'Content-Type': 'application/json',
