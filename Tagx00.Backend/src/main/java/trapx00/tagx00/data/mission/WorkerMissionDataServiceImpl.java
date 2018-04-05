@@ -13,7 +13,6 @@ import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UnmatchedUsernameAndMissionId;
 import trapx00.tagx00.publicdatas.mission.MissionType;
-import trapx00.tagx00.publicdatas.mission.MissionTypeName;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
@@ -44,10 +43,9 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     public int saveInstance(InstanceDetailVo instanceDetailVo) throws SystemException, MissionAlreadyAcceptedException, UnmatchedUsernameAndMissionId {
         MissionType missionType = instanceDetailVo.getMissionType();
         InstanceVo instanceVo = instanceDetailVo.getInstance();
-        String missionId = missionType.name + "-" + instanceVo.getMissionId();
         Instance result = null;
         if (this.getInstanceByUsernameAndMissionId(instanceVo.getWorkerUsername(),
-                missionId) == null) {
+                instanceVo.getMissionId(), missionType) == null) {
             throw new UnmatchedUsernameAndMissionId();
         } else {
             if (instanceVo.getInstanceId() == 0) {
@@ -105,18 +103,16 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     /**
      * get mission by mission id
      *
-     * @param missionId the id of the mission
+     * @param missionId   the id of the mission
+     * @param missionType
      * @return the mission object
      */
     @Override
-    public Mission getMissionByMissionId(String missionId) {
-        String type = missionId.split("-")[0];
-        int id = Integer.parseInt(missionId.split("-")[1]);
-
+    public Mission getMissionByMissionId(int missionId, MissionType missionType) {
         Mission mission = null;
-        switch (type) {
-            case MissionTypeName.IMAGE_TYPE_NAME:
-                mission = imageMissionDao.findMissionByMissionId(id);
+        switch (missionType) {
+            case IMAGE:
+                mission = imageMissionDao.findMissionByMissionId(missionId);
                 break;
         }
         return mission;
@@ -127,13 +123,11 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
      *
      * @param workerUsername
      * @param missionId
+     * @param missionType
      * @return the instance matching username and missionId
      */
     @Override
-    public InstanceDetailVo getInstanceByUsernameAndMissionId(String workerUsername, String missionId) {
-        String type = missionId.split("-")[0];
-        int id = Integer.parseInt(missionId.split("-")[1]);
-
+    public InstanceDetailVo getInstanceByUsernameAndMissionId(String workerUsername, int missionId, MissionType missionType) {
         ArrayList<Instance> instances = new ArrayList<>();
 
         //获得每个种类的instance列表
@@ -142,7 +136,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         if (instances == null)
             return null;
         for (int i = 0; i < instances.size(); i++) {
-            if (instances.get(i).getMissionId() == id && instances.get(i).getMissionType() == MissionTypeName.missionTypeMap.get(type)) {
+            if (instances.get(i).getMissionId() == missionId && instances.get(i).getMissionType() == missionType) {
                 Instance instance = instances.get(i);
                 int instanceResultIdsSize = 0;
                 switch (instance.getMissionType()) {
@@ -162,8 +156,8 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     }
 
     @Override
-    public boolean deleteInstanceByMissionIdAndUsername(String missionId, String username) {
-        InstanceDetailVo instanceDetailVo = this.getInstanceByUsernameAndMissionId(username, missionId);
+    public boolean deleteInstanceByMissionIdAndUsername(int missionId, String username, MissionType missionType) {
+        InstanceDetailVo instanceDetailVo = this.getInstanceByUsernameAndMissionId(username, missionId, missionType);
         switch (instanceDetailVo.getMissionType()) {
             case IMAGE:
                 imageInstanceDao.deleteInstance(instanceDetailVo.getInstance().getInstanceId());

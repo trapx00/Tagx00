@@ -58,7 +58,7 @@ public class PublicMissionController {
             @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> getOneMission(@PathVariable(name = "missionId") Integer missionId) {
+    public ResponseEntity<Response> getOneMission(@PathVariable(name = "missionId") String missionId) {
         try {
             return new ResponseEntity(publicMissionBlService.getOneMissionDetail(missionId), HttpStatus.OK);
         } catch (NotMissionException e) {

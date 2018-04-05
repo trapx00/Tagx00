@@ -1,8 +1,6 @@
 package trapx00.tagx00.blservice.mission;
 
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
-import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
-import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.mission.*;
 import trapx00.tagx00.response.mission.requester.MissionChargeResponse;
@@ -27,7 +25,7 @@ public interface RequesterMissionBlService {
      * @param missionId
      * @return the list of MissionInstanceItemVo
      */
-    InstanceResponse queryInstances(int missionId) throws InstanceNotExistException;
+    InstanceResponse queryInstances(String missionId) throws InstanceNotExistException;
 
     /**
      * query to get the instance of the mission
@@ -35,7 +33,7 @@ public interface RequesterMissionBlService {
      * @param instanceId the id of the mission
      * @return the detail response with instance of a mission
      */
-    InstanceDetailResponse queryInstance(int instanceId)throws InstanceNotExistException;
+    InstanceDetailResponse queryInstance(String instanceId)throws InstanceNotExistException;
 
     /**
      * charge for the mission
@@ -43,7 +41,7 @@ public interface RequesterMissionBlService {
      * @param credits
      * @return  MissionChargeResponse
      */
-    MissionChargeResponse chargeMission(int missionId, int credits);
+    MissionChargeResponse chargeMission(String missionId, int credits);
 
 
     /**
@@ -51,7 +49,7 @@ public interface RequesterMissionBlService {
      * @param missionId
      * @return MissionRequestQueryResponse
      */
-    MissionRequestQueryResponse queryMissionCredits (int missionId);
+    MissionRequestQueryResponse queryMissionCredits (String missionId);
 
 
     /**
@@ -60,7 +58,7 @@ public interface RequesterMissionBlService {
      * @param missionFinalizeVo
      * @return InstanceDetailResponse
      */
-    InstanceDetailResponse finalize(int instanceId,MissionFinalizeVo missionFinalizeVo)throws InstanceNotExistException;
+    InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo)throws InstanceNotExistException;
 
 
 }

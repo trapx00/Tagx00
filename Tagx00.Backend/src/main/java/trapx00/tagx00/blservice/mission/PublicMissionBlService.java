@@ -17,8 +17,9 @@ public interface PublicMissionBlService {
      * get one mission
      *
      * @return the list of MissionDetailVo
+     * @param missionId
      */
-    MissionDetailResponse getOneMissionDetail(int missionId)throws NotMissionException;
+    MissionDetailResponse getOneMissionDetail(String missionId)throws NotMissionException;
 
 
 }

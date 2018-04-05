@@ -4,6 +4,7 @@ import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UnmatchedUsernameAndMissionId;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
@@ -12,9 +13,10 @@ public interface WorkerMissionDataService {
      * get mission by mission id
      *
      * @param missionId the id of the mission({type}-{id})
+     * @param missionType
      * @return the mission object
      */
-    Mission getMissionByMissionId(String missionId);
+    Mission getMissionByMissionId(int missionId, MissionType missionType);
 
     /**
      * save the progress of the instance.
@@ -39,16 +41,18 @@ public interface WorkerMissionDataService {
      *
      * @param workerusername
      * @param missionId
+     * @param missionType
      * @return the instance matching username and missionId
      */
-    InstanceDetailVo getInstanceByUsernameAndMissionId(String workerusername, String missionId);
+    InstanceDetailVo getInstanceByUsernameAndMissionId(String workerusername, int missionId, MissionType missionType);
 
     /**
      * delte the mission of a worker
      *
      * @param missionId
      * @param username
+     * @param missionType
      * @return
      */
-    boolean deleteInstanceByMissionIdAndUsername(String missionId, String username);
+    boolean deleteInstanceByMissionIdAndUsername(int missionId, String username, MissionType missionType);
 }
