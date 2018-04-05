@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Input, message, Tag } from "antd";
+import { Input, Tag } from "antd";
 import { Localize } from "../../../internationalization/components";
 import { ClickableTag } from "../../ClickableTag";
-import { inject, observer } from "mobx-react";
-import { STORE_BROWSER, BrowserProps } from "../BrowserStore";
+import { observer } from "mobx-react";
+import { BrowserStore } from "../BrowserStore";
+import { Inject } from "react.di";
 
 const Search = Input.Search;
 
@@ -15,10 +16,11 @@ const centerAndPadding = {
   margin: '2%',
 };
 
-
-@inject(STORE_BROWSER)
 @observer
-export class SearchBar extends React.Component<BrowserProps, any> {
+export class SearchBar extends React.Component<{}, any> {
+
+  @Inject browserStore: BrowserStore;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -35,12 +37,12 @@ export class SearchBar extends React.Component<BrowserProps, any> {
   };
 
   handleSearch = async () => {
-    this.props[STORE_BROWSER].reverseBrowsing();
-    await this.props[STORE_BROWSER].search(this.state.searchValue);
+    this.browserStore.reverseBrowsing();
+    await this.browserStore.search(this.state.searchValue);
   };
 
   handleSearchAll = () => {
-    this.props[STORE_BROWSER].reverseBrowsing();
+    this.browserStore.reverseBrowsing();
   };
 
   setSearchValue = (e) => {

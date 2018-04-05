@@ -3,28 +3,27 @@ import { Button, Modal } from 'antd';
 import { Localize } from "../../../internationalization/components";
 import { inject, observer, Provider } from "mobx-react";
 import { STORE_UI, STORE_USER } from "../../../constants/stores";
-import { UiStoreProps } from "../../../stores/UiStore";
+import { UiStore } from "../../../stores/UiStore";
 import { LoginController } from "./LoginController";
 import { LoginForm } from "./Form";
 import { action } from "mobx";
-import { UserStoreProps } from "../../../stores/UserStore";
+import { UserStore } from "../../../stores/UserStore";
+import { Inject } from "react.di";
 
-interface Props extends UiStoreProps, UserStoreProps {
+interface Props  {
 
 }
 
-
-
-
-@inject(STORE_UI, STORE_USER)
 @observer
 export class LoginModal extends React.Component<Props, any> {
 
   controller: LoginController = new LoginController();
 
+  @Inject userStore: UserStore;
+  @Inject uiStore: UiStore;
+
   onCancel = () => {
-    const store = this.props[STORE_UI];
-    store.toggleLoginModalShown();
+    this.uiStore.toggleLoginModalShown();
   };
 
 
@@ -33,8 +32,8 @@ export class LoginModal extends React.Component<Props, any> {
     fields.loginAttempted = true;
     if (fields.valid) {
       try {
-        await this.controller.doLogin(this.props[STORE_USER]);
-        this.props[STORE_UI].toggleLoginModalShown();
+        await this.controller.doLogin(this.userStore);
+        this.uiStore.toggleLoginModalShown();
       } catch (e) {
         console.log(e);
       }
@@ -42,17 +41,15 @@ export class LoginModal extends React.Component<Props, any> {
   };
 
   render() {
-    const store = this.props[STORE_UI];
     const props = {
       title: "loginModal.title",
       login: "loginModal.login",
       cancel: "loginModal.cancel"
     };
 
-    return <Provider fields={this.controller.fields}>
-      <Localize replacements={props}>
+    return <Localize replacements={props}>
         {props =>
-          <Modal visible={store.loginModalShown}
+          <Modal visible={this.uiStore.loginModalShown}
                  title={props.title}
                  onCancel={this.onCancel}
                  onOk={this.onOk}
@@ -65,10 +62,9 @@ export class LoginModal extends React.Component<Props, any> {
                    </Button>
                  ]}
           >
-            <LoginForm/>
+            <LoginForm fields={this.controller.fields}/>
           </Modal>
         }
-      </Localize>
-    </Provider>;
+      </Localize>;
   }
 }

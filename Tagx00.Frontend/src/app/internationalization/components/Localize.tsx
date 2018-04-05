@@ -1,8 +1,9 @@
 import React from "react"
 import { ReactNode } from "react";
 import { inject, observer } from "mobx-react";
-import { ReplacementMap } from "../LocaleStore";
+import { LocaleStore, ReplacementMap } from "../LocaleStore";
 import { STORE_LOCALE } from "../../constants/stores";
+import { Inject } from "react.di";
 
 interface LocalizeProps {
 
@@ -10,14 +11,15 @@ interface LocalizeProps {
   replacements?: ReplacementMap;
 }
 
-@inject(STORE_LOCALE)
 @observer
 export class Localize<T> extends React.Component<LocalizeProps, {}> {
+
+  @Inject localeStore: LocaleStore;
+
   render() {
-    const locale = this.props[STORE_LOCALE];
     const childProducer = this.props.children;
     const properties = Object.keys(this.props.replacements)
-      .reduce((obj, key) => ({ ...obj, [key]: locale.get(this.props.replacements[key]) }), {});
+      .reduce((obj, key) => ({ ...obj, [key]: this.localeStore.get(this.props.replacements[key] as string) }), {});
     return childProducer(properties);
   }
 }

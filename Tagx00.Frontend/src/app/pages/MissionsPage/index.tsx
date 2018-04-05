@@ -8,28 +8,29 @@ import { AsyncComponent } from "../../router/AsyncComponent";
 import { inject, observer } from "mobx-react";
 import { STORE_USER } from "../../constants/stores";
 import { Loading } from "../../components/Common/Loading";
-import { UserStoreProps } from "../../stores/UserStore";
+import { UserStore} from "../../stores/UserStore";
 import { UserRole } from "../../models/User";
 import { ImageMissionCreateInfoForm } from "../../components/MissionCreate/ImageMissionCreateInfoForm";
 import { ImageMissionCreatePage } from "./ImageMissionCreatePage";
+import { Inject } from "react.di";
 
 
-@inject(STORE_USER)
 @observer
-export class MissionsPage extends React.Component<UserStoreProps, {}> {
+export class MissionsPage extends React.Component<{}, {}> {
+
+  @Inject userStore: UserStore;
 
   renderList = async () => {
-    const instances = await workerService.getAllInstances(this.props[STORE_USER].token);
+    const instances = await workerService.getAllInstances(this.userStore.token);
     return <MissionCardPane items={instances}/>;
 
   };
 
   render() {
-    const store = this.props[STORE_USER];
 
-    if (store.loggedIn) {
-      console.log(store.user.role);
-      if (store.user.role === UserRole.ROLE_REQUESTER) {
+    if (this.userStore.loggedIn) {
+      console.log(this.userStore.user.role);
+      if (this.userStore.user.role === UserRole.ROLE_REQUESTER) {
         return <ImageMissionCreatePage/>;
       } else {
         return <div>

@@ -1,16 +1,15 @@
 import React from "react";
-import { Col, Menu, Row, Icon } from 'antd';
+import { Col, Icon, Menu, Row } from 'antd';
 import { LocaleMessage } from "../../internationalization/components";
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import { STORE_ROUTER } from "../../constants/stores";
-import { RouterStoreProps } from "../../router/RouterStore";
 import { NavbarUserIndicator } from "./NavbarUserIndicator";
 import { Link } from "react-router-dom";
 import { LanguageSelector } from "../LanguageSelector";
 import * as style from './style.css';
 import { NavbarModals } from "./NavbarModals";
-import { notFoundPage } from "../../router/routes/notFoundRoute";
-import { NavMenuItem } from "../Common/NavMenuItem";
+import { Inject } from "react.di";
+import { RouterStore } from "../../router/RouterStore";
 
 // import pages will result in circular dependency and I can't figure out why
 // hard-code is the only option :(
@@ -40,13 +39,13 @@ const routes = [
 ];
 
 
-@inject(STORE_ROUTER)
 @observer
-export class Navbar extends React.Component<RouterStoreProps, any> {
+export class Navbar extends React.Component<{}, {}> {
+
+  @Inject routerStore: RouterStore;
 
   get selectedRoute() {
-    const router = this.props[STORE_ROUTER];
-    return routes.filter(x => x.match(router.path)).map(x => x.path)
+    return routes.filter(x => x.match(this.routerStore.path)).map(x => x.path)
   }
 
   render() {

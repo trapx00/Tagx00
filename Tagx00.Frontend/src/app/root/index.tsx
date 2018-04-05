@@ -1,47 +1,44 @@
-import React from 'react';
-
-import { inject, observer } from "mobx-react";
-import { AsyncComponent } from "../router/AsyncComponent";
+import { RouterStore } from "../router/RouterStore";
+import { LocaleStore } from "../internationalization";
+import { UserStore } from "../stores/UserStore";
+import { UiStore } from "../stores/UiStore";
+import createBrowserHistory from "history/createBrowserHistory";
+import { Inject, Module } from "react.di";
 import { STORE_ROUTER } from "../constants/stores";
-import { RouterStoreProps } from "../router/RouterStore";
-import { History } from "history";
+import * as React from "react";
 import { Route, Router, Switch } from "react-router";
 import { homePage } from "../router/routes/rootRoutes";
-import { RouteConfig } from "../router/routes/RouteConfig";
-import { BaseLayout } from "../layouts/BaseLayout";
+import { AsyncComponent } from "../router/AsyncComponent";
+import { Root } from "./root";
 
+export async function initProviders(history) {
+  const userStore = new UserStore();
+  const routerStore = new RouterStore(history);
+  const localeStore = new LocaleStore();
+  await localeStore.init();
+
+  return [
+    { provide: RouterStore, useValue: routerStore },
+    { provide: UserStore, useValue: userStore},
+    UiStore,
+    { provide: LocaleStore, useValue: localeStore }
+  ]
+
+}
 
 export interface AppProps {
-  history: History;
+
 }
 
-async function renderDevTool() {
-  if (process.env.NODE_ENV !== 'production') {
-    const DevTools = (await import('mobx-react-devtools')).default;
-    return (<DevTools/>);
-  } else {
-    return null;
-  }
-}
-
-
-export class App extends React.Component<AppProps, {}> {
-
-  renderPagesWithBaseLayout = async () => {
-    const Page = (await import("./PagesWithBaseLayout")).PageWithBaseLayout;
-    return <Page history={this.props.history}/>
-  };
-
-  render() {
-    const router = this.props[STORE_ROUTER];
-    return <div>
-      <Router history={this.props.history}>
-        <Switch>
-          {homePage.construct()}
-          <Route render={props => <AsyncComponent render={this.renderPagesWithBaseLayout} props={props}/>}/>
-        </Switch>
-      </Router>
-      <AsyncComponent render={renderDevTool}/>
-    </div>;
-  }
+export async function App() {
+  const history = createBrowserHistory();
+  const providers = await initProviders(history);
+  return Module({
+    providers: providers
+  })(
+  class App extends React.Component<AppProps, {}> {
+    render() {
+      return <Root history={history}/>
+    }
+  });
 }

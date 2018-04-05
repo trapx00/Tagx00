@@ -1,11 +1,12 @@
-import * as React from "react";
-import { message, Spin, List, Button, Divider, Pagination } from "antd";
-import { Localize } from "../../../internationalization/components/index";
-import { STORE_BROWSER } from "../BrowserStore";
-import { inject, observer } from "mobx-react";
+import React from "react";
+import { Button, Divider, List, message, Pagination, Spin } from "antd";
+import { Localize } from "../../../internationalization/components";
+import { BrowserStore } from "../BrowserStore";
+import { observer } from "mobx-react";
 import { Response } from "../../../models/Response";
 import { workerService } from "../../../api/WorkerService";
-import { STORE_USER } from "../../../constants/stores";
+import { Inject } from "react.di";
+import { UserStore } from "../../../stores/UserStore";
 
 const centerDivider = {
   marginTop: '-10%',
@@ -14,19 +15,23 @@ const centerDivider = {
 
 const HasIdButton: any = Button;
 
-@inject(STORE_BROWSER, STORE_USER)
 @observer
-export class BrowserMissionList extends React.Component<any, any> {
+export class BrowserMissionList extends React.Component<any, {}> {
+  
+  @Inject browserStore: BrowserStore;
+  @Inject userStore: UserStore;
+  
+  
   handleAccept = async (e) => {
-    const response: Response = await workerService.acceptMission(e.target.id, this.props[STORE_USER].token);
+    const response: Response = await workerService.acceptMission(e.target.id, this.userStore.token);
     if (response.infoCode === 10000) {
       message.success('任务接受成功');
     }
   };
 
   render() {
-    if (this.props[STORE_BROWSER].isBrowsing) {
-      if (this.props[STORE_BROWSER].listData.length == 0) {
+    if (this.browserStore.isBrowsing) {
+      if (this.browserStore.listData.length == 0) {
         return <div style={{textAlign: 'center', marginTop: '-10%'}}><Spin size="large"/></div>;
       }
       else {
@@ -39,7 +44,7 @@ export class BrowserMissionList extends React.Component<any, any> {
                   itemLayout="vertical"
                   size="large"
                   pagination={false}
-                  dataSource={this.props[STORE_BROWSER].listData}
+                  dataSource={this.browserStore.listData}
                   renderItem={item => (
                     <List.Item
                       key={item.missionId}

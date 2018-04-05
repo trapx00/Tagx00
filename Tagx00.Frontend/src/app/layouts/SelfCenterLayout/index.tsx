@@ -2,23 +2,24 @@ import React from "react";
 import { Layout, Menu } from 'antd';
 import { SelfSideMenu } from "../../components/SelfSideMenu";
 import { inject, IReactComponent, observer } from "mobx-react";
-import { STORE_USER } from "../../constants/stores";
-import { UserStoreProps } from "../../stores/UserStore";
+import { UserStore } from "../../stores/UserStore";
+import { Inject } from "react.di";
 
 const {SubMenu} = Menu;
 const {Header, Content, Footer, Sider} = Layout;
 
-interface Props extends UserStoreProps {
+interface Props {
 
 }
 
-@inject(STORE_USER)
 @observer
 export class SelfCenterLayout extends React.Component<Props, any> {
+
+  @Inject userStore: UserStore;
+
   render() {
 
-    const userStore = this.props[STORE_USER];
-    if (userStore.loggedIn) {
+    if (this.userStore.loggedIn) {
       return <Layout style={{padding: '12px 0', background: '#fff'}}>
         <Sider width={200} style={{background: '#fff'}}>
           <SelfSideMenu/>

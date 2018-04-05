@@ -9,7 +9,9 @@ import { InstanceDetail } from "../../models/instance/InstanceDetail";
 import { MissionInstanceState } from "../../models/instance/MissionInstanceState";
 import { STORE_ROUTER, STORE_USER } from "../../constants/stores";
 import { inject } from "mobx-react";
-import { RouterStoreProps } from "../../router/RouterStore";
+import { RouterStore } from "../../router/RouterStore";
+import { UserStore } from "../../stores/UserStore";
+import { Inject } from "react.di";
 
 const {Meta} = Card;
 
@@ -47,18 +49,19 @@ const stubCard = <Localize replacements={{
 </Localize>;
 
 
-interface Props extends RouterStoreProps {
+interface Props {
   instance: Instance;
 }
 
 
-@inject(STORE_ROUTER, STORE_USER)
 export class MyMissionCard extends React.Component<Props, any> {
+
+  @Inject userStore: UserStore;
+  @Inject routerStore: RouterStore;
 
   goToDoMission = () => {
     const missionId = this.props.instance.missionId;
-    const router = this.props[STORE_ROUTER];
-    router.jumpTo(`/missions/${missionId}/doWork`);
+    this.routerStore.jumpTo(`/missions/${missionId}/doWork`);
   };
 
   abandonMission = () => {
@@ -67,7 +70,7 @@ export class MyMissionCard extends React.Component<Props, any> {
 
   goDetail = () => {
     const missionId = this.props.instance.missionId;
-    this.props[STORE_ROUTER].jumpTo(`/missions/${missionId}/result`);
+    this.routerStore.jumpTo(`/missions/${missionId}/result`);
   };
 
   title(title: string) {
@@ -118,7 +121,7 @@ export class MyMissionCard extends React.Component<Props, any> {
 
   renderCard = async () => {
     const {instance} = this.props;
-    const mission: ImageMissionDetail = await missionService.getAMission(instance.missionId, this.props[STORE_USER].token);
+    const mission: ImageMissionDetail = await missionService.getAMission(instance.missionId, this.userStore.token);
     const {publicItem} = mission;
     return <Card
       style={{width: 300}}

@@ -2,21 +2,15 @@ import React, { ReactNode } from "react";
 import { ImageMissionDetail, ImageMissionType } from "../../../models/mission/image/ImageMission";
 import { ImageInstanceDetail } from "../../../models/instance/image/ImageInstanceDetail";
 import { ImageNotation, ImageWorkStore } from "../../../stores/ImageWorkStore";
-import { inject, observer, Provider } from "mobx-react";
+import { observer } from "mobx-react";
 import { ImagePartWorkPage } from "./ImagePartWorkPage";
-import { PartJob } from "../../../models/instance/image/job/PartJob";
 import { ImageDistrictWorkPage } from "./ImageDistrictWorkPage";
 import { ImageWholeWorkPage } from "./ImageWholeWorkPage";
-import { Progress, message } from 'antd';
+import { message, Progress } from 'antd';
 import { CompleteModal } from "../../../components/ImageWork/CompleteModal";
-import { WholeJob } from "../../../models/instance/image/job/WholeJob";
 import { ImageJob } from "../../../models/instance/image/job/ImageJob";
-import { ProgressController } from "../../../components/ProgressController";
-import { action, computed, observable, runInAction, toJS } from "mobx";
+import { action, observable, runInAction } from "mobx";
 import { workerService } from "../../../api/WorkerService";
-import { LocaleMessage } from "../../../internationalization/components";
-import { STORE_LOCALE } from "../../../constants/stores";
-import { LocaleStoreProps } from "../../../internationalization/LocaleStore";
 
 interface Props {
   instanceDetail: ImageInstanceDetail;

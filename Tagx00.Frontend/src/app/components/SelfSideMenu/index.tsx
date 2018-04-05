@@ -2,13 +2,14 @@ import React from "react";
 import { Menu, Icon } from 'antd';
 import { inject, observer } from "mobx-react";
 import { STORE_ROUTER, STORE_USER } from "../../constants/stores";
-import { UserStoreProps } from "../../stores/UserStore";
+import { UserStore } from "../../stores/UserStore";
 import { Link } from 'react-router-dom';
-import { RouterStoreProps } from "../../router/RouterStore";
+import { RouterStore } from "../../router/RouterStore";
 import { LocaleMessage } from "../../internationalization/components";
+import { Inject } from "react.di";
 const { SubMenu } = Menu;
 
-interface Props extends UserStoreProps, RouterStoreProps {
+interface Props {
 
 }
 
@@ -33,22 +34,21 @@ const routes = [
   }
 ];
 
-
-
-@inject(STORE_USER, STORE_ROUTER)
 @observer
 export class SelfSideMenu extends React.Component<Props, any> {
 
+
+  @Inject routerStore: RouterStore;
+  @Inject userStore: UserStore;
+
   get selectedRoutes() {
-    const router = this.props[STORE_ROUTER];
-    return routes.filter(x => x.match(router.path)).map(x => x.path);
+    return routes.filter(x => x.match(this.routerStore.path)).map(x => x.path);
   }
 
   render() {
-    const userStore = this.props[STORE_USER];
 
     return <div>
-      <p>welcome, {userStore.user.username}</p>
+      <p>welcome, {this.userStore.user.username}</p>
     <Menu
       mode="inline"
       selectedKeys={this.selectedRoutes}

@@ -9,10 +9,8 @@ import { FormItemProps } from "antd/lib/form/FormItem";
 const FormItem = Form.Item;
 
 interface Props  {
-  fields?: LoginFormFields;
+  fields: LoginFormFields;
 }
-
-@inject("fields")
 @observer
 export class LoginForm extends React.Component<Props, {}> {
 

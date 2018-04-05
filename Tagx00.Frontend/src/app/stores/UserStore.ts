@@ -3,7 +3,10 @@ import { User, UserRole } from "../models/User";
 import { STORE_USER } from "../constants/stores";
 import { LoginResult } from "../api/UserService";
 import { localStorage } from './UiUtil';
+import { Injectable } from "react.di";
 
+
+@Injectable
 export class UserStore {
   @observable user: User = null;
 
@@ -54,8 +57,4 @@ export class UserStore {
       }
     }
   }
-}
-
-export interface UserStoreProps {
-  [STORE_USER]?: UserStore
 }

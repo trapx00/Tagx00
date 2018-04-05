@@ -1,24 +1,24 @@
-import { inject, observer } from "mobx-react";
-import { STORE_LOCALE } from "../../constants/stores";
+import { observer } from "mobx-react";
 import React from "react"
-import { LocaleMessage } from "../../internationalization";
+import { LocaleMessage, LocaleStore } from "../../internationalization";
 import { action, observable, runInAction } from "mobx";
 import { Dropdown, Icon, Menu } from 'antd';
-import { LocaleStoreProps } from "../../internationalization/LocaleStore";
+import { Inject } from "react.di";
 
-interface LanguageSelectorProps extends LocaleStoreProps {
-
-}
-
-interface LanguageSelectorItemProps extends LocaleStoreProps {
+interface LanguageSelectorProps {
 
 }
 
+interface LanguageSelectorItemProps {
 
-@inject(STORE_LOCALE)
+}
+
+
 @observer
 export class LanguageSelector extends React.Component<LanguageSelectorProps, any> {
   @observable switchingToId: string = "";
+
+  @Inject localeStore: LocaleStore;
 
   constructMenu() {
     const items = this.constructChildren();
@@ -27,9 +27,8 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps, any
     </Menu>;
   }
   languageOnClickProducer = (id: string) => action(async () => {
-    const locale = this.props[STORE_LOCALE];
     this.switchingToId = id;
-    await locale.changeLanguage(id);
+    await this.localeStore.changeLanguage(id);
     runInAction(() => {
       this.switchingToId = "";
     });
@@ -37,8 +36,7 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps, any
   });
 
   constructChildren() {
-    const locale = this.props[STORE_LOCALE];
-    return locale.allLanguages.filter(x => x.id !== locale.currentLanguage.id).map(x =>
+    return this.localeStore.allLanguages.filter(x => x.id !== this.localeStore.currentLanguage.id).map(x =>
       <Menu.Item key={x.id}>
         <a onClick={this.languageOnClickProducer(x.id)}>
           {x.name}
@@ -50,11 +48,9 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps, any
   }
 
   render() {
-    const locale = this.props[STORE_LOCALE];
-
     return <Dropdown overlay={this.constructMenu()}>
       <a className="ant-dropdown-link" href="#">
-        {locale.currentLanguage.name} <Icon type="down" />
+        {this.localeStore.currentLanguage.name} <Icon type="down" />
       </a>
     </Dropdown>
 ;
