@@ -7,11 +7,10 @@ import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.exception.viewexception.NotMissionException;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
+import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
-
-import java.util.Arrays;
 
 @Service
 public class PublicMissionBlServiceImpl implements PublicMissionBlService {
@@ -25,9 +24,9 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
     }
 
     @Override
-    public MissionDetailResponse getOneMissionDetail(int missionId) throws NotMissionException {
+    public MissionDetailResponse getOneMissionDetail(String missionId) throws NotMissionException {
 
-        MissionDetailVo missionDetailVos = publicMissionDataService.getOneMissionDetail(missionId);
+        MissionDetailVo missionDetailVos = publicMissionDataService.getOneMissionDetail(MissionUtil.getId(missionId), MissionUtil.getType(missionId));
         if (missionDetailVos == null)
             throw new NotMissionException();
         return new MissionDetailResponse(missionDetailVos);
@@ -39,7 +38,7 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
      * @return the list of MissionPublicItemVo
      */
     @Override
-    public MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo)throws NotMissionException {
+    public MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo) throws NotMissionException {
 
         MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
         if (missionPublicItemVos == null) {

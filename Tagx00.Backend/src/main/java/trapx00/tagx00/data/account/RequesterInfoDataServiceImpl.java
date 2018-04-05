@@ -2,13 +2,14 @@ package trapx00.tagx00.data.account;
 
 import trapx00.tagx00.dataservice.account.RequesterInfoDataService;
 import trapx00.tagx00.entity.account.User;
-import trapx00.tagx00.entity.mission.Instance;
 import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.entity.mission.instance.Instance;
 
 public class RequesterInfoDataServiceImpl implements RequesterInfoDataService {
 
     /**
      * get user by username
+     *
      * @param Username
      * @return
      */
@@ -16,8 +17,10 @@ public class RequesterInfoDataServiceImpl implements RequesterInfoDataService {
     public User getUserByUsername(String Username) {
         return null;
     }
+
     /**
      * get missions by requesterUsername
+     *
      * @param requesterUsername
      * @return
      */
@@ -25,8 +28,10 @@ public class RequesterInfoDataServiceImpl implements RequesterInfoDataService {
     public Mission[] getMissionsByRequesterUsername(String requesterUsername) {
         return new Mission[0];
     }
+
     /**
      * get instances by missionId
+     *
      * @param missionId
      * @return
      */

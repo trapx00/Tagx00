@@ -61,6 +61,6 @@ public class WorkerMissionDataServiceTest {
         } catch (MissionAlreadyAcceptedException e) {
             e.printStackTrace();
         }
-        assertEquals("张三", workerMissionDataService.getInstanceByUsernameAndMissionId("张三", 1).getInstance().getWorkerUsername());
+        assertEquals("张三", workerMissionDataService.getInstanceByUsernameAndMissionId("张三", 1, ).getInstance().getWorkerUsername());
     }
 }

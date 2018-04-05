@@ -4,14 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
-import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
-import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
-import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
-import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.exception.viewexception.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
+import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
@@ -30,13 +28,13 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
     /**
      * query to get all instances of workers
      *
-     * @param workerusername
+     * @param workerUsername
      * @return the list of MissionRequesterQueryItemVo
      */
     @Override
-    public InstanceResponse queryOnesAllMissions(String workerusername) throws MissionDoesNotExistFromUsernameException {
+    public InstanceResponse queryOnesAllMissions(String workerUsername) throws MissionDoesNotExistFromUsernameException {
 
-        InstanceVo[] result = workerMissionDataService.getInstanceByWorkerUsername(workerusername);
+        InstanceVo[] result = workerMissionDataService.getInstanceByWorkerUsername(workerUsername);
         if (result == null)
             throw new MissionDoesNotExistFromUsernameException();
         return new InstanceResponse(Arrays.asList(result));
@@ -46,12 +44,12 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * workers abort one mission
      *
      * @param missionId
-     * @param workerusername
+     * @param workerUsername
      * @return whether the abortion is successful
      */
     @Override
-    public SuccessResponse abort(int missionId, String workerusername) {
-        workerMissionDataService.deleteInstance(missionId, workerusername);
+    public SuccessResponse abort(String missionId, String workerUsername) {
+        workerMissionDataService.deleteInstanceByMissionIdAndUsername(MissionUtil.getId(missionId), workerUsername, MissionUtil.getType(missionId));
         return new SuccessResponse("Success Delete");
     }
 
@@ -59,12 +57,12 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * get the infomation of the instance of workers
      *
      * @param missionId
-     * @param workerusername
+     * @param workerUsername
      * @return MissionQueryDetailResponse the detail of the mission
      */
     @Override
-    public InstanceDetailResponse getInstanceInformation(int missionId, String workerusername) throws InstanceNotExistException {
-        InstanceDetailVo instanceDetailVo = workerMissionDataService.getInstanceByUsernameAndMissionId(workerusername, missionId);
+    public InstanceDetailResponse getInstanceInformation(String missionId, String workerUsername) throws InstanceNotExistException {
+        InstanceDetailVo instanceDetailVo = workerMissionDataService.getInstanceByUsernameAndMissionId(workerUsername, MissionUtil.getId(missionId), MissionUtil.getType(missionId));
         if (instanceDetailVo == null)
             throw new InstanceNotExistException();
         InstanceDetailResponse instanceDetailResponse = new InstanceDetailResponse(instanceDetailVo);
@@ -79,7 +77,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return whether to save successful or not
      */
     @Override
-    public SuccessResponse saveProgress(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException {
+    public SuccessResponse saveProgress(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, UnmatchedUsernameAndMissionId {
         workerMissionDataService.saveInstance(instanceVo);
         return new SuccessResponse("Success Save");
     }
@@ -91,8 +89,8 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return whether to save and submit successful or not
      */
     @Override
-    public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException {
-        if (workerMissionDataService.getInstanceByUsernameAndMissionId(UserInfoUtil.getUsername(), instanceVo.getInstance().getMissionId()) == null)
+    public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, UnmatchedUsernameAndMissionId {
+        if (workerMissionDataService.getInstanceByUsernameAndMissionId(UserInfoUtil.getUsername(), instanceVo.getInstance().getMissionId(), instanceVo.getMissionType()) == null)
             workerMissionDataService.saveInstance(instanceVo);
         else {
             instanceVo.getInstance().setSubmitted(true);

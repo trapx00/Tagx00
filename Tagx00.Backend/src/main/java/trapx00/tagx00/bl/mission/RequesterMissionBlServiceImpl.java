@@ -1,12 +1,12 @@
 package trapx00.tagx00.bl.mission;
 
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
+import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -18,6 +18,7 @@ import trapx00.tagx00.response.mission.requester.MissionChargeResponse;
 import trapx00.tagx00.response.mission.requester.MissionRequestQueryResponse;
 import trapx00.tagx00.security.jwt.JwtService;
 import trapx00.tagx00.security.jwt.JwtUser;
+import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.image.ImageMissionProperties;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
@@ -27,7 +28,6 @@ import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class RequesterMissionBlServiceImpl implements RequesterMissionBlService {
@@ -55,15 +55,10 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     @Override
     public MissionCreateResponse createMission(MissionCreateVo mission) throws SystemException {
         String username = UserInfoUtil.getUsername();
-        int missiondId = requesterMissionDataService.saveMission(new Mission(mission.getTitle(), mission.getDescription(),
-                mission.getTopics(), mission.getCustomTag(), mission.getAllowedTags(), mission.getMissionType(),
-                MissionState.PENDING, mission.getStart(),
-                mission.getEnd(), "", UserInfoUtil.getUsername(), new ArrayList<>(), ((ImageMissionProperties)mission.getProperties()).getImageMissionTypes()));
+        int missionId = requesterMissionDataService.saveMission(generateMission(mission));
         JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
         String token = jwtService.generateToken(jwtUser, EXPIRATION);
-        return new MissionCreateResponse(String.valueOf(missiondId), token);
-
-
+        return new MissionCreateResponse(String.valueOf(missionId), token);
     }
     /**
      *
@@ -76,8 +71,8 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return the list of MissionInstanceItemVo
      */
     @Override
-    public InstanceResponse queryInstances(int missionId) throws InstanceNotExistException {
-        InstanceVo[] instance = requesterMissionDataService.getInstanceBymissionId(missionId);
+    public InstanceResponse queryInstances(String missionId) throws InstanceNotExistException {
+        InstanceVo[] instance = requesterMissionDataService.getInstancesByMissionId(MissionUtil.getId(missionId), MissionUtil.getType(missionId));
         if (instance == null)
             throw new InstanceNotExistException();
         InstanceResponse instanceResponse = new InstanceResponse(Arrays.asList(instance));
@@ -91,8 +86,8 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return the detail response with instance of a mission
      */
     @Override
-    public InstanceDetailResponse queryInstance(int instanceId) throws InstanceNotExistException {
-        InstanceDetailVo instanceVo = requesterMissionDataService.getInstanceByinstanceId(instanceId);
+    public InstanceDetailResponse queryInstance(String instanceId) throws InstanceNotExistException {
+        InstanceDetailVo instanceVo = requesterMissionDataService.getInstanceByInstanceId(MissionUtil.getId(instanceId), MissionUtil.getType(instanceId));
         if (instanceVo == null)
             throw new InstanceNotExistException();
         InstanceDetailResponse instanceDetailResponse = new InstanceDetailResponse(instanceVo);
@@ -101,34 +96,45 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
 
     /**
      * charge for the mission
+     *
      * @param missionId
      * @param credits
-     * @return  MissionChargeResponse
+     * @return MissionChargeResponse
      */
     @Override
-    public MissionChargeResponse chargeMission(int missionId, int credits) {
+    public MissionChargeResponse chargeMission(String missionId, int credits) {
         return null;
     }
 
     /**
      * query the mission's credits
+     *
      * @param missionId
      * @return MissionRequestQueryResponse
      */
     @Override
-    public MissionRequestQueryResponse queryMissionCredits(int missionId) {
+    public MissionRequestQueryResponse queryMissionCredits(String missionId) {
         return null;
     }
 
 
     /**
      * finlize the instance
+     *
      * @param instanceId
      * @param missionFinalizeVo
      * @return InstanceDetailResponse
      */
     @Override
-    public InstanceDetailResponse finalize(int instanceId, MissionFinalizeVo missionFinalizeVo) throws InstanceNotExistException {
+    public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws InstanceNotExistException {
+        return null;
+    }
+
+    private Mission generateMission(MissionCreateVo missionCreateVo) {
+        switch (missionCreateVo.getMissionType()) {
+            case IMAGE:
+                return new ImageMission(0, missionCreateVo.getTitle(), missionCreateVo.getDescription(), missionCreateVo.getTopics(), missionCreateVo.isAllowCustomTag(), missionCreateVo.getAllowedTags(), missionCreateVo.getMissionType(), MissionState.PENDING, missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<String>(), ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes());
+        }
         return null;
     }
 }

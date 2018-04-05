@@ -2,8 +2,9 @@ package trapx00.tagx00.data.mission;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import trapx00.tagx00.data.dao.mission.MissionDao;
+import trapx00.tagx00.data.dao.mission.ImageMissionDao;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
+import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
@@ -15,11 +16,11 @@ import java.util.ArrayList;
 @Service
 public class PublicMissionDataServiceImpl implements PublicMissionDataService {
 
-    private final MissionDao missionDao;
+    private final ImageMissionDao imageMissionDao;
 
     @Autowired
-    public PublicMissionDataServiceImpl(MissionDao missionDao) {
-        this.missionDao = missionDao;
+    public PublicMissionDataServiceImpl(ImageMissionDao imageMissionDao) {
+        this.imageMissionDao = imageMissionDao;
     }
 
     /**
@@ -29,7 +30,10 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
      */
     @Override
     public MissionPublicItemVo[] getMissions() {
-        ArrayList<Mission> missionArrayList = missionDao.findAll();
+        ArrayList<Mission> missionArrayList = new ArrayList<>();
+
+        missionArrayList.addAll(imageMissionDao.findAll());
+
         Mission[] missions = missionArrayList.toArray(new Mission[missionArrayList.size()]);
         if (missions == null)
             return null;
@@ -46,22 +50,26 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
     /**
      * get the detail info of a mission
      *
-     * @param missionId the id of one mission
+     * @param missionId   the id of one mission
+     * @param missionType
      * @returnxs
      */
     @Override
-    public MissionDetailVo getOneMissionDetail(int missionId) {
-        Mission mission = missionDao.findMissionByMissionId(missionId);
-        if (mission == null)
-            return null;
+    public MissionDetailVo getOneMissionDetail(int missionId, MissionType missionType) {
         MissionDetailVo missionDetailVo = null;
-        if (mission.getMissionType().equals(MissionType.IMAGE)) {
-            missionDetailVo = new ImageMissionDetailVo(new MissionPublicItemVo(
-                    missionId, mission.getTitle(), mission.getDescription(), mission.getTopics(),
-                    mission.isAllowCustomTag(), mission.getAllowedTags(), mission.getMissionType(),
-                    mission.getStart(), mission.getEnd(), mission.getCoverUrl(), mission.getRequesterUsername()
-            ), mission.getMissionState(), mission.getImageUrls(), mission.getImageMissionTypes());
-
+        switch (missionType) {
+            case IMAGE:
+                ImageMission mission = imageMissionDao.findMissionByMissionId(missionId);
+                if (mission == null)
+                    return null;
+                if (mission.getMissionType().equals(MissionType.IMAGE)) {
+                    missionDetailVo = new ImageMissionDetailVo(new MissionPublicItemVo(
+                            missionId, mission.getTitle(), mission.getDescription(), mission.getTopics(),
+                            mission.isAllowCustomTag(), mission.getAllowedTags(), mission.getMissionType(),
+                            mission.getStart(), mission.getEnd(), mission.getCoverUrl(), mission.getRequesterUsername()
+                    ), mission.getMissionState(), mission.getImageUrls(), mission.getImageMissionTypes());
+                }
+                break;
         }
         return missionDetailVo;
     }
