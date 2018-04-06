@@ -1,6 +1,7 @@
 package trapx00.tagx00.vo.mission.image;
 
 import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
@@ -22,8 +23,8 @@ public class ImageInstanceDetailVo extends InstanceDetailVo {
 
     }
 
-    public ImageInstanceDetailVo(InstanceVo instance, List<ImageResult> imageResults) {
-        super(instance);
+    public ImageInstanceDetailVo(MissionType missionType, InstanceVo instance, List<ImageResult> imageResults) {
+        super(missionType, instance);
         this.imageResults = imageResults;
     }
 }

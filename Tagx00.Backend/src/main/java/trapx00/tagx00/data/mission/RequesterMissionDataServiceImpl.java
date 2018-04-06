@@ -23,7 +23,7 @@ import java.util.List;
 
 @Service
 public class RequesterMissionDataServiceImpl implements RequesterMissionDataService {
-    
+
     private final ImageInstanceDao imageInstanceDao;
     private final ImageMissionDao imageMissionDao;
 
@@ -146,7 +146,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
 
     private ImageInstanceDetailVo generateImageInstanceDetailVo(ImageInstance imageInstance, int completedCounts) {
         InstanceVo instanceVo = new InstanceVo(imageInstance.getInstanceId(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), imageInstance.getMissionId(), imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts);
-        return new ImageInstanceDetailVo(instanceVo, imageInstance.getImageResults());
+        return new ImageInstanceDetailVo(imageInstance.getMissionType(), instanceVo, imageInstance.getImageResults());
     }
 
     private ImageInstanceVo generateImageInstanceVo(ImageInstance imageInstance, int completedCounts) {
