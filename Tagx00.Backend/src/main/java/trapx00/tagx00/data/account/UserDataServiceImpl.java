@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.user.TempUserDao;
 import trapx00.tagx00.data.dao.user.UserDao;
 import trapx00.tagx00.dataservice.account.UserDataService;
+import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.entity.account.TempUser;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -144,5 +145,27 @@ public class UserDataServiceImpl implements UserDataService {
     @Override
     public void deleteTempUserByUsername(String tempUsername) {
 
+    }
+
+    /**
+     * get user by role
+     *
+     * @param role
+     * @return the list of users matching the role
+     */
+    @Override
+    public User[] getUsersByRole(Role role) {
+        return null;
+    }
+
+    /**
+     * get user by username
+     *
+     * @param username
+     * @return
+     */
+    @Override
+    public User getUserByUsername(String username) {
+        return userDao.findUserByUsername(username);
     }
 }
