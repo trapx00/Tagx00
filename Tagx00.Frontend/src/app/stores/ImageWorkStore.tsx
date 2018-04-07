@@ -10,18 +10,11 @@ export interface ImageNotation<T extends ImageJob = ImageJob> {
   done: boolean;
 }
 
-enum TransformDirection {
-  Next,
-  Previous,
-  Normal
-}
-
 
 export class ImageWorkStore {
   imageUrls: string[];
   types: ImageMissionType[];
 
-  @observable direction: TransformDirection = TransformDirection.Normal;
 
   currentNotations: ImageNotation[] = [];
 
@@ -94,10 +87,6 @@ export class ImageWorkStore {
   }
 
   @computed get currentWork(): ImageNotation {
-    if (this.direction !== TransformDirection.Normal) {
-      return undefined;
-    }
-
     if (this.workIndex == this.currentNotations.length) {
       return null;
     } else {
@@ -111,41 +100,15 @@ export class ImageWorkStore {
     this.currentNotations[this.workIndex] = notation;
   }
 
-  @action nextWork1() { // first step of going next work
-    this.direction = TransformDirection.Next;
-  }
-
-  @action nextWork2() { // second step of going next work
+  @action nextWork() { // second step of going next work
     this.workIndex++;
-    this.direction = TransformDirection.Normal;
   }
 
-  @action previousWork1() {
-    if (this.workIndex > 0) {
-      this.direction = TransformDirection.Previous;
-    }
-  }
 
-  @action previousWork2() {
+  @action previousWork() {
     if (this.workIndex > 0) {
       this.workIndex--;
-      this.direction = TransformDirection.Normal;
     }
   }
 
-  @action doSecondStep() {
-    if (this.direction === TransformDirection.Previous) {
-      this.previousWork2();
-
-    } else if (this.direction === TransformDirection.Next) {
-      this.nextWork2();
-    }
-  }
-
-}
-
-export const STORE_IMAGEWORK = "STORE_IMAGEWORK";
-
-export interface ImageWorkStoreProps {
-  [STORE_IMAGEWORK]?: ImageWorkStore;
 }

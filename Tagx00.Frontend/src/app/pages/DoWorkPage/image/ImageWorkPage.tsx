@@ -12,6 +12,7 @@ import { ImageJob } from "../../../models/instance/image/job/ImageJob";
 import { action, observable, runInAction } from "mobx";
 import { WorkerService } from "../../../api/WorkerService";
 import { Inject } from "react.di";
+import { DistrictJob } from "../../../models/instance/image/job/DistrictJob";
 
 interface Props {
   instanceDetail: ImageInstanceDetail;
@@ -36,6 +37,15 @@ export interface ImageWorkPageProps<T extends ImageJob> {
   readonlyMode: boolean;
 }
 
+export interface ImageWorkPageStates<T extends ImageJob> {
+  notation: ImageNotation<T>;
+  selectedIndex: number;
+  addingMode: boolean;
+  width: number;
+  height: number;
+}
+
+
 @observer
 export class ImageWorkPage extends React.Component<Props, {}> {
 
@@ -52,7 +62,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
     this.store = new ImageWorkStore(missionDetail.imageUrls, missionDetail.imageMissionTypes, instanceDetail);
   }
 
-  @action saveWork = async (notation: ImageNotation) => { // 保存到远端
+  @action saveWork = async (notation: ImageNotation) => {
     this.saving = true;
     this.store.saveWork(notation);
     await this.workerService.saveProgress(this.props.missionDetail.publicItem.missionId, this.store.currentInstanceDetail, this.props.token);
@@ -64,16 +74,14 @@ export class ImageWorkPage extends React.Component<Props, {}> {
 
   goNext = (notation: ImageNotation) => {
     this.store.saveWork(notation);
-    this.store.nextWork1();
+    this.store.nextWork();
   };
 
   goPrevious = () => {
-    this.store.previousWork1();
+    this.store.previousWork();
   };
 
   @action componentDidUpdate() {
-    const currentWork: ImageNotation = this.store.currentWork;
-
     if (this.store.finished) {
       if (this.props.readonlyMode) {
         message.info(this.props.readonlyCompleteText);
@@ -83,10 +91,6 @@ export class ImageWorkPage extends React.Component<Props, {}> {
         this.finishModalShown = true;
       }
 
-    }
-
-    if (typeof currentWork === 'undefined') {
-      this.store.doSecondStep();
     }
 
   }
@@ -136,11 +140,6 @@ export class ImageWorkPage extends React.Component<Props, {}> {
       }
 
     }
-
-    if (typeof currentWork === 'undefined') {
-      return <div/>; // unmount previous page to reset missionState.
-    }
-
 
     const params = {
       notation: currentWork as any,

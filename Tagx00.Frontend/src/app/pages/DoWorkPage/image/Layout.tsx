@@ -1,10 +1,12 @@
 import React, { ReactNode } from 'react';
 import * as localStyle from './style.css';
+
 interface Props {
   children: ReactNode[];
   imageWidth: number;
   imageHeight: number;
   setScale: (scale: number) => void;
+  imageUrl: string;
 }
 
 export class ImageWorkPageLayout extends React.Component<Props, {}> {
@@ -25,8 +27,6 @@ export class ImageWorkPageLayout extends React.Component<Props, {}> {
       this.appendScale();
       this.props.setScale(newScale);
     }
-
-
   };
 
   appendScale() {
@@ -42,9 +42,13 @@ export class ImageWorkPageLayout extends React.Component<Props, {}> {
   componentDidUpdate() {
     this.adjustPictureSize();
   }
-  constructor(props) {
-    super(props);
+
+  componentDidMount() {
     window.onresize = this.onResize;
+  }
+
+  componentWillUnmount() {
+    window.onresize = null;
   }
 
   render() {
