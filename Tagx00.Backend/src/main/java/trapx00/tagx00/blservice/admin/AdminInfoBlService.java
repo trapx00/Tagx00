@@ -8,7 +8,8 @@ public interface AdminInfoBlService {
 
     /**
      * get the info of userCount,totalMissionCount,totalInstanceCount...
-     * @return AdminInfoResponse the combination of the infomation
+     *
+     * @return AdminInfoResponse the combination of the information
      */
     AdminInfoResponse getAdminInfo();
 }

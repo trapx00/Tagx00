@@ -6,4 +6,6 @@ public interface TempUserDao {
     TempUser save(TempUser tempUser);
 
     TempUser findTempUserByUsername(String username);
+
+    void delete(String username);
 }

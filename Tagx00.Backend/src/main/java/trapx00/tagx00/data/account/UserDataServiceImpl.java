@@ -15,6 +15,8 @@ import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserDoesNotExistException;
 
+import java.util.ArrayList;
+
 @Service
 public class UserDataServiceImpl implements UserDataService {
     private final UserDao userDao;
@@ -88,7 +90,7 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public void deleteUser(String username) {
-
+        userDao.delete(username);
     }
 
     /**
@@ -144,7 +146,7 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public void deleteTempUserByUsername(String tempUsername) {
-
+        tempUserDao.delete(tempUsername);
     }
 
     /**
@@ -155,7 +157,8 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public User[] getUsersByRole(Role role) {
-        return null;
+        ArrayList<User> userArrayList = userDao.findUsersByRole(role);
+        return userArrayList.toArray(new User[userArrayList.size()]);
     }
 
     /**
@@ -167,5 +170,16 @@ public class UserDataServiceImpl implements UserDataService {
     @Override
     public User getUserByUsername(String username) {
         return userDao.findUserByUsername(username);
+    }
+
+    /**
+     * find all of the users
+     *
+     * @return users
+     */
+    @Override
+    public User[] findAllUsers() {
+        ArrayList<User> userArrayList = userDao.findAll();
+        return userArrayList.toArray(new User[userArrayList.size()]);
     }
 }

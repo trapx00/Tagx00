@@ -38,6 +38,11 @@ public class ImageInstanceDaoImpl implements ImageInstanceDao {
     }
 
     @Override
+    public ArrayList<ImageInstance> findAll() {
+        return imageInstanceFileService.findAll(ImageInstance.class);
+    }
+
+    @Override
     public ImageInstance findInstanceByInstanceId(int instanceId) {
         return imageInstanceFileService.findOne(String.valueOf(instanceId), ImageInstance.class);
     }

@@ -84,4 +84,11 @@ public interface UserDataService {
      * @return
      */
     User getUserByUsername(String username);
+
+    /**
+     * find all of the users
+     *
+     * @return users
+     */
+    User[] findAllUsers();
 }
