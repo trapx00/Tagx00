@@ -1,24 +1,45 @@
-import { action, computed, observable } from "mobx";
+import { action, computed, observable, runInAction, toJS } from "mobx";
 import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
 import { ImageJob } from "../models/instance/image/job/ImageJob";
-import { ImageMissionType } from "../models/mission/image/ImageMission";
+import { ImageMissionDetail, ImageMissionType } from "../models/mission/image/ImageMission";
 import { ImageResult } from "../models/instance/image/ImageResult";
+import { WorkerService } from "../api/WorkerService";
+import { Injectable } from "react.di";
+import { DistrictJob } from "../models/instance/image/job/DistrictJob";
 
 export interface ImageNotation<T extends ImageJob = ImageJob> {
   imageUrl: string;
   job: T;
-  done: boolean;
 }
 
+function any<T>(array: T[]) {
+  return !!array && array.length > 0;
+}
 
+function judgeJobComplete(job: any) {
+  if (!job) return false;
+  switch (job.type) {
+    case ImageMissionType.DISTRICT:
+    case ImageMissionType.PART:
+      return any(job.tuples);
+    case ImageMissionType.WHOLE:
+      return !!job.tuple && ( any(job.tuple.tagTuples) || any(job.tuple.descriptions));
+  }
+  return false;
+}
+
+@Injectable
 export class ImageWorkStore {
   imageUrls: string[];
-  types: ImageMissionType[];
+
+  @observable saving: boolean = false;
 
 
+  initialized: boolean = false;
   currentNotations: ImageNotation[] = [];
 
   initialDetail: ImageInstanceDetail;
+  missionDetail: ImageMissionDetail;
 
   get currentInstanceDetail(): ImageInstanceDetail {
     const {instance} = this.initialDetail;
@@ -26,9 +47,9 @@ export class ImageWorkStore {
       imageResults: this.currentNotations.map((x, index) => ({
         id: index,
         instanceId: instance.instanceId,
-        imageJob: this.currentNotations[index].job,
-        url: this.currentNotations[index].imageUrl,
-        isDone: x.done
+        imageJob: x.job,
+        url: x.imageUrl,
+        isDone: judgeJobComplete(x.job)
       })),
       instance: instance
     }
@@ -36,16 +57,18 @@ export class ImageWorkStore {
 
   @observable workIndex: number = 0;
 
+  get types() {
+    return this.missionDetail.imageMissionTypes;
+  }
 
-  constructor(imageUrls: string[], types: ImageMissionType[], instanceDetail: ImageInstanceDetail) {
-    this.imageUrls = imageUrls;
-    this.types = types;
-
+  initialize(missionDetail: ImageMissionDetail, instanceDetail: ImageInstanceDetail) {
+    this.missionDetail = missionDetail;
     this.initialDetail = instanceDetail;
+    this.imageUrls = missionDetail.imageUrls;
 
 
-    for (const url of imageUrls) {
-      for (const type of types) {
+    for (const url of this.imageUrls) {
+      for (const type of missionDetail.imageMissionTypes) {
         let result: ImageResult;
         //confirm if results exists
         if (instanceDetail.imageResults) {
@@ -57,22 +80,21 @@ export class ImageWorkStore {
           this.currentNotations.push({
             imageUrl: url,
             job: result.imageJob,
-            done: result.isDone
           });
           // this.workIndex++; // existing job, resume progress
         } else {
           this.currentNotations.push({
             imageUrl: url,
-            job: {
-              type: type
-            },
-            done: false
+            job: {type: type}
           });
         }
       }
     }
+    this.initialized = true;
 
   }
+
+  constructor(private workerService: WorkerService) { }
 
   @computed get finished() {
     return this.workIndex === this.currentNotations.length;
@@ -96,7 +118,6 @@ export class ImageWorkStore {
   }
 
   @action saveWork(notation: ImageNotation) {
-    notation.done = true;
     this.currentNotations[this.workIndex] = notation;
   }
 
@@ -111,4 +132,22 @@ export class ImageWorkStore {
     }
   }
 
+  @action async saveProgress(token: string) {
+    this.saving = true;
+    console.log(toJS(this.currentInstanceDetail));
+    await this.workerService.saveProgress(this.missionDetail.publicItem.missionId, this.currentInstanceDetail, token);
+    runInAction(() => {
+      this.saving = false;
+    });
+  };
+
+  submit = async (token: string) => {
+
+    const result = await this.workerService.submit(
+      this.missionDetail.publicItem.missionId,
+      this.currentInstanceDetail,
+      token
+    );
+    return result;
+  };
 }

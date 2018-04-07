@@ -2,7 +2,7 @@ import React from "react";
 import { ImageNotation } from "../../../stores/ImageWorkStore";
 import { PartJob, PartJobTuple } from "../../../models/instance/image/job/PartJob";
 import { ImageWorkPageProps, ImageWorkPageStates } from "./ImageWorkPage";
-import { action, computed, observable, toJS } from "mobx";
+import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../components/ImageWork/MissionTipCard";
 import { ProgressController } from "../../../components/ProgressController";
@@ -11,7 +11,6 @@ import { RectanglePanel } from "../../../components/ImageWork/DrawingPad/Rectang
 import { ImageMissionType } from "../../../models/mission/image/ImageMission";
 import { PartAddingModeController } from "../../../components/ImageWork/Part/PartAddingModeController";
 import { ImageWorkPageLayout } from "./Layout";
-import produce from 'immer';
 
 
 function initializeNotation(notation: ImageNotation<PartJob>) {

@@ -11,7 +11,7 @@ import { CompleteModal } from "../../../components/ImageWork/CompleteModal";
 import { ImageJob } from "../../../models/instance/image/job/ImageJob";
 import { action, observable, runInAction } from "mobx";
 import { WorkerService } from "../../../api/WorkerService";
-import { Inject } from "react.di";
+import { Inject, Module } from "react.di";
 import { DistrictJob } from "../../../models/instance/image/job/DistrictJob";
 
 interface Props {
@@ -45,31 +45,22 @@ export interface ImageWorkPageStates<T extends ImageJob> {
   height: number;
 }
 
-
+@Module({
+  providers: [
+    ImageWorkStore
+  ]
+})
 @observer
 export class ImageWorkPage extends React.Component<Props, {}> {
 
-  store: ImageWorkStore;
+  @Inject store: ImageWorkStore;
 
   @observable finishModalShown = true;
-  @observable saving: boolean= false;
-
-  @Inject workerService: WorkerService;
-
-  constructor(props) {
-    super(props);
-    const {instanceDetail, missionDetail} = this.props;
-    this.store = new ImageWorkStore(missionDetail.imageUrls, missionDetail.imageMissionTypes, instanceDetail);
-  }
 
   @action saveWork = async (notation: ImageNotation) => {
-    this.saving = true;
     this.store.saveWork(notation);
-    await this.workerService.saveProgress(this.props.missionDetail.publicItem.missionId, this.store.currentInstanceDetail, this.props.token);
-    runInAction(() => {
-      this.saving = false;
-      message.success(this.props.workSavedText);
-    });
+    await this.store.saveProgress(this.props.token);
+    message.success(this.props.workSavedText);
   };
 
   goNext = (notation: ImageNotation) => {
@@ -81,6 +72,12 @@ export class ImageWorkPage extends React.Component<Props, {}> {
     this.store.previousWork();
   };
 
+  componentDidMount() {
+    const {instanceDetail, missionDetail} = this.props;
+    this.store.initialize(missionDetail, instanceDetail);
+    this.forceUpdate();
+  }
+
   @action componentDidUpdate() {
     if (this.store.finished) {
       if (this.props.readonlyMode) {
@@ -90,15 +87,14 @@ export class ImageWorkPage extends React.Component<Props, {}> {
       } else {
         this.finishModalShown = true;
       }
-
     }
-
   }
 
   submit = async () => {
 
-    const result = await this.workerService.submit(this.props.missionDetail.publicItem.missionId,
-      this.store.currentInstanceDetail, this.props.token);
+    const result = await this.store.submit(
+      this.props.token
+    );
     if (result) {
       console.log("success");
       this.props.jumpBack();
@@ -113,8 +109,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   };
 
   saveProgress = async () => {
-    const result = await this.workerService.saveProgress(this.props.missionDetail.publicItem.missionId,
-      this.store.currentInstanceDetail, this.props.token);
+    const result = await this.store.saveProgress(this.props.token);
     if (result) {
       console.log("success");
       this.props.jumpBack();
@@ -149,7 +144,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
       controllerProps: {
         goPrevious: this.goPrevious,
         previousAvailable: this.store.workIndex != 0,
-        saving: this.saving
+        saving: this.store.saving
       },
       readonlyMode: this.props.readonlyMode
     };
@@ -169,7 +164,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
     const {instanceDetail, missionDetail} = this.props;
 
     return <div>
-      {this.chooseWorkPage()}
+      {this.store.initialized ? this.chooseWorkPage() : null}
       <div>
         <Progress percent={this.store.progress / this.store.totalCount * 100}
                   status="active"

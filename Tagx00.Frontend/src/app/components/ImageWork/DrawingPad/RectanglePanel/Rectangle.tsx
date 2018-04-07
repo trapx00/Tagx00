@@ -24,13 +24,13 @@ export class Rectangle {
   get y() {
     return Math.min(this.start.y, this.end.y);
   }
-  
+
   get leftTop() {
     return {x: this.x, y: this.y};
   }
-  
+
   get rightBottom() {
-    return {x: this.x+ this.width, y: this.y + this.height};
+    return {x: this.x + this.width, y: this.y + this.height};
   }
 
   isOnSides(point: Point) {
@@ -49,10 +49,13 @@ export class Rectangle {
       x: this.x + this.width, y: this.y + this.height
     };
 
-    return (Math.abs(point.y - leftUpper.y) <= error && point.x - leftUpper.x <= this.width)
-      || (Math.abs(point.y - leftDown.y) <= error && point.x - leftDown.x <= this.width)
-      || (Math.abs(point.x - leftUpper.x) <= error && point.y - leftUpper.y <= this.height)
-      || (Math.abs(point.x - rightDown.x) <= error && point.y - rightUpper.y <= this.height);
+    return leftUpper.y <= point.y && point.y <= leftDown.y
+      && leftUpper.x <= point.x && point.x <= rightUpper.x;
+
+    // return (Math.abs(point.y - leftUpper.y) <= error && point.x - leftUpper.x <= this.width)
+    //   || (Math.abs(point.y - leftDown.y) <= error && point.x - leftDown.x <= this.width)
+    //   || (Math.abs(point.x - leftUpper.x) <= error && point.y - leftUpper.y <= this.height)
+    //   || (Math.abs(point.x - rightDown.x) <= error && point.y - rightUpper.y <= this.height);
 
   }
 }
