@@ -18,6 +18,7 @@ import trapx00.tagx00.response.mission.requester.MissionChargeResponse;
 import trapx00.tagx00.response.mission.requester.MissionRequestQueryResponse;
 import trapx00.tagx00.security.jwt.JwtService;
 import trapx00.tagx00.security.jwt.JwtUser;
+import trapx00.tagx00.util.Converter;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.image.ImageMissionProperties;
@@ -103,7 +104,9 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public MissionChargeResponse chargeMission(String missionId, int credits) {
-        return null;
+        requesterMissionDataService.updateMission(MissionUtil.getId(missionId),credits,MissionUtil.getType(missionId));
+        Mission mission=requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId),MissionUtil.getType(missionId));
+        return new MissionChargeResponse(mission.getCredits());
     }
 
     /**
@@ -114,7 +117,8 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public MissionRequestQueryResponse queryMissionCredits(String missionId) {
-        return null;
+        return new MissionRequestQueryResponse(requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId),
+                MissionUtil.getType(missionId)).getCredits());
     }
 
 
@@ -127,7 +131,9 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws InstanceNotExistException {
-        return null;
+        requesterMissionDataService.updateInstance(MissionUtil.getId(instanceId),missionFinalizeVo,MissionUtil.getType(instanceId));
+        return new InstanceDetailResponse(
+                requesterMissionDataService.getInstanceByInstanceId(MissionUtil.getId(instanceId),MissionUtil.getType(instanceId)));
     }
 
     private Mission generateMission(MissionCreateVo missionCreateVo) {

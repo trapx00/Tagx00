@@ -12,6 +12,7 @@ import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.mission.MissionType;
+import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
@@ -129,7 +130,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param credits
      */
     @Override
-    public void updateMission(int missionId, int credits) {
+    public void updateMission(int missionId, int credits,MissionType missionType) {
 
     }
 
@@ -140,7 +141,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param missionFinalizeVo
      */
     @Override
-    public void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo) {
+    public void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo,MissionType missionType) {
 
     }
 

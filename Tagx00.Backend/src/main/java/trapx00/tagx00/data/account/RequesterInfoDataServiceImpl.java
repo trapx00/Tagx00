@@ -4,6 +4,7 @@ import trapx00.tagx00.dataservice.account.RequesterInfoDataService;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.entity.mission.instance.Instance;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 
 public class RequesterInfoDataServiceImpl implements RequesterInfoDataService {
 
@@ -36,7 +37,7 @@ public class RequesterInfoDataServiceImpl implements RequesterInfoDataService {
      * @return
      */
     @Override
-    public Instance[] getInstancesByMissionId(int missionId) {
+    public Instance[] getInstancesByMissionId(int missionId, MissionType missionType) {
         return new Instance[0];
     }
 }

@@ -49,7 +49,7 @@ public interface RequesterMissionDataService {
      * @param missionId
      * @param credits
      */
-    void updateMission(int missionId, int credits);
+    void updateMission(int missionId, int credits,MissionType missionType);
 
     /**
      * finlize the instance
@@ -57,7 +57,7 @@ public interface RequesterMissionDataService {
      * @param instanceId
      * @param missionFinalizeVo
      */
-    void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo);
+    void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo,MissionType missionType);
 
 
 }
