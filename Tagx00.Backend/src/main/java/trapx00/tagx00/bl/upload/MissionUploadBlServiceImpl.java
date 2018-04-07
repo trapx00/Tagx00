@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import trapx00.tagx00.blservice.upload.MissionUploadBlService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.dataservice.upload.ImageDataService;
-import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.mission.MissionType;
@@ -40,21 +40,18 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
     @Override
     public UploadMissionImageResponse uploadFiles(int missionId, MultipartFile multipartFile, int order, boolean isCover) throws SystemException, MissionIdDoesNotExistException {
         try {
-            Mission mission = requesterMissionDataService.getMissionByMissionId(missionId);
-            if (mission != null) {
-                if (mission.getMissionType().equals(MissionType.IMAGE)) {
-                    Mission imageMission = mission;
-                    String url = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
-                    List<String> urls = imageMission.getImageUrls();
-                    if (isCover) {
-                        mission.setCoverUrl(url);
-                    } else {
-                        urls.add(url);
-                        mission.setImageUrls(urls);
-                    }
-                    requesterMissionDataService.saveMission(mission);
-                    return new UploadMissionImageResponse(url);
+            ImageMission imageMission = (ImageMission) requesterMissionDataService.getMissionByMissionId(missionId, MissionType.IMAGE);
+            if (imageMission != null) {
+                String url = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
+                List<String> urls = imageMission.getImageUrls();
+                if (isCover) {
+                    imageMission.setCoverUrl(url);
+                } else {
+                    urls.add(url);
+                    imageMission.setImageUrls(urls);
                 }
+                requesterMissionDataService.saveMission(imageMission);
+                return new UploadMissionImageResponse(url);
 
             } else {
                 throw new MissionIdDoesNotExistException();
@@ -63,7 +60,6 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
             e.printStackTrace();
             throw new SystemException();
         }
-        return null;
     }
 
     private String generateImageKey(int missionId, int order, boolean isCover) {

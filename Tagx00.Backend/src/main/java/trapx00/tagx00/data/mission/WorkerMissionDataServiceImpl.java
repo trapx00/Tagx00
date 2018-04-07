@@ -166,7 +166,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     }
 
     private ImageInstance generateImageInstance(InstanceVo instanceVo, ImageInstanceDetailVo instanceDetailVo) {
-        return new ImageInstance(instanceVo.getInstanceId(), instanceVo.getWorkerUsername(), instanceVo.getMissionInstanceState(), instanceVo.getAcceptDate(), instanceVo.getSubmitDate(), instanceVo.isSubmitted(), instanceVo.getMissionId(), 0, 0, instanceDetailVo.getImageResults());
+        return new ImageInstance(instanceVo.getInstanceId(), instanceVo.getWorkerUsername(), instanceVo.getMissionInstanceState(), instanceDetailVo.getMissionType(), instanceVo.getAcceptDate(), instanceVo.getSubmitDate(), instanceVo.isSubmitted(), instanceVo.getMissionId(), 0, 0, instanceDetailVo.getImageResults());
     }
 
     private ImageInstanceVo generateImageInstanceVo(Instance instance, int completedCounts) {
@@ -177,7 +177,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
 
     private ImageInstanceDetailVo generateImageInstanceDetailVo(ImageInstance imageInstance, int completedCounts) {
         InstanceVo instanceVo = new InstanceVo(imageInstance.getInstanceId(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), imageInstance.getMissionId(), imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts);
-        return new ImageInstanceDetailVo(instanceVo, imageInstance.getImageResults());
+        return new ImageInstanceDetailVo(imageInstance.getMissionType(), instanceVo, imageInstance.getImageResults());
     }
 
 }
