@@ -38,6 +38,8 @@ public class RequesterInfoBlServiceImpl implements RequesterInfoBlService{
         int inProgressInstanceCount=0;
         int finalizedInstanceCount=0;
         Mission[]missions=requesterInfoDataService.getMissionsByRequesterUsername(username);
+        if(missions==null)
+            return null;
         submittedMissionCount=missions.length;
         for(int i=0;i<submittedMissionCount;i++){
             Instance[] instances=requesterInfoDataService.getInstancesByMissionId(missions[i].getMissionId(),
@@ -45,12 +47,17 @@ public class RequesterInfoBlServiceImpl implements RequesterInfoBlService{
             int instanceLength=instances==null? 0:instances.length;
             for(int j=0;j<instanceLength;j++){
                 instanceCount++;
-                if(instances[j].getMissionInstanceState().equals(MissionInstanceState.SUBMITTED))
-                    awaitingCommentInstanceCount++;
-                else if(instances[j].getMissionInstanceState().equals(MissionInstanceState.IN_PROGRESS))
-                    inProgressInstanceCount++;
-                else if(instances[j].getMissionInstanceState().equals(MissionInstanceState.FINALIZED))
-                    finalizedInstanceCount++;
+                switch(instances[j].getMissionInstanceState()){
+                    case SUBMITTED:
+                        awaitingCommentInstanceCount++;
+                        break;
+                    case IN_PROGRESS:
+                        inProgressInstanceCount++;
+                        break;
+                    case FINALIZED:
+                        finalizedInstanceCount++;
+                        break;
+                }
             }
         }
         return new RequesterInfoResponse(Converter.userToRequesterInfoVo(user,submittedMissionCount,

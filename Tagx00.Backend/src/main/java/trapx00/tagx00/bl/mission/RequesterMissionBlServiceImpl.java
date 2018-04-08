@@ -9,6 +9,7 @@ import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
@@ -116,9 +117,13 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return MissionRequestQueryResponse
      */
     @Override
-    public MissionRequestQueryResponse queryMissionCredits(String missionId) {
-        return new MissionRequestQueryResponse(requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId),
-                MissionUtil.getType(missionId)).getCredits());
+    public MissionRequestQueryResponse queryMissionCredits(String missionId) throws MissionIdDoesNotExistException {
+        Mission result=null;
+        if((result=requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId),
+                MissionUtil.getType(missionId)))==null)
+            throw new MissionIdDoesNotExistException();
+        else
+            return new MissionRequestQueryResponse(result.getCredits());
     }
 
 

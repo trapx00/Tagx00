@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
@@ -76,7 +77,12 @@ public class RequesterMissionController {
             @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
     public ResponseEntity<Response> chargeMission(@PathVariable("missionId") String missionId, @RequestParam("credits") int credits) {
-        return null;
+        try {
+            return new ResponseEntity<>(requesterMissionBlService.chargeMission(missionId,credits), HttpStatus.OK);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        }
     }
 
 
@@ -94,7 +100,12 @@ public class RequesterMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> queryMissionCredits(@PathVariable("missionId") String missionId) {
-        return null;
+        try {
+            return new ResponseEntity<>(requesterMissionBlService.queryMissionCredits(missionId), HttpStatus.OK);
+        } catch (MissionIdDoesNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
     }
 
     // /mission?requesterUsername=""
@@ -157,7 +168,7 @@ public class RequesterMissionController {
             return new ResponseEntity<>(requesterMissionBlService.queryInstances(missionId), HttpStatus.OK);
         } catch (InstanceNotExistException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -180,7 +191,7 @@ public class RequesterMissionController {
             return new ResponseEntity<>(requesterMissionBlService.queryInstance(instanceId), HttpStatus.OK);
         } catch (InstanceNotExistException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -206,7 +217,10 @@ public class RequesterMissionController {
             return new ResponseEntity<>(requesterMissionBlService.finalize(instanceId, missionFinalizeVo), HttpStatus.OK);
         } catch (InstanceNotExistException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        } catch (SystemException e){
+            e.printStackTrace();;
+            return new ResponseEntity<>(e.getResponse(),HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 
