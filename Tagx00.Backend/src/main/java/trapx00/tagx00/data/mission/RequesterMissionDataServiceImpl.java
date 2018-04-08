@@ -11,6 +11,7 @@ import trapx00.tagx00.entity.mission.instance.ImageInstance;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
@@ -130,7 +131,17 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param credits
      */
     @Override
-    public void updateMission(int missionId, int credits,MissionType missionType) {
+    public void updateMission(int missionId, int credits,MissionType missionType) throws SystemException{
+        Mission mission =null;
+        switch (missionType){
+            case IMAGE:
+                mission=imageMissionDao.findMissionByMissionId(missionId);
+                break;
+        }
+        mission.setCredits(mission.getCredits()+credits);
+        saveMission(mission);
+
+
 
     }
 
@@ -141,8 +152,21 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param missionFinalizeVo
      */
     @Override
-    public void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo,MissionType missionType) {
-
+    public void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo,MissionType missionType) throws SystemException {
+            Instance instance=null;
+            switch (missionType){
+                case IMAGE:
+                    instance=imageInstanceDao.findInstanceByInstanceId(instanceId);
+            }
+            instance.setMissionInstanceState(MissionInstanceState.FINALIZED);
+            instance.setComment(missionFinalizeVo.getComment());
+            instance.setExp(missionFinalizeVo.getExpRatio());
+            switch (instance.getMissionType()) {
+                case IMAGE:
+                    if ((instance = (Instance)imageInstanceDao.saveInstance((ImageInstance)instance)) == null) {
+                        throw new SystemException();
+                    }
+            }
     }
 
     private ImageInstanceDetailVo generateImageInstanceDetailVo(ImageInstance imageInstance, int completedCounts) {

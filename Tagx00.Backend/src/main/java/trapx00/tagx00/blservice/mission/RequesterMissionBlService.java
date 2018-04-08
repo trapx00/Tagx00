@@ -41,7 +41,7 @@ public interface RequesterMissionBlService {
      * @param credits
      * @return  MissionChargeResponse
      */
-    MissionChargeResponse chargeMission(String missionId, int credits);
+    MissionChargeResponse chargeMission(String missionId, int credits)throws SystemException ;
 
 
     /**
@@ -58,7 +58,7 @@ public interface RequesterMissionBlService {
      * @param missionFinalizeVo
      * @return InstanceDetailResponse
      */
-    InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo)throws InstanceNotExistException;
+    InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo)throws InstanceNotExistException,SystemException;
 
 
 }

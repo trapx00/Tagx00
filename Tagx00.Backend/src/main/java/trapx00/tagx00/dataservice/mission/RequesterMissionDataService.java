@@ -49,7 +49,7 @@ public interface RequesterMissionDataService {
      * @param missionId
      * @param credits
      */
-    void updateMission(int missionId, int credits,MissionType missionType);
+    void updateMission(int missionId, int credits,MissionType missionType) throws SystemException;
 
     /**
      * finlize the instance
@@ -57,7 +57,7 @@ public interface RequesterMissionDataService {
      * @param instanceId
      * @param missionFinalizeVo
      */
-    void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo,MissionType missionType);
+    void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo,MissionType missionType)throws SystemException;
 
 
 }

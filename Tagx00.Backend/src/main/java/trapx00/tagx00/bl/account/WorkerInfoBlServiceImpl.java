@@ -26,7 +26,7 @@ public class WorkerInfoBlServiceImpl implements WorkerInfoBlService {
      */
     @Override
     public WorkerInfoResponse getWorkerInfo(String workerUsername) {
-        User user=workerInfoDataService.getUserByUsername(workerUsername);
+        User user=userDataService.getUserByUsername(workerUsername);
         int completedMissionCount=0;
         int acceptedMissionCount=0;
         int inProgressMissionCount=0;

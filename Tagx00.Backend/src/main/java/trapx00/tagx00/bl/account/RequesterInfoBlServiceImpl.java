@@ -31,7 +31,7 @@ public class RequesterInfoBlServiceImpl implements RequesterInfoBlService{
      */
     @Override
     public RequesterInfoResponse getRequesterInfo(String username) {
-        User user=requesterInfoDataService.getUserByUsername(username);
+        User user=userDataService.getUserByUsername(username);
         int submittedMissionCount=0;
         int instanceCount=0;
         int awaitingCommentInstanceCount=0;

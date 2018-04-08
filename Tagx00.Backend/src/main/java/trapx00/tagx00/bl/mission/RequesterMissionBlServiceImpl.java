@@ -103,7 +103,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return MissionChargeResponse
      */
     @Override
-    public MissionChargeResponse chargeMission(String missionId, int credits) {
+    public MissionChargeResponse chargeMission(String missionId, int credits)throws SystemException {
         requesterMissionDataService.updateMission(MissionUtil.getId(missionId),credits,MissionUtil.getType(missionId));
         Mission mission=requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId),MissionUtil.getType(missionId));
         return new MissionChargeResponse(mission.getCredits());
@@ -130,7 +130,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return InstanceDetailResponse
      */
     @Override
-    public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws InstanceNotExistException {
+    public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws InstanceNotExistException,SystemException {
         requesterMissionDataService.updateInstance(MissionUtil.getId(instanceId),missionFinalizeVo,MissionUtil.getType(instanceId));
         return new InstanceDetailResponse(
                 requesterMissionDataService.getInstanceByInstanceId(MissionUtil.getId(instanceId),MissionUtil.getType(instanceId)));
