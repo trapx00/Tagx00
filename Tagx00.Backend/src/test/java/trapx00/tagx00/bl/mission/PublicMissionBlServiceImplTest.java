@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.exception.viewexception.NotMissionException;
+import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,7 +30,7 @@ public class PublicMissionBlServiceImplTest {
     @Test
     public void getAllMissions() {
         try {
-            assertEquals("凌尊", publicMissionBlService.getAllMissions().getItems().get(0).getRequesterUsername());
+            assertEquals("凌尊", publicMissionBlService.getMissions(new PagingQueryVo()).getItems().get(0).getRequesterUsername());
         } catch (NotMissionException e) {
             e.printStackTrace();
         }

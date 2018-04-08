@@ -33,7 +33,7 @@ public class TopicDaoImpl implements TopicDao {
     }
 
     @Override
-    public void delete(String id) {
-        fileService.delete(id, Topic.class);
+    public void delete(int id) {
+        fileService.delete(String.valueOf(id), Topic.class);
     }
 }
