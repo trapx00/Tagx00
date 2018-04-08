@@ -9,6 +9,8 @@ public interface InstanceDao<T> {
 
     ArrayList<T> findImageInstancesByWorkerUsername(String workerUsername);
 
+    ArrayList<T> findAll();
+
     T findInstanceByInstanceId(int instanceId);
 
     boolean deleteInstance(int instanceid);

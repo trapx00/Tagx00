@@ -1,23 +1,13 @@
 package trapx00.tagx00.data.account;
 
+import org.springframework.stereotype.Service;
 import trapx00.tagx00.dataservice.account.RequesterInfoDataService;
-import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
+@Service
 public class RequesterInfoDataServiceImpl implements RequesterInfoDataService {
-
-    /**
-     * get user by username
-     *
-     * @param Username
-     * @return
-     */
-    @Override
-    public User getUserByUsername(String Username) {
-        return null;
-    }
 
     /**
      * get missions by requesterUsername

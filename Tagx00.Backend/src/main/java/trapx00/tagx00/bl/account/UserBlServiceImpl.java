@@ -10,6 +10,7 @@ import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.entity.account.TempUser;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.*;
+import trapx00.tagx00.response.user.LevelInfoResponse;
 import trapx00.tagx00.response.user.UserLoginResponse;
 import trapx00.tagx00.response.user.UserRegisterConfirmationResponse;
 import trapx00.tagx00.response.user.UserRegisterResponse;
@@ -17,6 +18,7 @@ import trapx00.tagx00.security.jwt.JwtRole;
 import trapx00.tagx00.security.jwt.JwtService;
 import trapx00.tagx00.security.jwt.JwtUser;
 import trapx00.tagx00.util.Converter;
+import trapx00.tagx00.util.LevelUtil;
 import trapx00.tagx00.vo.user.UserSaveVo;
 
 import java.util.Collection;
@@ -107,6 +109,16 @@ public class UserBlServiceImpl implements UserBlService {
         } else {
             throw new WrongUsernameOrPasswordException();
         }
+    }
+
+    /**
+     * get levels
+     *
+     * @return the levels array
+     */
+    @Override
+    public LevelInfoResponse level() {
+        return new LevelInfoResponse(LevelUtil.getLevels());
     }
 
     private String generateSecurityCode() {

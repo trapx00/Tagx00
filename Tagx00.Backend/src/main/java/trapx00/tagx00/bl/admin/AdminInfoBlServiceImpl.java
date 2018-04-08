@@ -6,38 +6,54 @@ import trapx00.tagx00.dataservice.admin.AdminInfoDataService;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
+import org.springframework.stereotype.Service;
+import trapx00.tagx00.blservice.admin.AdminInfoBlService;
+import trapx00.tagx00.dataservice.admin.AdminInfoDataService;
+import trapx00.tagx00.entity.account.User;
+import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.response.user.AdminInfoResponse;
 
+@Service
 public class AdminInfoBlServiceImpl implements AdminInfoBlService {
     private final AdminInfoDataService adminInfoDataService;
+
+
     @Autowired
-    public AdminInfoBlServiceImpl (AdminInfoDataService adminInfoDataService) {
+    public AdminInfoBlServiceImpl(AdminInfoDataService adminInfoDataService) {
         this.adminInfoDataService = adminInfoDataService;
     }
+
     /**
      * get the info of userCount,totalMissionCount,totalInstanceCount...
-     * @return AdminInfoResponse the combination of the infomation
+     *
+     * @return AdminInfoResponse the combination of the information
      */
     @Override
     public AdminInfoResponse getAdminInfo() {
 
-        int userCount=adminInfoDataService.getUsers()==null?0:adminInfoDataService.getUsers().length;
-        int totalMissionCount=adminInfoDataService.getMissions()==null?0:adminInfoDataService.getMissions().length;
-        int totalInstanceCount=adminInfoDataService.getInstances()==null?0:adminInfoDataService.getInstances().length;
-        int inProgressInstanceCount=0;
-        int submittedInstanceCount=0;
-        int finalizeInstanceCount=0;
-        Instance[] instances=adminInfoDataService.getInstances();
-        for(int i=0;i<totalInstanceCount;i++){
-            if(instances[i].getMissionInstanceState().equals(MissionInstanceState.IN_PROGRESS))
-                inProgressInstanceCount++;
-            else if(instances[i].getMissionInstanceState().equals(MissionInstanceState.SUBMITTED))
-                submittedInstanceCount++;
-            else if(instances[i].getMissionInstanceState().equals(MissionInstanceState.FINALIZED))
-                finalizeInstanceCount++;
+        User[] users = adminInfoDataService.getUsers();
+        Mission[] missions = adminInfoDataService.getMissions();
+        Instance[] instances = adminInfoDataService.getInstances();
+        int userCount = users.length;
+        int totalMissionCount = missions.length;
+        int totalInstanceCount = instances.length;
+        int inProgressInstanceCount = 0;
+        int submittedInstanceCount = 0;
+        int finalizeInstanceCount = 0;
+        for (Instance instance : instances) {
+            switch (instance.getMissionInstanceState()) {
+                case IN_PROGRESS:
+                    inProgressInstanceCount++;
+                    break;
+                case SUBMITTED:
+                    submittedInstanceCount++;
+                    break;
+                case FINALIZED:
+                    finalizeInstanceCount++;
+                    break;
+            }
         }
-        return new AdminInfoResponse(
-                userCount,totalMissionCount,totalInstanceCount,inProgressInstanceCount,submittedInstanceCount,finalizeInstanceCount
-        );
+        return new AdminInfoResponse(userCount, totalMissionCount, totalInstanceCount, inProgressInstanceCount, submittedInstanceCount, finalizeInstanceCount);
     }
 }

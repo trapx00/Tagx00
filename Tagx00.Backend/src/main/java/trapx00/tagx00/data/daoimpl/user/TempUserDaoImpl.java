@@ -25,4 +25,9 @@ public class TempUserDaoImpl implements TempUserDao {
     public TempUser findTempUserByUsername(String username) {
         return fileService.findOne(username, TempUser.class);
     }
+
+    @Override
+    public void delete(String username) {
+        fileService.delete(username, TempUser.class);
+    }
 }

@@ -9,10 +9,13 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.user.TempUserDao;
 import trapx00.tagx00.data.dao.user.UserDao;
 import trapx00.tagx00.dataservice.account.UserDataService;
+import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.entity.account.TempUser;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserDoesNotExistException;
+
+import java.util.ArrayList;
 
 @Service
 public class UserDataServiceImpl implements UserDataService {
@@ -87,7 +90,7 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public void deleteUser(String username) {
-
+        userDao.delete(username);
     }
 
     /**
@@ -143,6 +146,40 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public void deleteTempUserByUsername(String tempUsername) {
+        tempUserDao.delete(tempUsername);
+    }
 
+    /**
+     * get user by role
+     *
+     * @param role
+     * @return the list of users matching the role
+     */
+    @Override
+    public User[] getUsersByRole(Role role) {
+        ArrayList<User> userArrayList = userDao.findUsersByRole(role);
+        return userArrayList.toArray(new User[userArrayList.size()]);
+    }
+
+    /**
+     * get user by username
+     *
+     * @param username
+     * @return
+     */
+    @Override
+    public User getUserByUsername(String username) {
+        return userDao.findUserByUsername(username);
+    }
+
+    /**
+     * find all of the users
+     *
+     * @return users
+     */
+    @Override
+    public User[] findAllUsers() {
+        ArrayList<User> userArrayList = userDao.findAll();
+        return userArrayList.toArray(new User[userArrayList.size()]);
     }
 }

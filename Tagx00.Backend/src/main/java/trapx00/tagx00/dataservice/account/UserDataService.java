@@ -1,5 +1,6 @@
 package trapx00.tagx00.dataservice.account;
 
+import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.entity.account.TempUser;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -67,4 +68,27 @@ public interface UserDataService {
      * @param tempUsername the temp user's username
      */
     void deleteTempUserByUsername(String tempUsername);
+
+    /**
+     * get user by role
+     *
+     * @param role
+     * @return the list of users matching the role
+     */
+    User[] getUsersByRole(Role role);
+
+    /**
+     * get user by username
+     *
+     * @param username
+     * @return
+     */
+    User getUserByUsername(String username);
+
+    /**
+     * find all of the users
+     *
+     * @return users
+     */
+    User[] findAllUsers();
 }
