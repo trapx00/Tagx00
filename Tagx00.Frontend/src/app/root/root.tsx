@@ -3,6 +3,7 @@ import { homePage } from "../router/routes/rootRoutes";
 import { Route, Router, Switch } from "react-router";
 import { AsyncComponent } from "../router/AsyncComponent";
 import { observer } from "mobx-react";
+import { constructRoute } from "../router/routes/RouteConfig";
 
 interface Props {
   history;
@@ -33,7 +34,7 @@ export class Root extends React.Component<Props, {}> {
     return <div>
       <Router history={this.props.history}>
         <Switch>
-          {homePage.construct()}
+          {constructRoute(homePage)}
           <Route render={props => <AsyncComponent render={this.renderPagesWithBaseLayout} props={props}/>}/>
         </Switch>
       </Router>

@@ -1,11 +1,13 @@
 import { action, computed, observable, runInAction, toJS } from "mobx";
 import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
-import { ImageJob } from "../models/instance/image/job/ImageJob";
+import { ImageJob, KnownImageJob } from "../models/instance/image/job/ImageJob";
 import { ImageMissionDetail, ImageMissionType } from "../models/mission/image/ImageMission";
 import { ImageResult } from "../models/instance/image/ImageResult";
 import { WorkerService } from "../api/WorkerService";
 import { Injectable } from "react.di";
 import { DistrictJob } from "../models/instance/image/job/DistrictJob";
+import { PartJob } from "../models/instance/image/job/PartJob";
+import { WholeJob } from "../models/instance/image/job/WholeJob";
 
 export interface ImageNotation<T extends ImageJob = ImageJob> {
   imageUrl: string;
@@ -16,10 +18,11 @@ function any<T>(array: T[]) {
   return !!array && array.length > 0;
 }
 
-function judgeJobComplete(job: any) {
+function judgeJobComplete(job: KnownImageJob) {
   if (!job) return false;
   switch (job.type) {
     case ImageMissionType.DISTRICT:
+      return any(job.tuples);
     case ImageMissionType.PART:
       return any(job.tuples);
     case ImageMissionType.WHOLE:
@@ -49,7 +52,7 @@ export class ImageWorkStore {
         instanceId: instance.instanceId,
         imageJob: x.job,
         url: x.imageUrl,
-        isDone: judgeJobComplete(x.job)
+        isDone: judgeJobComplete(x.job as any)
       })),
       instance: instance
     }

@@ -1,48 +1,37 @@
 import { Redirect, Route, RouteComponentProps } from "react-router";
 import { AsyncComponent } from "../AsyncComponent";
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-export abstract class RouteConfig {
-  path: string = "";
-  exact: boolean = true;
-  abstract construct();
-
+export enum RouteType {
+  Async,
+  Redirect
 }
 
-export class NormalPageConfig extends RouteConfig {
+export interface RouteConfig {
+  path: string;
+  exact: boolean;
+  type: RouteType;
+}
 
-  render: (props: RouteComponentProps<any>) => Promise<JSX.Element> = () => new Promise(resolve => resolve());
+export interface AsyncRouteConfig extends RouteConfig {
+  type: RouteType.Async;
+  render(props: RouteComponentProps<any>): Promise<ReactNode>;
+}
 
+export interface RedirectRouteConfig extends RouteConfig {
+  type: RouteType.Redirect;
+  to: string;
+}
 
-  constructor(config: Partial<NormalPageConfig>) {
-    super();
-    Object.assign(this, config);
-  }
+export type KnownRouteConfig = AsyncRouteConfig | RedirectRouteConfig;
 
-  construct() {
-    return <Route
-      exact={this.exact}
-      key={this.path}
-      path={this.path}
-      render={props => <AsyncComponent render={this.render} props={props}/>}/>
+export function constructRoute(config: KnownRouteConfig) {
+  switch (config.type) {
+    case RouteType.Async:
+      return <Route exact={config.exact} key={config.path} path={config.path}
+                    render={props => <AsyncComponent render={config.render} props={props}/>}/>;
+    case RouteType.Redirect:
+      return <Redirect exact={config.exact} key={config.path} path={config.path} to={config.to}/>
   }
 }
 
-export class RedirectConfig extends RouteConfig {
-
-  redirectTo: string = "/notfound";
-
-  constructor(config: Partial<RedirectConfig>) {
-    super();
-    Object.assign(this, config);
-  }
-
-  construct() {
-    return <Redirect
-      key={this.path}
-      path={this.path}
-      to={this.redirectTo}
-      />;
-  }
-
-}

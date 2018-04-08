@@ -7,3 +7,5 @@ import { DistrictJob } from "./DistrictJob";
 export interface ImageJob {
   type: ImageMissionType;
 }
+
+export type KnownImageJob = WholeJob | DistrictJob | PartJob;
