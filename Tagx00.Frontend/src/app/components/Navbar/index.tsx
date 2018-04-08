@@ -1,5 +1,5 @@
-import React from "react";
-import { Col, Icon, Menu, Row } from 'antd';
+import React, { CSSProperties, ReactDOM } from "react";
+import { Dropdown, Icon, Menu, Popover } from 'antd';
 import { LocaleMessage } from "../../internationalization/components";
 import { observer } from "mobx-react";
 import { NavbarUserIndicator } from "./NavbarUserIndicator";
@@ -8,7 +8,17 @@ import { LanguageSelector } from "../LanguageSelector";
 import { NavbarModals } from "./NavbarModals";
 import { Inject } from "react.di";
 import { RouterStore } from "../../stores/RouterStore";
-import styled from "styled-components";
+import { SvgImg } from "../Common/SvgImg";
+import {
+  DropdownContainer,
+  dropdownMenuStyle, horizontalMenuStyle, IndicatorContainer,
+  LogoDiv, MobileNavContainer,
+  NavItem,
+  RightDiv,
+  Row,
+  SvgImgContainer
+} from "./LayoutComponents";
+import './style.css';
 
 // import pages will result in circular dependency and I can't figure out why
 // hard-code is the only option :(
@@ -37,29 +47,9 @@ const routes = [
   },
 ];
 
-const NavItem = styled.div`
-    float: right;
-    display: inline-block;
-    margin-left: 8px;
-    margin-right: 8px;
-`;
-
-const CenterCol = styled(Col)`
-    display: inline-block;
-    margin: auto;
-    text-align:center;
-`;
-
-const RightCol = styled(Col)`
-    display: inline-block;
-    float: right;
-    @media (max-width: 768px) {
-        display: none;
-    }
-`;
 
 @observer
-export class Navbar extends React.Component<{}, {}> {
+class NavbarMenu extends React.Component<{ dropdownMode: boolean }> {
 
   @Inject routerStore: RouterStore;
 
@@ -68,14 +58,50 @@ export class Navbar extends React.Component<{}, {}> {
   }
 
   render() {
+    return <Menu
+      theme="light"
+      mode={this.props.dropdownMode ? "inline" : "horizontal"}
+      selectedKeys={this.selectedRoute}
+      style={this.props.dropdownMode ? dropdownMenuStyle : horizontalMenuStyle}
+    >
+      {routes.map(x => (
+        <Menu.Item key={x.path}>
+          <Link to={x.path}>
+           <span>
+              <Icon type={x.iconName}/>
+              <LocaleMessage id={x.id}/>
+           </span>
+          </Link>
+        </Menu.Item>
+
+      ))}
+    </Menu>
+  }
+}
+
+export class Navbar extends React.Component<{}, {}> {
+
+  dropdownContainerRef = (React as any).createRef();
+
+  render() {
     return <Row>
-      {/*<span>*/}
-      {/*<SvgImg filePath={"logo.svg"} width={56} height={56}/>*/}
-      {/*</span>*/}
-      <CenterCol xs={24} md={3}>
-        <span>Tag x00</span>
-      </CenterCol>
-      <RightCol span={21}>
+      <LogoDiv>
+        <SvgImgContainer>
+          <SvgImg filePath={"tag_x00_mini_logo.svg"} width={180} height={30}/>
+        </SvgImgContainer>
+        <MobileNavContainer>
+          <NavbarUserIndicator/>
+          <LanguageSelector/>
+        <DropdownContainer innerRef={this.dropdownContainerRef}>
+          <Popover getPopupContainer={() => this.dropdownContainerRef.current} trigger={"click"} placement={"bottomRight"} content={
+            <NavbarMenu dropdownMode={true}/>
+          }>
+            <Icon type="menu-fold"/>
+          </Popover>
+        </DropdownContainer>
+        </MobileNavContainer>
+      </LogoDiv>
+      <RightDiv>
         <NavItem>
           <LanguageSelector/>
         </NavItem>
@@ -83,22 +109,10 @@ export class Navbar extends React.Component<{}, {}> {
           <NavbarUserIndicator/>
         </NavItem>
         <NavItem>
-          <Menu
-            theme="light"
-            mode="horizontal"
-            selectedKeys={this.selectedRoute}
-            style={{lineHeight: '64px'}}
-          >
-            {routes.map(x => <Menu.Item key={x.path}>
-              <Link to={x.path}>
-                <span><Icon type={x.iconName}/><LocaleMessage id={x.id}/></span>
-              </Link>
-
-            </Menu.Item>)}
-          </Menu>
+          <NavbarMenu dropdownMode={false}/>
         </NavItem>
         <NavbarModals/>
-      </RightCol>
+      </RightDiv>
     </Row>;
   }
 }
