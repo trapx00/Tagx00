@@ -24,26 +24,7 @@ interface Props {
   readonlyCompleteText: ReactNode;
 }
 
-export interface ImageWorkPageProps<T extends ImageJob> {
-  notation: ImageNotation<T>;
-  submit: (notation: ImageNotation) => void;
-  missionDetail: ImageMissionDetail;
-  goNext: (notation: ImageNotation) => void;
-  controllerProps: {
-    goPrevious: () => void;
-    previousAvailable: boolean;
-    saving: boolean;
-  },
-  readonlyMode: boolean;
-}
 
-export interface ImageWorkPageStates<T extends ImageJob> {
-  notation: ImageNotation<T>;
-  selectedIndex: number;
-  addingMode: boolean;
-  width: number;
-  height: number;
-}
 
 @Module({
   providers: [

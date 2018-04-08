@@ -1,6 +1,5 @@
 import React from "react";
 import { ImageNotation } from "../../../stores/ImageWorkStore";
-import { ImageWorkPageProps, ImageWorkPageStates } from "./ImageWorkPage";
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../components/ImageWork/MissionTipCard";
@@ -13,6 +12,7 @@ import { DistrictAddingModeController } from "../../../components/ImageWork/Dist
 import { DistrictDrawingSession } from "../../../components/ImageWork/DrawingPad/DistrictPanel/DistrictCanvas/DistrictDrawingSession";
 import { District } from "../../../components/ImageWork/DrawingPad/DistrictPanel/Districts";
 import { ImageWorkPageLayout } from "./Layout";
+import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 
 function initializeNotation(notation: ImageNotation<DistrictJob>) {
   if (!(notation.job && notation.job.tuples)) {

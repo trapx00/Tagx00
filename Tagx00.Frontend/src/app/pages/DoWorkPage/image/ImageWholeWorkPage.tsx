@@ -2,16 +2,13 @@ import React from "react";
 import { ImageMissionType } from "../../../models/mission/image/ImageMission";
 import { ImageNotation } from "../../../stores/ImageWorkStore";
 import { WholeJob } from "../../../models/instance/image/job/WholeJob";
-import { Card, Col, Row } from 'antd';
 import { TagDescriptionTuple } from "../../../models/instance/TagTuple";
-import { observer } from "mobx-react";
-import { ImageWorkPageProps, ImageWorkPageStates } from "./ImageWorkPage";
 import { MissionTipCard } from "../../../components/ImageWork/MissionTipCard";
 import { TagDescriptionTuplePanel } from "../../../components/ImageWork/TagDescriptionPanel";
 import { ProgressController } from "../../../components/ProgressController";
-import { action, observable, toJS } from "mobx";
-import * as localStyle from './style.css';
+import { toJS } from "mobx";
 import { ImageWorkPageLayout } from "./Layout";
+import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 
 function initializeNotation(notation: ImageNotation<WholeJob>) {
   if (!(notation.job && notation.job.tuple)) {
@@ -83,7 +80,6 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
         <img onLoad={this.onImageLoad} src={imageUrl}/>
       </>
       <>
-        <div className={localStyle.controller}>
           <MissionTipCard jobType={job.type}
             tags={missionDetail.publicItem.allowedTags}
             allowCustomTag={missionDetail.publicItem.allowCustomTag}
@@ -95,7 +91,6 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
             readonlyMode={this.props.readonlyMode}
             saveProgress={this.submit}
           />
-        </div>
       </>
     </ImageWorkPageLayout>
   }

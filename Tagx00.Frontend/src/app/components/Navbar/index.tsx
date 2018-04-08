@@ -5,10 +5,10 @@ import { observer } from "mobx-react";
 import { NavbarUserIndicator } from "./NavbarUserIndicator";
 import { Link } from "react-router-dom";
 import { LanguageSelector } from "../LanguageSelector";
-import * as style from './style.css';
 import { NavbarModals } from "./NavbarModals";
 import { Inject } from "react.di";
 import { RouterStore } from "../../stores/RouterStore";
+import styled from "styled-components";
 
 // import pages will result in circular dependency and I can't figure out why
 // hard-code is the only option :(
@@ -37,6 +37,26 @@ const routes = [
   },
 ];
 
+const NavItem = styled.div`
+    float: right;
+    display: inline-block;
+    margin-left: 8px;
+    margin-right: 8px;
+`;
+
+const CenterCol = styled(Col)`
+    display: inline-block;
+    margin: auto;
+    text-align:center;
+`;
+
+const RightCol = styled(Col)`
+    display: inline-block;
+    float: right;
+    @media (max-width: 768px) {
+        display: none;
+    }
+`;
 
 @observer
 export class Navbar extends React.Component<{}, {}> {
@@ -48,24 +68,21 @@ export class Navbar extends React.Component<{}, {}> {
   }
 
   render() {
-
-    console.log(this.selectedRoute);
-
     return <Row>
       {/*<span>*/}
       {/*<SvgImg filePath={"logo.svg"} width={56} height={56}/>*/}
       {/*</span>*/}
-      <Col xs={24} md={3} className={style.center}>
+      <CenterCol xs={24} md={3}>
         <span>Tag x00</span>
-      </Col>
-      <Col span={21} className={style.rightColumns}>
-        <div className={style.navItem}>
+      </CenterCol>
+      <RightCol span={21}>
+        <NavItem>
           <LanguageSelector/>
-        </div>
-        <div className={style.navItem}>
+        </NavItem>
+        <NavItem>
           <NavbarUserIndicator/>
-        </div>
-        <div className={style.navItem}>
+        </NavItem>
+        <NavItem>
           <Menu
             theme="light"
             mode="horizontal"
@@ -79,9 +96,9 @@ export class Navbar extends React.Component<{}, {}> {
 
             </Menu.Item>)}
           </Menu>
-        </div>
+        </NavItem>
         <NavbarModals/>
-      </Col>
+      </RightCol>
     </Row>;
   }
 }

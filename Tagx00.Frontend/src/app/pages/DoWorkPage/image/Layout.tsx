@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import * as localStyle from './style.css';
+import styled from "styled-components";
 
 interface Props {
   children: ReactNode[];
@@ -8,6 +8,41 @@ interface Props {
   setScale: (scale: number) => void;
   imageUrl: string;
 }
+
+const Container = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;
+const Controller = styled.div`
+    flex: 1 0 auto;
+    min-width: 100px;
+`;
+
+interface PictureContainerProps {
+  width: number;
+  height: number;
+}
+const PictureContainer = styled.div`
+    overflow: hidden;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    width: ${(props: PictureContainerProps) => props.width};
+    height: ${(props: PictureContainerProps) => props.height};
+`;
+
+interface PictureProps {
+  scale: number;
+  width: number;
+  height: number;
+}
+
+const Picture = styled.div`
+  transform-origin: top left;
+  transform: ${(props: PictureProps) => `scale(${props.scale})`};
+  width: ${(props: PictureProps) => props.width};
+  height: ${(props: PictureProps) => props.height};
+`;
+
 
 export class ImageWorkPageLayout extends React.Component<Props, {}> {
 
@@ -30,8 +65,8 @@ export class ImageWorkPageLayout extends React.Component<Props, {}> {
   };
 
   appendScale() {
-    const width= this.scale * this.props.imageWidth;
-    const height= this.scale * this.props.imageHeight;
+    const width = this.scale * this.props.imageWidth;
+    const height = this.scale * this.props.imageHeight;
     this.pictureRef.current.style.transform = `scale(${Math.min(this.scale, 1)})`;
     // this.pictureRef.current.style.width = `${width}px`;
     // this.pictureRef.current.style.height = `${height}px`;
@@ -52,24 +87,22 @@ export class ImageWorkPageLayout extends React.Component<Props, {}> {
   }
 
   render() {
-    return <div className={localStyle.container}>
-      <div ref={this.pictureContainerRef}
-           style={{
-             width: this.props.imageWidth,
-             height: this.props.imageHeight
-           }} className={localStyle.picture}>
-        <div ref={this.pictureRef} style={{
-          transform: "scale(1)",
-          width: this.props.imageWidth,
-          height: this.props.imageHeight,
-          transformOrigin: "left top"
-        }} >
-        {this.props.children[0]}
-        </div>
-      </div>
-      <div className={localStyle.controller}>
+
+
+    return <Container>
+      <PictureContainer innerRef={this.pictureContainerRef}
+               width={this.props.imageWidth}
+               height={this.props.imageHeight}>
+        <Picture innerRef={this.pictureRef}
+                 scale={1}
+                 width={this.props.imageWidth}
+                 height={this.props.imageHeight}>
+          {this.props.children[0]}
+        </Picture>
+      </PictureContainer>
+      <Controller>
         {this.props.children[1]}
-      </div>
-    </div>
+      </Controller>
+    </Container>
   }
 }

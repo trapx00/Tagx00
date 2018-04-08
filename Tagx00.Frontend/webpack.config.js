@@ -14,6 +14,7 @@ const tsImportPluginFactory = require('ts-import-plugin');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 const buildTime = moment();
 
 
@@ -38,9 +39,9 @@ const basePlugins = [
     filename: "[name].css",
     chunkFilename: "[id].css"
   }),
-  new ForkTsCheckerWebpackPlugin({
-    tsconfig: path.resolve(__dirname, "tsconfig.json")
-  })
+  // new ForkTsCheckerWebpackPlugin({
+  //   tsconfig: path.resolve(__dirname, "tsconfig.json")
+  // })
 ];
 
 
@@ -96,11 +97,14 @@ module.exports = {
             options: {
               happyPackMode: true,
               getCustomTransformers: () => ({
-                before: [tsImportPluginFactory({
+                before: [
+                  createStyledComponentsTransformer(),
+                  tsImportPluginFactory({
                   libraryName: 'antd',
                   libraryDirectory: 'lib',
                   style: true
-                })]
+                })
+                ],
               }),
 
             },
@@ -108,22 +112,7 @@ module.exports = {
       },
       // css
       {
-        test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            query: {
-              modules: true,
-              sourceMap: !isProduction,
-              importLoaders: 1,
-              localIdentName: '[local]__[hash:base64:5]',
-            }
-          }
-        ]
-      },
-      {
-        test: /\.less$/,
+        test: /\.(css|less)$/,
         use: [
           MiniCssExtractPlugin.loader,
           {
