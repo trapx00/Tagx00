@@ -2,6 +2,7 @@ package trapx00.tagx00.blservice.account;
 
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.exception.viewexception.*;
+import trapx00.tagx00.response.user.LevelInfoResponse;
 import trapx00.tagx00.response.user.UserLoginResponse;
 import trapx00.tagx00.response.user.UserRegisterConfirmationResponse;
 import trapx00.tagx00.response.user.UserRegisterResponse;
@@ -37,4 +38,11 @@ public interface UserBlService {
      * @throws WrongUsernameOrPasswordException the username or password is error
      */
     UserLoginResponse login(String username, String password) throws WrongUsernameOrPasswordException;
+
+    /**
+     * get levels
+     *
+     * @return the levels array
+     */
+    LevelInfoResponse level();
 }
