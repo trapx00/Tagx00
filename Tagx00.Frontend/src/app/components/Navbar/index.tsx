@@ -1,5 +1,5 @@
-import React, { CSSProperties, ReactDOM } from "react";
-import { Dropdown, Icon, Menu, Popover } from 'antd';
+import React from "react";
+import { Icon, Menu, Popover } from 'antd';
 import { LocaleMessage } from "../../internationalization/components";
 import { observer } from "mobx-react";
 import { NavbarUserIndicator } from "./NavbarUserIndicator";
@@ -11,14 +11,15 @@ import { RouterStore } from "../../stores/RouterStore";
 import { SvgImg } from "../Common/SvgImg";
 import {
   DropdownContainer,
-  dropdownMenuStyle, horizontalMenuStyle, IndicatorContainer,
-  LogoDiv, MobileNavContainer,
+  dropdownMenuStyle,
+  horizontalMenuStyle,
+  LogoDiv,
+  MobileNavContainer,
   NavItem,
   RightDiv,
   Row,
   SvgImgContainer
-} from "./LayoutComponents";
-import './style.css';
+} from "./Layout";
 
 // import pages will result in circular dependency and I can't figure out why
 // hard-code is the only option :(

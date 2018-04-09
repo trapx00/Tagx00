@@ -1,5 +1,5 @@
 import React from 'react';
-import * as ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';
 import { configure } from "mobx";
 import { App } from "./root";
 
@@ -20,3 +20,6 @@ async function render() {
 
 render();
 
+if (module.hot) {
+  module.hot.accept();
+}
