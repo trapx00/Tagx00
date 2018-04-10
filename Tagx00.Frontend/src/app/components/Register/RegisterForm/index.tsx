@@ -8,6 +8,7 @@ import { Inject } from "react.di";
 import { register } from "ts-node";
 import { UserRegisterResponse, UserService } from "../../../api/UserService";
 import { UserRole } from "../../../models/User";
+import { NetworkResponse } from "../../../api/HttpService";
 
 interface RegisterFormProps extends FormComponentProps {
 }
@@ -31,7 +32,7 @@ class RegisterTable extends React.Component<RegisterFormProps, any> {
     this.setState({
       role: e.target.value
     })
-  }
+  };
 
   handleUsernameInput = (e) => {
     this.setState({
@@ -52,12 +53,23 @@ class RegisterTable extends React.Component<RegisterFormProps, any> {
   };
 
   handleSubmit = async () => {
-    const userRegisterResponse: UserRegisterResponse = await this.userService.register(this.state.username, this.state.password, this.state.password, this.state.role);
-    if (userRegisterResponse) {
-      this.registerStore.token = userRegisterResponse.token;
-      message.success('Register Success');
+    const res: NetworkResponse<UserRegisterResponse> = await this.userService.register(this.state.username, this.state.password, this.state.password, this.state.role);
+    switch (res.statusCode) {
+      case 201:
+        this.registerStore.token = res.response.token;
+        message.success('Register Success');
+        this.registerStore.nextStep();
+        break;
+      case 400:
+        message.error('Invalid email address');
+        break;
+      case 409:
+        message.error('Username already exists');
+        break;
+      case 503:
+        message.error('System error');
+        break;
     }
-    this.registerStore.nextStep();
   };
 
   render() {
@@ -108,7 +120,7 @@ class RegisterTable extends React.Component<RegisterFormProps, any> {
                   required: true, message: props.usernameRequire,
                 }],
               })(
-                <Input onClick={this.handleUsernameInput}/>
+                <Input onChange={this.handleUsernameInput}/>
               )}
             </Form.Item>
             <Form.Item
@@ -120,7 +132,7 @@ class RegisterTable extends React.Component<RegisterFormProps, any> {
                   required: true, message: props.passwordRequire,
                 }],
               })(
-                <Input type="password" onClick={this.handlePasswordInput}/>
+                <Input type="password" onChange={this.handlePasswordInput}/>
               )}
             </Form.Item>
             <Form.Item
@@ -155,7 +167,7 @@ class RegisterTable extends React.Component<RegisterFormProps, any> {
                   required: true, message: props.emailRequire,
                 }],
               })(
-                <Input onClick={this.handleEmailInput}/>
+                <Input onChange={this.handleEmailInput}/>
               )}
             </Form.Item>
             <Form.Item {...buttonItemLayout}>

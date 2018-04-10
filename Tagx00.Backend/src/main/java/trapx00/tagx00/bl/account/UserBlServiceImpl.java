@@ -48,7 +48,7 @@ public class UserBlServiceImpl implements UserBlService {
      * @throws SystemException            the system has error
      */
     @Override
-    public UserRegisterResponse signUp(UserSaveVo userSaveVo) throws UserAlreadyExistsException, SystemException {
+    public UserRegisterResponse signUp(UserSaveVo userSaveVo) throws UserAlreadyExistsException, SystemException, InvalidEmailAddressesException {
         if (userDataService.isUserExistent(userSaveVo.getUsername())) {
             throw new UserAlreadyExistsException();
         } else {
