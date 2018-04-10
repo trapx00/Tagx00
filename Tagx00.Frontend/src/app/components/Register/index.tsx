@@ -1,18 +1,19 @@
 import React from "react";
 import { RegisterForm } from "./RegisterForm";
 import { Col, Row } from 'antd';
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import { RegisterEmailSender } from "./RegisterEmailSender";
-import { RegisterProps, STORE_REGISTER } from "./RegisterStore";
+import { RegisterStore } from "../../stores/RegisterStore";
+import { Inject } from "react.di";
 
-// import { RegisterSuccessShower } from "./RegisterSuccessShower";
+import { RegisterSuccessShower } from "./RegisterSuccessShower";
 
-@inject(STORE_REGISTER)
 @observer
-export class Register extends React.Component<RegisterProps, any> {
+export class Register extends React.Component<any, any> {
+  @Inject registerStore: RegisterStore;
+
   render() {
-    const store = this.props[STORE_REGISTER];
-    switch (store.currentStep) {
+    switch (this.registerStore.currentStep) {
       case 0:
         return (<Row>
           <Col span={12}>
@@ -31,7 +32,7 @@ export class Register extends React.Component<RegisterProps, any> {
         );
       case 2:
         return (
-          {/*<RegisterSuccessShower/>*/}
+          <RegisterSuccessShower/>
         );
       default:
         return null;

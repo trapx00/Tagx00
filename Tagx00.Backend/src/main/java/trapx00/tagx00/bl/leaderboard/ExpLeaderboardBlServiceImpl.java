@@ -1,6 +1,7 @@
 package trapx00.tagx00.bl.leaderboard;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.leaderboard.ExpLeaderboardBlService;
 import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.entity.account.Role;
@@ -11,6 +12,7 @@ import trapx00.tagx00.response.leaderboard.exp.ExpSpecificWorkerLeaderboardRespo
 import trapx00.tagx00.vo.leaderboard.ExpLeaderboardUserVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
+@Service
 public class ExpLeaderboardBlServiceImpl implements ExpLeaderboardBlService {
 
     private final UserDataService userDataService;

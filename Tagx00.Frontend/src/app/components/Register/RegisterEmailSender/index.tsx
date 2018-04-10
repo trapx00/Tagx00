@@ -1,14 +1,15 @@
 import React from "react"
 import { Localize } from "../../../internationalization/components";
 import { Button, Icon, Input } from "antd";
-import { inject, observer } from "mobx-react";
-import { STORE_REGISTER } from "../RegisterStore";
+import { observer } from "mobx-react";
+import { Inject } from "react.di";
+import { RegisterStore } from "../../../stores/RegisterStore";
 
-@inject(STORE_REGISTER)
 @observer
 export class RegisterEmailSender extends React.Component<any, any> {
+  @Inject registerStore: RegisterStore;
   handleConfirm = () => {
-    this.props[STORE_REGISTER].nextStep();
+    this.registerStore.nextStep();
   };
 
   render() {

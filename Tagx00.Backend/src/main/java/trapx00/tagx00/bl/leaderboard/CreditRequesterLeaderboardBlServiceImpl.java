@@ -1,6 +1,7 @@
 package trapx00.tagx00.bl.leaderboard;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.leaderboard.CreditRequesterLeaderboardBlService;
 import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.entity.account.Role;
@@ -11,6 +12,7 @@ import trapx00.tagx00.response.leaderboard.credit.CreditSpecificRequesterLeaderb
 import trapx00.tagx00.vo.leaderboard.CreditLeaderboardRequesterVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
+@Service
 public class CreditRequesterLeaderboardBlServiceImpl implements CreditRequesterLeaderboardBlService {
     private final UserDataService userDataService;
     private final CommonLeaderboardBl<CreditRequesterLeaderboardResponse, CreditSpecificRequesterLeaderboardResponse, CreditLeaderboardRequesterVo> commonLeaderboardBl;

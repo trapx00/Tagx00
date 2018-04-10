@@ -42,7 +42,7 @@ export const homePage: AsyncRouteConfig = {
   },
 };
 
-export const browsePage: AsyncRouteConfig  = {
+export const browsePage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: true,
   path: "/browse",
@@ -52,15 +52,17 @@ export const browsePage: AsyncRouteConfig  = {
   },
 };
 
-// export const registerPage: RouteConfig = new NormalPageConfig( {
-//   path: "/register",
-//   render: async (props) => {
-//     const RegisterPage = (await import("../../pages/RegisterPage")).RegisterPage;
-//     return <RegisterPage/>;
-//   },
-// });
+export const registerPage: AsyncRouteConfig = {
+  type: RouteType.Async,
+  exact: true,
+  path: "/register",
+  render: async (props) => {
+    const RegisterPage = (await import("../../pages/RegisterPage")).RegisterPage;
+    return <RegisterPage/>;
+  },
+};
 
-export const aboutPage:AsyncRouteConfig = {
+export const aboutPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: true,
   path: "/about",
@@ -71,14 +73,11 @@ export const aboutPage:AsyncRouteConfig = {
 };
 
 
-
-
-
 export default [
   missionsPage,
   seeResultPage,
   doWorkPage,
   browsePage,
-  // registerPage,
+  registerPage,
   aboutPage
 ]
