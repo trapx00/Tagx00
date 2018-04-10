@@ -36,6 +36,10 @@ public class WorkerMissionController {
 
     @Authorization(value = "工人")
     @ApiOperation(value = "工人查看所有任务的实例", notes = "工人查看自己已接的所有任务的实例")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageSize", value = "页面信息数", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "pageNumber", value = "页数", required = true, dataType = "int"),
+    })
     @RequestMapping(value = "/mission/worker", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Returns current user's instances", response = InstanceResponse.class),
@@ -43,7 +47,7 @@ public class WorkerMissionController {
             @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> queryOnesAllMissions() {
+    public ResponseEntity<Response> queryOnesAllMissions(@RequestParam("pageSize") Integer pageSize, @RequestParam("pageNumber") Integer pageNumber) {
         try {
             return new ResponseEntity<>(workerMissionBlService.queryOnesAllMissions(UserInfoUtil.getUsername()), HttpStatus.OK);
         } catch (MissionDoesNotExistFromUsernameException e) {

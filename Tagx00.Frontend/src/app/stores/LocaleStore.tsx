@@ -1,8 +1,7 @@
 import { action, computed, observable, runInAction } from "mobx";
-import React from "react"
-import { ReactNode } from "react";
+import React, { ReactNode } from "react"
 import config from '../../assets/i18n/index.json';
-import { STORE_LOCALE } from "../constants/stores";
+import { Injectable } from "react.di";
 
 interface Language {
   id: string;
@@ -54,6 +53,7 @@ function format(content: string, replacements?: ReplacementMap) : Array<ReactNod
   }
 }
 
+@Injectable
 export class LocaleStore {
   private availableLanguages: Map<string, Language> = new Map();
   private loadedLanguages: Map<string, LoadedLanguage> = new Map();
@@ -85,7 +85,6 @@ export class LocaleStore {
     this.loadedLanguages.set(language.id, loaded);
     return loaded;
   };
-
 
   public async init() {
     for (const l of config.languages) {
@@ -136,8 +135,4 @@ export class LocaleStore {
     });
 
   };
-}
-
-export interface LocaleStoreProps {
-  [STORE_LOCALE]?: LocaleStore;
 }

@@ -1,12 +1,10 @@
 package trapx00.tagx00.dataservice.mission;
 
-import trapx00.tagx00.entity.mission.Instance;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
-import trapx00.tagx00.vo.mission.worker.MissionWorkerQueryItemVo;
 
 public interface WorkerMissionDataService {
     /**

@@ -1,13 +1,10 @@
 import React from "react";
 // import {RectangleTool} from "./Tools/Rectangle";
-import { observer } from "mobx-react";
-import { action, observable } from "mobx";
 import { Rectangle } from "./Rectangle";
 import { RectangleNotation } from "./RectangleNotation";
 import { RectangleCanvasContainer } from "./RectangleCanvasContainer";
 import { PartJobTuple } from "../../../../models/instance/image/job/PartJob";
-import { Point, pointEquals } from "../../../../models/instance/image/Shapes";
-import { TagTuple } from "../../../../models/instance/TagTuple";
+import { pointEquals } from "../../../../models/instance/image/Shapes";
 
 interface Props {
   imageUrl: string;
@@ -16,6 +13,8 @@ interface Props {
   addingMode: boolean;
   onTupleSelected: (tuple: PartJobTuple) => void;
   selectedTuple: PartJobTuple;
+  onImageLoaded: (width: number, height: number) => void;
+  getScale: ()=>number;
 }
 
 
@@ -70,6 +69,8 @@ export class RectanglePanel extends React.Component<Props, {}> {
         rectangles={notations}
         selectedRectangle={selectedNotation}
         imageUrl={this.props.imageUrl}
+        onImageLoaded={this.props.onImageLoaded}
+        getScale={this.props.getScale}
         />
     </div>;
   }

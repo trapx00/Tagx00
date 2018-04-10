@@ -1,8 +1,9 @@
 import { action, computed, observable, runInAction } from "mobx";
 import { Tag } from "antd";
-import { MissionPublicItem, MissionType } from "../../models/mission/Mission";
+import { MissionPublicItem } from "../../models/mission/Mission";
 import React from "react";
-import { missionService } from "../../api/MissionService";
+import { MissionService } from "../../api/MissionService";
+import { Inject, Injectable } from "react.di";
 
 interface ListDataProps {
   missionId: number,
@@ -17,6 +18,7 @@ const smallerDiv = {
   display: 'inline',
 };
 
+@Injectable
 export class BrowserStore {
   private static _maxLengthOfDescription = 100;
   @observable private _paused: boolean = true;
@@ -27,8 +29,10 @@ export class BrowserStore {
     this._paused = !this._paused;
   };
 
+  constructor(@Inject private missionService: MissionService) { }
+
   @action public search = async (info) => {
-    let missions: MissionPublicItem[] = (await missionService.getAllMissions());
+    let missions: MissionPublicItem[] = (await this.missionService.getAllMissions());
     runInAction(() => {
       for (let i = 0; i < missions.length; i++) {
         let tagText = [];
@@ -37,16 +41,13 @@ export class BrowserStore {
           tagText.push(item);
         });
         let listProp: ListDataProps = {
-          missionId: 0,
-          coverUrl: "",
-          title: "",
+          missionId: missions[i].missionId,
+          coverUrl: missions[i].coverUrl,
+          title: missions[i].title,
           tags: null,
           startDate: "",
           description: ""
         };
-        listProp.missionId = missions[i].missionId;
-        listProp.coverUrl = missions[i].coverUrl;
-        listProp.title = missions[i].title;
         listProp.tags = (
           <div>
             {tagText.map(
@@ -83,10 +84,4 @@ export class BrowserStore {
   @computed get listData(): ListDataProps[] {
     return this._listData;
   }
-}
-
-export const STORE_BROWSER = "browser";
-
-export interface BrowserProps {
-  [STORE_BROWSER]?: BrowserStore
 }

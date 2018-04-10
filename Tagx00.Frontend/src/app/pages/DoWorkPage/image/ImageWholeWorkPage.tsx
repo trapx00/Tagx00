@@ -1,68 +1,85 @@
 import React from "react";
-import { ImageMissionDetail, ImageMissionType } from "../../../models/mission/image/ImageMission";
-import { ImageInstanceDetail } from "../../../models/instance/image/ImageInstanceDetail";
-import { ImageNotation, ImageWorkStoreProps, STORE_IMAGEWORK } from "../../../stores/ImageWorkStore";
+import { ImageMissionType } from "../../../models/mission/image/ImageMission";
+import { ImageNotation } from "../../../stores/ImageWorkStore";
 import { WholeJob } from "../../../models/instance/image/job/WholeJob";
-import { Row, Col, Card } from 'antd';
-import { TagDescriptionTuple, TagTuple } from "../../../models/instance/TagTuple";
-import { inject, observer } from "mobx-react";
-import { ImageWorkPageProps } from "./ImageWorkPage";
+import { TagDescriptionTuple } from "../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../components/ImageWork/MissionTipCard";
 import { TagDescriptionTuplePanel } from "../../../components/ImageWork/TagDescriptionPanel";
 import { ProgressController } from "../../../components/ProgressController";
-import { action, observable, toJS } from "mobx";
+import { toJS } from "mobx";
+import { ImageWorkPageLayout } from "./Layout";
+import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 
-
-@observer
-export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<WholeJob>, any> {
-
-  @observable notation: ImageNotation<WholeJob> = this.props.notation;
-
-  @action fillNotation() {
-    if (!(this.notation.job && this.notation.job.tuple)) {
-      this.notation.job = {
-        type: ImageMissionType.WHOLE,
-        tuple: {
-          tagTuples: [],
-          descriptions: []
-        }
-      };
-    }
-    console.log(toJS(this.notation));
+function initializeNotation(notation: ImageNotation<WholeJob>) {
+  if (!(notation.job && notation.job.tuple)) {
+    notation.job = {
+      type: ImageMissionType.WHOLE,
+      tuple: {
+        tagTuples: [],
+        descriptions: []
+      }
+    };
   }
+  return notation;
+}
 
-  goNext = () => {
-    this.props.goNext(this.notation);
+export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<WholeJob>, ImageWorkPageStates<WholeJob>> {
+
+  scale: 1;
+
+  state = {
+    notation: initializeNotation(this.props.notation),
+    selectedIndex: -1,
+    addingMode: false,
+    width: 1,
+    height: 1,
+
   };
 
-  constructor(props) {
-    super(props);
-    this.fillNotation();
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.notation !== prevState.notation) {
+      return {
+        notation: initializeNotation(nextProps.notation),
+      }
+    } else {
+      return null;
+    }
   }
 
-  @action onTupleChange = (tuple: TagDescriptionTuple) => {
-    this.notation.job.tuple = tuple;
+
+  goNext = () => {
+    this.props.goNext(this.state.notation);
+  };
+
+  onTupleChange = (tuple: TagDescriptionTuple) => {
+    this.state.notation.job.tuple = tuple;
+    this.forceUpdate();
   };
 
   submit = () => {
-    console.log(toJS(this.notation));
-    this.props.submit(this.notation);
+    console.log(toJS(this.state.notation));
+  };
+
+  setScale = (scale) => {
+    this.scale = scale;
+  };
+
+  onImageLoad = (e) => {
+    this.setState({
+      width: e.target.width,
+      height: e.target.height
+    });
   };
 
   render() {
 
-    const { imageUrl, job } = this.notation;
+    const { imageUrl, job } = this.state.notation;
     const { missionDetail, controllerProps } = this.props;
-    return <div>
-      <Row gutter={16}>
-        <Col span={16}>
-          <Card
-            cover={<img src={imageUrl} />}
-          >
-
-          </Card>
-        </Col>
-        <Col span={8}>
+    return <ImageWorkPageLayout imageUrl={imageUrl} imageWidth={this.state.width} imageHeight={this.state.height} setScale={this.setScale}>
+      <>
+        <img onLoad={this.onImageLoad} src={imageUrl}/>
+      </>
+      <>
           <MissionTipCard jobType={job.type}
             tags={missionDetail.publicItem.allowedTags}
             allowCustomTag={missionDetail.publicItem.allowCustomTag}
@@ -74,8 +91,7 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
             readonlyMode={this.props.readonlyMode}
             saveProgress={this.submit}
           />
-        </Col>
-      </Row>
-    </div>
+      </>
+    </ImageWorkPageLayout>
   }
 }

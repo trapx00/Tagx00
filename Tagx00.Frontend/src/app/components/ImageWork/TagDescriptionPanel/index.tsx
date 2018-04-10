@@ -1,7 +1,5 @@
 import React from "react";
-import { Card, Input, Button, Icon, Tag, Tooltip, Modal } from 'antd';
-import { observer } from "mobx-react";
-import { action, observable, toJS } from "mobx";
+import { Card } from 'antd';
 import { TagDescriptionTuple, TagTuple } from "../../../models/instance/TagTuple";
 import { AddableInputGroup } from "../AddableInputGroup";
 import { TagPanel } from "./TagPanel";

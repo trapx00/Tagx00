@@ -21,18 +21,21 @@ public class User extends Entity {
     @ElementCollection(targetClass = Role.class)
     @Column(name = "roles")
     private List<Role> roles;
-    @Column(name = "validationCode")
-    private String validationCode;
+    @Column(name = "exp")
+    private double exp;
+    @Column(name = "credits")
+    private int credits;
 
     public User() {
     }
 
-    public User(String username, String password, String email, List<Role> roles, String validationCode) {
+    public User(String username, String password, String email, List<Role> roles, double exp, int credits) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.roles = roles;
-        this.validationCode = validationCode;
+        this.exp = exp;
+        this.credits = credits;
     }
 
     public String getUsername() {
@@ -67,11 +70,19 @@ public class User extends Entity {
         this.roles = roles;
     }
 
-    public String getValidationCode() {
-        return validationCode;
+    public double getExp() {
+        return exp;
     }
 
-    public void setValidationCode(String validationCode) {
-        this.validationCode = validationCode;
+    public void setExp(double exp) {
+        this.exp = exp;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
     }
 }

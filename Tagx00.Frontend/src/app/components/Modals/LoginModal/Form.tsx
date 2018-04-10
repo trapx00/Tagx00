@@ -1,7 +1,7 @@
 import { Checkbox, Form, Icon, Input } from 'antd';
 import React from 'react';
 import { Localize } from "../../../internationalization/components";
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import { LoginFormFields } from "./LoginController";
 import { action } from "mobx";
 import { FormItemProps } from "antd/lib/form/FormItem";
@@ -9,10 +9,8 @@ import { FormItemProps } from "antd/lib/form/FormItem";
 const FormItem = Form.Item;
 
 interface Props  {
-  fields?: LoginFormFields;
+  fields: LoginFormFields;
 }
-
-@inject("fields")
 @observer
 export class LoginForm extends React.Component<Props, {}> {
 

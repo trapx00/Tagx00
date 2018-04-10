@@ -1,4 +1,4 @@
-package trapx00.tagx00.entity.mission.workresult;
+package trapx00.tagx00.entity.mission.instance.workresult;
 
 import trapx00.tagx00.entity.Entity;
 import trapx00.tagx00.entity.annotation.*;

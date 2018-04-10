@@ -2,11 +2,13 @@ import React from 'react';
 import { observer } from "mobx-react";
 import { action, observable, runInAction, toJS } from "mobx";
 import { ImageMissionCreateInfo } from "./ImageMissionCreateInfo";
-import { Form, Input, Icon, Checkbox, Button, Modal } from 'antd';
+import { Button, Checkbox, Form, Input, Modal } from 'antd';
 import { FormItemProps } from "antd/lib/form/FormItem";
 import { ImageMissionType } from "../../../models/mission/image/ImageMission";
 import { ImageUploadPanel } from "./ImageUploadPanel";
-import { requesterService } from "../../../api/RequesterService";
+import { RequesterService } from "../../../api/RequesterService";
+import { Inject } from "react.di";
+
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
 
@@ -30,6 +32,9 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
 
   @observable info: ImageMissionCreateInfo = new ImageMissionCreateInfo();
   @observable uploading = false;
+
+
+  @Inject requesterService: RequesterService;
 
   @action onTitleChange = (e) => {
     this.info.title = e.target.value;
@@ -57,10 +62,12 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
 
   };
 
+
+
   submit = async () => {
     console.log(toJS(this.info));
 
-    const {token ,id} = await requesterService.createMission(this.info.missionCreateVo, this.props.token);
+    const {token ,id} = await this.requesterService.createMission(this.info.missionCreateVo, this.props.token);
 
     console.log(token, id);
 
@@ -70,12 +77,12 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
     const coverFormData = new FormData();
     coverFormData.append("files[]", this.info.coverImage as any);
 
-    const coverUrl = await requesterService.uploadImageFile(id, coverFormData, 1, true, token);
+    const coverUrl = await this.requesterService.uploadImageFile(id, coverFormData, 1, true, token);
 
     for (let i =0;i<this.info.images.length;i++) {
       const imageFormData = new FormData();
       imageFormData.append("files[]", this.info.images[i] as any);
-      const img = await requesterService.uploadImageFile(id, imageFormData, i+2, false, token);
+      const img = await this.requesterService.uploadImageFile(id, imageFormData, i+2, false, token);
       console.log(img);
     }
 

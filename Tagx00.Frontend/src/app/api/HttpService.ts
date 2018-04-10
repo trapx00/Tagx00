@@ -1,5 +1,5 @@
 import { appendQueryString, HttpMethod, NetworkErrorCode, urlJoin } from "./utils";
-import { formatDiagnostic } from "ts-node";
+import { Injectable } from "react.di";
 
 
 export class NetworkResponse<T = any> {
@@ -27,7 +27,7 @@ export class NetworkResponse<T = any> {
 
 
 export interface FetchInfo {
-  route?: string;
+  path?: string;
   method?: HttpMethod;
   queryParams?: any;
   body?: any;
@@ -36,20 +36,14 @@ export interface FetchInfo {
 
 declare var APIROOTURL: string;
 
+@Injectable
+export class HttpService {
 
-export abstract class BaseService {
-
-  protected endpoint: string;
-
-  constructor(endpoint: string) {
-    this.endpoint = urlJoin(APIROOTURL, endpoint);
-  }
-
-  protected async sendFile<T = any>(files: FormData,
-                                    url: string,
-                                    queryParams?: any,
-                                    headers?: {[s: string]: string}): Promise<NetworkResponse<T>> {
-    const actualUrl = urlJoin(this.endpoint, url);
+  async sendFile<T = any>(files: FormData,
+                          url: string,
+                          queryParams?: any,
+                          headers?: {[s: string]: string}): Promise<NetworkResponse<T>> {
+    const actualUrl = urlJoin(APIROOTURL, url);
     try {
       const res = await fetch(appendQueryString(actualUrl, queryParams), {
         method: HttpMethod.POST,
@@ -63,7 +57,7 @@ export abstract class BaseService {
     }
   }
 
-  protected async fetch<T = any>(fetchInfo: FetchInfo = {}): Promise<NetworkResponse<T>> {
+  async fetch<T = any>(fetchInfo: FetchInfo = {}): Promise<NetworkResponse<T>> {
 
 
     const authHeader = fetchInfo.token
@@ -73,7 +67,7 @@ export abstract class BaseService {
       ? {body: JSON.stringify(fetchInfo.body)}
       : {};
 
-    const url = urlJoin(this.endpoint, fetchInfo.route);
+    const url = urlJoin(APIROOTURL, fetchInfo.path);
 
     try {
       const res = await fetch(appendQueryString(url, fetchInfo.queryParams), {

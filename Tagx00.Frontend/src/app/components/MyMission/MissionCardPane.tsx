@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Row, Layout, List } from 'antd';
+import { List } from 'antd';
 import { MyMissionCard } from "./MyMissionCard";
 import { Instance } from "../../models/instance/Instance";
 

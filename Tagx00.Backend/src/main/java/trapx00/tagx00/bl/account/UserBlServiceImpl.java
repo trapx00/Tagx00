@@ -17,7 +17,7 @@ import trapx00.tagx00.response.user.UserRegisterResponse;
 import trapx00.tagx00.security.jwt.JwtRole;
 import trapx00.tagx00.security.jwt.JwtService;
 import trapx00.tagx00.security.jwt.JwtUser;
-import trapx00.tagx00.util.Convertor;
+import trapx00.tagx00.util.Converter;
 import trapx00.tagx00.vo.user.UserSaveVo;
 
 import java.util.Collection;
@@ -55,7 +55,7 @@ public class UserBlServiceImpl implements UserBlService {
             final String rawPassword = userSaveVo.getPassword();
             userSaveVo.setPassword(encoder.encode(rawPassword));
 
-            User user = Convertor.userSaveVoToUser(userSaveVo);
+            User user = Converter.userSaveVoToUser(userSaveVo);
             JwtUser jwtUser = jwtService.convertUserToJwtUser(user);
             userDataService.saveUser(user);
             String token = jwtService.generateToken(jwtUser, EXPIRATION);

@@ -4,6 +4,7 @@ import { Col, Row } from 'antd';
 import { inject, observer } from "mobx-react";
 import { RegisterEmailSender } from "./RegisterEmailSender";
 import { RegisterProps, STORE_REGISTER } from "./RegisterStore";
+
 // import { RegisterSuccessShower } from "./RegisterSuccessShower";
 
 @inject(STORE_REGISTER)
