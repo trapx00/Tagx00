@@ -48,11 +48,11 @@ public class RequesterMissionDataServiceTest {
         urls.add("https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/0E/00/ChMkJlnJ4TOIAyeVAJqtjV-XTiAAAgzDAE7v40Amq2l708.jpg");
         urls.add("http://pic1.16xx8.com/allimg/170801/1-1FP116442T62.jpg");
         urls.add("http://pic1.16xx8.com/allimg/170801/1-1FP116442T62.jpg");
-        mission = new Mission("123",
-                "123123", topics, false, allowedTags,
-                MissionType.IMAGE, MissionState.ACTIVE, new Date(), new Date(),
-                "http://pic1.16xx8.com/allimg/170801/1-1FP116442T62.jpg", "凌尊", urls, imageMissionTypes);
-        missionInstanceItem = new MissionInstanceItemVo(0, "张三", MissionInstanceState.SUBMITTED, new Date(), new Date(), 100, 100);
+//        mission = new Mission("123",
+//                "123123", topics, false, allowedTags,
+//                MissionType.IMAGE, MissionState.ACTIVE, new Date(), new Date(),
+//                "http://pic1.16xx8.com/allimg/170801/1-1FP116442T62.jpg", "凌尊", urls, imageMissionTypes);
+//        missionInstanceItem = new MissionInstanceItemVo(0, "张三", MissionInstanceState.SUBMITTED, new Date(), new Date(), 100, 100);
     }
 
     @After
@@ -75,7 +75,7 @@ public class RequesterMissionDataServiceTest {
         } catch (SystemException e) {
             e.printStackTrace();
         }
-        assertEquals("123", requesterMissionDataService.getMissionByMissionId(1).getTitle());
+        assertEquals("123", requesterMissionDataService.getMissionByMissionId(1,MissionType.IMAGE).getTitle());
     }
 
     @Test
@@ -85,7 +85,7 @@ public class RequesterMissionDataServiceTest {
         } catch (SystemException e) {
             e.printStackTrace();
         }
-        assertEquals(null, requesterMissionDataService.getInstanceByInstanceId(0, ));
+        assertEquals(null, requesterMissionDataService.getInstanceByInstanceId(0,MissionType.IMAGE ));
     }
 
     @Test
@@ -95,6 +95,6 @@ public class RequesterMissionDataServiceTest {
         } catch (SystemException e) {
             e.printStackTrace();
         }
-        assertEquals(null, requesterMissionDataService.getInstancesByMissionId(1, ));
+        assertEquals(null, requesterMissionDataService.getInstancesByMissionId(1,MissionType.IMAGE ));
     }
 }

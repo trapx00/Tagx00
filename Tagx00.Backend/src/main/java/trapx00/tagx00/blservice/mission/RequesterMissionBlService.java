@@ -1,6 +1,7 @@
 package trapx00.tagx00.blservice.mission;
 
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.mission.*;
 import trapx00.tagx00.response.mission.requester.MissionChargeResponse;
@@ -41,7 +42,7 @@ public interface RequesterMissionBlService {
      * @param credits
      * @return  MissionChargeResponse
      */
-    MissionChargeResponse chargeMission(String missionId, int credits);
+    MissionChargeResponse chargeMission(String missionId, int credits)throws SystemException ;
 
 
     /**
@@ -49,7 +50,7 @@ public interface RequesterMissionBlService {
      * @param missionId
      * @return MissionRequestQueryResponse
      */
-    MissionRequestQueryResponse queryMissionCredits (String missionId);
+    MissionRequestQueryResponse queryMissionCredits (String missionId)throws MissionIdDoesNotExistException;
 
 
     /**
@@ -58,7 +59,7 @@ public interface RequesterMissionBlService {
      * @param missionFinalizeVo
      * @return InstanceDetailResponse
      */
-    InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo)throws InstanceNotExistException;
+    InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo)throws InstanceNotExistException,SystemException;
 
 
 }

@@ -79,12 +79,12 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void loginShouldSuccess() {
-        try {
-            User test = new User("123","123","",null);
-            userDataService.saveUser(test);
-        } catch (SystemException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            User test = new User("123","123","",null);
+//            userDataService.saveUser(test);
+//        } catch (SystemException e) {
+//            e.printStackTrace();
+//        }
         LinkedMultiValueMap map = new LinkedMultiValueMap();
         map.add("username","123");
         map.add("password","123");

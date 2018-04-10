@@ -12,6 +12,8 @@ import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
+import java.util.ArrayList;
+
 @Service
 public class PublicMissionBlServiceImpl implements PublicMissionBlService {
 
@@ -44,7 +46,12 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         if (missionPublicItemVos == null) {
             throw new NotMissionException();
         }
-
+        int startIndex = pagingQueryVo.getPageNumber() * pagingQueryVo.getPageSize();
+        int endIndex = startIndex + pagingQueryVo.getPageSize();
+        ArrayList<MissionPublicItemVo> pArrayList = new ArrayList<>();
+        for (int i = startIndex; i < endIndex; i++) {
+            pArrayList.add(missionPublicItemVos[i]);
+        }
         return new MissionPublicResponse();
     }
 }

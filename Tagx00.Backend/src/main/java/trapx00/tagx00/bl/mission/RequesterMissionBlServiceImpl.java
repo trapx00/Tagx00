@@ -9,6 +9,7 @@ import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
@@ -18,6 +19,7 @@ import trapx00.tagx00.response.mission.requester.MissionChargeResponse;
 import trapx00.tagx00.response.mission.requester.MissionRequestQueryResponse;
 import trapx00.tagx00.security.jwt.JwtService;
 import trapx00.tagx00.security.jwt.JwtUser;
+import trapx00.tagx00.util.Converter;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.image.ImageMissionProperties;
@@ -102,8 +104,10 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return MissionChargeResponse
      */
     @Override
-    public MissionChargeResponse chargeMission(String missionId, int credits) {
-        return null;
+    public MissionChargeResponse chargeMission(String missionId, int credits)throws SystemException {
+        requesterMissionDataService.updateMission(MissionUtil.getId(missionId),credits,MissionUtil.getType(missionId));
+        Mission mission=requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId),MissionUtil.getType(missionId));
+        return new MissionChargeResponse(mission.getCredits());
     }
 
     /**
@@ -113,8 +117,13 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return MissionRequestQueryResponse
      */
     @Override
-    public MissionRequestQueryResponse queryMissionCredits(String missionId) {
-        return null;
+    public MissionRequestQueryResponse queryMissionCredits(String missionId) throws MissionIdDoesNotExistException {
+        Mission result=null;
+        if((result=requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId),
+                MissionUtil.getType(missionId)))==null)
+            throw new MissionIdDoesNotExistException();
+        else
+            return new MissionRequestQueryResponse(result.getCredits());
     }
 
 
@@ -126,8 +135,10 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return InstanceDetailResponse
      */
     @Override
-    public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws InstanceNotExistException {
-        return null;
+    public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws InstanceNotExistException,SystemException {
+        requesterMissionDataService.updateInstance(MissionUtil.getId(instanceId),missionFinalizeVo,MissionUtil.getType(instanceId));
+        return new InstanceDetailResponse(
+                requesterMissionDataService.getInstanceByInstanceId(MissionUtil.getId(instanceId),MissionUtil.getType(instanceId)));
     }
 
     private Mission generateMission(MissionCreateVo missionCreateVo) {

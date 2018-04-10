@@ -39,7 +39,7 @@ public class PublicMissionController {
             return new ResponseEntity(publicMissionBlService.getMissions(new PagingQueryVo()), HttpStatus.OK);
         } catch (NotMissionException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
 
     }
@@ -63,7 +63,7 @@ public class PublicMissionController {
             return new ResponseEntity(publicMissionBlService.getOneMissionDetail(missionId), HttpStatus.OK);
         } catch (NotMissionException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
 
     }

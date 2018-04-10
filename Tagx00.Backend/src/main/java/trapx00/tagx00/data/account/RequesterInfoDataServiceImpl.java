@@ -1,13 +1,31 @@
 package trapx00.tagx00.data.account;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import trapx00.tagx00.data.dao.mission.ImageMissionDao;
+import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
 import trapx00.tagx00.dataservice.account.RequesterInfoDataService;
 import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.entity.mission.instance.ImageInstance;
 import trapx00.tagx00.entity.mission.instance.Instance;
+import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
+import trapx00.tagx00.publicdatas.mission.MissionType;
+import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
+import trapx00.tagx00.vo.mission.instance.InstanceVo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RequesterInfoDataServiceImpl implements RequesterInfoDataService {
+    private final ImageInstanceDao imageInstanceDao;
+    private final ImageMissionDao imageMissionDao;
 
+    @Autowired
+    public RequesterInfoDataServiceImpl(ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao) {
+        this.imageInstanceDao = imageInstanceDao;
+        this.imageMissionDao = imageMissionDao;
+    }
     /**
      * get missions by requesterUsername
      *
@@ -16,7 +34,13 @@ public class RequesterInfoDataServiceImpl implements RequesterInfoDataService {
      */
     @Override
     public Mission[] getMissionsByRequesterUsername(String requesterUsername) {
-        return new Mission[0];
+
+        ArrayList<Mission> missions=new ArrayList<>();
+        missions.addAll(imageMissionDao.findAll());
+        Mission[] mission=new Mission[missions.size()];
+        for(int i=0;i<missions.size();i++)
+            mission[i]=missions.get(i);
+        return mission;
     }
 
     /**
@@ -26,7 +50,22 @@ public class RequesterInfoDataServiceImpl implements RequesterInfoDataService {
      * @return
      */
     @Override
-    public Instance[] getInstancesByMissionId(int missionId) {
-        return new Instance[0];
+    public Instance[] getInstancesByMissionId(int missionId, MissionType missionType) {
+        ArrayList<Instance> instances = new ArrayList<>();
+        Instance[] instances1 = null;
+        switch (missionType) {
+            case IMAGE:
+                instances.addAll(imageInstanceDao.findInstancesByMissionId(missionId));
+                if (instances.size() == 0)
+                    return null;
+                instances1 = new Instance[instances.size()];
+                for (int i = 0; i < instances1.length; i++) {
+                    Instance instanceVo = instances.get(i);
+                    instances1[i] = instanceVo;
+                }
+        }
+        return instances1;
     }
+
+
 }

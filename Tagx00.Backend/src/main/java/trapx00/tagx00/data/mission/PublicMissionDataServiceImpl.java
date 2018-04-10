@@ -7,6 +7,7 @@ import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.publicdatas.mission.MissionType;
+import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 import trapx00.tagx00.vo.mission.image.ImageMissionDetailVo;
@@ -39,13 +40,12 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
             return null;
         MissionPublicItemVo[] result = new MissionPublicItemVo[missions.length];
         for (int i = 0; i < missions.length; i++) {
-            result[i] = new MissionPublicItemVo(missions[i].getMissionId(), missions[i].getTitle(), missions[i].getDescription(),
-                    missions[i].getTopics(), missions[i].isAllowCustomTag(), missions[i].getAllowedTags(),
-                    missions[i].getMissionType(),
-                    missions[i].getStart(), missions[i].getEnd(), missions[i].getCoverUrl(), missions[i].getRequesterUsername());
+            result[i] = generateMissionPublicItemVo(missions[i]);
         }
         return result;
     }
+
+
 
     /**
      * get the detail info of a mission
@@ -72,5 +72,12 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                 break;
         }
         return missionDetailVo;
+    }
+
+    public MissionPublicItemVo generateMissionPublicItemVo(Mission mission){
+        return new MissionPublicItemVo(mission.getMissionId(), mission.getTitle(), mission.getDescription(),
+                mission.getTopics(), mission.isAllowCustomTag(), mission.getAllowedTags(),
+                mission.getMissionType(),
+                mission.getStart(), mission.getEnd(), mission.getCoverUrl(), mission.getRequesterUsername());
     }
 }

@@ -44,6 +44,11 @@ public class Instance extends Entity {
     @Column(name = "credits")
     private int credits;
 
+
+
+    @Column(name="comment")
+    private String comment;
+
     public Instance() {
     }
 
@@ -60,6 +65,13 @@ public class Instance extends Entity {
         this.credits = credits;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
     public int getInstanceId() {
         return instanceId;
     }
