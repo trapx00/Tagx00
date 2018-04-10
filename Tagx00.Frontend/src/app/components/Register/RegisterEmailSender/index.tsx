@@ -1,6 +1,6 @@
 import React from "react"
 import { Localize } from "../../../internationalization/components";
-import { Icon, Input, Button } from "antd";
+import { Button, Icon, Input } from "antd";
 import { inject, observer } from "mobx-react";
 import { STORE_REGISTER } from "../RegisterStore";
 

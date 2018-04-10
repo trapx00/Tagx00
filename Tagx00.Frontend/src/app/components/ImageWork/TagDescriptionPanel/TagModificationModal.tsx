@@ -1,6 +1,6 @@
 import React from 'react';
 import { TagTuple } from "../../../models/instance/TagTuple";
-import { Modal, Button, Input } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import { AddableInputGroup } from "../AddableInputGroup";
 import { observer } from "mobx-react";
 import { action, observable } from "mobx";

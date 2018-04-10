@@ -1,7 +1,7 @@
 import React from 'react';
 import { DistrictDrawingSession, Step } from "./DrawingPad/DistrictPanel/DistrictCanvas/DistrictDrawingSession";
 import { District } from "./DrawingPad/DistrictPanel/Districts";
-import { Card, Button } from 'antd';
+import { Button, Card } from 'antd';
 import { observer } from "mobx-react";
 import { LocaleMessage } from "../../internationalization/components";
 

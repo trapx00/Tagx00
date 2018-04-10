@@ -8,4 +8,6 @@ export interface ImageResult {
   imageJob: ImageJob;
 
   url: string;
+
+  isDone: boolean;
 }

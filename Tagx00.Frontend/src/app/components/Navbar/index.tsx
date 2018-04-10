@@ -1,16 +1,25 @@
 import React from "react";
-import { Col, Menu, Row, Icon } from 'antd';
+import { Icon, Menu, Popover } from 'antd';
 import { LocaleMessage } from "../../internationalization/components";
-import { inject, observer } from "mobx-react";
-import { STORE_ROUTER } from "../../constants/stores";
-import { RouterStoreProps } from "../../router/RouterStore";
+import { observer } from "mobx-react";
 import { NavbarUserIndicator } from "./NavbarUserIndicator";
 import { Link } from "react-router-dom";
 import { LanguageSelector } from "../LanguageSelector";
-import * as style from './style.css';
 import { NavbarModals } from "./NavbarModals";
-import { notFoundPage } from "../../router/routes/notFoundRoute";
-import { NavMenuItem } from "../Common/NavMenuItem";
+import { Inject } from "react.di";
+import { RouterStore } from "../../stores/RouterStore";
+import { SvgImg } from "../Common/SvgImg";
+import {
+  DropdownContainer,
+  dropdownMenuStyle,
+  horizontalMenuStyle,
+  LogoDiv,
+  MobileNavContainer,
+  NavItem,
+  RightDiv,
+  Row,
+  SvgImgContainer
+} from "./Layout";
 
 // import pages will result in circular dependency and I can't figure out why
 // hard-code is the only option :(
@@ -40,50 +49,71 @@ const routes = [
 ];
 
 
-@inject(STORE_ROUTER)
 @observer
-export class Navbar extends React.Component<RouterStoreProps, any> {
+class NavbarMenu extends React.Component<{ dropdownMode: boolean }> {
+
+  @Inject routerStore: RouterStore;
 
   get selectedRoute() {
-    const router = this.props[STORE_ROUTER];
-    return routes.filter(x => x.match(router.path)).map(x => x.path)
+    return routes.filter(x => x.match(this.routerStore.path)).map(x => x.path)
   }
 
   render() {
+    return <Menu
+      theme="light"
+      mode={this.props.dropdownMode ? "inline" : "horizontal"}
+      selectedKeys={this.selectedRoute}
+      style={this.props.dropdownMode ? dropdownMenuStyle : horizontalMenuStyle}
+    >
+      {routes.map(x => (
+        <Menu.Item key={x.path}>
+          <Link to={x.path}>
+           <span>
+              <Icon type={x.iconName}/>
+              <LocaleMessage id={x.id}/>
+           </span>
+          </Link>
+        </Menu.Item>
 
-    console.log(this.selectedRoute);
+      ))}
+    </Menu>
+  }
+}
 
+export class Navbar extends React.Component<{}, {}> {
+
+  dropdownContainerRef = (React as any).createRef();
+
+  render() {
     return <Row>
-      {/*<span>*/}
-      {/*<SvgImg filePath={"logo.svg"} width={56} height={56}/>*/}
-      {/*</span>*/}
-      <Col span={4}>
-        <span>Tag x00</span>
-      </Col>
-      <Col span={20}>
-        <div className={style.right}>
-          <LanguageSelector/>
-        </div>
-        <div className={style.right}>
+      <LogoDiv>
+        <SvgImgContainer>
+          <SvgImg filePath={"tag_x00_mini_logo.svg"} width={180} height={30}/>
+        </SvgImgContainer>
+        <MobileNavContainer>
           <NavbarUserIndicator/>
-        </div>
-        <div className={style.right}>
-          <Menu
-            theme="light"
-            mode="horizontal"
-            selectedKeys={this.selectedRoute}
-            style={{lineHeight: '64px'}}
-          >
-            {routes.map(x => <Menu.Item key={x.path}>
-              <Link to={x.path}>
-                <span><Icon type={x.iconName}/><LocaleMessage id={x.id}/></span>
-              </Link>
-
-            </Menu.Item>)}
-          </Menu>
-        </div>
+          <LanguageSelector/>
+        <DropdownContainer innerRef={this.dropdownContainerRef}>
+          <Popover getPopupContainer={() => this.dropdownContainerRef.current} trigger={"click"} placement={"bottomRight"} content={
+            <NavbarMenu dropdownMode={true}/>
+          }>
+            <Icon type="menu-fold"/>
+          </Popover>
+        </DropdownContainer>
+        </MobileNavContainer>
+      </LogoDiv>
+      <RightDiv>
+        <NavItem>
+          <LanguageSelector/>
+        </NavItem>
+        <NavItem>
+          <NavbarUserIndicator/>
+        </NavItem>
+        <NavItem>
+          <NavbarMenu dropdownMode={false}/>
+        </NavItem>
         <NavbarModals/>
-      </Col>
+      </RightDiv>
     </Row>;
   }
 }

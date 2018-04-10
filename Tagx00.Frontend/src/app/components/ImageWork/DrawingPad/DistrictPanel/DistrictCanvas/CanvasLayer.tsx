@@ -3,11 +3,12 @@ import { observer } from "mobx-react";
 import { DistrictDrawingSession, Step } from "./DistrictDrawingSession";
 import { DistrictDrawer } from "./DistrictDrawer";
 import { Line, Point } from "../../../../../models/instance/image/Shapes";
+import { getCursorPosition } from "../../utils/getCursorPosition";
 
 interface CanvasProps {
   width: number;
   height: number;
-
+  getScale: () => number;
   session: DistrictDrawingSession;
 }
 
@@ -16,16 +17,6 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
   drawer: DistrictDrawer;
   canvas: HTMLCanvasElement;
   canvasContext: CanvasRenderingContext2D;
-
-
-  getCursorPosition(e): Point {
-    const {top, left} = this.canvas.getBoundingClientRect();
-    return {
-      x: Math.trunc(e.clientX - left),
-      y: Math.trunc(e.clientY - top)
-    };
-  }
-
 
   colorStartPoint = (position: Point) => {
     this.canvasContext.fillRect(position.x - 1, position.y - 1, 3, 3);
@@ -54,7 +45,7 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
   };
 
   onMouseDown = (e) => {
-    const position = this.getCursorPosition(e);
+    const position = getCursorPosition(this.canvas,e,this.props.getScale());
     if (this.props.session.canContinueDrawing) {
       this.colorStartPoint(position);
       this.props.session.startDrawingBoundary(position);
@@ -68,7 +59,7 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
 
   onMouseMove = (e) => {
     if (this.props.session.step === Step.DrawingBoundary) {
-      const position = this.getCursorPosition(e);
+      const position = getCursorPosition(this.canvas,e,this.props.getScale());
       if (this.outOfCanvas(position)) {
         this.boundaryComplete(false, "outOfBound");
       }
@@ -86,7 +77,7 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
   };
 
   onMouseUp = (e) => {
-    const position = this.getCursorPosition(e);
+    const position = getCursorPosition(this.canvas,e,this.props.getScale());
     if (this.props.session.step === Step.DrawingBoundary) {
 
       if (this.endsAtStartPoint(position)) {
