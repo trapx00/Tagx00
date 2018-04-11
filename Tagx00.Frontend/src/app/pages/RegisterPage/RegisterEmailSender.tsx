@@ -1,27 +1,25 @@
 import React from "react"
-import { Localize } from "../../../internationalization/components";
+import { Localize } from "../../internationalization/components/index";
 import { Button, Icon, Input, message } from "antd";
 import { observer } from "mobx-react";
 import { Inject } from "react.di";
-import { RegisterStore } from "../../../stores/RegisterStore";
-import { UserRegisterConfirmationResponse, UserService } from "../../../api/UserService";
-import { NetworkResponse } from "../../../api/HttpService";
+import { RegisterStore } from "./RegisterStore";
+
+interface State {
+  code: string;
+}
 
 @observer
-export class RegisterEmailSender extends React.Component<any, any> {
-  @Inject userService: UserService;
+export class RegisterEmailSender extends React.Component<{}, State> {
   @Inject registerStore: RegisterStore;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      code: ""
-    };
+  state = {
+    code: ""
   };
 
   handleConfirm = async () => {
-    const res: NetworkResponse<UserRegisterConfirmationResponse> = await this.userService.registerValidate(this.registerStore.token, this.state.code);
-    switch (res.statusCode) {
+    const res = await this.registerStore.validateEmailCode(this.state.code);
+    switch (res) {
       case 200:
         this.registerStore.nextStep();
         message.success('code confirmed');

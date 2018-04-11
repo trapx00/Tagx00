@@ -1,31 +1,26 @@
 import React from "react";
 import { Button, Form, Input, message, Radio } from 'antd';
-import { Localize } from "../../../internationalization/components";
+import { Localize } from "../../internationalization/components";
 import { FormComponentProps } from "antd/lib/form";
 import { observer } from "mobx-react";
-import { RegisterStore } from "../../../stores/RegisterStore";
+import { RegisterFormData, RegisterStore } from "./RegisterStore";
 import { Inject } from "react.di";
-import { register } from "ts-node";
-import { UserRegisterResponse, UserService } from "../../../api/UserService";
-import { UserRole } from "../../../models/User";
-import { NetworkResponse } from "../../../api/HttpService";
+import { UserRole } from "../../models/User";
 
 interface RegisterFormProps extends FormComponentProps {
 }
 
+type State = RegisterFormData;
+
 @observer
-class RegisterTable extends React.Component<RegisterFormProps, any> {
-  @Inject userService: UserService;
+class RegisterTable extends React.Component<RegisterFormProps, State> {
   @Inject registerStore: RegisterStore;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      role: "ROLE_WORKER",
-      username: "",
-      password: "",
-      email: ""
-    };
+  state = {
+    role: UserRole.ROLE_WORKER,
+    username: "",
+    password: "",
+    email: ""
   };
 
   handleRoleSelect = (e) => {
@@ -53,11 +48,9 @@ class RegisterTable extends React.Component<RegisterFormProps, any> {
   };
 
   handleSubmit = async () => {
-    const res: NetworkResponse<UserRegisterResponse> = await this.userService.register(this.state.username, this.state.password, this.state.email, this.state.role);
-    switch (res.statusCode) {
+    const res = await this.registerStore.submitInfo(this.state);
+    switch (res) {
       case 201:
-        this.registerStore.token = res.response.token;
-        message.success('Register Success');
         this.registerStore.nextStep();
         break;
       case 400:

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Card, Icon } from 'antd';
-import { LocaleMessage } from "../internationalization/components";
+import { LocaleMessage } from "../../internationalization/components";
 
 
 interface Props {
