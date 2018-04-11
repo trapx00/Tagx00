@@ -6,7 +6,7 @@ import { Inject } from "react.di";
 
 interface LocaleMessageProps {
   id: string;
-  replacements?: {[s: string]: Replacement}
+  replacements?: { [s: string]: Replacement }
 
 }
 
@@ -20,19 +20,13 @@ export class LocaleMessage extends React.Component<LocaleMessageProps, State> {
 
   @Inject localeStore: LocaleStore;
 
-  state = {
-    hasError: false
-  };
-
-  componentDidCatch(e) {
-    this.setState({ hasError: true });
-  }
 
   render() {
-    if (this.state.hasError) {
-      return this.props.id;
-    } else {
+    try {
       return this.localeStore.get(this.props.id, this.props.replacements);
+    } catch (e) {
+      return this.props.id;
     }
   }
+
 }

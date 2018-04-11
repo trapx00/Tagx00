@@ -31,14 +31,13 @@ const PictureContainer = styled.div`
 `;
 
 interface PictureProps {
-  scale: number;
   width: number;
   height: number;
 }
 
 const Picture = styled.div`
   transform-origin: top left;
-  transform: ${(props: PictureProps) => `scale(${props.scale})`};
+  transform: scale(1);
   width: ${(props: PictureProps) => props.width};
   height: ${(props: PictureProps) => props.height};
 `;
@@ -46,8 +45,8 @@ const Picture = styled.div`
 
 export class ImageWorkPageLayout extends React.Component<Props, {}> {
 
-  pictureContainerRef = (React as any).createRef();
-  pictureRef = (React as any).createRef();
+  pictureContainerRef = React.createRef() as any;
+  pictureRef = React.createRef() as any;
   scale: number = 1;
 
   onResize = () => {
@@ -94,7 +93,6 @@ export class ImageWorkPageLayout extends React.Component<Props, {}> {
                width={this.props.imageWidth}
                height={this.props.imageHeight}>
         <Picture innerRef={this.pictureRef}
-                 scale={1}
                  width={this.props.imageWidth}
                  height={this.props.imageHeight}>
           {this.props.children[0]}

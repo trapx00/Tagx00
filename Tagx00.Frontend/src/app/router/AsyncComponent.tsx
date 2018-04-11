@@ -1,6 +1,4 @@
 import React, { ReactNode } from "react"
-import { observer } from "mobx-react";
-import { action, observable, runInAction } from "mobx";
 
 
 interface AsyncComponentProps<T> {
@@ -10,27 +8,48 @@ interface AsyncComponentProps<T> {
   componentProducerWhenLoadingFailed?: (e) => ReactNode;
 }
 
-@observer
-export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, any> {
-  @observable component: ReactNode = this.props.componentWhenLoading || null;
+interface State {
+  component: ReactNode;
+  loaded: boolean;
+}
 
-  @action async componentDidMount() {
+export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, State> {
+
+  state = {
+    component: this.props.componentWhenLoading || null,
+    loaded: false
+  };
+
+  async loadComponent() {
     try {
       const component = await this.props.render(this.props.props);
-      runInAction("async component loaded", () => {
-        this.component = component;
-      });
-    } catch(e) {
-      runInAction("async component failed", () => {
-        if (this.props.componentProducerWhenLoadingFailed) {
-          this.component = this.props.componentProducerWhenLoadingFailed(e);
-        }
-      });
+      this.setState({component});
+    } catch (e) {
+
+      if (this.props.componentProducerWhenLoadingFailed) {
+        this.setState({
+          component: this.props.componentProducerWhenLoadingFailed(e)});
+      }
+    }
+    this.setState({ loaded: true });
+  }
+
+  componentDidMount() {
+    this.loadComponent();
+  }
+
+  componentDidUpdate() {
+    if (!this.state.loaded) {
+      this.loadComponent();
     }
 
   }
 
+  static getDerivedStateFromProps(nextProps) {
+    return {loaded: false};
+  }
+
   render() {
-    return this.component;
+    return this.state.component;
   }
 }

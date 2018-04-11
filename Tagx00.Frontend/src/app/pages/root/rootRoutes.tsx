@@ -1,13 +1,13 @@
 import React from "react";
-import { AsyncRouteConfig, RouteType } from "./RouteConfig";
+import { AsyncRouteConfig, RedirectRouteConfig, RouteType } from "../../router/RouteConfig";
 
 
 export const doWorkPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: true,
-  path: "/missions/:missionId/doWork",
+  path: "/mission/:missionId/doWork",
   render: async (props) => {
-    const DoWorkPage = (await import("../../pages/DoWorkPage")).DoWorkPage;
+    const DoWorkPage = (await import("../DoWorkPage")).DoWorkPage;
     return <DoWorkPage missionId={props.match.params.missionId} readonly={false}/>;
   },
 };
@@ -15,30 +15,20 @@ export const doWorkPage: AsyncRouteConfig = {
 export const seeResultPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: true,
-  path: "/missions/:missionId/result",
+  path: "/mission/:missionId/result",
   render: async (props) => {
-    const Page = (await import("../../pages/SeeResultPage")).SeeResultPage;
+    const Page = (await import("../SeeResultPage")).SeeResultPage;
     return <Page missionId={props.match.params.missionId}/>;
   },
 };
 
-export const missionsPage: AsyncRouteConfig = {
+export const missionPage: AsyncRouteConfig = {
   type: RouteType.Async,
-  exact: true,
-  path: "/missions",
+  exact: false,
+  path: "/mission",
   render: async (props) => {
-    const Page = (await import("../../pages/MissionsPage")).MissionsPage;
+    const Page = (await import("../MissionPage")).MissionPage;
     return <Page/>;
-  },
-};
-
-export const homePage: AsyncRouteConfig = {
-  type: RouteType.Async,
-  exact: true,
-  path: "/",
-  render: async (props) => {
-    const HomePage = (await import("../../pages/HomePage")).HomePage;
-    return <HomePage/>;
   },
 };
 
@@ -47,7 +37,7 @@ export const browsePage: AsyncRouteConfig  = {
   exact: true,
   path: "/browse",
   render: async (props) => {
-    const BrowsePage = (await import("../../pages/BrowsePage")).BrowsePage;
+    const BrowsePage = (await import("../BrowsePage")).BrowsePage;
     return <BrowsePage/>;
   },
 };
@@ -65,9 +55,19 @@ export const aboutPage:AsyncRouteConfig = {
   exact: true,
   path: "/about",
   render: async (props) => {
-    const AboutPage = (await import("../../pages/AboutPage")).AboutPage;
+    const AboutPage = (await import("../AboutPage")).AboutPage;
     return <AboutPage/>;
   },
+};
+
+export const selfCenterPage: AsyncRouteConfig = {
+  type: RouteType.Async,
+  exact: false,
+  path: "/self",
+  render: async (props) => {
+    const Page = (await import("../SelfPage")).SelfPage;
+    return <Page/>;
+  }
 };
 
 
@@ -75,10 +75,11 @@ export const aboutPage:AsyncRouteConfig = {
 
 
 export default [
-  missionsPage,
+  missionPage,
   seeResultPage,
   doWorkPage,
   browsePage,
   // registerPage,
-  aboutPage
+  aboutPage,
+  selfCenterPage
 ]

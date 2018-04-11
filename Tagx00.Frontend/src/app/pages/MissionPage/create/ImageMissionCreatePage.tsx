@@ -1,10 +1,10 @@
 import React from 'react';
-import { UserStore } from "../../stores/UserStore";
+import { UserStore } from "../../../stores/UserStore";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
-import { ImageMissionType } from "../../models/mission/image/ImageMission";
+import { ImageMissionType } from "../../../models/mission/image/ImageMission";
 import { Form } from 'antd';
-import { ImageMissionCreateInfoForm } from "../../components/MissionCreate/ImageMissionCreateInfoForm";
+import { ImageMissionCreateInfoForm } from "../../../components/MissionCreate/ImageMissionCreateInfoForm/index";
 import { Inject } from "react.di";
 
 const FormItem = Form.Item;

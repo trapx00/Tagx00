@@ -9,7 +9,7 @@ export class UserServiceMock extends UserService {
 
     return new NetworkResponse(200, {
         token: "123",
-        jwtRoles: [{ authority: "ROLE_WORKER"}],
+        jwtRoles: [{ authority: "ROLE_REQUESTER"}],
         email: "1@1.com"
       }
     );

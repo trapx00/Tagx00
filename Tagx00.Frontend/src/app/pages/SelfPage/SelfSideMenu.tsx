@@ -1,11 +1,10 @@
 import React from "react";
-import { Icon, Menu } from 'antd';
+import { Menu } from 'antd';
 import { observer } from "mobx-react";
 import { UserStore } from "../../stores/UserStore";
 import { Link } from 'react-router-dom';
-import { RouterStore } from "../../stores/RouterStore";
-import { LocaleMessage } from "../../internationalization/components";
 import { Inject } from "react.di";
+import { NavSideMenu } from "../../components/NavSideMenu";
 
 const { SubMenu } = Menu;
 
@@ -37,29 +36,13 @@ const routes = [
 @observer
 export class SelfSideMenu extends React.Component<Props, any> {
 
-
-  @Inject routerStore: RouterStore;
   @Inject userStore: UserStore;
-
-  get selectedRoutes() {
-    return routes.filter(x => x.match(this.routerStore.path)).map(x => x.path);
-  }
 
   render() {
 
     return <div>
       <p>welcome, {this.userStore.user.username}</p>
-    <Menu
-      mode="inline"
-      selectedKeys={this.selectedRoutes}
-      style={{ height: '100%' }}
-    >
-      {routes.map(x => <Menu.Item key={x.path}>
-        <Link to={x.path}>
-          <span><Icon type={x.iconName} /><LocaleMessage id={x.id}/></span>
-        </Link>
-      </Menu.Item>)}
-    </Menu>
+      <NavSideMenu routes={routes}/>
     </div>;
   }
 

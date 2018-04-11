@@ -1,7 +1,7 @@
 import React from "react";
 import { List } from 'antd';
-import { MyMissionCard } from "./MyMissionCard";
-import { Instance } from "../../models/instance/Instance";
+import { WorkerInstanceCard } from "../../../components/Mission/WorkerInstanceCard";
+import { Instance } from "../../../models/instance/Instance";
 
 interface Props {
   items: Instance[];
@@ -15,7 +15,7 @@ export class MissionCardPane extends React.Component<Props, any> {
       dataSource={this.props.items}
       renderItem={(item: Instance) => (
         <List.Item key={item.instanceId}>
-          <MyMissionCard instance={item}/>
+          <WorkerInstanceCard instance={item}/>
         </List.Item>
       )}
     />

@@ -51,7 +51,7 @@ interface Props {
 }
 
 
-export class MyMissionCard extends React.Component<Props, any> {
+export class WorkerInstanceCard extends React.Component<Props, any> {
 
   @Inject userStore: UserStore;
   @Inject routerStore: RouterStore;
@@ -60,7 +60,7 @@ export class MyMissionCard extends React.Component<Props, any> {
 
   goToDoMission = () => {
     const missionId = this.props.instance.missionId;
-    this.routerStore.jumpTo(`/missions/${missionId}/doWork`);
+    this.routerStore.jumpTo(`/mission/${missionId}/doWork`);
   };
 
   abandonMission = () => {
@@ -69,7 +69,7 @@ export class MyMissionCard extends React.Component<Props, any> {
 
   goDetail = () => {
     const missionId = this.props.instance.missionId;
-    this.routerStore.jumpTo(`/missions/${missionId}/result`);
+    this.routerStore.jumpTo(`/mission/${missionId}/result`);
   };
 
   title(title: string) {

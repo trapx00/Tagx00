@@ -109,6 +109,10 @@
     "needLogin": "请先登录",
     "createMission": {
       "title": "创建任务"
+    },
+    "sideMenu": {
+      "mission": "任务",
+      "instance": "实例"
     }
   },
   "loginModal": {
