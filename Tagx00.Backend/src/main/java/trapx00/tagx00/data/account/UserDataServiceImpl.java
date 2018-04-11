@@ -6,14 +6,22 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import trapx00.tagx00.data.dao.user.TempUserDao;
 import trapx00.tagx00.data.dao.user.UserDao;
 import trapx00.tagx00.dataservice.account.UserDataService;
+import trapx00.tagx00.entity.account.Role;
+import trapx00.tagx00.entity.account.TempUser;
 import trapx00.tagx00.entity.account.User;
+import trapx00.tagx00.exception.viewexception.InvalidEmailAddressesException;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.exception.viewexception.UserDoesNotExistException;
+
+import java.util.ArrayList;
 
 @Service
 public class UserDataServiceImpl implements UserDataService {
     private final UserDao userDao;
+    private final TempUserDao tempUserDao;
     private final JavaMailSender mailSender;
 
     @Value("${email.sender}")
@@ -26,8 +34,9 @@ public class UserDataServiceImpl implements UserDataService {
     private String content2;
 
     @Autowired
-    public UserDataServiceImpl(UserDao userDao, JavaMailSender mailSender) {
+    public UserDataServiceImpl(UserDao userDao, TempUserDao tempUserDao, JavaMailSender mailSender) {
         this.userDao = userDao;
+        this.tempUserDao = tempUserDao;
         this.mailSender = mailSender;
     }
 
@@ -82,31 +91,101 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public void deleteUser(String username) {
-
+        userDao.delete(username);
     }
 
     /**
      * send email to an user
      *
+     * @param code  the validation code
      * @param email the email address
      */
     @Override
-    public void sendEmail(String email) {
+    public void sendEmail(String code, String email) throws InvalidEmailAddressesException {
         SimpleMailMessage message = new SimpleMailMessage();
-        String content = content1 + generateSecurityCode() + content2;
+        String content = content1 + code + content2;
         message.setFrom(senderEmail);
         message.setTo(email);
         message.setSubject(subject);
         message.setText(content);
 
-        mailSender.send(message);
+        try {
+            mailSender.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InvalidEmailAddressesException();
+        }
     }
 
-    private String generateSecurityCode() {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < 6; i++) {
-            result.append((int) Math.floor(Math.random() * 10));
+    /**
+     * save the temp user
+     *
+     * @param tempUser the temp user to be saved
+     */
+    @Override
+    public void saveTempUser(TempUser tempUser) throws SystemException {
+        if (tempUserDao.save(tempUser) == null) {
+            throw new SystemException();
         }
-        return new String(result);
+    }
+
+    /**
+     * get the user's validation code by its username
+     *
+     * @param tempUsername the temp user's username
+     * @return the validation code
+     */
+    @Override
+    public TempUser getTempUserByTempUsername(String tempUsername) throws UserDoesNotExistException {
+        TempUser tempUser = tempUserDao.findTempUserByUsername(tempUsername);
+        if (tempUser == null) {
+            throw new UserDoesNotExistException();
+        } else {
+            return tempUser;
+        }
+    }
+
+    /**
+     * delete the temp user by its username
+     *
+     * @param tempUsername the temp user's username
+     */
+    @Override
+    public void deleteTempUserByUsername(String tempUsername) {
+        tempUserDao.delete(tempUsername);
+    }
+
+    /**
+     * get user by role
+     *
+     * @param role
+     * @return the list of users matching the role
+     */
+    @Override
+    public User[] getUsersByRole(Role role) {
+        ArrayList<User> userArrayList = userDao.findUsersByRole(role);
+        return userArrayList.toArray(new User[userArrayList.size()]);
+    }
+
+    /**
+     * get user by username
+     *
+     * @param username
+     * @return
+     */
+    @Override
+    public User getUserByUsername(String username) {
+        return userDao.findUserByUsername(username);
+    }
+
+    /**
+     * find all of the users
+     *
+     * @return users
+     */
+    @Override
+    public User[] findAllUsers() {
+        ArrayList<User> userArrayList = userDao.findAll();
+        return userArrayList.toArray(new User[userArrayList.size()]);
     }
 }

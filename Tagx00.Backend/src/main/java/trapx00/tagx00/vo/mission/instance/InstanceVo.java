@@ -76,6 +76,16 @@ public class InstanceVo implements Serializable {
     public InstanceVo() {
     }
 
+    public InstanceVo(String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted, int completedJobsCount) {
+        this.workerUsername = workerUsername;
+        this.missionInstanceState = missionInstanceState;
+        this.missionId = missionId;
+        this.acceptDate = acceptDate;
+        this.submitDate = submitDate;
+        this.isSubmitted = isSubmitted;
+        this.completedJobsCount = completedJobsCount;
+    }
+
     public InstanceVo(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted, int completedJobsCount) {
         this.instanceId = instanceId;
         this.workerUsername = workerUsername;
@@ -103,6 +113,7 @@ public class InstanceVo implements Serializable {
 
 
     private boolean isSubmitted;
+
 
     private int completedJobsCount;
 

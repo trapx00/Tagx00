@@ -9,11 +9,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.account.UserBlService;
 import trapx00.tagx00.entity.account.Role;
-import trapx00.tagx00.exception.viewexception.SystemException;
-import trapx00.tagx00.exception.viewexception.UserAlreadyExistsException;
-import trapx00.tagx00.exception.viewexception.WrongUsernameOrPasswordException;
+import trapx00.tagx00.exception.viewexception.*;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
+import trapx00.tagx00.response.user.LevelInfoResponse;
 import trapx00.tagx00.response.user.UserLoginResponse;
 import trapx00.tagx00.response.user.UserRegisterConfirmationResponse;
 import trapx00.tagx00.response.user.UserRegisterResponse;
@@ -70,6 +69,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST, path = "account/register", produces = "application/json")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Success", response = UserRegisterResponse.class),
+            @ApiResponse(code = 400, message = "invalid email address", response = WrongResponse.class),
             @ApiResponse(code = 409, message = "Conflict", response = WrongResponse.class),
             @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
@@ -84,6 +84,9 @@ public class UserController {
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (InvalidEmailAddressesException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -96,10 +99,30 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success", response = UserRegisterConfirmationResponse.class),
             @ApiResponse(code = 400, message = "Code doesn't match", response = WrongResponse.class),
-            @ApiResponse(code = 404, message = "token out of time", response = WrongResponse.class)
+            @ApiResponse(code = 404, message = "user does not exist", response = WrongResponse.class)
     })
     @ResponseBody
     public ResponseEntity<Response> registerValidate(@RequestParam("token") String token, @RequestParam("code") String code) {
-        return null;
+        try {
+            return new ResponseEntity<>(userBlService.registerValidate(token, code), HttpStatus.OK);
+        } catch (UserDoesNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        } catch (WrongValidationCodeException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.BAD_REQUEST);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @ApiOperation(value = "获得等级信息", notes = "获得等级表")
+    @RequestMapping(value = "account/level", method = RequestMethod.GET)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success", response = LevelInfoResponse.class)})
+    @ResponseBody
+    public ResponseEntity<Response> level() {
+        return new ResponseEntity<>(userBlService.level(), HttpStatus.OK);
     }
 }

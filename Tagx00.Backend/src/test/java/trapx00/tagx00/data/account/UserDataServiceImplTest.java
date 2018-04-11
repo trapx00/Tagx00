@@ -31,6 +31,6 @@ public class UserDataServiceImplTest {
 
     @Test
     public void sendEmail() {
-        userDataService.sendEmail("445073309@qq.com");
+        userDataService.sendEmail("445073309@qq.com","445073309@qq.com");
     }
 }

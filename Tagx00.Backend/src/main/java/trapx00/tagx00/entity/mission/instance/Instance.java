@@ -3,6 +3,7 @@ package trapx00.tagx00.entity.mission.instance;
 import trapx00.tagx00.entity.Entity;
 import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 
 import java.util.Date;
 
@@ -18,6 +19,10 @@ public class Instance extends Entity {
     @EnumTranslate(targetClass = MissionInstanceState.class)
     @Column(name = "missionInstanceState")
     private MissionInstanceState missionInstanceState;
+
+    @EnumTranslate(targetClass = MissionType.class)
+    @Column(name = "MissionType")
+    private MissionType missionType;
 
     @JsonSerialize
     @Column(name = "acceptDate")
@@ -39,13 +44,19 @@ public class Instance extends Entity {
     @Column(name = "credits")
     private int credits;
 
+
+
+    @Column(name="comment")
+    private String comment;
+
     public Instance() {
     }
 
-    public Instance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, Date acceptDate, Date submitDate, boolean submitted, int missionId, double exp, int credits) {
+    public Instance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, MissionType missionType, Date acceptDate, Date submitDate, boolean submitted, int missionId, double exp, int credits) {
         this.instanceId = instanceId;
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
+        this.missionType = missionType;
         this.acceptDate = acceptDate;
         this.submitDate = submitDate;
         this.submitted = submitted;
@@ -54,6 +65,13 @@ public class Instance extends Entity {
         this.credits = credits;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
     public int getInstanceId() {
         return instanceId;
     }
@@ -76,6 +94,14 @@ public class Instance extends Entity {
 
     public void setMissionInstanceState(MissionInstanceState missionInstanceState) {
         this.missionInstanceState = missionInstanceState;
+    }
+
+    public MissionType getMissionType() {
+        return missionType;
+    }
+
+    public void setMissionType(MissionType missionType) {
+        this.missionType = missionType;
     }
 
     public int getMissionId() {

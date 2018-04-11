@@ -10,9 +10,9 @@ import { RequesterServiceMock } from "../api/mock/RequesterServiceMock";
 import { HttpService } from "../api/HttpService";
 
 export const apiServiceProviders: Binding[] = [
-  { provide: MissionService, useClass: MissionServiceMock },
-  { provide: UserService, useClass: UserServiceMock },
-  { provide: WorkerService, useClass: WorkerServiceMock },
-  { provide: RequesterService, useClass: RequesterServiceMock },
-  { provide: HttpService, useClass: HttpService}
+  {provide: MissionService, useClass: MissionServiceMock},
+  {provide: UserService, useClass: UserService},
+  {provide: WorkerService, useClass: WorkerServiceMock},
+  {provide: RequesterService, useClass: RequesterServiceMock},
+  {provide: HttpService, useClass: HttpService}
 ];

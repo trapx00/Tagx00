@@ -20,9 +20,9 @@ oos:
 email:
   sender: "m18851822162@163.com"
   subject: "Tagx00账号注册邮箱认证"
-  content1: "亲爱的用户： 您好！
+  content1: "亲爱的用户： 您好!<br/>
             您正在注册Tagx00账号，请在验证码输入框中输入："
-  content2: " 以完成注册。"
+  content2: "<br/>以完成注册。"
 spring:
   mail:
     host: smtp.163.com
