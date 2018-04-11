@@ -37,8 +37,9 @@ public class PathUtil {
 
         ArrayList<File> fileArrayList = new ArrayList<>();
         fileArrayList.add(new File(resourcePath + "/user.txt"));
-        fileArrayList.add(new File(resourcePath + "/instance.txt"));
-        fileArrayList.add(new File(resourcePath + "/mission.txt"));
+        fileArrayList.add(new File(resourcePath + "/tempUser.txt"));
+        fileArrayList.add(new File(resourcePath + "/imageInstance.txt"));
+        fileArrayList.add(new File(resourcePath + "/imageMission.txt"));
 
         try (FileWriter writer = new FileWriter(getDatabasePath() + "user.txt")) {
             writer.write("{\"username\":\"234\",\"password\":\"$2a$10$nS3MuOe9PrYoIrVkuIV79uUuPyO/ZO0ypKPXEHa8rOJSvBaSHFO4S\",\"email\":\"456\",\"roles\":[{\"name\":\"ROLE_WORKER\"}]}\n" +
