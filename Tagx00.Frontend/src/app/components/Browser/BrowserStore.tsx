@@ -4,6 +4,7 @@ import { MissionPublicItem } from "../../models/mission/Mission";
 import React from "react";
 import { MissionService } from "../../api/MissionService";
 import { Inject, Injectable } from "react.di";
+import { Topic } from "../../models/topic/Topic";
 
 interface ListDataProps {
   missionId: number,
@@ -24,12 +25,18 @@ export class BrowserStore {
   @observable private _paused: boolean = true;
   @observable private _reverse: boolean = true;
   @observable private _listData: ListDataProps[] = [];
+  @observable private _topics: Topic[] = [];
   @action public reverseBrowsing = () => {
     this._reverse = !this._reverse;
     this._paused = !this._paused;
   };
 
-  constructor(@Inject private missionService: MissionService) { }
+  constructor(@Inject private missionService: MissionService) {
+    runInAction(async () => {
+        this._topics = (await (missionService.getAllTopics())).topics
+      }
+    )
+  }
 
   @action public search = async (info) => {
     let missions: MissionPublicItem[] = (await this.missionService.getAllMissions());
@@ -83,5 +90,9 @@ export class BrowserStore {
 
   @computed get listData(): ListDataProps[] {
     return this._listData;
+  }
+
+  @computed get topics(): Topic[] {
+    return this._topics;
   }
 }
