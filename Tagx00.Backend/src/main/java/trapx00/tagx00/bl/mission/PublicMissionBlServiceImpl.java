@@ -40,17 +40,36 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
      * @return the list of MissionPublicItemVo
      */
     @Override
-    public MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo) throws NotMissionException {
-
+    public MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo, String searchTarget) throws NotMissionException {
+        int startIndex = pagingQueryVo.getPageNumber() * pagingQueryVo.getPageSize();
+        int endIndex = startIndex + pagingQueryVo.getPageSize();
         MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
         if (missionPublicItemVos == null) {
             throw new NotMissionException();
         }
-        int startIndex = pagingQueryVo.getPageNumber() * pagingQueryVo.getPageSize();
-        int endIndex = startIndex + pagingQueryVo.getPageSize();
-        ArrayList<MissionPublicItemVo> pArrayList = new ArrayList<>();
-        for (int i = startIndex; i < endIndex; i++) {
-            pArrayList.add(missionPublicItemVos[i]);
+        ArrayList<MissionPublicItemVo> result = new ArrayList<>();
+        for (MissionPublicItemVo missionPublicItemVo : missionPublicItemVos) {
+            if (missionPublicItemVo.getTopics().contains(searchTarget)) {
+                result.add(missionPublicItemVo);
+            } else if (missionPublicItemVo.getTitle().contains(searchTarget)) {
+                result.add(missionPublicItemVo);
+            } else if (missionPublicItemVo.getDescription().contains(searchTarget)) {
+                result.add(missionPublicItemVo);
+            }
+        }
+        if (result.size() <= startIndex) {
+            throw new NotMissionException();
+        } else {
+            ArrayList<MissionPublicItemVo> pArrayList = new ArrayList<>();
+            if (result.size() >= endIndex) {
+                for (int i = startIndex; i < endIndex; i++) {
+                    pArrayList.add(missionPublicItemVos[i]);
+                }
+            } else {
+                for (int i = startIndex; i < result.size(); i++) {
+                    pArrayList.add(missionPublicItemVos[i]);
+                }
+            }
         }
         return new MissionPublicResponse();
     }
