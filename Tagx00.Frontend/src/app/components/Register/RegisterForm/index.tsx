@@ -53,7 +53,7 @@ class RegisterTable extends React.Component<RegisterFormProps, any> {
   };
 
   handleSubmit = async () => {
-    const res: NetworkResponse<UserRegisterResponse> = await this.userService.register(this.state.username, this.state.password, this.state.password, this.state.role);
+    const res: NetworkResponse<UserRegisterResponse> = await this.userService.register(this.state.username, this.state.password, this.state.email, this.state.role);
     switch (res.statusCode) {
       case 201:
         this.registerStore.token = res.response.token;

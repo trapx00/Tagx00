@@ -40,7 +40,6 @@ export class UserService {
   }
 
   async register(username: string, password: string, email: string, role: UserRole): Promise<NetworkResponse<UserRegisterResponse>> {
-    console.log(username)
     password = encryptPassword(password);
     return await this.http.fetch({
       path: "account/register",
@@ -49,13 +48,13 @@ export class UserService {
     });
   }
 
-  async registerValidate(token: string, code: string): Promise<UserRegisterConfirmationResponse> {
-    const res = await this.http.fetch({
+  async registerValidate(token: string, code: string): Promise<NetworkResponse<UserRegisterConfirmationResponse>> {
+
+    return await this.http.fetch({
       path: "account/register/validate",
-      body: {token, code},
+      queryParams: {token, code},
       method: HttpMethod.POST
     });
-    return res.response;
   }
 
 }

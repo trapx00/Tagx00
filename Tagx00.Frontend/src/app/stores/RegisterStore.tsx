@@ -13,6 +13,11 @@ export class RegisterStore {
   };
 
   @computed
+  get token(): string {
+    return this._token;
+  }
+
+  @computed
   set token(value: string) {
     this._token = value;
   }
