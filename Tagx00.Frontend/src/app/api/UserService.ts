@@ -15,7 +15,7 @@ export interface UserRegisterResponse {
 
 export interface UserRegisterConfirmationResponse {
   token: string
-  jwtRoles: string[]
+  jwtRoles: { authority: string}[]
   email: string
 }
 
@@ -29,14 +29,13 @@ export class UserService {
   constructor(@Inject private http: HttpService) {
   }
 
-  async login(username: string, password: string): Promise<LoginResult> {
+  async login(username: string, password: string): Promise<NetworkResponse> {
     password = encryptPassword(password);
 
-    const res = await this.http.fetch({
+    return await this.http.fetch({
       path: "account/login",
       queryParams: {username, password}
     });
-    return res.response;
   }
 
   async register(username: string, password: string, email: string, role: UserRole): Promise<NetworkResponse<UserRegisterResponse>> {

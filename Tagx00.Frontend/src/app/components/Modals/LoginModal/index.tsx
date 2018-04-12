@@ -8,10 +8,16 @@ import { LoginForm } from "./Form";
 import { action } from "mobx";
 import { UserStore } from "../../../stores/UserStore";
 import { Inject, Module } from "react.di";
+import { Link } from 'react-router-dom';
+import styled from "styled-components";
 
 interface Props  {
 
 }
+
+const RegisterButton = styled(Button)`
+  float: left;
+`;
 
 
 @Module({
@@ -45,11 +51,16 @@ export class LoginModal extends React.Component<Props, any> {
     }
   };
 
+  onBtnRegisterClick = () => {
+    this.uiStore.toggleLoginModalShown();
+  };
+
   render() {
     const props = {
       title: "loginModal.title",
       login: "loginModal.login",
-      cancel: "loginModal.cancel"
+      cancel: "loginModal.cancel",
+      register: "loginModal.register"
     };
 
     return <Localize replacements={props}>
@@ -59,6 +70,11 @@ export class LoginModal extends React.Component<Props, any> {
                  onCancel={this.onCancel}
                  onOk={this.onOk}
                  footer={[
+                   <Link key={"register"} to={"/register"}>
+                     <RegisterButton onClick={this.onBtnRegisterClick}>
+                       <span>{props.register}</span>
+                     </RegisterButton>
+                   </Link>,
                    <Button key="back" onClick={this.onCancel}>
                      <span>{props.cancel}</span>
                    </Button>,

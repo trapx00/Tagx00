@@ -29,7 +29,8 @@
       "cardState": {
         "submitted": "已提交",
         "abandoned": "已放弃",
-        "inProgress": "正在进行"
+        "inProgress": "正在进行",
+        "finalized": "已结束"
       },
       "cardActions": {
         "continue": "继续做任务",
@@ -109,6 +110,36 @@
     "needLogin": "请先登录",
     "createMission": {
       "title": "创建任务"
+    },
+    "sideMenu": {
+      "mission": "任务",
+      "instance": "实例"
+    },
+    "requester": {
+      "missionCard": {
+        "missionState": {
+          "PENDING": "未生效",
+          "ACTIVE": "生效",
+          "ENDED": "结束"
+        },
+        "actions": {
+          "searchInstances": "查找所有实例",
+          "info": "任务信息"
+        }
+      },
+      "missionDetail": {
+        "title": "任务详情"
+
+      },
+      "instancePanel": {
+        "title": "实例",
+        "search": {
+          "placeholder": "任务ID"
+        },
+        "table": {
+          "dateFormat": "YYYY/MM/DD"
+        }
+      }
     }
   },
   "loginModal": {
@@ -120,7 +151,8 @@
     "login": "登录",
     "forgetPassword": "忘记密码",
     "remember": "记住我",
-    "cancel": "取消"
+    "cancel": "取消",
+    "register": "注册"
   },
   "languageSelector": {
     "loading": "载入中"

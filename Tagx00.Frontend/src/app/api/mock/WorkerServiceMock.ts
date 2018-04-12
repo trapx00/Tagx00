@@ -13,11 +13,11 @@ export class WorkerServiceMock extends WorkerService {
     //mock
     return [1, 2, 3, 4, 5].map(x =>
       ({
-        instanceId: x,
+        instanceId: x+"",
         workerUsername: "123",
         title: `Title${x}`,
         description: `Description `.repeat(x),
-        missionId: 123,
+        missionId: "123",
         acceptDate: new Date(),
         submitDate: x % 2 === 0 ? new Date() : null,
         isSubmitted: x % 2 === 0,
@@ -30,18 +30,18 @@ export class WorkerServiceMock extends WorkerService {
 
   }
 
-  async getInstanceDetail(missionId: number, token: string): Promise<ImageInstanceDetail> {
+  async getInstanceDetail(missionId: string, token: string): Promise<ImageInstanceDetail> {
 
     // mock
     return {
       imageResults: [],
       instance:
         {
-          instanceId: 1,
+          instanceId: "1",
           workerUsername: "123",
           title: `Title`,
           description: `Description `,
-          missionId: 123,
+          missionId: missionId,
           acceptDate: new Date(),
           submitDate: null,
           isSubmitted: false,
@@ -52,15 +52,15 @@ export class WorkerServiceMock extends WorkerService {
     } as ImageInstanceDetail;
   }
 
-  async saveProgress(missionId: number, detail: InstanceDetail, token: string): Promise<boolean> {
+  async saveProgress(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
     return true;
   }
 
-  async submit(missionId: number, detail: InstanceDetail, token: string): Promise<boolean> {
+  async submit(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
     return true;
   }
 
-  async acceptMission(missionId: number, token: string): Promise<Response> {
+  async acceptMission(missionId: string, token: string): Promise<Response> {
     return {
       infoCode: 10000,
       description: "success"

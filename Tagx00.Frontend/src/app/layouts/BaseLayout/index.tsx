@@ -5,7 +5,7 @@ import { Navbar } from "../../components/Navbar";
 
 const {Header, Content} = Layout;
 
-export class BaseLayout extends React.Component<any, any> {
+export class BaseLayout extends React.Component<{}, {}> {
 
   render() {
     return <Layout className="layout">
