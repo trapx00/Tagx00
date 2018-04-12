@@ -116,6 +116,10 @@
       "instance": "实例"
     },
     "requester": {
+      "mission": {
+        "title": "任务",
+        "add": "新增任务"
+      },
       "missionCard": {
         "missionState": {
           "PENDING": "未生效",
@@ -129,7 +133,6 @@
       },
       "missionDetail": {
         "title": "任务详情"
-
       },
       "instancePanel": {
         "title": "实例",
@@ -137,7 +140,17 @@
           "placeholder": "任务ID"
         },
         "table": {
-          "dateFormat": "YYYY/MM/DD"
+          "dateFormat": "YYYY/MM/DD HH:mm:SS",
+          "instanceId": "实例ID",
+          "missionId": "任务ID",
+          "workerUsername": "工人用户名",
+          "missionInstanceState": "实例状态",
+          "dateRange": "时间段",
+          "inProgress": "正在进行",
+          "acceptDate": "接受时间",
+          "submitDate": "提交时间",
+          "action": "操作",
+          "seeResult": "查看结果"
         }
       }
     }

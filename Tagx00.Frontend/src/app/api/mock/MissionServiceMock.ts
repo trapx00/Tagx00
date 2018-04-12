@@ -29,7 +29,8 @@ export class MissionServiceMock extends MissionService {
         missionType: MissionType.IMAGE,
         start: new Date(),
         end: new Date(),
-        coverUrl: "https://desk-fd.zol-img.com.cn/t_s960x600c5/g3/M0A/0F/09/Cg-4WFRplp2IYqiNACQ0TQPPChQAARbPQEM84oAJDRl464.jpg"
+        coverUrl: "https://desk-fd.zol-img.com.cn/t_s960x600c5/g3/M0A/0F/09/Cg-4WFRplp2IYqiNACQ0TQPPChQAARbPQEM84oAJDRl464.jpg",
+        jobCount: 10
       },
       missionState: MissionState.ACTIVE,
       imageUrls: imgs,
@@ -59,6 +60,7 @@ export class MissionServiceMock extends MissionService {
         start: new Date(),
         end: new Date(),
         coverUrl: "http://pic1.16xx8.com/allimg/170801/1-1FP116442T62.jpg",
+        jobCount: 10
       })
     );
 

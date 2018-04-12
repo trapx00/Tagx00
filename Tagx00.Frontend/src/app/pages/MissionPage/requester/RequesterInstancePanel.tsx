@@ -7,7 +7,7 @@ import { RequesterService } from "../../../api/RequesterService";
 import { UserStore } from "../../../stores/UserStore";
 import { Link } from 'react-router-dom';
 import { ColumnProps } from "antd/es/table";
-import { InstanceStateTag } from "../../../components/Mission/InstanceStateTag";
+import { InstanceStateIndicator } from "../../../components/Mission/InstanceStateIndicator";
 const { Search } = Input;
 
 interface Props {
@@ -23,6 +23,7 @@ const placements = {
   }
 };
 
+
 interface State {
   loading: boolean;
   missionId: string;
@@ -33,43 +34,54 @@ const TABLE_TITLE_ID_PREFIX = ID_PREFIX + "table.";
 
 const columns: ColumnProps<Instance>[] = [
   {
-    title: TABLE_TITLE_ID_PREFIX + "instanceId",
+    title: "instanceId",
     dataIndex: "instanceId",
   },
   {
-    title: TABLE_TITLE_ID_PREFIX + "missionId",
+    title: "missionId",
     dataIndex: "missionId",
+    render: (_, item) => <Link to={`/mission?missionId=${item.missionId}`}><span>{item.missionId}</span></Link>
   },
   {
-    title: TABLE_TITLE_ID_PREFIX + "workerUsername",
+    title: "workerUsername",
     dataIndex: "workerUsername",
-
   },
   {
-    title: TABLE_TITLE_ID_PREFIX + "missionInstanceState",
+    title: "missionInstanceState",
     dataIndex: "missionInstanceState",
-    render: (_, item) => <InstanceStateTag state={item.missionInstanceState}/>
-  },
-
-  {
-    title: TABLE_TITLE_ID_PREFIX + "acceptDate",
-    dataIndex: "acceptDate",
-    render: (_, item) => <LocaleDate formatId={TABLE_TITLE_ID_PREFIX + "dateFormat"} input={item.acceptDate}/>
+    render: (_, item) => <InstanceStateIndicator instance={item}/>
   },
   {
-    title: TABLE_TITLE_ID_PREFIX + "submitDate",
-    dataIndex: "submitDate",
-    render: (_, item) => <LocaleDate formatId={TABLE_TITLE_ID_PREFIX + "dateFormat"} input={item.submitDate}/>
+    title: "dateRange",
+    key: "dateRange",
+    children: [
+      {
+        title: <LocaleMessage id={TABLE_TITLE_ID_PREFIX + "acceptDate"}/>,
+        dataIndex: "acceptDate",
+        render: (_, item) => <LocaleDate formatId={TABLE_TITLE_ID_PREFIX + "dateFormat"} input={item.acceptDate}/>,
+        defaultSortOrder: 'descend' as 'descend',
+        sorter: (a, b) => a.acceptDate- b.acceptDate
+      },
+      {
+        title: <LocaleMessage id={TABLE_TITLE_ID_PREFIX + "submitDate"}/>,
+        dataIndex: "submitDate",
+        render: (_, item) => item.submitDate
+          ? <LocaleDate formatId={TABLE_TITLE_ID_PREFIX + "dateFormat"} input={item.submitDate}/>
+          : <LocaleMessage id={TABLE_TITLE_ID_PREFIX + "inProgress"} />,
+        defaultSortOrder: 'descend' as 'descend',
+        sorter: (a, b) => a.submitDate - b.submitDate
+      },
+    ]
   },
   {
-    title: TABLE_TITLE_ID_PREFIX + "action",
+    title: "action",
     render: (_,item: Instance) => {
       return <span>
         <Link to={`/mission/requester/instance/${item.instanceId}`}><a><LocaleMessage id={TABLE_TITLE_ID_PREFIX + "seeResult"}/></a></Link>
       </span>
     }
   }
-].map(x => ({...x, key: x.dataIndex, title: <LocaleMessage id={x.title}/>}));
+].map(x => ({...x, key: (x as any).key || x.dataIndex, title: <LocaleMessage id={TABLE_TITLE_ID_PREFIX + x.title}/>}));
 
 export class RequesterInstancePanel extends React.Component<Props, State> {
 
@@ -112,7 +124,7 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
                           enterButton/>
         }
       </Localize>
-      <Table columns={columns}
+      <Table rowKey={"instanceId"} columns={columns}
              dataSource={this.state.data}
              loading={this.state.loading}/>
     </div>

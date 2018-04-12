@@ -10,7 +10,7 @@ import { UserStore } from "../../stores/UserStore";
 import { Inject } from "react.di";
 import { MissionService } from "../../api/MissionService";
 import { CardAction, stubCard, truncateText } from "./util";
-import { InstanceStateTag } from "./InstanceStateTag";
+import { InstanceStateIndicator } from "./InstanceStateIndicator";
 
 const {Meta} = Card;
 
@@ -42,10 +42,8 @@ export class WorkerInstanceCard extends React.Component<Props, any> {
   };
 
   title(title: string) {
-    const {missionInstanceState} = this.props.instance;
-
     return <div>
-      <span style={{marginRight: "4px"}}>{title}</span> <InstanceStateTag state={missionInstanceState}/>
+      <span style={{marginRight: "4px"}}>{title}</span> <InstanceStateIndicator instance={this.props.instance}/>
     </div>
   }
 

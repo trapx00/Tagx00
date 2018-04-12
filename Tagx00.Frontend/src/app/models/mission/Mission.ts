@@ -20,6 +20,7 @@ export interface MissionPublicItem {
   start: Date;
   end: Date;
   coverUrl: string;
+  jobCount: number;
 }
 
 export interface MissionDetail {
