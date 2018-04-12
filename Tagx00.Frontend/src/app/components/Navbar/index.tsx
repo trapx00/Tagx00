@@ -36,10 +36,10 @@ const routes = [
     id: "navbar.browse",
     match: (pathname: string) => pathname.startsWith("/browse")
   }, {
-    path: "/missions",
+    path: "/mission",
     iconName: "tag-o",
     id: "navbar.mission",
-    match: (pathname: string) => pathname.startsWith("/missions")
+    match: (pathname: string) => pathname.startsWith("/mission")
   }, {
     path: "/about",
     iconName: "info-circle",
@@ -82,7 +82,7 @@ class NavbarMenu extends React.Component<{ dropdownMode: boolean }> {
 
 export class Navbar extends React.Component<{}, {}> {
 
-  dropdownContainerRef = (React as any).createRef();
+  dropdownContainerRef = React.createRef() as any;
 
   render() {
     return <Row>

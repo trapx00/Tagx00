@@ -12,10 +12,10 @@ export async function initProviders(history) {
   await localeStore.init();
 
   return [
-    { provide: RouterStore, useValue: routerStore },
-    { provide: UserStore, useValue: userStore},
-    { provide: UiStore, useValue: uiStore },
-    { provide: LocaleStore, useValue: localeStore },
+    {provide: RouterStore, useValue: routerStore},
+    {provide: UserStore, useValue: userStore},
+    {provide: UiStore, useValue: uiStore},
+    {provide: LocaleStore, useValue: localeStore},
     ...apiServiceProviders
   ]
 

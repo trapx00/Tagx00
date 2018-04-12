@@ -5,7 +5,7 @@ import { WholeJob } from "../../../models/instance/image/job/WholeJob";
 import { TagDescriptionTuple } from "../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../components/ImageWork/MissionTipCard";
 import { TagDescriptionTuplePanel } from "../../../components/ImageWork/TagDescriptionPanel";
-import { ProgressController } from "../../../components/ProgressController";
+import { ProgressController } from "../../../components/ImageWork/ProgressController";
 import { toJS } from "mobx";
 import { ImageWorkPageLayout } from "./Layout";
 import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";

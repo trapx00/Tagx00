@@ -3,7 +3,7 @@ import { ImageNotation } from "../../../stores/ImageWorkStore";
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../components/ImageWork/MissionTipCard";
-import { ProgressController } from "../../../components/ProgressController";
+import { ProgressController } from "../../../components/ImageWork/ProgressController";
 import { TagDescriptionTuplePanel } from "../../../components/ImageWork/TagDescriptionPanel";
 import { ImageMissionType } from "../../../models/mission/image/ImageMission";
 import { DistrictJob, DistrictTagDescriptionTuple } from "../../../models/instance/image/job/DistrictJob";

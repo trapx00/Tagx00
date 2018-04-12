@@ -1,12 +1,9 @@
 import React from "react";
-import { Layout, Menu } from 'antd';
-import { SelfSideMenu } from "../../components/SelfSideMenu";
 import { observer } from "mobx-react";
 import { UserStore } from "../../stores/UserStore";
 import { Inject } from "react.di";
-
-const {SubMenu} = Menu;
-const {Header, Content, Footer, Sider} = Layout;
+import { SidebarLayout } from "../SidebarLayout";
+import { SelfSideMenu } from "../../pages/SelfPage/SelfSideMenu";
 
 interface Props {
 
@@ -20,15 +17,11 @@ export class SelfCenterLayout extends React.Component<Props, any> {
   render() {
 
     if (this.userStore.loggedIn) {
-      return <Layout style={{padding: '12px 0', background: '#fff'}}>
-        <Sider width={200} style={{background: '#fff'}}>
-          <SelfSideMenu/>
-        </Sider>
-        <Content style={{minHeight: 280, padding: "0 28px"}}>
-          {this.props.children}
-        </Content>
-      </Layout>;
-    } else {
+      return <SidebarLayout sideMenu={<SelfSideMenu/>}>
+        {this.props.children}
+      </SidebarLayout>
+    }
+     else {
       return "log in first."
     }
 

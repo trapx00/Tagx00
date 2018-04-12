@@ -9,6 +9,7 @@ export class User {
   public username: string;
   public role: UserRole;
   public token: string;
+  public email: string;
 
   constructor(params: Partial<User>) {
     Object.assign(this, params);

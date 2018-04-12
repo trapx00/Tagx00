@@ -76,17 +76,12 @@ export class SearchBar extends React.Component<{}, any> {
                 <div onClick={this.handleSearchAll} style={smallerDiv}>
                   <Tag color="#108ee9">{props.searchAll}</Tag>
                 </div>
-                <ClickableTag onClick={this.handleClick} color="geekblue" value="主题词"/>
-                <ClickableTag onClick={this.handleClick} color="geekblue" value="主题词"/>
-                <ClickableTag onClick={this.handleClick} color="geekblue" value="主题词"/>
-                <ClickableTag onClick={this.handleClick} color="geekblue" value="主题词"/>
-                <ClickableTag onClick={this.handleClick} color="geekblue" value="主题词"/>
-                <ClickableTag onClick={this.handleClick} color="geekblue" value="主题词"/>
-                <ClickableTag onClick={this.handleClick} color="geekblue" value="主题词"/>
-                <ClickableTag onClick={this.handleClick} color="geekblue" value="主题词"/>
-                <ClickableTag onClick={this.handleClick} color="geekblue" value="主题词"/>
-                <ClickableTag onClick={this.handleClick} color="geekblue" value="主题词"/>
-                <ClickableTag onClick={this.handleClick} color="geekblue" value="主题词"/>
+                {this.browserStore.topics.map(
+                  (item) => {
+                    return <ClickableTag onClick={this.handleClick} color="geekblue" value={item.value}
+                                         key={item.topicId}/>
+                  }
+                )}
               </div>
             </div>
           );

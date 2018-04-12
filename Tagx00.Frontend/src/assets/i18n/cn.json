@@ -109,6 +109,10 @@
     "needLogin": "请先登录",
     "createMission": {
       "title": "创建任务"
+    },
+    "sideMenu": {
+      "mission": "任务",
+      "instance": "实例"
     }
   },
   "loginModal": {
@@ -120,7 +124,8 @@
     "login": "登录",
     "forgetPassword": "忘记密码",
     "remember": "记住我",
-    "cancel": "取消"
+    "cancel": "取消",
+    "register": "注册"
   },
   "languageSelector": {
     "loading": "载入中"
