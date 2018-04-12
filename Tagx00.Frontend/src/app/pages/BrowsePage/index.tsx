@@ -14,7 +14,7 @@ const {Content} = Layout;
 const contentAnimation = [
   {scale: 1},
   {scale: 1},
-  {marginTop: '-31%'},
+  {marginTop: '-26%'},
 ];
 const logoAnimation = [
   {scale: 0.6},
