@@ -46,7 +46,6 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
     }
 
 
-
     /**
      * get the detail info of a mission
      *
@@ -64,7 +63,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                     return null;
                 if (mission.getMissionType().equals(MissionType.IMAGE)) {
                     missionDetailVo = new ImageMissionDetailVo(new MissionPublicItemVo(
-                            missionId, mission.getTitle(), mission.getDescription(), mission.getTopics(),
+                            MissionUtil.addTypeToId(missionId, missionType), mission.getTitle(), mission.getDescription(), mission.getTopics(),
                             mission.isAllowCustomTag(), mission.getAllowedTags(), mission.getMissionType(),
                             mission.getStart(), mission.getEnd(), mission.getCoverUrl(), mission.getRequesterUsername()
                     ), mission.getMissionState(), mission.getImageUrls(), mission.getImageMissionTypes());
@@ -74,8 +73,8 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
         return missionDetailVo;
     }
 
-    public MissionPublicItemVo generateMissionPublicItemVo(Mission mission){
-        return new MissionPublicItemVo(mission.getMissionId(), mission.getTitle(), mission.getDescription(),
+    public MissionPublicItemVo generateMissionPublicItemVo(Mission mission) {
+        return new MissionPublicItemVo(MissionUtil.addTypeToId(mission.getMissionId(), mission.getMissionType()), mission.getTitle(), mission.getDescription(),
                 mission.getTopics(), mission.isAllowCustomTag(), mission.getAllowedTags(),
                 mission.getMissionType(),
                 mission.getStart(), mission.getEnd(), mission.getCoverUrl(), mission.getRequesterUsername());

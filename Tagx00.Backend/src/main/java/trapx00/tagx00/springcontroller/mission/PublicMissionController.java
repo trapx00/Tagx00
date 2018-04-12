@@ -40,7 +40,7 @@ public class PublicMissionController {
                                                 @RequestParam("searchTarget") String searchTarget,
                                                 @RequestParam("requester") String requesterUsername) {
         try {
-            return new ResponseEntity<>(publicMissionBlService.getMissions(new PagingQueryVo(), searchTarget), HttpStatus.OK);
+            return new ResponseEntity<>(publicMissionBlService.getMissions(new PagingQueryVo(pageSize, pageNumber), searchTarget, requesterUsername), HttpStatus.OK);
         } catch (NotMissionException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);

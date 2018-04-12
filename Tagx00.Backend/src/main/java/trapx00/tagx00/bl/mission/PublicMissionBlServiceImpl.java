@@ -40,15 +40,21 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
      * @return the list of MissionPublicItemVo
      */
     @Override
-    public MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo, String searchTarget) throws NotMissionException {
+    public MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo, String searchTarget, String requesterUsername) throws NotMissionException {
         int startIndex = pagingQueryVo.getPageNumber() * pagingQueryVo.getPageSize();
         int endIndex = startIndex + pagingQueryVo.getPageSize();
         MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
         if (missionPublicItemVos == null) {
             throw new NotMissionException();
         }
-        ArrayList<MissionPublicItemVo> result = new ArrayList<>();
+        ArrayList<MissionPublicItemVo> usernameResult = new ArrayList<>();
         for (MissionPublicItemVo missionPublicItemVo : missionPublicItemVos) {
+            if (missionPublicItemVo.getRequesterUsername().equals(requesterUsername)) {
+                usernameResult.add(missionPublicItemVo);
+            }
+        }
+        ArrayList<MissionPublicItemVo> result = new ArrayList<>();
+        for (MissionPublicItemVo missionPublicItemVo : usernameResult) {
             if (missionPublicItemVo.getTopics().contains(searchTarget)) {
                 result.add(missionPublicItemVo);
             } else if (missionPublicItemVo.getTitle().contains(searchTarget)) {
