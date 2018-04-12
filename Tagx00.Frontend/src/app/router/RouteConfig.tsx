@@ -34,4 +34,3 @@ export function constructRoute(config: KnownRouteConfig) {
       return <Redirect exact={config.exact} key={config.path} path={config.path} to={config.to}/>
   }
 }
-

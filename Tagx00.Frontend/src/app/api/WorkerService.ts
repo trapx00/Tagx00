@@ -22,7 +22,7 @@ export class WorkerService {
 
   }
 
-  async getInstanceDetail(missionId: number, token: string): Promise<ImageInstanceDetail> {
+  async getInstanceDetail(missionId: number | string, token: string): Promise<ImageInstanceDetail> {
 
 
     const res = await this.http.fetch({

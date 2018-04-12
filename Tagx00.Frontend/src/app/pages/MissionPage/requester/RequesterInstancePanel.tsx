@@ -5,6 +5,7 @@ import { Instance } from "../../../models/instance/Instance";
 import { Inject } from "react.di";
 import { RequesterService } from "../../../api/RequesterService";
 import { UserStore } from "../../../stores/UserStore";
+import { Link } from 'react-router-dom';
 import { ColumnProps } from "antd/es/table";
 import { InstanceStateTag } from "../../../components/Mission/InstanceStateTag";
 const { Search } = Input;
@@ -27,8 +28,6 @@ interface State {
   missionId: string;
   data: Instance[];
 }
-
-const strColumns = ["instanceId", "workerUsername", "missionInstanceState", "missionId", "acceptDate","submitDate"];
 
 const TABLE_TITLE_ID_PREFIX = ID_PREFIX + "table.";
 
@@ -61,6 +60,14 @@ const columns: ColumnProps<Instance>[] = [
     title: TABLE_TITLE_ID_PREFIX + "submitDate",
     dataIndex: "submitDate",
     render: (_, item) => <LocaleDate formatId={TABLE_TITLE_ID_PREFIX + "dateFormat"} input={item.submitDate}/>
+  },
+  {
+    title: TABLE_TITLE_ID_PREFIX + "action",
+    render: (_,item: Instance) => {
+      return <span>
+        <Link to={"/mission/"}><a><LocaleMessage id={TABLE_TITLE_ID_PREFIX + "seeResult"}/></a></Link>
+      </span>
+    }
   }
 ].map(x => ({...x, key: x.dataIndex, title: <LocaleMessage id={x.title}/>}));
 

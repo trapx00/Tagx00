@@ -1,14 +1,14 @@
 import React from "react";
-import { ImageNotation } from "../../../stores/ImageWorkStore";
-import { PartJob, PartJobTuple } from "../../../models/instance/image/job/PartJob";
+import { ImageNotation } from "../../../../stores/ImageWorkStore";
+import { PartJob, PartJobTuple } from "../../../../models/instance/image/job/PartJob";
 import { toJS } from "mobx";
-import { TagDescriptionTuple } from "../../../models/instance/TagTuple";
-import { MissionTipCard } from "../../../components/ImageWork/MissionTipCard";
-import { ProgressController } from "../../../components/ImageWork/ProgressController";
-import { TagDescriptionTuplePanel } from "../../../components/ImageWork/TagDescriptionPanel";
-import { RectanglePanel } from "../../../components/ImageWork/DrawingPad/RectanglePanel";
-import { ImageMissionType } from "../../../models/mission/image/ImageMission";
-import { PartAddingModeController } from "../../../components/ImageWork/Part/PartAddingModeController";
+import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
+import { MissionTipCard } from "../../../../components/ImageWork/MissionTipCard";
+import { ProgressController } from "../../../../components/ImageWork/ProgressController";
+import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel/index";
+import { RectanglePanel } from "../../../../components/ImageWork/DrawingPad/RectanglePanel/index";
+import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
+import { PartAddingModeController } from "../../../../components/ImageWork/Part/PartAddingModeController/index";
 import { ImageWorkPageLayout } from "./Layout";
 import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 

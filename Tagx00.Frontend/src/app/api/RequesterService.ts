@@ -49,7 +49,8 @@ export class RequesterService {
   async getAllInstancesByMissionId(missionId: string, token: string) : Promise<InstanceResponse> {
     const res = await this.http.fetch({
       method: HttpMethod.GET,
-      path: `/mission/requester/${missionId}/instances/`,
+      path: `/mission/requester/instances/`,
+      queryParams: {missionId},
       token
     });
     return res.response;

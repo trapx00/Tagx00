@@ -8,7 +8,8 @@ const ID_PREFIX = "selfCenter.myMissions.";
 const stateTagMap = {
   [MissionInstanceState.SUBMITTED]: <Tag color="#87d068"><LocaleMessage id={ID_PREFIX + "cardState.submitted"}/></Tag>,
   [MissionInstanceState.IN_PROGRESS]: <Tag color="#2db7f5"><LocaleMessage id={ID_PREFIX + "cardState.inProgress"}/></Tag>,
-  [MissionInstanceState.ABANDONED]: <Tag color="#f50"><LocaleMessage id={"selfCenter.myMissions.cardState.abandoned"}/></Tag>
+  [MissionInstanceState.ABANDONED]: <Tag color="#f50"><LocaleMessage id={ID_PREFIX +"cardState.abandoned"}/></Tag>,
+  [MissionInstanceState.FINALIZED]: <Tag color="#108ee9"><LocaleMessage id={ID_PREFIX + "cardState.finalized"}/></Tag>
 };
 
 export function InstanceStateTag(props: {state: MissionInstanceState}) {

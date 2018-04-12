@@ -29,7 +29,8 @@
       "cardState": {
         "submitted": "已提交",
         "abandoned": "已放弃",
-        "inProgress": "正在进行"
+        "inProgress": "正在进行",
+        "finalized": "已结束"
       },
       "cardActions": {
         "continue": "继续做任务",

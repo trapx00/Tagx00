@@ -49,7 +49,7 @@ export class RequesterServiceMock extends RequesterService {
     }
   }
 
-  async getAllInstancesByMissionId(missionId: number, token: string) : Promise<InstanceResponse> {
+  async getAllInstancesByMissionId(missionId: number | string, token: string) : Promise<InstanceResponse> {
     return {
       instances: [1, 2, 3, 4, 5].map(x =>
         ({

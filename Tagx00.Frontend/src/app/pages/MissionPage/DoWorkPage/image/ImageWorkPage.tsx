@@ -1,18 +1,18 @@
 import React, { ReactNode } from "react";
-import { ImageMissionDetail, ImageMissionType } from "../../../models/mission/image/ImageMission";
-import { ImageInstanceDetail } from "../../../models/instance/image/ImageInstanceDetail";
-import { ImageNotation, ImageWorkStore } from "../../../stores/ImageWorkStore";
+import { ImageMissionDetail, ImageMissionType } from "../../../../models/mission/image/ImageMission";
+import { ImageInstanceDetail } from "../../../../models/instance/image/ImageInstanceDetail";
+import { ImageNotation, ImageWorkStore } from "../../../../stores/ImageWorkStore";
 import { observer } from "mobx-react";
 import { ImagePartWorkPage } from "./ImagePartWorkPage";
 import { ImageDistrictWorkPage } from "./ImageDistrictWorkPage";
 import { ImageWholeWorkPage } from "./ImageWholeWorkPage";
 import { message, Progress } from 'antd';
-import { CompleteModal } from "../../../components/ImageWork/CompleteModal";
-import { ImageJob } from "../../../models/instance/image/job/ImageJob";
+import { CompleteModal } from "../../../../components/ImageWork/CompleteModal";
+import { ImageJob } from "../../../../models/instance/image/job/ImageJob";
 import { action, observable, runInAction } from "mobx";
-import { WorkerService } from "../../../api/WorkerService";
+import { WorkerService } from "../../../../api/WorkerService";
 import { Inject, Module } from "react.di";
-import { DistrictJob } from "../../../models/instance/image/job/DistrictJob";
+import { DistrictJob } from "../../../../models/instance/image/job/DistrictJob";
 
 interface Props {
   instanceDetail: ImageInstanceDetail;

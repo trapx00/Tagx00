@@ -1,27 +1,5 @@
 import React from "react";
 import { AsyncRouteConfig, RedirectRouteConfig, RouteType } from "../../router/RouteConfig";
-
-
-export const doWorkPage: AsyncRouteConfig = {
-  type: RouteType.Async,
-  exact: true,
-  path: "/mission/:missionId/doWork",
-  render: async (props) => {
-    const DoWorkPage = (await import("../DoWorkPage")).DoWorkPage;
-    return <DoWorkPage missionId={props.match.params.missionId} readonly={false}/>;
-  },
-};
-
-export const seeResultPage: AsyncRouteConfig = {
-  type: RouteType.Async,
-  exact: true,
-  path: "/mission/:missionId/result",
-  render: async (props) => {
-    const Page = (await import("../SeeResultPage")).SeeResultPage;
-    return <Page missionId={props.match.params.missionId}/>;
-  },
-};
-
 export const missionPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: false,
@@ -78,8 +56,6 @@ export const selfCenterPage: AsyncRouteConfig = {
 
 export default [
   missionPage,
-  seeResultPage,
-  doWorkPage,
   browsePage,
   registerPage,
   aboutPage,
