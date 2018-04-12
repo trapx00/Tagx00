@@ -5,15 +5,20 @@ import { UserRole } from "../../models/User";
 import { Inject } from "react.di";
 import { SidebarLayout } from "../../layouts/SidebarLayout";
 import { MissionSideMenu } from "./MissionSideMenu";
-import { Route, Switch } from "react-router";
+import { Route, RouteComponentProps, Switch } from "react-router";
 import { AsyncComponent } from "../../router/AsyncComponent";
+import { RouterStore } from "../../stores/RouterStore";
 
 
 const config = {
   [UserRole.ROLE_REQUESTER]: {
     allowedPaths: ["/mission","/mission/instance"],
     mission: async () => React.createElement((await import("./requester/RequesterMissionPanel")).RequesterMissionPanel),
-    instance: async () => React.createElement((await import("./requester/RequesterInstancePanel")).RequesterInstancePanel)
+    instance: async (missionId: string) =>
+      React.createElement(
+        (await import("./requester/RequesterInstancePanel")).RequesterInstancePanel,
+        { missionId }
+        )
   },
   [UserRole.ROLE_WORKER]: {
     allowedPaths: ["/mission"],
@@ -28,7 +33,7 @@ const config = {
 };
 
 async function renderImageCreate() {
-  const Page = (await import("./create/ImageMissioNCreatePage")).ImageMissionCreatePage;
+  const Page = (await import("./create/ImageMissionCreatePage")).ImageMissionCreatePage;
   return <Page/>;
 }
 
@@ -36,6 +41,7 @@ async function renderImageCreate() {
 export class MissionPage extends React.Component<{}, {}> {
 
   @Inject userStore: UserStore;
+  @Inject routerStore: RouterStore;
 
   renderMission = async () => {
     const pageProducer = config[this.userStore.user.role].mission;
@@ -46,10 +52,14 @@ export class MissionPage extends React.Component<{}, {}> {
     }
   };
 
-  renderInstance = async (props) => {
+  renderInstance = async (props: RouteComponentProps<any>) => {
     const pageProducer = config[this.userStore.user.role].instance;
+
+    console.log(this.routerStore.query);
+
+
     if (typeof pageProducer === 'function') {
-      return await pageProducer();
+      return await pageProducer(this.routerStore.query["missionId"]);
     } else {
       return null;
     }

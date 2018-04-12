@@ -4,8 +4,9 @@ import { Injectable } from "react.di";
 import { MissionCreate } from "../../models/mission/create/MissionCreate";
 import { RequesterService } from "../RequesterService";
 import { MissionPublicResponse } from "../../models/response/mission/MissionPublicResponse";
-import { HttpMethod } from "../utils";
 import { MissionType } from "../../models/mission/Mission";
+import { InstanceResponse } from "../../models/response/mission/InstanceResponse";
+import { MissionInstanceState } from "../../models/instance/MissionInstanceState";
 
 @Injectable
 export class RequesterServiceMock extends RequesterService {
@@ -46,5 +47,26 @@ export class RequesterServiceMock extends RequesterService {
         })
       )
     }
+  }
+
+  async getAllInstancesByMissionId(missionId: number, token: string) : Promise<InstanceResponse> {
+    return {
+      instances: [1, 2, 3, 4, 5].map(x =>
+        ({
+          instanceId: x,
+          workerUsername: "123",
+          title: `${missionId}`,
+          description: `Description `.repeat(x),
+          missionId: 123,
+          acceptDate: new Date(),
+          submitDate: x % 2 === 0 ? new Date() : null,
+          isSubmitted: x % 2 === 0,
+          completedJobsCount: x * 2,
+          missionInstanceState: x % 2 === 0
+            ? MissionInstanceState.SUBMITTED
+            : MissionInstanceState.IN_PROGRESS,
+        })
+      )
+    };
   }
 }

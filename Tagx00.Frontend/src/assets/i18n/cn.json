@@ -125,6 +125,19 @@
           "searchInstances": "查找所有实例",
           "info": "任务信息"
         }
+      },
+      "missionDetail": {
+        "title": "任务详情"
+
+      },
+      "instancePanel": {
+        "title": "实例",
+        "search": {
+          "placeholder": "任务ID"
+        },
+        "table": {
+          "dateFormat": "YYYY/MM/DD"
+        }
       }
     }
   },

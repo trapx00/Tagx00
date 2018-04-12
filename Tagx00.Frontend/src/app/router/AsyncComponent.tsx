@@ -34,6 +34,10 @@ export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, S
     this.setState({ loaded: true });
   }
 
+  componentWillUnmount() {
+
+  }
+
   componentDidMount() {
     this.loadComponent();
   }

@@ -10,6 +10,7 @@ import { UserStore } from "../../stores/UserStore";
 import { Inject } from "react.di";
 import { MissionService } from "../../api/MissionService";
 import { CardAction, stubCard, truncateText } from "./util";
+import { InstanceStateTag } from "./InstanceStateTag";
 
 const {Meta} = Card;
 
@@ -18,7 +19,6 @@ const {Meta} = Card;
 interface Props {
   instance: Instance;
 }
-
 
 export class WorkerInstanceCard extends React.Component<Props, any> {
 
@@ -43,21 +43,9 @@ export class WorkerInstanceCard extends React.Component<Props, any> {
 
   title(title: string) {
     const {missionInstanceState} = this.props.instance;
-    let tag;
-    switch (missionInstanceState) {
-      case MissionInstanceState.SUBMITTED:
-        tag = <Tag color="#87d068"><LocaleMessage id={"selfCenter.myMissions.cardState.submitted"}/></Tag>;
-        break;
-      case MissionInstanceState.ABANDONED:
-        tag = <Tag color="#f50"><LocaleMessage id={"selfCenter.myMissions.cardState.abandoned"}/></Tag>;
-        break;
-      case MissionInstanceState.IN_PROGRESS:
-        tag = <Tag color="#2db7f5"><LocaleMessage id={"selfCenter.myMissions.cardState.inProgress"}/></Tag>;
-        break;
-    }
 
     return <div>
-      <span style={{marginRight: "4px"}}>{title}</span> {tag}
+      <span style={{marginRight: "4px"}}>{title}</span> <InstanceStateTag state={missionInstanceState}/>
     </div>
   }
 
