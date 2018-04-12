@@ -6,6 +6,7 @@ import { RequesterService } from "../RequesterService";
 import { MissionPublicResponse } from "../../models/response/mission/MissionPublicResponse";
 import { HttpMethod } from "../utils";
 import { MissionType } from "../../models/mission/Mission";
+import { RequesterInfo} from "../../models/userInfo/RequesterInfo";
 
 @Injectable
 export class RequesterServiceMock extends RequesterService {
@@ -46,5 +47,17 @@ export class RequesterServiceMock extends RequesterService {
         })
       )
     }
-  }
+  };
+
+  async getRequesterInfo(username: string, token: string): Promise<RequesterInfo> {
+      return {
+          username: "123",
+          email: "1@1.com",
+          submittedMissionCount: 10,
+          instanceCount: 900,
+          awaitingCommentInstanceCount: 300,
+          inProgressInstanceCount: 300,
+          finalizedInstanceCount: 300,
+      } as RequesterInfo;
+  };
 }
