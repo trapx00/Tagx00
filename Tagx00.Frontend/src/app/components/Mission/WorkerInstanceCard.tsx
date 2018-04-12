@@ -1,49 +1,18 @@
 import React from "react";
-import { Card, Icon, Tag, Tooltip } from 'antd';
+import { Card, Tag } from 'antd';
 import { Instance } from "../../models/instance/Instance";
 import { ImageMissionDetail } from "../../models/mission/image/ImageMission";
 import { AsyncComponent } from "../../router/AsyncComponent";
-import { LocaleMessage, Localize } from "../../internationalization/components";
+import { LocaleMessage } from "../../internationalization/components";
 import { MissionInstanceState } from "../../models/instance/MissionInstanceState";
 import { RouterStore } from "../../stores/RouterStore";
 import { UserStore } from "../../stores/UserStore";
 import { Inject } from "react.di";
 import { MissionService } from "../../api/MissionService";
+import { CardAction, stubCard, truncateText } from "./util";
 
 const {Meta} = Card;
 
-
-const maxTextCount = 23;
-
-function processDescription(text: string) {
-  return text.length < maxTextCount
-    ? text : text.substr(0, maxTextCount) + "...";
-}
-
-
-class CardAction extends React.Component<{ type: string, onClick: () => void, hoverTextId: string }, {}> {
-  render() {
-    return <Localize replacements={{title: this.props.hoverTextId}}>
-      {props =>
-        <Tooltip arrowPointAtCenter placement="topLeft" title={props.title}>
-          <Icon type={this.props.type} onClick={this.props.onClick}/>
-        </Tooltip>
-      }
-    </Localize>
-  }
-
-}
-
-
-const stubCard = <Localize replacements={{
-  title: "selfCenter.myMissions.loadingCard"
-}}>
-  {props =>
-    <Card loading title={props.title} style={{width: 300}}>
-      Whatever content
-    </Card>
-  }
-</Localize>;
 
 
 interface Props {
@@ -99,19 +68,19 @@ export class WorkerInstanceCard extends React.Component<Props, any> {
     switch (instance.missionInstanceState) {
       case MissionInstanceState.IN_PROGRESS:
         buttons.push(
-          <CardAction key={"continue"} type={"edit"} onClick={this.goToDoMission}
+          <CardAction key={"continue"} iconType={"edit"} onClick={this.goToDoMission}
                       hoverTextId={"selfCenter.myMissions.cardActions.continue"}/>,
-          <CardAction key={"delete"} type={"delete"} onClick={this.abandonMission}
+          <CardAction key={"delete"} iconType={"delete"} onClick={this.abandonMission}
                       hoverTextId={"selfCenter.myMissions.cardActions.abandon"}/>);
         break;
       case MissionInstanceState.SUBMITTED:
         break;
       case MissionInstanceState.ABANDONED:
-        buttons.push(<CardAction key={"continue"} type={"edit"} onClick={this.goToDoMission}
+        buttons.push(<CardAction key={"continue"} iconType={"edit"} onClick={this.goToDoMission}
                                  hoverTextId={"selfCenter.myMissions.cardActions.continue"}/>);
     }
 
-    buttons.push(<CardAction key={"search"} type={"search"} onClick={this.goDetail}
+    buttons.push(<CardAction key={"search"} iconType={"search"} onClick={this.goDetail}
                              hoverTextId={"selfCenter.myMissions.cardActions.seeMore"}/>);
 
     return buttons;
@@ -128,7 +97,7 @@ export class WorkerInstanceCard extends React.Component<Props, any> {
       actions={this.getActions(instance)}>
       <Meta
         title={this.title(publicItem.title)}
-        description={processDescription(publicItem.description)}
+        description={truncateText(publicItem.description)}
       />
     </Card>
   };

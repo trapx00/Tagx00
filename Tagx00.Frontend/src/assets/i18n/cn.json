@@ -113,6 +113,19 @@
     "sideMenu": {
       "mission": "任务",
       "instance": "实例"
+    },
+    "requester": {
+      "missionCard": {
+        "missionState": {
+          "PENDING": "未生效",
+          "ACTIVE": "生效",
+          "ENDED": "结束"
+        },
+        "actions": {
+          "searchInstances": "查找所有实例",
+          "info": "任务信息"
+        }
+      }
     }
   },
   "loginModal": {

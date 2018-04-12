@@ -16,14 +16,6 @@ export class LoginButton extends React.Component<Props, {}>{
 
   onButtonClick = () => {
     this.uiStore.toggleLoginModalShown();
-    //
-    // const user = this.props[STORE_USER];
-    // user.login({
-    //     token: "123",
-    //     username: "test",
-    //     jwtRoles: ["ROLE_WORKER"],
-    //     email: "1@1.com"
-    // });
   };
 
   render() {
