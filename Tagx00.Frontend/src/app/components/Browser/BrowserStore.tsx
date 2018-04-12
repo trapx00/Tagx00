@@ -21,7 +21,12 @@ const smallerDiv = {
 
 @Injectable
 export class BrowserStore {
-  private static _maxLengthOfDescription = 100;
+  private static _standardHeight: number = 833;
+  private static _standardWidth: number = 1200;
+  private static _maxLengthOfDescription: number = 100;
+  @observable private _searchBarWidth: number = 0;
+  @observable private _moveHeightRate: number = document.body.clientHeight / BrowserStore._standardHeight;
+  @observable private _moveWidthRate: number = document.body.clientWidth / BrowserStore._standardWidth;
   @observable private _paused: boolean = true;
   @observable private _reverse: boolean = true;
   @observable private _listData: ListDataProps[] = [];
@@ -29,6 +34,11 @@ export class BrowserStore {
   @action public reverseBrowsing = () => {
     this._reverse = !this._reverse;
     this._paused = !this._paused;
+  };
+
+  @action public resizeMoveRate = () => {
+    this._moveHeightRate = document.body.clientHeight / BrowserStore._standardHeight;
+    this._moveWidthRate = document.body.clientWidth / BrowserStore._standardWidth;
   };
 
   constructor(@Inject private missionService: MissionService) {
@@ -80,6 +90,15 @@ export class BrowserStore {
     })
   };
 
+
+  @computed get searchBarWidth(): number {
+    return this._searchBarWidth;
+  }
+
+  @computed set searchBarWidth(value: number) {
+    this._searchBarWidth = value;
+  }
+
   @computed get isBrowsing(): boolean {
     return !this._paused;
   }
@@ -98,5 +117,13 @@ export class BrowserStore {
 
   @computed get topics(): Topic[] {
     return this._topics;
+  }
+
+  @computed get moveHeightRate(): number {
+    return this._moveHeightRate;
+  }
+
+  @computed get moveWidthRate(): number {
+    return this._moveWidthRate;
   }
 }
