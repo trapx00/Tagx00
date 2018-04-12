@@ -9,9 +9,17 @@ export class UserServiceMock extends UserService {
 
   async login(username: string, password: string): Promise<NetworkResponse<LoginResult>> {
 
+    if (username === "worker") {
+      return new NetworkResponse(200, {
+        token: "123",
+        jwtRoles: [{authority: UserRole.ROLE_WORKER}],
+        email: "1@1.com"
+      })
+    }
+
     return new NetworkResponse(200, {
         token: "123",
-        jwtRoles: [{ authority: "ROLE_REQUESTER"}],
+        jwtRoles: [{ authority: UserRole.ROLE_REQUESTER}],
         email: "1@1.com"
       }
     );

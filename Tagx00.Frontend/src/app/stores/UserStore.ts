@@ -4,6 +4,7 @@ import { LoginResult } from "../api/UserService";
 import { localStorage } from './UiUtil';
 import { Injectable } from "react.di";
 
+const USER_LOCALSTORAGE_KEY = "user";
 
 @Injectable
 export class UserStore {
@@ -32,21 +33,22 @@ export class UserStore {
     this.user = new User({
       username: username,
       token: response.token,
-      role: UserRole[response.jwtRoles[0].authority]
+      role: UserRole[response.jwtRoles[0].authority],
+      email: response.email
     });
   };
 
   remember() {
-    localStorage.setItem("user", JSON.stringify(this.user));
+    localStorage.setItem(USER_LOCALSTORAGE_KEY, JSON.stringify(this.user));
   }
 
   clearUser() {
-    localStorage.removeItem("user");
+    localStorage.removeItem(USER_LOCALSTORAGE_KEY);
   }
 
   constructor(detectLocalStorage: boolean = true) {
     if (detectLocalStorage) {
-      const user = localStorage.getItem("user");
+      const user = localStorage.getItem(USER_LOCALSTORAGE_KEY);
       if (user) {
         try {
           this.user = new User(JSON.parse(user));

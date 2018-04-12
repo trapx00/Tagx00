@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import { observable } from "mobx";
 import { ImageMissionType } from "../../../models/mission/image/ImageMission";
 import { Form } from 'antd';
-import { ImageMissionCreateInfoForm } from "../../../components/MissionCreate/ImageMissionCreateInfoForm/index";
+import { ImageMissionCreateInfoForm } from "../../../components/MissionCreate/ImageMissionCreateInfoForm";
 import { Inject } from "react.di";
 
 const FormItem = Form.Item;
