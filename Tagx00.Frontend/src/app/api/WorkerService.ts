@@ -5,6 +5,7 @@ import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetai
 import { HttpMethod } from "./utils";
 import { Response } from "../models/Response";
 import { Inject, Injectable } from "react.di";
+import {WorkerInfo} from "../models/WorkerInfo";
 
 @Injectable
 export class WorkerService {
@@ -64,5 +65,13 @@ export class WorkerService {
 
     return res.response;
     
+  }
+
+  async getWorkerInfo(username: string): Promise<WorkerInfo> {
+      const res = await this.http.fetch({
+          path: `/mission/worker/${username}`,
+          method: HttpMethod.GET
+      });
+      return res.response.instances as WorkerInfo;
   }
 }

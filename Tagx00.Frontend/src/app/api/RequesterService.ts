@@ -5,6 +5,7 @@ import { HttpMethod } from "./utils";
 import { ImageUploadResponse } from "../models/mission/image/ImageUploadResponse";
 import { Inject, Injectable } from "react.di";
 import { MissionPublicResponse } from "../models/response/mission/MissionPublicResponse";
+import {RequesterInfo} from "../models/RequesterInfo";
 
 @Injectable
 export class RequesterService {
@@ -43,4 +44,13 @@ export class RequesterService {
 
     return res.response;
   }
+
+    async getRequsterInfo(username: string): Promise<RequesterInfo> {
+        const res = await this.http.fetch({
+            method: HttpMethod.GET,
+            path: `/account/requester/${username}`,
+        });
+
+        return res.response.instances as RequesterInfo;
+    }
 }
