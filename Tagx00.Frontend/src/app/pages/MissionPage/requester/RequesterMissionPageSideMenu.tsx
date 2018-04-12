@@ -7,11 +7,11 @@ const routes: NavSideMenuRoute[] = [
     iconName: "tag-o",
     id: "missions.sideMenu.mission",
     match(pathname: string) {
-      return pathname === "/mission/requester" || pathname.startsWith("/mission/create")
+      return pathname === "/mission/requester" || pathname.startsWith("/mission/requester/create")
     }
   },
   {
-    path: "/mission/requester/instances",
+    path: "/mission/requester/instance",
     iconName: "tag",
     id: "missions.sideMenu.instance",
     match(pathname: string) {

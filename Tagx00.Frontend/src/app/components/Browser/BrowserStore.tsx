@@ -7,7 +7,7 @@ import { Inject, Injectable } from "react.di";
 import { Topic } from "../../models/topic/Topic";
 
 interface ListDataProps {
-  missionId: number,
+  missionId: string,
   coverUrl: string,
   title: string,
   tags: any,
@@ -32,10 +32,14 @@ export class BrowserStore {
   };
 
   constructor(@Inject private missionService: MissionService) {
-    runInAction(async () => {
-        this._topics = (await (missionService.getAllTopics())).topics
-      }
-    )
+    this.fetchAllTopics();
+  }
+
+  async fetchAllTopics() {
+    const topics = await this.missionService.getAllTopics();
+    runInAction(() => {
+      this._topics = topics.topics;
+    })
   }
 
   @action public search = async (info) => {

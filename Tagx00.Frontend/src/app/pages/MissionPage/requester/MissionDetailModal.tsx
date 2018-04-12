@@ -20,7 +20,10 @@ export class MissionDetailModal extends React.Component<Props, {}> {
     return <Localize replacements={replacements}>
       {props => <Modal visible={this.props.shown}
                        title={props.title}
-                       onOk={this.props.onClose}>
+                       onOk={this.props.onClose}
+                       onCancel={this.props.onClose}
+                       destroyOnClose={true}
+      >
         {JSON.stringify(this.props.detail)}
       </Modal>}
     </Localize>

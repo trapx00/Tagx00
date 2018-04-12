@@ -7,6 +7,7 @@ import { Inject, Injectable } from "react.di";
 import { MissionPublicResponse } from "../models/response/mission/MissionPublicResponse";
 import { waitForMs } from "../../utils/Wait";
 import { InstanceResponse } from "../models/response/mission/InstanceResponse";
+import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
 
 @Injectable
 export class RequesterService {
@@ -50,9 +51,18 @@ export class RequesterService {
     const res = await this.http.fetch({
       method: HttpMethod.GET,
       path: `/mission/requester/instances/`,
-      queryParams: {missionId},
+      queryParams: missionId ? {missionId} : {},
       token
     });
+    return res.response;
+  }
+
+  async getInstanceDetail(instanceId: string, token: string) : Promise<InstanceDetailResponse> {
+    const res = await this.http.fetch({
+      path: `/mission/requester/instances/${instanceId}`,
+      token
+    });
+
     return res.response;
   }
 }

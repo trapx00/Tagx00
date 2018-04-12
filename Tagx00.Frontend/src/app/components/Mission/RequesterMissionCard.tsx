@@ -29,7 +29,7 @@ function Title(props: { mission: MissionDetail }) {
 function getActions(mission: MissionDetail, showInfoModal: () => void) {
 
   return [
-    <Link to={`/mission/instance?missionId=${mission.publicItem.missionId}`}>
+    <Link to={`/mission/requester/instance?missionId=${mission.publicItem.missionId}`}>
       <CardAction key={"search"}
                   iconType={"search"}
                   hoverTextId={ID_PREFIX + "actions.searchInstances"}/>

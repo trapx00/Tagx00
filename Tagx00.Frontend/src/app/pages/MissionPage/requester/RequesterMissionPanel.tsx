@@ -37,8 +37,9 @@ export class RequesterMissionCardList extends React.Component<{},{detailModalSho
 
   renderList = async () => {
     const res = await this.requesterService.getAllMissionsBySelf(this.userStore.user.username);
-    return <CardPaneLayout dataSource={res.items}
-                           renderItem={x => <RequesterMissionCard mission={x} showDetail={this.showDetail}/>}/>;
+    return <div><CardPaneLayout dataSource={res.items}
+                           renderItem={x => <RequesterMissionCard mission={x} showDetail={this.showDetail}/>}/>
+    </div>;
   };
 
   closeDetailModal = () => {
@@ -50,7 +51,7 @@ export class RequesterMissionCardList extends React.Component<{},{detailModalSho
     return <div>
       <AsyncComponent render={this.renderList}/>
       <MissionDetailModal shown={this.state.detailModalShown} detail={this.state.detail} onClose={this.closeDetailModal}/>
-    </div>
+    </div>;
   }
 }
 
@@ -59,7 +60,7 @@ export class RequesterMissionPanel extends React.Component<Props, {}> {
     return <div>
       <h1>
         <span><LocaleMessage id={"missions.requester.mission.title"}/></span>
-        <Link to={"/mission/create/image"}>
+        <Link to={"/mission/requester/create/image"}>
           <Button style={btnAddMissionStyle} type="primary">
             <LocaleMessage id={"missions.requester.mission.add"}/>
           </Button>

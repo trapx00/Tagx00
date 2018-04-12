@@ -7,6 +7,8 @@ import { MissionPublicResponse } from "../../models/response/mission/MissionPubl
 import { MissionType } from "../../models/mission/Mission";
 import { InstanceResponse } from "../../models/response/mission/InstanceResponse";
 import { MissionInstanceState } from "../../models/instance/MissionInstanceState";
+import { InstanceDetailResponse } from "../../models/response/mission/InstanceDetailResponse";
+import { ImageInstanceDetail } from "../../models/instance/image/ImageInstanceDetail";
 
 @Injectable
 export class RequesterServiceMock extends RequesterService {
@@ -34,7 +36,7 @@ export class RequesterServiceMock extends RequesterService {
       pagingInfoVo: null,
       items: [1, 2, 3, 4, 5].map(x =>
         ({
-          missionId: x,
+          missionId: x+"",
           title: `Title${x}`,
           description: `Description `.repeat(x),
           topics: ["动物", "植物"],
@@ -49,15 +51,15 @@ export class RequesterServiceMock extends RequesterService {
     }
   }
 
-  async getAllInstancesByMissionId(missionId: number | string, token: string) : Promise<InstanceResponse> {
+  async getAllInstancesByMissionId(missionId: string, token: string): Promise<InstanceResponse> {
     return {
       instances: [1, 2, 3, 4, 5].map(x =>
         ({
-          instanceId: x,
+          instanceId: x+"",
           workerUsername: "123",
           title: `${missionId}`,
           description: `Description `.repeat(x),
-          missionId: 123,
+          missionId: "123",
           acceptDate: new Date(),
           submitDate: x % 2 === 0 ? new Date() : null,
           isSubmitted: x % 2 === 0,
@@ -68,5 +70,28 @@ export class RequesterServiceMock extends RequesterService {
         })
       )
     };
+  }
+
+  async getInstanceDetail(instanceId: string, token: string): Promise<InstanceDetailResponse> {
+    return {
+      detail:
+        {
+          imageResults: [],
+          instance:
+            {
+              instanceId: "1",
+              workerUsername: "123",
+              title: `Title`,
+              description: `Description `,
+              missionId: "123",
+              acceptDate: new Date(),
+              submitDate: null,
+              isSubmitted: false,
+              completedJobsCount: 0,
+              missionInstanceState: MissionInstanceState.IN_PROGRESS,
+            }
+
+        } as ImageInstanceDetail
+    }
   }
 }

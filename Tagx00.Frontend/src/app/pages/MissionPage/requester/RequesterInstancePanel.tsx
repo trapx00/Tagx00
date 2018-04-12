@@ -65,7 +65,7 @@ const columns: ColumnProps<Instance>[] = [
     title: TABLE_TITLE_ID_PREFIX + "action",
     render: (_,item: Instance) => {
       return <span>
-        <Link to={"/mission/"}><a><LocaleMessage id={TABLE_TITLE_ID_PREFIX + "seeResult"}/></a></Link>
+        <Link to={`/mission/requester/instance/${item.instanceId}`}><a><LocaleMessage id={TABLE_TITLE_ID_PREFIX + "seeResult"}/></a></Link>
       </span>
     }
   }

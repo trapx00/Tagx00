@@ -13,13 +13,12 @@ async function render() {
     <AppComponent/>,
     document.getElementById('root')
   );
+  if (module.hot) {
+    module.hot.accept();
+  }
 }
 
-
-// prepare MobX stores
 
 render();
 
-if (module.hot) {
-  module.hot.accept();
-}
+

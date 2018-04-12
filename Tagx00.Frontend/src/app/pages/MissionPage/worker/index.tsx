@@ -4,6 +4,9 @@ import { WorkerMissionPageSideMenu } from "./WorkerMissionPageSideMenu";
 import { SidebarLayout } from "../../../layouts/SidebarLayout";
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { parseQuerystring } from "../../../router/utils";
+import { UserRole } from "../../../models/User";
+import { UserStore } from "../../../stores/UserStore";
+import { Inject } from "react.di";
 
 interface Props {
 
@@ -25,7 +28,13 @@ async function renderSeeResult(props) {
 }
 
 export class WorkerMissionPage extends React.Component<Props, {}> {
+
+  @Inject userStore: UserStore;
+
   render() {
+    if (this.userStore.user.role !== UserRole.ROLE_WORKER) {
+      return "You are not a worker!";
+    }
     return <SidebarLayout sideMenu={<WorkerMissionPageSideMenu/>}>
       <Switch>
         <Route exact path={"/mission/worker"}

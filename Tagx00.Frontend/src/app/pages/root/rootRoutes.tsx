@@ -1,12 +1,15 @@
 import React from "react";
-import { AsyncRouteConfig, RedirectRouteConfig, RouteType } from "../../router/RouteConfig";
+import { AsyncRouteConfig, RouteType } from "../../router/RouteConfig";
+import { RouteComponentProps } from "react-router";
+
 export const missionPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: false,
   path: "/mission",
-  render: async (props) => {
+  render: async (props: RouteComponentProps<any>) => {
+    console.log("root route matched");
     const Page = (await import("../MissionPage")).MissionPage;
-    return <Page/>;
+    return <Page location={props.location}/>;
   },
 };
 
