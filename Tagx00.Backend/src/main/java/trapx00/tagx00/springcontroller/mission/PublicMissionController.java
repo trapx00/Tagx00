@@ -35,9 +35,12 @@ public class PublicMissionController {
             @ApiResponse(code = 200, message = "Success", response = MissionPublicResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> getMissions(@RequestParam("pageSize") Integer pageSize, @RequestParam("pageNumber") Integer pageNumber, @RequestParam("searchTarget") String searchTarget) {
+    public ResponseEntity<Response> getMissions(@RequestParam("pageSize") Integer pageSize,
+                                                @RequestParam("pageNumber") Integer pageNumber,
+                                                @RequestParam("searchTarget") String searchTarget,
+                                                @RequestParam("requester") String requesterUsername) {
         try {
-            return new ResponseEntity(publicMissionBlService.getMissions(new PagingQueryVo(), searchTarget), HttpStatus.OK);
+            return new ResponseEntity<>(publicMissionBlService.getMissions(new PagingQueryVo(), searchTarget), HttpStatus.OK);
         } catch (NotMissionException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
@@ -62,7 +65,7 @@ public class PublicMissionController {
     @ResponseBody
     public ResponseEntity<Response> getOneMission(@PathVariable(name = "missionId") String missionId) {
         try {
-            return new ResponseEntity(publicMissionBlService.getOneMissionDetail(missionId), HttpStatus.OK);
+            return new ResponseEntity<>(publicMissionBlService.getOneMissionDetail(missionId), HttpStatus.OK);
         } catch (NotMissionException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);

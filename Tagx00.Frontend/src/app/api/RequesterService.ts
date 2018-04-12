@@ -4,6 +4,7 @@ import { MissionCreateResponse } from "../models/mission/create/MissionCreateRes
 import { HttpMethod } from "./utils";
 import { ImageUploadResponse } from "../models/mission/image/ImageUploadResponse";
 import { Inject, Injectable } from "react.di";
+import { MissionPublicResponse } from "../models/response/mission/MissionPublicResponse";
 
 @Injectable
 export class RequesterService {
@@ -29,6 +30,16 @@ export class RequesterService {
       {order, isCover},
       {"Authorization": "Bearer " + token}
     );
+
+    return res.response;
+  }
+
+  async getAllMissionsBySelf(username: string): Promise<MissionPublicResponse> {
+    const res = await this.http.fetch({
+      method: HttpMethod.GET,
+      path: "/mission",
+      queryParams: {requester: username},
+    });
 
     return res.response;
   }
