@@ -144,7 +144,7 @@ public class WorkerMissionController {
             @RequestBody InstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") int missionId) {
         try {
             if (instanceDetailVo == null || instanceDetailVo.getInstance() == null) {
-                InstanceVo instanceVo = new InstanceVo(0, UserInfoUtil.getUsername(), MissionInstanceState.IN_PROGRESS, missionId, new Date(), null, false, 0);
+                InstanceVo instanceVo = new InstanceVo(0, 0, 0, "", UserInfoUtil.getUsername(), MissionInstanceState.IN_PROGRESS, missionId, new Date(), null, false, 0);
                 instanceDetailVo.setInstance(instanceVo);
             }
             return new ResponseEntity<>(workerMissionBlService.submit(instanceDetailVo), HttpStatus.OK);
