@@ -1,7 +1,7 @@
 import querystring from 'querystring';
 import { RouteComponentProps } from "react-router";
 
-export function parseQuerystring<T = any>(props: RouteComponentProps<T> | string): querystring.ParsedUrlQuery {
+export function parseQueryString<T = any>(props: RouteComponentProps<T> | string): querystring.ParsedUrlQuery {
   if (typeof props === 'string') {
     return querystring.parse(props.substring(1));
   }

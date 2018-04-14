@@ -9,6 +9,11 @@ public class InstanceVo implements Serializable {
 
     private int instanceId;
 
+    private double expRatio;
+    private double exp;
+    private int credits;
+    private String comment;
+
     public int getInstanceId() {
         return instanceId;
     }
@@ -116,5 +121,8 @@ public class InstanceVo implements Serializable {
 
 
     private int completedJobsCount;
+
+    private double expRatio;
+
 
 }

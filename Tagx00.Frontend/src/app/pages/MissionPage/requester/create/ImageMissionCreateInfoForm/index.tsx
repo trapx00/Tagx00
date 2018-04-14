@@ -4,10 +4,14 @@ import { action, observable, runInAction, toJS } from "mobx";
 import { ImageMissionCreateInfo } from "./ImageMissionCreateInfo";
 import { Button, Checkbox, Form, Input, Modal } from 'antd';
 import { FormItemProps } from "antd/lib/form/FormItem";
-import { ImageMissionType } from "../../../models/mission/image/ImageMission";
+import { ImageMissionType } from "../../../../../models/mission/image/ImageMission";
 import { ImageUploadPanel } from "./ImageUploadPanel";
-import { RequesterService } from "../../../api/RequesterService";
+import { RequesterService } from "../../../../../api/RequesterService";
 import { Inject } from "react.di";
+import { LocaleStore } from "../../../../../stores/LocaleStore";
+import { LocaleMessage } from "../../../../../internationalization/components";
+import { Link } from 'react-router-dom';
+import { RouterStore } from "../../../../../stores/RouterStore";
 
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
@@ -33,7 +37,8 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
   @observable info: ImageMissionCreateInfo = new ImageMissionCreateInfo();
   @observable uploading = false;
 
-
+  @Inject localeStore: LocaleStore;
+  @Inject routerStore: RouterStore;
   @Inject requesterService: RequesterService;
 
   @action onTitleChange = (e) => {
@@ -65,7 +70,6 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
 
 
   submit = async () => {
-    console.log(toJS(this.info));
 
     const {token ,id} = await this.requesterService.createMission(this.info.missionCreateVo, this.props.token);
 
@@ -86,9 +90,18 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
       console.log(img);
     }
 
-    Modal.success({
-      title: '上传成功',
-      content: '任务创建成功',
+    const modalIdPrefix = "missions.createMission.completeCreation.";
+
+    const modal = Modal.success({
+      title: this.localeStore.get(modalIdPrefix + "title"),
+      content: this.localeStore.get(modalIdPrefix + "description", {
+        to: <a onClick={() => {
+          modal.destroy();
+          this.routerStore.jumpTo(`/mission?missionId=${id}`);
+        }}>
+          {this.localeStore.get(modalIdPrefix+"to")}
+        </a>
+      }),
     });
 
     runInAction(() => this.uploading = false);

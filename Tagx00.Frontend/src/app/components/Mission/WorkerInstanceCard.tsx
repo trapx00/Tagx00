@@ -1,9 +1,8 @@
 import React from "react";
-import { Card, Tag } from 'antd';
+import { Card } from 'antd';
 import { Instance } from "../../models/instance/Instance";
 import { ImageMissionDetail } from "../../models/mission/image/ImageMission";
 import { AsyncComponent } from "../../router/AsyncComponent";
-import { LocaleMessage } from "../../internationalization/components";
 import { MissionInstanceState } from "../../models/instance/MissionInstanceState";
 import { RouterStore } from "../../stores/RouterStore";
 import { UserStore } from "../../stores/UserStore";

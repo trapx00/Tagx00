@@ -8,6 +8,7 @@ import { MissionPublicResponse } from "../models/response/mission/MissionPublicR
 import { waitForMs } from "../../utils/Wait";
 import { InstanceResponse } from "../models/response/mission/InstanceResponse";
 import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
+import { MissionFinalizeParameters } from "../models/instance/MissionFinalizeParameters";
 
 @Injectable
 export class RequesterService {
@@ -60,6 +61,18 @@ export class RequesterService {
   async getInstanceDetail(instanceId: string, token: string) : Promise<InstanceDetailResponse> {
     const res = await this.http.fetch({
       path: `/mission/requester/instances/${instanceId}`,
+      token
+    });
+
+    return res.response;
+  }
+
+
+  async finalize(instanceId: string, parameters: MissionFinalizeParameters, token: string) : Promise<InstanceDetailResponse> {
+    const res = await this.http.fetch({
+      path: `/mission/requester/instances/${instanceId}`,
+      method: HttpMethod.POST,
+      body: parameters.value,
       token
     });
 

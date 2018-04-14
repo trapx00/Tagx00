@@ -5,7 +5,7 @@ import { Inject } from "react.di";
 import { match, Redirect, Route, Switch } from "react-router";
 import { AsyncComponent } from "../../router/AsyncComponent";
 import { Location } from "history";
-import { parseQuerystring } from "../../router/utils";
+import { parseQueryString } from "../../router/utils";
 import { MissionDetailPage } from "./MissionDetailPage";
 
 
@@ -21,8 +21,8 @@ async function renderWorker() {
 
 class MissionPageRoot extends React.Component<{redirectTo: string, search: string}, {}> {
   render() {
-    console.log(this.props.search);
-    const missionId = parseQuerystring(this.props.search).missionId as string;
+    const missionId = parseQueryString(this.props.search).missionId as string;
+
     if (missionId) {
       return <MissionDetailPage missionId={missionId}/>;
     } else {

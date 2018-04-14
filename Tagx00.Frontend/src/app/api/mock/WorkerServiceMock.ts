@@ -5,6 +5,7 @@ import { ImageInstanceDetail } from "../../models/instance/image/ImageInstanceDe
 import { InstanceDetail } from "../../models/instance/InstanceDetail";
 import { Response } from "../../models/Response";
 import { WorkerService } from "../WorkerService";
+import { MissionType } from "../../models/mission/Mission";
 
 @Injectable
 export class WorkerServiceMock extends WorkerService {
@@ -34,6 +35,7 @@ export class WorkerServiceMock extends WorkerService {
 
     // mock
     return {
+      missionType: MissionType.IMAGE,
       imageResults: [],
       instance:
         {

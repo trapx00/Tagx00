@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { UserStore } from "../../stores/UserStore";
 import { Inject } from "react.di";
-import { SidebarLayout } from "../SidebarLayout";
+import { SiderLayout } from "../SiderLayout";
 import { SelfSideMenu } from "../../pages/SelfPage/SelfSideMenu";
 
 interface Props {
@@ -17,9 +17,9 @@ export class SelfCenterLayout extends React.Component<Props, any> {
   render() {
 
     if (this.userStore.loggedIn) {
-      return <SidebarLayout sideMenu={<SelfSideMenu/>}>
+      return <SiderLayout leftSider={<SelfSideMenu/>}>
         {this.props.children}
-      </SidebarLayout>
+      </SiderLayout>
     }
      else {
       return "log in first."

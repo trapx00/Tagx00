@@ -9,6 +9,8 @@ import { InstanceResponse } from "../../models/response/mission/InstanceResponse
 import { MissionInstanceState } from "../../models/instance/MissionInstanceState";
 import { InstanceDetailResponse } from "../../models/response/mission/InstanceDetailResponse";
 import { ImageInstanceDetail } from "../../models/instance/image/ImageInstanceDetail";
+import { HttpMethod } from "../utils";
+import { MissionFinalizeParameters } from "../../models/instance/MissionFinalizeParameters";
 
 @Injectable
 export class RequesterServiceMock extends RequesterService {
@@ -77,6 +79,7 @@ export class RequesterServiceMock extends RequesterService {
     return {
       detail:
         {
+          missionType: MissionType.IMAGE,
           imageResults: [],
           instance:
             {
@@ -95,4 +98,29 @@ export class RequesterServiceMock extends RequesterService {
         } as ImageInstanceDetail
     }
   }
+
+  async finalize(instanceId: string, parameters: MissionFinalizeParameters, token: string) : Promise<InstanceDetailResponse> {
+    return {
+      detail:
+        {
+          missionType: MissionType.IMAGE,
+          imageResults: [],
+          instance:
+            {
+              instanceId: instanceId,
+              workerUsername: "123",
+              title: `Title`,
+              description: `Description `,
+              missionId: "123",
+              acceptDate: new Date(),
+              submitDate: new Date(),
+              isSubmitted: false,
+              completedJobsCount: 0,
+              missionInstanceState: MissionInstanceState.FINALIZED,
+            }
+
+        } as ImageInstanceDetail
+    }
+  }
+
 }

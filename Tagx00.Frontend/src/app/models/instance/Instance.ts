@@ -17,6 +17,11 @@ export interface Instance {
   isSubmitted: boolean;
 
   completedJobsCount: number;
+
+  expRatio?: number;
+  exp?: number;
+  credits?: number;
+  comment?: string;
 }
 
 export function convertToInstance(json: any) {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, RouteComponentProps, Switch } from "react-router";
 import { WorkerMissionPageSideMenu } from "./WorkerMissionPageSideMenu";
-import { SidebarLayout } from "../../../layouts/SidebarLayout";
+import { SiderLayout } from "../../../layouts/SiderLayout";
 import { AsyncComponent } from "../../../router/AsyncComponent";
-import { parseQuerystring } from "../../../router/utils";
+import { parseQueryString } from "../../../router/utils";
 import { UserRole } from "../../../models/User";
 import { UserStore } from "../../../stores/UserStore";
 import { Inject } from "react.di";
@@ -35,7 +35,7 @@ export class WorkerMissionPage extends React.Component<Props, {}> {
     if (this.userStore.user.role !== UserRole.ROLE_WORKER) {
       return "You are not a worker!";
     }
-    return <SidebarLayout sideMenu={<WorkerMissionPageSideMenu/>}>
+    return <SiderLayout leftSider={<WorkerMissionPageSideMenu/>}>
       <Switch>
         <Route exact path={"/mission/worker"}
                render={props => <AsyncComponent render={renderMissionPanel}/>}/>
@@ -45,6 +45,6 @@ export class WorkerMissionPage extends React.Component<Props, {}> {
                render={props => <AsyncComponent render={renderDoWork} props={props}/>}/>
 
       </Switch>
-    </SidebarLayout>;
+    </SiderLayout>;
   }
 }
