@@ -14,7 +14,6 @@ const {Meta} = Card;
 
 interface Props {
   mission: MissionPublicItem;
-  showDetail: (detail: MissionDetail) => void;
 }
 
 const ID_PREFIX = "missions.requester.missionCard.";
@@ -26,7 +25,7 @@ function Title(props: { mission: MissionDetail }) {
   </div>
 }
 
-function getActions(mission: MissionDetail, showInfoModal: () => void) {
+function getActions(mission: MissionDetail) {
 
   return [
     <Link to={`/mission/requester/instance?missionId=${mission.publicItem.missionId}`}>
@@ -34,10 +33,11 @@ function getActions(mission: MissionDetail, showInfoModal: () => void) {
                   iconType={"search"}
                   hoverTextId={ID_PREFIX + "actions.searchInstances"}/>
     </Link>,
+    <Link to={`/mission?missionId=${mission.publicItem.missionId}`}>
     <CardAction key={"info"}
                 iconType={"info"}
-                onClick={showInfoModal}
-                hoverTextId={ID_PREFIX + "actions.info"}/>,
+                hoverTextId={ID_PREFIX + "actions.info"}/>
+    </Link>
 
   ]
 }
@@ -49,10 +49,6 @@ export class RequesterMissionCard extends React.Component<Props, {}> {
 
   detail: MissionDetail;
 
-  showMissionDetailInfoModal = () => {
-    this.props.showDetail(this.detail);
-  };
-
   renderCard = async () => {
     this.detail = await this.missionService.getAMission(this.props.mission.missionId, this.userStore.token);
 
@@ -60,7 +56,7 @@ export class RequesterMissionCard extends React.Component<Props, {}> {
       <Card
         style={{width: 300}}
         cover={<img alt="example" src={this.props.mission.coverUrl}/>}
-        actions={getActions(this.detail, this.showMissionDetailInfoModal)}>
+        actions={getActions(this.detail)}>
         <Meta
           title={<Title mission={this.detail}/>}
           description={truncateText(this.props.mission.description)}

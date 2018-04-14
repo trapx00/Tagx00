@@ -20,6 +20,7 @@ public class MissionPublicItemVo implements Serializable {
     private int level;
     private int credits;
     private int minimalWorkerLevel;
+    private int jobCount;
 
     public MissionPublicItemVo() {
     }

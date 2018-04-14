@@ -5,6 +5,7 @@ import { ImageMissionDetail, ImageMissionType } from "../models/mission/image/Im
 import { ImageResult } from "../models/instance/image/ImageResult";
 import { WorkerService } from "../api/WorkerService";
 import { Injectable } from "react.di";
+import { MissionType } from "../models/mission/Mission";
 
 export interface ImageNotation<T extends ImageJob = ImageJob> {
   imageUrl: string;
@@ -44,6 +45,7 @@ export class ImageWorkStore {
   get currentInstanceDetail(): ImageInstanceDetail {
     const {instance} = this.initialDetail;
     return {
+      missionType: MissionType.IMAGE,
       imageResults: this.currentNotations.map((x, index) => ({
         id: index,
         instanceId: instance.instanceId,

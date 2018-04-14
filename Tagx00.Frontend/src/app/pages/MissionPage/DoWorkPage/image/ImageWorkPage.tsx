@@ -144,7 +144,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
 
     const {instanceDetail, missionDetail} = this.props;
 
-    return <div>
+    return <div style={{overflow: "hidden"}}>
       {this.store.initialized ? this.chooseWorkPage() : null}
       <div>
         <Progress percent={this.store.progress / this.store.totalCount * 100}
