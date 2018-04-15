@@ -1,5 +1,5 @@
 import { action, computed, observable } from "mobx";
-import { User, UserRole } from "../models/User";
+import { User, UserRole } from "../models/user/User";
 import { LoginResult } from "../api/UserService";
 import { localStorage } from './UiUtil';
 import { Injectable } from "react.di";
@@ -9,6 +9,7 @@ const USER_LOCALSTORAGE_KEY = "user";
 @Injectable
 export class UserStore {
   @observable user: User = null;
+
 
 
   @computed get loggedIn() {

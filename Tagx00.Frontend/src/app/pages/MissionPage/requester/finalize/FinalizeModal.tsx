@@ -7,6 +7,7 @@ import { Button, Modal } from 'antd';
 import { MissionFinalizeParameters } from "../../../../models/instance/MissionFinalizeParameters";
 import { LocaleMessage } from "../../../../internationalization/components";
 import { FinalizeForm } from "./FinalizeForm";
+import { PayService } from "../../../../api/PayService";
 
 interface Props {
   readonly: boolean;
@@ -35,6 +36,7 @@ export class FinalizeModal extends React.Component<Props, State> {
 
   @Inject requesterService: RequesterService;
   @Inject userStore: UserStore;
+  @Inject payService: PayService;
 
   state = {
     instanceId: this.props.instanceId,
@@ -52,31 +54,30 @@ export class FinalizeModal extends React.Component<Props, State> {
 
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    return { instanceId: nextProps.instanceId, initializingState: InitializingState.NotStarted }
+    return {instanceId: nextProps.instanceId, initializingState: InitializingState.NotStarted}
   }
 
-  @action initialParameters() {
+  @action async initialParameters() {
     if (this.state.initializingState === InitializingState.NotStarted) {
-      this.setState({ initializingState: InitializingState.Initializing});
+      this.setState({initializingState: InitializingState.Initializing});
       if (this.props.readonly) {
         this.parameters = new MissionFinalizeParameters();
+        this.setState({initializingState: InitializingState.Initialized});
       } else {
-        this.parameters = new MissionFinalizeParameters();
+        const res = await this.payService.getCredits(this.userStore.token);
+        this.parameters = new MissionFinalizeParameters(res.credits);
+        this.setState({ initializingState: InitializingState.Initialized});
       }
-      this.setState({  initializingState: InitializingState.Initialized });
     }
   }
 
   submit = async () => {
-    runInAction(() => {
-      this.parameters.submitAttempted = true
-  });
     if (!this.parameters.valid) {
       return;
     }
-    this.setState({ submitting: true});
+    this.setState({submitting: true});
     const res = await this.requesterService.finalize(this.props.instanceId, this.parameters, this.userStore.token);
-    this.setState({ submitting: false});
+    this.setState({submitting: false});
     Modal.success({
       title: "成功",
       onOk: this.goBack
@@ -98,8 +99,10 @@ export class FinalizeModal extends React.Component<Props, State> {
     }
 
     return [
-      <Button key={"submit"} type={"primary"} loading={this.state.submitting} onClick={this.submit}><LocaleMessage id={ID_PREFIX + "submit"}/></Button>,
-      <Button key={"default"} onClick={this.parameters.backToDefault}><LocaleMessage id={ID_PREFIX + "default"}/></Button>,
+      <Button key={"submit"} type={"primary"} loading={this.state.submitting} onClick={this.submit}><LocaleMessage
+        id={ID_PREFIX + "submit"}/></Button>,
+      <Button key={"default"} onClick={this.parameters.backToDefault}><LocaleMessage
+        id={ID_PREFIX + "default"}/></Button>,
       <Button key={"back"} onClick={this.goBack}><LocaleMessage id={ID_PREFIX + "back"}/></Button>
     ]
   }
@@ -112,7 +115,9 @@ export class FinalizeModal extends React.Component<Props, State> {
                   footer={this.selectFooter()}
     >
       {this.state.initializingState !== InitializingState.Initialized ? "initializing" :
-        <FinalizeForm value={this.parameters} readonly={this.props.readonly}/>
+        <FinalizeForm value={this.parameters}
+                      readonly={this.props.readonly}
+        />
       }
     </Modal>
   }

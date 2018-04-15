@@ -53,6 +53,16 @@ export const selfCenterPage: AsyncRouteConfig = {
   }
 };
 
+export const payPage: AsyncRouteConfig  = {
+  type: RouteType.Async,
+  exact: false,
+  path: "/pay",
+  render: async (props) => {
+    const Page = (await import("../PayPage")).PaymentPage;
+    return <Page/>
+  }
+};
+
 
 
 
@@ -62,5 +72,6 @@ export default [
   browsePage,
   registerPage,
   aboutPage,
+  payPage,
   selfCenterPage
 ]

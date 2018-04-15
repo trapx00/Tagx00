@@ -6,7 +6,7 @@ import { AsyncComponent } from "../../../router/AsyncComponent";
 import { parseQueryString } from "../../../router/utils";
 import { Inject } from "react.di";
 import { UserStore } from "../../../stores/UserStore";
-import { UserRole } from "../../../models/User";
+import { UserRole } from "../../../models/user/User";
 
 interface Props {
 

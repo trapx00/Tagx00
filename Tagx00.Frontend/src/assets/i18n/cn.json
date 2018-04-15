@@ -168,7 +168,9 @@
           "submit": "提交",
           "default": "恢复默认",
           "back": "返回",
-          "title": "评价"
+          "title": "评价",
+          "availableCredits": "可用积分：{credits}",
+          "creditsNotSufficient": "积分不足。可用积分：{credits}"
         }
       }
     }
@@ -214,5 +216,13 @@
   },
   "browserMissionList": {
     "dividerText": "任务列表"
+  },
+  "pay": {
+    "title": "充值",
+    "currentCredits": "现在的积分：",
+    "inputCredits": "请输入你要充值的金额：",
+    "submit": "充值",
+    "loading": "加载中",
+    "format": "输入应该是大于0的整数"
   }
 }

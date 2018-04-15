@@ -4,7 +4,7 @@ import { WorkerMissionPageSideMenu } from "./WorkerMissionPageSideMenu";
 import { SiderLayout } from "../../../layouts/SiderLayout";
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { parseQueryString } from "../../../router/utils";
-import { UserRole } from "../../../models/User";
+import { UserRole } from "../../../models/user/User";
 import { UserStore } from "../../../stores/UserStore";
 import { Inject } from "react.di";
 
