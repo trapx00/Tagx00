@@ -6,7 +6,7 @@ export const dashboardPage: AsyncRouteConfig = {
   exact: true,
   path: "/self/dashboard",
   render: async (props) => {
-    const Page = (await import("./DashboardPage")).DashboardPage;
+    const Page = (await import("./dashboard/index")).DashboardPage;
     return <Page/>;
   },
 };
