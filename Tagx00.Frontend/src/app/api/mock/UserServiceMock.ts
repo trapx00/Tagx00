@@ -17,6 +17,13 @@ export class UserServiceMock extends UserService {
       })
     }
 
+    else if(username === "admin") {
+        return new NetworkResponse(200, {
+            token: "123",
+            jwtRoles: [{authority: UserRole.ROLE_ADMIN}],
+            email: "1@1.com"
+        })
+    }
     return new NetworkResponse(200, {
         token: "123",
         jwtRoles: [{ authority: UserRole.ROLE_REQUESTER}],

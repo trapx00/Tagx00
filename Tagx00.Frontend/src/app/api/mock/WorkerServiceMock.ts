@@ -5,7 +5,7 @@ import { ImageInstanceDetail } from "../../models/instance/image/ImageInstanceDe
 import { InstanceDetail } from "../../models/instance/InstanceDetail";
 import { Response } from "../../models/Response";
 import { WorkerService } from "../WorkerService";
-import { MissionType } from "../../models/mission/Mission";
+import {WorkerInfo} from "../../models/userInfo/WorkerInfo";
 
 @Injectable
 export class WorkerServiceMock extends WorkerService {
@@ -14,11 +14,11 @@ export class WorkerServiceMock extends WorkerService {
     //mock
     return [1, 2, 3, 4, 5].map(x =>
       ({
-        instanceId: x+"",
+        instanceId: x,
         workerUsername: "123",
         title: `Title${x}`,
         description: `Description `.repeat(x),
-        missionId: "123",
+        missionId: 123,
         acceptDate: new Date(),
         submitDate: x % 2 === 0 ? new Date() : null,
         isSubmitted: x % 2 === 0,
@@ -31,19 +31,18 @@ export class WorkerServiceMock extends WorkerService {
 
   }
 
-  async getInstanceDetail(missionId: string, token: string): Promise<ImageInstanceDetail> {
+  async getInstanceDetail(missionId: number, token: string): Promise<ImageInstanceDetail> {
 
     // mock
     return {
-      missionType: MissionType.IMAGE,
       imageResults: [],
       instance:
         {
-          instanceId: "1",
+          instanceId: 1,
           workerUsername: "123",
           title: `Title`,
           description: `Description `,
-          missionId: missionId,
+          missionId: 123,
           acceptDate: new Date(),
           submitDate: null,
           isSubmitted: false,
@@ -54,18 +53,32 @@ export class WorkerServiceMock extends WorkerService {
     } as ImageInstanceDetail;
   }
 
-  async saveProgress(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
+  async saveProgress(missionId: number, detail: InstanceDetail, token: string): Promise<boolean> {
     return true;
   }
 
-  async submit(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
+  async submit(missionId: number, detail: InstanceDetail, token: string): Promise<boolean> {
     return true;
   }
 
-  async acceptMission(missionId: string, token: string): Promise<Response> {
+  async acceptMission(missionId: number, token: string): Promise<Response> {
     return {
       infoCode: 10000,
       description: "success"
     };
   }
+
+  async getWorkerInfo(username: string, token: string): Promise<WorkerInfo> {
+      return {
+          username: "worker",
+          email: "1@1.com",
+          credits: 23,
+          exp: 192,
+          level: 2,
+          completedMissionCount: 7,
+          acceptedMissionCount: 12,
+          inProgressMissionCount: 3,
+          abandonedMissionCount: 2,
+      } as WorkerInfo
+  };
 }
