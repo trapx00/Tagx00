@@ -1,9 +1,9 @@
 import { computed, observable } from "mobx";
-import { ImageMissionType } from "../../../models/mission/image/ImageMission";
+import { ImageMissionType } from "../../../../../models/mission/image/ImageMission";
 import { UploadFile } from "antd/lib/upload/interface";
-import { MissionCreate } from "../../../models/mission/create/MissionCreate";
-import { MissionType } from "../../../models/mission/Mission";
-import { ImageMissionProperties } from "../../../models/mission/image/ImageMissionProperties";
+import { MissionCreate } from "../../../../../models/mission/create/MissionCreate";
+import { MissionType } from "../../../../../models/mission/Mission";
+import { ImageMissionProperties } from "../../../../../models/mission/image/ImageMissionProperties";
 
 export class ImageMissionCreateInfo {
   @observable title: string = "";

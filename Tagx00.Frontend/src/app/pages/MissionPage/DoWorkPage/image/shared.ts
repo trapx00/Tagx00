@@ -1,6 +1,6 @@
-import { ImageNotation } from "../../../stores/ImageWorkStore";
-import { ImageMissionDetail } from "../../../models/mission/image/ImageMission";
-import { ImageJob } from "../../../models/instance/image/job/ImageJob";
+import { ImageNotation } from "../../../../stores/ImageWorkStore";
+import { ImageMissionDetail } from "../../../../models/mission/image/ImageMission";
+import { ImageJob } from "../../../../models/instance/image/job/ImageJob";
 
 export interface ImageWorkPageProps<T extends ImageJob> {
   notation: ImageNotation<T>;

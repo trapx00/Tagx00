@@ -1,7 +1,7 @@
 import { Injectable } from "react.di";
 import { NetworkResponse } from "../HttpService";
 import { LoginResult, UserRegisterConfirmationResponse, UserRegisterResponse, UserService } from "../UserService";
-import { UserRole } from "../../models/User";
+import { UserRole } from "../../models/user/User";
 import { HttpMethod } from "../utils";
 
 @Injectable

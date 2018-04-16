@@ -1,7 +1,8 @@
-import { MissionService } from "../MissionService";
+import { MissionService, TopicFetchResponse } from "../MissionService";
 import { ImageMissionDetail, ImageMissionType } from "../../models/mission/image/ImageMission";
 import { MissionPublicItem, MissionState, MissionType } from "../../models/mission/Mission";
 import { Injectable } from "react.di";
+import { HttpMethod } from "../utils";
 
 export const imgs = [
   "https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/0E/00/ChMkJlnJ4TOIAyeVAJqtjV-XTiAAAgzDAE7v40Amq2l708.jpg",
@@ -15,7 +16,7 @@ export const imgs = [
 @Injectable
 export class MissionServiceMock extends MissionService {
 
-  async getAMission(missionId: number, token: string): Promise<ImageMissionDetail> {
+  async getAMission(missionId: string, token: string): Promise<ImageMissionDetail> {
 
     return  {
       publicItem: {
@@ -28,7 +29,8 @@ export class MissionServiceMock extends MissionService {
         missionType: MissionType.IMAGE,
         start: new Date(),
         end: new Date(),
-        coverUrl: "https://desk-fd.zol-img.com.cn/t_s960x600c5/g3/M0A/0F/09/Cg-4WFRplp2IYqiNACQ0TQPPChQAARbPQEM84oAJDRl464.jpg"
+        coverUrl: "https://desk-fd.zol-img.com.cn/t_s960x600c5/g3/M0A/0F/09/Cg-4WFRplp2IYqiNACQ0TQPPChQAARbPQEM84oAJDRl464.jpg",
+        jobCount: 10
       },
       missionState: MissionState.ACTIVE,
       imageUrls: imgs,
@@ -48,7 +50,7 @@ export class MissionServiceMock extends MissionService {
     //mock
     return [1, 2, 3, 4, 5].map(x =>
       ({
-        missionId: x,
+        missionId: x+"",
         title: `Title${x}`,
         description: `Description `.repeat(x),
         topics: ["动物", "植物"],
@@ -58,8 +60,20 @@ export class MissionServiceMock extends MissionService {
         start: new Date(),
         end: new Date(),
         coverUrl: "http://pic1.16xx8.com/allimg/170801/1-1FP116442T62.jpg",
+        jobCount: 10
       })
     );
 
+  }
+
+  async getAllTopics(): Promise<TopicFetchResponse> {
+    return {
+      topics: [
+        {
+          topicId: 1,
+          value: "123"
+        }
+      ]
+    }
   }
 }

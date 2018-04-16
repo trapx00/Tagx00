@@ -23,7 +23,7 @@ export class WorkerService {
 
   }
 
-  async getInstanceDetail(missionId: number, token: string): Promise<ImageInstanceDetail> {
+  async getInstanceDetail(missionId: string, token: string): Promise<ImageInstanceDetail> {
 
 
     const res = await this.http.fetch({
@@ -33,7 +33,7 @@ export class WorkerService {
     return res.response.detail as ImageInstanceDetail;
   }
 
-  async saveProgress(missionId: number, detail: InstanceDetail, token: string): Promise<boolean> {
+  async saveProgress(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
     const res = await this.http.fetch({
       token: token,
       path: `/mission/worker/${missionId}`,
@@ -44,7 +44,7 @@ export class WorkerService {
     return res.ok;
   }
 
-  async submit(missionId: number, detail: InstanceDetail, token: string): Promise<boolean> {
+  async submit(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
     const res = await this.http.fetch({
       token: token,
       path: `/mission/worker/${missionId}`,
@@ -55,7 +55,7 @@ export class WorkerService {
     return res.ok;
   }
 
-  async acceptMission(missionId: number, token: string): Promise<Response> {
+  async acceptMission(missionId: string, token: string): Promise<Response> {
     const res = await this.http.fetch({
       path: `/mission/worker/${missionId}`,
       body: {instance: null},

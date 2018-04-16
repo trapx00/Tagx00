@@ -10,7 +10,7 @@ export enum MissionState {
 }
 
 export interface MissionPublicItem {
-  missionId: number;
+  missionId: string;
   title: string;
   description: string;
   topics: string[];
@@ -20,6 +20,7 @@ export interface MissionPublicItem {
   start: Date;
   end: Date;
   coverUrl: string;
+  jobCount: number;
 }
 
 export interface MissionDetail {

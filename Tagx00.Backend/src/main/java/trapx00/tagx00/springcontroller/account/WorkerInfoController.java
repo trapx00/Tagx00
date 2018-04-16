@@ -34,7 +34,7 @@ public class WorkerInfoController {
             @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
     public ResponseEntity<Response> info(@PathVariable("username") String username) {
-        return new ResponseEntity(workerInfoBlService.getWorkerInfo(username), HttpStatus.OK);
+        return new ResponseEntity<>(workerInfoBlService.getWorkerInfo(username), HttpStatus.OK);
     }
 
 }

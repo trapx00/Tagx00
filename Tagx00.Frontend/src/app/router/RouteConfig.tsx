@@ -31,7 +31,6 @@ export function constructRoute(config: KnownRouteConfig) {
       return <Route exact={config.exact} key={config.path} path={config.path}
                     render={props => <AsyncComponent render={config.render} props={props}/>}/>;
     case RouteType.Redirect:
-      return <Redirect exact={config.exact} key={config.path} path={config.path} to={config.to}/>
+      return <Redirect exact={config.exact} key={config.path} from={config.path} path={config.path} to={config.to}/>
   }
 }
-

@@ -5,7 +5,7 @@ import { FormComponentProps } from "antd/lib/form";
 import { observer } from "mobx-react";
 import { RegisterFormData, RegisterStore } from "./RegisterStore";
 import { Inject } from "react.di";
-import { UserRole } from "../../models/User";
+import { UserRole } from "../../models/user/User";
 
 interface RegisterFormProps extends FormComponentProps {
 }

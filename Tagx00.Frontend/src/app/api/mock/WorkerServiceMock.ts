@@ -6,6 +6,7 @@ import { InstanceDetail } from "../../models/instance/InstanceDetail";
 import { Response } from "../../models/Response";
 import { WorkerService } from "../WorkerService";
 import {WorkerInfo} from "../../models/userInfo/WorkerInfo";
+import { MissionType } from "../../models/mission/Mission";
 
 @Injectable
 export class WorkerServiceMock extends WorkerService {
@@ -14,11 +15,11 @@ export class WorkerServiceMock extends WorkerService {
     //mock
     return [1, 2, 3, 4, 5].map(x =>
       ({
-        instanceId: x,
+        instanceId: x+"",
         workerUsername: "123",
         title: `Title${x}`,
         description: `Description `.repeat(x),
-        missionId: 123,
+        missionId: "123",
         acceptDate: new Date(),
         submitDate: x % 2 === 0 ? new Date() : null,
         isSubmitted: x % 2 === 0,
@@ -31,37 +32,36 @@ export class WorkerServiceMock extends WorkerService {
 
   }
 
-  async getInstanceDetail(missionId: number, token: string): Promise<ImageInstanceDetail> {
+  async getInstanceDetail(missionId: string, token: string): Promise<ImageInstanceDetail> {
 
     // mock
     return {
       imageResults: [],
-      instance:
-        {
-          instanceId: 1,
+      instance: {
+          instanceId: 1+"",
           workerUsername: "123",
           title: `Title`,
           description: `Description `,
-          missionId: 123,
+          missionId: missionId,
           acceptDate: new Date(),
           submitDate: null,
           isSubmitted: false,
           completedJobsCount: 0,
           missionInstanceState: MissionInstanceState.IN_PROGRESS,
-        }
-
+        },
+        missionType: MissionType.IMAGE,
     } as ImageInstanceDetail;
   }
 
-  async saveProgress(missionId: number, detail: InstanceDetail, token: string): Promise<boolean> {
+  async saveProgress(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
     return true;
   }
 
-  async submit(missionId: number, detail: InstanceDetail, token: string): Promise<boolean> {
+  async submit(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
     return true;
   }
 
-  async acceptMission(missionId: number, token: string): Promise<Response> {
+  async acceptMission(missionId: string, token: string): Promise<Response> {
     return {
       infoCode: 10000,
       description: "success"

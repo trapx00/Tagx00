@@ -68,7 +68,7 @@ public class RequesterMissionController {
             @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "credits", value = "积分", required = true, dataType = "int"),
     })
-    @RequestMapping(value = "/mission/requester/{missionId}", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/mission/requester/mission/{missionId}", method = RequestMethod.PATCH)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success", response = MissionChargeResponse.class),
             @ApiResponse(code = 400, message = "mission not active or remaining credits not enough", response = WrongResponse.class),
@@ -92,7 +92,7 @@ public class RequesterMissionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
     })
-    @RequestMapping(value = "/mission/requester/{missionId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/mission/requester/mission/{missionId}", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success", response = MissionRequestQueryResponse.class),
             @ApiResponse(code = 401, message = "Unauthorized", response = WrongResponse.class),
@@ -156,7 +156,7 @@ public class RequesterMissionController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
     })
-    @RequestMapping(value = "/mission/requester/{missionId}/instances/", method = RequestMethod.GET)
+    @RequestMapping(value = "/mission/requester/instances/", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Returns instances of the mission", response = InstanceResponse.class),
             @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
@@ -164,7 +164,7 @@ public class RequesterMissionController {
             @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> queryInstances(@PathVariable("missionId") String missionId) {
+    public ResponseEntity<Response> queryInstances(@RequestParam("missionId") String missionId) {
         try {
             return new ResponseEntity<>(requesterMissionBlService.queryInstances(missionId), HttpStatus.OK);
         } catch (InstanceNotExistException e) {
@@ -179,7 +179,7 @@ public class RequesterMissionController {
             @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path"),
             @ApiImplicitParam(name = "instanceId", value = "实例ID", required = true, dataType = "int", paramType = "path")
     })
-    @RequestMapping(value = "/mission/requester/{missionId}/instances/{instanceId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/mission/requester/instances/{instanceId}", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Returns the instance", response = InstanceDetailResponse.class),
             @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
@@ -204,7 +204,7 @@ public class RequesterMissionController {
             @ApiImplicitParam(name = "instanceId", value = "实例ID", required = true, dataType = "int", paramType = "path")
             //to add
     })
-    @RequestMapping(value = "/mission/requester/{missionId}/instances/{instanceId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/mission/requester/instances/{instanceId}", method = RequestMethod.POST)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Complete", response = InstanceDetailResponse.class),
             @ApiResponse(code = 400, message = "Instance not submitted"),

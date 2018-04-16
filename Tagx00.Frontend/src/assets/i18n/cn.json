@@ -29,7 +29,8 @@
       "cardState": {
         "submitted": "已提交",
         "abandoned": "已放弃",
-        "inProgress": "正在进行"
+        "inProgress": "正在进行",
+        "finalized": "已结束"
       },
       "cardActions": {
         "continue": "继续做任务",
@@ -108,13 +109,22 @@
   "missions": {
     "needLogin": "请先登录",
     "createMission": {
-      "title": "创建任务"
+      "title": "创建任务",
+      "completeCreation": {
+        "title": "任务创建成功",
+        "description": "任务已经创建。{to}查看任务详细信息",
+        "to": "点击这里"
+      }
     },
     "sideMenu": {
       "mission": "任务",
       "instance": "实例"
     },
     "requester": {
+      "mission": {
+        "title": "任务",
+        "add": "新增任务"
+      },
       "missionCard": {
         "missionState": {
           "PENDING": "未生效",
@@ -124,6 +134,43 @@
         "actions": {
           "searchInstances": "查找所有实例",
           "info": "任务信息"
+        }
+      },
+      "missionDetail": {
+        "title": "任务详情"
+      },
+      "instancePanel": {
+        "title": "实例",
+        "search": {
+          "placeholder": "任务ID"
+        },
+        "table": {
+          "dateFormat": "YYYY/MM/DD HH:mm:SS",
+          "instanceId": "实例ID",
+          "missionId": "任务ID",
+          "workerUsername": "工人用户名",
+          "missionInstanceState": "实例状态",
+          "dateRange": "时间段",
+          "inProgress": "正在进行",
+          "acceptDate": "接受时间",
+          "submitDate": "提交时间",
+          "action": "操作",
+          "seeResult": "查看结果",
+          "finalize": "评分",
+          "finalizeResult": "查看评分结果"
+        },
+        "finalize": {
+          "expRatio": "经验比例",
+          "credits": "给予积分",
+          "comment": "评价",
+          "requireExpRatio": "请输入有效的经验比例(0.0,1.0]",
+          "requireCredits": "请输入有效的积分数（非负整数）",
+          "submit": "提交",
+          "default": "恢复默认",
+          "back": "返回",
+          "title": "评价",
+          "availableCredits": "可用积分：{credits}",
+          "creditsNotSufficient": "积分不足。可用积分：{credits}"
         }
       }
     }
@@ -169,5 +216,13 @@
   },
   "browserMissionList": {
     "dividerText": "任务列表"
+  },
+  "pay": {
+    "title": "充值",
+    "currentCredits": "现在的积分：",
+    "inputCredits": "请输入你要充值的金额：",
+    "submit": "充值",
+    "loading": "加载中",
+    "format": "输入应该是大于0的整数"
   }
 }

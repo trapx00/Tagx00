@@ -3,7 +3,7 @@ import { ImageJob } from "./job/ImageJob";
 export interface ImageResult {
   id: number;
 
-  instanceId: number;
+  instanceId: string;
 
   imageJob: ImageJob;
 

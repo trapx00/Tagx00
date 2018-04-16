@@ -8,14 +8,18 @@ interface AsyncComponentProps<T> {
   componentProducerWhenLoadingFailed?: (e) => ReactNode;
 }
 
-interface State {
+interface State<T> {
+  render: (props: T) => Promise<ReactNode>;
+  props?: T;
   component: ReactNode;
   loaded: boolean;
 }
 
-export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, State> {
+export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, State<T>> {
 
   state = {
+    render: this.props.render,
+    props: this.props.props,
     component: this.props.componentWhenLoading || null,
     loaded: false
   };
@@ -23,15 +27,19 @@ export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, S
   async loadComponent() {
     try {
       const component = await this.props.render(this.props.props);
-      this.setState({component});
+      this.setState({component, loaded: true});
     } catch (e) {
-
       if (this.props.componentProducerWhenLoadingFailed) {
         this.setState({
-          component: this.props.componentProducerWhenLoadingFailed(e)});
+            component: this.props.componentProducerWhenLoadingFailed(e),
+            loaded: true
+          }
+        );
       }
     }
-    this.setState({ loaded: true });
+  }
+
+  componentWillUnmount() {
   }
 
   componentDidMount() {
@@ -45,8 +53,14 @@ export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, S
 
   }
 
-  static getDerivedStateFromProps(nextProps) {
-    return {loaded: false};
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.render !==  prevState.render || nextProps.props !== prevState.props) {
+      console.log("render needed");
+      return {render: nextProps.render, props: nextProps.props, loaded: false};
+    } else {
+      return null;
+    }
+
   }
 
   render() {

@@ -1,11 +1,12 @@
 import React from 'react';
-import { UserStore } from "../../../stores/UserStore";
+import { UserStore } from "../../../../stores/UserStore";
 import { observer } from "mobx-react";
 import { observable } from "mobx";
-import { ImageMissionType } from "../../../models/mission/image/ImageMission";
+import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import { Form } from 'antd';
-import { ImageMissionCreateInfoForm } from "../../../components/MissionCreate/ImageMissionCreateInfoForm";
+import { ImageMissionCreateInfoForm } from "./ImageMissionCreateInfoForm";
 import { Inject } from "react.di";
+import { LocaleMessage } from "../../../../internationalization/components";
 
 const FormItem = Form.Item;
 
@@ -24,8 +25,7 @@ export class ImageMissionCreatePage extends React.Component<Props, {}> {
 
   render() {
     return <div>
-      <h1>新增图片任务</h1>
-
+      <h1><LocaleMessage id={"missions.createMission.title"}/></h1>
       <ImageMissionCreateInfoForm token={this.userStore.user.token}/>
     </div>;
   }

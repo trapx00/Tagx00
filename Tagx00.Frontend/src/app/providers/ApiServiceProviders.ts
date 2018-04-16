@@ -8,14 +8,17 @@ import { WorkerServiceMock } from "../api/mock/WorkerServiceMock";
 import { RequesterService } from "../api/RequesterService";
 import { RequesterServiceMock } from "../api/mock/RequesterServiceMock";
 import { HttpService } from "../api/HttpService";
-import {AdminService} from "../api/AdminService";
-import {AdminServiceMock} from "../api/mock/AdminServiceMock";
+import { AdminService } from "../api/AdminService";
+import { AdminServiceMock } from "../api/mock/AdminServiceMock";
+import { PayService } from "../api/PayService";
+import { PayServiceMock } from "../api/mock/PayServiceMock";
 
 export const apiServiceProviders: Binding[] = [
   {provide: MissionService, useClass: MissionServiceMock},
-  {provide: UserService, useClass: UserServiceMock },
+  {provide: UserService, useClass: UserServiceMock},
   {provide: WorkerService, useClass: WorkerServiceMock},
   {provide: RequesterService, useClass: RequesterServiceMock},
-    {provide: AdminService, useClass: AdminServiceMock},
+  {provide: AdminService, useClass: AdminServiceMock},
+  {provide: PayService, useClass: PayServiceMock},
   {provide: HttpService, useClass: HttpService}
 ];
