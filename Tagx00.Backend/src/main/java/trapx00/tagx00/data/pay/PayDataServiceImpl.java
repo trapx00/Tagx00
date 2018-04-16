@@ -12,6 +12,7 @@ import trapx00.tagx00.vo.mission.pay.PayVo;
 public class PayDataServiceImpl implements PayDataService {
     private final UserDao userDao;
     @Autowired
+
     public PayDataServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
