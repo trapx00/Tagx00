@@ -4,13 +4,13 @@ import {Injectable} from "react.di";
 export class LevelStore {
     levels: number[];
 
-    async getLevenInfo() {
-        this.levels = [1,2,3];
+    async getLevelInfo() {
+        
     }
 
     async getNextLevelExp(exp: number) {
         if (!this.levels) {
-            await this.getLevenInfo();
+            await this.getLevelInfo();
         }
 
         for (let i=0;i<this.levels.length-1;i++) {

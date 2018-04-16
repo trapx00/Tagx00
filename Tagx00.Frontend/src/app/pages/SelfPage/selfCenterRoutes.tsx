@@ -26,7 +26,7 @@ export const personalInfoPage: AsyncRouteConfig = {
   exact: true,
   path: "/self/personalInfo",
   render: async (props) => {
-    const Page = (await import("./PersonalInfoPage")).PersonalInfoPage;
+    const Page = (await import("./personalInfo/index")).PersonalInfoPage;
     return <Page/>;
   },
 };
