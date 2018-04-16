@@ -35,16 +35,19 @@ export class WorkerMissionPage extends React.Component<Props, {}> {
     if (this.userStore.user.role !== UserRole.ROLE_WORKER) {
       return "You are not a worker!";
     }
-    return <SiderLayout leftSider={<WorkerMissionPageSideMenu/>}>
-      <Switch>
-        <Route exact path={"/mission/worker"}
-               render={props => <AsyncComponent render={renderMissionPanel}/>}/>
-        <Route exact path={"/mission/worker/:missionId"}
-               render={props => <AsyncComponent render={renderSeeResult} props={props}/>}/>
-        <Route exact path={"/mission/worker/:missionId/doWork"}
-               render={props => <AsyncComponent render={renderDoWork} props={props}/>}/>
+    return <Switch>
+      <Route exact path={"/mission/worker/:missionId"}
+             render={props => <AsyncComponent render={renderSeeResult} props={props}/>}/>
+      <Route exact path={"/mission/worker/:missionId/doWork"}
+             render={props => <AsyncComponent render={renderDoWork} props={props}/>}/>
+      <Route render={() => <SiderLayout leftSider={<WorkerMissionPageSideMenu/>}>
+        <Switch>
+          <Route exact path={"/mission/worker"}
+                 render={props => <AsyncComponent render={renderMissionPanel}/>}/>
+        </Switch>
+      </SiderLayout>}/>
+    </Switch>;
 
-      </Switch>
-    </SiderLayout>;
+
   }
 }

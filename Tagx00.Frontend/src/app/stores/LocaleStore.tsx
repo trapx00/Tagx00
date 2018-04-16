@@ -2,6 +2,7 @@ import { action, computed, observable, runInAction } from "mobx";
 import React, { ReactNode } from "react"
 import config from '../../assets/i18n/index.json';
 import { Injectable } from "react.di";
+import immer from "immer";
 
 interface Language {
   id: string;
@@ -46,6 +47,9 @@ function format(content: string, replacements?: ReplacementMap) : Array<ReactNod
       }
     }
   }
+
+  const f: (a) => any = immer((a) => {});
+
   if (elementReplaced) {
     return newArray;
   } else {

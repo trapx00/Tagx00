@@ -28,7 +28,7 @@ export class WorkerInstanceCard extends React.Component<Props, any> {
 
   goToDoMission = () => {
     const missionId = this.props.instance.missionId;
-    this.routerStore.jumpTo(`/mission/${missionId}/doWork`);
+    this.routerStore.jumpTo(`/mission/worker/${missionId}/doWork`);
   };
 
   abandonMission = () => {
@@ -37,7 +37,7 @@ export class WorkerInstanceCard extends React.Component<Props, any> {
 
   goDetail = () => {
     const missionId = this.props.instance.missionId;
-    this.routerStore.jumpTo(`/mission/${missionId}/result`);
+    this.routerStore.jumpTo(`/mission/worker/${missionId}`);
   };
 
   title(title: string) {

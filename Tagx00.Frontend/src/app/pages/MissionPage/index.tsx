@@ -7,6 +7,7 @@ import { AsyncComponent } from "../../router/AsyncComponent";
 import { Location } from "history";
 import { parseQueryString } from "../../router/utils";
 import { MissionDetailPage } from "./MissionDetailPage";
+import { UserRole } from "../../models/user/User";
 
 
 async function renderRequester() {
@@ -18,6 +19,11 @@ async function renderWorker() {
   const Page = (await import("./worker")).WorkerMissionPage;
   return <Page/>;
 }
+
+const redirectMap = {
+  [UserRole.ROLE_REQUESTER]: "requester",
+  [UserRole.ROLE_WORKER]: "worker"
+};
 
 class MissionPageRoot extends React.Component<{redirectTo: string, search: string}, {}> {
   render() {
@@ -37,9 +43,8 @@ export class MissionPage extends React.Component<{location: Location}> {
   @Inject userStore: UserStore;
 
   render() {
-    console.log("render");
     if (this.userStore.loggedIn) {
-      const redirectTo = this.userStore.user.role.split("_")[1].toLowerCase();
+      const redirectTo = redirectMap[this.userStore.user.role];
       return <Switch>
         <Route exact path={"/mission"} render={props => <MissionPageRoot search={props.location.search} redirectTo={redirectTo} />}/>
         <Route path={"/mission/requester"} render={() => <AsyncComponent render={renderRequester}/>}/>
