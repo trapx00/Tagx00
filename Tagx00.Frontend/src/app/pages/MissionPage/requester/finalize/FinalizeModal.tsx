@@ -8,6 +8,7 @@ import { MissionFinalizeParameters } from "../../../../models/instance/MissionFi
 import { LocaleMessage } from "../../../../internationalization/components";
 import { FinalizeForm } from "./FinalizeForm";
 import { PayService } from "../../../../api/PayService";
+import { InstanceDetailResponse } from "../../../../models/response/mission/InstanceDetailResponse";
 
 interface Props {
   readonly: boolean;
@@ -61,13 +62,15 @@ export class FinalizeModal extends React.Component<Props, State> {
     if (this.state.initializingState === InitializingState.NotStarted) {
       this.setState({initializingState: InitializingState.Initializing});
       if (this.props.readonly) {
+        const detail: InstanceDetailResponse = await this.requesterService.getInstanceDetail(this.props.instanceId, this.userStore.token);
+        const { expRatio, credits, comment  } = detail.detail.instance;
         this.parameters = new MissionFinalizeParameters();
-        this.setState({initializingState: InitializingState.Initialized});
+        this.parameters.value = { expRatio, credits, comment };
       } else {
         const res = await this.payService.getCredits(this.userStore.token);
         this.parameters = new MissionFinalizeParameters(res.credits);
-        this.setState({ initializingState: InitializingState.Initialized});
       }
+      this.setState({initializingState: InitializingState.Initialized});
     }
   }
 
@@ -76,7 +79,7 @@ export class FinalizeModal extends React.Component<Props, State> {
       return;
     }
     this.setState({submitting: true});
-    const res = await this.requesterService.finalize(this.props.instanceId, this.parameters, this.userStore.token);
+    const res = await this.requesterService.finalize(this.props.instanceId, this.parameters.value, this.userStore.token);
     this.setState({submitting: false});
     Modal.success({
       title: "成功",

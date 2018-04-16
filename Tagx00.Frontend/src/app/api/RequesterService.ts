@@ -6,6 +6,9 @@ import { ImageUploadResponse } from "../models/mission/image/ImageUploadResponse
 import { Inject, Injectable } from "react.di";
 import { MissionPublicResponse } from "../models/response/mission/MissionPublicResponse";
 import { RequesterInfo } from "../models/userInfo/RequesterInfo";
+import { InstanceResponse } from "../models/response/mission/InstanceResponse";
+import { MissionFinalizeParameters, MissionFinalizeVo } from "../models/instance/MissionFinalizeParameters";
+import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
 
 @Injectable
 export class RequesterService {
@@ -45,12 +48,44 @@ export class RequesterService {
     return res.response;
   }
 
-    async getRequesterInfo(username: string, token: string): Promise<RequesterInfo> {
-        const res = await this.http.fetch({
-            path: `/account/requester/${username}`,
-            token: token,
-        });
+  async getRequesterInfo(username: string, token: string): Promise<RequesterInfo> {
+    const res = await this.http.fetch({
+      path: `/account/requester/${username}`,
+      token: token,
+    });
 
-        return res.response.instances as RequesterInfo;
-    }
+    return res.response.instances as RequesterInfo;
+  }
+
+  async finalize(instanceId: string, parameters: MissionFinalizeVo, token: string): Promise<InstanceDetailResponse> {
+    const res = await this.http.fetch({
+      path: `/mission/requester/instances/${instanceId}`,
+      method: HttpMethod.POST,
+      body: parameters,
+      token
+    });
+
+    return res.response;
+  }
+
+
+  async getAllInstancesByMissionId(missionId: string, token: string): Promise<InstanceResponse> {
+    const res = await this.http.fetch({
+      method: HttpMethod.GET,
+      path: `/mission/requester/instances/`,
+      queryParams: missionId ? {missionId} : {},
+      token
+    });
+    return res.response;
+  }
+
+  async getInstanceDetail(instanceId: string, token: string): Promise<InstanceDetailResponse> {
+    const res = await this.http.fetch({
+      path: `/mission/requester/instances/${instanceId}`,
+      token
+    });
+
+    return res.response;
+  }
+
 }

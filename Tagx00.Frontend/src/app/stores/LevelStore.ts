@@ -1,23 +1,23 @@
-import {Injectable} from "react.di";
+import { Injectable } from "react.di";
 
 @Injectable
 export class LevelStore {
-    levels: number[];
+  levels: number[];
 
-    async getLevenInfo() {
-        this.levels = [1,2,3];
+  async getLevelInfo() {
+    this.levels = [1, 2, 3];
+  }
+
+  async getNextLevelExp(exp: number) {
+    if (!this.levels) {
+      await this.getLevelInfo();
     }
 
-    async getNextLevelExp(exp: number) {
-        if (!this.levels) {
-            await this.getLevenInfo();
-        }
-
-        for (let i=0;i<this.levels.length-1;i++) {
-            if (this.levels[i] <= exp && exp < this.levels[i+1]) {
-                return this.levels[i+1];
-            }
-        }
-        return -1; // max level
+    for (let i = 0; i < this.levels.length - 1; i++) {
+      if (this.levels[i] <= exp && exp < this.levels[i + 1]) {
+        return this.levels[i + 1];
+      }
     }
+    return -1; // max level
+  }
 }

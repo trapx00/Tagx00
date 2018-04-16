@@ -1,7 +1,7 @@
 import { action, computed, observable } from "mobx";
 
 
-interface MissionFinalizeVo {
+export interface MissionFinalizeVo {
   expRatio: number;
   credits: number;
   comment: string;
