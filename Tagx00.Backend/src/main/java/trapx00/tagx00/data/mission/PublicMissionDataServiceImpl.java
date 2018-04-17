@@ -66,7 +66,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                             MissionUtil.addTypeToId(missionId, missionType), mission.getTitle(), mission.getDescription(), mission.getTopics(),
                             mission.isAllowCustomTag(), mission.getAllowedTags(), mission.getMissionType(),
                             mission.getStart(), mission.getEnd(), mission.getCoverUrl(), mission.getRequesterUsername()
-                    ), mission.getMissionState(), mission.getImageUrls(), mission.getImageMissionTypes());
+                    ), mission.getMissionState(), mission.getRequesterUsername(), mission.getImageUrls(), mission.getImageMissionTypes());
                 }
                 break;
         }
