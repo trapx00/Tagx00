@@ -1,8 +1,8 @@
-import React from 'react';
-import { MissionFinalizeParameters } from "../../../../models/instance/MissionFinalizeParameters";
+import React, { ReactNode } from 'react';
+import { CreditStatus, MissionFinalizeParameters } from "../../../../models/instance/MissionFinalizeParameters";
 import { FormItemProps } from "antd/lib/form/FormItem";
 import { Form, Input, Icon } from 'antd';
-import { Localize } from "../../../../internationalization/components";
+import { LocaleMessage, Localize } from "../../../../internationalization/components";
 import { observer } from "mobx-react";
 import { action } from "mobx";
 const FormItem = Form.Item;
@@ -18,6 +18,7 @@ function formItemProps(valid: boolean, error: string): FormItemProps  {
     help: valid? null : error
   };
 }
+
 
 const ID_PREFIX = "missions.requester.instancePanel.finalize.";
 
@@ -48,6 +49,28 @@ export class FinalizeForm extends React.Component<Props, {}> {
     this.props.value.comment = e.target.value;
   };
 
+
+  selectCreditsFormProps(): FormItemProps {
+    switch (this.props.value.creditsStatus) {
+      case CreditStatus.WrongFormat:
+        return {
+          validateStatus: "error",
+          help: <LocaleMessage id={ID_PREFIX + "requireCredits"}/>
+        };
+      case CreditStatus.Acceptable:
+        return {
+          validateStatus: "success",
+          help: <LocaleMessage id={ID_PREFIX + "availableCredits"} replacements={{ credits: this.props.value.availableCredits+""}}/>
+        };
+      case CreditStatus.CreditsNotSufficient:
+        return {
+          validateStatus: "error",
+          help: <LocaleMessage id={ID_PREFIX + "creditsNotSufficient"} replacements={{ credits: this.props.value.availableCredits + ""}}/>
+
+        }
+    }
+  }
+
   render() {
     const { value } = this.props;
     return <Localize replacements={props}>
@@ -62,7 +85,7 @@ export class FinalizeForm extends React.Component<Props, {}> {
                    value={value.expRatio}
             />
           </FormItem>
-          <FormItem  {...formItemProps(value.creditsValid, props.requireCredits)}>
+          <FormItem  {...this.selectCreditsFormProps()}>
             <Input addonBefore={props.credits}
                    disabled={this.props.readonly}
                    onChange={this.onCreditsChange}

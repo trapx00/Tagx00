@@ -5,6 +5,7 @@ import { ImageInstanceDetail } from "../../models/instance/image/ImageInstanceDe
 import { InstanceDetail } from "../../models/instance/InstanceDetail";
 import { Response } from "../../models/Response";
 import { WorkerService } from "../WorkerService";
+import {WorkerInfo} from "../../models/userInfo/WorkerInfo";
 import { MissionType } from "../../models/mission/Mission";
 
 @Injectable
@@ -35,11 +36,9 @@ export class WorkerServiceMock extends WorkerService {
 
     // mock
     return {
-      missionType: MissionType.IMAGE,
       imageResults: [],
-      instance:
-        {
-          instanceId: "1",
+      instance: {
+          instanceId: 1+"",
           workerUsername: "123",
           title: `Title`,
           description: `Description `,
@@ -49,8 +48,8 @@ export class WorkerServiceMock extends WorkerService {
           isSubmitted: false,
           completedJobsCount: 0,
           missionInstanceState: MissionInstanceState.IN_PROGRESS,
-        }
-
+        },
+        missionType: MissionType.IMAGE,
     } as ImageInstanceDetail;
   }
 
@@ -68,4 +67,18 @@ export class WorkerServiceMock extends WorkerService {
       description: "success"
     };
   }
+
+  async getWorkerInfo(username: string, token: string): Promise<WorkerInfo> {
+      return {
+          username: "worker",
+          email: "1@1.com",
+          credits: 23,
+          exp: 192,
+          level: 2,
+          completedMissionCount: 7,
+          acceptedMissionCount: 12,
+          inProgressMissionCount: 3,
+          abandonedMissionCount: 2,
+      } as WorkerInfo
+  };
 }

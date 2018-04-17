@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 import { Inject, Injectable } from "react.di";
 import { UserService } from "../../api/UserService";
-import { UserRole } from "../../models/User";
+import { UserRole } from "../../models/user/User";
 
 
 export interface RegisterFormData {

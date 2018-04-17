@@ -1,7 +1,7 @@
 import { Injectable } from "react.di";
 import { NetworkResponse } from "../HttpService";
 import { LoginResult, UserRegisterConfirmationResponse, UserRegisterResponse, UserService } from "../UserService";
-import { UserRole } from "../../models/User";
+import { UserRole } from "../../models/user/User";
 import { HttpMethod } from "../utils";
 
 @Injectable
@@ -17,6 +17,13 @@ export class UserServiceMock extends UserService {
       })
     }
 
+    else if(username === "admin") {
+        return new NetworkResponse(200, {
+            token: "123",
+            jwtRoles: [{authority: UserRole.ROLE_ADMIN}],
+            email: "1@1.com"
+        })
+    }
     return new NetworkResponse(200, {
         token: "123",
         jwtRoles: [{ authority: UserRole.ROLE_REQUESTER}],

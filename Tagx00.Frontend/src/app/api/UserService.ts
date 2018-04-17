@@ -1,7 +1,7 @@
 import { HttpService, NetworkResponse } from "./HttpService";
 import { HttpMethod } from "./utils";
 import { Inject, Injectable } from "react.di";
-import { UserRole } from "../models/User";
+import { UserRole } from "../models/user/User";
 
 export interface LoginResult {
   token: string,

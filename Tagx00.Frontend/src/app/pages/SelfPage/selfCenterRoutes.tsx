@@ -6,7 +6,7 @@ export const dashboardPage: AsyncRouteConfig = {
   exact: true,
   path: "/self/dashboard",
   render: async (props) => {
-    const Page = (await import("./DashboardPage")).DashboardPage;
+    const Page = (await import("./dashboard/index")).DashboardPage;
     return <Page/>;
   },
 };
@@ -26,7 +26,7 @@ export const personalInfoPage: AsyncRouteConfig = {
   exact: true,
   path: "/self/personalInfo",
   render: async (props) => {
-    const Page = (await import("./PersonalInfoPage")).PersonalInfoPage;
+    const Page = (await import("./personalInfo/index")).PersonalInfoPage;
     return <Page/>;
   },
 };

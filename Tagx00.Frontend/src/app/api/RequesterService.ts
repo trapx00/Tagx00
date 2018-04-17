@@ -5,10 +5,10 @@ import { HttpMethod } from "./utils";
 import { ImageUploadResponse } from "../models/mission/image/ImageUploadResponse";
 import { Inject, Injectable } from "react.di";
 import { MissionPublicResponse } from "../models/response/mission/MissionPublicResponse";
-import { waitForMs } from "../../utils/Wait";
+import { RequesterInfo } from "../models/userInfo/RequesterInfo";
 import { InstanceResponse } from "../models/response/mission/InstanceResponse";
+import { MissionFinalizeParameters, MissionFinalizeVo } from "../models/instance/MissionFinalizeParameters";
 import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
-import { MissionFinalizeParameters } from "../models/instance/MissionFinalizeParameters";
 
 @Injectable
 export class RequesterService {
@@ -48,7 +48,28 @@ export class RequesterService {
     return res.response;
   }
 
-  async getAllInstancesByMissionId(missionId: string, token: string) : Promise<InstanceResponse> {
+  async getRequesterInfo(username: string, token: string): Promise<RequesterInfo> {
+    const res = await this.http.fetch({
+      path: `/account/requester/${username}`,
+      token: token,
+    });
+
+    return res.response.instances as RequesterInfo;
+  }
+
+  async finalize(instanceId: string, parameters: MissionFinalizeVo, token: string): Promise<InstanceDetailResponse> {
+    const res = await this.http.fetch({
+      path: `/mission/requester/instances/${instanceId}`,
+      method: HttpMethod.POST,
+      body: parameters,
+      token
+    });
+
+    return res.response;
+  }
+
+
+  async getAllInstancesByMissionId(missionId: string, token: string): Promise<InstanceResponse> {
     const res = await this.http.fetch({
       method: HttpMethod.GET,
       path: `/mission/requester/instances/`,
@@ -58,7 +79,7 @@ export class RequesterService {
     return res.response;
   }
 
-  async getInstanceDetail(instanceId: string, token: string) : Promise<InstanceDetailResponse> {
+  async getInstanceDetail(instanceId: string, token: string): Promise<InstanceDetailResponse> {
     const res = await this.http.fetch({
       path: `/mission/requester/instances/${instanceId}`,
       token
@@ -67,15 +88,4 @@ export class RequesterService {
     return res.response;
   }
 
-
-  async finalize(instanceId: string, parameters: MissionFinalizeParameters, token: string) : Promise<InstanceDetailResponse> {
-    const res = await this.http.fetch({
-      path: `/mission/requester/instances/${instanceId}`,
-      method: HttpMethod.POST,
-      body: parameters.value,
-      token
-    });
-
-    return res.response;
-  }
 }

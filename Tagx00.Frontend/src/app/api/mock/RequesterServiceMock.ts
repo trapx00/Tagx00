@@ -4,13 +4,14 @@ import { Injectable } from "react.di";
 import { MissionCreate } from "../../models/mission/create/MissionCreate";
 import { RequesterService } from "../RequesterService";
 import { MissionPublicResponse } from "../../models/response/mission/MissionPublicResponse";
+import { HttpMethod } from "../utils";
 import { MissionType } from "../../models/mission/Mission";
-import { InstanceResponse } from "../../models/response/mission/InstanceResponse";
+import { RequesterInfo} from "../../models/userInfo/RequesterInfo";
+import { ImageInstanceDetail } from "../../models/instance/image/ImageInstanceDetail";
 import { MissionInstanceState } from "../../models/instance/MissionInstanceState";
 import { InstanceDetailResponse } from "../../models/response/mission/InstanceDetailResponse";
-import { ImageInstanceDetail } from "../../models/instance/image/ImageInstanceDetail";
-import { HttpMethod } from "../utils";
-import { MissionFinalizeParameters } from "../../models/instance/MissionFinalizeParameters";
+import { MissionFinalizeParameters, MissionFinalizeVo } from "../../models/instance/MissionFinalizeParameters";
+import { InstanceResponse } from "../../models/response/mission/InstanceResponse";
 
 @Injectable
 export class RequesterServiceMock extends RequesterService {
@@ -52,7 +53,19 @@ export class RequesterServiceMock extends RequesterService {
         })
       )
     }
-  }
+  };
+
+  async getRequesterInfo(username: string, token: string): Promise<RequesterInfo> {
+      return {
+          username: "123",
+          email: "1@1.com",
+          submittedMissionCount: 10,
+          instanceCount: 900,
+          awaitingCommentInstanceCount: 300,
+          inProgressInstanceCount: 300,
+          finalizedInstanceCount: 300,
+      } as RequesterInfo;
+  };
 
   async getAllInstancesByMissionId(missionId: string, token: string): Promise<InstanceResponse> {
     return {
@@ -74,6 +87,7 @@ export class RequesterServiceMock extends RequesterService {
       )
     };
   }
+
 
   async getInstanceDetail(instanceId: string, token: string): Promise<InstanceDetailResponse> {
     return {
@@ -99,7 +113,7 @@ export class RequesterServiceMock extends RequesterService {
     }
   }
 
-  async finalize(instanceId: string, parameters: MissionFinalizeParameters, token: string) : Promise<InstanceDetailResponse> {
+  async finalize(instanceId: string, parameters: MissionFinalizeVo, token: string) : Promise<InstanceDetailResponse> {
     return {
       detail:
         {
@@ -122,5 +136,6 @@ export class RequesterServiceMock extends RequesterService {
         } as ImageInstanceDetail
     }
   }
+
 
 }

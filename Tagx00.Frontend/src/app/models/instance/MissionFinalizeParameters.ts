@@ -1,11 +1,19 @@
 import { action, computed, observable } from "mobx";
 
 
-interface MissionFinalizeVo {
+export interface MissionFinalizeVo {
   expRatio: number;
   credits: number;
   comment: string;
 }
+
+export enum CreditStatus {
+  Acceptable,
+  WrongFormat,
+  CreditsNotSufficient,
+  FirstAttempt
+}
+
 
 const defaultValue = { expRatio: 1, credits: 0, comment: ""};
 
@@ -13,14 +21,27 @@ export class MissionFinalizeParameters {
   @observable expRatio: string; // double
   @observable credits : string; // int
   @observable comment : string;
-  @observable submitAttempted: boolean = false;
+
+  @computed get creditsStatus() {
+    const parsedInt = parseInt(this.credits);
+    if (this.availableCredits != null && parsedInt > this.availableCredits) {
+      return CreditStatus.CreditsNotSufficient;
+    }
+
+    if (!(parsedInt >=0)) {
+      return CreditStatus.WrongFormat;
+    }
+
+    return CreditStatus.Acceptable;
+  }
 
   @computed get expRadioValid() {
-    return !this.submitAttempted || !Number.isNaN(parseFloat(this.expRatio));
+    const parsedValue = parseFloat(this.expRatio);
+    return !Number.isNaN(parsedValue) && 0 < parsedValue && parsedValue <= 1;
   }
 
   @computed get creditsValid() {
-    return !this.submitAttempted || parseInt(this.credits) >= 0;
+    return this.creditsStatus === CreditStatus.Acceptable;
   }
 
   @computed get valid() {
@@ -35,7 +56,7 @@ export class MissionFinalizeParameters {
     }
   }
 
-  constructor(value: MissionFinalizeVo = defaultValue) {
+  constructor(public availableCredits: number = null) {
     this.backToDefault();
   }
 
