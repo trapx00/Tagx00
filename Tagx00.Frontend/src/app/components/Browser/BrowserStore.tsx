@@ -24,16 +24,18 @@ export class BrowserStore {
   private static _standardHeight: number = 833;
   private static _standardWidth: number = 1200;
   private static _maxLengthOfDescription: number = 100;
-  @observable private _searchBarWidth: number = 0;
+  @observable private _searchBarWidth: number = -document.body.clientWidth * 3 / 4;
   @observable private _moveHeightRate: number = document.body.clientHeight / BrowserStore._standardHeight;
   @observable private _moveWidthRate: number = document.body.clientWidth / BrowserStore._standardWidth;
   @observable private _paused: boolean = true;
   @observable private _reverse: boolean = true;
   @observable private _listData: ListDataProps[] = [];
   @observable private _topics: Topic[] = [];
+  @observable private _isStop: boolean = false;
   @action public reverseBrowsing = () => {
     this._reverse = !this._reverse;
     this._paused = !this._paused;
+    setTimeout(() => runInAction(() => this._isStop = true),1200);
   };
 
   @action public resizeMoveRate = () => {
@@ -91,11 +93,15 @@ export class BrowserStore {
   };
 
 
+  @computed get isStop(): boolean {
+    return this._isStop;
+  }
+
   @computed get searchBarWidth(): number {
     return this._searchBarWidth;
   }
 
-  @computed set searchBarWidth(value: number) {
+  set searchBarWidth(value: number) {
     this._searchBarWidth = value;
   }
 
