@@ -1,13 +1,11 @@
 import React from "react";
-import { observer } from "mobx-react";
-import { UserStore } from "../../stores/UserStore";
-import { Inject } from "react.di";
-import { match, Redirect, Route, Switch } from "react-router";
+import { Redirect, Route, Switch } from "react-router";
 import { AsyncComponent } from "../../router/AsyncComponent";
 import { Location } from "history";
 import { parseQueryString } from "../../router/utils";
 import { MissionDetailPage } from "./MissionDetailPage";
 import { UserRole } from "../../models/user/User";
+import { requireLogin } from "../hoc/RequireLogin";
 
 
 async function renderRequester() {
@@ -25,7 +23,7 @@ const redirectMap = {
   [UserRole.ROLE_WORKER]: "worker"
 };
 
-class MissionPageRoot extends React.Component<{redirectTo: string, search: string}, {}> {
+class MissionPageRoot extends React.Component<{ redirectTo: string, search: string }, {}> {
   render() {
     const queries = parseQueryString(this.props.search);
     const missionId = queries.missionId as string;
@@ -37,23 +35,23 @@ class MissionPageRoot extends React.Component<{redirectTo: string, search: strin
   }
 }
 
-@observer
-export class MissionPage extends React.Component<{location: Location}> {
+interface Props {
+  location: Location;
+  currentRole?: UserRole;
+}
 
-  @Inject userStore: UserStore;
+@requireLogin()
+export class MissionPage extends React.Component<Props> {
 
   render() {
-    if (this.userStore.loggedIn) {
-      const redirectTo = redirectMap[this.userStore.user.role];
-      return <Switch>
-        <Route exact path={"/mission"} render={props => <MissionPageRoot search={props.location.search} redirectTo={redirectTo} />}/>
-        <Route path={"/mission/requester"} render={() => <AsyncComponent render={renderRequester}/>}/>
-        <Route path={"/mission/worker"} render={() => <AsyncComponent render={renderWorker}/>}/>
+    const redirectTo = redirectMap[this.props.currentRole];
+    return <Switch>
+      <Route exact path={"/mission"}
+             render={props => <MissionPageRoot search={props.location.search} redirectTo={redirectTo}/>}/>
+      <Route path={"/mission/requester"} render={() => <AsyncComponent render={renderRequester}/>}/>
+      <Route path={"/mission/worker"} render={() => <AsyncComponent render={renderWorker}/>}/>
 
-      </Switch>
-    } else {
-      return "login first";
-    }
+    </Switch>
   }
 }
 
