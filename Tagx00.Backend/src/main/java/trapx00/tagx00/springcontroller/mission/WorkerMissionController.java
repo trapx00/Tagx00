@@ -145,7 +145,9 @@ public class WorkerMissionController {
         try {
             if (instanceDetailVo == null || instanceDetailVo.getInstance() == null) {
                 InstanceVo instanceVo = new InstanceVo(0, 0, 0, "", UserInfoUtil.getUsername(), MissionInstanceState.IN_PROGRESS, missionId, new Date(), null, false, 0);
-                instanceDetailVo.setInstance(instanceVo);
+                if (instanceDetailVo != null) {
+                    instanceDetailVo.setInstance(instanceVo);
+                }
             }
             return new ResponseEntity<>(workerMissionBlService.submit(instanceDetailVo), HttpStatus.OK);
         } catch (SystemException e) {

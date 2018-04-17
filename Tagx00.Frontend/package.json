@@ -62,11 +62,13 @@
     "antd": "^3.4.1",
     "bizcharts": "^3.1.5",
     "classnames": "^2.2.5",
+    "enquire-js": "latest",
     "md5": "^2.2.1",
     "mobx": "^4.1.1",
     "mobx-react": "^5.0.0",
     "mobx-react-router": "^4.0.2",
     "mobx-utils": "^4.0.0",
+    "rc-scroll-anim": "^2.4.1",
     "rc-tween-one": "^1.7.3",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
@@ -79,6 +81,7 @@
     "react.di": "^2.0.0",
     "recharts": "^1.0.0-beta.10",
     "reflect-metadata": "^0.1.12",
-    "styled-components": "^3.2.5"
+    "styled-components": "^3.2.5",
+    "rc-queue-anim": "latest"
   }
 }
