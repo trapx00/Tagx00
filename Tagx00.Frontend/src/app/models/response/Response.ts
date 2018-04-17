@@ -1,4 +1,4 @@
-export class Response {
+export interface Response {
   infoCode: number;
   description: string;
 }

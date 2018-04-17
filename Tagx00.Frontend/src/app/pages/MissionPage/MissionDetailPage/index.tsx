@@ -10,6 +10,8 @@ interface Props {
   missionId: string;
 }
 
+
+
 export class MissionDetailPage extends React.Component<Props, {}> {
 
 

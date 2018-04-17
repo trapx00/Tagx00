@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from 'antd';
+import { Card, Popconfirm } from 'antd';
 import { Instance } from "../../models/instance/Instance";
 import { ImageMissionDetail } from "../../models/mission/image/ImageMission";
 import { AsyncComponent } from "../../router/AsyncComponent";
@@ -10,14 +10,18 @@ import { Inject } from "react.di";
 import { MissionService } from "../../api/MissionService";
 import { CardAction, stubCard, truncateText } from "./util";
 import { InstanceStateIndicator } from "./InstanceStateIndicator";
+import { LocaleMessage } from "../../internationalization/components";
+import { WorkerService } from "../../api/WorkerService";
 
 const {Meta} = Card;
 
 
-
 interface Props {
   instance: Instance;
+  refresh(): void;
 }
+
+const ID_PREFIX = "missions.worker.myMissions.";
 
 export class WorkerInstanceCard extends React.Component<Props, any> {
 
@@ -25,14 +29,17 @@ export class WorkerInstanceCard extends React.Component<Props, any> {
   @Inject routerStore: RouterStore;
 
   @Inject missionService: MissionService;
+  @Inject workerService: WorkerService;
 
   goToDoMission = () => {
     const missionId = this.props.instance.missionId;
     this.routerStore.jumpTo(`/mission/worker/${missionId}/doWork`);
   };
 
-  abandonMission = () => {
+  abandonMission = async () => {
     const missionId = this.props.instance.missionId;
+    await this.workerService.abandonMission(missionId, this.userStore.token);
+    this.props.refresh();
   };
 
   goDetail = () => {
@@ -54,19 +61,22 @@ export class WorkerInstanceCard extends React.Component<Props, any> {
       case MissionInstanceState.IN_PROGRESS:
         buttons.push(
           <CardAction key={"continue"} iconType={"edit"} onClick={this.goToDoMission}
-                      hoverTextId={"selfCenter.myMissions.cardActions.continue"}/>,
-          <CardAction key={"delete"} iconType={"delete"} onClick={this.abandonMission}
-                      hoverTextId={"selfCenter.myMissions.cardActions.abandon"}/>);
+                      hoverTextId={ID_PREFIX + "cardActions.continue"}/>,
+          <Popconfirm title={<LocaleMessage id={ID_PREFIX + "cardActions.abandonConfirm"}/>} onConfirm={this.abandonMission}>
+            <CardAction key={"delete"} iconType={"delete"}
+                        hoverTextId={ID_PREFIX + "cardActions.abandon"}/>
+          </Popconfirm>
+        );
         break;
       case MissionInstanceState.SUBMITTED:
         break;
       case MissionInstanceState.ABANDONED:
         buttons.push(<CardAction key={"continue"} iconType={"edit"} onClick={this.goToDoMission}
-                                 hoverTextId={"selfCenter.myMissions.cardActions.continue"}/>);
+                                 hoverTextId={ID_PREFIX + "cardActions.continue"}/>);
     }
 
     buttons.push(<CardAction key={"search"} iconType={"search"} onClick={this.goDetail}
-                             hoverTextId={"selfCenter.myMissions.cardActions.seeMore"}/>);
+                             hoverTextId={ID_PREFIX + "cardActions.seeMore"}/>);
 
     return buttons;
 

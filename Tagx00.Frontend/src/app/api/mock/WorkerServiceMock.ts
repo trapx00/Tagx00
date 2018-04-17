@@ -3,10 +3,12 @@ import { Instance } from "../../models/instance/Instance";
 import { MissionInstanceState } from "../../models/instance/MissionInstanceState";
 import { ImageInstanceDetail } from "../../models/instance/image/ImageInstanceDetail";
 import { InstanceDetail } from "../../models/instance/InstanceDetail";
-import { Response } from "../../models/Response";
+import { Response } from "../../models/response/Response";
 import { WorkerService } from "../WorkerService";
 import {WorkerInfo} from "../../models/userInfo/WorkerInfo";
 import { MissionType } from "../../models/mission/Mission";
+import { HttpMethod } from "../utils";
+import { InstanceDetailResponse } from "../../models/response/mission/InstanceDetailResponse";
 
 @Injectable
 export class WorkerServiceMock extends WorkerService {
@@ -32,13 +34,20 @@ export class WorkerServiceMock extends WorkerService {
 
   }
 
-  async getInstanceDetail(missionId: string, token: string): Promise<ImageInstanceDetail> {
+  async getInstanceDetail(missionId: string, token: string): Promise<InstanceDetailResponse> {
+
+    if (Math.random()<0.5) {
+      throw {
+        statusCode: 404
+      }
+    }
 
     // mock
     return {
-      imageResults: [],
-      instance: {
-          instanceId: 1+"",
+      detail: {
+        imageResults: [],
+        instance: {
+          instanceId: 1 + "",
           workerUsername: "123",
           title: `Title`,
           description: `Description `,
@@ -50,7 +59,8 @@ export class WorkerServiceMock extends WorkerService {
           missionInstanceState: MissionInstanceState.IN_PROGRESS,
         },
         missionType: MissionType.IMAGE,
-    } as ImageInstanceDetail;
+      } as ImageInstanceDetail
+    };
   }
 
   async saveProgress(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
@@ -81,4 +91,11 @@ export class WorkerServiceMock extends WorkerService {
           abandonedMissionCount: 2,
       } as WorkerInfo
   };
+
+  async abandonMission(missionId: string, token: string): Promise<Response> {
+    return {
+      infoCode: 10000,
+      description: "success"
+    };
+  }
 }

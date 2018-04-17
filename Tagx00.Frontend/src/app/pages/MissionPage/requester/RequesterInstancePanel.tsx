@@ -107,6 +107,10 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
     this.setState({ finalizeModalState: {shown: false, instanceId: "", readonly: true}});
   };
 
+  refresh = () => {
+    this.fetchInfo();
+  };
+
 
   render() {
 
@@ -165,7 +169,7 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
              dataSource={this.state.data}
              loading={this.state.loading}/>
       <FinalizeModal {...this.state.finalizeModalState}
-                     close={this.closeFinalizeModal}/>
+                     close={this.closeFinalizeModal} refresh={this.refresh}/>
 
     </Container>
   }

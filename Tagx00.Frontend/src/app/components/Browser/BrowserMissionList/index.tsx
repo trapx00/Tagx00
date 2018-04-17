@@ -3,7 +3,7 @@ import { Button, Divider, List, message, Pagination, Spin } from "antd";
 import { Localize } from "../../../internationalization/components";
 import { BrowserStore } from "../BrowserStore";
 import { observer } from "mobx-react";
-import { Response } from "../../../models/Response";
+import { Response } from "../../../models/response/Response";
 import { WorkerService } from "../../../api/WorkerService";
 import { Inject } from "react.di";
 import { UserStore } from "../../../stores/UserStore";

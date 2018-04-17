@@ -3,9 +3,10 @@ import { Instance } from "../models/instance/Instance";
 import { InstanceDetail } from "../models/instance/InstanceDetail";
 import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
 import { HttpMethod } from "./utils";
-import { Response } from "../models/Response";
+import { Response } from "../models/response/Response";
 import { Inject, Injectable } from "react.di";
 import {WorkerInfo} from "../models/userInfo/WorkerInfo";
+import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
 
 @Injectable
 export class WorkerService {
@@ -23,14 +24,19 @@ export class WorkerService {
 
   }
 
-  async getInstanceDetail(missionId: string, token: string): Promise<ImageInstanceDetail> {
+  async getInstanceDetail(missionId: string, token: string): Promise<InstanceDetailResponse> {
 
 
     const res = await this.http.fetch({
       token: token,
       path: `/mission/worker/${missionId}`,
     });
-    return res.response.detail as ImageInstanceDetail;
+    if (res.ok) {
+      return res.response as InstanceDetailResponse;
+    } else {
+      throw res.error;
+    }
+
   }
 
   async saveProgress(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
@@ -73,5 +79,15 @@ export class WorkerService {
           token: token,
       });
       return res.response.instances as WorkerInfo;
+  }
+
+  async abandonMission(missionId: string, token: string): Promise<Response> {
+    const res = await this.http.fetch({
+      path: `mission/worker/${missionId}`,
+      token,
+      method: HttpMethod.DELETE
+    });
+
+    return res.response;
   }
 }

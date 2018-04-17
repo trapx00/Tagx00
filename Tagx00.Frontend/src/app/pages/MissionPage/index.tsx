@@ -27,8 +27,8 @@ const redirectMap = {
 
 class MissionPageRoot extends React.Component<{redirectTo: string, search: string}, {}> {
   render() {
-    const missionId = parseQueryString(this.props.search).missionId as string;
-
+    const queries = parseQueryString(this.props.search);
+    const missionId = queries.missionId as string;
     if (missionId) {
       return <MissionDetailPage missionId={missionId}/>;
     } else {
