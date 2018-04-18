@@ -1,10 +1,10 @@
 import { action, computed, observable, runInAction } from "mobx";
 import { Tag } from "antd";
-import { MissionPublicItem } from "../../models/mission/Mission";
+import { MissionPublicItem } from "../models/mission/Mission";
 import React from "react";
-import { MissionService } from "../../api/MissionService";
+import { MissionService } from "../api/MissionService";
 import { Inject, Injectable } from "react.di";
-import { Topic } from "../../models/topic/Topic";
+import { Topic } from "../models/topic/Topic";
 
 interface ListDataProps {
   missionId: string,
