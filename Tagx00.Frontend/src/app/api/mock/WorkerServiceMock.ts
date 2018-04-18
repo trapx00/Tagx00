@@ -7,6 +7,11 @@ import { Response } from "../../models/Response";
 import { WorkerService } from "../WorkerService";
 import {WorkerInfo} from "../../models/userInfo/WorkerInfo";
 import { MissionType } from "../../models/mission/Mission";
+import { WorkerCreditSelfRankResponse } from "../../models/leaderboard/WorkerCreditSelfRankResponse";
+import { WorkerCreditBoardResponse } from "../../models/leaderboard/WorkerCreditBoardResponse";
+import { WorkerExpBoardResponse } from "../../models/leaderboard/WorkerExpBoardResponse";
+import { WorkerExpSelfRankResponse } from "../../models/leaderboard/WorkerExpSelfRankResponse";
+import { CreditSelfRank } from "../../models/userRank/CreditSelfRank";
 
 @Injectable
 export class WorkerServiceMock extends WorkerService {
@@ -73,12 +78,67 @@ export class WorkerServiceMock extends WorkerService {
           username: "worker",
           email: "1@1.com",
           credits: 23,
-          exp: 192,
-          level: 2,
+          exp: 150,
+          level: 1,
           completedMissionCount: 7,
           acceptedMissionCount: 12,
           inProgressMissionCount: 3,
           abandonedMissionCount: 2,
       } as WorkerInfo
-  };
+  }
+
+  async getWorkerCreditBoard(pageSize: number, pageNumber: number, token: string): Promise<WorkerCreditBoardResponse> {
+    return {
+      pagingInfo:
+        {
+          totalCount: 100,
+          currentPage:1,
+          pageSize:10,
+          totalPage:10,
+        },
+      creditBoardList:{
+
+      }
+    } as WorkerCreditBoardResponse;
+
+
+  }
+
+  async getSpecificWorkerCreditRank(username: string, token:string): Promise<WorkerCreditSelfRankResponse> {
+    return {
+      workerCreditSelfRank:
+        {
+          username: "worker",
+          credits: 15,
+          order: 2004,
+        }
+    } as WorkerCreditSelfRankResponse;
+  }
+
+    async getWorkerExpBoard(pageSize: number, pageNumber: number, token: string): Promise<WorkerExpBoardResponse> {
+      return {
+        pagingInfo:
+          {
+            totalCount: 100,
+            currentPage:0,
+            pageSize:10,
+            totalPage:10,
+          },
+        expBoardList:
+          {}
+      }as WorkerExpBoardResponse;
+  }
+
+    async getSpecificWorkerExpRank(username: string, token:string): Promise<WorkerExpSelfRankResponse> {
+      return {
+        workerExpSelfRank:
+          {
+            username: "worker",
+            exp: 150,
+            level: 1,
+            order: 2000,
+          }
+      } as WorkerExpSelfRankResponse;
+  }
+
 }

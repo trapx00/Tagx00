@@ -12,6 +12,8 @@ import { MissionInstanceState } from "../../models/instance/MissionInstanceState
 import { InstanceDetailResponse } from "../../models/response/mission/InstanceDetailResponse";
 import { MissionFinalizeParameters, MissionFinalizeVo } from "../../models/instance/MissionFinalizeParameters";
 import { InstanceResponse } from "../../models/response/mission/InstanceResponse";
+import { RequesterCreditBoardResponse } from "../../models/leaderboard/RequesterCreditBoardResponse";
+import { RequesterCreditSelfRankResponse } from "../../models/leaderboard/RequesterCreditSelfRankResponse";
 
 @Injectable
 export class RequesterServiceMock extends RequesterService {
@@ -135,7 +137,33 @@ export class RequesterServiceMock extends RequesterService {
 
         } as ImageInstanceDetail
     }
+
   }
 
+  async getRequesterCreditBoard(pageSize: number, pageNumber: number, token: string): Promise<RequesterCreditBoardResponse> {
+    return {
+      pagingInfo:
+        {
+          totalCount: 100,
+          currentPage:0,
+          pageSize:10,
+          totalPage:10,
+        },
+      creditBoardList:
+        {}
+    }as RequesterCreditBoardResponse;
+  }
+
+  async getSpecificRequesterRank(username: string, token:string): Promise<RequesterCreditSelfRankResponse> {
+    return {
+      requesterCreditSelfRank:
+        {
+          username: "123",
+          credits: 200,
+          order: 24,
+        }
+
+    } as RequesterCreditSelfRankResponse;
+  }
 
 }
