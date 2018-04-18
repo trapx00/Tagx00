@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MissionPublicItemVo implements Serializable {
-    private int missionId;
+    private String missionId;
     private String title;
     private String description;
     private List<String> topics;
@@ -49,11 +49,11 @@ public class MissionPublicItemVo implements Serializable {
         this.minimalWorkerLevel = minimalWorkerLevel;
     }
 
-    public int getMissionId() {
+    public String getMissionId() {
         return missionId;
     }
 
-    public void setMissionId(int missionId) {
+    public void setMissionId(String missionId) {
         this.missionId = missionId;
     }
 
@@ -137,7 +137,7 @@ public class MissionPublicItemVo implements Serializable {
         this.requesterUsername = requesterUsername;
     }
 
-    public MissionPublicItemVo(int missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, String requesterUsername) {
+    public MissionPublicItemVo(String missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, String requesterUsername) {
         this.missionId = missionId;
         this.title = title;
         this.description = description;
