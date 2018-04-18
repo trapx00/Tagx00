@@ -11,7 +11,7 @@ public interface PublicMissionBlService {
      *
      * @return the list of MissionPublicItemVo
      */
-    MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo, String searchTarget) throws NotMissionException;
+    MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo, String searchTarget, String requesterUsername) throws NotMissionException;
 
     /**
      * get one mission

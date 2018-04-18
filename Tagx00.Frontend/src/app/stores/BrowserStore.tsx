@@ -1,10 +1,10 @@
 import { action, computed, observable, runInAction } from "mobx";
 import { Tag } from "antd";
-import { MissionPublicItem } from "../../models/mission/Mission";
+import { MissionPublicItem } from "../models/mission/Mission";
 import React from "react";
-import { MissionService } from "../../api/MissionService";
+import { MissionService } from "../api/MissionService";
 import { Inject, Injectable } from "react.di";
-import { Topic } from "../../models/topic/Topic";
+import { Topic } from "../models/topic/Topic";
 
 interface ListDataProps {
   missionId: string,
@@ -21,14 +21,26 @@ const smallerDiv = {
 
 @Injectable
 export class BrowserStore {
-  private static _maxLengthOfDescription = 100;
+  private static _standardHeight: number = 833;
+  private static _standardWidth: number = 1200;
+  private static _maxLengthOfDescription: number = 100;
+  @observable private _searchBarWidth: number = -document.body.clientWidth * 3 / 4;
+  @observable private _moveHeightRate: number = document.body.clientHeight / BrowserStore._standardHeight;
+  @observable private _moveWidthRate: number = document.body.clientWidth / BrowserStore._standardWidth;
   @observable private _paused: boolean = true;
   @observable private _reverse: boolean = true;
   @observable private _listData: ListDataProps[] = [];
   @observable private _topics: Topic[] = [];
+  @observable private _isStop: boolean = false;
   @action public reverseBrowsing = () => {
     this._reverse = !this._reverse;
     this._paused = !this._paused;
+    setTimeout(() => runInAction(() => this._isStop = true),1200);
+  };
+
+  @action public resizeMoveRate = () => {
+    this._moveHeightRate = document.body.clientHeight / BrowserStore._standardHeight;
+    this._moveWidthRate = document.body.clientWidth / BrowserStore._standardWidth;
   };
 
   constructor(@Inject private missionService: MissionService) {
@@ -80,6 +92,19 @@ export class BrowserStore {
     })
   };
 
+
+  @computed get isStop(): boolean {
+    return this._isStop;
+  }
+
+  @computed get searchBarWidth(): number {
+    return this._searchBarWidth;
+  }
+
+  set searchBarWidth(value: number) {
+    this._searchBarWidth = value;
+  }
+
   @computed get isBrowsing(): boolean {
     return !this._paused;
   }
@@ -98,5 +123,13 @@ export class BrowserStore {
 
   @computed get topics(): Topic[] {
     return this._topics;
+  }
+
+  @computed get moveHeightRate(): number {
+    return this._moveHeightRate;
+  }
+
+  @computed get moveWidthRate(): number {
+    return this._moveWidthRate;
   }
 }

@@ -3,7 +3,7 @@ import { Input, Tag } from "antd";
 import { Localize } from "../../../internationalization/components";
 import { ClickableTag } from "../../ClickableTag";
 import { observer } from "mobx-react";
-import { BrowserStore } from "../BrowserStore";
+import { BrowserStore } from "../../../stores/BrowserStore";
 import { Inject } from "react.di";
 
 const Search = Input.Search;

@@ -41,18 +41,19 @@ public class Instance extends Entity {
     @Column(name = "exp")
     private double exp;
 
+    @Column(name = "expRatio")
+    private double expRatio;
+
     @Column(name = "credits")
     private int credits;
 
-
-
-    @Column(name="comment")
+    @Column(name = "comment")
     private String comment;
 
     public Instance() {
     }
 
-    public Instance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, MissionType missionType, Date acceptDate, Date submitDate, boolean submitted, int missionId, double exp, int credits) {
+    public Instance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, MissionType missionType, Date acceptDate, Date submitDate, boolean submitted, int missionId, double exp, double expRatio, int credits, String comment) {
         this.instanceId = instanceId;
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
@@ -62,7 +63,9 @@ public class Instance extends Entity {
         this.submitted = submitted;
         this.missionId = missionId;
         this.exp = exp;
+        this.expRatio = expRatio;
         this.credits = credits;
+        this.comment = comment;
     }
 
     public String getComment() {
@@ -72,6 +75,7 @@ public class Instance extends Entity {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
     public int getInstanceId() {
         return instanceId;
     }
@@ -142,6 +146,14 @@ public class Instance extends Entity {
 
     public void setExp(double exp) {
         this.exp = exp;
+    }
+
+    public double getExpRatio() {
+        return expRatio;
+    }
+
+    public void setExpRatio(double expRatio) {
+        this.expRatio = expRatio;
     }
 
     public int getCredits() {
