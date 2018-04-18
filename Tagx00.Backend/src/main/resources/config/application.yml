@@ -24,6 +24,9 @@ email:
             您正在注册Tagx00账号，请在验证码输入框中输入："
   content2: "<br/>以完成注册。"
 spring:
+  aop:
+    auto: true
+    proxy-target-class: false
   mail:
     host: smtp.163.com
     username: m18851822162@163.com

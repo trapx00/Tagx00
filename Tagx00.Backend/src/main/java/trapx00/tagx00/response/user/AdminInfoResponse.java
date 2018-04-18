@@ -5,6 +5,9 @@ import trapx00.tagx00.response.Response;
 public class AdminInfoResponse extends Response {
     private int userCount;
     private int totalMissionCount;
+    private int pendingMissionCount;
+    private int activeMissionCount;
+    private int endedMissionCount;
     private int totalInstanceCount;
     private int inProgressInstanceCount;
     private int submittedInstanceCount;
@@ -13,13 +16,40 @@ public class AdminInfoResponse extends Response {
     public AdminInfoResponse() {
     }
 
-    public AdminInfoResponse(int userCount, int totalMissionCount, int totalInstanceCount, int inProgressInstanceCount, int submittedInstanceCount, int finalizeInstanceCount) {
+    public AdminInfoResponse(int userCount, int totalMissionCount, int pendingMissionCount, int activeMissionCount, int endedMissionCount, int totalInstanceCount, int inProgressInstanceCount, int submittedInstanceCount, int finalizeInstanceCount) {
         this.userCount = userCount;
         this.totalMissionCount = totalMissionCount;
+        this.pendingMissionCount = pendingMissionCount;
+        this.activeMissionCount = activeMissionCount;
+        this.endedMissionCount = endedMissionCount;
         this.totalInstanceCount = totalInstanceCount;
         this.inProgressInstanceCount = inProgressInstanceCount;
         this.submittedInstanceCount = submittedInstanceCount;
         this.finalizeInstanceCount = finalizeInstanceCount;
+    }
+
+    public int getPendingMissionCount() {
+        return pendingMissionCount;
+    }
+
+    public void setPendingMissionCount(int pendingMissionCount) {
+        this.pendingMissionCount = pendingMissionCount;
+    }
+
+    public int getActiveMissionCount() {
+        return activeMissionCount;
+    }
+
+    public void setActiveMissionCount(int activeMissionCount) {
+        this.activeMissionCount = activeMissionCount;
+    }
+
+    public int getEndedMissionCount() {
+        return endedMissionCount;
+    }
+
+    public void setEndedMissionCount(int endedMissionCount) {
+        this.endedMissionCount = endedMissionCount;
     }
 
     public int getUserCount() {
