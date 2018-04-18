@@ -6,24 +6,24 @@ import OverPack from 'rc-scroll-anim/lib/ScrollOverPack';
 import { Inject } from "react.di";
 import { HomeStore } from "../../stores/HomeStore";
 import { observer } from "mobx-react";
+import { action } from "mobx";
+import { Link } from 'react-router-dom';
+import { LocaleMessage } from "../../internationalization/components";
 
 interface Content0Props {
-  isMode: boolean,
-  key: string,
-  className: string
-  id: string
+  isMobile: boolean;
+  key: string;
+  className: string;
+  id: string;
 }
 
 @observer
-export class Content0 extends React.Component<Content0Props, any> {
+export class HomePageContent extends React.Component<Content0Props, any> {
 
   @Inject homeStore: HomeStore;
   canvas: HTMLCanvasElement;
   canvasContext: CanvasRenderingContext2D;
 
-  constructor(props: any, context: any) {
-    super(props, context);
-  }
 
   ref = (ref) => {
     this.canvas = ref;
@@ -33,12 +33,12 @@ export class Content0 extends React.Component<Content0Props, any> {
 
   };
 
-  resizeCanvas = () => {
+  @action resizeCanvas = () => {
     this.homeStore.bodyWidth = document.body.clientWidth;
     this.homeStore.bodyHeight = document.body.clientHeight;
   };
 
-  resizeLine = () => {
+  @action resizeLine = () => {
     const scrollHeight: number = document.body.scrollTop + document.documentElement.scrollTop;
     const bodyHeight: number = document.body.clientHeight;
     if (scrollHeight <= bodyHeight * 0.4) {
@@ -72,21 +72,29 @@ export class Content0 extends React.Component<Content0Props, any> {
     this.canvasContext.closePath();
     this.canvasContext.fill();
     this.canvasContext.stroke();
-  }
+  };
 
   componentDidMount() {
+    window.onscroll = this.resizeLine;
+    window.onresize = this.resizeCanvas;
     this.resizeCanvas();
     this.resizeLine();
     this.drawBackground();
   };
 
+  componentWillUnmount() {
+    window.onscroll = null;
+    window.onresize = null;
+  }
+
   render() {
-    window.onscroll = this.resizeLine;
-    window.onresize = this.resizeCanvas;
-    const props = {...this.props};
-    delete props.isMode;
     const canvasWidth = this.homeStore.bodyWidth;
     const canvasHeight = this.homeStore.bodyHeight;
+
+    const props = {...this.props};
+    const isMobile = props.isMobile;
+    delete props.isMobile;
+
     return (
       <div>
         <canvas ref={this.ref}
@@ -99,14 +107,14 @@ export class Content0 extends React.Component<Content0Props, any> {
           <QueueAnim
             type={['bottom', 'top']}
             delay={200}
-            className={`${props.className}-wrapper`}
+            className={`${this.props.className}-wrapper`}
             key="text"
-            id={`${props.id}-wrapper`}
+            id={`${this.props.id}-wrapper`}
           >
           <span
             className="title"
             key="title"
-            id={`${props.id}-title`}
+            id={`${this.props.id}-title`}
             style={{left: '-20%', margin: '10%'}}
           >
             <img width="100%" src="../../../assets/svg/tag_x00_logo.svg"/>
@@ -115,16 +123,19 @@ export class Content0 extends React.Component<Content0Props, any> {
           <QueueAnim
             type={['bottom', 'top']}
             delay={200}
-            className={`${props.className}-wrapper`}
+            className={`${this.props.className}-wrapper`}
           >
+            <Link to={"/browse"}>
             <Button ghost={true} size="large" key="button"
                     style={{right: '-20%', margin: '-40%', marginBottom: '-15%'}}>
-              Learn More
+              <LocaleMessage id={"home.enter"}/>
             </Button>
+            </Link>
           </QueueAnim>
+
           <TweenOne
             animation={{y: '-=20', yoyo: true, repeat: -1, duration: 1000}}
-            className={`${props.className}-icon`}
+            className={`${this.props.className}-icon`}
             key="icon"
           >
             <Icon type="down"/>

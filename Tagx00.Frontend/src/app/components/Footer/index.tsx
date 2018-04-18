@@ -1,10 +1,132 @@
-import React from "react";
-import { Layout } from 'antd';
+import React from 'react';
+import TweenOne from 'rc-tween-one';
+import OverPack from 'rc-scroll-anim/lib/ScrollOverPack';
+import QueueAnim from 'rc-queue-anim';
+import { LocaleMessage } from "../../internationalization/components";
+import { SvgImg } from "../Common/SvgImg";
+import { Link } from 'react-router-dom';
+import { observer } from "mobx-react";
+import { LocaleStore } from "../../stores/LocaleStore";
+import { Inject } from "react.di";
+import styled from "styled-components";
 
-export class Footer extends React.Component<any, any> {
+export interface FooterProps {
+  isMobile?: boolean;
+  id?: string;
+  key?: string;
+}
+
+const ID_PREFIX = "footer.";
+
+
+@observer
+export class Footer extends React.Component<FooterProps, any> {
+
+  static defaultProps = {
+    className: 'footer1',
+    id: "footer_1_0",
+    key: "footer_1_0",
+    isMobile: false
+  };
+
+
+  @Inject localeStore: LocaleStore;
+
+  getLiChildren = (data, i) => {
+    const links = data.contentLink;
+    const content = data.content
+      .map((item, ii) => {
+        const cItem = item.trim();
+        const isImg = cItem.match(/\.(jpg|png|svg|bmp|jpeg)$/i);
+        const link = links[ii];
+        const content = isImg ? <img src={cItem} width="100%"/> : cItem;
+        return (<li className={isImg ? 'icon' : ''} key={ii}>
+          {link.startsWith("/")
+            ? <Link to={link}>{content}</Link>
+            : <a href={link} target="_blank">{content}</a>
+          }
+        </li>);
+      });
+    return (<li className={data.className} key={i} id={`${this.props.id}-block${i}`}>
+      <h2>{data.title}</h2>
+      <ul>
+        {content}
+      </ul>
+    </li>);
+  };
+
   render() {
-    return <Layout.Footer style={{ textAlign: 'center' }}>
-      <p>Copyright 2018 by Trap x00</p>
-    </Layout.Footer>
+    const props = {...this.props};
+    const isMobile = props.isMobile;
+    delete props.isMobile;
+
+    const get = (id: string) => {
+      return this.localeStore.get(ID_PREFIX + id);
+    };
+
+    const dataSource = [
+      {
+        title: get("help.title"),
+        content: [
+          get("help.about"),
+          get("help.usage"),
+          get("help.FAQ")
+        ],
+        contentLink: [
+          '/about/about',
+          '/about/usage',
+          '/about/faq'
+        ]
+      },
+      {
+        title: get("madeByUs.title"),
+        content: [
+          get("madeByUs.NJUAdmin"),
+          get("madeByUs.AstronAlice"),
+          get("madeByUs.Lightx00")
+        ],
+        contentLink: [
+          "https://github.com/trapx00/NJUAdmin",
+          "#",
+          "https://github.com/trapx00/Lightx00"
+        ]
+      },
+      {
+        title: get("contact"),
+        content: [
+          "https://zos.alipayobjects.com/rmsportal/AXtqVjTullNabao.svg"
+        ],
+        contentLink: [
+          "https://github.com/trapx00"
+        ]
+      },
+    ];
+
+    const liChildrenToRender = dataSource.map(this.getLiChildren);
+    return (<OverPack
+      {...props}
+      playScale={isMobile ? 0.5 : 0.2}
+    >
+      <QueueAnim type="bottom" component="ul" key="ul" leaveReverse id={`${props.id}-ul`}>
+        <li key="logo" id={`${props.id}-logo`}>
+          <p className="logo">
+            <SvgImg filePath={"tag_x00_mini_logo.svg"} width={170} height={38} />
+          </p>
+          <p><LocaleMessage id={ID_PREFIX + "productDescription"}/></p>
+        </li>
+        {liChildrenToRender}
+      </QueueAnim>
+      <TweenOne
+        animation={{y: '+=30', opacity: 0, type: 'from'}}
+        key="copyright"
+        className="copyright"
+        id={`${props.id}-content`}
+      >
+        <span>
+          <LocaleMessage id={ID_PREFIX + "copyright"}/>
+        </span>
+      </TweenOne>
+    </OverPack>
+    );
   }
 }

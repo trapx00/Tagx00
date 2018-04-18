@@ -2,6 +2,26 @@
   "common": {
     "loading": "加载中"
   },
+  "home": {
+    "enter": "进入"
+  },
+  "footer": {
+    "productDescription": "一个数据标注系统",
+    "help": {
+      "title": "帮助",
+      "about": "关于",
+      "usage": "使用帮助",
+      "FAQ": "FAQ"
+    },
+    "madeByUs": {
+      "title": "由Trap x00制作",
+      "NJUAdmin": "NJUAdmin，南大数据整合系统",
+      "AstronAlice": "AstronAlice，Unity 2D/3D消消乐",
+      "Lightx00": "Light x00，灯具进销存系统"
+    },
+    "contact": "联系我们",
+    "copyright": "用❤制作。© 2018 Trap x00，保留所有权利。"
+  },
   "frameMenu": {
     "home": "首页",
     "imageLabel": "图片标注",
