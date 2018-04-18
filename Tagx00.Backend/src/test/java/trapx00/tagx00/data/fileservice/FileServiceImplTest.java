@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import trapx00.tagx00.entity.mission.workresult.ImageResult;
+import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.publicdatas.mission.TagDescriptionTuple;
 import trapx00.tagx00.publicdatas.mission.image.ImageJob;
 import trapx00.tagx00.publicdatas.mission.image.whole.ImageWholeJob;

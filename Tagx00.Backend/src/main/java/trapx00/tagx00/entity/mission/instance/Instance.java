@@ -1,14 +1,12 @@
-package trapx00.tagx00.entity.mission;
+package trapx00.tagx00.entity.mission.instance;
 
 import trapx00.tagx00.entity.Entity;
 import trapx00.tagx00.entity.annotation.*;
-import trapx00.tagx00.entity.mission.workresult.ImageResult;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 
 import java.util.Date;
-import java.util.List;
 
-@Table(name = "instance")
 public class Instance extends Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,6 +19,10 @@ public class Instance extends Entity {
     @EnumTranslate(targetClass = MissionInstanceState.class)
     @Column(name = "missionInstanceState")
     private MissionInstanceState missionInstanceState;
+
+    @EnumTranslate(targetClass = MissionType.class)
+    @Column(name = "MissionType")
+    private MissionType missionType;
 
     @JsonSerialize
     @Column(name = "acceptDate")
@@ -36,28 +38,40 @@ public class Instance extends Entity {
     @Column(name = "missionId")
     private int missionId;
 
+    @Column(name = "exp")
+    private double exp;
 
-    @JsonSerialize
-    @Column(name = "imageResults")
-    private List<ImageResult> imageResults;
+    @Column(name = "credits")
+    private int credits;
 
-    public List<ImageResult> getImageResults() {
-        return imageResults;
-    }
+
+
+    @Column(name="comment")
+    private String comment;
 
     public Instance() {
     }
 
-    public Instance(String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean submitted, List<ImageResult> imageResults) {
+    public Instance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, MissionType missionType, Date acceptDate, Date submitDate, boolean submitted, int missionId, double exp, int credits) {
+        this.instanceId = instanceId;
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
+        this.missionType = missionType;
         this.acceptDate = acceptDate;
         this.submitDate = submitDate;
         this.submitted = submitted;
         this.missionId = missionId;
-        this.imageResults = imageResults;
+        this.exp = exp;
+        this.credits = credits;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
     public int getInstanceId() {
         return instanceId;
     }
@@ -80,6 +94,14 @@ public class Instance extends Entity {
 
     public void setMissionInstanceState(MissionInstanceState missionInstanceState) {
         this.missionInstanceState = missionInstanceState;
+    }
+
+    public MissionType getMissionType() {
+        return missionType;
+    }
+
+    public void setMissionType(MissionType missionType) {
+        this.missionType = missionType;
     }
 
     public int getMissionId() {
@@ -114,7 +136,19 @@ public class Instance extends Entity {
         this.submitted = submitted;
     }
 
-    public void setImageResults(List<ImageResult> imageResults) {
-        this.imageResults = imageResults;
+    public double getExp() {
+        return exp;
+    }
+
+    public void setExp(double exp) {
+        this.exp = exp;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
     }
 }

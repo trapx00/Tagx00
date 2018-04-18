@@ -1,19 +1,30 @@
 package trapx00.tagx00.springcontroller.leaderboard;
 
 import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import trapx00.tagx00.blservice.leaderboard.CreditRequesterLeaderboardBlService;
+import trapx00.tagx00.blservice.leaderboard.CreditWorkerLeaderboardBlService;
 import trapx00.tagx00.entity.account.Role;
+import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.leaderboard.credit.CreditSpecificWorkerLeaderboardResponse;
 import trapx00.tagx00.response.leaderboard.credit.CreditWorkerLeaderboardResponse;
+import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
 @RestController
 public class CreditWorkerLeaderboardController {
+    private final CreditWorkerLeaderboardBlService creditWorkerLeaderboardBlService;
 
+    @Autowired
+    public CreditWorkerLeaderboardController(CreditWorkerLeaderboardBlService creditWorkerLeaderboardBlService) {
+        this.creditWorkerLeaderboardBlService = creditWorkerLeaderboardBlService;
+    }
     @Authorization("发起者、工人、管理员")
     @ApiOperation(value = "工人富人榜", notes = "以积分从高到低排名")
     @ApiImplicitParams({
@@ -29,7 +40,12 @@ public class CreditWorkerLeaderboardController {
     public ResponseEntity<Response> creditLeaderboard(
             @RequestParam("pageSize") Integer pageSize, @RequestParam("pageNumber") Integer pageNumber
     ) {
-        return null;
+        try {
+            return new ResponseEntity(creditWorkerLeaderboardBlService.creditLeaderboard(new PagingQueryVo(pageSize,pageNumber)), HttpStatus.OK);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        }
     }
 
     @Authorization("发起者、工人、管理员")
@@ -46,6 +62,11 @@ public class CreditWorkerLeaderboardController {
             @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
     public ResponseEntity<Response> specificWorker(@PathVariable("username") String username) {
-        return null;
+        try {
+            return new ResponseEntity(creditWorkerLeaderboardBlService.specificWorker(username), HttpStatus.OK);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        }
     }
 }

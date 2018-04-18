@@ -2,6 +2,7 @@ package trapx00.tagx00.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
+import trapx00.tagx00.entity.account.TempUser;
 import trapx00.tagx00.entity.account.User;
 
 import java.util.Date;
@@ -13,6 +14,8 @@ public interface JwtService {
     String getUsernameFromToken(String token);
 
     JwtUser convertUserToJwtUser(User user);
+
+    JwtUser convertTempUserToJwtUser(TempUser tempUser);
 
     Date generateExpirationDate(long expiration);
 

@@ -8,10 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.entity.account.Role;
-import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
-import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
-import trapx00.tagx00.exception.viewexception.MissionDoesNotExistFromUsernameException;
-import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.exception.viewexception.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.SuccessResponse;
@@ -19,7 +16,7 @@ import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.util.UserInfoUtil;
-import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
+import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
 import java.util.Date;
@@ -36,6 +33,10 @@ public class WorkerMissionController {
 
     @Authorization(value = "工人")
     @ApiOperation(value = "工人查看所有任务的实例", notes = "工人查看自己已接的所有任务的实例")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "pageSize", value = "页面信息数", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "pageNumber", value = "页数", required = true, dataType = "int"),
+    })
     @RequestMapping(value = "/mission/worker", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Returns current user's instances", response = InstanceResponse.class),
@@ -43,7 +44,7 @@ public class WorkerMissionController {
             @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> queryOnesAllMissions() {
+    public ResponseEntity<Response> queryOnesAllMissions(@RequestParam("pageSize") Integer pageSize, @RequestParam("pageNumber") Integer pageNumber) {
         try {
             return new ResponseEntity<>(workerMissionBlService.queryOnesAllMissions(UserInfoUtil.getUsername()), HttpStatus.OK);
         } catch (MissionDoesNotExistFromUsernameException e) {
@@ -66,7 +67,7 @@ public class WorkerMissionController {
             @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> abort(@PathVariable("missionId") int missionId) {
+    public ResponseEntity<Response> abort(@PathVariable("missionId") String missionId) {
         try {
             return new ResponseEntity<>(workerMissionBlService.abort(missionId, UserInfoUtil.getUsername()), HttpStatus.OK);
         } catch (Exception e) {
@@ -87,7 +88,7 @@ public class WorkerMissionController {
             @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> getInstanceInformation(@PathVariable("missionId") int missionId) {
+    public ResponseEntity<Response> getInstanceInformation(@PathVariable("missionId") String missionId) {
         try {
             return new ResponseEntity<>(workerMissionBlService.getInstanceInformation(missionId, UserInfoUtil.getUsername()), HttpStatus.OK);
         } catch (InstanceNotExistException e) {
@@ -110,7 +111,7 @@ public class WorkerMissionController {
             @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> saveProgress(@RequestBody ImageInstanceDetailVo instanceDetailVo, @PathVariable("missionId") String missionId) {
+    public ResponseEntity<Response> saveProgress(@RequestBody InstanceDetailVo instanceDetailVo, @PathVariable("missionId") String missionId) {
         try {
             return new ResponseEntity<>(workerMissionBlService.saveProgress(instanceDetailVo), HttpStatus.OK);
         } catch (SystemException e) {
@@ -119,6 +120,9 @@ public class WorkerMissionController {
         } catch (MissionAlreadyAcceptedException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);//to edit api
+        } catch (UnmatchedUsernameAndMissionId e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.FORBIDDEN);
         }
     }
 
@@ -137,7 +141,7 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> submit(
-            @RequestBody ImageInstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") int missionId) {
+            @RequestBody InstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") int missionId) {
         try {
             if (instanceDetailVo == null || instanceDetailVo.getInstance() == null) {
                 InstanceVo instanceVo = new InstanceVo(0, UserInfoUtil.getUsername(), MissionInstanceState.IN_PROGRESS, missionId, new Date(), null, false, 0);
@@ -150,6 +154,9 @@ public class WorkerMissionController {
         } catch (MissionAlreadyAcceptedException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);//to edit api
+        } catch (UnmatchedUsernameAndMissionId e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.FORBIDDEN);
         }
     }
 
