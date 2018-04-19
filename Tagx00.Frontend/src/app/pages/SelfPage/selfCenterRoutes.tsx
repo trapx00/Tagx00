@@ -31,6 +31,16 @@ export const personalInfoPage: AsyncRouteConfig = {
   },
 };
 
+export const LeaderboardPage: AsyncRouteConfig = {
+  type: RouteType.Async,
+  exact: true,
+  path: "/self/leaderboard",
+  render: async (props) => {
+    const Page = (await import("./"Leaderboard/index")).LeadeboardPage;
+    return <Page/>;
+  },
+};
+
 
 export const selfRedirect: RedirectRouteConfig = {
   type: RouteType.Redirect,

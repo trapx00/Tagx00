@@ -5,6 +5,7 @@ import {Inject} from "react.di";
 import {UserStore} from "../../../stores/UserStore";
 import {PieChart, Pie, Legend, Tooltip, Cell} from "recharts";
 import { DefinitionItem } from "../../../components/DefinitionItem";
+import { LocaleMessage } from "../../../internationalization/components";
 
 export class AdminDashboardPage extends React.Component<{},{}> {
 
@@ -76,7 +77,9 @@ export class AdminDashboardPage extends React.Component<{},{}> {
 
     render() {
         return <div>
-            <h1>仪表盘</h1>
+            <h1>
+              <LocaleMessage id={"selfCenter.dashboard"}/>
+            </h1>
             <AsyncComponent render={this.renderInfo}/>
         </div>
 
