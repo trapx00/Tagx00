@@ -11,6 +11,7 @@ export enum MissionState {
 
 export interface MissionPublicItem {
   missionId: string;
+  requesterUsername: string;
   title: string;
   description: string;
   topics: string[];

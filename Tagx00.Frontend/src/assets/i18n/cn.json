@@ -2,6 +2,26 @@
   "common": {
     "loading": "加载中"
   },
+  "home": {
+    "enter": "进入"
+  },
+  "footer": {
+    "productDescription": "一个数据标注系统",
+    "help": {
+      "title": "帮助",
+      "about": "关于",
+      "usage": "使用帮助",
+      "FAQ": "FAQ"
+    },
+    "madeByUs": {
+      "title": "由Trap x00制作",
+      "NJUAdmin": "NJUAdmin，南大数据整合系统",
+      "AstronAlice": "AstronAlice，Unity 2D/3D消消乐",
+      "Lightx00": "Light x00，灯具进销存系统"
+    },
+    "contact": "联系我们",
+    "copyright": "用❤制作。© 2018 Trap x00，保留所有权利。"
+  },
   "frameMenu": {
     "home": "首页",
     "imageLabel": "图片标注",
@@ -22,23 +42,6 @@
   },
   "selfCenter": {
     "dashboard": "仪表盘",
-    "myMissions": {
-      "menuText": "我的任务",
-      "title": "我的任务",
-      "loadingCard": "加载任务",
-      "cardState": {
-        "submitted": "已提交",
-        "abandoned": "已放弃",
-        "inProgress": "正在进行",
-        "finalized": "已结束"
-      },
-      "cardActions": {
-        "continue": "继续做任务",
-        "abandon": "放弃",
-        "seeMore": "查看详细信息"
-
-      }
-    },
     "achievement": "成就",
     "personalInfo": "我的信息"
   },
@@ -51,6 +54,7 @@
       },
       "tagDescriptionTuplePanel": {
         "tags" : "标签",
+        "topics": "主题",
         "descriptions": "描述",
         "addOne": "增加一条描述",
         "inputPrompt": "请输入描述",
@@ -108,12 +112,65 @@
   },
   "missions": {
     "needLogin": "请先登录",
+    "missionDetail": {
+      "missionId": "任务ID",
+      "basic": "基本信息",
+      "title": "任务详情",
+      "description": "任务描述",
+      "dateRange": "起始时间",
+      "dateRangeFormat": "{start} 至 {end}",
+      "dateFormat": "YYYY/MM/DD HH:mm:SS",
+      "topics": "主题",
+      "jobCount": "工作数量",
+      "cover": "封面",
+      "allowCustomTag": {
+        "true": "允许自定义标签",
+        "false": "不允许自定义标签"
+      },
+      "requesterUsername": "发起者",
+      "tags": "设置标签",
+      "missionType": "任务类型",
+      "IMAGE": {
+        "name": "图片任务",
+        "imageMissionTypes": "图片任务类型",
+        "types": {
+          "WHOLE": "整体",
+          "PART": "局部",
+          "DISTRICT": "区域"
+        }
+      }
+    },
     "createMission": {
       "title": "创建任务",
       "completeCreation": {
         "title": "任务创建成功",
         "description": "任务已经创建。{to}查看任务详细信息",
         "to": "点击这里"
+      }
+    },
+    "worker": {
+      "myMissions": {
+        "menuText": "我的任务",
+        "title": "我的任务",
+        "loadingCard": "加载任务",
+        "cardState": {
+          "submitted": "已提交",
+          "abandoned": "已放弃",
+          "inProgress": "正在进行",
+          "finalized": "已结束"
+        },
+        "cardActions": {
+          "continue": "继续做任务",
+          "abandon": "放弃",
+          "seeMore": "查看详细信息",
+          "abandonConfirm": "您确定要放弃这个任务吗？"
+        }
+      },
+      "detailOperationBar": {
+        "accept": "接受这个任务",
+        "seeResult": "查看任务进度",
+        "continueWorking": "继续做任务",
+        "accepted": "接受任务成功"
       }
     },
     "sideMenu": {
@@ -136,9 +193,7 @@
           "info": "任务信息"
         }
       },
-      "missionDetail": {
-        "title": "任务详情"
-      },
+
       "instancePanel": {
         "title": "实例",
         "search": {

@@ -7,9 +7,10 @@ export class NetworkResponse<T = any> {
   response: T;
   ok: boolean;
   error: {
-    info: any,
-    isNetworkError: boolean,
-    isServerError: boolean
+    statusCode: number;
+    info: any;
+    isNetworkError: boolean;
+    isServerError: boolean;
   };
 
   constructor(statusCode: number, response: T, error?: any) {
@@ -17,6 +18,7 @@ export class NetworkResponse<T = any> {
     this.response = response;
     this.ok = 200 <= statusCode && statusCode < 300;
     this.error = {
+      statusCode: statusCode,
       info: error,
       isNetworkError: statusCode === NetworkErrorCode,
       isServerError: statusCode >= 500

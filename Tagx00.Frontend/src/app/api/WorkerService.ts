@@ -3,13 +3,10 @@ import { Instance } from "../models/instance/Instance";
 import { InstanceDetail } from "../models/instance/InstanceDetail";
 import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
 import { HttpMethod } from "./utils";
-import { Response } from "../models/Response";
+import { Response } from "../models/response/Response";
 import { Inject, Injectable } from "react.di";
 import {WorkerInfo} from "../models/userInfo/WorkerInfo";
-import { WorkerCreditBoardResponse } from "../models/leaderboard/WorkerCreditBoardResponse";
-import { WorkerCreditSelfRankResponse } from "../models/leaderboard/WorkerCreditSelfRankResponse";
-import { WorkerExpBoardResponse } from "../models/leaderboard/WorkerExpBoardResponse";
-import { WorkerExpSelfRankResponse } from "../models/leaderboard/WorkerExpSelfRankResponse";
+import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
 
 @Injectable
 export class WorkerService {
@@ -27,14 +24,19 @@ export class WorkerService {
 
   }
 
-  async getInstanceDetail(missionId: string, token: string): Promise<ImageInstanceDetail> {
+  async getInstanceDetail(missionId: string, token: string): Promise<InstanceDetailResponse> {
 
 
     const res = await this.http.fetch({
       token: token,
       path: `/mission/worker/${missionId}`,
     });
-    return res.response.detail as ImageInstanceDetail;
+    if (res.ok) {
+      return res.response as InstanceDetailResponse;
+    } else {
+      throw res.error;
+    }
+
   }
 
   async saveProgress(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
@@ -76,38 +78,16 @@ export class WorkerService {
           path: `/mission/worker/${username}`,
           token: token,
       });
-      return res.response;
+      return res.response.instances as WorkerInfo;
   }
 
-  async getWorkerCreditBoard(pageSize: number, pageNumber: number, token: string): Promise<WorkerCreditBoardResponse> {
+  async abandonMission(missionId: string, token: string): Promise<Response> {
     const res = await this.http.fetch({
-      path: "leaderboard/credits/worker",
-      token
+      path: `mission/worker/${missionId}`,
+      token,
+      method: HttpMethod.DELETE
     });
-    return res.response;
-  }
 
-  async getSpecificWorkerCreditRank(username: string, token:string): Promise<WorkerCreditSelfRankResponse> {
-    const res = await this.http.fetch({
-      path: `leaderboard/credits/worker/${username}`,
-      token
-    });
-    return res.response;
-  }
-
-  async getWorkerExpBoard(pageSize: number, pageNumber: number, token: string): Promise<WorkerExpBoardResponse> {
-    const res = await this.http.fetch({
-      path: "leaderboard/exp",
-      token
-    });
-    return res.response;
-  }
-
-  async getSpecificWorkerExpRank(username: string, token:string): Promise<WorkerExpSelfRankResponse> {
-    const res = await this.http.fetch({
-      path: `leaderboard/exp/${username}`,
-      token
-    });
     return res.response;
   }
 }

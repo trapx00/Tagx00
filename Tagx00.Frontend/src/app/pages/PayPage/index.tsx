@@ -1,16 +1,15 @@
 import React, { ReactNode } from 'react';
 import { Inject } from "react.di";
-import { Input,Form, Button, message } from 'antd';
-import { UserStore } from "../../stores/UserStore";
+import { Button, Form, Input, message } from 'antd';
 import { UserRole } from "../../models/user/User";
-import { AsyncComponent } from "../../router/AsyncComponent";
 import { FormItemProps } from "antd/lib/form/FormItem";
 import { PayService } from "../../api/PayService";
-import { waitForMs } from "../../../utils/Wait";
 import { LocaleMessage } from "../../internationalization/components";
+import { requireLogin } from "../hoc/RequireLogin";
 
 interface Props {
-
+  token?: string;
+  currentRole?: UserRole;
 }
 
 interface State {
@@ -34,6 +33,7 @@ function inputValid(str: string) {
 
 const ID_PREFIX = "pay.";
 
+@requireLogin(UserRole.ROLE_REQUESTER)
 export class PaymentPage extends React.Component<Props, State> {
 
   state = {
@@ -42,7 +42,6 @@ export class PaymentPage extends React.Component<Props, State> {
     paying: false
   };
 
-  @Inject userStore: UserStore;
   @Inject payService: PayService;
 
   onValueChange = (e) => {
@@ -51,13 +50,13 @@ export class PaymentPage extends React.Component<Props, State> {
 
   onSubmit = async () => {
     this.setState({ paying: true});
-    const res = await this.payService.pay(parseInt(this.state.input), this.userStore.token);
+    const res = await this.payService.pay(parseInt(this.state.input), this.props.token);
     this.setState({ remainingCredits: res.remainingCredits, paying: false });
     message.success("充值成功");
   };
 
   loadCurrentCredits = async () => {
-    const credits = (await this.payService.getCredits(this.userStore.token)).credits;
+    const credits = (await this.payService.getCredits(this.props.token)).credits;
     this.setState({ remainingCredits: credits});
   };
 
@@ -66,17 +65,11 @@ export class PaymentPage extends React.Component<Props, State> {
   }
 
   render() {
-    if (!this.userStore.loggedIn) {
-      return "login first";
-    }
-
-    if (this.userStore.user.role !== UserRole.ROLE_REQUESTER) {
-      return "only requester can pay for now."
-    }
-
     return <div>
       <h1><LocaleMessage id={ID_PREFIX + "title"}/></h1>
-      <p><LocaleMessage id={ID_PREFIX + "currentCredits"}/>{this.state.remainingCredits == null ? <LocaleMessage id={ID_PREFIX + "loading"}/> : this.state.remainingCredits}</p>
+      <p><LocaleMessage id={ID_PREFIX + "currentCredits"}/>
+        {this.state.remainingCredits == null ? <LocaleMessage id={ID_PREFIX + "loading"}/> : this.state.remainingCredits}
+        </p>
       <p><LocaleMessage id={ID_PREFIX + "inputCredits"}/></p>
       <Form.Item {...formItemProps(inputValid(this.state.input), <LocaleMessage id={ID_PREFIX + "format"}/>)}>
       <Input value={this.state.input} onChange={this.onValueChange}/>

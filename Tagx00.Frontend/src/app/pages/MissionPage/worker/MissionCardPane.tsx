@@ -5,7 +5,7 @@ import { CardPaneLayout } from "../../../layouts/CardPaneLayout";
 
 interface Props {
   items: Instance[];
-
+  refresh(): void;
 }
 
 export class MissionCardPane extends React.Component<Props, any> {
@@ -13,7 +13,7 @@ export class MissionCardPane extends React.Component<Props, any> {
     return <CardPaneLayout
       dataSource={this.props.items}
       renderItem={(item: Instance) => (
-          <WorkerInstanceCard instance={item}/>
+          <WorkerInstanceCard instance={item} refresh={this.props.refresh}/>
       )}
     />
   }

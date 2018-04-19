@@ -2,8 +2,8 @@ import React from "react"
 
 interface Props {
   filePath: string;
-  height: number;
-  width: number;
+  height?: number;
+  width?: number;
   className?: string;
 }
 

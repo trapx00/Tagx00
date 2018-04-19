@@ -1,6 +1,6 @@
 import React from "react";
-import { Localize } from "../../internationalization/components";
-import { Tooltip, Icon, Card } from 'antd';
+import { LocaleMessage, Localize } from "../../internationalization/components";
+import { Tooltip, Icon, Card, Popconfirm } from 'antd';
 
 const maxTextCount = 23;
 
@@ -9,8 +9,10 @@ export function truncateText(text: string) {
     ? text : text.substr(0, maxTextCount) + "...";
 }
 
+const ID_PREFIX = "missions.worker.myMissions.";
+
 export const stubCard = <Localize replacements={{
-  title: "selfCenter.myMissions.loadingCard"
+  title: ID_PREFIX + "loadingCard"
 }}>
   {props =>
     <Card loading title={props.title} style={{width: 300}}>
@@ -19,20 +21,28 @@ export const stubCard = <Localize replacements={{
   }
 </Localize>;
 
+interface Props {
+  iconType: string;
 
-export class CardAction extends React.Component<{ iconType: string, onClick?: () => void, hoverTextId: string }, {}> {
+  onClick?(e): void;
 
-  onClick = () => {
-    this.props.onClick && this.props.onClick();
+  hoverTextId: string;
+}
+
+
+export class CardAction extends React.Component<Props, {}> {
+
+  onClick = (e) => {
+    this.props.onClick && this.props.onClick(e);
   };
 
   render() {
     return <Localize replacements={{title: this.props.hoverTextId}}>
-    {props =>
-      <Tooltip arrowPointAtCenter placement="topLeft" title={props.title}>
-      <Icon type={this.props.iconType} onClick={this.onClick}/>
-    </Tooltip>
-    }
+      {props =>
+        <Tooltip arrowPointAtCenter placement="topLeft" title={props.title}>
+          <Icon type={this.props.iconType} onClick={this.onClick}/>
+        </Tooltip>
+      }
     </Localize>
   }
 
