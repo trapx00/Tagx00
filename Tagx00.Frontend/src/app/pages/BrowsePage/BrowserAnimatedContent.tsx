@@ -3,10 +3,11 @@ import { observer } from "mobx-react";
 import { Layout } from "antd";
 import TweenOne from 'rc-tween-one';
 import { Inject } from "react.di";
-import { BrowserStore } from "../../../stores/BrowserStore";
-import { SvgImg } from "../../../components/Common/SvgImg";
-import { SearchBar } from "../../../components/Browser/SearchBar";
-import { BrowserMissionList } from "../../../components/Browser/BrowserMissionList";
+import { BrowserStore } from "../../stores/BrowserStore";
+import { SvgImg } from "../../components/Common/SvgImg";
+import { SearchBar } from "./SearchBar";
+import { BrowserMissionList } from "./BrowserMissionList";
+import { action } from "mobx";
 
 const {Content} = Layout;
 
@@ -14,12 +15,12 @@ const standardBarMoveTop: number = -21;
 const standardLogoMoveTop: number = -13;
 
 @observer
-export class BrowseAnimation extends React.Component<any, any> {
+export class BrowserAnimatedContent extends React.Component<any, any> {
 
   @Inject browserStore: BrowserStore;
   searchBar: React.RefObject<any> = React.createRef();
 
-  handleResize = () => {
+  @action handleResize = () => {
     this.browserStore.searchBarWidth = -parseInt(getComputedStyle(this.searchBar.current, null).width) * 0.86;
     this.browserStore.resizeMoveRate();
   };

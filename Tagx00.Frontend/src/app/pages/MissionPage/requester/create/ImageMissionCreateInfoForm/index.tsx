@@ -16,10 +16,10 @@ import { TagSelector } from "../../../../../components/TagSelector";
 import { TopicService } from "../../../../../api/TopicService";
 import { AsyncComponent } from "../../../../../router/AsyncComponent";
 import { Loading } from "../../../../../components/Common/Loading";
+import { FormItem } from "../../../../../components/Form/FormItem";
 
-const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
-const { RangePicker } = DatePicker;
+const {RangePicker} = DatePicker;
 
 interface Props {
   token: string;
@@ -28,11 +28,10 @@ interface Props {
 const ID_PREFIX = "missions.createMission.";
 
 
-
-function formItemProps(valid: boolean, error: ReactNode): FormItemProps  {
+function formItemProps(valid: boolean, error: ReactNode): FormItemProps {
   return {
     validateStatus: valid ? "success" : "error",
-    help: valid? null : error
+    help: valid ? null : error
   };
 }
 
@@ -101,7 +100,7 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
   };
 
 
-  @action onFileListChange= (files) => {
+  @action onFileListChange = (files) => {
     this.info.images = files;
   };
 
@@ -129,22 +128,24 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
       return;
     }
 
-    const {token ,id} = await this.requesterService.createMission(this.info.missionCreateVo, this.props.token);
+    const {token, id} = await this.requesterService.createMission(this.info.missionCreateVo, this.props.token);
 
     console.log(token, id);
 
     // upload cover
 
-    runInAction(() => { this.uploading =true;});
+    runInAction(() => {
+      this.uploading = true;
+    });
     const coverFormData = new FormData();
     coverFormData.append("files[]", this.info.coverImage as any);
 
     const coverUrl = await this.requesterService.uploadImageFile(id, coverFormData, 1, true, token);
 
-    for (let i =0;i<this.info.images.length;i++) {
+    for (let i = 0; i < this.info.images.length; i++) {
       const imageFormData = new FormData();
       imageFormData.append("files[]", this.info.images[i] as any);
-      const img = await this.requesterService.uploadImageFile(id, imageFormData, i+2, false, token);
+      const img = await this.requesterService.uploadImageFile(id, imageFormData, i + 2, false, token);
       console.log(img);
     }
 
@@ -157,7 +158,7 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
           modal.destroy();
           this.routerStore.jumpTo(`/mission?missionId=${id}`);
         }}>
-          {this.localeStore.get(modalIdPrefix+"to")}
+          {this.localeStore.get(modalIdPrefix + "to")}
         </a>
       }),
     });
@@ -180,12 +181,15 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
       }
     });
     const topics = (await this.topicService.getAllTopics()).topics;
-    return React.createElement(observer(() => <TagSelector onSelectedChanged={this.onTopicChange}
-                        selectedTags={toJS(this.info.topics)}
-                        availableTags={topics.map(x => x.value)}
-                        allowCustomTag={false}
-                        placeholder={locale.topics}
-    />));
+    return React.createElement(observer(() => <div>
+        {locale.topics}
+      <TagSelector onSelectedChanged={this.onTopicChange}
+                   selectedTags={toJS(this.info.topics)}
+                   availableTags={topics.map(x => x.value)}
+                   allowCustomTag={false}
+                   placeholder={locale.topics}
+      />
+      </div>));
   };
 
 
@@ -196,47 +200,49 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
       }
     });
     return <Form className="login-form">
-        <FormItem {...formItemProps(this.info.titleValid, locale.requireTitle)}>
-          <Input onChange={this.onTitleChange}
-                 placeholder={locale.title}
-                 value={this.info.title}
-          />
-        </FormItem>
-        <FormItem {...formItemProps(this.info.descriptionValid, locale.requireDescription)}>
-          <Input.TextArea onChange={this.onDescriptionChange}
-                 placeholder={locale.description}
-                 value={this.info.description}
-          />
-        </FormItem>
-      <FormItem {...formItemProps(true, "")}>
-        <AsyncComponent render={this.renderTopicSelector} componentWhenLoading={<Loading/>}/>
+      <FormItem valid={this.info.titleValid} messageOnInvalid={locale.requireTitle}>
+        <Input addonBefore={locale.title}
+               onChange={this.onTitleChange}
+               value={this.info.title}
+        />
       </FormItem>
-      <FormItem {...formItemProps(this.info.allowedTagsValid, locale.requireTags)}>
+      <FormItem valid={this.info.descriptionValid} messageOnInvalid={locale.requireDescription}>
+        <Input.TextArea onChange={this.onDescriptionChange}
+                        placeholder={locale.description}
+                        value={this.info.description}
+        />
+      </FormItem>
+      <FormItem valid={true} messageOnInvalid={""}>
+        <AsyncComponent observeRenderContent={true} render={this.renderTopicSelector} componentWhenLoading={<Loading/>}/>
+      </FormItem>
+      <FormItem valid={this.info.allowedTagsValid} messageOnInvalid={locale.requireTags}>
+        <span style={{marginRight: "16px"}}>{locale.tags}</span>
         <Checkbox checked={this.info.allowCustomTag} onChange={this.onAllowCustomTagChanged}>
           {locale.allowCustomTag}
         </Checkbox>
-        <TagSelector
-                     onSelectedChanged={this.onTagsChange}
+        <TagSelector onSelectedChanged={this.onTagsChange}
                      selectedTags={toJS(this.info.allowedTags)}
                      placeholder={locale.tags}
         />
       </FormItem>
-        <FormItem {...formItemProps(this.info.dateRangeValid, locale.requireDateRange)}>
-          <RangePicker value={toJS(this.info.dateRange)} onChange={this.onDateRangeChanged} />
-        </FormItem>
-        <FormItem {...formItemProps(this.info.imageTypesValid, locale["IMAGE.requireTypes"])}>
-          <CheckboxGroup options={Object.keys(ImageMissionType).map(x => ({label: locale[`IMAGE.types.${x}`], value: x}))}
-                         value={toJS(this.info.imageMissionTypes)}
-                         onChange={this.onTypeChange}/>
-        </FormItem>
-        <p>{locale.cover}</p>
-        <ImageUploadPanel onFileListChange={this.onCoverImageChange}
-                          fileList={[this.info.coverImage].filter(x => !!x)}
-                          maxFileNum={1}
-                          multiple={false}
-                          buttonChildren={locale.selectFile}
-        />
-      <FormItem {...formItemProps(this.info.imagesValid, locale["IMAGE.requireImages"])}>
+      <FormItem valid={this.info.dateRangeValid} messageOnInvalid={locale.requireDateRange}>
+        <p>{locale.dateRange}</p>
+        <RangePicker value={toJS(this.info.dateRange)} onChange={this.onDateRangeChanged}/>
+      </FormItem>
+      <FormItem valid={this.info.imageTypesValid} messageOnInvalid={locale["IMAGE.requireTypes"]}>
+        <p>{locale["IMAGE.types.name"]}</p>
+        <CheckboxGroup options={Object.keys(ImageMissionType).map(x => ({label: locale[`IMAGE.types.${x}`], value: x}))}
+                       value={toJS(this.info.imageMissionTypes)}
+                       onChange={this.onTypeChange}/>
+      </FormItem>
+      <p>{locale.cover}</p>
+      <ImageUploadPanel onFileListChange={this.onCoverImageChange}
+                        fileList={[this.info.coverImage].filter(x => !!x)}
+                        maxFileNum={1}
+                        multiple={false}
+                        buttonChildren={locale.selectFile}
+      />
+      <FormItem valid={this.info.imagesValid} messageOnInvalid={locale["IMAGE.requireImages"]}>
         <p>{locale["IMAGE.images"]}</p>
         <ImageUploadPanel onFileListChange={this.onFileListChange}
                           fileList={this.info.images}
@@ -245,9 +251,9 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
                           buttonChildren={locale.selectFile}
         />
       </FormItem>
-        <Button type={"primary"} onClick={this.submit} loading={this.uploading}>
-          {locale.submit}
-        </Button>
-      </Form>;
+      <Button type={"primary"} onClick={this.submit} loading={this.uploading}>
+        {locale.submit}
+      </Button>
+    </Form>;
   }
 }

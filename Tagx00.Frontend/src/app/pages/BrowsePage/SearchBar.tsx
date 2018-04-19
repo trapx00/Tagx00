@@ -1,10 +1,13 @@
 import * as React from "react";
 import { Input, Tag } from "antd";
-import { Localize } from "../../../internationalization/components";
-import { ClickableTag } from "../../ClickableTag";
+import { Localize } from "../../internationalization/components";
+import { ClickableTag } from "../../components/ClickableTag";
 import { observer } from "mobx-react";
-import { BrowserStore } from "../../../stores/BrowserStore";
+import { BrowserStore } from "../../stores/BrowserStore";
 import { Inject } from "react.di";
+import { AsyncComponent } from "../../router/AsyncComponent";
+import { Loading } from "../../components/Common/Loading";
+import styled from "styled-components";
 
 const Search = Input.Search;
 
@@ -12,12 +15,17 @@ const smallerDiv = {
   display: 'inline',
 };
 
+interface Props {
+  // contentRef: React.RefObject<any>;
+}
+
 const centerAndPadding = {
   margin: '2%',
 };
 
+
 @observer
-export class SearchBar extends React.Component<{}, any> {
+export class SearchBar extends React.Component<Props, any> {
 
   @Inject browserStore: BrowserStore;
 
@@ -51,6 +59,16 @@ export class SearchBar extends React.Component<{}, any> {
     })
   };
 
+  renderTopics = async () => {
+    await this.browserStore.fetchAllTopics();
+    return this.browserStore.topics.map(
+      (item) => {
+        return <ClickableTag onClick={this.handleClick} color="geekblue" value={item.value}
+                             key={item.topicId}/>
+      }
+    );
+  };
+
   render() {
     return (
       <Localize replacements={{
@@ -73,15 +91,8 @@ export class SearchBar extends React.Component<{}, any> {
                 onChange={this.setSearchValue}
               />
               <div style={centerAndPadding}>
-                <div onClick={this.handleSearchAll} style={smallerDiv}>
-                  <Tag color="#108ee9">{props.searchAll}</Tag>
-                </div>
-                {this.browserStore.topics.map(
-                  (item) => {
-                    return <ClickableTag onClick={this.handleClick} color="geekblue" value={item.value}
-                                         key={item.topicId}/>
-                  }
-                )}
+                <Tag color="#108ee9">{props.searchAll}</Tag>
+                <AsyncComponent render={this.renderTopics} componentWhenLoading={<Loading/>} />
               </div>
             </div>
           );
