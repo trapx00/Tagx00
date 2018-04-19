@@ -37,10 +37,10 @@ export class BrowserStore {
   @Inject topicService: TopicService;
   @Inject missionService: MissionService;
 
-  @action public reverseBrowsing = () => {
-    this.reverse = !this.reverse;
-    this.paused = !this.paused;
-    setTimeout(() => runInAction(() => this.isStop = true),1200);
+  @action public startBrowsing = () => {
+    this.reverse = false;
+    this.paused = false;
+    setTimeout(() => runInAction(() => this.isStop = true), 1200);
   };
 
   @action public resizeMoveRate = () => {

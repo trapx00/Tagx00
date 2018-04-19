@@ -37,12 +37,12 @@ export class SearchBar extends React.Component<{}, any> {
   };
 
   handleSearch = async () => {
-    this.browserStore.reverseBrowsing();
+    this.browserStore.startBrowsing();
     await this.browserStore.search(this.state.searchValue);
   };
 
   handleSearchAll = () => {
-    this.browserStore.reverseBrowsing();
+    this.browserStore.startBrowsing();
   };
 
   setSearchValue = (e) => {
