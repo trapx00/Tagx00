@@ -119,7 +119,7 @@
       "description": "任务描述",
       "dateRange": "起始时间",
       "dateRangeFormat": "{start} 至 {end}",
-      "dateFormat": "YYYY/MM/DD HH:mm:SS",
+      "dateFormat": "YYYY/MM/DD HH:mm:ss",
       "topics": "主题",
       "jobCount": "工作数量",
       "cover": "封面",
@@ -163,6 +163,7 @@
         "selectFile": "选择文件",
         "IMAGE": {
           "types": {
+            "name": "图片任务类型",
             "DISTRICT": "区域",
             "WHOLE":"整体",
             "PART": "局部"
@@ -298,7 +299,14 @@
     "searchAll": "全部"
   },
   "browserMissionList": {
-    "dividerText": "任务列表"
+    "dividerText": "任务列表",
+    "accept": "接受",
+    "missionAccepted": "任务已经成功接受",
+    "seeDetail": "查看详细信息",
+    "missionType": {
+      "IMAGE": "图片"
+    },
+    "dateFormat": "YYYY/MM/DD HH:mm:ss"
   },
   "pay": {
     "title": "充值",

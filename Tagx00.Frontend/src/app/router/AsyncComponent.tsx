@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react"
+import { observer } from "mobx-react";
 
 
 interface AsyncComponentProps<T> {
@@ -6,6 +7,7 @@ interface AsyncComponentProps<T> {
   props?: T;
   componentWhenLoading?: ReactNode;
   componentProducerWhenLoadingFailed?: (e) => ReactNode;
+  observeRenderContent?: boolean;
 }
 
 interface State<T> {
@@ -27,7 +29,12 @@ export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, S
   async loadComponent() {
     try {
       const component = await this.props.render(this.props.props);
-      this.setState({component, loaded: true});
+      this.setState({
+        component: this.props.observeRenderContent
+          ? React.createElement(observer(() => component as any))
+          : component
+        , loaded: true
+      });
     } catch (e) {
       if (this.props.componentProducerWhenLoadingFailed) {
         this.setState({
@@ -54,7 +61,7 @@ export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, S
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.render !==  prevState.render || nextProps.props !== prevState.props) {
+    if (nextProps.render !== prevState.render || nextProps.props !== prevState.props) {
       console.log("render needed");
       return {render: nextProps.render, props: nextProps.props, loaded: false};
     } else {

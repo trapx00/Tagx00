@@ -4,9 +4,7 @@ import { Localize } from "../../../internationalization/components";
 import { observer } from "mobx-react";
 import { LoginFormFields } from "./LoginController";
 import { action } from "mobx";
-import { FormItemProps } from "antd/lib/form/FormItem";
-
-const FormItem = Form.Item;
+import { FormItem } from "../../Form/FormItem";
 
 interface Props  {
   fields: LoginFormFields;
@@ -27,12 +25,6 @@ export class LoginForm extends React.Component<Props, {}> {
     this.props.fields.remember = e.target.checked;
   };
 
-  formItemProps(valid: boolean, error: string): FormItemProps  {
-    return {
-      validateStatus: valid ? "success" : "error",
-      help: valid? null : error
-    };
-  }
 
   render() {
     const {fields} = this.props;
@@ -48,15 +40,14 @@ export class LoginForm extends React.Component<Props, {}> {
       <Localize replacements={props}>
         {
           props => <Form className="login-form">
-            <FormItem {...this.formItemProps(fields.usernameValid, props.requireUsername)}>
+            <FormItem valid={fields.usernameValid} messageOnInvalid={props.requireUsername}>
               <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                      onChange={this.onUsernameChange}
                      placeholder={props.username}
                      value={fields.username}
               />
             </FormItem>
-            <FormItem {...this.formItemProps(fields.passwordValid, props.requirePassword)}
-            >
+            <FormItem valid={fields.passwordValid} messageOnInvalid={props.requirePassword}>
               <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                      type="password"
                      onChange={this.onPasswordChange}
@@ -64,7 +55,7 @@ export class LoginForm extends React.Component<Props, {}> {
                      value={fields.password}
               />
             </FormItem>
-            <FormItem>
+            <FormItem valid={true} messageOnInvalid={null}>
               <Checkbox onChange={this.onRememberChange}
                         checked={fields.remember}
               >

@@ -13,7 +13,6 @@ import styled from "styled-components";
 export interface FooterProps {
   isMobile?: boolean;
   id?: string;
-  key?: string;
 }
 
 const ID_PREFIX = "footer.";
@@ -25,7 +24,6 @@ export class Footer extends React.Component<FooterProps, any> {
   static defaultProps = {
     className: 'footer1',
     id: "footer_1_0",
-    key: "footer_1_0",
     isMobile: false
   };
 
