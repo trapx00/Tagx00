@@ -1,12 +1,10 @@
 import { action, computed, observable, runInAction } from "mobx";
-import { Tag } from "antd";
 import { MissionPublicItem } from "../models/mission/Mission";
 import React from "react";
 import { MissionService } from "../api/MissionService";
 import { Inject, Injectable } from "react.di";
 import { Topic } from "../models/topic/Topic";
 import { TopicService } from "../api/TopicService";
-
 
 
 @Injectable
@@ -25,7 +23,8 @@ export class BrowserStore {
   @observable isStop: boolean = false;
 
 
-  constructor(@Inject private topicService: TopicService, @Inject private missionService: MissionService) {}
+  constructor(@Inject private topicService: TopicService, @Inject private missionService: MissionService) {
+  }
 
   @action public startBrowsing = () => {
     this.reverse = false;

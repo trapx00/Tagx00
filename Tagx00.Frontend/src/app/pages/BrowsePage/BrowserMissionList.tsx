@@ -1,9 +1,9 @@
 import React from "react";
 import { Button, Divider, List, message, Pagination, Spin } from "antd";
+import QueueAnim from 'rc-queue-anim';
 import { LocaleMessage, Localize } from "../../internationalization/components";
 import { BrowserStore } from "../../stores/BrowserStore";
 import { observer } from "mobx-react";
-import { Response } from "../../models/response/Response";
 import { WorkerService } from "../../api/WorkerService";
 import { Inject } from "react.di";
 import { UserStore } from "../../stores/UserStore";
@@ -30,20 +30,21 @@ export class BrowserMissionList extends React.Component<any, {}> {
         return <div style={{textAlign: 'center', marginTop: '-10%'}}><Spin size="large"/></div>;
       }
       else {
-        return <div>
-          <Divider style={centerDivider}><LocaleMessage id={ID_PREFIX + "dividerText"}/></Divider>
-          <List
-            itemLayout="vertical"
-            size="large"
-            pagination={false}
-            dataSource={this.browserStore.listData}
-            renderItem={item => <MissionItem key={item.missionId} item={item}/>}
-          />
-          <div style={{textAlign: 'center'}}>
-            <Pagination defaultCurrent={1} total={1}/>
-          </div>
-        </div>;
-
+        return <QueueAnim type={['right', 'left']} leaveReverse>
+          {this.browserStore.listData.length != 0 ? (
+            <div><Divider style={centerDivider}><LocaleMessage id={ID_PREFIX + "dividerText"}/></Divider>
+              <List
+                itemLayout="vertical"
+                size="large"
+                pagination={false}
+                dataSource={this.browserStore.listData}
+                renderItem={item => <MissionItem key={item.missionId} item={item}/>}
+              />
+              <div style={{textAlign: 'center'}}>
+                <Pagination defaultCurrent={1} total={1}/>
+              </div>
+            </div>) : (
+            <div style={{textAlign: 'center', marginTop: '-10%'}}><Spin size="large"/></div>)}</QueueAnim>
       }
     } else {
       return null;
