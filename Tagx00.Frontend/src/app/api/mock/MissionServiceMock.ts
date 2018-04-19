@@ -68,14 +68,4 @@ export class MissionServiceMock extends MissionService {
 
   }
 
-  async getAllTopics(): Promise<TopicFetchResponse> {
-    return {
-      topics: [
-        {
-          topicId: 1,
-          value: "123"
-        }
-      ]
-    }
-  }
 }

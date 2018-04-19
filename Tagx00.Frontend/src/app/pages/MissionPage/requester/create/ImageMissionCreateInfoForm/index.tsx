@@ -1,35 +1,80 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { observer } from "mobx-react";
 import { action, observable, runInAction, toJS } from "mobx";
 import { ImageMissionCreateInfo } from "./ImageMissionCreateInfo";
-import { Button, Checkbox, Form, Input, Modal } from 'antd';
+import { Checkbox, DatePicker, Form, Input, Modal, Button } from 'antd';
 import { FormItemProps } from "antd/lib/form/FormItem";
 import { ImageMissionType } from "../../../../../models/mission/image/ImageMission";
 import { ImageUploadPanel } from "./ImageUploadPanel";
 import { RequesterService } from "../../../../../api/RequesterService";
 import { Inject } from "react.di";
 import { LocaleStore } from "../../../../../stores/LocaleStore";
-import { LocaleMessage } from "../../../../../internationalization/components";
 import { Link } from 'react-router-dom';
 import { RouterStore } from "../../../../../stores/RouterStore";
+import moment from 'moment';
+import { TagSelector } from "../../../../../components/TagSelector";
+import { TopicService } from "../../../../../api/TopicService";
+import { AsyncComponent } from "../../../../../router/AsyncComponent";
+import { Loading } from "../../../../../components/Common/Loading";
 
 const FormItem = Form.Item;
 const CheckboxGroup = Checkbox.Group;
+const { RangePicker } = DatePicker;
 
 interface Props {
   token: string;
 }
 
+const ID_PREFIX = "missions.createMission.";
 
-const imageMissionTypes = Object.keys(ImageMissionType)
-  .map(x => ({ label: x, value: x}));
 
-function formItemProps(valid: boolean, error: string): FormItemProps  {
+
+function formItemProps(valid: boolean, error: ReactNode): FormItemProps  {
   return {
     validateStatus: valid ? "success" : "error",
     help: valid? null : error
   };
 }
+
+
+const formStrings = [
+  "title",
+  "requireTitle",
+  "description",
+  "requireDescription",
+  "topics",
+  "availableTopics",
+  "startDate",
+  "requireStartDate",
+  "endDate",
+  "requireEndDate",
+  "selectFile",
+].reduce((prev, curr) => ({...prev, [curr]: `${ID_PREFIX}fields.${curr}`}), {});
+
+/**
+ *       "fields": {
+        "title": "任务标题",
+        "requireTitle": "请输入任务标题",
+        "description": "任务描述",
+        "requireDescription": "请输入任务描述",
+        "topics": "主题词",
+        "availableTopics": "可选主题词",
+        "startDate": "开始时间",
+        "requireStartDate": "请选择任务开始时间",
+        "endDate": "结束时间",
+        "requireEndDate": "请选择任务结束时间",
+        "cover": "封面图",
+        "selectFile": "选择文件",
+        "IMAGE": {
+          "type": {
+            "DISTRICT": "区域",
+            "WHOLE":"整体",
+            "PART": "局部"
+          },
+          "requireImage": "请上传至少一张图片"
+        }
+      },
+ */
 
 @observer
 export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
@@ -40,6 +85,7 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
   @Inject localeStore: LocaleStore;
   @Inject routerStore: RouterStore;
   @Inject requesterService: RequesterService;
+  @Inject topicService: TopicService;
 
   @action onTitleChange = (e) => {
     this.info.title = e.target.value;
@@ -54,6 +100,7 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
     this.info.imageMissionTypes = checkedValues.map(x => ImageMissionType[x]);
   };
 
+
   @action onFileListChange= (files) => {
     this.info.images = files;
   };
@@ -67,9 +114,20 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
 
   };
 
+  @action onDateRangeChanged = (dates: [moment.Moment, moment.Moment]) => {
+    this.info.dateRange = dates;
+  };
 
+  @action onTagsChange = (tags: string[]) => {
+    this.info.allowedTags = tags;
+  };
 
-  submit = async () => {
+  @action submit = async () => {
+
+    this.info.createAttempted = true;
+    if (!this.info.valid) {
+      return;
+    }
 
     const {token ,id} = await this.requesterService.createMission(this.info.missionCreateVo, this.props.token);
 
@@ -90,7 +148,7 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
       console.log(img);
     }
 
-    const modalIdPrefix = "missions.createMission.completeCreation.";
+    const modalIdPrefix = ID_PREFIX + "completeCreation.";
 
     const modal = Modal.success({
       title: this.localeStore.get(modalIdPrefix + "title"),
@@ -107,42 +165,89 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
     runInAction(() => this.uploading = false);
   };
 
+  @action onAllowCustomTagChanged = (e) => {
+    this.info.allowCustomTag = e.target.checked;
+  };
+
+  @action onTopicChange = (selected: string[]) => {
+    this.info.topics = selected;
+  };
+
+  renderTopicSelector = async () => {
+    const locale: any = new Proxy({}, {
+      get: (target, key) => {
+        return this.localeStore.get(`${ID_PREFIX}fields.${key}`) as string;
+      }
+    });
+    const topics = (await this.topicService.getAllTopics()).topics;
+    return React.createElement(observer(() => <TagSelector onSelectedChanged={this.onTopicChange}
+                        selectedTags={toJS(this.info.topics)}
+                        availableTags={topics.map(x => x.value)}
+                        allowCustomTag={false}
+                        placeholder={locale.topics}
+    />));
+  };
+
 
   render() {
-
+    const locale: any = new Proxy({}, {
+      get: (target, key) => {
+        return this.localeStore.get(`${ID_PREFIX}fields.${key}`) as string;
+      }
+    });
     return <Form className="login-form">
-      <FormItem {...formItemProps(this.info.titleValid, "请输入标题")}>
-        <Input onChange={this.onTitleChange}
-               placeholder={"标题"}
-               value={this.info.title}
+        <FormItem {...formItemProps(this.info.titleValid, locale.requireTitle)}>
+          <Input onChange={this.onTitleChange}
+                 placeholder={locale.title}
+                 value={this.info.title}
+          />
+        </FormItem>
+        <FormItem {...formItemProps(this.info.descriptionValid, locale.requireDescription)}>
+          <Input.TextArea onChange={this.onDescriptionChange}
+                 placeholder={locale.description}
+                 value={this.info.description}
+          />
+        </FormItem>
+      <FormItem {...formItemProps(true, "")}>
+        <AsyncComponent render={this.renderTopicSelector} componentWhenLoading={<Loading/>}/>
+      </FormItem>
+      <FormItem {...formItemProps(this.info.allowedTagsValid, locale.requireTags)}>
+        <Checkbox checked={this.info.allowCustomTag} onChange={this.onAllowCustomTagChanged}>
+          {locale.allowCustomTag}
+        </Checkbox>
+        <TagSelector
+                     onSelectedChanged={this.onTagsChange}
+                     selectedTags={toJS(this.info.allowedTags)}
+                     placeholder={locale.tags}
         />
       </FormItem>
-      <FormItem {...formItemProps(this.info.descriptionValid, "请输入描述")}>
-        <Input onChange={this.onDescriptionChange}
-               placeholder={"描述"}
-               value={this.info.description}
+        <FormItem {...formItemProps(this.info.dateRangeValid, locale.requireDateRange)}>
+          <RangePicker value={toJS(this.info.dateRange)} onChange={this.onDateRangeChanged} />
+        </FormItem>
+        <FormItem {...formItemProps(this.info.imageTypesValid, locale["IMAGE.requireTypes"])}>
+          <CheckboxGroup options={Object.keys(ImageMissionType).map(x => ({label: locale[`IMAGE.types.${x}`], value: x}))}
+                         value={toJS(this.info.imageMissionTypes)}
+                         onChange={this.onTypeChange}/>
+        </FormItem>
+        <p>{locale.cover}</p>
+        <ImageUploadPanel onFileListChange={this.onCoverImageChange}
+                          fileList={[this.info.coverImage].filter(x => !!x)}
+                          maxFileNum={1}
+                          multiple={false}
+                          buttonChildren={locale.selectFile}
+        />
+      <FormItem {...formItemProps(this.info.imagesValid, locale["IMAGE.requireImages"])}>
+        <p>{locale["IMAGE.images"]}</p>
+        <ImageUploadPanel onFileListChange={this.onFileListChange}
+                          fileList={this.info.images}
+                          maxFileNum={Number.MAX_SAFE_INTEGER}
+                          multiple={true}
+                          buttonChildren={locale.selectFile}
         />
       </FormItem>
-      <FormItem>
-        <CheckboxGroup options={imageMissionTypes}
-                       value={this.info.imageMissionTypes}
-                       onChange={this.onTypeChange}/>
-      </FormItem>
-      <p>上传一张封面图</p>
-      <ImageUploadPanel onFileListChange={this.onCoverImageChange}
-                        fileList={[this.info.coverImage].filter(x => !!x)}
-                        maxFileNum={1}
-                        multiple={false}
-      />
-      <p>所有图片</p>
-      <ImageUploadPanel onFileListChange={this.onFileListChange}
-                        fileList={this.info.images}
-                        maxFileNum={Number.MAX_SAFE_INTEGER}
-                        multiple={true}
-      />
-      <Button type={"primary"} onClick={this.submit} loading={this.uploading}>
-        确认
-      </Button>
-    </Form>
+        <Button type={"primary"} onClick={this.submit} loading={this.uploading}>
+          {locale.submit}
+        </Button>
+      </Form>;
   }
 }

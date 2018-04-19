@@ -37,12 +37,6 @@ export class MissionService {
     }
   }
 
-  async getAllTopics(): Promise<TopicFetchResponse> {
-    const res = await this.http.fetch({
-      path: "/mission/topics",
-      method: HttpMethod.GET
-    });
-    return res.response;
-  }
+
 
 }

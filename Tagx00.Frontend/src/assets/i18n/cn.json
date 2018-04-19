@@ -146,7 +146,35 @@
         "title": "任务创建成功",
         "description": "任务已经创建。{to}查看任务详细信息",
         "to": "点击这里"
+      },
+      "fields": {
+        "title": "任务标题",
+        "requireTitle": "请输入任务标题",
+        "description": "任务描述",
+        "requireDescription": "请输入任务描述",
+        "topics": "主题词",
+        "availableTopics": "可选主题词",
+        "dateRange":"时间段",
+        "requireDateRange": "请选择任务有效时间段",
+        "tags": "标签",
+        "allowCustomTag": "允许工人自定义标签",
+        "requireTags": "当不允许工人自定义标签时，请添加至少一个可用标签",
+        "cover": "封面图",
+        "selectFile": "选择文件",
+        "IMAGE": {
+          "types": {
+            "DISTRICT": "区域",
+            "WHOLE":"整体",
+            "PART": "局部"
+          },
+          "requireTypes": "请选择至少一种任务",
+          "images": "任务图片",
+          "requireImages": "请上传至少一张图片"
+        },
+        "submit": "提交"
       }
+
+
     },
     "worker": {
       "myMissions": {

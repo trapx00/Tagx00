@@ -5,6 +5,7 @@ import React from "react";
 import { MissionService } from "../api/MissionService";
 import { Inject, Injectable } from "react.di";
 import { Topic } from "../models/topic/Topic";
+import { TopicService } from "../api/TopicService";
 
 interface ListDataProps {
   missionId: string,
@@ -32,6 +33,10 @@ export class BrowserStore {
   @observable listData: ListDataProps[] = [];
   @observable topics: Topic[] = [];
   @observable isStop: boolean = false;
+
+  @Inject topicService: TopicService;
+  @Inject missionService: MissionService;
+
   @action public reverseBrowsing = () => {
     this.reverse = !this.reverse;
     this.paused = !this.paused;
@@ -43,12 +48,12 @@ export class BrowserStore {
     this.moveWidthRate = document.body.clientWidth / BrowserStore._standardWidth;
   };
 
-  constructor(@Inject private missionService: MissionService) {
+  constructor() {
     this.fetchAllTopics();
   }
 
   async fetchAllTopics() {
-    const topics = await this.missionService.getAllTopics();
+    const topics = await this.topicService.getAllTopics();
     runInAction(() => {
       this.topics = topics.topics;
     })
