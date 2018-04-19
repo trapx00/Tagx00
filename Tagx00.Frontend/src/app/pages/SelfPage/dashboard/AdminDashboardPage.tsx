@@ -4,6 +4,7 @@ import {AdminService} from "../../../api/AdminService";
 import {Inject} from "react.di";
 import {UserStore} from "../../../stores/UserStore";
 import {PieChart, Pie, Legend, Tooltip, Cell} from "recharts";
+import { DefinitionItem } from "../../../components/DefinitionItem";
 
 export class AdminDashboardPage extends React.Component<{},{}> {
 
@@ -24,9 +25,10 @@ export class AdminDashboardPage extends React.Component<{},{}> {
         };
 
         const info = await this.adminService.getAdminInfo(this.userStore.token);
-        const Missiondata = [
-            {name: MissionProps.pending, value: info.totalMissionCount},
-            {name: 'Group B', value: 4567},
+        const MissionData = [
+            {name: MissionProps.pending, value: info.submittedInstanceCount},
+            {name: MissionProps.active, value: info.inProgressInstanceCount},
+            {name: MissionProps.ended, value:info.finalizeInstanceCount}
            ];
         const InstanceData = [
             {name: InstanceProps.inProgress,value: info.inProgressInstanceCount},
@@ -37,9 +39,23 @@ export class AdminDashboardPage extends React.Component<{},{}> {
         const colors = ["#99adff","#99d6ff","#9dfce9","#d6ff99"];
         const pieText = [InstanceProps.inProgress,InstanceProps.submitted,InstanceProps.awaitingComment,InstanceProps.finalized]
         return <div>
-            <p>系统用户数：{info.userCount}</p>
-            <p>任务：{info.totalMissionCount}</p>
-            <p>实例：{info.totalInstanceCount}</p>
+            <DefinitionItem prompt={"系统用户数"} children={info.userCount}/>
+            <DefinitionItem prompt={"任务"} children={info.totalMissionCount}/>
+            <PieChart width={400} height={400}>
+                <Pie isAnimationActive={false}
+                 data={MissionData}
+                 cx={200} cy={140}
+                 outerRadius={80}
+                 label>
+              {
+                InstanceData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={colors[index]}/>
+                ))
+              }
+                </Pie>
+                <Tooltip/>
+            </PieChart>
+            <DefinitionItem prompt={"实例"} children={info.totalInstanceCount}/>
             <PieChart width={400} height={400}>
                 <Pie isAnimationActive={false}
                     data={InstanceData}

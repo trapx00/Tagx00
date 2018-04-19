@@ -4,6 +4,7 @@ import {Inject} from "react.di";
 import {WorkerService} from "../../../api/WorkerService";
 import {LocaleMessage} from "../../../internationalization/components";
 import {AsyncComponent} from "../../../router/AsyncComponent";
+import { DefinitionItem } from "../../../components/DefinitionItem";
 
 export class WorkerDashboardPage extends React.Component<{},{}> {
     @Inject userStore:UserStore;
@@ -12,10 +13,10 @@ export class WorkerDashboardPage extends React.Component<{},{}> {
     workerInfo = async () => {
         const info = await this.workerService.getWorkerInfo(this.userStore.user.username,this.userStore.token);
         return <div>
-            <p>已接受任务：{info.acceptedMissionCount}</p>
-            <p>进行中：{info.inProgressMissionCount}</p>
-            <p>已完成：{info.completedMissionCount}</p>
-            <p>已放弃： {info.abandonedMissionCount }</p>
+            <DefinitionItem prompt={"已接受任务"} children={info.acceptedMissionCount}/>
+            <DefinitionItem prompt={"进行中"} children={info.inProgressMissionCount}/>
+            <DefinitionItem prompt={"已完成"} children={info.completedMissionCount}/>
+            <DefinitionItem prompt={"已放弃"} children={info.abandonedMissionCount}/>
         </div>
     }
 
