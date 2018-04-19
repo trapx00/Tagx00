@@ -14,6 +14,7 @@ interface Props {
   readonly: boolean;
   instanceId: string;
   close: () => void;
+  refresh : () => void;
   shown: boolean;
 }
 
@@ -83,7 +84,10 @@ export class FinalizeModal extends React.Component<Props, State> {
     this.setState({submitting: false});
     Modal.success({
       title: "成功",
-      onOk: this.goBack
+      onOk: () => {
+        this.props.refresh();
+        this.props.close();
+      }
     });
   };
 

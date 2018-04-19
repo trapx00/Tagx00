@@ -3,10 +3,8 @@ import { Route, RouteComponentProps, Switch } from "react-router";
 import { WorkerMissionPageSideMenu } from "./WorkerMissionPageSideMenu";
 import { SiderLayout } from "../../../layouts/SiderLayout";
 import { AsyncComponent } from "../../../router/AsyncComponent";
-import { parseQueryString } from "../../../router/utils";
 import { UserRole } from "../../../models/user/User";
-import { UserStore } from "../../../stores/UserStore";
-import { Inject } from "react.di";
+import { requireLogin } from "../../hoc/RequireLogin";
 
 interface Props {
 
@@ -27,14 +25,10 @@ async function renderSeeResult(props) {
   return <Page missionId={props.match.params.missionId}/>;
 }
 
+@requireLogin(UserRole.ROLE_WORKER)
 export class WorkerMissionPage extends React.Component<Props, {}> {
 
-  @Inject userStore: UserStore;
-
   render() {
-    if (this.userStore.user.role !== UserRole.ROLE_WORKER) {
-      return "You are not a worker!";
-    }
     return <Switch>
       <Route exact path={"/mission/worker/:missionId"}
              render={props => <AsyncComponent render={renderSeeResult} props={props}/>}/>

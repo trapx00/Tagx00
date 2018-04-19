@@ -8,7 +8,7 @@ import { MissionService } from "../../api/MissionService";
 import { UserStore } from "../../stores/UserStore";
 import { AsyncComponent } from "../../router/AsyncComponent";
 
-const ID_PREFIX = "selfCenter.myMissions.";
+const ID_PREFIX = "missions.worker.myMissions.";
 
 const stateTagMap = {
   [MissionInstanceState.SUBMITTED]: <Tag color="#87d068"><LocaleMessage id={ID_PREFIX + "cardState.submitted"}/></Tag>,

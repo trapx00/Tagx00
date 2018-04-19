@@ -25,6 +25,7 @@ const FormContainer = styled.div`
     {provide: RegisterStore, useClass: RegisterStore}
   ]
 })
+
 @observer
 export class RegisterPage extends React.Component<any, any> {
   @Inject registerStore: RegisterStore;

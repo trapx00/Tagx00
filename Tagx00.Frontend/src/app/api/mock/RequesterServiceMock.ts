@@ -49,7 +49,8 @@ export class RequesterServiceMock extends RequesterService {
           start: new Date(),
           end: new Date(),
           coverUrl: "http://pic1.16xx8.com/allimg/170801/1-1FP116442T62.jpg",
-          jobCount: 10
+          jobCount: 10,
+          requesterUsername: "123"
         })
       )
     }

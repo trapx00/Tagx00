@@ -4,9 +4,8 @@ import { SiderLayout } from "../../../layouts/SiderLayout";
 import { RequesterMissionPageSideMenu } from "./RequesterMissionPageSideMenu";
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { parseQueryString } from "../../../router/utils";
-import { Inject } from "react.di";
-import { UserStore } from "../../../stores/UserStore";
 import { UserRole } from "../../../models/user/User";
+import { requireLogin } from "../../hoc/RequireLogin";
 
 interface Props {
 
@@ -19,7 +18,6 @@ async function renderMissionPanel() {
 
 async function renderInstancePanel(props: RouteComponentProps<any>) {
   const RequesterInstancePanel = (await import("./RequesterInstancePanel")).RequesterInstancePanel;
-  console.log(parseQueryString(props));
   return <RequesterInstancePanel missionId={parseQueryString(props).missionId as string}/>;
 }
 
@@ -32,14 +30,11 @@ async function renderCreateImage() {
   const Page = (await import("./create/ImageMissionCreatePage")).ImageMissionCreatePage;
   return <Page/>;
 }
+
+@requireLogin(UserRole.ROLE_REQUESTER)
 export class RequesterMissionPage extends React.Component<Props, {}> {
 
-  @Inject userStore: UserStore;
-
   render() {
-    if (this.userStore.user.role !== UserRole.ROLE_REQUESTER) {
-      return "You are not a requester!";
-    }
     return <Switch>
       <Route exact path={"/mission/requester/instance/:instanceId"} render={props => <AsyncComponent render={renderInstanceSeeResult} props={props}/>}/>
       <Route render={() => <SiderLayout leftSider={<RequesterMissionPageSideMenu/>}>
