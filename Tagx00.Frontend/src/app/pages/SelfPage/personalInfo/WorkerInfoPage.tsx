@@ -6,6 +6,7 @@ import {LocaleMessage} from "../../../internationalization/components";
 import {AsyncComponent} from "../../../router/AsyncComponent";
 import {LevelStore} from "../../../stores/LevelStore";
 import { Progress } from 'antd';
+import { DefinitionItem } from "../../../components/DefinitionItem";
 
 export class WorkerInfoPage extends React.Component<{},{}> {
     @Inject userStore: UserStore;
@@ -13,17 +14,22 @@ export class WorkerInfoPage extends React.Component<{},{}> {
     @Inject levelStore: LevelStore;
 
     workerInfo = async () => {
-        const info = await this.workerService.getWorkerInfo(this.userStore.user.username,this.userStore.token);
-        const nextLevelExp = await this.levelStore.getNextLevelExp(info.exp); //下一等级总经验，不是还差
+      console.log("here");
+      const info = await this.workerService.getWorkerInfo(this.userStore.user.username,this.userStore.token);
+      const nextLevelExp = await this.levelStore.getNextLevelExp(info.exp);
         const percent = (info.exp)*100/nextLevelExp;
         return (
           <div>
-            <p>用户名：{info.username}</p>
-            <p>注册邮箱：{info.email}</p>
-            <p>等级：{info.level} </p>
-            <Progress percent={percent} showInfo={false}/> {info.exp}/{nextLevelExp}
-            <p>积分：{info.credits }</p>
+            <DefinitionItem prompt={"用户名"} children={info.username}/>
+            <DefinitionItem prompt={"注册邮箱"} children={info.email}/>
+            <DefinitionItem prompt={"等级"} children={info.level}/>
+            <DefinitionItem prompt={"经验"}
+                            children ={
+                                <div style={{width:200}}>
+                                   <Progress percent={percent} format={ () => info.exp + "/"+ nextLevelExp} />
+                                </div>}/>
 
+            <DefinitionItem prompt={"积分"} children={info.level}/>
         </div>);
     }
 
@@ -34,7 +40,6 @@ export class WorkerInfoPage extends React.Component<{},{}> {
                     <LocaleMessage id={"selfCenter.personalInfo"}/>
                 </h1>
                 <AsyncComponent render={this.workerInfo}/>
-                <Progress percent={30} />
             </div>
         )
     }

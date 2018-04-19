@@ -1,23 +1,29 @@
-import { Injectable } from "react.di";
+import { Inject, Injectable } from "react.di";
+import { UserService } from "../api/UserService";
+import { UserStore } from "./UserStore";
 
 @Injectable
 export class LevelStore {
-  levels: number[];
-  exp: number[];
+  @Inject userService: UserService;
+  @Inject userStore: UserStore;
+
+  levels: number[];//[0,100,200,300,,,]
 
   async getLevelInfo() {
-    this.levels = [1, 2, 3];
-    this.exp = [0,100,200,300];
+    const levelInfo = await this.userService.getLevelInfo(this.userStore.token);
+    this.levels= levelInfo.levels;
+    this.levels=[0,100,200,300];
   }
 
   async getNextLevelExp(exp: number) {
     if (!this.levels) {
       await this.getLevelInfo();
     }
+    console.log(this.levels);
 
     for (let i = 0; i < this.levels.length - 1; i++) {
-      if (this.exp[i] <= exp && exp < this.exp[i + 1]) {
-        return this.exp[i+1];
+      if (this.levels[i] < exp && exp <= this.levels[i + 1]) {
+        return this.levels[i + 1];
       }
     }
     return -1; // max level
