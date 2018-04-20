@@ -36,11 +36,11 @@ export class WorkerServiceMock extends WorkerService {
 
   async getInstanceDetail(missionId: string, token: string): Promise<InstanceDetailResponse> {
 
-    if (Math.random()<0.5) {
-      throw {
-        statusCode: 404
-      }
-    }
+    // if (Math.random()<0.5) {
+    //   throw {
+    //     statusCode: 404
+    //   }
+    // }
 
     // mock
     return {

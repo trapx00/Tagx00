@@ -36,6 +36,7 @@ export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, S
         , loaded: true
       });
     } catch (e) {
+      console.log(e);
       if (this.props.componentProducerWhenLoadingFailed) {
         this.setState({
             component: this.props.componentProducerWhenLoadingFailed(e),

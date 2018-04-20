@@ -25,8 +25,8 @@ function initializeNotation(notation: ImageNotation<PartJob>) {
 
 export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJob>, ImageWorkPageStates<PartJob>> {
 
-  scale: 1;
-
+  // scale: 1;
+  scale = 1;
   state = {
     notation: initializeNotation(this.props.notation),
     selectedIndex: -1,
@@ -35,7 +35,7 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
     height: 1,
   };
 
-  static getDerivedSttateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.notation !== prevState.notation) {
       return {
         notation: initializeNotation(nextProps.notation),
@@ -141,7 +141,9 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
           {selectedTuple
             ? <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
                                         readonlyMode={readonlyMode}
-                                        onChange={this.onTupleChanged}/>
+                                        onChange={this.onTupleChanged}
+                                        allowedTags={missionDetail.publicItem.allowCustomTag ? null : missionDetail.publicItem.allowedTags}
+            />
             : null}
 
           <ProgressController {...this.props.controllerProps}

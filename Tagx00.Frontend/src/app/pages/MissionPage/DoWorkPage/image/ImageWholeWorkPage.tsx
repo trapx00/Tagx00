@@ -25,7 +25,7 @@ function initializeNotation(notation: ImageNotation<WholeJob>) {
 
 export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<WholeJob>, ImageWorkPageStates<WholeJob>> {
 
-  scale: 1;
+  scale = 1;
 
   state = {
     notation: initializeNotation(this.props.notation),
@@ -85,7 +85,11 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
             allowCustomTag={missionDetail.publicItem.allowCustomTag}
             title={missionDetail.publicItem.title}
           />
-          <TagDescriptionTuplePanel tuple={job.tuple} onChange={this.onTupleChange} readonlyMode={this.props.readonlyMode}/>
+          <TagDescriptionTuplePanel tuple={job.tuple}
+                                    onChange={this.onTupleChange}
+                                    readonlyMode={this.props.readonlyMode}
+                                    allowedTags={missionDetail.publicItem.allowCustomTag ? null : missionDetail.publicItem.allowedTags}
+          />
           <ProgressController {...this.props.controllerProps}
             goNext={this.goNext}
             readonlyMode={this.props.readonlyMode}
