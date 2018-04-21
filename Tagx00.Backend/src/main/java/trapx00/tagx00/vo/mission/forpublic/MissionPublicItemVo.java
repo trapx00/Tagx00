@@ -137,7 +137,15 @@ public class MissionPublicItemVo implements Serializable {
         this.requesterUsername = requesterUsername;
     }
 
-    public MissionPublicItemVo(String missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, String requesterUsername) {
+    public int getJobCount() {
+        return jobCount;
+    }
+
+    public void setJobCount(int jobCount) {
+        this.jobCount = jobCount;
+    }
+
+    public MissionPublicItemVo(String missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername) {
         this.missionId = missionId;
         this.title = title;
         this.description = description;
@@ -148,6 +156,10 @@ public class MissionPublicItemVo implements Serializable {
         this.start = start;
         this.end = end;
         this.coverUrl = coverUrl;
+        this.level = level;
+        this.credits = credits;
+        this.minimalWorkerLevel = minimalWorkerLevel;
+        this.jobCount = jobCount;
         this.requesterUsername = requesterUsername;
     }
 

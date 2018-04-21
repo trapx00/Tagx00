@@ -89,8 +89,8 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return whether to save and submit successful or not
      */
     @Override
-    public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, UnmatchedUsernameAndMissionId {
-        if (workerMissionDataService.getInstanceByUsernameAndMissionId(UserInfoUtil.getUsername(), instanceVo.getInstance().getMissionId(), instanceVo.getMissionType()) == null)
+    public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException {
+        if (workerMissionDataService.getInstanceByUsernameAndMissionId(UserInfoUtil.getUsername(), MissionUtil.getId(instanceVo.getInstance().getMissionId()), instanceVo.getMissionType()) == null)
             workerMissionDataService.saveInstance(instanceVo);
         else {
             instanceVo.getInstance().setSubmitted(true);

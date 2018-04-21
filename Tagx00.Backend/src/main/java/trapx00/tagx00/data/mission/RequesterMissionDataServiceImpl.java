@@ -13,6 +13,7 @@ import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
+import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
@@ -168,13 +169,13 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     }
 
     private ImageInstanceDetailVo generateImageInstanceDetailVo(ImageInstance imageInstance, int completedCounts) {
-        InstanceVo instanceVo = new InstanceVo(imageInstance.getInstanceId(), imageInstance.getExpRatio(), imageInstance.getExp(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), imageInstance.getMissionId(), imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts);
+        InstanceVo instanceVo = new InstanceVo(MissionUtil.addTypeToId(imageInstance.getInstanceId(), imageInstance.getMissionType()), imageInstance.getExpRatio(), imageInstance.getExp(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), MissionUtil.addTypeToId(imageInstance.getMissionId(), imageInstance.getMissionType()), imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts);
         return new ImageInstanceDetailVo(imageInstance.getMissionType(), instanceVo, imageInstance.getImageResults());
     }
 
     private ImageInstanceVo generateImageInstanceVo(ImageInstance imageInstance, int completedCounts) {
-        return new ImageInstanceVo(imageInstance.getInstanceId(), imageInstance.getExpRatio(), imageInstance.getExp(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getWorkerUsername(),
-                imageInstance.getMissionInstanceState(), imageInstance.getMissionId(),
+        return new ImageInstanceVo(MissionUtil.addTypeToId(imageInstance.getInstanceId(), imageInstance.getMissionType()), imageInstance.getExpRatio(), imageInstance.getExp(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getWorkerUsername(),
+                imageInstance.getMissionInstanceState(), MissionUtil.addTypeToId(imageInstance.getMissionId(), imageInstance.getMissionType()),
                 imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts
         );
     }

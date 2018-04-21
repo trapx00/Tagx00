@@ -13,6 +13,7 @@ import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 import trapx00.tagx00.vo.mission.image.ImageMissionDetailVo;
+import trapx00.tagx00.vo.mission.image.ImageMissionPublicItemVo;
 
 import java.util.ArrayList;
 
@@ -44,7 +45,11 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
             return null;
         MissionPublicItemVo[] result = new MissionPublicItemVo[missions.length];
         for (int i = 0; i < missions.length; i++) {
-            result[i] = generateMissionPublicItemVo(missions[i]);
+            switch (missions[i].getMissionType()) {
+                case IMAGE:
+                    result[i] = generateImageMissionPublicItemVo((ImageMission) missions[i]);
+                    break;
+            }
         }
         return result;
     }
@@ -83,7 +88,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                     missionDetailVo = new ImageMissionDetailVo(new MissionPublicItemVo(
                             MissionUtil.addTypeToId(missionId, missionType), mission.getTitle(), mission.getDescription(), mission.getTopics(),
                             mission.isAllowCustomTag(), mission.getAllowedTags(), mission.getMissionType(),
-                            mission.getStart(), mission.getEnd(), mission.getCoverUrl(), mission.getRequesterUsername()
+                            mission.getStart(), mission.getEnd(), mission.getCoverUrl(), mission.getLevel(), mission.getCredits(), mission.getMinimalWorkerLevel(), mission.getImageUrls().size() * mission.getImageMissionTypes().size(), mission.getRequesterUsername()
                     ), mission.getMissionState(), mission.getRequesterUsername(), mission.getImageUrls(), mission.getImageMissionTypes());
                 }
                 break;
@@ -105,10 +110,9 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
         return instanceArrayList.toArray(new Instance[instanceArrayList.size()]);
     }
 
-    public MissionPublicItemVo generateMissionPublicItemVo(Mission mission) {
-        return new MissionPublicItemVo(MissionUtil.addTypeToId(mission.getMissionId(), mission.getMissionType()), mission.getTitle(), mission.getDescription(),
-                mission.getTopics(), mission.isAllowCustomTag(), mission.getAllowedTags(),
-                mission.getMissionType(),
-                mission.getStart(), mission.getEnd(), mission.getCoverUrl(), mission.getRequesterUsername());
+    public ImageMissionPublicItemVo generateImageMissionPublicItemVo(ImageMission imageMission) {
+        return new ImageMissionPublicItemVo(MissionUtil.addTypeToId(imageMission.getMissionId(), imageMission.getMissionType()), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(),
+                imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), imageMission.getMissionType(),
+                imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(), imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(), imageMission.getImageUrls().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(), imageMission.getImageMissionTypes());
     }
 }

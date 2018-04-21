@@ -13,7 +13,7 @@ public interface WorkerMissionBlService {
      * @param workerUsername
      * @return the list of MissionRequesterQueryItemVo
      */
-    InstanceResponse queryOnesAllMissions(String workerUsername)throws MissionDoesNotExistFromUsernameException;
+    InstanceResponse queryOnesAllMissions(String workerUsername) throws MissionDoesNotExistFromUsernameException;
 
     /**
      * workers abort one mission
@@ -31,7 +31,7 @@ public interface WorkerMissionBlService {
      * @param workerUsername
      * @return MissionQueryDetailResponse the detail of the mission
      */
-    InstanceDetailResponse getInstanceInformation(String missionId, String workerUsername)throws InstanceNotExistException;
+    InstanceDetailResponse getInstanceInformation(String missionId, String workerUsername) throws InstanceNotExistException;
 
     /**
      * save the progress of the instance
@@ -47,5 +47,5 @@ public interface WorkerMissionBlService {
      * @param instanceVo
      * @return whether to save and submit successful or not
      */
-    SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, UnmatchedUsernameAndMissionId;
+    SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
 }

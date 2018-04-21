@@ -142,7 +142,7 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> submit(
-            @RequestBody InstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") int missionId) {
+            @RequestBody InstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") String missionId) {
         try {
             if (instanceDetailVo == null || instanceDetailVo.getInstance() == null) {
                 InstanceVo instanceVo = new InstanceVo(0, 0, 0, "", UserInfoUtil.getUsername(), MissionInstanceState.IN_PROGRESS, missionId, new Date(), null, false, 0);
@@ -157,9 +157,6 @@ public class WorkerMissionController {
         } catch (MissionAlreadyAcceptedException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);//to edit api
-        } catch (UnmatchedUsernameAndMissionId e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.FORBIDDEN);
         }
     }
 
