@@ -44,7 +44,8 @@ public class WorkerMissionController {
             @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> queryOnesAllMissions(@RequestParam("pageSize") Integer pageSize, @RequestParam("pageNumber") Integer pageNumber) {
+    public ResponseEntity<Response> queryOnesAllMissions(@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                                                         @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber) {
         try {
             return new ResponseEntity<>(workerMissionBlService.queryOnesAllMissions(UserInfoUtil.getUsername()), HttpStatus.OK);
         } catch (MissionDoesNotExistFromUsernameException e) {
