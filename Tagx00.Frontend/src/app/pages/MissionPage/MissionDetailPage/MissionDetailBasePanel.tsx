@@ -52,6 +52,9 @@ export class MissionDetailBasePanel extends React.Component<Props, {}> {
             end: <LocaleDate formatId={ID_PREFIX + "dateFormat"} input={end}/>
           }}/>
         </Item>
+        <Item promptTextId={"jobCount"}>
+          {jobCount}
+        </Item>
         <Item promptTextId={"description"}>
           {description}
         </Item>

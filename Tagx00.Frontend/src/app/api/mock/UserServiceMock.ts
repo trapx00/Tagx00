@@ -12,7 +12,7 @@ export class UserServiceMock extends UserService {
     if (username === "worker") {
       return new NetworkResponse(200, {
         token: "123",
-        jwtRoles: [{authority: UserRole.ROLE_WORKER}],
+        jwtRoles: [{roleName: UserRole.ROLE_WORKER}],
         email: "1@1.com"
       })
     }
@@ -20,13 +20,13 @@ export class UserServiceMock extends UserService {
     else if(username === "admin") {
         return new NetworkResponse(200, {
             token: "123",
-            jwtRoles: [{authority: UserRole.ROLE_ADMIN}],
+            jwtRoles: [{roleName: UserRole.ROLE_ADMIN}],
             email: "1@1.com"
         })
     }
     return new NetworkResponse(200, {
         token: "123",
-        jwtRoles: [{ authority: UserRole.ROLE_REQUESTER}],
+        jwtRoles: [{ roleName: UserRole.ROLE_REQUESTER}],
         email: "1@1.com"
       }
     );
@@ -43,7 +43,7 @@ export class UserServiceMock extends UserService {
 
     return new NetworkResponse(200, {
         token: "123",
-        jwtRoles: [{ authority: "ROLE_REQUESTER"}],
+        jwtRoles: [{ authority: UserRole.ROLE_REQUESTER}],
         email: "1@1.com"
       }
     );
