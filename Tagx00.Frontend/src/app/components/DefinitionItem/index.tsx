@@ -12,7 +12,7 @@ export const Content = styled.span`
 
 `;
 
-export const Container = styled.p`
+export const Container = styled.div`
     margin-bottom: 1em;
 `;
 

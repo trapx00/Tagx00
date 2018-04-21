@@ -7,6 +7,7 @@ import { MissionInstanceState } from "../../models/instance/MissionInstanceState
 import { RouterStore } from "../../stores/RouterStore";
 import { UserStore } from "../../stores/UserStore";
 import { Inject } from "react.di";
+import { Link } from 'react-router-dom';
 import { MissionService } from "../../api/MissionService";
 import { CardAction, stubCard, truncateText } from "./util";
 import { InstanceStateIndicator } from "./InstanceStateIndicator";
@@ -14,8 +15,6 @@ import { LocaleMessage } from "../../internationalization/components";
 import { WorkerService } from "../../api/WorkerService";
 
 const {Meta} = Card;
-
-
 interface Props {
   instance: Instance;
   refresh(): void;
@@ -49,9 +48,13 @@ export class WorkerInstanceCard extends React.Component<Props, any> {
 
   title(title: string) {
     return <div>
-      <span style={{marginRight: "4px"}}>{title}</span> <InstanceStateIndicator instance={this.props.instance}/>
+      <a onClick={this.toMissionDetail} style={{marginRight: "4px"}}>{title}</a> <InstanceStateIndicator instance={this.props.instance}/>
     </div>
   }
+
+  toMissionDetail = () => {
+    this.routerStore.jumpTo(`/mission?missionId=${this.props.instance.missionId}`);
+  };
 
 
   getActions = (instance: Instance) => {
