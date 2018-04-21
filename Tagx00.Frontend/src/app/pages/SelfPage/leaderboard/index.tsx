@@ -1,7 +1,7 @@
 import React from 'react';
-import { UserStore } from "../../stores/UserStore";
+import { UserStore } from "../../../stores/UserStore";
 import { Inject } from "react.di";
-import { UserRole } from "../../models/user/User";
+import { UserRole } from "../../../models/user/User";
 import { WorkerExpBoardPage } from "./WorkerExpBoardPage";
 import { RequesterCreditBoardPage } from "./RequesterCreditBoardPage";
 

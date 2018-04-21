@@ -145,13 +145,21 @@ export class RequesterServiceMock extends RequesterService {
     return {
       pagingInfo:
         {
-          totalCount: 100,
+          totalCount: 8,
           currentPage:0,
-          pageSize:10,
-          totalPage:10,
+          pageSize:5,
+          totalPage:2,
         },
       creditBoardList:
-        {}
+        [ {username:"123",credits:999999,order:1},
+          {username:"黄鹤你不是你不是你不是人",credits:518,order:2},
+          {username:"123究竟是何方神仙",credits:489,order:3},
+          {username:"1 2 3",credits:320,order:4},
+          {username:"MadHannibal",credits:298,order:5},
+          {username:"🍓イチゴ🍓だ好きでした",credits:200,order:6},
+          {username:"沙雕图片艺术家",credits:198,order:7},
+          {username:"燕小六六六的123",credits:197,order:8}
+      ]
     }as RequesterCreditBoardResponse;
   }
 
@@ -160,8 +168,8 @@ export class RequesterServiceMock extends RequesterService {
       requesterCreditSelfRank:
         {
           username: "123",
-          credits: 200,
-          order: 24,
+          credits: 999999,
+          order: 1,
         }
 
     } as RequesterCreditSelfRankResponse;

@@ -26,6 +26,24 @@ const routes = [
     match: (pathname: string) => pathname.startsWith("/self/achievement")
   },
   {
+    path: "/self/leaderboard/requester",
+    iconName: "bars",
+    id: "富人排行榜",
+    match: (pathname: string) => pathname.startsWith("/self/leaderboard/index")
+  },
+  {
+    path: "/self/leaderboard/worker/credits",
+    iconName: "bars",
+    id: "积分排行榜",
+    match: (pathname: string) => pathname.startsWith("/self/leaderboard/WorkerCreditBoardPage")
+  },
+  {
+    path: "/self/leaderboard/worker/exp",
+    iconName: "bars",
+    id: "经验排行榜",
+    match: (pathname: string) => pathname.startsWith("/self/leaderboard/index")
+  },
+  {
     path: "/self/personalInfo",
     iconName: "info",
     id: "selfCenter.personalInfo",
