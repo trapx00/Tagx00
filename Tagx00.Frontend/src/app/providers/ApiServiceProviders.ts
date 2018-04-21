@@ -16,12 +16,12 @@ import { TopicService } from "../api/TopicService";
 import { TopicServiceMock } from "../api/mock/TopicServiceMock";
 
 export const apiServiceProviders: Binding[] = [
-  {provide: MissionService, useClass: MissionServiceMock},
-  {provide: UserService, useClass: UserServiceMock},
-  {provide: WorkerService, useClass: WorkerServiceMock},
-  {provide: RequesterService, useClass: RequesterServiceMock},
-  {provide: AdminService, useClass: AdminServiceMock},
-  {provide: PayService, useClass: PayServiceMock},
-  {provide: TopicService, useClass: TopicServiceMock},
+  {provide: MissionService, useClass: MissionService},
+  {provide: UserService, useClass: UserService},
+  {provide: WorkerService, useClass: WorkerService},
+  {provide: RequesterService, useClass: RequesterService},
+  {provide: AdminService, useClass: AdminService},
+  {provide: PayService, useClass: PayService},
+  {provide: TopicService, useClass: TopicService},
   {provide: HttpService, useClass: HttpService}
 ];

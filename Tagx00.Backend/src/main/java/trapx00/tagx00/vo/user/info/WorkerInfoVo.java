@@ -12,11 +12,12 @@ public class WorkerInfoVo implements Serializable {
     private int acceptedMissionCount;
     private int inProgressMissionCount;
     private int abandonedMissionCount;
+    private int finalizedMissionCount;
 
     public WorkerInfoVo() {
     }
 
-    public WorkerInfoVo(String username, String email, int credits, double exp, int level, int completedMissionCount, int acceptedMissionCount, int inProgressMissionCount, int abandonedMissionCount) {
+    public WorkerInfoVo(String username, String email, int credits, double exp, int level, int completedMissionCount, int acceptedMissionCount, int inProgressMissionCount, int abandonedMissionCount, int finalizedMissionCount) {
         this.username = username;
         this.email = email;
         this.credits = credits;
@@ -26,6 +27,7 @@ public class WorkerInfoVo implements Serializable {
         this.acceptedMissionCount = acceptedMissionCount;
         this.inProgressMissionCount = inProgressMissionCount;
         this.abandonedMissionCount = abandonedMissionCount;
+        this.finalizedMissionCount = finalizedMissionCount;
     }
 
     public String getUsername() {
@@ -98,5 +100,13 @@ public class WorkerInfoVo implements Serializable {
 
     public void setAbandonedMissionCount(int abandonedMissionCount) {
         this.abandonedMissionCount = abandonedMissionCount;
+    }
+
+    public int getFinalizedMissionCount() {
+        return finalizedMissionCount;
+    }
+
+    public void setFinalizedMissionCount(int finalizedMissionCount) {
+        this.finalizedMissionCount = finalizedMissionCount;
     }
 }

@@ -5,7 +5,7 @@ import { UserRole } from "../models/user/User";
 
 export interface LoginResult {
   token: string,
-  jwtRoles: { authority: string }[];
+  jwtRoles: { roleName: string }[];
   email: string;
 }
 
