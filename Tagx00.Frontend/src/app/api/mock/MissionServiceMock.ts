@@ -24,7 +24,7 @@ export class MissionServiceMock extends MissionService {
         title: "Mission " + missionId,
         description: "Description "+missionId,
         topics: ["scenes"],
-        allowCustomTag: Math.random() < 0.5,
+        allowCustomTag: false,
         allowedTags: ["tag1", "tag2"],
         missionType: MissionType.IMAGE,
         start: new Date(),
@@ -37,8 +37,8 @@ export class MissionServiceMock extends MissionService {
       imageUrls: imgs,
       imageMissionTypes: [
         ImageMissionType.DISTRICT,
-        ImageMissionType.PART,
-        ImageMissionType.WHOLE
+        // ImageMissionType.PART,
+        // ImageMissionType.WHOLE
       ]
     } as ImageMissionDetail;
 

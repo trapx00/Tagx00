@@ -9,7 +9,7 @@ interface Props {
   readonly: boolean;
 }
 
-export class AddableInputGroup extends React.Component<Props, any> {
+export class AddableInputGroup extends React.PureComponent<Props, any> {
 
 
   onInputChange = (newValue: string, index: number) => {

@@ -27,7 +27,7 @@ function initializeNotation(notation: ImageNotation<DistrictJob>) {
 
 export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<DistrictJob>, ImageWorkPageStates<DistrictJob>> {
 
-  scale: 1;
+  scale = 1;
 
   state = {
     notation: initializeNotation(this.props.notation),
@@ -129,12 +129,15 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
     const {imageUrl, job} = this.props.notation;
 
     const {missionDetail, readonlyMode} = this.props;
+
     const selectedTuple = this.selectedTuple;
 
     let session;
     if (this.state.addingMode) {
       session = new DistrictDrawingSession();
     }
+
+
 
     return <ImageWorkPageLayout imageUrl={imageUrl} imageWidth={this.state.width} imageHeight={this.state.height} setScale={this.setScale}>
           <>
@@ -165,7 +168,9 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
           {selectedTuple
             ? <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
                                         readonlyMode={readonlyMode}
-                                        onChange={this.onTupleChanged}/>
+                                        onChange={this.onTupleChanged}
+                                        allowedTags={missionDetail.publicItem.allowCustomTag ? null : missionDetail.publicItem.allowedTags}
+            />
             : null}
 
           <ProgressController {...this.props.controllerProps}

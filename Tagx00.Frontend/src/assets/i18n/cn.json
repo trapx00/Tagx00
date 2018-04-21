@@ -60,6 +60,7 @@
         "inputPrompt": "请输入描述",
         "newTag": "新标签",
         "tagName": "标签名",
+        "tagNameInvalid": "请输入标签名。若系统设定了不允许自定义标签，请输入预先设定好的标签",
         "tagInformation": "标签信息",
         "ok": "确定",
         "remove": "移除",
@@ -68,9 +69,13 @@
       "missionTipCard": {
         "missionTitle": "任务标题",
         "title": "任务目标",
-        "type": "类型：",
-        "allowedTags": "允许使用的标签",
-        "recommendedTags": "建议使用的标签",
+        "type": "类型",
+        "allowCustomTag": {
+          "prompt": "允许自定义标签",
+          "true": "是",
+          "false": "否"
+        },
+        "tags": "预设标签",
         "types": {
           "WHOLE": "整体",
           "PART": "局部",
