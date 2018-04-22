@@ -162,7 +162,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         instance.setExp(missionFinalizeVo.getExpRatio());
         switch (instance.getMissionType()) {
             case IMAGE:
-                if ((instance = (Instance) imageInstanceDao.saveInstance((ImageInstance) instance)) == null) {
+                if (imageInstanceDao.saveInstance((ImageInstance) instance) == null) {
                     throw new SystemException();
                 }
         }

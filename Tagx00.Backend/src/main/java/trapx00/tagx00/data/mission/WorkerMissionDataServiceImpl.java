@@ -41,7 +41,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
      */
     @Override
     public int saveInstance(InstanceDetailVo instanceDetailVo) throws SystemException, MissionAlreadyAcceptedException {
-        if (instanceDetailVo.getMissionType() == null) {
+        if (MissionUtil.getId(instanceDetailVo.getInstance().getInstanceId()) == 0) {
             instanceDetailVo.setMissionType(imageMissionDao.findMissionByMissionId(MissionUtil.getId(instanceDetailVo.getInstance().getMissionId())).getMissionType());
             instanceDetailVo = new ImageInstanceDetailVo(instanceDetailVo.getMissionType(), instanceDetailVo.getInstance(), new ArrayList<>());
         }
@@ -49,12 +49,6 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         InstanceVo instanceVo = instanceDetailVo.getInstance();
         Instance result = null;
 
-        ArrayList<ImageInstance> imageInstances = imageInstanceDao.findInstancesByMissionId(MissionUtil.getId(instanceVo.getMissionId()));
-        for (ImageInstance imageInstance : imageInstances) {
-            if (imageInstance.getWorkerUsername().equals(instanceVo.getWorkerUsername())) {
-                throw new MissionAlreadyAcceptedException();
-            }
-        }
         switch (missionType) {
             case IMAGE:
                 ImageInstanceDetailVo imageInstanceDetailVo = (ImageInstanceDetailVo) instanceDetailVo;

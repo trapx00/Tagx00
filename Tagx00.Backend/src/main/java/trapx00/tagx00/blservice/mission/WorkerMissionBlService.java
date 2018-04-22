@@ -5,15 +5,17 @@ import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
+import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 public interface WorkerMissionBlService {
     /**
      * query to get all instances of workers
      *
      * @param workerUsername
+     * @param pagingQueryVo
      * @return the list of MissionRequesterQueryItemVo
      */
-    InstanceResponse queryOnesAllMissions(String workerUsername) throws MissionDoesNotExistFromUsernameException;
+    InstanceResponse queryOnesAllMissions(String workerUsername, PagingQueryVo pagingQueryVo) throws MissionDoesNotExistFromUsernameException, NoMoreInstanceException;
 
     /**
      * workers abort one mission

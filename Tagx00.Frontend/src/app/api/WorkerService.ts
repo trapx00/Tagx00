@@ -5,7 +5,7 @@ import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetai
 import { HttpMethod } from "./utils";
 import { Response } from "../models/response/Response";
 import { Inject, Injectable } from "react.di";
-import {WorkerInfo} from "../models/userInfo/WorkerInfo";
+import { WorkerInfo } from "../models/userInfo/WorkerInfo";
 import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
 
 @Injectable
@@ -51,6 +51,7 @@ export class WorkerService {
   }
 
   async submit(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
+    console.log(detail)
     const res = await this.http.fetch({
       token: token,
       path: `/mission/worker/${missionId}`,
@@ -70,15 +71,15 @@ export class WorkerService {
     });
 
     return res.response;
-    
+
   }
 
   async getWorkerInfo(username: string, token: string): Promise<WorkerInfo> {
-      const res = await this.http.fetch({
-          path: `/mission/worker/${username}`,
-          token: token,
-      });
-      return res.response.instances as WorkerInfo;
+    const res = await this.http.fetch({
+      path: `/mission/worker/${username}`,
+      token: token,
+    });
+    return res.response.instances as WorkerInfo;
   }
 
   async abandonMission(missionId: string, token: string): Promise<Response> {

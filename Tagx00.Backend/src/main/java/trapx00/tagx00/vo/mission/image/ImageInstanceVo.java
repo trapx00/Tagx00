@@ -13,8 +13,4 @@ public class ImageInstanceVo extends InstanceVo {
         super(instanceId, expRatio, exp, credits, comment, workerUsername, missionInstanceState, missionId, acceptDate, submitDate, isSubmitted, completedJobsCount);
     }
 
-    public ImageInstanceVo(double expRatio, double exp, int credits, String comment, String workerUsername, MissionInstanceState missionInstanceState, String missionId, Date acceptDate, Date submitDate, boolean isSubmitted, int completedJobsCount) {
-        super(expRatio, exp, credits, comment, workerUsername, missionInstanceState, missionId, acceptDate, submitDate, isSubmitted, completedJobsCount);
-    }
-
 }

@@ -1,18 +1,34 @@
 package trapx00.tagx00.config.jsonAdapter;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.google.gson.Gson;
+import com.google.gson.*;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 
-import java.io.IOException;
+import java.lang.reflect.Type;
 
-public class InstanceDetailAdapter extends JsonDeserializer<InstanceDetailVo> {
+public class InstanceDetailAdapter implements JsonDeserializer<InstanceDetailVo> {
+
+
+    /**
+     * Gson invokes this call-back method during deserialization when it encounters a field of the
+     * specified type.
+     * <p>In the implementation of this call-back method, you should consider invoking
+     * {@link JsonDeserializationContext#deserialize(JsonElement, Type)} method to create objects
+     * for any non-trivial field of the returned object. However, you should never invoke it on the
+     * the same type passing {@code json} since that will cause an infinite loop (Gson will call your
+     * call-back method again).
+     *
+     * @param json    The Json data being deserialized
+     * @param typeOfT The type of the Object to deserialize to
+     * @param context
+     * @return a deserialized object of the specified type typeOfT which is a subclass of {@code T}
+     * @throws JsonParseException if json is not in the expected format of {@code typeofT}
+     */
     @Override
-    public InstanceDetailVo deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        Gson gson = new Gson();
-        return null;
+    public InstanceDetailVo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        return new Gson().fromJson(json,
+                (Type) MissionType.valueOf(
+                        json.getAsJsonObject().get("missionType").getAsString()
+                ).instanceDetailVoClass);
     }
 }
