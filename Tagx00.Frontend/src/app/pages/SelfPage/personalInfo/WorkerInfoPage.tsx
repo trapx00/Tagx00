@@ -7,15 +7,19 @@ import {AsyncComponent} from "../../../router/AsyncComponent";
 import {LevelStore} from "../../../stores/LevelStore";
 import { Progress } from 'antd';
 import { DefinitionItem } from "../../../components/DefinitionItem";
+import { observer } from "mobx-react";
 
+@observer
 export class WorkerInfoPage extends React.Component<{},{}> {
     @Inject userStore: UserStore;
     @Inject workerService: WorkerService;
     @Inject levelStore: LevelStore;
 
     workerInfo = async () => {
-      console.log("here");
+
+
       const info = await this.workerService.getWorkerInfo(this.userStore.user.username,this.userStore.token);
+      console.log("here");
       const nextLevelExp = await this.levelStore.getNextLevelExp(info.exp);
         const percent = (info.exp)*100/nextLevelExp;
         return (

@@ -60,7 +60,7 @@ export class UserService {
   async getLevelInfo(token: string): Promise<LevelInfo> {
     const res = await this.http.fetch({
       path:"account/level",
-      token,
+      method: HttpMethod.GET,
     });
     return res.response;
   }

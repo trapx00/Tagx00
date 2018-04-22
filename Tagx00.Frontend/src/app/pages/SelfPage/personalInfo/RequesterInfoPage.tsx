@@ -12,12 +12,13 @@ export class RequesterInfoPage extends React.Component<{},{}> {
 
     requesterInfo = async () => {
         const info = await this.requesterService.getRequesterInfo(this.userStore.user.username,this.userStore.token);
+        const credit = await this.requesterService.getSpecificRequesterRank(this.userStore.user.username,this.userStore.token);
         return <div>
             <DefinitionItem prompt={"用户名"} children={info.username}/>
             <DefinitionItem prompt={"注册邮箱"} children={info.email}/>
-            <DefinitionItem prompt={"积分"} children={"info.credits"}/>
+            <DefinitionItem prompt={"积分"} children={credit.requesterCreditSelfRank.credits}/>
         </div>
-    }
+    };
 
     render() {
         return (

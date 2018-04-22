@@ -51,6 +51,7 @@ export class UserServiceMock extends UserService {
   }
 
   async getLevelInfo(token: string): Promise<LevelInfo> {
+    console.log("123");
     return {
       levels: [0, 100, 200, 300]
     } as LevelInfo;
