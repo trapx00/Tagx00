@@ -16,10 +16,7 @@ export class WorkerInfoPage extends React.Component<{},{}> {
     @Inject levelStore: LevelStore;
 
     workerInfo = async () => {
-
-
       const info = await this.workerService.getWorkerInfo(this.userStore.user.username,this.userStore.token);
-      console.log("here");
       const nextLevelExp = await this.levelStore.getNextLevelExp(info.exp);
         const percent = (info.exp)*100/nextLevelExp;
         return (

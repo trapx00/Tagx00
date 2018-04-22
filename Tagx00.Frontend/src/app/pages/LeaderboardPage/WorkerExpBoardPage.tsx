@@ -34,9 +34,13 @@ export class WorkerExpBoardPage extends React.Component<{},{}> {
     if(this.userStore.user.role==UserRole.ROLE_WORKER)
       return (
         <div>
-          <DefinitionItem prompt={"我的排名"} children={selfRank.workerExpSelfRank.order}/>
+          <DefinitionItem prompt={ <LocaleMessage id={"leaderboard.selfRank"}/>}>
+            {selfRank.workerExpSelfRank.order}
+          </DefinitionItem>
           <br/>
-          <h2>总排行榜</h2>
+          <h2>
+            <LocaleMessage id={"leaderboard.rankListBoard"}/>
+          </h2>
           <br/>
           <Table dataSource={workerExpBoard.expBoardList} columns={columns} pagination={workerExpBoard.pagingInfo} />
         </div>
@@ -45,7 +49,9 @@ export class WorkerExpBoardPage extends React.Component<{},{}> {
       return (
         <div>
           <br/>
-          <h2>总排行榜</h2>
+          <h2>
+            <LocaleMessage id={"leaderboard.rankListBoard"}/>
+          </h2>
           <br/>
           <Table dataSource={workerExpBoard.expBoardList} columns={columns} pagination={workerExpBoard.pagingInfo} />
         </div>
@@ -55,7 +61,7 @@ export class WorkerExpBoardPage extends React.Component<{},{}> {
   render() {
     return <div>
       <h1>
-        <LocaleMessage id={"经验排行榜"}/>
+        <LocaleMessage id={"leaderboard.expBoard"}/>
       </h1>
       <br/><br/>
       <AsyncComponent render={this.leaderboard}/>
