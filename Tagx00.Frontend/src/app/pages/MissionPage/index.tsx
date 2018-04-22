@@ -1,11 +1,12 @@
 import React from "react";
-import { Redirect, Route, Switch } from "react-router";
+import { Redirect, Route, RouteComponentProps, Switch } from "react-router";
 import { AsyncComponent } from "../../router/AsyncComponent";
 import { Location } from "history";
 import { parseQueryString } from "../../router/utils";
 import { MissionDetailPage } from "./MissionDetailPage";
 import { UserRole } from "../../models/user/User";
 import { requireLogin } from "../hoc/RequireLogin";
+import { AsyncRoute } from "../../router/AsyncRoute";
 
 
 async function renderRequester() {
@@ -48,8 +49,8 @@ export class MissionPage extends React.Component<Props> {
     return <Switch>
       <Route exact path={"/mission"}
              render={props => <MissionPageRoot search={props.location.search} redirectTo={redirectTo}/>}/>
-      <Route path={"/mission/requester"} render={() => <AsyncComponent render={renderRequester}/>}/>
-      <Route path={"/mission/worker"} render={() => <AsyncComponent render={renderWorker}/>}/>
+      <AsyncRoute path={"/mission/requester"} render={renderRequester}/>
+      <AsyncRoute path={"/mission/worker"} render={renderWorker}/>
 
     </Switch>
   }

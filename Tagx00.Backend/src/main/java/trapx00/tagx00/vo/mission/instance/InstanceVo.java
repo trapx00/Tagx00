@@ -7,18 +7,17 @@ import java.util.Date;
 
 public class InstanceVo implements Serializable {
 
-    private int instanceId;
-
+    private String instanceId;
     private double expRatio;
     private double exp;
     private int credits;
     private String comment;
 
-    public int getInstanceId() {
+    public String getInstanceId() {
         return instanceId;
     }
 
-    public void setInstanceId(int instanceId) {
+    public void setInstanceId(String instanceId) {
         this.instanceId = instanceId;
     }
 
@@ -38,11 +37,11 @@ public class InstanceVo implements Serializable {
         this.missionInstanceState = missionInstanceState;
     }
 
-    public int getMissionId() {
+    public String getMissionId() {
         return missionId;
     }
 
-    public void setMissionId(int missionId) {
+    public void setMissionId(String missionId) {
         this.missionId = missionId;
     }
 
@@ -113,7 +112,7 @@ public class InstanceVo implements Serializable {
     public InstanceVo() {
     }
 
-    public InstanceVo(int instanceId, double expRatio, double exp, int credits, String comment, String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted, int completedJobsCount) {
+    public InstanceVo(String instanceId, double expRatio, double exp, int credits, String comment, String workerUsername, MissionInstanceState missionInstanceState, String missionId, Date acceptDate, Date submitDate, boolean isSubmitted, int completedJobsCount) {
         this.instanceId = instanceId;
         this.expRatio = expRatio;
         this.exp = exp;
@@ -128,7 +127,7 @@ public class InstanceVo implements Serializable {
         this.completedJobsCount = completedJobsCount;
     }
 
-    public InstanceVo(double expRatio, double exp, int credits, String comment, String workerUsername, MissionInstanceState missionInstanceState, int missionId, Date acceptDate, Date submitDate, boolean isSubmitted, int completedJobsCount) {
+    public InstanceVo(double expRatio, double exp, int credits, String comment, String workerUsername, MissionInstanceState missionInstanceState, String missionId, Date acceptDate, Date submitDate, boolean isSubmitted, int completedJobsCount) {
         this.expRatio = expRatio;
         this.exp = exp;
         this.credits = credits;
@@ -148,7 +147,7 @@ public class InstanceVo implements Serializable {
     private MissionInstanceState missionInstanceState;
 
 
-    private int missionId;
+    private String missionId;
 
 
     private Date acceptDate;

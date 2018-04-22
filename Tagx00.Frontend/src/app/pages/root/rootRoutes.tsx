@@ -7,7 +7,6 @@ export const missionPage: AsyncRouteConfig = {
   exact: false,
   path: "/mission",
   render: async (props: RouteComponentProps<any>) => {
-    console.log("root route matched");
     const Page = (await import("../MissionPage")).MissionPage;
     return <Page location={props.location}/>;
   },
@@ -17,11 +16,11 @@ export const leaderboardPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: false,
   path: "/leaderboard",
-  render: async () => {
+  render: async (props) => {
     const Page = (await import("../LeaderboardPage")).LeaderboardPage;
     return <Page/>;
   }
-}
+};
 
 export const browsePage: AsyncRouteConfig  = {
   type: RouteType.Async,

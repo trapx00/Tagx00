@@ -6,7 +6,7 @@ import { LevelInfo } from "../models/user/LevelInfo";
 
 export interface LoginResult {
   token: string,
-  jwtRoles: { authority: string }[];
+  jwtRoles: { roleName: string }[];
   email: string;
 }
 

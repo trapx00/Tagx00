@@ -55,6 +55,10 @@ export const SvgImgContainer = styled.div`
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    &:hover {
+      cursor: pointer;
+    }
+   
 `;
 
 export const RightDiv = styled.div`

@@ -14,7 +14,10 @@ interface Props {
   tagTuples: TagTuple[];
   onChange: (tags: TagTuple[]) => void;
   readonly: boolean;
+  allowedTags?: string[];
 }
+
+const ID_PREFIX = "drawingPad.common.tagDescriptionTuplePanel.";
 
 @observer
 export class TagPanel extends React.Component<Props, {}> {
@@ -62,7 +65,7 @@ export class TagPanel extends React.Component<Props, {}> {
 
   render() {
 
-    return <Card style={panelStyle} title={<LocaleMessage id={"drawingPad.common.tagDescriptionTuplePanel.tags"}/>}>
+    return <Card style={panelStyle} title={<LocaleMessage id={ID_PREFIX + "tags"}/>}>
       {this.props.tagTuples.map(({tag},index) => {
         const isLongTag = tag.length > 20;
 
@@ -82,7 +85,7 @@ export class TagPanel extends React.Component<Props, {}> {
         onClick={this.addNewTag}
         style={{ background: '#fff', borderStyle: 'dashed' }}
       >
-        <Icon type="plus" /> <LocaleMessage id={"drawingPad.common.tagDescriptionTuplePanel.newTag"}/>
+        <Icon type="plus" /> <LocaleMessage id={ID_PREFIX + "newTag"}/>
       </AnyTag>}
 
       {this.selectedTagTuple
@@ -91,6 +94,7 @@ export class TagPanel extends React.Component<Props, {}> {
                                 onComplete={this.onTagChangeComplete}
                                 onCancel={this.onTagChangeCancelled}
                                 readonly={this.props.readonly}
+                                allowedTags={this.props.allowedTags}
         />
         : null
       }

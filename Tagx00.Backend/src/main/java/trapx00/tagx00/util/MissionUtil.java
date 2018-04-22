@@ -13,6 +13,6 @@ public class MissionUtil {
     }
 
     public static String addTypeToId(int id, MissionType missionType) {
-        return id + MissionTypeName.typeMissionMap.get(missionType);
+        return MissionTypeName.typeMissionMap.get(missionType) + "-" + id;
     }
 }

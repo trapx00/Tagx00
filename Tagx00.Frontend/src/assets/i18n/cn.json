@@ -3,7 +3,7 @@
     "loading": "加载中"
   },
   "home": {
-    "enter": "进入"
+    "enter": "开始体验"
   },
   "footer": {
     "productDescription": "一个数据标注系统",
@@ -68,6 +68,8 @@
         "inputPrompt": "请输入描述",
         "newTag": "新标签",
         "tagName": "标签名",
+        "tagNameInvalid": "请输入标签名。",
+        "tagLimited": "任务不可自定义标签。请从以下标签中选择一个",
         "tagInformation": "标签信息",
         "ok": "确定",
         "remove": "移除",
@@ -76,9 +78,13 @@
       "missionTipCard": {
         "missionTitle": "任务标题",
         "title": "任务目标",
-        "type": "类型：",
-        "allowedTags": "允许使用的标签",
-        "recommendedTags": "建议使用的标签",
+        "type": "类型",
+        "allowCustomTag": {
+          "prompt": "允许自定义标签",
+          "true": "是",
+          "false": "否"
+        },
+        "tags": "预设标签",
         "types": {
           "WHOLE": "整体",
           "PART": "局部",
@@ -127,7 +133,7 @@
       "description": "任务描述",
       "dateRange": "起始时间",
       "dateRangeFormat": "{start} 至 {end}",
-      "dateFormat": "YYYY/MM/DD HH:mm:SS",
+      "dateFormat": "YYYY/MM/DD HH:mm:ss",
       "topics": "主题",
       "jobCount": "工作数量",
       "cover": "封面",
@@ -154,7 +160,36 @@
         "title": "任务创建成功",
         "description": "任务已经创建。{to}查看任务详细信息",
         "to": "点击这里"
+      },
+      "fields": {
+        "title": "任务标题",
+        "requireTitle": "请输入任务标题",
+        "description": "任务描述",
+        "requireDescription": "请输入任务描述",
+        "topics": "主题词",
+        "availableTopics": "可选主题词",
+        "dateRange":"时间段",
+        "requireDateRange": "请选择任务有效时间段",
+        "tags": "标签",
+        "allowCustomTag": "允许工人自定义标签",
+        "requireTags": "当不允许工人自定义标签时，请添加至少一个可用标签",
+        "cover": "封面图",
+        "selectFile": "选择文件",
+        "IMAGE": {
+          "types": {
+            "name": "图片任务类型",
+            "DISTRICT": "区域",
+            "WHOLE":"整体",
+            "PART": "局部"
+          },
+          "requireTypes": "请选择至少一种任务",
+          "images": "任务图片",
+          "requireImages": "请上传至少一张图片"
+        },
+        "submit": "提交"
       }
+
+
     },
     "worker": {
       "myMissions": {
@@ -278,7 +313,14 @@
     "searchAll": "全部"
   },
   "browserMissionList": {
-    "dividerText": "任务列表"
+    "dividerText": "任务列表",
+    "accept": "接受",
+    "missionAccepted": "任务已经成功接受",
+    "seeDetail": "查看详细信息",
+    "missionType": {
+      "IMAGE": "图片"
+    },
+    "dateFormat": "YYYY/MM/DD HH:mm:ss"
   },
   "pay": {
     "title": "充值",

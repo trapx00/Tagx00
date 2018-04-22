@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react"
+import { observer } from "mobx-react";
 
 
 interface AsyncComponentProps<T> {
@@ -6,6 +7,7 @@ interface AsyncComponentProps<T> {
   props?: T;
   componentWhenLoading?: ReactNode;
   componentProducerWhenLoadingFailed?: (e) => ReactNode;
+  onRenderSuccess?(): void;
 }
 
 interface State<T> {
@@ -27,8 +29,12 @@ export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, S
   async loadComponent() {
     try {
       const component = await this.props.render(this.props.props);
-      this.setState({component, loaded: true});
+      this.setState({
+        component: component,
+        loaded: true
+      });
     } catch (e) {
+      console.log(e);
       if (this.props.componentProducerWhenLoadingFailed) {
         this.setState({
             component: this.props.componentProducerWhenLoadingFailed(e),
@@ -39,8 +45,6 @@ export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, S
     }
   }
 
-  componentWillUnmount() {
-  }
 
   componentDidMount() {
     this.loadComponent();
@@ -54,7 +58,7 @@ export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, S
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.render !==  prevState.render || nextProps.props !== prevState.props) {
+    if (nextProps.props !== prevState.props) {
       console.log("render needed");
       return {render: nextProps.render, props: nextProps.props, loaded: false};
     } else {
@@ -67,3 +71,12 @@ export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, S
     return this.state.component;
   }
 }
+
+
+export const ObserverAsyncComponent = observer(AsyncComponent)
+
+// export class ObserverAsyncComponent<T> extends  React.Component<AsyncComponentProps<T>, State<T>> {
+//   render() {
+//     return React.createElement(observer(() => <AsyncComponent {...this.props}/>));
+//   }
+// }

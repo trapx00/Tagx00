@@ -1,5 +1,5 @@
-import { ExpSelfRank } from "../userRank/ExpSelfRank";
+import { ExpLeaderboardUserVo } from "../userRank/ExpSelfRank";
 
-export interface WorkerExpSelfRankResponse {
-  workerExpSelfRank: ExpSelfRank;
+export interface ExpSpecificWorkerLeaderboardResponse {
+  user: ExpLeaderboardUserVo;
 }

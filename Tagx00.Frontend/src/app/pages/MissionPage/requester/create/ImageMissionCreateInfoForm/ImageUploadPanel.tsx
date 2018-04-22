@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Button, Icon, Upload } from 'antd';
 import { UploadFile, UploadProps } from "antd/lib/upload/interface";
 
@@ -7,6 +7,7 @@ interface Props {
   fileList: UploadFile[];
   maxFileNum: number;
   multiple: boolean;
+  buttonChildren: ReactNode;
 }
 
 function validFile(file: UploadFile) {
@@ -39,7 +40,7 @@ export class ImageUploadPanel extends React.Component<Props, {}> {
       <Upload {...props}>
         {this.props.fileList.length >= this.props.maxFileNum
           ? null : <Button>
-            <Icon type="upload" /> Select File
+            <Icon type="upload" /> {this.props.buttonChildren}
           </Button>}
 
       </Upload>

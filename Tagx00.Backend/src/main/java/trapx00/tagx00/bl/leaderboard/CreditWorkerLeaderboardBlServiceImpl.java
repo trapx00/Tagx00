@@ -55,7 +55,7 @@ public class CreditWorkerLeaderboardBlServiceImpl implements CreditWorkerLeaderb
         }
     }
 
-    private CreditLeaderboardWorkerVo generateCreditLeaderboardWorkerVo(User user, int order) {
+    public static CreditLeaderboardWorkerVo generateCreditLeaderboardWorkerVo(User user, int order) {
         return new CreditLeaderboardWorkerVo(user.getUsername(), user.getCredits(), order);
     }
 }

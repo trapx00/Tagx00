@@ -35,10 +35,10 @@ public class PublicMissionController {
             @ApiResponse(code = 200, message = "Success", response = MissionPublicResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> getMissions(@RequestParam("pageSize") Integer pageSize,
-                                                @RequestParam("pageNumber") Integer pageNumber,
-                                                @RequestParam("searchTarget") String searchTarget,
-                                                @RequestParam("requester") String requesterUsername) {
+    public ResponseEntity<Response> getMissions(@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                                                @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber,
+                                                @RequestParam(value = "searchTarget", defaultValue = "") String searchTarget,
+                                                @RequestParam(value = "requester", defaultValue = "") String requesterUsername) {
         try {
             return new ResponseEntity<>(publicMissionBlService.getMissions(new PagingQueryVo(pageSize, pageNumber), searchTarget, requesterUsername), HttpStatus.OK);
         } catch (NotMissionException e) {

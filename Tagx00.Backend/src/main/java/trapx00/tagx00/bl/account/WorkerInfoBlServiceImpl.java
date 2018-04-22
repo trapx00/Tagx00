@@ -32,21 +32,24 @@ public class WorkerInfoBlServiceImpl implements WorkerInfoBlService {
     public WorkerInfoResponse getWorkerInfo(String workerUsername) {
         User user = userDataService.getUserByUsername(workerUsername);
         int completedMissionCount = 0;
-        int acceptedMissionCount = 0;
         int inProgressMissionCount = 0;
         int abandonedMissionCount = 0;
+        int finalizedMissionCount = 0;
         Instance[] instances = workerInfoDataService.getInstanceByWorkerUsername(workerUsername);
         int instancesLength = instances == null ? 0 : instances.length;
-        acceptedMissionCount = instancesLength;
+        int acceptedMissionCount = instancesLength;
         for (int i = 0; i < instancesLength; i++) {
-            if (instances[i].getMissionInstanceState().equals(MissionInstanceState.SUBMITTED))
+            if (instances[i].getMissionInstanceState() == MissionInstanceState.SUBMITTED) {
                 completedMissionCount++;
-            else if (instances[i].getMissionInstanceState().equals(MissionInstanceState.IN_PROGRESS))
+            } else if (instances[i].getMissionInstanceState() == MissionInstanceState.IN_PROGRESS) {
                 inProgressMissionCount++;
-            else if (instances[i].getMissionInstanceState().equals(MissionInstanceState.ABANDONED))
+            } else if (instances[i].getMissionInstanceState() == MissionInstanceState.ABANDONED) {
                 abandonedMissionCount++;
+            } else if (instances[i].getMissionInstanceState() == MissionInstanceState.FINALIZED) {
+                finalizedMissionCount++;
+            }
         }
         return new WorkerInfoResponse(Converter.userToWorkerInfoVo(user, completedMissionCount, acceptedMissionCount,
-                inProgressMissionCount, abandonedMissionCount));
+                inProgressMissionCount, abandonedMissionCount, finalizedMissionCount));
     }
 }

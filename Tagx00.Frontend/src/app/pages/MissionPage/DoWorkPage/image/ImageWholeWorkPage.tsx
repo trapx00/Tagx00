@@ -4,7 +4,7 @@ import { ImageNotation } from "../../../../stores/ImageWorkStore";
 import { WholeJob } from "../../../../models/instance/image/job/WholeJob";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../../components/ImageWork/MissionTipCard";
-import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel/index";
+import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
 import { ProgressController } from "../../../../components/ImageWork/ProgressController";
 import { toJS } from "mobx";
 import { ImageWorkPageLayout } from "./Layout";
@@ -25,7 +25,7 @@ function initializeNotation(notation: ImageNotation<WholeJob>) {
 
 export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<WholeJob>, ImageWorkPageStates<WholeJob>> {
 
-  scale: 1;
+  scale = 1;
 
   state = {
     notation: initializeNotation(this.props.notation),
@@ -58,6 +58,7 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
 
   submit = () => {
     console.log(toJS(this.state.notation));
+    this.props.submit(this.state.notation);
   };
 
   setScale = (scale) => {
@@ -85,7 +86,11 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
             allowCustomTag={missionDetail.publicItem.allowCustomTag}
             title={missionDetail.publicItem.title}
           />
-          <TagDescriptionTuplePanel tuple={job.tuple} onChange={this.onTupleChange} readonlyMode={this.props.readonlyMode}/>
+          <TagDescriptionTuplePanel tuple={job.tuple}
+                                    onChange={this.onTupleChange}
+                                    readonlyMode={this.props.readonlyMode}
+                                    allowedTags={missionDetail.publicItem.allowCustomTag ? null : missionDetail.publicItem.allowedTags}
+          />
           <ProgressController {...this.props.controllerProps}
             goNext={this.goNext}
             readonlyMode={this.props.readonlyMode}

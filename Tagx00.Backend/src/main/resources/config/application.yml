@@ -38,3 +38,4 @@ spring:
           starttls:
             enable: true
             required: true
+    jndi-name: mail

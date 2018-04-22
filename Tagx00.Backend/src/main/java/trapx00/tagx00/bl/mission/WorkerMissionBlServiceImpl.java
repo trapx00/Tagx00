@@ -13,8 +13,9 @@ import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
+import trapx00.tagx00.vo.paging.PagingQueryVo;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 @Service
 public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
@@ -29,15 +30,32 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * query to get all instances of workers
      *
      * @param workerUsername
+     * @param pagingQueryVo
      * @return the list of MissionRequesterQueryItemVo
      */
     @Override
-    public InstanceResponse queryOnesAllMissions(String workerUsername) throws MissionDoesNotExistFromUsernameException {
-
+    public InstanceResponse queryOnesAllMissions(String workerUsername, PagingQueryVo pagingQueryVo) throws MissionDoesNotExistFromUsernameException, NoMoreInstanceException {
         InstanceVo[] result = workerMissionDataService.getInstanceByWorkerUsername(workerUsername);
         if (result == null)
             throw new MissionDoesNotExistFromUsernameException();
-        return new InstanceResponse(Arrays.asList(result));
+        int startIndex = (pagingQueryVo.getPageNumber() - 1) * pagingQueryVo.getPageSize();
+        int endIndex = startIndex + pagingQueryVo.getPageSize();
+
+        ArrayList<InstanceVo> instanceVoArrayList = new ArrayList<>();
+        if (result.length <= startIndex) {
+            throw new NoMoreInstanceException();
+        } else {
+            if (result.length >= endIndex) {
+                for (int i = startIndex; i < endIndex; i++) {
+                    instanceVoArrayList.add(result[i]);
+                }
+            } else {
+                for (int i = startIndex; i < result.length; i++) {
+                    instanceVoArrayList.add(result[i]);
+                }
+            }
+        }
+        return new InstanceResponse(instanceVoArrayList);
     }
 
     /**
@@ -89,8 +107,8 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return whether to save and submit successful or not
      */
     @Override
-    public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, UnmatchedUsernameAndMissionId {
-        if (workerMissionDataService.getInstanceByUsernameAndMissionId(UserInfoUtil.getUsername(), instanceVo.getInstance().getMissionId(), instanceVo.getMissionType()) == null)
+    public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException {
+        if (workerMissionDataService.getInstanceByUsernameAndMissionId(UserInfoUtil.getUsername(), MissionUtil.getId(instanceVo.getInstance().getMissionId()), instanceVo.getMissionType()) == null)
             workerMissionDataService.saveInstance(instanceVo);
         else {
             instanceVo.getInstance().setSubmitted(true);

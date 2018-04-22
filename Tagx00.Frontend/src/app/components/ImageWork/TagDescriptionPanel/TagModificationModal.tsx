@@ -1,10 +1,12 @@
 import React from 'react';
 import { TagTuple } from "../../../models/instance/TagTuple";
-import { Button, Input, Modal } from 'antd';
+import { Button, Input, Modal, Tag } from 'antd';
 import { AddableInputGroup } from "../AddableInputGroup";
 import { observer } from "mobx-react";
-import { action, observable } from "mobx";
+import { action, computed, observable } from "mobx";
 import { LocaleMessage, Localize } from "../../../internationalization/components";
+import { FormItem } from "../../Form/FormItem";
+import { ClickableTag } from "../../ClickableTag";
 
 interface Props {
   tagTuple: TagTuple;
@@ -12,8 +14,10 @@ interface Props {
   onComplete: (tagTuple: TagTuple) => void;
   onCancel: () => void;
   readonly: boolean;
+  allowedTags?: string[];
 }
 
+const ID_PREFIX = "drawingPad.common.tagDescriptionTuplePanel.";
 
 @observer
 export class TagModificationModal extends React.Component<Props, {}> {
@@ -21,8 +25,17 @@ export class TagModificationModal extends React.Component<Props, {}> {
   @observable tuple: TagTuple = {...this.props.tagTuple};
 
   onOk = () => {
+
+    if (!this.tagNameValid) {
+      return;
+    }
     this.props.onComplete(this.tuple);
   };
+
+  @computed get tagNameValid() {
+    return !!this.tuple.tag;
+
+  }
 
   onCancel = () => {
     this.props.onCancel();
@@ -40,42 +53,63 @@ export class TagModificationModal extends React.Component<Props, {}> {
     this.props.onRemove(this.props.tagTuple);
   };
 
-  render() {
-    const prefix = "drawingPad.common.tagDescriptionTuplePanel.";
+  @action onTagClick = (value: string) => {
+    this.tuple.tag = value;
+  };
 
+  render() {
     const footer = [<Button key="back" onClick={this.onCancel}>
-      <LocaleMessage id={prefix + "cancel"}/>
+      <LocaleMessage id={ID_PREFIX + "cancel"}/>
     </Button>];
 
     if (!this.props.readonly) {
       footer.push(<Button key="remove" type="danger" onClick={this.onRemove}>
-          <LocaleMessage id={prefix + "remove"}/>
+          <LocaleMessage id={ID_PREFIX + "remove"}/>
         </Button>,
         <Button key="submit" type="primary" onClick={this.onOk}>
-          <LocaleMessage id={prefix + "ok"}/>
+          <LocaleMessage id={ID_PREFIX + "ok"}/>
         </Button>);
     }
 
     return <Modal
-      title={<LocaleMessage id={prefix + "tagInformation"}/>}
+      title={<LocaleMessage id={ID_PREFIX + "tagInformation"}/>}
       visible={true}
       onOk={this.onOk}
       onCancel={this.onCancel}
       footer={footer}
     >
-      <h3><LocaleMessage id={prefix + "tagName"}/></h3>
-      <Localize replacements={{placeholder: prefix + "tagName"}}>
-        {props => <Input placeholder={props.placeholder}
-                         value={this.tuple.tag}
-                         onChange={this.onTagNameChange}
-        />}
+      <h3><LocaleMessage id={ID_PREFIX + "tagName"}/></h3>
+      {this.props.allowedTags &&
+      <div>
+        <LocaleMessage id={ID_PREFIX + "tagLimited"}/>
+        <div>{this.props.allowedTags.map(x => <ClickableTag key={x} onClick={() => this.onTagClick(x)}>{x}</ClickableTag>)}</div>
+      </div>
+        }
+      <Localize replacements={{
+        placeholder: ID_PREFIX + "tagName",
+        messageOnInvalid: ID_PREFIX + "tagNameInvalid"
+      }}>
+        {props => <FormItem valid={this.tagNameValid}
+                            messageOnInvalid={props.messageOnInvalid}
+        >
+
+          <Input placeholder={props.placeholder}
+                 value={this.tuple.tag}
+                 disabled={!!this.props.allowedTags}
+                 onChange={this.onTagNameChange}
+          />
+
+        </FormItem>}
+
       </Localize>
-      <h3><LocaleMessage id={prefix + "descriptions"}/></h3>
-      <Localize replacements={{ placeholder: prefix+"addOne"}}>
+      <h3><LocaleMessage id={ID_PREFIX + "descriptions"}/></h3>
+      <Localize replacements={{placeholder: ID_PREFIX + "addOne"}}>
         {props => <AddableInputGroup items={this.tuple.descriptions}
                                      readonly={this.props.readonly}
                                      onChange={this.onDescriptionsChange}
-                                     inputPrompt={props.placeholder}/>
+                                     inputPrompt={props.placeholder}
+                                     addingButtonPlaceholder={props.placeholder}
+        />
 
         }
       </Localize>

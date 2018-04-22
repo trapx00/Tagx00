@@ -57,7 +57,7 @@ public class ExpLeaderboardBlServiceImpl implements ExpLeaderboardBlService {
         }
     }
 
-    private static ExpLeaderboardUserVo generateExpLeaderboardUserVo(User user, int order) {
+    public static ExpLeaderboardUserVo generateExpLeaderboardUserVo(User user, int order) {
         return new ExpLeaderboardUserVo(user.getUsername(), user.getExp(), user.getCredits(), order);
     }
 }

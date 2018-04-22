@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { UserStore } from "../../../stores/UserStore";
 import { computed } from "mobx";
 import { UserRole } from "../../../models/user/User";
+import styled from "styled-components";
 
 interface Props {
   publicItem: MissionPublicItem;
@@ -16,6 +17,9 @@ interface Props {
   extraInfo: ReactNode;
 }
 
+const Title = styled.h1`
+  margin-bottom: 16px;
+`;
 
 @observer
 export class MissionDetailBasePanel extends React.Component<Props, {}> {
@@ -31,39 +35,42 @@ export class MissionDetailBasePanel extends React.Component<Props, {}> {
     const {missionId, title, jobCount, requesterUsername, allowCustomTag, allowedTags, coverUrl, description, end, missionType, start, topics} =
       this.props.publicItem;
     return <Row gutter={16}>
-        <Col md={12} sm={24}>
-          {this.props.picPanel}
-        </Col>
-        <Col md={12} sm={24}>
-          <h1>{title}</h1>
-          <Item promptTextId={"missionId"}>
-            {missionId}
-          </Item>
-          <Item promptTextId={"topics"}>
-            {topics.map(x => <Tag key={x} color={"geekblue"}>{x}</Tag>)}
-          </Item>
-          <Item promptTextId={"tags"}>
-            {allowedTags.map(x => <Tag key={x}>{x}</Tag>)}
-            <LocaleMessage id={ID_PREFIX + "allowCustomTag." + allowCustomTag}/>
-          </Item>
-          <Item promptTextId={"dateRange"}>
-            <LocaleMessage id={ID_PREFIX + "dateRangeFormat"} replacements={{
-              start: <LocaleDate formatId={ID_PREFIX + "dateFormat"} input={start}/>,
-              end: <LocaleDate formatId={ID_PREFIX + "dateFormat"} input={end}/>
-            }}/>
-          </Item>
-          <Item promptTextId={"description"}>
-            {description}
-          </Item>
-          <Item promptTextId={"requesterUsername"}>
-            {requesterUsername}
-          </Item>
-          <Item promptTextId={"missionType"}>
-            <LocaleMessage id={ID_PREFIX + missionType + ".name"}/>
-          </Item>
-          {this.props.extraInfo}
-          {this.showOperationBar && <OperationBar missionId={missionId}/>}
-        </Col>
-      </Row>;
+      <Col md={12} sm={24}>
+        {this.props.picPanel}
+      </Col>
+      <Col md={12} sm={24}>
+        <Title>{title}</Title>
+        <Item promptTextId={"missionId"}>
+          {missionId}
+        </Item>
+        <Item promptTextId={"topics"}>
+          {topics.map(x => <Tag key={x} color={"geekblue"}>{x}</Tag>)}
+        </Item>
+        <Item promptTextId={"tags"}>
+          {allowedTags.map(x => <Tag key={x}>{x}</Tag>)}
+          <LocaleMessage id={ID_PREFIX + "allowCustomTag." + allowCustomTag}/>
+        </Item>
+        <Item promptTextId={"dateRange"}>
+          <LocaleMessage id={ID_PREFIX + "dateRangeFormat"} replacements={{
+            start: <LocaleDate formatId={ID_PREFIX + "dateFormat"} input={start}/>,
+            end: <LocaleDate formatId={ID_PREFIX + "dateFormat"} input={end}/>
+          }}/>
+        </Item>
+        <Item promptTextId={"jobCount"}>
+          {jobCount}
+        </Item>
+        <Item promptTextId={"description"}>
+          {description}
+        </Item>
+        <Item promptTextId={"requesterUsername"}>
+          {requesterUsername}
+        </Item>
+        <Item promptTextId={"missionType"}>
+          <LocaleMessage id={ID_PREFIX + missionType + ".name"}/>
+        </Item>
+        {this.props.extraInfo}
+        {this.showOperationBar && <OperationBar missionId={missionId}/>}
+      </Col>
+    </Row>;
   }
 }

@@ -92,9 +92,11 @@ export class Navbar extends React.Component<{}, {}> {
   render() {
     return <Row>
       <LogoDiv>
+        <Link to={"/browse"}>
         <SvgImgContainer>
           <SvgImg filePath={"tag_x00_mini_logo.svg"} width={180} height={30}/>
         </SvgImgContainer>
+        </Link>
         <MobileNavContainer>
           <NavbarUserIndicator/>
           <LanguageSelector/>

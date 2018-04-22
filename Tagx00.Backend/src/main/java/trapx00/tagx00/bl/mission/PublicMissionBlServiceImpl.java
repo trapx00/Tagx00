@@ -10,6 +10,7 @@ import trapx00.tagx00.response.mission.MissionPublicResponse;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
+import trapx00.tagx00.vo.paging.PagingInfoVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
      */
     @Override
     public MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo, String searchTarget, String requesterUsername) throws NotMissionException {
-        int startIndex = pagingQueryVo.getPageNumber() * pagingQueryVo.getPageSize();
+        int startIndex = (pagingQueryVo.getPageNumber() - 1) * pagingQueryVo.getPageSize();
         int endIndex = startIndex + pagingQueryVo.getPageSize();
         MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
         if (missionPublicItemVos == null) {
@@ -49,7 +50,7 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         }
         ArrayList<MissionPublicItemVo> usernameResult = new ArrayList<>();
         for (MissionPublicItemVo missionPublicItemVo : missionPublicItemVos) {
-            if (missionPublicItemVo.getRequesterUsername().equals(requesterUsername)) {
+            if (requesterUsername.length() == 0 || missionPublicItemVo.getRequesterUsername().equals(requesterUsername)) {
                 usernameResult.add(missionPublicItemVo);
             }
         }
@@ -63,10 +64,10 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
                 result.add(missionPublicItemVo);
             }
         }
+        ArrayList<MissionPublicItemVo> pArrayList = new ArrayList<>();
         if (result.size() <= startIndex) {
             throw new NotMissionException();
         } else {
-            ArrayList<MissionPublicItemVo> pArrayList = new ArrayList<>();
             if (result.size() >= endIndex) {
                 for (int i = startIndex; i < endIndex; i++) {
                     pArrayList.add(missionPublicItemVos[i]);
@@ -77,6 +78,11 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
                 }
             }
         }
-        return new MissionPublicResponse();
+
+        int totalCount = missionPublicItemVos.length;
+        int pageNum = (int) Math.ceil(totalCount * 1.0 / pagingQueryVo.getPageSize());
+        return new MissionPublicResponse(new PagingInfoVo(totalCount, pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize(), pageNum), pArrayList);
     }
+
+
 }

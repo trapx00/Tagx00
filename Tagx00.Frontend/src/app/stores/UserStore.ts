@@ -11,7 +11,6 @@ export class UserStore {
   @observable user: User = null;
 
 
-
   @computed get loggedIn() {
     return !!this.user;
   }
@@ -34,9 +33,10 @@ export class UserStore {
     this.user = new User({
       username: username,
       token: response.token,
-      role: UserRole[response.jwtRoles[0].authority],
+      role: UserRole[response.jwtRoles[0].roleName],
       email: response.email
     });
+    console.log(this.user.role)
   };
 
   remember() {

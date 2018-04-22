@@ -1,4 +1,4 @@
-export interface ExpSelfRank {
+export interface ExpLeaderboardUserVo {
   username: string;
   exp: number;
   level: number;

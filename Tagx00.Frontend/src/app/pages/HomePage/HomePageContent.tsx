@@ -42,11 +42,12 @@ export class HomePageContent extends React.Component<Content0Props, any> {
     const scrollHeight: number = document.body.scrollTop + document.documentElement.scrollTop;
     const bodyHeight: number = document.body.clientHeight;
     if (scrollHeight <= bodyHeight * 0.4) {
-      this.homeStore.endLine = bodyHeight * 0.8 - bodyHeight * 0.3 * (bodyHeight * 0.4 - scrollHeight) / (bodyHeight * 0.4);
-      this.homeStore.centerLine = bodyHeight * 0.8 - bodyHeight * 0.1 * (bodyHeight * 0.4 - scrollHeight) / (bodyHeight * 0.4);
+      this.homeStore.endLine = bodyHeight * 0.5 + bodyHeight * 0.3 * scrollHeight / (bodyHeight * 0.4);
+      this.homeStore.centerLine = bodyHeight * 0.9 - bodyHeight * 0.1 * scrollHeight / (bodyHeight * 0.4);
     } else {
       this.homeStore.endLine = bodyHeight * 0.8;
       this.homeStore.centerLine = bodyHeight * 0.8;
+      console.log(this.homeStore.endLine)
     }
     this.drawBackground();
   };
@@ -59,7 +60,7 @@ export class HomePageContent extends React.Component<Content0Props, any> {
     const startY = document.body.clientHeight * 0.8;
     const endX = document.body.clientWidth;
     const endY = this.homeStore.endLine;
-    const centX = this.homeStore.centerLine;
+    const centX = this.homeStore.endLine;
     const centY = this.homeStore.centerLine;
     this.canvasContext.fillStyle = lineStyle;
     this.canvasContext.strokeStyle = lineStyle;
@@ -126,10 +127,10 @@ export class HomePageContent extends React.Component<Content0Props, any> {
             className={`${this.props.className}-wrapper`}
           >
             <Link to={"/browse"}>
-            <Button ghost={true} size="large" key="button"
-                    style={{right: '-20%', margin: '-40%', marginBottom: '-15%'}}>
-              <LocaleMessage id={"home.enter"}/>
-            </Button>
+              <Button ghost={true} size="large" key="button"
+                      style={{right: '-20%', margin: '-40%', marginBottom: '-15%', transform: 'scale(1.5)'}}>
+                <LocaleMessage id={"home.enter"}/>
+              </Button>
             </Link>
           </QueueAnim>
 

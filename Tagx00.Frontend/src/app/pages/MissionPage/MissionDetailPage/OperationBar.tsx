@@ -43,7 +43,7 @@ export class OperationBar extends React.Component<Props, State> {
         <Link to={`/mission/worker/${this.props.missionId}/doWork`}>
           <Button><LocaleMessage id={ID_PREFIX + "continueWorking"}/></Button>
         </Link>
-        <Link to={`/mission/worker/${this.props.missionId}/seeResult`}>
+        <Link to={`/mission/worker/${this.props.missionId}`}>
           <Button><LocaleMessage id={ID_PREFIX + "seeResult"}/></Button>
         </Link>
       </p>
