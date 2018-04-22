@@ -150,7 +150,7 @@ export class RequesterServiceMock extends RequesterService {
           pageSize:5,
           totalPage:2,
         },
-      creditBoardList:
+      user:
         [ {username:"123",credits:999999,order:1},
           {username:"黄鹤你不是你不是你不是人",credits:518,order:2},
           {username:"123究竟是何方神仙",credits:489,order:3},

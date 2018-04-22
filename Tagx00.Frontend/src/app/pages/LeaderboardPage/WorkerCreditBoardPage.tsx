@@ -30,14 +30,14 @@ export class WorkerCreditBoardPage extends React.Component<{},{}> {
       return (
         <div>
           <DefinitionItem prompt={ <LocaleMessage id={"leaderboard.selfRank"}/>}>
-            {selfRank.workerCreditSelfRank.order}
+            {selfRank.user.order}
           </DefinitionItem>
           <br/>
           <h2>
             <LocaleMessage id={"leaderboard.rankListBoard"}/>
           </h2>
           <br/>
-          <Table dataSource={workerCreditBoard.creditBoardList} columns={columns} pagination={workerCreditBoard.pagingInfo} />
+          <Table dataSource={workerCreditBoard.users} columns={columns} pagination={workerCreditBoard.pagingInfo} />
         </div>
       );
     else
@@ -48,7 +48,7 @@ export class WorkerCreditBoardPage extends React.Component<{},{}> {
             <LocaleMessage id={"leaderboard.rankListBoard"}/>
           </h2>
           <br/>
-          <Table dataSource={workerCreditBoard.creditBoardList} columns={columns} pagination={workerCreditBoard.pagingInfo} />
+          <Table dataSource={workerCreditBoard.users} columns={columns} pagination={workerCreditBoard.pagingInfo} />
         </div>
       );
   };

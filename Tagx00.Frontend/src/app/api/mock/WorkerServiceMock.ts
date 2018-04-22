@@ -9,9 +9,9 @@ import {WorkerInfo} from "../../models/userInfo/WorkerInfo";
 import { MissionType } from "../../models/mission/Mission";
 import { HttpMethod } from "../utils";
 import { InstanceDetailResponse } from "../../models/response/mission/InstanceDetailResponse";
-import { WorkerCreditSelfRankResponse } from "../../models/leaderboard/WorkerCreditSelfRankResponse";
+import { CreditSpecificWorkerLeaderboardResponse } from "../../models/leaderboard/WorkerCreditSelfRankResponse";
 import { WorkerCreditBoardResponse } from "../../models/leaderboard/WorkerCreditBoardResponse";
-import { WorkerExpSelfRankResponse } from "../../models/leaderboard/WorkerExpSelfRankResponse";
+import { ExpSpecificWorkerLeaderboardResponse } from "../../models/leaderboard/WorkerExpSelfRankResponse";
 import { WorkerExpBoardResponse } from "../../models/leaderboard/WorkerExpBoardResponse";
 
 @Injectable
@@ -112,7 +112,7 @@ export class WorkerServiceMock extends WorkerService {
           pageSize:5,
           totalPage:2,
         },
-      creditBoardList:
+      users:
         [ {username:"今天阿吉做任务了吗",credits:397,order:1},
           {username:"aREyOusErIouS",credits:355,order:2},
           {username:"我在清华烤面筋",credits:326,order:3},
@@ -127,15 +127,15 @@ export class WorkerServiceMock extends WorkerService {
 
   }
 
-  async getSpecificWorkerCreditRank(username: string, token:string): Promise<WorkerCreditSelfRankResponse> {
+  async getSpecificWorkerCreditRank(username: string, token:string): Promise<CreditSpecificWorkerLeaderboardResponse> {
     return {
-      workerCreditSelfRank:
+      user:
         {
           username: "worker",
           credits: 15,
           order: 2004,
         }
-    } as WorkerCreditSelfRankResponse;
+    } as CreditSpecificWorkerLeaderboardResponse;
   }
 
   async getWorkerExpBoard(pageSize: number, pageNumber: number, token: string): Promise<WorkerExpBoardResponse> {
@@ -147,7 +147,7 @@ export class WorkerServiceMock extends WorkerService {
           pageSize:5,
           totalPage:2,
         },
-      expBoardList:
+      users:
         [ {username:"今天阿吉做标注任务了吗",exp:1000,level:10,order:1},
           {username:"Maaaariaaaaa",exp:958,level:9,order:2},
           {username:"Lex" ,exp:955,level:9,order:3},
@@ -161,16 +161,16 @@ export class WorkerServiceMock extends WorkerService {
     }as WorkerExpBoardResponse;
   }
 
-  async getSpecificWorkerExpRank(username: string, token:string): Promise<WorkerExpSelfRankResponse> {
+  async getSpecificWorkerExpRank(username: string, token:string): Promise<ExpSpecificWorkerLeaderboardResponse> {
     return {
-      workerExpSelfRank:
+      user:
         {
           username: "worker",
           exp: 150,
           level: 1,
           order: 2000,
         }
-    } as WorkerExpSelfRankResponse;
+    } as ExpSpecificWorkerLeaderboardResponse;
   }
 
 }

@@ -1,5 +1,5 @@
-import { CreditSelfRank } from "../userRank/CreditSelfRank";
+import { CreditLeaderboardWorkerVo } from "../userRank/CreditSelfRank";
 
-export interface WorkerCreditSelfRankResponse {
-  workerCreditSelfRank: CreditSelfRank;
+export interface CreditSpecificWorkerLeaderboardResponse {
+  user: CreditLeaderboardWorkerVo;
 }

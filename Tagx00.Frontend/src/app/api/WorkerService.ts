@@ -7,9 +7,9 @@ import { Response } from "../models/response/Response";
 import { Inject, Injectable } from "react.di";
 import { WorkerInfo } from "../models/userInfo/WorkerInfo";
 import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
-import { WorkerExpSelfRankResponse } from "../models/leaderboard/WorkerExpSelfRankResponse";
+import { ExpSpecificWorkerLeaderboardResponse } from "../models/leaderboard/WorkerExpSelfRankResponse";
 import { WorkerExpBoardResponse } from "../models/leaderboard/WorkerExpBoardResponse";
-import { WorkerCreditSelfRankResponse } from "../models/leaderboard/WorkerCreditSelfRankResponse";
+import { CreditSpecificWorkerLeaderboardResponse } from "../models/leaderboard/WorkerCreditSelfRankResponse";
 import { WorkerCreditBoardResponse } from "../models/leaderboard/WorkerCreditBoardResponse";
 
 @Injectable
@@ -104,7 +104,7 @@ export class WorkerService {
     return res.response;
   }
 
-  async getSpecificWorkerCreditRank(username: string, token:string): Promise<WorkerCreditSelfRankResponse> {
+  async getSpecificWorkerCreditRank(username: string, token:string): Promise<CreditSpecificWorkerLeaderboardResponse> {
     const res = await this.http.fetch({
       path: `leaderboard/credits/worker/${username}`,
       token
@@ -120,7 +120,7 @@ export class WorkerService {
     return res.response;
   }
 
-  async getSpecificWorkerExpRank(username: string, token:string): Promise<WorkerExpSelfRankResponse> {
+  async getSpecificWorkerExpRank(username: string, token:string): Promise<ExpSpecificWorkerLeaderboardResponse> {
     const res = await this.http.fetch({
       path: `leaderboard/exp/${username}`,
       token
