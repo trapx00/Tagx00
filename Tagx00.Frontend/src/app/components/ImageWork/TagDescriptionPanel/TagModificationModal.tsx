@@ -1,11 +1,12 @@
 import React from 'react';
 import { TagTuple } from "../../../models/instance/TagTuple";
-import { Button, Input, Modal } from 'antd';
+import { Button, Input, Modal, Tag } from 'antd';
 import { AddableInputGroup } from "../AddableInputGroup";
 import { observer } from "mobx-react";
 import { action, computed, observable } from "mobx";
 import { LocaleMessage, Localize } from "../../../internationalization/components";
 import { FormItem } from "../../Form/FormItem";
+import { ClickableTag } from "../../ClickableTag";
 
 interface Props {
   tagTuple: TagTuple;
@@ -24,6 +25,7 @@ export class TagModificationModal extends React.Component<Props, {}> {
   @observable tuple: TagTuple = {...this.props.tagTuple};
 
   onOk = () => {
+
     if (!this.tagNameValid) {
       return;
     }
@@ -31,14 +33,8 @@ export class TagModificationModal extends React.Component<Props, {}> {
   };
 
   @computed get tagNameValid() {
-    console.log(this.props.allowedTags);
-    if (!this.tuple.tag) {
-      return false;
-    }
-    if (this.props.allowedTags && this.props.allowedTags.indexOf(this.tuple.tag) == -1) {
-      return false;
-    }
-    return true;
+    return !!this.tuple.tag;
+
   }
 
   onCancel = () => {
@@ -55,6 +51,10 @@ export class TagModificationModal extends React.Component<Props, {}> {
 
   onRemove = () => {
     this.props.onRemove(this.props.tagTuple);
+  };
+
+  @action onTagClick = (value: string) => {
+    this.tuple.tag = value;
   };
 
   render() {
@@ -79,15 +79,23 @@ export class TagModificationModal extends React.Component<Props, {}> {
       footer={footer}
     >
       <h3><LocaleMessage id={ID_PREFIX + "tagName"}/></h3>
+      {this.props.allowedTags &&
+      <div>
+        <LocaleMessage id={ID_PREFIX + "tagLimited"}/>
+        <div>{this.props.allowedTags.map(x => <ClickableTag key={x} onClick={() => this.onTagClick(x)}>{x}</ClickableTag>)}</div>
+      </div>
+        }
       <Localize replacements={{
         placeholder: ID_PREFIX + "tagName",
         messageOnInvalid: ID_PREFIX + "tagNameInvalid"
       }}>
         {props => <FormItem valid={this.tagNameValid}
-                            messageOnInvalid={props.messageOnInvalid}>
+                            messageOnInvalid={props.messageOnInvalid}
+        >
 
           <Input placeholder={props.placeholder}
                  value={this.tuple.tag}
+                 disabled={!!this.props.allowedTags}
                  onChange={this.onTagNameChange}
           />
 

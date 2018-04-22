@@ -15,13 +15,15 @@ import { PayServiceMock } from "../api/mock/PayServiceMock";
 import { TopicService } from "../api/TopicService";
 import { TopicServiceMock } from "../api/mock/TopicServiceMock";
 
+const useMock = true;
+
 export const apiServiceProviders: Binding[] = [
-  {provide: MissionService, useClass: MissionService},
-  {provide: UserService, useClass: UserService},
-  {provide: WorkerService, useClass: WorkerService},
-  {provide: RequesterService, useClass: RequesterService},
-  {provide: AdminService, useClass: AdminService},
-  {provide: PayService, useClass: PayService},
-  {provide: TopicService, useClass: TopicService},
+  {provide: MissionService, useClass: useMock ? MissionServiceMock : MissionService },
+  {provide: UserService, useClass: useMock ? UserServiceMock : UserService},
+  {provide: WorkerService, useClass: useMock ? WorkerServiceMock : WorkerService },
+  {provide: RequesterService, useClass: useMock ? RequesterServiceMock : RequesterService},
+  {provide: AdminService, useClass: useMock ? AdminServiceMock : AdminService},
+  {provide: PayService, useClass: useMock ? PayServiceMock : PayService},
+  {provide: TopicService, useClass: useMock ? TopicServiceMock : TopicService },
   {provide: HttpService, useClass: HttpService}
 ];

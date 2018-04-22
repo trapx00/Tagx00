@@ -4,7 +4,7 @@ import { ImageNotation } from "../../../../stores/ImageWorkStore";
 import { WholeJob } from "../../../../models/instance/image/job/WholeJob";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../../components/ImageWork/MissionTipCard";
-import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel/index";
+import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
 import { ProgressController } from "../../../../components/ImageWork/ProgressController";
 import { toJS } from "mobx";
 import { ImageWorkPageLayout } from "./Layout";
@@ -58,6 +58,7 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
 
   submit = () => {
     console.log(toJS(this.state.notation));
+    this.props.submit(this.state.notation);
   };
 
   setScale = (scale) => {

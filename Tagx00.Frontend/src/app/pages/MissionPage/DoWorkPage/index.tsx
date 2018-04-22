@@ -26,22 +26,12 @@ export class DoWorkPage extends React.Component<Props, any> {
   render() {
     const {instanceDetail, missionDetail} = this.props;
     if (missionDetail.publicItem.missionType === MissionType.IMAGE) {
-      return <Localize replacements={{
-        workSaved: "drawingPad.common.finish.workSaved",
-        readonlyComplete: "drawingPad.common.finish.readonlyComplete"
-      }}>
-        {props => <ImageWorkPage instanceDetail={instanceDetail as any}
+      return<ImageWorkPage instanceDetail={instanceDetail as any}
                                  missionDetail={missionDetail as any}
                                  token={this.props.token}
                                  jumpBack={() => this.routerStore.jumpTo("/missions")}
                                  readonlyMode={this.props.readonly}
-                                 readonlyCompleteText={props.readonlyComplete}
-                                 workSavedText={props.workSaved}
         />
-        }
-
-
-      </Localize>;
     }
     return null;
   }

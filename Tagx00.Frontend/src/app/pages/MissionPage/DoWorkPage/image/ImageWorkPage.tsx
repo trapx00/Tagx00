@@ -13,6 +13,7 @@ import { action, observable, runInAction } from "mobx";
 import { WorkerService } from "../../../../api/WorkerService";
 import { Inject, Module } from "react.di";
 import { DistrictJob } from "../../../../models/instance/image/job/DistrictJob";
+import { LocaleStore } from "../../../../stores/LocaleStore";
 
 interface Props {
   instanceDetail: ImageInstanceDetail;
@@ -20,10 +21,9 @@ interface Props {
   token: string;
   jumpBack: () => void;
   readonlyMode: boolean;
-  workSavedText: ReactNode;
-  readonlyCompleteText: ReactNode;
 }
 
+const ID_PREFIX = "drawingPad.common.";
 
 
 @Module({
@@ -35,13 +35,14 @@ interface Props {
 export class ImageWorkPage extends React.Component<Props, {}> {
 
   @Inject store: ImageWorkStore;
+  @Inject localeStore: LocaleStore;
 
   @observable finishModalShown = true;
 
   @action saveWork = async (notation: ImageNotation) => {
     this.store.saveWork(notation);
     await this.store.saveProgress(this.props.token);
-    message.success(this.props.workSavedText);
+    message.success(this.localeStore.get(ID_PREFIX + "finish.workSaved"));
   };
 
   goNext = (notation: ImageNotation) => {
@@ -62,7 +63,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   @action componentDidUpdate() {
     if (this.store.finished) {
       if (this.props.readonlyMode) {
-        message.info(this.props.readonlyCompleteText);
+        message.info(ID_PREFIX + "finish.readonlyComplete");
         this.store.workIndex--;
         return;
       } else {
