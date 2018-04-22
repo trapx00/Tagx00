@@ -21,16 +21,23 @@ export class WorkerInfoPage extends React.Component<{},{}> {
         const percent = (info.exp)*100/nextLevelExp;
         return (
           <div>
-            <DefinitionItem prompt={"用户名"} children={info.username}/>
-            <DefinitionItem prompt={"注册邮箱"} children={info.email}/>
-            <DefinitionItem prompt={"等级"} children={info.level}/>
+            <DefinitionItem prompt={"用户名"}>
+              {info.username}
+            </DefinitionItem>
+            <DefinitionItem prompt={"注册邮箱"}>
+              {info.email}
+            </DefinitionItem>
+            <DefinitionItem prompt={"等级"}>
+              {info.level}
+            </DefinitionItem>
             <DefinitionItem prompt={"经验"}
                             children ={
                                 <div style={{width:200}}>
                                    <Progress percent={percent} format={ () => info.exp + "/"+ nextLevelExp} />
                                 </div>}/>
-
-            <DefinitionItem prompt={"积分"} children={info.level}/>
+            <DefinitionItem prompt={"积分"}>
+              {info.level}
+            </DefinitionItem>
         </div>);
     }
 
