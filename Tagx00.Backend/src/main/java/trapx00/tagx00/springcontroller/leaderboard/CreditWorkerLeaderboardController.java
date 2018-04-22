@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import trapx00.tagx00.blservice.leaderboard.CreditRequesterLeaderboardBlService;
 import trapx00.tagx00.blservice.leaderboard.CreditWorkerLeaderboardBlService;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -25,6 +24,7 @@ public class CreditWorkerLeaderboardController {
     public CreditWorkerLeaderboardController(CreditWorkerLeaderboardBlService creditWorkerLeaderboardBlService) {
         this.creditWorkerLeaderboardBlService = creditWorkerLeaderboardBlService;
     }
+
     @Authorization("发起者、工人、管理员")
     @ApiOperation(value = "工人富人榜", notes = "以积分从高到低排名")
     @ApiImplicitParams({
@@ -38,10 +38,11 @@ public class CreditWorkerLeaderboardController {
             @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
     public ResponseEntity<Response> creditLeaderboard(
-            @RequestParam("pageSize") Integer pageSize, @RequestParam("pageNumber") Integer pageNumber
-    ) {
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+            @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber
+            ) {
         try {
-            return new ResponseEntity(creditWorkerLeaderboardBlService.creditLeaderboard(new PagingQueryVo(pageSize,pageNumber)), HttpStatus.OK);
+            return new ResponseEntity(creditWorkerLeaderboardBlService.creditLeaderboard(new PagingQueryVo(pageSize, pageNumber)), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);

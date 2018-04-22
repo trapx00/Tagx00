@@ -12,6 +12,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @Service
 public class CommonLeaderboardBl<T, U, P> {
@@ -24,14 +25,22 @@ public class CommonLeaderboardBl<T, U, P> {
 
     public T queryLeaderboard(PagingQueryVo pagingQueryVo, Role role, Class<T> returnClass, Method getFieldMethod, Method generateVoMethod) throws InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchFieldException {
         User[] users = userDataService.getUsersByRole(role);
-        users = rankUsers(users, 0, users.length, getFieldMethod);
-        int startIndex = pagingQueryVo.getPageNumber() * pagingQueryVo.getPageSize();
+        sortUsers(getFieldMethod, users);
+        int startIndex = (pagingQueryVo.getPageNumber() - 1) * pagingQueryVo.getPageSize();
         int endIndex = startIndex + pagingQueryVo.getPageSize();
         ArrayList<P> pArrayList = new ArrayList<>();
-        for (int i = startIndex; i < endIndex; i++) {
-            User toAddUser = users[i];
-            P p = (P) generateVoMethod.invoke(null, toAddUser, i + 1);
-            pArrayList.add(p);
+        if (users.length >= endIndex) {
+            for (int i = startIndex; i < endIndex; i++) {
+                User toAddUser = users[i];
+                P p = (P) generateVoMethod.invoke(null, toAddUser, i + 1);
+                pArrayList.add(p);
+            }
+        } else {
+            for (int i = startIndex; i < users.length; i++) {
+                User toAddUser = users[i];
+                P p = (P) generateVoMethod.invoke(null, toAddUser, i + 1);
+                pArrayList.add(p);
+            }
         }
 
         T t = returnClass.newInstance();
@@ -47,7 +56,7 @@ public class CommonLeaderboardBl<T, U, P> {
     public U querySpecificLeaderboard(String username, Role role, Class<U> returnClass, Method getFieldMethod, Method generateVoMethod) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException, InstantiationException {
         User user = userDataService.getUserByUsername(username);
         User[] users = userDataService.getUsersByRole(role);
-        users = rankUsers(users, 0, users.length, getFieldMethod);
+        sortUsers(getFieldMethod, users);
         int order = 1;
         for (User user1 : users) {
             if (user1.getUsername().equals(user.getUsername())) {
@@ -62,26 +71,16 @@ public class CommonLeaderboardBl<T, U, P> {
         return u;
     }
 
-    private static User[] rankUsers(User[] users, int low, int high, Method getFieldMethod) throws InvocationTargetException, IllegalAccessException {
-        if (low < high) {
-            int pivot = partition(users, low, high, getFieldMethod);
-            rankUsers(users, low, pivot - 1, getFieldMethod);
-            rankUsers(users, pivot + 1, high, getFieldMethod);
-        }
-        return users;
-    }
-
-    private static int partition(User[] users, int low, int high, Method getFieldMethod) throws InvocationTargetException, IllegalAccessException {
-        User pivot = users[low];
-        while (low < high) {
-            while (low < high && (double) getFieldMethod.invoke(users[high]) >= (double) getFieldMethod.invoke(pivot))
-                --high;
-            users[low] = users[high];
-            while (low < high && (double) getFieldMethod.invoke(users[low]) <= (double) getFieldMethod.invoke(pivot))
-                ++low;
-            users[high] = users[low];
-        }
-        users[low] = pivot;
-        return low;
+    private void sortUsers(Method getFieldMethod, User[] users) {
+        Arrays.sort(users, (o1, o2) -> {
+            try {
+                double element1 = (double) getFieldMethod.invoke(o1);
+                double element2 = (double) getFieldMethod.invoke(o2);
+                return (int) Math.ceil(element1 - element2);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        });
     }
 }

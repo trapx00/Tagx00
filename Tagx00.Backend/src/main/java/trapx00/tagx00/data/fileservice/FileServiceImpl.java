@@ -219,8 +219,8 @@ public class FileServiceImpl<T extends Entity> implements FileService<T> {
 
     @Override
     public ArrayList<T> findOnes(String info, Class<T> clazz) {
-        String methodName = new Exception().getStackTrace()[2].getMethodName();
-        if (methodName.contains("And")||methodName.contains("save")) {
+        String methodName = new Exception().getStackTrace()[1].getMethodName();
+        if (methodName.contains("And") || methodName.contains("save")) {
             methodName = new Exception().getStackTrace()[1].getMethodName();
         }
         String columnName = methodName.split("By")[1];
