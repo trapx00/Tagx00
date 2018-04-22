@@ -15,7 +15,7 @@ import trapx00.tagx00.response.leaderboard.credit.CreditRequesterLeaderboardResp
 import trapx00.tagx00.response.leaderboard.credit.CreditSpecificRequesterLeaderboardResponse;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
-@PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
+//@PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
 @RestController
 public class CreditRequesterLeaderboardController {
     private final CreditRequesterLeaderboardBlService creditRequesterLeaderboardBlService;
@@ -42,7 +42,7 @@ public class CreditRequesterLeaderboardController {
             @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber
     ) {
         try {
-            return new ResponseEntity(creditRequesterLeaderboardBlService.creditLeaderboard(new PagingQueryVo(pageSize, pageNumber)), HttpStatus.OK);
+            return new ResponseEntity<>(creditRequesterLeaderboardBlService.creditLeaderboard(new PagingQueryVo(pageSize, pageNumber)), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
@@ -64,7 +64,7 @@ public class CreditRequesterLeaderboardController {
     @ResponseBody
     public ResponseEntity<Response> specificRequester(@PathVariable("username") String username) {
         try {
-            return new ResponseEntity(creditRequesterLeaderboardBlService.specificRequester(username), HttpStatus.OK);
+            return new ResponseEntity<>(creditRequesterLeaderboardBlService.specificRequester(username), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);

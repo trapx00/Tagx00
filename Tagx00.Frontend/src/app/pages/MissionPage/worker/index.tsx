@@ -5,6 +5,7 @@ import { SiderLayout } from "../../../layouts/SiderLayout";
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { UserRole } from "../../../models/user/User";
 import { requireLogin } from "../../hoc/RequireLogin";
+import { AsyncRoute } from "../../../router/AsyncRoute";
 
 interface Props {
 
@@ -30,14 +31,14 @@ export class WorkerMissionPage extends React.Component<Props, {}> {
 
   render() {
     return <Switch>
-      <Route exact path={"/mission/worker/:missionId"}
-             render={props => <AsyncComponent render={renderSeeResult} props={props}/>}/>
-      <Route exact path={"/mission/worker/:missionId/doWork"}
-             render={props => <AsyncComponent render={renderDoWork} props={props}/>}/>
+      <AsyncRoute exact path={"/mission/worker/:missionId"}
+             render={renderSeeResult}/>
+      <AsyncRoute exact path={"/mission/worker/:missionId/doWork"}
+             render={renderDoWork}/>
       <Route render={() => <SiderLayout leftSider={<WorkerMissionPageSideMenu/>}>
         <Switch>
-          <Route exact path={"/mission/worker"}
-                 render={props => <AsyncComponent render={renderMissionPanel}/>}/>
+          <AsyncRoute exact path={"/mission/worker"}
+                 render={renderMissionPanel}/>
         </Switch>
       </SiderLayout>}/>
     </Switch>;

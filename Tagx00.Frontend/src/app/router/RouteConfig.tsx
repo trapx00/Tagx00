@@ -1,6 +1,7 @@
 import { Redirect, Route, RouteComponentProps } from "react-router";
 import { AsyncComponent } from "./AsyncComponent";
 import React, { ReactNode } from 'react';
+import { AsyncRoute } from "./AsyncRoute";
 
 export enum RouteType {
   Async,
@@ -28,8 +29,7 @@ export type KnownRouteConfig = AsyncRouteConfig | RedirectRouteConfig;
 export function constructRoute(config: KnownRouteConfig) {
   switch (config.type) {
     case RouteType.Async:
-      return <Route exact={config.exact} key={config.path} path={config.path}
-                    render={props => <AsyncComponent render={config.render} props={props}/>}/>;
+      return <AsyncRoute exact={config.exact} key={config.path} path={config.path} render={config.render}/>;
     case RouteType.Redirect:
       return <Redirect exact={config.exact} key={config.path} from={config.path} path={config.path} to={config.to}/>
   }

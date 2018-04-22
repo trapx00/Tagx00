@@ -90,20 +90,5 @@ export class RequesterService {
     return res.response;
   }
 
-  async getRequesterCreditBoard(pageSize: number, pageNumber: number, token: string): Promise<RequesterCreditBoardResponse> {
-    const res = await this.http.fetch({
-      path: "leaderboard/credits/requester",
-      token
-    });
-    return res.response;
-  }
-
-  async getSpecificRequesterRank(username: string, token:string): Promise<RequesterCreditSelfRankResponse> {
-    const res = await this.http.fetch({
-      path: `leaderboard/credits/requester/${username}`,
-      token
-    });
-    return res.response;
-  }
 
 }

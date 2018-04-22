@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { UserStore } from "../../../stores/UserStore";
 import { computed } from "mobx";
 import { UserRole } from "../../../models/user/User";
+import styled from "styled-components";
 
 interface Props {
   publicItem: MissionPublicItem;
@@ -16,6 +17,9 @@ interface Props {
   extraInfo: ReactNode;
 }
 
+const Title = styled.h1`
+  margin-bottom: 16px;
+`;
 
 @observer
 export class MissionDetailBasePanel extends React.Component<Props, {}> {
@@ -35,7 +39,7 @@ export class MissionDetailBasePanel extends React.Component<Props, {}> {
         {this.props.picPanel}
       </Col>
       <Col md={12} sm={24}>
-        <h1>{title}</h1>
+        <Title>{title}</Title>
         <Item promptTextId={"missionId"}>
           {missionId}
         </Item>

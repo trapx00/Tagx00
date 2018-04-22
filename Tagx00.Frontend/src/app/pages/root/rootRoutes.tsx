@@ -16,11 +16,11 @@ export const leaderboardPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: false,
   path: "/leaderboard",
-  render: async () => {
+  render: async (props) => {
     const Page = (await import("../LeaderboardPage")).LeaderboardPage;
     return <Page/>;
   }
-}
+};
 
 export const browsePage: AsyncRouteConfig  = {
   type: RouteType.Async,

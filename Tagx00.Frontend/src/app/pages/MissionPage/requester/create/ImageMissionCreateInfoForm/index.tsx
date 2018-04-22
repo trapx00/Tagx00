@@ -14,7 +14,7 @@ import { RouterStore } from "../../../../../stores/RouterStore";
 import moment from 'moment';
 import { TagSelector } from "../../../../../components/TagSelector";
 import { TopicService } from "../../../../../api/TopicService";
-import { AsyncComponent } from "../../../../../router/AsyncComponent";
+import { AsyncComponent, ObserverAsyncComponent } from "../../../../../router/AsyncComponent";
 import { Loading } from "../../../../../components/Common/Loading";
 import { FormItem } from "../../../../../components/Form/FormItem";
 
@@ -213,7 +213,7 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
         />
       </FormItem>
       <FormItem valid={true} messageOnInvalid={""}>
-        <AsyncComponent observeRenderContent={true} render={this.renderTopicSelector} componentWhenLoading={<Loading/>}/>
+        <ObserverAsyncComponent render={this.renderTopicSelector} componentWhenLoading={<Loading/>}/>
       </FormItem>
       <FormItem valid={this.info.allowedTagsValid} messageOnInvalid={locale.requireTags}>
         <span style={{marginRight: "16px"}}>{locale.tags}</span>

@@ -6,6 +6,7 @@ import { AsyncComponent } from "../../../router/AsyncComponent";
 import { parseQueryString } from "../../../router/utils";
 import { UserRole } from "../../../models/user/User";
 import { requireLogin } from "../../hoc/RequireLogin";
+import { AsyncRoute } from "../../../router/AsyncRoute";
 
 interface Props {
 
@@ -36,14 +37,14 @@ export class RequesterMissionPage extends React.Component<Props, {}> {
 
   render() {
     return <Switch>
-      <Route exact path={"/mission/requester/instance/:instanceId"} render={props => <AsyncComponent render={renderInstanceSeeResult} props={props}/>}/>
+      <AsyncRoute exact path={"/mission/requester/instance/:instanceId"} render={renderInstanceSeeResult}/>}/>
       <Route render={() => <SiderLayout leftSider={<RequesterMissionPageSideMenu/>}>
         <Switch>
-          <Route exact path={"/mission/requester/create/image"}
-                 render={props => <AsyncComponent render={renderCreateImage}/>}/>
-          <Route exact path={"/mission/requester"} render={props => <AsyncComponent render={renderMissionPanel}/>}/>
-          <Route path={"/mission/requester/instance"} exact
-                 render={props => <AsyncComponent render={renderInstancePanel} props={props}/>}/>
+          <AsyncRoute exact path={"/mission/requester/create/image"}
+                 render={renderCreateImage}/>
+          <AsyncRoute exact path={"/mission/requester"} render={renderMissionPanel}/>
+          <AsyncRoute path={"/mission/requester/instance"} exact
+                 render={renderInstancePanel}/>
         </Switch>
       </SiderLayout>}/>
 

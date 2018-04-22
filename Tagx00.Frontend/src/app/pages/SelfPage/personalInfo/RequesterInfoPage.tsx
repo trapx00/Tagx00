@@ -5,14 +5,17 @@ import {Inject} from "react.di";
 import {LocaleMessage} from "../../../internationalization/components";
 import {AsyncComponent} from "../../../router/AsyncComponent";
 import { DefinitionItem } from "../../../components/DefinitionItem";
+import { LeaderboardService } from "../../../api/LeaderboardService";
+import { PayService } from "../../../api/PayService";
 
 export class RequesterInfoPage extends React.Component<{},{}> {
     @Inject userStore:UserStore;
     @Inject requesterService:RequesterService;
+    @Inject payService: PayService;
 
     requesterInfo = async () => {
         const info = await this.requesterService.getRequesterInfo(this.userStore.user.username,this.userStore.token);
-        const credit = await this.requesterService.getSpecificRequesterRank(this.userStore.user.username,this.userStore.token);
+        const credit = await this.payService.getCredits(this.userStore.token);
         return <div>
             <DefinitionItem prompt={"用户名"}>
               {info.username}
@@ -21,7 +24,7 @@ export class RequesterInfoPage extends React.Component<{},{}> {
               {info.email}
             </DefinitionItem>
             <DefinitionItem prompt={"积分"}>
-              {credit.requesterCreditSelfRank.credits}
+              {credit.credits}
             </DefinitionItem>
         </div>
     };
