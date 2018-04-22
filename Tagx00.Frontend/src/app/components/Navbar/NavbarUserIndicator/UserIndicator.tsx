@@ -25,6 +25,10 @@ export class UserIndicator extends React.Component<Props, {}> {
         <Link to={"/self"}><LocaleMessage id={"navbar.selfCenter"}/></Link>
       </Menu.Item>
       <Menu.Divider />
+      <Menu.Item key="charge">
+        <Link to={"/pay"}><LocaleMessage id={"navbar.pay"}/></Link>
+      </Menu.Item>
+      <Menu.Divider />
       <Menu.Item key="logout">
         <a onClick={this.logout}><LocaleMessage id={"navbar.logout"}/></a>
       </Menu.Item>

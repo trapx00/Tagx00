@@ -49,7 +49,7 @@ export class WorkerCreditBoardPage extends React.Component<{}, {}> {
           <LocaleMessage id={"leaderboard.rankListBoard"}/>
         </MinorTitle>
         <br/>
-        <Table dataSource={workerCreditBoard.users} columns={columns} pagination={workerCreditBoard.pagingInfo}/>
+        <Table rowKey={"order"} dataSource={workerCreditBoard.users} columns={columns} pagination={workerCreditBoard.pagingInfo}/>
       </div>
     );
   };

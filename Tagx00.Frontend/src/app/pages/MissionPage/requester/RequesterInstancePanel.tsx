@@ -22,7 +22,7 @@ interface State {
   loading: boolean;
   missionId: string;
   data: Instance[];
-  finalizeModalState: {shown: boolean, instanceId: string, readonly: boolean}
+  finalizeModalState: {shown: boolean, instanceId: string, readonly: boolean, missionId: string}
 }
 
 const ID_PREFIX = "missions.requester.instancePanel.";
@@ -41,7 +41,7 @@ const Container = styled.div`
 `;
 
 
-function selectActions(item: Instance, showFinalizeModal: (readonly: boolean, instanceId: string) => void) {
+function selectActions(item: Instance, showFinalizeModal: (readonly: boolean, instanceId: string, missionId: string) => void) {
   const actions: ReactNode[] =  [
     <Link to={`/mission/requester/instance/${item.instanceId}`} key={"seeResult"}>
       <a><LocaleMessage id={TABLE_TITLE_ID_PREFIX + "seeResult"}/></a>
@@ -51,13 +51,13 @@ function selectActions(item: Instance, showFinalizeModal: (readonly: boolean, in
   switch (item.missionInstanceState) {
     case MissionInstanceState.SUBMITTED:
       actions.push(<Divider key={"splitter1"} type={"vertical"}/>);
-      actions.push(<a onClick={() => showFinalizeModal(false, item.instanceId)}>
+      actions.push(<a onClick={() => showFinalizeModal(false, item.instanceId, item.missionId)}>
           <LocaleMessage id={TABLE_TITLE_ID_PREFIX + "finalize"}/>
         </a>);
       break;
     case MissionInstanceState.FINALIZED:
       actions.push(<Divider key={"splitter1"} type={"vertical"}/>);
-      actions.push(<a key={"seeFinalizeResult"} onClick={() => showFinalizeModal(true, item.instanceId)}><LocaleMessage id={TABLE_TITLE_ID_PREFIX + "finalizeResult"}/></a>);
+      actions.push(<a key={"seeFinalizeResult"} onClick={() => showFinalizeModal(true, item.instanceId, item.missionId)}><LocaleMessage id={TABLE_TITLE_ID_PREFIX + "finalizeResult"}/></a>);
       break;
   }
 
@@ -78,11 +78,11 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
     loading: false,
     missionId: this.props.missionId || "",
     data: [],
-    finalizeModalState: { shown: false, instanceId: "", readonly: true}
+    finalizeModalState: { shown: false, instanceId: "", readonly: true, missionId: this.props.missionId || ""}
   };
 
-  showFinalizeModal = (readonly: boolean, instanceId: string) => {
-    this.setState({ finalizeModalState: { shown: true, instanceId,  readonly }});
+  showFinalizeModal = (readonly: boolean, instanceId: string, missionId: string) => {
+    this.setState({ finalizeModalState: { shown: true, instanceId,  readonly, missionId }});
   };
 
   onSearch = () => {
@@ -104,7 +104,7 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
   }
 
   closeFinalizeModal = () => {
-    this.setState({ finalizeModalState: {shown: false, instanceId: "", readonly: true}});
+    this.setState({ finalizeModalState: {shown: false, instanceId: "", readonly: true, missionId: ""}});
   };
 
   refresh = () => {

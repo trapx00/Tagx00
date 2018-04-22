@@ -5,11 +5,14 @@ import { Form, Input, Icon } from 'antd';
 import { LocaleMessage, Localize } from "../../../../internationalization/components";
 import { observer } from "mobx-react";
 import { action } from "mobx";
+import { RichFormItem } from "../../../../components/Form/RichFormItem";
+import { Link} from 'react-router-dom';
 const FormItem = Form.Item;
 
 interface Props {
   value: MissionFinalizeParameters;
   readonly: boolean;
+  missionId: string;
 }
 
 function formItemProps(valid: boolean, error: string): FormItemProps  {
@@ -50,13 +53,16 @@ export class FinalizeForm extends React.Component<Props, {}> {
   };
 
 
-  selectCreditsFormProps(): FormItemProps {
-    switch (this.props.value.creditsStatus) {
+  selectCreditsFormProps = (status: CreditStatus): FormItemProps =>  {
+    switch (status) {
       case CreditStatus.WrongFormat:
         return {
           validateStatus: "error",
-          help: <LocaleMessage id={ID_PREFIX + "requireCredits"}/>
+          help: <LocaleMessage id={ID_PREFIX + "requireCredits"} replacements={{
+            credits: this.props.value.availableCredits+""
+          }}/>
         };
+      case CreditStatus.FirstAttempt:
       case CreditStatus.Acceptable:
         return {
           validateStatus: "success",
@@ -65,11 +71,15 @@ export class FinalizeForm extends React.Component<Props, {}> {
       case CreditStatus.CreditsNotSufficient:
         return {
           validateStatus: "error",
-          help: <LocaleMessage id={ID_PREFIX + "creditsNotSufficient"} replacements={{ credits: this.props.value.availableCredits + ""}}/>
+          help: <LocaleMessage id={ID_PREFIX + "creditsNotSufficient"}
+                               replacements={{
+                                 credits: this.props.value.availableCredits + "",
+                                 goPay: <Link to={`/pay/mission?missionId=${this.props.missionId}`}><LocaleMessage id={ID_PREFIX + "goPay"}/></Link>
+                               }}/>
 
         }
     }
-  }
+  };
 
   render() {
     const { value } = this.props;
@@ -85,14 +95,15 @@ export class FinalizeForm extends React.Component<Props, {}> {
                    value={value.expRatio}
             />
           </FormItem>
-          <FormItem  {...this.selectCreditsFormProps()}>
+          <RichFormItem status={this.props.value.creditsStatus}
+                        mapToFormProps={this.selectCreditsFormProps}>
             <Input addonBefore={props.credits}
                    disabled={this.props.readonly}
                    onChange={this.onCreditsChange}
                    placeholder={props.expRatio}
                    value={value.credits}
             />
-          </FormItem>
+          </RichFormItem>
           <FormItem {...formItemProps(true, null)}>
             <Input.TextArea
                    disabled={this.props.readonly}

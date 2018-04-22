@@ -14,6 +14,7 @@ import { MissionFinalizeParameters, MissionFinalizeVo } from "../../models/insta
 import { InstanceResponse } from "../../models/response/mission/InstanceResponse";
 import { RequesterCreditBoardResponse } from "../../models/leaderboard/RequesterCreditBoardResponse";
 import { RequesterCreditSelfRankResponse } from "../../models/leaderboard/RequesterCreditSelfRankResponse";
+import { MissionRequestQueryResponse } from "../../models/response/mission/MissionRequestQueryResponse";
 
 @Injectable
 export class RequesterServiceMock extends RequesterService {
@@ -139,6 +140,13 @@ export class RequesterServiceMock extends RequesterService {
         } as ImageInstanceDetail
     }
 
+  }
+
+  async getRemainingCreditsForAMission(missionId: string, token: string): Promise<MissionRequestQueryResponse> {
+
+    return {
+      remainingCredits: 10
+    }
   }
 
 

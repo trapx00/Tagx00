@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { observer } from "mobx-react";
 import { action, observable, runInAction, toJS } from "mobx";
-import { ImageMissionCreateInfo } from "./ImageMissionCreateInfo";
+import { CreditStatus, ImageMissionCreateInfo } from "./ImageMissionCreateInfo";
 import { Checkbox, DatePicker, Form, Input, Modal, Button } from 'antd';
 import { FormItemProps } from "antd/lib/form/FormItem";
 import { ImageMissionType } from "../../../../../models/mission/image/ImageMission";
@@ -17,6 +17,10 @@ import { TopicService } from "../../../../../api/TopicService";
 import { AsyncComponent, ObserverAsyncComponent } from "../../../../../router/AsyncComponent";
 import { Loading } from "../../../../../components/Common/Loading";
 import { FormItem } from "../../../../../components/Form/FormItem";
+import { RichFormItem } from "../../../../../components/Form/RichFormItem";
+import { CurrentCreditsIndicator } from "../../../../../components/Pay/CurrentCreditsIndicator";
+import { LocaleMessage } from "../../../../../internationalization/components";
+import { PayService } from "../../../../../api/PayService";
 
 const CheckboxGroup = Checkbox.Group;
 const {RangePicker} = DatePicker;
@@ -48,6 +52,9 @@ const formStrings = [
   "endDate",
   "requireEndDate",
   "selectFile",
+  "minimalWorkerLevel",
+  "credits",
+  "missionLevel"
 ].reduce((prev, curr) => ({...prev, [curr]: `${ID_PREFIX}fields.${curr}`}), {});
 
 /**
@@ -85,6 +92,9 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
   @Inject routerStore: RouterStore;
   @Inject requesterService: RequesterService;
   @Inject topicService: TopicService;
+  @Inject payService: PayService;
+
+
 
   @action onTitleChange = (e) => {
     this.info.title = e.target.value;
@@ -120,6 +130,31 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
   @action onTagsChange = (tags: string[]) => {
     this.info.allowedTags = tags;
   };
+
+  @action onMissionLevelChanged = (e) => {
+    this.info.level = e.target.value;
+  };
+
+  @action onMinimalWorkerLevelChanged = (e) => {
+    this.info.minimalWorkerLevel = e.target.value;
+  };
+
+  @action onCreditsChanged = (e) => {
+    this.info.credits = e.target.value;
+  };
+
+  @action onCreditFetched = (credits) => {
+    this.info.remainingCredits = credits;
+  };
+
+  componentDidMount() {
+    this.payService.getCredits(this.props.token).then(credits => {
+      runInAction(() => {
+        this.info.remainingCredits = credits.credits;
+      });
+    })
+  }
+
 
   @action submit = async () => {
 
@@ -172,6 +207,38 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
 
   @action onTopicChange = (selected: string[]) => {
     this.info.topics = selected;
+  };
+
+  creditsMapStatusToFormProps = (status: CreditStatus): FormItemProps => {
+    const prefix = ID_PREFIX + "fields.creditsError.";
+    switch (status) {
+      case CreditStatus.Loading:
+        return {
+          validateStatus: "success",
+          help: <LocaleMessage id={prefix + "loading"}/>
+        };
+      case CreditStatus.CreditsNotSufficient:
+        return {
+          validateStatus: "error",
+          help: <LocaleMessage id={prefix + "insufficient"} replacements={{
+            current: this.info.remainingCredits+"",
+            goPay: <Link to={"/pay/account"}><LocaleMessage id={prefix + "goPay"}/></Link>
+          }}/>
+        };
+      case CreditStatus.FirstAttempt:
+      case CreditStatus.Acceptable:
+        return {
+          validateStatus: "success",
+          help: <LocaleMessage id={prefix + "remaining"} replacements={{
+            current: this.info.remainingCredits+""
+          }}/>,
+        };
+      case CreditStatus.WrongFormat:
+        return {
+          validateStatus: "success",
+          help: <LocaleMessage id={prefix+"format"}/>
+        }
+    }
   };
 
   renderTopicSelector = async () => {
@@ -229,6 +296,36 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
         <p>{locale.dateRange}</p>
         <RangePicker value={toJS(this.info.dateRange)} onChange={this.onDateRangeChanged}/>
       </FormItem>
+
+      <FormItem valid={this.info.minimalWorkerLevelValid}
+                messageOnInvalid={locale.requireMinimalWorkerLevel}
+                messageOnSuccess={locale.requireMinimalWorkerLevel}
+      >
+        <Input addonBefore={locale.minimalWorkerLevel}
+               onChange={this.onMinimalWorkerLevelChanged}
+               value={this.info.minimalWorkerLevel}
+        />
+      </FormItem>
+
+      <FormItem valid={this.info.levelValid}
+                messageOnInvalid={locale.requireMissionLevel}
+                messageOnSuccess={locale.requireMissionLevel}
+      >
+        <Input addonBefore={locale.missionLevel}
+               onChange={this.onMissionLevelChanged}
+               value={this.info.level}
+        />
+      </FormItem>
+
+      <RichFormItem status={this.info.creditsStatus}
+                    mapToFormProps={this.creditsMapStatusToFormProps}
+      >
+        <Input addonBefore={locale.credits}
+               onChange={this.onCreditsChanged}
+               value={this.info.credits}
+        />
+      </RichFormItem>
+
       <FormItem valid={this.info.imageTypesValid} messageOnInvalid={locale["IMAGE.requireTypes"]}>
         <p>{locale["IMAGE.types.name"]}</p>
         <CheckboxGroup options={Object.keys(ImageMissionType).map(x => ({label: locale[`IMAGE.types.${x}`], value: x}))}

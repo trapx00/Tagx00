@@ -34,7 +34,7 @@ export class MissionDetailBasePanel extends React.Component<Props, {}> {
   render() {
     const {missionId, title, jobCount, requesterUsername, allowCustomTag, allowedTags, coverUrl, description, end, missionType, start, topics} =
       this.props.publicItem;
-    return <Row gutter={16}>
+    return <Row gutter={32}>
       <Col md={12} sm={24}>
         {this.props.picPanel}
       </Col>
