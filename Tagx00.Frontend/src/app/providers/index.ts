@@ -12,7 +12,6 @@ export async function initProviders(history) {
   const routerStore = new RouterStore(history);
   const localeStore = new LocaleStore();
   const uiStore = new UiStore();
-  const levelStore = new LevelStore();
   const homeStore = new HomeStore();
   await localeStore.init();
 
@@ -22,7 +21,7 @@ export async function initProviders(history) {
     {provide: UserStore, useValue: userStore},
     {provide: UiStore, useValue: uiStore},
     {provide: LocaleStore, useValue: localeStore},
-    {provide: LevelStore, useValue: levelStore},
+    {provide: LevelStore, useClass: LevelStore},
     {provide: HomeStore, useValue: homeStore},
     {provide: BrowserStore, useClass: BrowserStore},
   ]

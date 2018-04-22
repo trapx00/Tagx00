@@ -25,6 +25,7 @@ const routes = [
     id: "selfCenter.achievement",
     match: (pathname: string) => pathname.startsWith("/self/achievement")
   },
+
   {
     path: "/self/personalInfo",
     iconName: "info",

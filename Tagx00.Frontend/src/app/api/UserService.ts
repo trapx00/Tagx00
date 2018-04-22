@@ -2,6 +2,7 @@ import { HttpService, NetworkResponse } from "./HttpService";
 import { HttpMethod } from "./utils";
 import { Inject, Injectable } from "react.di";
 import { UserRole } from "../models/user/User";
+import { LevelInfo } from "../models/user/LevelInfo";
 
 export interface LoginResult {
   token: string,
@@ -54,6 +55,14 @@ export class UserService {
       queryParams: {token, code},
       method: HttpMethod.POST
     });
+  }
+
+  async getLevelInfo(token: string): Promise<LevelInfo> {
+    const res = await this.http.fetch({
+      path:"account/level",
+      method: HttpMethod.GET,
+    });
+    return res.response;
   }
 
 }
