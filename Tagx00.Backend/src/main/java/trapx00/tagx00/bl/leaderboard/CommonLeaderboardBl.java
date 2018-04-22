@@ -67,7 +67,7 @@ public class CommonLeaderboardBl<T, U, P> {
         U u = returnClass.newInstance();
         Field field = returnClass.getDeclaredField("user");
         field.setAccessible(true);
-        field.set(u, generateVoMethod.invoke(user, order));
+        field.set(u, generateVoMethod.invoke(null, user, order));
         return u;
     }
 

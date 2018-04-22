@@ -55,7 +55,7 @@ public class CreditRequesterLeaderboardBlServiceImpl implements CreditRequesterL
         }
     }
 
-    public CreditLeaderboardRequesterVo generateCreditLeaderboardRequesterVo(User user, int order) {
+    public static CreditLeaderboardRequesterVo generateCreditLeaderboardRequesterVo(User user, int order) {
         return new CreditLeaderboardRequesterVo(user.getUsername(), user.getCredits(), order);
     }
 }
