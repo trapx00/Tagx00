@@ -3,6 +3,7 @@ import { NetworkResponse } from "../HttpService";
 import { LoginResult, UserRegisterConfirmationResponse, UserRegisterResponse, UserService } from "../UserService";
 import { UserRole } from "../../models/user/User";
 import { HttpMethod } from "../utils";
+import { LevelInfo } from "../../models/user/LevelInfo";
 
 @Injectable
 export class UserServiceMock extends UserService {
@@ -47,6 +48,13 @@ export class UserServiceMock extends UserService {
         email: "1@1.com"
       }
     );
+  }
+
+  async getLevelInfo(token: string): Promise<LevelInfo> {
+    console.log("123");
+    return {
+      levels: [0, 100, 200, 300]
+    } as LevelInfo;
   }
 
 }

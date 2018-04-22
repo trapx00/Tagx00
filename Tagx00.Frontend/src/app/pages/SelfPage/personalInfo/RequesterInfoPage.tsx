@@ -4,6 +4,7 @@ import {RequesterService} from "../../../api/RequesterService";
 import {Inject} from "react.di";
 import {LocaleMessage} from "../../../internationalization/components";
 import {AsyncComponent} from "../../../router/AsyncComponent";
+import { DefinitionItem } from "../../../components/DefinitionItem";
 
 export class RequesterInfoPage extends React.Component<{},{}> {
     @Inject userStore:UserStore;
@@ -11,12 +12,13 @@ export class RequesterInfoPage extends React.Component<{},{}> {
 
     requesterInfo = async () => {
         const info = await this.requesterService.getRequesterInfo(this.userStore.user.username,this.userStore.token);
+        const credit = await this.requesterService.getSpecificRequesterRank(this.userStore.user.username,this.userStore.token);
         return <div>
-            <p>用户名：{info.username}</p>
-            <p>注册邮箱：{info.email}</p>
-            <p>积分：//缺接口</p>
+            <DefinitionItem prompt={"用户名"} children={info.username}/>
+            <DefinitionItem prompt={"注册邮箱"} children={info.email}/>
+            <DefinitionItem prompt={"积分"} children={credit.requesterCreditSelfRank.credits}/>
         </div>
-    }
+    };
 
     render() {
         return (
