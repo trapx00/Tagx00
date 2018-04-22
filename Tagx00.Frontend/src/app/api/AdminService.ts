@@ -8,11 +8,11 @@ export class AdminService {
     }
 
     async getAdminInfo(token: string): Promise<AdminInfo> {
-       const res = await this.http.fetch({
-           path: "account/admin",
-           token: token,
-       });
-       return res.response.instances as AdminInfo;
+      const res = await this.http.fetch({
+        path: "account/admin",
+        token: token,
+      });
+      return res.response;
     }
 
 }
