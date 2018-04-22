@@ -13,6 +13,16 @@ export const missionPage: AsyncRouteConfig = {
   },
 };
 
+export const leaderboardPage: AsyncRouteConfig = {
+  type: RouteType.Async,
+  exact: false,
+  path: "/leaderboard",
+  render: async () => {
+    const Page = (await import("../LeaderboardPage")).LeaderboardPage;
+    return <Page/>;
+  }
+}
+
 export const browsePage: AsyncRouteConfig  = {
   type: RouteType.Async,
   exact: true,
@@ -70,6 +80,7 @@ export const payPage: AsyncRouteConfig  = {
 export default [
   missionPage,
   browsePage,
+  leaderboardPage,
   registerPage,
   aboutPage,
   payPage,

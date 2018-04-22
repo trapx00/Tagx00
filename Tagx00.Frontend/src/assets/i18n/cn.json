@@ -38,7 +38,8 @@
     "login": "登录",
     "logout": "登出",
     "welcome": "欢迎，{username}",
-    "selfCenter": "个人中心"
+    "selfCenter": "个人中心",
+    "leaderboard":"排行榜"
   },
   "selfCenter": {
     "dashboard": "仪表盘",

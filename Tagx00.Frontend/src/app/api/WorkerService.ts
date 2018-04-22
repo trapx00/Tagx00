@@ -97,7 +97,7 @@ export class WorkerService {
 
   async getWorkerCreditBoard(pageSize: number, pageNumber: number, token: string): Promise<WorkerCreditBoardResponse> {
     const res = await this.http.fetch({
-      path: "leaderboard/credits/worker",
+      path: "LeaderboardPage/credits/worker",
       token
     });
     return res.response;
@@ -113,7 +113,7 @@ export class WorkerService {
 
   async getWorkerExpBoard(pageSize: number, pageNumber: number, token: string): Promise<WorkerExpBoardResponse> {
     const res = await this.http.fetch({
-      path: "leaderboard/exp",
+      path: "LeaderboardPage/exp",
       token
     });
     return res.response;

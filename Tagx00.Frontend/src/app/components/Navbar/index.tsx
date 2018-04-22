@@ -41,6 +41,11 @@ const routes = [
     id: "navbar.mission",
     match: (pathname: string) => pathname.startsWith("/mission")
   }, {
+    path: "/leaderboard",
+    iconName: "bars",
+    id: "navbar.leaderboard",
+    match: (pathname: string) => pathname.startsWith("/leaderboard")
+  }, {
     path: "/about",
     iconName: "info-circle",
     id: "navbar.about",

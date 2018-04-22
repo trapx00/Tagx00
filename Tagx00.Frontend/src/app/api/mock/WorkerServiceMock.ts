@@ -107,14 +107,21 @@ export class WorkerServiceMock extends WorkerService {
     return {
       pagingInfo:
         {
-          totalCount: 100,
-          currentPage:1,
-          pageSize:10,
-          totalPage:10,
+          totalCount: 8,
+          currentPage:0,
+          pageSize:5,
+          totalPage:2,
         },
-      creditBoardList:{
-
-      }
+      creditBoardList:
+        [ {username:"今天阿吉做任务了吗",credits:397,order:1},
+          {username:"aREyOusErIouS",credits:355,order:2},
+          {username:"我在清华烤面筋",credits:326,order:3},
+          {username:"おひかりしゃ💫",credits:302,order:4},
+          {username:"2+2=5",credits:299,order:5},
+          {username:"耍fa♂枪的刀马旦",credits:296,order:6},
+          {username:"那棵老歪脖子树天天在皇宫后面盯着你们呐",credits:293,order:7},
+          {username:"一顾倾人城",credits:280,order:8},
+        ]
     } as WorkerCreditBoardResponse;
 
 

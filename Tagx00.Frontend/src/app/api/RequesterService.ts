@@ -92,7 +92,7 @@ export class RequesterService {
 
   async getRequesterCreditBoard(pageSize: number, pageNumber: number, token: string): Promise<RequesterCreditBoardResponse> {
     const res = await this.http.fetch({
-      path: "leaderboard/credits/requester",
+      path: "LeaderboardPage/credits/requester",
       token
     });
     return res.response;
