@@ -14,6 +14,13 @@
     "selfCenter": "Personal Center",
     "leaderboard":"Board"
   },
+  "leaderboard":{
+    "workerCredits":"Worker Credits Board",
+    "requesterCredits":"Requester Credits Board",
+    "expBoard":"Experience Board",
+    "rankListBoard":"All Rank",
+    "selfRank":"My Rank"
+  },
   "frameMenu": {
     "home": "Home",
     "imageLabel": "Image Label",

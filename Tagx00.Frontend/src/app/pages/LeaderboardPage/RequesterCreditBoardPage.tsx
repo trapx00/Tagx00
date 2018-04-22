@@ -29,9 +29,13 @@ export class RequesterCreditBoardPage extends React.Component<{},{}> {
     if(this.userStore.user.role==UserRole.ROLE_REQUESTER)
       return (
         <div>
-          <DefinitionItem prompt={"我的排名"} children={selfRank.requesterCreditSelfRank.order}/>
+          <DefinitionItem prompt={ <LocaleMessage id={"leaderboard.selfRank"}/>}>
+            {selfRank.requesterCreditSelfRank.order}
+          </DefinitionItem>
           <br/>
-          <h2>总排行榜</h2>
+          <h2>
+            <LocaleMessage id={"leaderboard.rankListBoard"}/>
+          </h2>
           <br/>
           <Table dataSource={requesterCreditBoard.creditBoardList} columns={columns} pagination={requesterCreditBoard.pagingInfo} />
         </div>
@@ -40,7 +44,9 @@ export class RequesterCreditBoardPage extends React.Component<{},{}> {
       return(
         <div>
           <br/>
-          <h2>总排行榜</h2>
+          <h2>
+            <LocaleMessage id={"leaderboard.rankListBoard"}/>
+          </h2>
           <br/>
           <Table dataSource={requesterCreditBoard.creditBoardList} columns={columns} pagination={requesterCreditBoard.pagingInfo} />
       </div>
@@ -50,7 +56,7 @@ export class RequesterCreditBoardPage extends React.Component<{},{}> {
   render() {
     return <div>
       <h1>
-        <LocaleMessage id={"积分排行榜"}/>
+        <LocaleMessage id={"leaderboard.requesterCredits"}/>
       </h1>
       <br/><br/>
       <AsyncComponent render={this.leaderboard}/>

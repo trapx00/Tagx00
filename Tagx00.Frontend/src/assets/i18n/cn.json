@@ -41,6 +41,13 @@
     "selfCenter": "个人中心",
     "leaderboard":"排行榜"
   },
+  "leaderboard":{
+    "workerCredits":"工人富人榜",
+    "requesterCredits":"发起者富人榜",
+    "expBoard":"经验排行榜",
+    "rankListBoard":"总排行榜",
+    "selfRank":"我的排名"
+  },
   "selfCenter": {
     "dashboard": "仪表盘",
     "achievement": "成就",
