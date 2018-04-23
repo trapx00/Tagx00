@@ -37,7 +37,7 @@ export const manageTopicsPage: AsyncRouteConfig = {
   exact: true,
   path: "/self/topics",
   render: async (props) => {
-    const Page = (await import("./TopicsManagementPAge")).TopicsManagementPage;
+    const Page = (await import("./topic/TopicsManagementPage")).TopicsManagementPage;
     return <Page/>;
   },
 };

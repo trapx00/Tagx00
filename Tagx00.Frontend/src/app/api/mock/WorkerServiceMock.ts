@@ -7,12 +7,7 @@ import { Response } from "../../models/response/Response";
 import { WorkerService } from "../WorkerService";
 import {WorkerInfo} from "../../models/userInfo/WorkerInfo";
 import { MissionType } from "../../models/mission/Mission";
-import { HttpMethod } from "../utils";
 import { InstanceDetailResponse } from "../../models/response/mission/InstanceDetailResponse";
-import { CreditSpecificWorkerLeaderboardResponse } from "../../models/leaderboard/WorkerCreditSelfRankResponse";
-import { WorkerCreditBoardResponse } from "../../models/leaderboard/WorkerCreditBoardResponse";
-import { ExpSpecificWorkerLeaderboardResponse } from "../../models/leaderboard/WorkerExpSelfRankResponse";
-import { WorkerExpBoardResponse } from "../../models/leaderboard/WorkerExpBoardResponse";
 
 @Injectable
 export class WorkerServiceMock extends WorkerService {

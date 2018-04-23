@@ -4,6 +4,7 @@ import { HttpService } from "./HttpService";
 import { TopicFetchResponse } from "../models/topic/response/TopicFetchResponse";
 import { TopicDelete } from "../models/topic/TopicDelete";
 import { TopicSave } from "../models/topic/TopicSave";
+import { Response } from "../models/response/Response";
 
 @Injectable
 export class TopicService {
