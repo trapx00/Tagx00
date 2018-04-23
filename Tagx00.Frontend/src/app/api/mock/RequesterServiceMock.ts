@@ -15,6 +15,8 @@ import { InstanceResponse } from "../../models/response/mission/InstanceResponse
 import { RequesterCreditBoardResponse } from "../../models/leaderboard/RequesterCreditBoardResponse";
 import { RequesterCreditSelfRankResponse } from "../../models/leaderboard/RequesterCreditSelfRankResponse";
 import { MissionRequestQueryResponse } from "../../models/response/mission/MissionRequestQueryResponse";
+import { MissionChargeResponse } from "../../models/response/mission/MissionChargeResponse";
+import { waitForMs } from "../../../utils/Wait";
 
 @Injectable
 export class RequesterServiceMock extends RequesterService {
@@ -92,6 +94,12 @@ export class RequesterServiceMock extends RequesterService {
     };
   }
 
+  async payMission(missionId: string, credits: number, token: string): Promise<MissionChargeResponse> {
+    return {
+      remainingCredits: 10
+    }
+  }
+
 
   async getInstanceDetail(instanceId: string, token: string): Promise<InstanceDetailResponse> {
     return {
@@ -143,9 +151,12 @@ export class RequesterServiceMock extends RequesterService {
   }
 
   async getRemainingCreditsForAMission(missionId: string, token: string): Promise<MissionRequestQueryResponse> {
-
+    // await waitForMs(1000);
+    // if (Math.random() < 0.5) {
+    //   throw {};
+    // }
     return {
-      remainingCredits: 10
+      remainingCredits: parseInt(missionId) || Math.random()*10
     }
   }
 

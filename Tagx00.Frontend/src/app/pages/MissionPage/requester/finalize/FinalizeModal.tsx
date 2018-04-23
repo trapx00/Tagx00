@@ -9,6 +9,7 @@ import { LocaleMessage } from "../../../../internationalization/components";
 import { FinalizeForm } from "./FinalizeForm";
 import { PayService } from "../../../../api/PayService";
 import { InstanceDetailResponse } from "../../../../models/response/mission/InstanceDetailResponse";
+import { Loading } from "../../../../components/Common/Loading";
 
 interface Props {
   readonly: boolean;
@@ -48,29 +49,36 @@ export class FinalizeModal extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.initialParameters();
+    this.initializeParameters();
   }
 
   componentDidUpdate() {
-    this.initialParameters();
+    this.initializeParameters();
   }
 
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    return {instanceId: nextProps.instanceId, initializingState: InitializingState.NotStarted}
+    if (nextProps.instanceId === prevState.instanceId) {
+      return null;
+    }
+    return {
+      instanceId: nextProps.instanceId,
+      initializingState: InitializingState.NotStarted
+    }
   }
 
-  @action async initialParameters() {
+  getAvailableCredits = async () => {
+    return (await this.requesterService.getRemainingCreditsForAMission(this.props.missionId, this.userStore.token)).remainingCredits;
+  };
+
+  @action async initializeParameters() {
     if (this.state.initializingState === InitializingState.NotStarted) {
       this.setState({initializingState: InitializingState.Initializing});
+      this.parameters = new MissionFinalizeParameters();
       if (this.props.readonly) {
         const detail: InstanceDetailResponse = await this.requesterService.getInstanceDetail(this.props.instanceId, this.userStore.token);
         const { expRatio, credits, comment  } = detail.detail.instance;
-        this.parameters = new MissionFinalizeParameters();
         this.parameters.value = { expRatio, credits, comment };
-      } else {
-        const res = await this.requesterService.getRemainingCreditsForAMission(this.props.missionId, this.userStore.token);
-        this.parameters = new MissionFinalizeParameters(res.remainingCredits);
       }
       this.setState({initializingState: InitializingState.Initialized});
     }
@@ -122,11 +130,14 @@ export class FinalizeModal extends React.Component<Props, State> {
                   onCancel={this.goBack}
                   footer={this.selectFooter()}
     >
-      {this.state.initializingState !== InitializingState.Initialized ? "initializing" :
+      {this.state.initializingState === InitializingState.Initialized
+        ?
         <FinalizeForm value={this.parameters}
                       readonly={this.props.readonly}
                       missionId={this.props.missionId}
+                      getAvailableCredits={this.getAvailableCredits}
         />
+        : <Loading/>
       }
     </Modal>
   }

@@ -28,7 +28,8 @@ export class ImageMissionCreateInfo {
   @observable dateRange: [moment.Moment, moment.Moment] = [null,null];
   @observable level: string = "1";
   @observable minimalWorkerLevel: string = "1";
-  @observable credits: string = "0";
+  @observable credits: number = 0;
+  @observable creditsValid: boolean = true;
   @observable coverImage: UploadFile = null;
 
   @observable createAttempted: boolean = false;
@@ -48,7 +49,7 @@ export class ImageMissionCreateInfo {
       end: this.dateRange[1].toDate(),
       minimalWorkerLevel: parseInt(this.minimalWorkerLevel),
       level: parseInt(this.level),
-      credits: parseInt(this.credits),
+      credits: this.credits,
       missionType: MissionType.IMAGE
     });
   }
@@ -87,18 +88,6 @@ export class ImageMissionCreateInfo {
     return 1<=parsed && parsed <=100;
   }
 
-  @computed get creditsStatus(): CreditStatus {
-    if (this.remainingCredits == -1) {
-      return CreditStatus.Loading;
-    }
-    const parsed = parseInt(this.credits);
-    if (isNaN(parsed)) return CreditStatus.WrongFormat;
-    if (parsed > this.remainingCredits) {
-      return CreditStatus.CreditsNotSufficient;
-    }
-    return CreditStatus.Acceptable;
-  }
-
   @computed get levelValid() {
     const parsed = parseInt(this.level);
     if (isNaN(parsed)) return false;
@@ -111,6 +100,6 @@ export class ImageMissionCreateInfo {
       && this.typesValid && this.allowedTagsValid
       && this.dateRangeValid && this.imageTypesValid
     && this.imagesValid && this.minimalWorkerLevelValid && this.levelValid
-    && this.creditsStatus === CreditStatus.Acceptable;
+    && this.creditsValid;
   }
 }
