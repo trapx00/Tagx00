@@ -21,6 +21,7 @@ import { RichFormItem } from "../../../../../components/Form/RichFormItem";
 import { CurrentCreditsIndicator } from "../../../../../components/Pay/CurrentCreditsIndicator";
 import { LocaleMessage } from "../../../../../internationalization/components";
 import { PayService } from "../../../../../api/PayService";
+import { CreditInput } from "../../../../../components/Pay/CreditInput";
 
 const CheckboxGroup = Checkbox.Group;
 const {RangePicker} = DatePicker;
@@ -30,14 +31,6 @@ interface Props {
 }
 
 const ID_PREFIX = "missions.createMission.";
-
-
-function formItemProps(valid: boolean, error: ReactNode): FormItemProps {
-  return {
-    validateStatus: valid ? "success" : "error",
-    help: valid ? null : error
-  };
-}
 
 
 const formStrings = [
@@ -53,7 +46,6 @@ const formStrings = [
   "requireEndDate",
   "selectFile",
   "minimalWorkerLevel",
-  "credits",
   "missionLevel"
 ].reduce((prev, curr) => ({...prev, [curr]: `${ID_PREFIX}fields.${curr}`}), {});
 
@@ -139,22 +131,10 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
     this.info.minimalWorkerLevel = e.target.value;
   };
 
-  @action onCreditsChanged = (e) => {
-    this.info.credits = e.target.value;
+  @action onCreditsChanged = (value, valid) => {
+    this.info.credits = value;
+    this.info.creditsValid = valid;
   };
-
-  @action onCreditFetched = (credits) => {
-    this.info.remainingCredits = credits;
-  };
-
-  componentDidMount() {
-    this.payService.getCredits(this.props.token).then(credits => {
-      runInAction(() => {
-        this.info.remainingCredits = credits.credits;
-      });
-    })
-  }
-
 
   @action submit = async () => {
 
@@ -162,6 +142,8 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
     if (!this.info.valid) {
       return;
     }
+
+    console.log(this.info.missionCreateVo);
 
     const {token, id} = await this.requesterService.createMission(this.info.missionCreateVo, this.props.token);
 
@@ -209,37 +191,6 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
     this.info.topics = selected;
   };
 
-  creditsMapStatusToFormProps = (status: CreditStatus): FormItemProps => {
-    const prefix = ID_PREFIX + "fields.creditsError.";
-    switch (status) {
-      case CreditStatus.Loading:
-        return {
-          validateStatus: "success",
-          help: <LocaleMessage id={prefix + "loading"}/>
-        };
-      case CreditStatus.CreditsNotSufficient:
-        return {
-          validateStatus: "error",
-          help: <LocaleMessage id={prefix + "insufficient"} replacements={{
-            current: this.info.remainingCredits+"",
-            goPay: <Link to={"/pay/account"}><LocaleMessage id={prefix + "goPay"}/></Link>
-          }}/>
-        };
-      case CreditStatus.FirstAttempt:
-      case CreditStatus.Acceptable:
-        return {
-          validateStatus: "success",
-          help: <LocaleMessage id={prefix + "remaining"} replacements={{
-            current: this.info.remainingCredits+""
-          }}/>,
-        };
-      case CreditStatus.WrongFormat:
-        return {
-          validateStatus: "success",
-          help: <LocaleMessage id={prefix+"format"}/>
-        }
-    }
-  };
 
   renderTopicSelector = async () => {
     const locale: any = new Proxy({}, {
@@ -317,14 +268,7 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
         />
       </FormItem>
 
-      <RichFormItem status={this.info.creditsStatus}
-                    mapToFormProps={this.creditsMapStatusToFormProps}
-      >
-        <Input addonBefore={locale.credits}
-               onChange={this.onCreditsChanged}
-               value={this.info.credits}
-        />
-      </RichFormItem>
+      <CreditInput onChanged={this.onCreditsChanged}/>
 
       <FormItem valid={this.info.imageTypesValid} messageOnInvalid={locale["IMAGE.requireTypes"]}>
         <p>{locale["IMAGE.types.name"]}</p>

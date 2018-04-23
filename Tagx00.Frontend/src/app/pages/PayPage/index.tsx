@@ -1,16 +1,11 @@
-import React, { ReactNode } from 'react';
-import { Inject } from "react.di";
-import { Button, Form, Input, message } from 'antd';
+import React from 'react';
 import { UserRole } from "../../models/user/User";
-import { FormItemProps } from "antd/lib/form/FormItem";
-import { PayService } from "../../api/PayService";
-import { LocaleMessage } from "../../internationalization/components";
 import { requireLogin } from "../hoc/RequireLogin";
-import { FormItem } from "../../components/Form/FormItem";
 import { SiderLayout } from "../../layouts/SiderLayout";
 import { PayPageSideMenu } from "./PayPageSideMenu";
-import { Switch, Redirect } from "react-router";
+import { Redirect, RouteComponentProps, Switch } from "react-router";
 import { AsyncRoute } from "../../router/AsyncRoute";
+import { parseQueryString } from "../../router/utils";
 
 interface Props {
   token?: string;
@@ -25,12 +20,14 @@ interface State {
 
 async function renderAccountPayPage() {
   const Page = (await import("./AccountPayPage")).AccountPayPage;
-  return <Page/>;
+
+  return <Page />;
 }
 
-async function renderMissionPayPage() {
+async function renderMissionPayPage(props: RouteComponentProps<any>) {
+  const parsedQuery = parseQueryString(props.location.search);
   const Page = (await import("./MissionPayPage")).MissionPayPage;
-  return <Page/>;
+  return <Page missionId={parsedQuery.missionId as string}/>;
 }
 
 const ID_PREFIX = "pay.";

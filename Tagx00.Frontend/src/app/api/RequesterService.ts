@@ -12,6 +12,7 @@ import { InstanceDetailResponse } from "../models/response/mission/InstanceDetai
 import { RequesterCreditBoardResponse } from "../models/leaderboard/RequesterCreditBoardResponse";
 import { RequesterCreditSelfRankResponse } from "../models/leaderboard/RequesterCreditSelfRankResponse";
 import { MissionRequestQueryResponse } from "../models/response/mission/MissionRequestQueryResponse";
+import { MissionChargeResponse } from "../models/response/mission/MissionChargeResponse";
 
 @Injectable
 export class RequesterService {
@@ -71,6 +72,16 @@ export class RequesterService {
     return res.response;
   }
 
+  async payMission(missionId: string, credits: number, token: string): Promise<MissionChargeResponse> {
+    const res = await this.http.fetch({
+      path: `/mission/requester/mission/${missionId}`,
+      method: HttpMethod.PATCH,
+      body: { credits },
+      token
+    });
+    return res.response;
+  }
+
 
   async getAllInstancesByMissionId(missionId: string, token: string): Promise<InstanceResponse> {
     const res = await this.http.fetch({
@@ -97,7 +108,12 @@ export class RequesterService {
       token
     });
 
-    return res.response;
+    if (res.ok) {
+      return res.response;
+    } else {
+      throw res.error;
+    }
+
   }
 
 

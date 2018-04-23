@@ -340,13 +340,37 @@
     "title": "充值",
     "payAccount": "充值账户",
     "payMission": "充值任务",
+    "creditInput": {
+      "loading": "加载剩余积分中...",
+      "format": "请输入非负整数",
+      "insufficient": "积分不足，现有积分：{current}。{goPay}",
+      "goPay": "去充值",
+      "remaining": "现有积分：{current}。{goPay}",
+      "prompt": "给予积分"
+    },
     "account": {
       "title": "充值账户",
       "currentCredits": "现在的积分：",
       "inputCredits": "请输入你要充值的金额：",
       "submit": "充值",
       "loading": "加载中",
-      "format": "输入应该是大于0的整数"
+      "format": "输入应该是大于0的整数",
+      "paymentComplete": "充值成功"
+    },
+    "mission": {
+      "missionId": "任务ID",
+      "title": "充值任务",
+      "check": "验证并查看剩余积分",
+      "needCheck": "{click}验证任务ID并查看任务所剩积分数",
+      "click": "点击",
+      "inputMissionId": "请输入任务ID",
+      "currentCredits": "任务剩余可分配积分：{credits}",
+      "inputCredits": "请输入你要充值的金额：",
+      "submit": "充值",
+      "loading": "加载中",
+      "missionNotExist": "任务不存在",
+      "format": "输入应该是大于0的整数",
+      "paymentComplete": "充值成功"
     }
   }
 }

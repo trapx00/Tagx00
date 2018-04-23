@@ -1,47 +1,43 @@
 import React, { ReactNode } from 'react';
-import { CreditStatus, MissionFinalizeParameters } from "../../../../models/instance/MissionFinalizeParameters";
+import { MissionFinalizeParameters } from "../../../../models/instance/MissionFinalizeParameters";
 import { FormItemProps } from "antd/lib/form/FormItem";
 import { Form, Input, Icon } from 'antd';
 import { LocaleMessage, Localize } from "../../../../internationalization/components";
 import { observer } from "mobx-react";
 import { action } from "mobx";
 import { RichFormItem } from "../../../../components/Form/RichFormItem";
-import { Link} from 'react-router-dom';
-const FormItem = Form.Item;
+import { Link } from 'react-router-dom';
+import { FormItem } from "../../../../components/Form/FormItem";
+import { CreditInput } from "../../../../components/Pay/CreditInput";
+import { Inject } from "react.di";
 
 interface Props {
   value: MissionFinalizeParameters;
   readonly: boolean;
   missionId: string;
-}
 
-function formItemProps(valid: boolean, error: string): FormItemProps  {
-  return {
-    validateStatus: valid ? "success" : "error",
-    help: valid? null : error
-  };
+  getAvailableCredits(): Promise<number>;
 }
 
 
 const ID_PREFIX = "missions.requester.instancePanel.finalize.";
 
-const props = Object.keys({
-  expRatio: "",
-  credits: "",
-  comment: "",
-  requireExpRatio: "",
-  requireCredits: ""
-
-}).reduce((prev, curr) => ({...prev, [curr]: ID_PREFIX + curr}), {});
-
+const props = [
+  "expRatio",
+  "credits",
+  "comment",
+  "requireExpRatio",
+  "requireCredits"
+].reduce((prev, curr) => ({...prev, [curr]: ID_PREFIX + curr}), {});
 
 
 @observer
 export class FinalizeForm extends React.Component<Props, {}> {
 
-  @action onCreditsChange = (e) => {
+  @action onCreditsChange = (value, valid) => {
 
-    this.props.value.credits = e.target.value;
+    this.props.value.credits = value;
+    this.props.value.creditsValid = valid;
   };
 
   @action onExpRadioChange = (e) => {
@@ -53,41 +49,12 @@ export class FinalizeForm extends React.Component<Props, {}> {
   };
 
 
-  selectCreditsFormProps = (status: CreditStatus): FormItemProps =>  {
-    switch (status) {
-      case CreditStatus.WrongFormat:
-        return {
-          validateStatus: "error",
-          help: <LocaleMessage id={ID_PREFIX + "requireCredits"} replacements={{
-            credits: this.props.value.availableCredits+""
-          }}/>
-        };
-      case CreditStatus.FirstAttempt:
-      case CreditStatus.Acceptable:
-        return {
-          validateStatus: "success",
-          help: <LocaleMessage id={ID_PREFIX + "availableCredits"} replacements={{ credits: this.props.value.availableCredits+""}}/>
-        };
-      case CreditStatus.CreditsNotSufficient:
-        return {
-          validateStatus: "error",
-          help: <LocaleMessage id={ID_PREFIX + "creditsNotSufficient"}
-                               replacements={{
-                                 credits: this.props.value.availableCredits + "",
-                                 goPay: <Link to={`/pay/mission?missionId=${this.props.missionId}`}><LocaleMessage id={ID_PREFIX + "goPay"}/></Link>
-                               }}/>
-
-        }
-    }
-  };
-
   render() {
-    const { value } = this.props;
+    const {value} = this.props;
     return <Localize replacements={props}>
       {
         props => <Form className="login-form">
-          <FormItem {...formItemProps(value.expRadioValid, props.requireExpRatio)}
-          >
+          <FormItem valid={value.expRadioValid} messageOnInvalid={props.requireExpRatio}>
             <Input addonBefore={props.expRatio}
                    disabled={this.props.readonly}
                    onChange={this.onExpRadioChange}
@@ -95,21 +62,25 @@ export class FinalizeForm extends React.Component<Props, {}> {
                    value={value.expRatio}
             />
           </FormItem>
-          <RichFormItem status={this.props.value.creditsStatus}
-                        mapToFormProps={this.selectCreditsFormProps}>
-            <Input addonBefore={props.credits}
-                   disabled={this.props.readonly}
-                   onChange={this.onCreditsChange}
-                   placeholder={props.expRatio}
-                   value={value.credits}
+          {this.props.readonly
+            ? <FormItem valid={true} messageOnInvalid={null}>
+              <Input addonBefore={props.credits}
+                     readOnly={true}
+                     value={value.credits}
+              />
+            </FormItem>
+            :
+            <CreditInput onChanged={this.onCreditsChange}
+                         getRemainingCredits={this.props.getAvailableCredits}
+                         toPayJumpTo={`/pay/mission?missionId=${this.props.missionId}`}
             />
-          </RichFormItem>
-          <FormItem {...formItemProps(true, null)}>
+          }
+          <FormItem valid={true} messageOnInvalid={null}>
             <Input.TextArea
-                   disabled={this.props.readonly}
-                   onChange={this.onCommentChange}
-                   placeholder={props.comment}
-                   value={value.comment}
+              disabled={this.props.readonly}
+              onChange={this.onCommentChange}
+              placeholder={props.comment}
+              value={value.comment}
             />
           </FormItem>
         </Form>

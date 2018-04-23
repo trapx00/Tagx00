@@ -1,14 +1,14 @@
 import React from 'react';
 import { Inject } from "react.di";
 import { Button, Input, Modal } from 'antd';
-import { UserRole } from "../../models/user/User";
 import { PayService } from "../../api/PayService";
 import { LocaleMessage } from "../../internationalization/components";
-import { requireLogin } from "../hoc/RequireLogin";
 import { FormItem } from "../../components/Form/FormItem";
 import { UserStore } from "../../stores/UserStore";
+import { LocaleStore } from "../../stores/LocaleStore";
 
 interface Props {
+
 }
 
 interface State {
@@ -28,6 +28,7 @@ const ID_PREFIX = "pay.account.";
 export class AccountPayPage extends React.Component<Props, State> {
 
   @Inject userStore: UserStore;
+  @Inject localeStore: LocaleStore;
 
   state = {
     remainingCredits: null,
@@ -41,12 +42,19 @@ export class AccountPayPage extends React.Component<Props, State> {
     this.setState({input: e.target.value});
   };
 
+  submittable() {
+    return inputValid(this.state.input);
+  }
+
   onSubmit = async () => {
+    if (!this.submittable()) {
+      return;
+    }
     this.setState({ paying: true});
     const res = await this.payService.pay(parseInt(this.state.input), this.userStore.token);
     this.setState({ remainingCredits: res.remainingCredits, paying: false });
     Modal.success({
-      title:"充值成功"
+      title: this.localeStore.get(ID_PREFIX + "paymentComplete")
     });
   };
 
@@ -58,6 +66,8 @@ export class AccountPayPage extends React.Component<Props, State> {
   componentDidMount() {
     this.loadCurrentCredits();
   }
+
+
 
   render() {
     return <div>
