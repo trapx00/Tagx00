@@ -1,11 +1,11 @@
 import React from 'react';
 import { SiderLayout } from "../../layouts/SiderLayout";
 import { LeaderboardSideMenu } from "./LeaderboardSideMenu";
-import { Redirect, Route, Switch } from "react-router";
-import { AsyncComponent } from "../../router/AsyncComponent";
+import { Redirect, Switch } from "react-router";
+import { AsyncRoute } from "../../router/AsyncRoute";
+import { Location } from "history";
 
 interface Props {
-
 }
 
 async function renderExpLeaderboard() {
@@ -30,9 +30,9 @@ export class LeaderboardPage extends React.Component<Props, {}> {
     return <SiderLayout leftSider={<LeaderboardSideMenu/>}>
       <Switch>
         <Redirect exact from={"/leaderboard"} to={"/leaderboard/exp"}/>
-        <Route path={"/leaderboard/exp"} render={props => <AsyncComponent render={renderExpLeaderboard}/>}/>
-        <Route path={"/leaderboard/workerCredits"} render={props => <AsyncComponent render={renderWorkerCreditLeaderboard}/>}/>
-        <Route path={"/leaderboard/requesterCredits"} render={props => <AsyncComponent render={renderRequesterCreditLeaderboard}/>}/>
+        <AsyncRoute path={"/leaderboard/exp"} render={renderExpLeaderboard}/>
+        <AsyncRoute path={"/leaderboard/workerCredits"} render={renderWorkerCreditLeaderboard}/>
+        <AsyncRoute path={"/leaderboard/requesterCredits"} render={renderRequesterCreditLeaderboard}/>
       </Switch>
     </SiderLayout>
   }

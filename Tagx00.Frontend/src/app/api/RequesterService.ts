@@ -11,6 +11,7 @@ import { MissionFinalizeParameters, MissionFinalizeVo } from "../models/instance
 import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
 import { RequesterCreditBoardResponse } from "../models/leaderboard/RequesterCreditBoardResponse";
 import { RequesterCreditSelfRankResponse } from "../models/leaderboard/RequesterCreditSelfRankResponse";
+import { MissionRequestQueryResponse } from "../models/response/mission/MissionRequestQueryResponse";
 
 @Injectable
 export class RequesterService {
@@ -90,20 +91,14 @@ export class RequesterService {
     return res.response;
   }
 
-  async getRequesterCreditBoard(pageSize: number, pageNumber: number, token: string): Promise<RequesterCreditBoardResponse> {
+  async getRemainingCreditsForAMission(missionId: string, token: string): Promise<MissionRequestQueryResponse> {
     const res = await this.http.fetch({
-      path: "leaderboard/credits/requester",
+      path: `/mission/requester/mission/${missionId}`,
       token
     });
+
     return res.response;
   }
 
-  async getSpecificRequesterRank(username: string, token:string): Promise<RequesterCreditSelfRankResponse> {
-    const res = await this.http.fetch({
-      path: `leaderboard/credits/requester/${username}`,
-      token
-    });
-    return res.response;
-  }
 
 }

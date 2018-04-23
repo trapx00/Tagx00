@@ -24,7 +24,7 @@ export class ImageMissionDetailPage extends React.Component<Props, State> {
                                    picPanel={<Gallery images={[detail.publicItem.coverUrl, ...detail.imageUrls]}/>}
                                    extraInfo={
                                      <Item promptTextId={"IMAGE.imageMissionTypes"}>
-                                       {detail.imageMissionTypes.map(x => <Tag><LocaleMessage
+                                       {detail.imageMissionTypes.map(x => <Tag key={x}><LocaleMessage
                                          id={ID_PREFIX + "types." + x}/></Tag>)}
                                      </Item>}/>
   }

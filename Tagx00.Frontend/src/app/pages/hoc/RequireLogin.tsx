@@ -11,6 +11,7 @@ export function requireLogin(...roles: UserRole[]) {
       @Inject userStore: UserStore;
 
       render() {
+
         if (!this.userStore.loggedIn) {
           return "Not login";
         }

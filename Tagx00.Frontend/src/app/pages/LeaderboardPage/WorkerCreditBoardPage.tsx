@@ -6,16 +6,31 @@ import { UserRole } from "../../models/user/User";
 import { DefinitionItem } from "../../components/DefinitionItem";
 import { Table } from "antd";
 import { LocaleMessage } from "../../internationalization/components";
-import { AsyncComponent } from "../../router/AsyncComponent";
+import { AsyncComponent, ObserverAsyncComponent } from "../../router/AsyncComponent";
+import { MajorTitle, MinorTitle } from "./common";
+import { LeaderboardService } from "../../api/LeaderboardService";
+import { Loading } from "../../components/Common/Loading";
+import { observer } from "mobx-react";
 
-export class WorkerCreditBoardPage extends React.Component<{},{}> {
-  @Inject workerService: WorkerService;
+@observer
+export class WorkerCreditBoardPage extends React.Component<{}, {}> {
+  @Inject leaderboardService: LeaderboardService;
   @Inject userStore: UserStore;
 
-  leaderboard = async () => {
-    const selfRank = await this.workerService.getSpecificWorkerCreditRank(this.userStore.user.username,this.userStore.token);
-    const workerCreditBoard = await this.workerService.getWorkerCreditBoard(null,null,this.userStore.token);
-    const columns =[{
+  renderUserRank = async () => {
+
+
+    const selfRank = await this.leaderboardService.getSpecificWorkerCreditRank(this.userStore.user.username);
+
+    return <DefinitionItem prompt={<LocaleMessage id={"leaderboard.selfRank"}/>}>
+      {selfRank.user.order}
+    </DefinitionItem>
+  };
+
+  renderLeaderboard = async () => {
+
+    const workerCreditBoard = await this.leaderboardService.getWorkerCreditBoard(null, null);
+    const columns = [{
       title: '用户名',
       dataIndex: 'username',
       render: text => <a href="#">{text}</a>,
@@ -26,40 +41,30 @@ export class WorkerCreditBoardPage extends React.Component<{},{}> {
       title: '排名',
       dataIndex: 'order',
     }];
-    if(this.userStore.user.role == UserRole.ROLE_WORKER)
-      return (
-        <div>
-          <DefinitionItem prompt={ <LocaleMessage id={"leaderboard.selfRank"}/>}>
-            {selfRank.user.order}
-          </DefinitionItem>
-          <br/>
-          <h2>
-            <LocaleMessage id={"leaderboard.rankListBoard"}/>
-          </h2>
-          <br/>
-          <Table dataSource={workerCreditBoard.users} columns={columns} pagination={workerCreditBoard.pagingInfo} />
-        </div>
-      );
-    else
-      return (
-        <div>
-          <br/>
-          <h2>
-            <LocaleMessage id={"leaderboard.rankListBoard"}/>
-          </h2>
-          <br/>
-          <Table dataSource={workerCreditBoard.users} columns={columns} pagination={workerCreditBoard.pagingInfo} />
-        </div>
-      );
+
+    return (
+      <div>
+        <br/>
+        <MinorTitle>
+          <LocaleMessage id={"leaderboard.rankListBoard"}/>
+        </MinorTitle>
+        <br/>
+        <Table rowKey={"order"} dataSource={workerCreditBoard.users} columns={columns} pagination={workerCreditBoard.pagingInfo}/>
+      </div>
+    );
   };
 
   render() {
     return <div>
-      <h1>
+      <MajorTitle>
         <LocaleMessage id={"leaderboard.workerCredits"}/>
-      </h1>
-      <br/><br/>
-      <AsyncComponent render={this.leaderboard}/>
+      </MajorTitle>
+      {
+        (this.userStore.loggedIn && this.userStore.user.role === UserRole.ROLE_WORKER)&&
+        <AsyncComponent render={this.renderUserRank} componentWhenLoading={<Loading/>}/>
+      }
+
+      <AsyncComponent render={this.renderLeaderboard} componentWhenLoading={<Loading/>}/>
     </div>
 
   }

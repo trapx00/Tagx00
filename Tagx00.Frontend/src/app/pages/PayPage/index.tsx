@@ -6,6 +6,11 @@ import { FormItemProps } from "antd/lib/form/FormItem";
 import { PayService } from "../../api/PayService";
 import { LocaleMessage } from "../../internationalization/components";
 import { requireLogin } from "../hoc/RequireLogin";
+import { FormItem } from "../../components/Form/FormItem";
+import { SiderLayout } from "../../layouts/SiderLayout";
+import { PayPageSideMenu } from "./PayPageSideMenu";
+import { Switch, Redirect } from "react-router";
+import { AsyncRoute } from "../../router/AsyncRoute";
 
 interface Props {
   token?: string;
@@ -18,66 +23,29 @@ interface State {
   paying: boolean;
 }
 
-function formItemProps(valid: boolean, error: ReactNode): FormItemProps  {
-  return {
-    validateStatus: valid ? "success" : "error",
-    help: valid? null : error
-  };
+async function renderAccountPayPage() {
+  const Page = (await import("./AccountPayPage")).AccountPayPage;
+  return <Page/>;
 }
 
-function inputValid(str: string) {
-  if (str.indexOf(".") >=0) {return false}
-  const parsed = parseInt(str);
-  return parsed > 0;
+async function renderMissionPayPage() {
+  const Page = (await import("./MissionPayPage")).MissionPayPage;
+  return <Page/>;
 }
 
 const ID_PREFIX = "pay.";
 
-@requireLogin(UserRole.ROLE_REQUESTER)
+@requireLogin()
 export class PaymentPage extends React.Component<Props, State> {
 
-  state = {
-    remainingCredits: null,
-    input: "10",
-    paying: false
-  };
-
-  @Inject payService: PayService;
-
-  onValueChange = (e) => {
-    this.setState({input: e.target.value});
-  };
-
-  onSubmit = async () => {
-    this.setState({ paying: true});
-    const res = await this.payService.pay(parseInt(this.state.input), this.props.token);
-    this.setState({ remainingCredits: res.remainingCredits, paying: false });
-    message.success("充值成功");
-  };
-
-  loadCurrentCredits = async () => {
-    const credits = (await this.payService.getCredits(this.props.token)).credits;
-    this.setState({ remainingCredits: credits});
-  };
-
-  componentDidMount() {
-    this.loadCurrentCredits();
-  }
-
   render() {
-    return <div>
-      <h1><LocaleMessage id={ID_PREFIX + "title"}/></h1>
-      <p><LocaleMessage id={ID_PREFIX + "currentCredits"}/>
-        {this.state.remainingCredits == null ? <LocaleMessage id={ID_PREFIX + "loading"}/> : this.state.remainingCredits}
-        </p>
-      <p><LocaleMessage id={ID_PREFIX + "inputCredits"}/></p>
-      <Form.Item {...formItemProps(inputValid(this.state.input), <LocaleMessage id={ID_PREFIX + "format"}/>)}>
-      <Input value={this.state.input} onChange={this.onValueChange}/>
-      </Form.Item>
-      <Button loading={this.state.paying} type={"primary"} onClick={this.onSubmit}>
-        <LocaleMessage id={ID_PREFIX + "submit"}/>
-      </Button>
-    </div>
+    return <SiderLayout leftSider={<PayPageSideMenu/>}>
+      <Switch>
+        <Redirect exact from={"/pay"} to={"/pay/account"}/>
+        <AsyncRoute path={"/pay/account"} render={renderAccountPayPage}/>
+        <AsyncRoute path={"/pay/mission"} render={renderMissionPayPage}/>
+      </Switch>
+    </SiderLayout>
 
 
   }

@@ -14,6 +14,7 @@ import { MissionFinalizeParameters, MissionFinalizeVo } from "../../models/insta
 import { InstanceResponse } from "../../models/response/mission/InstanceResponse";
 import { RequesterCreditBoardResponse } from "../../models/leaderboard/RequesterCreditBoardResponse";
 import { RequesterCreditSelfRankResponse } from "../../models/leaderboard/RequesterCreditSelfRankResponse";
+import { MissionRequestQueryResponse } from "../../models/response/mission/MissionRequestQueryResponse";
 
 @Injectable
 export class RequesterServiceMock extends RequesterService {
@@ -141,38 +142,13 @@ export class RequesterServiceMock extends RequesterService {
 
   }
 
-  async getRequesterCreditBoard(pageSize: number, pageNumber: number, token: string): Promise<RequesterCreditBoardResponse> {
+  async getRemainingCreditsForAMission(missionId: string, token: string): Promise<MissionRequestQueryResponse> {
+
     return {
-      pagingInfo:
-        {
-          totalCount: 8,
-          currentPage:0,
-          pageSize:5,
-          totalPage:2,
-        },
-      user:
-        [ {username:"123",credits:999999,order:1},
-          {username:"黄鹤你不是你不是你不是人",credits:518,order:2},
-          {username:"123究竟是何方神仙",credits:489,order:3},
-          {username:"1 2 3",credits:320,order:4},
-          {username:"MadHannibal",credits:298,order:5},
-          {username:"🍓イチゴ🍓だ好きでした",credits:200,order:6},
-          {username:"沙雕图片艺术家",credits:198,order:7},
-          {username:"燕小六六六的123",credits:197,order:8}
-      ]
-    }as RequesterCreditBoardResponse;
+      remainingCredits: 10
+    }
   }
 
-  async getSpecificRequesterRank(username: string, token:string): Promise<RequesterCreditSelfRankResponse> {
-    return {
-      requesterCreditSelfRank:
-        {
-          username: "123",
-          credits: 999999,
-          order: 1,
-        }
 
-    } as RequesterCreditSelfRankResponse;
-  }
 
 }

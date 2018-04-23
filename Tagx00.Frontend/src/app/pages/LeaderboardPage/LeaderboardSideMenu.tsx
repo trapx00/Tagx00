@@ -5,18 +5,18 @@ const routes = [
 
   {
     path: "/leaderboard/exp",
-    iconName: "null",
+    iconName: "area-chart",
     id: "leaderboard.expBoard",
     match: (pathname: string) => pathname.startsWith("/leaderboard/exp")
   },
   {
     path: "/leaderboard/workerCredits",
-    iconName: "null",
+    iconName: "credit-card",
     id: "leaderboard.workerCredits",
     match: (pathname: string) => pathname.startsWith("/leaderboard/workerCredits")
   },{
     path: "/leaderboard/requesterCredits",
-    iconName: "null",
+    iconName: "credit-card",
     id: "leaderboard.requesterCredits",
     match: (pathname: string) => pathname.startsWith("/leaderboard/requesterCredits")
   },

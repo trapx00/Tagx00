@@ -96,36 +96,6 @@ export class WorkerService {
     return res.response;
   }
 
-  async getWorkerCreditBoard(pageSize: number, pageNumber: number, token: string): Promise<WorkerCreditBoardResponse> {
-    const res = await this.http.fetch({
-      path: "leaderboard/credits/worker",
-      token
-    });
-    return res.response;
-  }
 
-  async getSpecificWorkerCreditRank(username: string, token:string): Promise<CreditSpecificWorkerLeaderboardResponse> {
-    const res = await this.http.fetch({
-      path: `leaderboard/credits/worker/${username}`,
-      token
-    });
-    return res.response;
-  }
-
-  async getWorkerExpBoard(pageSize: number, pageNumber: number, token: string): Promise<WorkerExpBoardResponse> {
-    const res = await this.http.fetch({
-      path: "leaderboard/exp",
-      token
-    });
-    return res.response;
-  }
-
-  async getSpecificWorkerExpRank(username: string, token:string): Promise<ExpSpecificWorkerLeaderboardResponse> {
-    const res = await this.http.fetch({
-      path: `leaderboard/exp/${username}`,
-      token
-    });
-    return res.response;
-  }
 
 }

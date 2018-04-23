@@ -13,9 +13,11 @@ interface Props {
   item: MissionPublicItem;
 }
 
+const ID_PREFIX = "browserMissionList.";
+
 function processTags(topics: string[], missionType: string) {
   return [
-    <Tag color="#108ee9">{missionType}</Tag>,
+    <Tag color="#108ee9"><LocaleMessage id={`${ID_PREFIX}missionType.${missionType}`}/></Tag>,
     ...topics.map(x => <Tag color="geekblue">{x}</Tag>)
   ];
 }
@@ -32,7 +34,7 @@ const ImgContainer = styled.div`
 const MetaContainer = styled.div`
 `;
 
-const ID_PREFIX = "browserMissionList.";
+
 
 export class MissionItem extends React.PureComponent<Props, {}> {
 

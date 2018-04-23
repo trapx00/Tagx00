@@ -1,4 +1,4 @@
-import { apiServiceProviders } from "./ApiServiceProviders";
+import { apiServiceProviders } from "../api/ApiServiceProviders";
 import { UiStore } from "../stores/UiStore";
 import { RouterStore } from "../stores/RouterStore";
 import { UserStore } from "../stores/UserStore";

@@ -13,6 +13,7 @@ import { InstanceDetailResponse } from "../../../../models/response/mission/Inst
 interface Props {
   readonly: boolean;
   instanceId: string;
+  missionId: string;
   close: () => void;
   refresh : () => void;
   shown: boolean;
@@ -68,8 +69,8 @@ export class FinalizeModal extends React.Component<Props, State> {
         this.parameters = new MissionFinalizeParameters();
         this.parameters.value = { expRatio, credits, comment };
       } else {
-        const res = await this.payService.getCredits(this.userStore.token);
-        this.parameters = new MissionFinalizeParameters(res.credits);
+        const res = await this.requesterService.getRemainingCreditsForAMission(this.props.missionId, this.userStore.token);
+        this.parameters = new MissionFinalizeParameters(res.remainingCredits);
       }
       this.setState({initializingState: InitializingState.Initialized});
     }
@@ -124,6 +125,7 @@ export class FinalizeModal extends React.Component<Props, State> {
       {this.state.initializingState !== InitializingState.Initialized ? "initializing" :
         <FinalizeForm value={this.parameters}
                       readonly={this.props.readonly}
+                      missionId={this.props.missionId}
         />
       }
     </Modal>
