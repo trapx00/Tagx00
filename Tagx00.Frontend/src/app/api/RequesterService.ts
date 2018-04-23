@@ -76,7 +76,7 @@ export class RequesterService {
     const res = await this.http.fetch({
       path: `/mission/requester/mission/${missionId}`,
       method: HttpMethod.PATCH,
-      body: { credits },
+      queryParams: { credits },
       token
     });
     return res.response;
