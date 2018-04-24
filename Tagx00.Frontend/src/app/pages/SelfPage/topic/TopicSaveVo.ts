@@ -1,15 +1,16 @@
 import { computed, observable, toJS } from "mobx";
+import { TopicSave } from "../../../models/topic/TopicSave";
 
 
 export class TopicSaveVo {
   @observable topicId: number;
   @observable value: string;
+  tmp:string[]
 
-  get TopivSaveVo() {
+  get topicSave(): TopicSave {
     return toJS({
-      topicId:this.topicId,
-      value:this.value
-    })
+        topics: this.tmp[this.value]
+      });
   }
 
 }
