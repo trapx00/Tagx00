@@ -52,7 +52,7 @@ export class TopicsManagementPage extends React.Component<any,any> {
       </div>
     );
     return <div>{this.state.tags.map(tag =>
-      <Tag key={tag.topicId} afterClose={() => this.handleClose(tag.topicId)}>
+      <Tag key={tag.topicId} closable={true} afterClose={() => this.handleClose(tag.topicId)}>
         {tag.value}
       </Tag>
     )}
