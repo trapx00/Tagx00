@@ -26,7 +26,12 @@ export class TopicService {
       body:topicDelete,
       token:token
     });
-    return res.response;
+    if (res.ok) {
+      return res.response;
+    } else {
+      throw res.error;
+    }
+
   }
 
   async addTopics(topicSave:TopicSave, token: string): Promise<Response> {
@@ -36,6 +41,10 @@ export class TopicService {
       body:topicSave,
       token:token
     });
-    return res.response;
+    if (res.ok) {
+      return res.response;
+    } else {
+      throw res.error;
+    }
   }
 }
