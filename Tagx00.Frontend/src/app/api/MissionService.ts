@@ -3,11 +3,7 @@ import { MissionPublicItem } from "../models/mission/Mission";
 import { ImageMissionDetail } from "../models/mission/image/ImageMission";
 import { HttpMethod } from "./utils";
 import { Inject, Injectable } from "react.di";
-import { Topic } from "../models/topic/Topic";
 
-export interface TopicFetchResponse {
-  topics: Topic[]
-}
 
 @Injectable
 export class MissionService {

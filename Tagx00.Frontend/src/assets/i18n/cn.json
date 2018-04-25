@@ -52,7 +52,8 @@
   "selfCenter": {
     "dashboard": "仪表盘",
     "achievement": "成就",
-    "personalInfo": "我的信息"
+    "personalInfo": "我的信息",
+    "manageTopics":"管理主题"
   },
   "drawingPad": {
     "common": {

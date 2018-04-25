@@ -32,6 +32,16 @@ export const personalInfoPage: AsyncRouteConfig = {
   },
 };
 
+export const manageTopicsPage: AsyncRouteConfig = {
+  type: RouteType.Async,
+  exact: true,
+  path: "/self/topics",
+  render: async (props) => {
+    const Page = (await import("./topic/TopicsManagementPage")).TopicsManagementPage;
+    return <Page/>;
+  },
+};
+
 export const selfRedirect: RedirectRouteConfig = {
   type: RouteType.Redirect,
   exact: true,
@@ -44,4 +54,5 @@ export default [
   dashboardPage,
   achievementPage,
   personalInfoPage,
+  manageTopicsPage,
 ]
