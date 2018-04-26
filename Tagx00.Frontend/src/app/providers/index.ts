@@ -6,6 +6,7 @@ import { LocaleStore } from "../stores/LocaleStore";
 import { LevelStore } from "../stores/LevelStore";
 import { HomeStore } from "../stores/HomeStore";
 import { BrowserStore } from "../stores/BrowserStore";
+import { NavStore } from "../stores/NavStore";
 
 export async function initProviders(history) {
   const userStore = new UserStore();
@@ -24,6 +25,7 @@ export async function initProviders(history) {
     {provide: LevelStore, useClass: LevelStore},
     {provide: HomeStore, useValue: homeStore},
     {provide: BrowserStore, useClass: BrowserStore},
+    {provide: NavStore, useClass: NavStore}
   ]
 
 }

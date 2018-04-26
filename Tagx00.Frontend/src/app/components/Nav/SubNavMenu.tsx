@@ -1,25 +1,20 @@
 import React from 'react';
-import { Menu, Icon } from 'antd';
+import { Icon, Menu } from 'antd';
 import { Inject } from "react.di";
 import { RouterStore } from "../../stores/RouterStore";
 import { UserStore } from "../../stores/UserStore";
 import { observer } from "mobx-react";
 import { Link } from 'react-router-dom';
-import { LocaleMessage } from "../../internationalization/components";
+import { LocaleMessage } from "../../internationalization/components/index";
+import { NavItemProps } from "../../stores/NavStore";
 
-export interface NavSideMenuRoute {
-  path: string;
-  iconName?: string;
-  id: string;
-  match(pathname: string): boolean;
-}
 
 interface Props {
-  routes: NavSideMenuRoute[];
+  routes: NavItemProps[];
 }
 
 @observer
-export class NavSideMenu extends React.Component<Props, {}> {
+export class SubNavMenu extends React.Component<Props, {}> {
 
   @Inject routerStore: RouterStore;
   @Inject userStore: UserStore;

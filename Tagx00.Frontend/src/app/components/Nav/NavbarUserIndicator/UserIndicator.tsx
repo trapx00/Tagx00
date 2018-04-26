@@ -2,7 +2,7 @@ import { UserStore } from "../../../stores/UserStore";
 import React from "react";
 import { Dropdown, Icon, Menu } from 'antd';
 import { observer } from "mobx-react";
-import { LocaleMessage } from "../../../internationalization/components";
+import { LocaleMessage } from "../../../internationalization/components/index";
 import { Link } from "react-router-dom";
 import { Inject } from "react.di";
 

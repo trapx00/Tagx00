@@ -15,7 +15,7 @@ export class NavbarModals extends React.Component<NavbarModalsProps, any> {
 
   loadLoginModal = async () => {
     this.uiStore.setLoginModalLoading(true);
-    const Modal = (await import("../../Modals/LoginModal")).LoginModal;
+    const Modal = (await import("../../Modals/LoginModal/index")).LoginModal;
     this.uiStore.setLoginModalLoading(false);
     return <Modal/>;
   };
