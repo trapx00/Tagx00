@@ -112,7 +112,11 @@ public class InstanceVo implements Serializable {
     public InstanceVo() {
     }
 
-    public InstanceVo(String instanceId, double expRatio, double exp, int credits, String comment, String workerUsername, MissionInstanceState missionInstanceState, String missionId, Date acceptDate, Date submitDate, boolean isSubmitted, int completedJobsCount) {
+    public InstanceVo(String instanceId, double expRatio, double exp, int credits, String comment,
+
+                      String workerUsername, MissionInstanceState missionInstanceState,
+
+                      String missionId, Date acceptDate, Date submitDate, boolean isSubmitted, int completedJobsCount) {
         this.instanceId = instanceId;
         this.expRatio = expRatio;
         this.exp = exp;
