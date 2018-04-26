@@ -1,45 +1,68 @@
-import { BaseService, NetworkResponse } from "./BaseService";
+import { HttpService, NetworkResponse } from "./HttpService";
 import { HttpMethod } from "./utils";
+import { Inject, Injectable } from "react.di";
+import { UserRole } from "../models/user/User";
+import { LevelInfo } from "../models/user/LevelInfo";
 
 export interface LoginResult {
   token: string,
-  jwtRoles: { authority: string }[];
+  jwtRoles: { roleName: string }[];
   email: string;
+}
+
+export interface UserRegisterResponse {
+  token: string
+}
+
+export interface UserRegisterConfirmationResponse {
+  token: string
+  jwtRoles: { authority: string}[]
+  email: string
 }
 
 function encryptPassword(password: string) {
   return password;
 }
 
-export class UserService extends BaseService {
-  constructor() {
-    super("account");
+@Injectable
+export class UserService {
+
+  constructor(@Inject private http: HttpService) {
   }
 
-  async login(username: string, password: string): Promise<NetworkResponse<LoginResult>> {
+  async login(username: string, password: string): Promise<NetworkResponse> {
     password = encryptPassword(password);
 
-    // return new NetworkResponse(200, {
-    //     token: "123",
-    //     jwtRoles: ["ROLE_WORKER"],
-    //     email: "1@1.com"
-    //   }
-    // );
-    //
-    return await this.fetch({
-      route: "login",
+    return await this.http.fetch({
+      path: "account/login",
       queryParams: {username, password}
     });
   }
 
-  async register(username: string, password: string) {
+  async register(username: string, password: string, email: string, role: UserRole): Promise<NetworkResponse<UserRegisterResponse>> {
     password = encryptPassword(password);
-
-    return await this.fetch({
-      route: "register",
-      body: {username, password},
+    return await this.http.fetch({
+      path: "account/register",
+      queryParams: {username, password, email, role},
       method: HttpMethod.POST
     });
+  }
+
+  async registerValidate(token: string, code: string): Promise<NetworkResponse<UserRegisterConfirmationResponse>> {
+
+    return await this.http.fetch({
+      path: "account/register/validate",
+      queryParams: {token, code},
+      method: HttpMethod.POST
+    });
+  }
+
+  async getLevelInfo(token: string): Promise<LevelInfo> {
+    const res = await this.http.fetch({
+      path:"account/level",
+      method: HttpMethod.GET,
+    });
+    return res.response;
   }
 
 }

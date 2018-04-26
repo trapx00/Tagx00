@@ -24,25 +24,30 @@ public class PublicMissionController {
         this.publicMissionBlService = publicMissionBlService;
     }
 
-    @ApiOperation(value = "获得所有任务", notes = "获得本站所有现有有的任务信息")
+    @ApiOperation(value = "获得任务", notes = "根据搜索关键词获得任务")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageSize", value = "页面信息数", required = true, dataType = "int"),
             @ApiImplicitParam(name = "pageNumber", value = "页数", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "searchTarget", value = "搜索关键词", required = true, dataType = "String")
     })
     @RequestMapping(value = "/mission", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success", response = MissionPublicResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> getMissions(@RequestParam("pageSize") Integer pageSize, @RequestParam("pageNumber") Integer pageNumber) {
+    public ResponseEntity<Response> getMissions(@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                                                @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber,
+                                                @RequestParam(value = "searchTarget", defaultValue = "") String searchTarget,
+                                                @RequestParam(value = "requester", defaultValue = "") String requesterUsername) {
         try {
-            return new ResponseEntity(publicMissionBlService.getMissions(new PagingQueryVo()), HttpStatus.OK);
+            return new ResponseEntity<>(publicMissionBlService.getMissions(new PagingQueryVo(pageSize, pageNumber), searchTarget, requesterUsername), HttpStatus.OK);
         } catch (NotMissionException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
 
     }
+
 
     @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
     @Authorization(value = "工人、发布者、管理员")
@@ -60,7 +65,7 @@ public class PublicMissionController {
     @ResponseBody
     public ResponseEntity<Response> getOneMission(@PathVariable(name = "missionId") String missionId) {
         try {
-            return new ResponseEntity(publicMissionBlService.getOneMissionDetail(missionId), HttpStatus.OK);
+            return new ResponseEntity<>(publicMissionBlService.getOneMissionDetail(missionId), HttpStatus.OK);
         } catch (NotMissionException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);

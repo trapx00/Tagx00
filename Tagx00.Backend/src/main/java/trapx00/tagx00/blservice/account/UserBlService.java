@@ -18,7 +18,7 @@ public interface UserBlService {
      * @throws UserAlreadyExistsException the user already exists
      * @throws SystemException            the system has error
      */
-    UserRegisterResponse signUp(UserSaveVo userSaveVo) throws UserAlreadyExistsException, SystemException;
+    UserRegisterResponse signUp(UserSaveVo userSaveVo) throws UserAlreadyExistsException, SystemException, InvalidEmailAddressesException;
 
     /**
      * confirm user's validation code

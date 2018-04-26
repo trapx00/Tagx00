@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { LocaleMessage } from "../../internationalization/components";
 
 interface Props {

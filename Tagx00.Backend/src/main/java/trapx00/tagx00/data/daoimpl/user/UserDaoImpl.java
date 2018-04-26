@@ -31,7 +31,16 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public ArrayList<User> findUsersByRole(Role role) {
-        return fileService.findOnes(role.getName(), User.class);
+        ArrayList<User> users = fileService.findAll(User.class);
+        ArrayList<User> result = new ArrayList<>();
+        for (User user : users) {
+            for (Role role1 : user.getRoles()) {
+                if (role1.getName().equals(role.getName())) {
+                    result.add(user);
+                }
+            }
+        }
+        return result;
     }
 
     @Override

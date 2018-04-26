@@ -1,6 +1,6 @@
 import React from "react";
 import { BackgroundStage } from "../utils/BackgroundStage";
-import { District, DistrictNotation } from "./Districts";
+import { DistrictNotation } from "./Districts";
 import { observer } from "mobx-react";
 import { action, observable } from "mobx";
 import { ExistingDistrictsLayer } from "./ExistingDistrictsLayer";
@@ -15,6 +15,8 @@ interface DistrictCanvasContainerProps {
   onDistrictClicked: (dis: DistrictNotation) => void;
   imgUrl: string;
   selectedNotation: DistrictNotation;
+  onImageLoad: (width: number, height: number) => void;
+  getScale: () => number;
 }
 
 @observer
@@ -27,6 +29,7 @@ export class DistrictCanvasContainer extends React.Component<DistrictCanvasConta
   @action onBackgroundImageLoaded = (width, height) => {
     this.height = height;
     this.width = width;
+    this.props.onImageLoad(width, height);
   };
 
   render() {
@@ -39,12 +42,15 @@ export class DistrictCanvasContainer extends React.Component<DistrictCanvasConta
           districts={this.props.districts}
           onDistrictSelected={this.props.onDistrictClicked}
           width={this.width}
-          height={this.height}/>
+          height={this.height}
+          getScale={this.props.getScale}
+        />
         {this.props.drawingMode
           ? <CanvasLayer
             session={this.props.session}
             width={this.width}
             height={this.height}
+            getScale={this.props.getScale}
           />
           : null}
       </BackgroundStage>

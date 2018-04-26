@@ -51,6 +51,23 @@ public class Mission extends Entity {
     public Mission() {
     }
 
+    public Mission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel) {
+        this.title = title;
+        this.description = description;
+        this.topics = topics;
+        this.allowCustomTag = allowCustomTag;
+        this.allowedTags = allowedTags;
+        this.missionType = missionType;
+        this.missionState = missionState;
+        this.start = start;
+        this.end = end;
+        this.coverUrl = coverUrl;
+        this.requesterUsername = requesterUsername;
+        this.level = level;
+        this.credits = credits;
+        this.minimalWorkerLevel = minimalWorkerLevel;
+    }
+
     public Mission(int missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel) {
         this.missionId = missionId;
         this.title = title;

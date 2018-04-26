@@ -2,6 +2,26 @@
   "common": {
     "loading": "加载中"
   },
+  "home": {
+    "enter": "开始体验"
+  },
+  "footer": {
+    "productDescription": "一个数据标注系统",
+    "help": {
+      "title": "帮助",
+      "about": "关于",
+      "usage": "使用帮助",
+      "FAQ": "FAQ"
+    },
+    "madeByUs": {
+      "title": "由Trap x00制作",
+      "NJUAdmin": "NJUAdmin，南大数据整合系统",
+      "AstronAlice": "AstronAlice，Unity 2D/3D消消乐",
+      "Lightx00": "Light x00，灯具进销存系统"
+    },
+    "contact": "联系我们",
+    "copyright": "用❤制作。© 2018 Trap x00，保留所有权利。"
+  },
   "frameMenu": {
     "home": "首页",
     "imageLabel": "图片标注",
@@ -18,28 +38,22 @@
     "login": "登录",
     "logout": "登出",
     "welcome": "欢迎，{username}",
-    "selfCenter": "个人中心"
+    "selfCenter": "个人中心",
+    "pay": "充值中心",
+    "leaderboard":"排行榜"
+  },
+  "leaderboard":{
+    "workerCredits":"工人富人榜",
+    "requesterCredits":"发起者富人榜",
+    "expBoard":"经验排行榜",
+    "rankListBoard":"总排行榜",
+    "selfRank":"我的排名"
   },
   "selfCenter": {
     "dashboard": "仪表盘",
-    "myMissions": {
-      "menuText": "我的任务",
-      "title": "我的任务",
-      "loadingCard": "加载任务",
-      "cardState": {
-        "submitted": "已提交",
-        "abandoned": "已放弃",
-        "inProgress": "正在进行"
-      },
-      "cardActions": {
-        "continue": "继续做任务",
-        "abandon": "放弃",
-        "seeMore": "查看详细信息"
-
-      }
-    },
     "achievement": "成就",
-    "personalInfo": "我的信息"
+    "personalInfo": "我的信息",
+    "manageTopics":"管理主题"
   },
   "drawingPad": {
     "common": {
@@ -50,11 +64,14 @@
       },
       "tagDescriptionTuplePanel": {
         "tags" : "标签",
+        "topics": "主题",
         "descriptions": "描述",
         "addOne": "增加一条描述",
         "inputPrompt": "请输入描述",
         "newTag": "新标签",
         "tagName": "标签名",
+        "tagNameInvalid": "请输入标签名。",
+        "tagLimited": "任务不可自定义标签。请从以下标签中选择一个",
         "tagInformation": "标签信息",
         "ok": "确定",
         "remove": "移除",
@@ -63,9 +80,13 @@
       "missionTipCard": {
         "missionTitle": "任务标题",
         "title": "任务目标",
-        "type": "类型：",
-        "allowedTags": "允许使用的标签",
-        "recommendedTags": "建议使用的标签",
+        "type": "类型",
+        "allowCustomTag": {
+          "prompt": "允许自定义标签",
+          "true": "是",
+          "false": "否"
+        },
+        "tags": "预设标签",
         "types": {
           "WHOLE": "整体",
           "PART": "局部",
@@ -107,8 +128,168 @@
   },
   "missions": {
     "needLogin": "请先登录",
+    "missionDetail": {
+      "missionId": "任务ID",
+      "basic": "基本信息",
+      "title": "任务详情",
+      "description": "任务描述",
+      "dateRange": "起始时间",
+      "dateRangeFormat": "{start} 至 {end}",
+      "dateFormat": "YYYY/MM/DD HH:mm:ss",
+      "topics": "主题",
+      "jobCount": "工作数量",
+      "cover": "封面",
+      "allowCustomTag": {
+        "true": "允许自定义标签",
+        "false": "不允许自定义标签"
+      },
+      "minimalWorkerLevel": "最低工人等级",
+      "level": "任务等级",
+      "requesterUsername": "发起者",
+      "tags": "设置标签",
+      "missionType": "任务类型",
+      "credits": "奖金池",
+      "IMAGE": {
+        "name": "图片任务",
+        "imageMissionTypes": "图片任务类型",
+        "types": {
+          "WHOLE": "整体",
+          "PART": "局部",
+          "DISTRICT": "区域"
+        }
+      }
+    },
     "createMission": {
-      "title": "创建任务"
+      "title": "创建任务",
+      "completeCreation": {
+        "title": "任务创建成功",
+        "description": "任务已经创建。{to}查看任务详细信息",
+        "to": "点击这里"
+      },
+      "fields": {
+        "title": "任务标题",
+        "requireTitle": "请输入任务标题",
+        "description": "任务描述",
+        "requireDescription": "请输入任务描述",
+        "topics": "主题词",
+        "availableTopics": "可选主题词",
+        "dateRange":"时间段",
+        "requireDateRange": "请选择任务有效时间段",
+        "tags": "标签",
+        "allowCustomTag": "允许工人自定义标签",
+        "requireTags": "当不允许工人自定义标签时，请添加至少一个可用标签",
+        "cover": "封面图",
+        "selectFile": "选择文件",
+        "minimalWorkerLevel": "工人最低等级",
+        "requireMinimalWorkerLevel": "工人等级区间为[1,100]的整数",
+        "missionLevel": "任务等级",
+        "requireMissionLevel": "任务等级为[1,5]的整数",
+        "credits": "预支付积分",
+        "creditsError": {
+          "loading": "加载剩余积分中",
+          "format": "请输入非负整数",
+          "insufficient": "积分不足，现有积分：{current}。{goPay}",
+          "goPay": "去充值",
+          "remaining": "现有积分：{current}"
+        },
+        "IMAGE": {
+          "types": {
+            "name": "图片任务类型",
+            "DISTRICT": "区域",
+            "WHOLE":"整体",
+            "PART": "局部"
+          },
+          "requireTypes": "请选择至少一种任务",
+          "images": "任务图片",
+          "requireImages": "请上传至少一张图片"
+        },
+        "submit": "提交"
+      }
+
+
+    },
+    "worker": {
+      "myMissions": {
+        "menuText": "我的任务",
+        "title": "我的任务",
+        "loadingCard": "加载任务",
+        "cardState": {
+          "submitted": "已提交",
+          "abandoned": "已放弃",
+          "inProgress": "正在进行",
+          "finalized": "已结束"
+        },
+        "cardActions": {
+          "continue": "继续做任务",
+          "abandon": "放弃",
+          "seeMore": "查看详细信息",
+          "abandonConfirm": "您确定要放弃这个任务吗？"
+        }
+      },
+      "detailOperationBar": {
+        "accept": "接受这个任务",
+        "seeResult": "查看任务进度",
+        "continueWorking": "继续做任务",
+        "accepted": "接受任务成功",
+        "levelNotEnough": "等级不足以接受任务"
+      }
+    },
+    "sideMenu": {
+      "mission": "任务",
+      "instance": "实例"
+    },
+    "requester": {
+      "mission": {
+        "title": "任务",
+        "add": "新增任务"
+      },
+      "missionCard": {
+        "missionState": {
+          "PENDING": "未生效",
+          "ACTIVE": "生效",
+          "ENDED": "结束"
+        },
+        "actions": {
+          "searchInstances": "查找所有实例",
+          "info": "任务信息"
+        }
+      },
+
+      "instancePanel": {
+        "title": "实例",
+        "search": {
+          "placeholder": "任务ID"
+        },
+        "table": {
+          "dateFormat": "YYYY/MM/DD HH:mm:SS",
+          "instanceId": "实例ID",
+          "missionId": "任务ID",
+          "workerUsername": "工人用户名",
+          "missionInstanceState": "实例状态",
+          "dateRange": "时间段",
+          "inProgress": "正在进行",
+          "acceptDate": "接受时间",
+          "submitDate": "提交时间",
+          "action": "操作",
+          "seeResult": "查看结果",
+          "finalize": "评分",
+          "finalizeResult": "查看评分结果"
+        },
+        "finalize": {
+          "expRatio": "经验比例",
+          "credits": "给予积分",
+          "comment": "评价",
+          "requireExpRatio": "请输入有效的经验比例(0.0,1.0]",
+          "requireCredits": "请输入有效的积分数（非负整数）。现有积分：{credits}",
+          "submit": "提交",
+          "default": "恢复默认",
+          "back": "返回",
+          "title": "评价",
+          "availableCredits": "可用积分：{credits}",
+          "creditsNotSufficient": "积分不足。可用积分：{credits}。{goPay}",
+          "goPay": "去充值"
+        }
+      }
     }
   },
   "loginModal": {
@@ -120,7 +301,8 @@
     "login": "登录",
     "forgetPassword": "忘记密码",
     "remember": "记住我",
-    "cancel": "取消"
+    "cancel": "取消",
+    "register": "注册"
   },
   "languageSelector": {
     "loading": "载入中"
@@ -150,6 +332,50 @@
     "searchAll": "全部"
   },
   "browserMissionList": {
-    "dividerText": "任务列表"
+    "dividerText": "任务列表",
+    "accept": "接受",
+    "missionAccepted": "任务已经成功接受",
+    "seeDetail": "查看详细信息",
+    "missionType": {
+      "IMAGE": "图片"
+    },
+    "dateFormat": "YYYY/MM/DD HH:mm:ss"
+  },
+  "pay": {
+    "title": "充值",
+    "payAccount": "充值账户",
+    "payMission": "充值任务",
+    "creditInput": {
+      "loading": "加载剩余积分中...",
+      "format": "请输入非负整数",
+      "insufficient": "积分不足，现有积分：{current}。{goPay}",
+      "goPay": "去充值",
+      "remaining": "现有积分：{current}。{goPay}",
+      "prompt": "给予积分"
+    },
+    "account": {
+      "title": "充值账户",
+      "currentCredits": "现在的积分：",
+      "inputCredits": "请输入你要充值的金额：",
+      "submit": "充值",
+      "loading": "加载中",
+      "format": "输入应该是大于0的整数",
+      "paymentComplete": "充值成功"
+    },
+    "mission": {
+      "missionId": "任务ID",
+      "title": "充值任务",
+      "check": "验证并查看剩余积分",
+      "needCheck": "{click}验证任务ID并查看任务所剩积分数",
+      "click": "点击",
+      "inputMissionId": "请输入任务ID",
+      "currentCredits": "任务剩余可分配积分：{credits}",
+      "inputCredits": "请输入你要充值的金额：",
+      "submit": "充值",
+      "loading": "加载中",
+      "missionNotExist": "任务不存在",
+      "format": "输入应该是大于0的整数",
+      "paymentComplete": "充值成功"
+    }
   }
 }

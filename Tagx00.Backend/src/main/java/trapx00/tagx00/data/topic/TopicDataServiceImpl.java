@@ -1,6 +1,7 @@
 package trapx00.tagx00.data.topic;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.mission.topic.TopicDao;
 import trapx00.tagx00.dataservice.topic.TopicDataService;
 import trapx00.tagx00.entity.mission.topic.Topic;
@@ -9,6 +10,7 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class TopicDataServiceImpl implements TopicDataService {
     private final TopicDao topicDao;
 

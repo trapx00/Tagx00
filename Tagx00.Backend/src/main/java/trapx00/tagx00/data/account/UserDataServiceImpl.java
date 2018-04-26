@@ -12,6 +12,7 @@ import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.entity.account.TempUser;
 import trapx00.tagx00.entity.account.User;
+import trapx00.tagx00.exception.viewexception.InvalidEmailAddressesException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserDoesNotExistException;
 
@@ -100,7 +101,7 @@ public class UserDataServiceImpl implements UserDataService {
      * @param email the email address
      */
     @Override
-    public void sendEmail(String code, String email) {
+    public void sendEmail(String code, String email) throws InvalidEmailAddressesException {
         SimpleMailMessage message = new SimpleMailMessage();
         String content = content1 + code + content2;
         message.setFrom(senderEmail);
@@ -108,7 +109,12 @@ public class UserDataServiceImpl implements UserDataService {
         message.setSubject(subject);
         message.setText(content);
 
-        mailSender.send(message);
+        try {
+            mailSender.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InvalidEmailAddressesException();
+        }
     }
 
     /**

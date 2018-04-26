@@ -2,6 +2,7 @@ import React from "react";
 import { RectangleDrawer } from "./RectangleDrawer";
 import { RectangleNotation } from "./RectangleNotation";
 import { Point } from "../../../../models/instance/image/Shapes";
+import { getCursorPosition } from "../utils/getCursorPosition";
 
 interface Props {
   rectangles: RectangleNotation[];
@@ -9,6 +10,7 @@ interface Props {
   width: number;
   height: number;
   onRectangleClicked: (rec: RectangleNotation) => void;
+  getScale: () => number;
 }
 
 export class ExistingLayer extends React.Component<Props, any> {
@@ -40,16 +42,9 @@ export class ExistingLayer extends React.Component<Props, any> {
     this.renderAllRectangles();
   }
 
-  getCursorPosition(e): Point {
-    const {top, left} = this.canvas.getBoundingClientRect();
-    return {
-      x: e.clientX - left,
-      y: e.clientY - top
-    };
-  }
 
   onMouseDown = (e) => {
-    const position = this.getCursorPosition(e);
+    const position = getCursorPosition(this.canvas, e, this.props.getScale());
     const selected = this.findClickedRectangle(position);
     if (selected) {
       this.props.onRectangleClicked(selected);

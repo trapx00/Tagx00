@@ -8,6 +8,7 @@ public class InstanceDetailVo implements Serializable {
     private MissionType missionType;
     private InstanceVo instance;
 
+
     public InstanceDetailVo() {
     }
 
@@ -15,6 +16,7 @@ public class InstanceDetailVo implements Serializable {
         this.missionType = missionType;
         this.instance = instance;
     }
+
 
     public MissionType getMissionType() {
         return missionType;

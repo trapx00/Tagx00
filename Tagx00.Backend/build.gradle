@@ -33,10 +33,10 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web') {
         exclude module: 'com.fasterxml.jackson.core:jackson-databind'
     }
+    compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework.boot:spring-boot-autoconfigure'
     compile 'org.springframework.boot:spring-boot-starter-tomcat'
     compile 'org.springframework.boot:spring-boot-starter-security'
-
     compile 'org.springframework.boot:spring-boot-starter-mail'
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'net.sf.json-lib:json-lib:2.4:jdk15'

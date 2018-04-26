@@ -1,14 +1,10 @@
 package trapx00.tagx00.bl.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import trapx00.tagx00.blservice.admin.AdminInfoBlService;
-import trapx00.tagx00.dataservice.admin.AdminInfoDataService;
-import trapx00.tagx00.entity.mission.Mission;
-import trapx00.tagx00.entity.mission.instance.Instance;
-import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.admin.AdminInfoBlService;
-import trapx00.tagx00.dataservice.admin.AdminInfoDataService;
+import trapx00.tagx00.dataservice.account.UserDataService;
+import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.entity.mission.instance.Instance;
@@ -16,12 +12,13 @@ import trapx00.tagx00.response.user.AdminInfoResponse;
 
 @Service
 public class AdminInfoBlServiceImpl implements AdminInfoBlService {
-    private final AdminInfoDataService adminInfoDataService;
-
+    private final PublicMissionDataService publicMissionDataService;
+    private final UserDataService userDataService;
 
     @Autowired
-    public AdminInfoBlServiceImpl(AdminInfoDataService adminInfoDataService) {
-        this.adminInfoDataService = adminInfoDataService;
+    public AdminInfoBlServiceImpl(PublicMissionDataService publicMissionDataService, UserDataService userDataService) {
+        this.publicMissionDataService = publicMissionDataService;
+        this.userDataService = userDataService;
     }
 
     /**
@@ -32,11 +29,14 @@ public class AdminInfoBlServiceImpl implements AdminInfoBlService {
     @Override
     public AdminInfoResponse getAdminInfo() {
 
-        User[] users = adminInfoDataService.getUsers();
-        Mission[] missions = adminInfoDataService.getMissions();
-        Instance[] instances = adminInfoDataService.getInstances();
+        User[] users = userDataService.findAllUsers();
+        Mission[] missions = publicMissionDataService.getAllMissions();
+        Instance[] instances = publicMissionDataService.getInstances();
         int userCount = users.length;
         int totalMissionCount = missions.length;
+        int pendingMissionCount = 0;
+        int activeMissionCount = 0;
+        int endedMissionCount = 0;
         int totalInstanceCount = instances.length;
         int inProgressInstanceCount = 0;
         int submittedInstanceCount = 0;
@@ -54,6 +54,19 @@ public class AdminInfoBlServiceImpl implements AdminInfoBlService {
                     break;
             }
         }
-        return new AdminInfoResponse(userCount, totalMissionCount, totalInstanceCount, inProgressInstanceCount, submittedInstanceCount, finalizeInstanceCount);
+        for (Mission mission : missions) {
+            switch (mission.getMissionState()) {
+                case PENDING:
+                    pendingMissionCount++;
+                    break;
+                case ACTIVE:
+                    activeMissionCount++;
+                    break;
+                case ENDED:
+                    endedMissionCount++;
+                    break;
+            }
+        }
+        return new AdminInfoResponse(userCount, totalMissionCount, pendingMissionCount, activeMissionCount, endedMissionCount, totalInstanceCount, inProgressInstanceCount, submittedInstanceCount, finalizeInstanceCount);
     }
 }

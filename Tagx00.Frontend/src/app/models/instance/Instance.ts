@@ -2,13 +2,13 @@ import { MissionInstanceState } from "./MissionInstanceState";
 
 export interface Instance {
 
-  instanceId: number;
+  instanceId: string;
 
   workerUsername: string;
 
   missionInstanceState: MissionInstanceState;
 
-  missionId: number;
+  missionId: string;
 
   acceptDate: Date;
 
@@ -17,6 +17,11 @@ export interface Instance {
   isSubmitted: boolean;
 
   completedJobsCount: number;
+
+  expRatio?: number;
+  exp?: number;
+  credits?: number;
+  comment?: string;
 }
 
 export function convertToInstance(json: any) {

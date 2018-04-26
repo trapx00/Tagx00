@@ -1,7 +1,5 @@
 import React from "react";
-import { Card, Input, Button, Icon, Tag, Tooltip, Modal } from 'antd';
-import { observer } from "mobx-react";
-import { action, observable, toJS } from "mobx";
+import { Card } from 'antd';
 import { TagDescriptionTuple, TagTuple } from "../../../models/instance/TagTuple";
 import { AddableInputGroup } from "../AddableInputGroup";
 import { TagPanel } from "./TagPanel";
@@ -11,12 +9,14 @@ interface Props {
   tuple: TagDescriptionTuple;
   onChange: (tuple: TagDescriptionTuple) => void;
   readonlyMode: boolean;
+  allowedTags?: string[];
 }
 
 export const panelStyle = {
   marginTop: "8px"
 };
 
+const ID_PREFIX = "drawingPad.common.tagDescriptionTuplePanel.";
 
 export class TagDescriptionTuplePanel extends React.Component<Props, {}> {
 
@@ -37,12 +37,16 @@ export class TagDescriptionTuplePanel extends React.Component<Props, {}> {
 
   render() {
 
-    const prefix = "drawingPad.common.tagDescriptionTuplePanel.";
-    return <div>
-      <TagPanel tagTuples={this.props.tuple.tagTuples} onChange={this.onTagsChange} readonly={this.props.readonlyMode}/>
-      <Card style={panelStyle} title={<LocaleMessage id={prefix + "descriptions"}/>}>
 
-        <Localize replacements={{prompt: prefix + "inputPrompt", addOne: prefix+"addOne"}}>
+    return <div>
+      <TagPanel tagTuples={this.props.tuple.tagTuples}
+                onChange={this.onTagsChange}
+                readonly={this.props.readonlyMode}
+                allowedTags={this.props.allowedTags}
+      />
+      <Card style={panelStyle} title={<LocaleMessage id={ID_PREFIX + "descriptions"}/>}>
+
+        <Localize replacements={{prompt: ID_PREFIX + "inputPrompt", addOne: ID_PREFIX+"addOne"}}>
           {props => <AddableInputGroup items={this.props.tuple.descriptions}
                                        onChange={this.onDescriptionsInputChange}
                                        inputPrompt={props.prompt}

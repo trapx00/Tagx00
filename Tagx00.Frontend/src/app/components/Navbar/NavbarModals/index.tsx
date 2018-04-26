@@ -1,22 +1,22 @@
-import { STORE_UI } from "../../../constants/stores";
-import { UiStoreProps } from "../../../stores/UiStore";
-import { inject, observer } from "mobx-react";
+import { UiStore } from "../../../stores/UiStore";
+import { observer } from "mobx-react";
 import React from "react";
 import { AsyncComponent } from "../../../router/AsyncComponent";
+import { Inject } from "react.di";
 
 
-interface NavbarModalsProps extends UiStoreProps {
+interface NavbarModalsProps {
 }
 
-@inject(STORE_UI)
 @observer
 export class NavbarModals extends React.Component<NavbarModalsProps, any> {
 
+  @Inject uiStore: UiStore;
+
   loadLoginModal = async () => {
-    const ui = this.props[STORE_UI];
-    ui.setLoginModalLoading(true);
+    this.uiStore.setLoginModalLoading(true);
     const Modal = (await import("../../Modals/LoginModal")).LoginModal;
-    ui.setLoginModalLoading(false);
+    this.uiStore.setLoginModalLoading(false);
     return <Modal/>;
   };
 
@@ -29,9 +29,8 @@ export class NavbarModals extends React.Component<NavbarModalsProps, any> {
   // };
 
   render() {
-    const ui = this.props[STORE_UI];
     return <div>
-      {ui.loginModalShown
+      {this.uiStore.loginModalShown
         ? <AsyncComponent render={this.loadLoginModal}/>
         : null}
     </div>;

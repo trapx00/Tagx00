@@ -1,28 +1,32 @@
-import { UserStoreProps } from "../../../stores/UserStore";
+import { UserStore } from "../../../stores/UserStore";
 import React from "react";
-import { STORE_USER } from "../../../constants/stores";
 import { Dropdown, Icon, Menu } from 'antd';
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import { LocaleMessage } from "../../../internationalization/components";
 import { Link } from "react-router-dom";
+import { Inject } from "react.di";
 
-interface Props extends UserStoreProps {
+interface Props {
 
 }
 
-@inject(STORE_USER)
 @observer
 export class UserIndicator extends React.Component<Props, {}> {
 
+  @Inject userStore: UserStore;
+
   logout = () => {
-    this.props[STORE_USER].logout();
+    this.userStore.logout();
   };
 
   render() {
-    const userStore = this.props[STORE_USER];
     const dropdownMenu = <Menu>
       <Menu.Item key="self">
         <Link to={"/self"}><LocaleMessage id={"navbar.selfCenter"}/></Link>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="charge">
+        <Link to={"/pay"}><LocaleMessage id={"navbar.pay"}/></Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="logout">
@@ -33,7 +37,7 @@ export class UserIndicator extends React.Component<Props, {}> {
     return <Dropdown overlay={dropdownMenu} trigger={["click"]}>
       <a className="ant-dropdown-link">
         <Icon type="user"/> <LocaleMessage id={"navbar.welcome"} replacements={{
-        username: userStore.user.username
+        username: this.userStore.user.username
       }}/> <Icon type="down"/>
       </a></Dropdown>;
   }

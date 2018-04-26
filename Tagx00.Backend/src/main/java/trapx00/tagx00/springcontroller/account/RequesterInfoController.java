@@ -38,7 +38,7 @@ public class RequesterInfoController {
             @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
     public ResponseEntity<Response> info(@PathVariable("username") String username) {
-        return new ResponseEntity(requesterInfoBlService.getRequesterInfo(username), HttpStatus.OK);
+        return new ResponseEntity<>(requesterInfoBlService.getRequesterInfo(username), HttpStatus.OK);
 
     }
 

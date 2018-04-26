@@ -3,6 +3,7 @@ package trapx00.tagx00.dataservice.account;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.entity.account.TempUser;
 import trapx00.tagx00.entity.account.User;
+import trapx00.tagx00.exception.viewexception.InvalidEmailAddressesException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserDoesNotExistException;
 
@@ -44,7 +45,7 @@ public interface UserDataService {
      * @param code  the validation code
      * @param email the email address
      */
-    void sendEmail(String code, String email);
+    void sendEmail(String code, String email) throws InvalidEmailAddressesException;
 
 
     /**

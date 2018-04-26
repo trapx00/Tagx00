@@ -8,13 +8,15 @@ public abstract class MissionDetailVo implements Serializable {
 
     private MissionPublicItemVo publicItem;
     private MissionState missionState;
-
-    public MissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState) {
-        this.publicItem = publicItem;
-        this.missionState = missionState;
-    }
+    private String requesterUsername;
 
     protected MissionDetailVo() {
+    }
+
+    public MissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, String requesterUsername) {
+        this.publicItem = publicItem;
+        this.missionState = missionState;
+        this.requesterUsername = requesterUsername;
     }
 
     public MissionPublicItemVo getPublicItem() {
@@ -31,5 +33,13 @@ public abstract class MissionDetailVo implements Serializable {
 
     public void setMissionState(MissionState missionState) {
         this.missionState = missionState;
+    }
+
+    public String getRequesterUsername() {
+        return requesterUsername;
+    }
+
+    public void setRequesterUsername(String requesterUsername) {
+        this.requesterUsername = requesterUsername;
     }
 }

@@ -1,25 +1,33 @@
-import { inject, observer } from "mobx-react";
+import { observer } from "mobx-react";
 import React from "react"
-import { STORE_LOCALE } from "../../constants/stores";
-import { LocaleStoreProps, Replacement } from "../LocaleStore";
+import { LocaleStore, Replacement } from "../../stores/LocaleStore";
+import { Inject } from "react.di";
 
 
-interface LocaleMessageProps extends LocaleStoreProps {
+interface LocaleMessageProps {
   id: string;
-  replacements?: {[s: string]: Replacement}
+  replacements?: { [s: string]: Replacement }
 
 }
 
-@inject(STORE_LOCALE)
-@observer
-export class LocaleMessage extends React.Component<LocaleMessageProps, any> {
+interface State {
+  hasError: boolean;
+}
 
-  componentDidCatch(e) {
-    return this.props.id;
-  }
+
+@observer
+export class LocaleMessage extends React.Component<LocaleMessageProps, State> {
+
+  @Inject localeStore: LocaleStore;
+
 
   render() {
-    const locale = this.props[STORE_LOCALE];
-    return locale.get(this.props.id, this.props.replacements);
+    try {
+      return this.localeStore.get(this.props.id, this.props.replacements);
+    } catch (e) {
+      console.log(e);
+      return this.props.id;
+    }
   }
+
 }
