@@ -1,11 +1,13 @@
 import React, { ReactNode } from "react";
 import { Icon, Menu } from 'antd';
-import { LocaleMessage } from "../../../internationalization/components";
+import { LocaleMessage } from "../../internationalization/components/index";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react";
 import { Inject } from "react.di";
-import { RouterStore } from "../../../stores/RouterStore";
-import { NavItemProps, NavStore } from "../../../stores/NavStore";
+import { RouterStore } from "../../stores/RouterStore";
+import { NavItemProps, NavStore } from "../../stores/NavStore";
+import { LogoContainer } from "./Layout";
+import img from '../../../assets/logo.png';
 
 const {SubMenu} = Menu;
 
@@ -43,6 +45,15 @@ const routes: NavItemProps[] = [
 ];
 
 
+
+function LogoItem(props: {}) {
+  return <LogoContainer>
+    <img src={img}/>
+    <span>Tag x00</span>
+  </LogoContainer>
+}
+
+
 @observer
 export class MainNav extends React.Component<{}, {}> {
 
@@ -59,9 +70,7 @@ export class MainNav extends React.Component<{}, {}> {
 
   render() {
     return <div>
-      <div className={"logo"}>
-        Tag x00
-      </div>
+      <LogoItem/>
       <Menu
         theme="dark"
         mode={"inline"}

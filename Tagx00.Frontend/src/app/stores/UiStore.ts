@@ -6,9 +6,6 @@ export class UiStore {
   @observable loginModalShown: boolean;
   @observable loginModalLoading: boolean;
 
-
-  @observable contentSidePadding = 8;
-
   @action toggleLoginModalShown = () => {
     this.loginModalShown = !this.loginModalShown;
   };
@@ -17,3 +14,5 @@ export class UiStore {
     this.loginModalLoading = loading;
   }
 }
+
+export const CONTENT_SIDE_PADDING = 8;
