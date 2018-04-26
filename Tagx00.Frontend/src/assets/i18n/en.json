@@ -11,7 +11,15 @@
     "login": "Login",
     "logout": "Logout",
     "welcome": "Welcome, {username}",
-    "selfCenter": "Personal Center"
+    "selfCenter": "Personal Center",
+    "leaderboard":"Board"
+  },
+  "leaderboard":{
+    "workerCredits":"Worker Credits Board",
+    "requesterCredits":"Requester Credits Board",
+    "expBoard":"Experience Board",
+    "rankListBoard":"All Rank",
+    "selfRank":"My Rank"
   },
   "frameMenu": {
     "home": "Home",
@@ -22,6 +30,7 @@
   },
   "selfCenter": {
     "dashboard": "Dashboard",
+    "manageTopics":"Topics",
     "myMissions": {
       "menuText": "Missions",
       "title": "My Missions",

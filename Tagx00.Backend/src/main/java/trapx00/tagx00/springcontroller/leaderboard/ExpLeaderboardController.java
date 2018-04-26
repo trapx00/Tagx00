@@ -15,7 +15,7 @@ import trapx00.tagx00.response.leaderboard.exp.ExpLeaderboardResponse;
 import trapx00.tagx00.response.leaderboard.exp.ExpSpecificWorkerLeaderboardResponse;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
-@PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
+//@PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
 @RestController
 public class ExpLeaderboardController {
     private final ExpLeaderboardBlService expLeaderboardBlService;
@@ -24,6 +24,7 @@ public class ExpLeaderboardController {
     public ExpLeaderboardController(ExpLeaderboardBlService expLeaderboardBlService) {
         this.expLeaderboardBlService = expLeaderboardBlService;
     }
+
     @Authorization("发起者、工人、管理员")
     @ApiOperation(value = "经验排名", notes = "以经验从高到低排名")
     @ApiImplicitParams({
@@ -37,10 +38,11 @@ public class ExpLeaderboardController {
             @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
     public ResponseEntity<Response> expLeaderboard(
-            @RequestParam("pageSize") Integer pageSize, @RequestParam("pageNumber") Integer pageNumber
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+            @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber
     ) {
         try {
-            return new ResponseEntity(expLeaderboardBlService.expLeaderboard(new PagingQueryVo(pageSize,pageNumber)), HttpStatus.OK);
+            return new ResponseEntity<>(expLeaderboardBlService.expLeaderboard(new PagingQueryVo(pageSize, pageNumber)), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
@@ -62,7 +64,7 @@ public class ExpLeaderboardController {
     @ResponseBody
     public ResponseEntity<Response> specificWorker(@PathVariable("username") String username) {
         try {
-            return new ResponseEntity(expLeaderboardBlService.specificWorker(username), HttpStatus.OK);
+            return new ResponseEntity<>(expLeaderboardBlService.specificWorker(username), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);

@@ -11,15 +11,15 @@ public interface PublicMissionBlService {
      *
      * @return the list of MissionPublicItemVo
      */
-    MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo)throws NotMissionException;
+    MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo, String searchTarget, String requesterUsername) throws NotMissionException;
 
     /**
      * get one mission
      *
-     * @return the list of MissionDetailVo
      * @param missionId
+     * @return the list of MissionDetailVo
      */
-    MissionDetailResponse getOneMissionDetail(String missionId)throws NotMissionException;
+    MissionDetailResponse getOneMissionDetail(String missionId) throws NotMissionException;
 
 
 }

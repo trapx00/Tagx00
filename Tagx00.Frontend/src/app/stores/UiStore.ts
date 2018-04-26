@@ -1,6 +1,7 @@
 import { action, observable } from "mobx";
-import { STORE_UI } from "../constants/stores";
+import { Injectable } from "react.di";
 
+@Injectable
 export class UiStore {
   @observable loginModalShown: boolean;
   @observable loginModalLoading: boolean;
@@ -12,8 +13,4 @@ export class UiStore {
   @action setLoginModalLoading = (loading: boolean) => {
     this.loginModalLoading = loading;
   }
-}
-
-export interface UiStoreProps {
-  [STORE_UI]?: UiStore;
 }

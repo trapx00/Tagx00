@@ -10,5 +10,8 @@ export interface MissionCreate<T extends MissionProperties = MissionProperties> 
   properties: T;
   start: Date;
   end: Date;
+  level: number;
+  credits: number;
+  minimalWorkerLevel: number;
   missionType: MissionType;
 }

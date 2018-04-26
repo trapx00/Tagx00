@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Tag } from 'antd';
 import { ImageMissionType } from "../../models/mission/image/ImageMission";
 import { LocaleMessage } from "../../internationalization/components";
+import { DefinitionItem } from "../DefinitionItem";
 
 interface Props {
   jobType: ImageMissionType;
@@ -10,27 +11,27 @@ interface Props {
   title: string;
 }
 
-export class MissionTipCard extends React.Component<Props, any> {
+
+const prefix = "drawingPad.common.missionTipCard.";
+
+export class MissionTipCard extends React.Component<Props, {}> {
   render() {
-    const prefix = "drawingPad.common.missionTipCard.";
+
     return <Card title={<LocaleMessage id={prefix+"title"}/>}>
-      <p>
-        <strong><LocaleMessage id={prefix+"missionTitle"}/></strong>:
+      <DefinitionItem prompt={<LocaleMessage id={prefix+"missionTitle"}/>}>
         {this.props.title}
-        </p>
-      <p><strong><LocaleMessage id={prefix+"type"}/></strong>
+      </DefinitionItem>
+      <DefinitionItem prompt={<LocaleMessage id={prefix+"type"}/>}>
         <LocaleMessage id={`${prefix}types.${this.props.jobType}`}/>
-      </p>
-      <div>
-        <strong>{
-        this.props.allowCustomTag
-          ? <LocaleMessage id={prefix+"recommendedTags"}/>
-          : <LocaleMessage id={prefix+"allowedTags"}/>
-        }</strong>
+      </DefinitionItem>
+      <DefinitionItem prompt={<LocaleMessage id={prefix+"allowCustomTag.prompt"}/>}>
+      <LocaleMessage id={`${prefix}allowCustomTag.${this.props.allowCustomTag}`}/>
+    </DefinitionItem>
+      <DefinitionItem prompt={<LocaleMessage id={prefix+"tags"}/>}>
         {this.props.tags.map(x => {
           return <Tag key={x} color={"blue"}>{x}</Tag>
         })}
-      </div>
+      </DefinitionItem>
     </Card>
   }
 }

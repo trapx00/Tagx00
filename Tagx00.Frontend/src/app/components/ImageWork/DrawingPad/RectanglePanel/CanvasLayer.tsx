@@ -3,12 +3,14 @@ import { Rectangle } from "./Rectangle";
 import { DrawingSession } from "../utils/DrawingSession";
 import { RectangleDrawer } from "./RectangleDrawer";
 import { Point } from "../../../../models/instance/image/Shapes";
+import { getCursorPosition } from "../utils/getCursorPosition";
 
 interface Props {
   onRectangleComplete: (rec: Rectangle) => void;
 
   width: number;
   height: number;
+  getScale: () => number;
 }
 
 let id = 1;
@@ -40,19 +42,8 @@ export class CanvasLayer extends React.Component<Props, {}> {
   canvas: HTMLCanvasElement;
   canvasContext: CanvasRenderingContext2D;
 
-  getCursorPosition(e): Point {
-    const {top, left} = this.canvas.getBoundingClientRect();
-    return {
-      x: e.clientX - left,
-      y: e.clientY - top
-    };
-  }
-
-
-
-
   onMouseDown = (e) => {
-    const position = this.getCursorPosition(e);
+    const position = getCursorPosition(this.canvas, e, this.props.getScale());
     this.session = new RectDrawingSession(this.canvasContext);
     this.session.saveImageData();
     this.session.start = position;
@@ -65,7 +56,7 @@ export class CanvasLayer extends React.Component<Props, {}> {
 
   onMouseMove = (e) => {
     if (this.session) {
-      const position = this.getCursorPosition(e);
+      const position = getCursorPosition(this.canvas, e, this.props.getScale());
       if (this.outOfCanvas(position)) {
         this.props.onRectangleComplete(null);
         this.finalize();

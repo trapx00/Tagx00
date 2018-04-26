@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Input, Tag, Icon, List, Avatar } from "antd";
-import { TagProps } from "antd/lib/tag";
 import { ReactNode } from "react";
+import { Tag } from "antd";
+import { TagProps } from "antd/lib/tag";
 
 const smallerDiv = {
   display: 'inline',

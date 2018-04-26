@@ -131,16 +131,15 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param credits
      */
     @Override
-    public void updateMission(int missionId, int credits,MissionType missionType) throws SystemException{
-        Mission mission =null;
-        switch (missionType){
+    public void updateMission(int missionId, int credits, MissionType missionType) throws SystemException {
+        Mission mission = null;
+        switch (missionType) {
             case IMAGE:
-                mission=imageMissionDao.findMissionByMissionId(missionId);
+                mission = imageMissionDao.findMissionByMissionId(missionId);
                 break;
         }
-        mission.setCredits(mission.getCredits()+credits);
+        mission.setCredits(mission.getCredits() + credits);
         saveMission(mission);
-
 
 
     }
@@ -152,31 +151,31 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param missionFinalizeVo
      */
     @Override
-    public void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo,MissionType missionType) throws SystemException {
-            Instance instance=null;
-            switch (missionType){
-                case IMAGE:
-                    instance=imageInstanceDao.findInstanceByInstanceId(instanceId);
-            }
-            instance.setMissionInstanceState(MissionInstanceState.FINALIZED);
-            instance.setComment(missionFinalizeVo.getComment());
-            instance.setExp(missionFinalizeVo.getExpRatio());
-            switch (instance.getMissionType()) {
-                case IMAGE:
-                    if ((instance = (Instance)imageInstanceDao.saveInstance((ImageInstance)instance)) == null) {
-                        throw new SystemException();
-                    }
-            }
+    public void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo, MissionType missionType) throws SystemException {
+        Instance instance = null;
+        switch (missionType) {
+            case IMAGE:
+                instance = imageInstanceDao.findInstanceByInstanceId(instanceId);
+        }
+        instance.setMissionInstanceState(MissionInstanceState.FINALIZED);
+        instance.setComment(missionFinalizeVo.getComment());
+        instance.setExp(missionFinalizeVo.getExpRatio());
+        switch (instance.getMissionType()) {
+            case IMAGE:
+                if (imageInstanceDao.saveInstance((ImageInstance) instance) == null) {
+                    throw new SystemException();
+                }
+        }
     }
 
     private ImageInstanceDetailVo generateImageInstanceDetailVo(ImageInstance imageInstance, int completedCounts) {
-        InstanceVo instanceVo = new InstanceVo(imageInstance.getInstanceId(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), imageInstance.getMissionId(), imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts);
+        InstanceVo instanceVo = new InstanceVo(MissionUtil.addTypeToId(imageInstance.getInstanceId(), imageInstance.getMissionType()), imageInstance.getExpRatio(), imageInstance.getExp(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), MissionUtil.addTypeToId(imageInstance.getMissionId(), imageInstance.getMissionType()), imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts);
         return new ImageInstanceDetailVo(imageInstance.getMissionType(), instanceVo, imageInstance.getImageResults());
     }
 
     private ImageInstanceVo generateImageInstanceVo(ImageInstance imageInstance, int completedCounts) {
-        return new ImageInstanceVo(imageInstance.getInstanceId(), imageInstance.getWorkerUsername(),
-                imageInstance.getMissionInstanceState(), imageInstance.getMissionId(),
+        return new ImageInstanceVo(MissionUtil.addTypeToId(imageInstance.getInstanceId(), imageInstance.getMissionType()), imageInstance.getExpRatio(), imageInstance.getExp(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getWorkerUsername(),
+                imageInstance.getMissionInstanceState(), MissionUtil.addTypeToId(imageInstance.getMissionId(), imageInstance.getMissionType()),
                 imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts
         );
     }

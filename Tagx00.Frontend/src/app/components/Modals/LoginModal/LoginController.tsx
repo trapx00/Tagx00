@@ -1,7 +1,7 @@
 import { action, computed, observable, runInAction } from "mobx";
 import { LoginResult, UserService } from "../../../api/UserService";
 import { UserStore } from "../../../stores/UserStore";
-import { STORE_USER } from "../../../constants/stores";
+import { Inject, Injectable } from "react.di";
 
 
 export enum LoginState {
@@ -29,7 +29,6 @@ export interface LoginNetworkError extends LoginError {
   error: any
 }
 
-const service = new UserService();
 
 export class LoginFormFields {
   @observable username: string;
@@ -50,6 +49,7 @@ export class LoginFormFields {
   }
 }
 
+@Injectable
 export class LoginController {
   @observable state: LoginState;
   @observable fields: LoginFormFields = new LoginFormFields();
@@ -58,7 +58,7 @@ export class LoginController {
     this.state = LoginState.NotLoggedIn;
   };
 
-  constructor() {
+  constructor(@Inject private userService: UserService) {
     this.state = LoginState.NotLoggedIn;
   }
 
@@ -82,7 +82,7 @@ export class LoginController {
   @action public requestLogin = async (username: string, password: string): Promise<LoginResult> => {
     this.state = LoginState.LoggingIn;
 
-    const res = await service.login(username, password);
+    const res = await this.userService.login(username, password);
 
     const {statusCode, response, error, ok} = res;
 

@@ -15,9 +15,11 @@ import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
+import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
+import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 import java.util.Date;
 
@@ -41,15 +43,20 @@ public class WorkerMissionController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Returns current user's instances", response = InstanceResponse.class),
             @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
-            @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class)
+            @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "No more instances", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> queryOnesAllMissions(@RequestParam("pageSize") Integer pageSize, @RequestParam("pageNumber") Integer pageNumber) {
+    public ResponseEntity<Response> queryOnesAllMissions(@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+                                                         @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber) {
         try {
-            return new ResponseEntity<>(workerMissionBlService.queryOnesAllMissions(UserInfoUtil.getUsername()), HttpStatus.OK);
+            return new ResponseEntity<>(workerMissionBlService.queryOnesAllMissions(UserInfoUtil.getUsername(), new PagingQueryVo(pageSize, pageNumber)), HttpStatus.OK);
         } catch (MissionDoesNotExistFromUsernameException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.FORBIDDEN);
+        } catch (NoMoreInstanceException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -93,7 +100,7 @@ public class WorkerMissionController {
             return new ResponseEntity<>(workerMissionBlService.getInstanceInformation(missionId, UserInfoUtil.getUsername()), HttpStatus.OK);
         } catch (InstanceNotExistException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -141,11 +148,13 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> submit(
-            @RequestBody InstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") int missionId) {
+            @RequestBody InstanceDetailVo instanceDetailVo, @PathVariable(name = "missionId") String missionId) {
         try {
             if (instanceDetailVo == null || instanceDetailVo.getInstance() == null) {
-                InstanceVo instanceVo = new InstanceVo(0, UserInfoUtil.getUsername(), MissionInstanceState.IN_PROGRESS, missionId, new Date(), null, false, 0);
-                instanceDetailVo.setInstance(instanceVo);
+                InstanceVo instanceVo = new InstanceVo(MissionUtil.addTypeToId(0, instanceDetailVo.getMissionType()), 0, 0, 0, "", UserInfoUtil.getUsername(), MissionInstanceState.IN_PROGRESS, missionId, new Date(), null, false, 0);
+                if (instanceDetailVo != null) {
+                    instanceDetailVo.setInstance(instanceVo);
+                }
             }
             return new ResponseEntity<>(workerMissionBlService.submit(instanceDetailVo), HttpStatus.OK);
         } catch (SystemException e) {
@@ -154,9 +163,6 @@ public class WorkerMissionController {
         } catch (MissionAlreadyAcceptedException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);//to edit api
-        } catch (UnmatchedUsernameAndMissionId e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.FORBIDDEN);
         }
     }
 

@@ -15,7 +15,7 @@ import trapx00.tagx00.response.leaderboard.credit.CreditRequesterLeaderboardResp
 import trapx00.tagx00.response.leaderboard.credit.CreditSpecificRequesterLeaderboardResponse;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
-@PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
+//@PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
 @RestController
 public class CreditRequesterLeaderboardController {
     private final CreditRequesterLeaderboardBlService creditRequesterLeaderboardBlService;
@@ -24,6 +24,7 @@ public class CreditRequesterLeaderboardController {
     public CreditRequesterLeaderboardController(CreditRequesterLeaderboardBlService creditRequesterLeaderboardBlService) {
         this.creditRequesterLeaderboardBlService = creditRequesterLeaderboardBlService;
     }
+
     @Authorization("发起者、工人、管理员")
     @ApiOperation(value = "发起者富人榜", notes = "以积分从高到低排名")
     @ApiImplicitParams({
@@ -37,10 +38,11 @@ public class CreditRequesterLeaderboardController {
             @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
     public ResponseEntity<Response> creditLeaderboard(
-            @RequestParam("pageSize") Integer pageSize, @RequestParam("pageNumber") Integer pageNumber
+            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+            @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber
     ) {
         try {
-            return new ResponseEntity(creditRequesterLeaderboardBlService.creditLeaderboard(new PagingQueryVo(pageSize,pageNumber)), HttpStatus.OK);
+            return new ResponseEntity<>(creditRequesterLeaderboardBlService.creditLeaderboard(new PagingQueryVo(pageSize, pageNumber)), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
@@ -62,7 +64,7 @@ public class CreditRequesterLeaderboardController {
     @ResponseBody
     public ResponseEntity<Response> specificRequester(@PathVariable("username") String username) {
         try {
-            return new ResponseEntity(creditRequesterLeaderboardBlService.specificRequester(username), HttpStatus.OK);
+            return new ResponseEntity<>(creditRequesterLeaderboardBlService.specificRequester(username), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);

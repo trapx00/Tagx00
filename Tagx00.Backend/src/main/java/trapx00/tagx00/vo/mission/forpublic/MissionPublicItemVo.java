@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MissionPublicItemVo implements Serializable {
-    private int missionId;
+    private String missionId;
     private String title;
     private String description;
     private List<String> topics;
@@ -20,6 +20,7 @@ public class MissionPublicItemVo implements Serializable {
     private int level;
     private int credits;
     private int minimalWorkerLevel;
+    private int jobCount;
 
     public MissionPublicItemVo() {
     }
@@ -48,11 +49,11 @@ public class MissionPublicItemVo implements Serializable {
         this.minimalWorkerLevel = minimalWorkerLevel;
     }
 
-    public int getMissionId() {
+    public String getMissionId() {
         return missionId;
     }
 
-    public void setMissionId(int missionId) {
+    public void setMissionId(String missionId) {
         this.missionId = missionId;
     }
 
@@ -136,7 +137,15 @@ public class MissionPublicItemVo implements Serializable {
         this.requesterUsername = requesterUsername;
     }
 
-    public MissionPublicItemVo(int missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, String requesterUsername) {
+    public int getJobCount() {
+        return jobCount;
+    }
+
+    public void setJobCount(int jobCount) {
+        this.jobCount = jobCount;
+    }
+
+    public MissionPublicItemVo(String missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername) {
         this.missionId = missionId;
         this.title = title;
         this.description = description;
@@ -147,6 +156,10 @@ public class MissionPublicItemVo implements Serializable {
         this.start = start;
         this.end = end;
         this.coverUrl = coverUrl;
+        this.level = level;
+        this.credits = credits;
+        this.minimalWorkerLevel = minimalWorkerLevel;
+        this.jobCount = jobCount;
         this.requesterUsername = requesterUsername;
     }
 

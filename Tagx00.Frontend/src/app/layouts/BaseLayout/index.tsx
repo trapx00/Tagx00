@@ -2,11 +2,10 @@ import React from "react";
 import { Layout } from 'antd';
 import { Footer } from "../../components/Footer";
 import { Navbar } from "../../components/Navbar";
-import { IReactComponent } from "mobx-react";
 
 const {Header, Content} = Layout;
 
-export class BaseLayout extends React.Component<any, any> {
+export class BaseLayout extends React.Component<{}, {}> {
 
   render() {
     return <Layout className="layout">

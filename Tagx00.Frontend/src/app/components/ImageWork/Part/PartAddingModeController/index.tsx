@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Button} from 'antd';
+import { Button, Card } from 'antd';
 import { LocaleMessage } from "../../../../internationalization/components";
 
 interface Props {

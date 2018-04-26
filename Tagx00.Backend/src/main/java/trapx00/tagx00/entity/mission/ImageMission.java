@@ -22,6 +22,12 @@ public class ImageMission extends Mission {
     public ImageMission() {
     }
 
+    public ImageMission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> imageUrls, List<ImageMissionType> imageMissionTypes) {
+        super(title, description, topics, allowCustomTag, allowedTags, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
+        this.imageUrls = imageUrls;
+        this.imageMissionTypes = imageMissionTypes;
+    }
+
     public ImageMission(int missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> imageUrls, List<ImageMissionType> imageMissionTypes) {
         super(missionId, title, description, topics, allowCustomTag, allowedTags, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
         this.imageUrls = imageUrls;

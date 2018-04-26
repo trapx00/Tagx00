@@ -69,6 +69,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST, path = "account/register", produces = "application/json")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Success", response = UserRegisterResponse.class),
+            @ApiResponse(code = 400, message = "invalid email address", response = WrongResponse.class),
             @ApiResponse(code = 409, message = "Conflict", response = WrongResponse.class),
             @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
@@ -83,6 +84,9 @@ public class UserController {
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (InvalidEmailAddressesException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -1,11 +1,7 @@
 import React from "react";
-import { action, observable } from "mobx";
-import { observer } from "mobx-react";
 import { Boundary, District, DistrictNotation } from "./Districts";
 import { DistrictCanvasContainer } from "./DistrictCanvasContainer";
-import { PartJobTuple } from "../../../../models/instance/image/job/PartJob";
 import { Boundary as BI, DistrictTagDescriptionTuple } from "../../../../models/instance/image/job/DistrictJob";
-import { TagDescriptionTuple, TagTuple } from "../../../../models/instance/TagTuple";
 import { DistrictDrawingSession } from "./DistrictCanvas/DistrictDrawingSession";
 
 interface DistrictTagPanelProps {
@@ -15,6 +11,8 @@ interface DistrictTagPanelProps {
   session: DistrictDrawingSession;
   onTupleSelected: (tuple: DistrictTagDescriptionTuple) => void;
   selectedTuple: DistrictTagDescriptionTuple;
+  onImageLoad: (width: number, height: number) => void;
+  getScale: () => number;
 }
 
 function boundaryInterfaceToBoundaryClass(boundary: BI): Boundary {
@@ -66,6 +64,8 @@ export class DistrictPanel extends React.Component<DistrictTagPanelProps, {}> {
         districts={notations}
         imgUrl={this.props.imageUrl}
         session={this.props.session}
+        onImageLoad={this.props.onImageLoad}
+        getScale={this.props.getScale}
       />
     </div>;
   }

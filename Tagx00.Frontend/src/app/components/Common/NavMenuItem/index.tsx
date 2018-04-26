@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Icon } from 'antd';
+import { Icon, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import { LocaleMessage } from "../../../internationalization/components";
 

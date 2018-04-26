@@ -11,4 +11,8 @@ public class MissionUtil {
     public static int getId(String id) {
         return Integer.parseInt(id.split("-")[1]);
     }
+
+    public static String addTypeToId(int id, MissionType missionType) {
+        return MissionTypeName.typeMissionMap.get(missionType) + "-" + id;
+    }
 }
