@@ -8,13 +8,13 @@ import { dropdownMenuStyle, horizontalMenuStyle } from "./Layout";
 import { LocaleMessage } from "../../internationalization/components";
 
 interface Props {
-  
+  dropdownMode: boolean;
+  routes: NavItemProps[];
 }
 
-export class TopNav extends React.PureComponent<{ dropdownMode: boolean, routes: NavItemProps[] }> {
+export class TopNav extends React.PureComponent<Props> {
 
   @Inject routerStore: RouterStore;
-  @Inject navStore: NavStore;
 
   get selectedRoute() {
     return this.props.routes.filter(x => x.match(this.routerStore.path)).map(x => x.path)

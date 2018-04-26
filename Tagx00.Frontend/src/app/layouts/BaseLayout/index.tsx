@@ -3,7 +3,7 @@ import { Layout } from 'antd';
 import { Footer } from "../../components/Footer";
 import { MainNav } from "../../components/Nav/MainNav";
 import { Inject } from "react.di";
-import { UiStore } from "../../stores/UiStore";
+import { CONTENT_SIDE_PADDING, UiStore } from "../../stores/UiStore";
 import { MainHeader } from "../../components/Nav/MainHeader";
 import { observer } from "mobx-react";
 import { NavStore } from "../../stores/NavStore";
@@ -17,18 +17,19 @@ export class BaseLayout extends React.Component<{}, {}> {
   @Inject navStore: NavStore;
 
   render() {
-    const padding = this.uiStore.contentSidePadding;
     return <Layout className="layout">
+      {this.navStore.navMenuShown
+      &&
+
       <Sider
         trigger={null}
-        collapsible
-        collapsed={!this.navStore.navMenuShown}
       >
         <MainNav/>
       </Sider>
+      }
       <Layout>
         <MainHeader/>
-        <Content style={{padding: `${padding}px ${padding}px`}}>
+        <Content style={{padding: `${CONTENT_SIDE_PADDING}px ${CONTENT_SIDE_PADDING}px`}}>
           <div style={{background: '#fff', padding: `16px`, minHeight: 280}}>
             {this.props.children}
           </div>
