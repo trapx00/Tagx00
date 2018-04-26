@@ -44,7 +44,6 @@ export class WorkerCreditBoardPage extends React.Component<{}, {}> {
 
     return (
       <div>
-        <br/>
         <MinorTitle>
           <LocaleMessage id={"leaderboard.rankListBoard"}/>
         </MinorTitle>

@@ -63,10 +63,9 @@ export class WorkerService {
   }
 
   async acceptMission(missionId: string, token: string): Promise<Response> {
-    const instanceDetailVo:InstanceDetail={instance:null,missionType: MissionType.IMAGE};
     const res = await this.http.fetch({
       path: `/mission/worker/${missionId}`,
-      body: instanceDetailVo,
+      body: {instance: null, missionType: MissionType.IMAGE},
       token,
       method: HttpMethod.POST
     });
@@ -92,7 +91,6 @@ export class WorkerService {
 
     return res.response;
   }
-
 
 
 }
