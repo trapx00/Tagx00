@@ -6,6 +6,7 @@ import { Response } from "../models/response/Response";
 import { Inject, Injectable } from "react.di";
 import { WorkerInfo } from "../models/userInfo/WorkerInfo";
 import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
+import { MissionType } from "../models/mission/Mission";
 
 @Injectable
 export class WorkerService {
@@ -64,7 +65,7 @@ export class WorkerService {
   async acceptMission(missionId: string, token: string): Promise<Response> {
     const res = await this.http.fetch({
       path: `/mission/worker/${missionId}`,
-      body: {instance: null},
+      body: {instance: null, missionType: MissionType.IMAGE},
       token,
       method: HttpMethod.POST
     });
@@ -90,7 +91,6 @@ export class WorkerService {
 
     return res.response;
   }
-
 
 
 }

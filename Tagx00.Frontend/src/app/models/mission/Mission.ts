@@ -21,7 +21,11 @@ export interface MissionPublicItem {
   start: Date;
   end: Date;
   coverUrl: string;
+
   jobCount: number;
+  level:number;
+  credits: number;
+  minimalWorkerLevel: number;
 }
 
 export interface MissionDetail {

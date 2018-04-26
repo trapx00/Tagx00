@@ -21,6 +21,7 @@ public class MissionPublicItemVo implements Serializable {
     private int credits;
     private int minimalWorkerLevel;
     private int jobCount;
+    private String requesterUsername;
 
     public MissionPublicItemVo() {
     }
@@ -162,8 +163,6 @@ public class MissionPublicItemVo implements Serializable {
         this.jobCount = jobCount;
         this.requesterUsername = requesterUsername;
     }
-
-    private String requesterUsername;
 
 
 }

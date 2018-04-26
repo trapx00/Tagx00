@@ -10,11 +10,12 @@ import { SvgImg } from "../../components/Common/SvgImg";
 import { SearchBar } from "./SearchBar";
 import { BrowserMissionList } from "./BrowserMissionList";
 import { action } from "mobx";
+import ReactDOM from "react-dom";
 
 const {Content} = Layout;
 
 const standardBarMoveTop: number = -21;
-const standardLogoMoveTop: number = -13;
+const standardLogoMoveTop: number = -100;
 
 @observer
 export class BrowserAnimatedContent extends React.Component<any, any> {
@@ -23,7 +24,8 @@ export class BrowserAnimatedContent extends React.Component<any, any> {
   searchBar: React.RefObject<any> = React.createRef();
 
   @action handleResize = () => {
-    this.browserStore.searchBarWidth = -parseInt(getComputedStyle(this.searchBar.current as Element, null).width);
+    console.log(ReactDOM.findDOMNode(this.searchBar.current))
+    this.browserStore.searchBarWidth = -parseInt(this.searchBar.current.width);
     this.browserStore.resizeMoveRate();
   };
 
@@ -50,19 +52,16 @@ export class BrowserAnimatedContent extends React.Component<any, any> {
       {scale: 0.3, marginTop: logoMoveTop + '%'}
     ];
     return <div>{!this.browserStore.isStop ? (
-      <div>
+      <QueueAnim className="queue-demo"
+      >
         <TweenOne animation={logoAnimation}
                   paused={this.browserStore.paused}
                   reverse={this.browserStore.reverse}
                   className="code-box-shape">
           <div style={{textAlign: 'center', marginBottom: '-10%', marginTop: '5%'}}>
-            <OverPack playScale={0.2}>
-            <QueueAnim type="bottom" duration={300} leaveReverse>
-              <SvgImg filePath={"tag_x00_logo.svg"} height={200} width={200}/>
-            </QueueAnim>
-            </OverPack>
+            <SvgImg filePath={"tag_x00_logo.svg"} height={200} width={200}/>
           </div>
-        </TweenOne>
+        </TweenOne>,
         <TweenOne animation={contentAnimation}
                   paused={this.browserStore.paused}
                   reverse={this.browserStore.reverse}
@@ -72,7 +71,7 @@ export class BrowserAnimatedContent extends React.Component<any, any> {
             <BrowserMissionList/>
           </Content>
         </TweenOne>
-      </div>
+      </QueueAnim>
     ) : (<div>
       <div style={{textAlign: 'center', marginLeft: logoMoveLeft}}>
         <SvgImg filePath={"tag_x00_logo.svg"} height={60} width={60}/>

@@ -1,6 +1,7 @@
 package trapx00.tagx00.config.jsonAdapter;
 
 import com.google.gson.*;
+import trapx00.tagx00.config.GsonFactory;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
@@ -24,7 +25,7 @@ public class MissionPropertiesAdapter implements JsonDeserializer<MissionPropert
      */
     @Override
     public MissionProperties deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return new Gson().fromJson(json,
+        return GsonFactory.get().fromJson(json,
                 MissionType.valueOf(json.getAsJsonObject().get("type").getAsString()).propertiesClass);
     }
 }

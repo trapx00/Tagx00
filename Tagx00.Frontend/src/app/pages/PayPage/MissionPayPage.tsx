@@ -88,7 +88,7 @@ export class MissionPayPage extends React.Component<Props, State> {
 
     if (this.submittable()) {
 
-      const res = await this.requesterService.payMission(this.props.missionId, parseInt(this.state.value), this.props.token);
+      const res = await this.requesterService.payMission(this.state.missionId, parseInt(this.state.value), this.props.token);
       this.setState({remainingCredits: res.remainingCredits, paying: false});
       Modal.success({
         title: this.localeStore.get(ID_PREFIX + "paymentComplete")

@@ -9,7 +9,7 @@ import { TopicService } from "../api/TopicService";
 
 @Injectable
 export class BrowserStore {
-  private static _standardHeight: number = 833;
+  private static _standardHeight: number = 600;
   private static _standardWidth: number = 1200;
   private static _maxLengthOfDescription: number = 100;
 

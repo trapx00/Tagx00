@@ -6,6 +6,7 @@ import { LocaleStore } from "../stores/LocaleStore";
 import { LevelStore } from "../stores/LevelStore";
 import { HomeStore } from "../stores/HomeStore";
 import { BrowserStore } from "../stores/BrowserStore";
+import { ImageWorkStore } from "../stores/ImageWorkStore";
 
 export async function initProviders(history) {
   const userStore = new UserStore();

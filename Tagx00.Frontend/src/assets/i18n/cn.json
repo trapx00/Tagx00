@@ -143,9 +143,12 @@
         "true": "允许自定义标签",
         "false": "不允许自定义标签"
       },
+      "minimalWorkerLevel": "最低工人等级",
+      "level": "任务等级",
       "requesterUsername": "发起者",
       "tags": "设置标签",
       "missionType": "任务类型",
+      "credits": "奖金池",
       "IMAGE": {
         "name": "图片任务",
         "imageMissionTypes": "图片任务类型",
@@ -227,7 +230,8 @@
         "accept": "接受这个任务",
         "seeResult": "查看任务进度",
         "continueWorking": "继续做任务",
-        "accepted": "接受任务成功"
+        "accepted": "接受任务成功",
+        "levelNotEnough": "等级不足以接受任务"
       }
     },
     "sideMenu": {
