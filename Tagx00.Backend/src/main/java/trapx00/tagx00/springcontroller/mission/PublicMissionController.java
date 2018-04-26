@@ -39,13 +39,7 @@ public class PublicMissionController {
                                                 @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber,
                                                 @RequestParam(value = "searchTarget", defaultValue = "") String searchTarget,
                                                 @RequestParam(value = "requester", defaultValue = "") String requesterUsername) {
-        try {
-            return new ResponseEntity<>(publicMissionBlService.getMissions(new PagingQueryVo(pageSize, pageNumber), searchTarget, requesterUsername), HttpStatus.OK);
-        } catch (NotMissionException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
-        }
-
+        return new ResponseEntity<>(publicMissionBlService.getMissions(new PagingQueryVo(pageSize, pageNumber), searchTarget, requesterUsername), HttpStatus.OK);
     }
 
 

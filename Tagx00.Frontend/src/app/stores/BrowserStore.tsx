@@ -9,13 +9,8 @@ import { TopicService } from "../api/TopicService";
 
 @Injectable
 export class BrowserStore {
-  private static _standardHeight: number = 600;
-  private static _standardWidth: number = 1200;
-  private static _maxLengthOfDescription: number = 100;
 
-  @observable searchBarWidth: number = -document.body.clientWidth * 3 / 4;
-  @observable moveHeightRate: number = document.body.clientHeight / BrowserStore._standardHeight;
-  @observable moveWidthRate: number = document.body.clientWidth / BrowserStore._standardWidth;
+  @observable moveHeight: number = -document.body.clientHeight * 0.3;
   @observable paused: boolean = true;
   @observable reverse: boolean = true;
   @observable listData: MissionPublicItem[] = [];
@@ -29,12 +24,7 @@ export class BrowserStore {
   @action public startBrowsing = () => {
     this.reverse = false;
     this.paused = false;
-    setTimeout(() => runInAction(() => this.isStop = true), 1200);
-  };
-
-  @action public resizeMoveRate = () => {
-    this.moveHeightRate = document.body.clientHeight / BrowserStore._standardHeight;
-    this.moveWidthRate = document.body.clientWidth / BrowserStore._standardWidth;
+    setTimeout(() => runInAction(() => this.isStop = true), 450);
   };
 
   async fetchAllTopics() {
@@ -48,7 +38,7 @@ export class BrowserStore {
     return !this.paused;
   }
 
-  @action public search = async (info) => {
+  @action public search = async () => {
     const items = await this.missionService.getAllMissions();
     runInAction(() => {
       this.listData = items

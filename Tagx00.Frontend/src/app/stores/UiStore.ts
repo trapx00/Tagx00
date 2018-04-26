@@ -6,6 +6,9 @@ export class UiStore {
   @observable loginModalShown: boolean;
   @observable loginModalLoading: boolean;
 
+
+  @observable contentSidePadding = 8;
+
   @action toggleLoginModalShown = () => {
     this.loginModalShown = !this.loginModalShown;
   };
