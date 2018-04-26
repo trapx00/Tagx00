@@ -1,16 +1,11 @@
 import { HttpService } from "./HttpService";
 import { Instance } from "../models/instance/Instance";
 import { InstanceDetail } from "../models/instance/InstanceDetail";
-import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
 import { HttpMethod } from "./utils";
 import { Response } from "../models/response/Response";
 import { Inject, Injectable } from "react.di";
 import { WorkerInfo } from "../models/userInfo/WorkerInfo";
 import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
-import { ExpSpecificWorkerLeaderboardResponse } from "../models/leaderboard/WorkerExpSelfRankResponse";
-import { WorkerExpBoardResponse } from "../models/leaderboard/WorkerExpBoardResponse";
-import { CreditSpecificWorkerLeaderboardResponse } from "../models/leaderboard/WorkerCreditSelfRankResponse";
-import { WorkerCreditBoardResponse } from "../models/leaderboard/WorkerCreditBoardResponse";
 
 @Injectable
 export class WorkerService {
