@@ -48,14 +48,34 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         if (missionPublicItemVos == null) {
             throw new NotMissionException();
         }
-        ArrayList<MissionPublicItemVo> usernameResult = new ArrayList<>();
-        for (MissionPublicItemVo missionPublicItemVo : missionPublicItemVos) {
-            if (requesterUsername.length() == 0 || missionPublicItemVo.getRequesterUsername().equals(requesterUsername)) {
-                usernameResult.add(missionPublicItemVo);
+        if (requesterUsername.length() != 0) {
+            ArrayList<MissionPublicItemVo> usernameResult = new ArrayList<>();
+            for (MissionPublicItemVo missionPublicItemVo : missionPublicItemVos) {
+                if (requesterUsername.length() == 0 || missionPublicItemVo.getRequesterUsername().equals(requesterUsername)) {
+                    usernameResult.add(missionPublicItemVo);
+                }
             }
+
+            ArrayList<MissionPublicItemVo> pArrayList = new ArrayList<>();
+            if (usernameResult.size() <= startIndex) {
+                throw new NotMissionException();
+            } else {
+                if (usernameResult.size() >= endIndex) {
+                    for (int i = startIndex; i < endIndex; i++) {
+                        pArrayList.add(usernameResult.get(i));
+                    }
+                } else {
+                    for (int i = startIndex; i < usernameResult.size(); i++) {
+                        pArrayList.add(usernameResult.get(i));
+                    }
+                }
+            }
+            int totalCount = usernameResult.size();
+            int pageNum = (int) Math.ceil(totalCount * 1.0 / pagingQueryVo.getPageSize());
+            return new MissionPublicResponse(new PagingInfoVo(totalCount, pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize(), pageNum), pArrayList);
         }
         ArrayList<MissionPublicItemVo> result = new ArrayList<>();
-        for (MissionPublicItemVo missionPublicItemVo : usernameResult) {
+        for (MissionPublicItemVo missionPublicItemVo : missionPublicItemVos) {
             if (missionPublicItemVo.getTopics().contains(searchTarget)) {
                 result.add(missionPublicItemVo);
             } else if (missionPublicItemVo.getTitle().contains(searchTarget)) {
