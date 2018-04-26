@@ -1,6 +1,7 @@
 package trapx00.tagx00.config.jsonAdapter;
 
 import com.google.gson.*;
+import trapx00.tagx00.config.GsonFactory;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 
@@ -26,7 +27,7 @@ public class InstanceDetailAdapter implements JsonDeserializer<InstanceDetailVo>
      */
     @Override
     public InstanceDetailVo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return new Gson().fromJson(json,
+        return GsonFactory.get().fromJson(json,
                 (Type) MissionType.valueOf(
                         json.getAsJsonObject().get("missionType").getAsString()
                 ).instanceDetailVoClass);
