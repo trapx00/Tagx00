@@ -28,7 +28,7 @@ const ID_PREFIX = "drawingPad.common.";
 
 @Module({
   providers: [
-    {provide: ImageWorkPage, useClass: ImageWorkPage, noSingleton: true}
+    {provide: ImageWorkStore, useClass: ImageWorkStore, noSingleton: true}
   ]
 })
 @observer
