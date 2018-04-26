@@ -28,7 +28,7 @@ const ID_PREFIX = "drawingPad.common.";
 
 @Module({
   providers: [
-    ImageWorkStore
+    {provide: ImageWorkPage, useClass: ImageWorkPage, noSingleton: true}
   ]
 })
 @observer
@@ -63,7 +63,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   @action componentDidUpdate() {
     if (this.store.finished) {
       if (this.props.readonlyMode) {
-        message.info(ID_PREFIX + "finish.readonlyComplete");
+        message.info(this.localeStore.get(ID_PREFIX + "finish.readonlyComplete"));
         this.store.workIndex--;
         return;
       } else {
