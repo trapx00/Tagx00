@@ -38,8 +38,8 @@ export class BrowserStore {
     return !this.paused;
   }
 
-  @action public search = async () => {
-    const items = await this.missionService.getAllMissions();
+  @action public search = async (props) => {
+    const items = await this.missionService.getMissions();
     runInAction(() => {
       this.listData = items
     });

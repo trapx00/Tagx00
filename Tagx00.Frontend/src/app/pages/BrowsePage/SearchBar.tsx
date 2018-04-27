@@ -49,10 +49,6 @@ export class SearchBar extends React.Component<Props, any> {
     await this.browserStore.search(this.state.searchValue);
   };
 
-  handleSearchAll = () => {
-    this.browserStore.startBrowsing();
-  };
-
   setSearchValue = (e) => {
     this.setState({
       searchValue: e.target.value
@@ -92,7 +88,7 @@ export class SearchBar extends React.Component<Props, any> {
               />
               <div style={centerAndPadding}>
                 <Tag color="#108ee9">{props.searchAll}</Tag>
-                <AsyncComponent render={this.renderTopics} componentWhenLoading={<Loading/>} />
+                <AsyncComponent render={this.renderTopics} componentWhenLoading={<Loading/>}/>
               </div>
             </div>
           );
