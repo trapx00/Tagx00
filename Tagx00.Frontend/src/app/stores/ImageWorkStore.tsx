@@ -144,10 +144,11 @@ export class ImageWorkStore {
   };
 
   submit = async (token: string) => {
-
+    const submitVo = this.currentInstanceDetail;
+    submitVo.instance.submitDate = new Date();
     const result = await this.workerService.submit(
       this.missionDetail.publicItem.missionId,
-      this.currentInstanceDetail,
+      submitVo,
       token
     );
     return result;
