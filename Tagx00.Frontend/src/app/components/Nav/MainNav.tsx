@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Icon, Menu } from 'antd';
-import { LocaleMessage } from "../../internationalization/components/index";
+import { LocaleMessage } from "../../internationalization/components";
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react";
 import { Inject } from "react.di";

@@ -5,10 +5,13 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.admin.AdminInfoBlService;
 import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
+import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.response.user.AdminInfoResponse;
+
+import java.util.ArrayList;
 
 @Service
 public class AdminInfoBlServiceImpl implements AdminInfoBlService {
@@ -30,6 +33,13 @@ public class AdminInfoBlServiceImpl implements AdminInfoBlService {
     public AdminInfoResponse getAdminInfo() {
 
         User[] users = userDataService.findAllUsers();
+        ArrayList<User> userResult = new ArrayList<>();
+        for (User user : users) {
+            if (!user.getRoles().contains(Role.ADMIN)) {
+                userResult.add(user);
+            }
+        }
+        users = userResult.toArray(new User[userResult.size()]);
         Mission[] missions = publicMissionDataService.getAllMissions();
         Instance[] instances = publicMissionDataService.getInstances();
         int userCount = users.length;

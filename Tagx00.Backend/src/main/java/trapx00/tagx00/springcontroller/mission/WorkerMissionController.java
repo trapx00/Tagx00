@@ -97,7 +97,8 @@ public class WorkerMissionController {
     @ResponseBody
     public ResponseEntity<Response> getInstanceInformation(@PathVariable("missionId") String missionId) {
         try {
-            return new ResponseEntity<>(workerMissionBlService.getInstanceInformation(missionId, UserInfoUtil.getUsername()), HttpStatus.OK);
+            InstanceDetailResponse instanceDetailResponse = workerMissionBlService.getInstanceInformation(missionId, UserInfoUtil.getUsername());
+            return new ResponseEntity<>(instanceDetailResponse, HttpStatus.OK);
         } catch (InstanceNotExistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);

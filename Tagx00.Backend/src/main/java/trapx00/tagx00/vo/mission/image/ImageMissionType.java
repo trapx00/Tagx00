@@ -13,7 +13,12 @@ public enum ImageMissionType implements Serializable {
     PART(ImagePartJob.class);
 
     public final Class<? extends ImageJob> clazz;
+
     ImageMissionType(Class<? extends ImageJob> clazz) {
         this.clazz = clazz;
+    }
+
+    public Class<? extends ImageJob> getClazz() {
+        return clazz;
     }
 }
