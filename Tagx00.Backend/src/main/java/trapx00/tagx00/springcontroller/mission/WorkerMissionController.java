@@ -83,29 +83,6 @@ public class WorkerMissionController {
     }
 
     @Authorization(value = "工人")
-    @ApiOperation(value = "工人获取任务信息", notes = "工人获取自己领取任务的实例的信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
-    })
-    @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.GET)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Returns the instance", response = InstanceDetailResponse.class),
-            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
-            @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
-            @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
-    })
-    @ResponseBody
-    public ResponseEntity<Response> getInstanceInformation(@PathVariable("missionId") String missionId) {
-        try {
-            InstanceDetailResponse instanceDetailResponse = workerMissionBlService.getInstanceInformation(missionId, UserInfoUtil.getUsername());
-            return new ResponseEntity<>(instanceDetailResponse, HttpStatus.OK);
-        } catch (InstanceNotExistException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @Authorization(value = "工人")
     @ApiOperation(value = "工人保存任务进度", notes = "工人保存当前任务的实例的进度")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "dataType", value = "任务类型", required = true, dataType = "MissionType"),
@@ -167,4 +144,26 @@ public class WorkerMissionController {
         }
     }
 
+    @Authorization(value = "工人")
+    @ApiOperation(value = "工人获取任务信息", notes = "工人获取自己领取任务的实例的信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
+    })
+    @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.GET)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Returns the instance", response = InstanceDetailResponse.class),
+            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
+            @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
+    })
+    @ResponseBody
+    public ResponseEntity<Response> getInstanceInformation(@PathVariable("missionId") String missionId) {
+        try {
+            InstanceDetailResponse instanceDetailResponse = workerMissionBlService.getInstanceInformation(missionId, UserInfoUtil.getUsername());
+            return new ResponseEntity<>(instanceDetailResponse, HttpStatus.OK);
+        } catch (InstanceNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
+    }
 }

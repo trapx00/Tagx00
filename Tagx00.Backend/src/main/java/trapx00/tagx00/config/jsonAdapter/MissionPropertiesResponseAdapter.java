@@ -1,9 +1,6 @@
 package trapx00.tagx00.config.jsonAdapter;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
 import trapx00.tagx00.config.GsonFactory;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
@@ -27,6 +24,7 @@ public class MissionPropertiesResponseAdapter implements JsonSerializer<MissionP
      */
     @Override
     public JsonElement serialize(MissionProperties src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive(GsonFactory.get().toJson(src, src.getType().getPropertiesClass()));
+//        return new JsonPrimitive(GsonFactory.get().toJson(src, src.getType().getPropertiesClass()));
+        return new Gson().toJsonTree(src);
     }
 }

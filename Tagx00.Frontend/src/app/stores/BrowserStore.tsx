@@ -39,7 +39,7 @@ export class BrowserStore {
   }
 
   @action public search = async (props) => {
-    const items = await this.missionService.getMissions();
+    const items = await this.missionService.getMissions(props);
     runInAction(() => {
       this.listData = items
     });

@@ -1,10 +1,9 @@
 package trapx00.tagx00.config.jsonAdapter;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import trapx00.tagx00.config.GsonFactory;
 import trapx00.tagx00.publicdatas.mission.image.ImageJob;
 
 import java.lang.reflect.Type;
@@ -27,6 +26,7 @@ public class ImageJobResponseAdapter implements JsonSerializer<ImageJob> {
      */
     @Override
     public JsonElement serialize(ImageJob src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive(GsonFactory.get().toJson(src, src.getType().getClazz()));
+//        return new JsonPrimitive(GsonFactory.get().toJson(src, src.getType().getClazz()));
+        return new Gson().toJsonTree(src);
     }
 }

@@ -1,9 +1,6 @@
 package trapx00.tagx00.config.jsonAdapter;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
 import trapx00.tagx00.config.GsonFactory;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 
@@ -27,6 +24,7 @@ public class InstanceDetailResponseAdapter implements JsonSerializer<InstanceDet
      */
     @Override
     public JsonElement serialize(InstanceDetailVo src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive(GsonFactory.get().toJson(src, src.getMissionType().getInstanceDetailVoClass()));
+//        return new JsonPrimitive(GsonFactory.get().toJson(src, src.getMissionType().getInstanceDetailVoClass()));
+        return new Gson().toJsonTree(src);
     }
 }

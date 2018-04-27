@@ -77,7 +77,18 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public InstanceResponse queryInstances(String missionId) throws InstanceNotExistException {
+        if (missionId.length() == 0) {
+            return queryAllInstances();
+        }
         InstanceVo[] instance = requesterMissionDataService.getInstancesByMissionId(MissionUtil.getId(missionId), MissionUtil.getType(missionId));
+        if (instance == null)
+            throw new InstanceNotExistException();
+        InstanceResponse instanceResponse = new InstanceResponse(Arrays.asList(instance));
+        return instanceResponse;
+    }
+
+    private InstanceResponse queryAllInstances() throws InstanceNotExistException {
+        InstanceVo[] instance = requesterMissionDataService.getAllInstances();
         if (instance == null)
             throw new InstanceNotExistException();
         InstanceResponse instanceResponse = new InstanceResponse(Arrays.asList(instance));
@@ -141,7 +152,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return InstanceDetailResponse
      */
     @Override
-    public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws InstanceNotExistException, SystemException {
+    public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws SystemException {
         requesterMissionDataService.updateInstance(MissionUtil.getId(instanceId), missionFinalizeVo, MissionUtil.getType(instanceId));
         return new InstanceDetailResponse(
                 requesterMissionDataService.getInstanceByInstanceId(MissionUtil.getId(instanceId), MissionUtil.getType(instanceId)));

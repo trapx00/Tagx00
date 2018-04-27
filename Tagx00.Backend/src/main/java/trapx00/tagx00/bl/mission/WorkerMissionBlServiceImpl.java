@@ -16,6 +16,7 @@ import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @Service
 public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
@@ -112,6 +113,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
             workerMissionDataService.saveInstance(instanceVo);
         else {
             instanceVo.getInstance().setSubmitted(true);
+            instanceVo.getInstance().setSubmitDate(new Date());
             instanceVo.getInstance().setMissionInstanceState(MissionInstanceState.SUBMITTED);
             workerMissionDataService.saveInstance(instanceVo);
         }
