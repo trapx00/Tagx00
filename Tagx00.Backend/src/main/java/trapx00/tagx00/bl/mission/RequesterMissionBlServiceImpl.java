@@ -61,6 +61,9 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     public MissionCreateResponse createMission(MissionCreateVo mission) throws SystemException {
         String username = UserInfoUtil.getUsername();
         int missionId = requesterMissionDataService.saveMission(generateMission(mission));
+        User user = userDataService.getUserByUsername(username);
+        user.setCredits(user.getCredits() - mission.getCredits());
+        userDataService.saveUser(user);
         JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
         String token = jwtService.generateToken(jwtUser, EXPIRATION);
         return new MissionCreateResponse(MissionUtil.addTypeToId(missionId, mission.getMissionType()), token);
