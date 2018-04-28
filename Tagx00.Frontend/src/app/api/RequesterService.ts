@@ -38,7 +38,7 @@ export class RequesterService {
       {order, isCover},
       {"Authorization": "Bearer " + token}
     );
-
+    console.log(res.response)
     return res.response;
   }
 

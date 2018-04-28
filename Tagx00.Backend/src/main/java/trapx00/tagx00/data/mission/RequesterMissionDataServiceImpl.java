@@ -173,13 +173,16 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     @Override
     public void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo, MissionType missionType) throws SystemException {
         Instance instance = null;
+        Mission mission = null;
         switch (missionType) {
             case IMAGE:
                 instance = imageInstanceDao.findInstanceByInstanceId(instanceId);
+                int missionId = instance.getMissionId();
+                mission = imageMissionDao.findMissionByMissionId(missionId);
         }
         instance.setMissionInstanceState(MissionInstanceState.FINALIZED);
         instance.setComment(missionFinalizeVo.getComment());
-        instance.setExp(missionFinalizeVo.getExpRatio());
+        instance.setExp(missionFinalizeVo.getExpRatio() * mission.getLevel() * 20);
         instance.setCredits(missionFinalizeVo.getCredits());
         switch (instance.getMissionType()) {
             case IMAGE:

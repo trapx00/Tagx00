@@ -43,7 +43,10 @@ public class PathUtil {
         fileArrayList.add(new File(resourcePath + "/topic.txt"));
 
         try (FileWriter writer = new FileWriter(getDatabasePath() + "user.txt")) {
-            writer.write("{\"username\":\"999\",\"password\":\"$2a$10$EQezV9FHSbCgagwHb6K8g.o.TmwFjh4wMLSUU.8f7PhSLpBpivhO.\",\"email\":\"456\",\"roles\":[{\"name\":\"ROLE_ADMIN\"}],\"exp\":0,\"credits\":0}");
+            writer.write("{\"username\":\"999\",\"password\":\"$2a$10$EQezV9FHSbCgagwHb6K8g.o.TmwFjh4wMLSUU.8f7PhSLpBpivhO.\",\"email\":\"456\",\"roles\":[{\"name\":\"ROLE_ADMIN\"}],\"exp\":0,\"credits\":0}\n" +
+                    "{\"username\":\"123\",\"password\":\"$2a$10$EQezV9FHSbCgagwHb6K8g.o.TmwFjh4wMLSUU.8f7PhSLpBpivhO.\",\"email\":\"456\",\"roles\":[{\"name\":\"ROLE_WORKER\"}],\"exp\":0,\"credits\":0}\n" +
+                    "{\"username\":\"888\",\"password\":\"$2a$10$EQezV9FHSbCgagwHb6K8g.o.TmwFjh4wMLSUU.8f7PhSLpBpivhO.\",\"email\":\"456\",\"roles\":[{\"name\":\"ROLE_REQUESTER\"}],\"exp\":0,\"credits\":0}"
+            );
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();

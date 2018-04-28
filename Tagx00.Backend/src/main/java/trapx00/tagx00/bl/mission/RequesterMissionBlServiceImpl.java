@@ -156,6 +156,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
         User user = userDataService.getUserByUsername(instanceDetailVo.getInstance().getWorkerUsername());
         user.setCredits(user.getCredits() + missionFinalizeVo.getCredits());
         user.setExp(user.getExp() + missionFinalizeVo.getExpRatio() * mission.getLevel() * 20);
+        userDataService.saveUser(user);
         return new InstanceDetailResponse(
                 requesterMissionDataService.getInstanceByInstanceId(MissionUtil.getId(instanceId), MissionUtil.getType(instanceId)));
     }
