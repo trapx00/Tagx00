@@ -2,11 +2,9 @@ package trapx00.tagx00.entity.account;
 
 
 import trapx00.tagx00.entity.Entity;
-import trapx00.tagx00.entity.annotation.Column;
-import trapx00.tagx00.entity.annotation.ElementCollection;
-import trapx00.tagx00.entity.annotation.Id;
-import trapx00.tagx00.entity.annotation.Table;
+import trapx00.tagx00.entity.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Table(name = "user")
@@ -25,17 +23,21 @@ public class User extends Entity {
     private double exp;
     @Column(name = "credits")
     private int credits;
+    @JsonSerialize
+    @Column(name = "registerDate")
+    private Date registerDate;
 
     public User() {
     }
 
-    public User(String username, String password, String email, List<Role> roles, double exp, int credits) {
+    public User(String username, String password, String email, List<Role> roles, double exp, int credits, Date registerDate) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.roles = roles;
         this.exp = exp;
         this.credits = credits;
+        this.registerDate = registerDate;
     }
 
     public String getUsername() {
@@ -84,5 +86,13 @@ public class User extends Entity {
 
     public void setCredits(int credits) {
         this.credits = credits;
+    }
+
+    public Date getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
     }
 }

@@ -8,6 +8,8 @@ import trapx00.tagx00.vo.user.UserSaveVo;
 import trapx00.tagx00.vo.user.info.RequesterInfoVo;
 import trapx00.tagx00.vo.user.info.WorkerInfoVo;
 
+import java.util.Date;
+
 public class Converter {
     /**
      * convert userSaveVo to tempUser
@@ -21,7 +23,7 @@ public class Converter {
     }
 
     public static User tempUserToUser(TempUser tempUser) {
-        return new User(tempUser.getUsername(), tempUser.getPassword(), tempUser.getEmail(), tempUser.getRoles(), 0, 0);
+        return new User(tempUser.getUsername(), tempUser.getPassword(), tempUser.getEmail(), tempUser.getRoles(), 0, 0, new Date());
     }
 
     public static RequesterInfoVo userToRequesterInfoVo(User user, int submittedMissionCount,
@@ -33,7 +35,7 @@ public class Converter {
     }
 
     public static WorkerInfoVo userToWorkerInfoVo(User user, int completedMissionCount, int acceptedMissionCount, int inProgressMissionCount, int abandonedMissionCount, int finalizedMissionCount) {
-        return new WorkerInfoVo(user.getUsername(), user.getEmail(), user.getCredits(), user.getExp(), LevelUtil.caculateLevel(user.getExp()),
+        return new WorkerInfoVo(user.getUsername(), user.getEmail(), user.getCredits(), user.getExp(), LevelUtil.calculateLevel(user.getExp()),
                 completedMissionCount, acceptedMissionCount, inProgressMissionCount, abandonedMissionCount, finalizedMissionCount);
     }
 
