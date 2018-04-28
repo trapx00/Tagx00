@@ -14,7 +14,6 @@ import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.mission.MissionState;
-import trapx00.tagx00.publicdatas.mission.MissionTypeName;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.response.mission.MissionCreateResponse;
@@ -64,7 +63,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
         int missionId = requesterMissionDataService.saveMission(generateMission(mission));
         JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
         String token = jwtService.generateToken(jwtUser, EXPIRATION);
-        return new MissionCreateResponse(MissionTypeName.typeMissionMap.get(mission.getMissionType()) + missionId, token);
+        return new MissionCreateResponse(MissionUtil.addTypeToId(missionId, mission.getMissionType()), token);
     }
     /**
      *
@@ -77,21 +76,17 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return the list of MissionInstanceItemVo
      */
     @Override
-    public InstanceResponse queryInstances(String missionId) throws InstanceNotExistException {
+    public InstanceResponse queryInstances(String missionId) {
         if (missionId.length() == 0) {
             return queryAllInstances();
         }
         InstanceVo[] instance = requesterMissionDataService.getInstancesByMissionId(MissionUtil.getId(missionId), MissionUtil.getType(missionId));
-        if (instance == null)
-            instance = new InstanceVo[1];
         InstanceResponse instanceResponse = new InstanceResponse(Arrays.asList(instance));
         return instanceResponse;
     }
 
-    private InstanceResponse queryAllInstances() throws InstanceNotExistException {
+    private InstanceResponse queryAllInstances() {
         InstanceVo[] instance = requesterMissionDataService.getAllInstances();
-        if (instance == null)
-            throw new InstanceNotExistException();
         InstanceResponse instanceResponse = new InstanceResponse(Arrays.asList(instance));
         return instanceResponse;
     }

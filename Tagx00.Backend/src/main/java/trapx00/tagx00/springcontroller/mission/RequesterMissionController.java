@@ -164,12 +164,7 @@ public class RequesterMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> queryInstances(@RequestParam(value = "missionId", defaultValue = "") String missionId) {
-        try {
-            return new ResponseEntity<>(requesterMissionBlService.queryInstances(missionId), HttpStatus.OK);
-        } catch (InstanceNotExistException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(requesterMissionBlService.queryInstances(missionId), HttpStatus.OK);
     }
 
     @Authorization(value = "发布者")
