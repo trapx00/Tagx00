@@ -1,6 +1,9 @@
 package trapx00.tagx00.response.user;
 
 import trapx00.tagx00.response.Response;
+import trapx00.tagx00.vo.mission.requester.MissionDateNumVo;
+
+import java.util.ArrayList;
 
 public class AdminInfoResponse extends Response {
     private int userCount;
@@ -12,11 +15,12 @@ public class AdminInfoResponse extends Response {
     private int inProgressInstanceCount;
     private int submittedInstanceCount;
     private int finalizeInstanceCount;
+    private ArrayList<MissionDateNumVo> listOfInstanceDateNum;
 
     public AdminInfoResponse() {
     }
 
-    public AdminInfoResponse(int userCount, int totalMissionCount, int pendingMissionCount, int activeMissionCount, int endedMissionCount, int totalInstanceCount, int inProgressInstanceCount, int submittedInstanceCount, int finalizeInstanceCount) {
+    public AdminInfoResponse(int userCount, int totalMissionCount, int pendingMissionCount, int activeMissionCount, int endedMissionCount, int totalInstanceCount, int inProgressInstanceCount, int submittedInstanceCount, int finalizeInstanceCount, ArrayList<MissionDateNumVo> missionDateNumVos) {
         this.userCount = userCount;
         this.totalMissionCount = totalMissionCount;
         this.pendingMissionCount = pendingMissionCount;
@@ -26,6 +30,7 @@ public class AdminInfoResponse extends Response {
         this.inProgressInstanceCount = inProgressInstanceCount;
         this.submittedInstanceCount = submittedInstanceCount;
         this.finalizeInstanceCount = finalizeInstanceCount;
+        this.listOfInstanceDateNum = missionDateNumVos;
     }
 
     public int getPendingMissionCount() {
@@ -98,5 +103,13 @@ public class AdminInfoResponse extends Response {
 
     public void setFinalizeInstanceCount(int finalizeInstanceCount) {
         this.finalizeInstanceCount = finalizeInstanceCount;
+    }
+
+    public ArrayList<MissionDateNumVo> getListOfInstanceDateNum() {
+        return listOfInstanceDateNum;
+    }
+
+    public void setListOfInstanceDateNum(ArrayList<MissionDateNumVo> listOfInstanceDateNum) {
+        this.listOfInstanceDateNum = listOfInstanceDateNum;
     }
 }
