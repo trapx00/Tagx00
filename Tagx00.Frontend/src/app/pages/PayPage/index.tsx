@@ -32,25 +32,30 @@ async function renderMissionPayPage(props: RouteComponentProps<any>) {
 
 const ID_PREFIX = "pay.";
 
-const routes: NavItemProps[] = [
-  {
-    path: "/pay/account",
-    iconName: "credit-card",
-    id: ID_PREFIX + "payAccount",
-    match: (pathname: string) => pathname.startsWith("/pay/account")
-  },
-  {
-    path: "/pay/mission",
-    iconName: "tag-o",
-    id: ID_PREFIX + "payMission",
-    match: (pathname: string) => pathname.startsWith("/pay/mission")
-  }
-];
 
 @requireLogin()
 export class PaymentPage extends React.Component<Props, State> {
 
   render() {
+
+    const routes: NavItemProps[] = [
+      {
+        path: "/pay/account",
+        iconName: "credit-card",
+        id: ID_PREFIX + "payAccount",
+        match: (pathname: string) => pathname.startsWith("/pay/account")
+      },
+    ];
+
+    if (this.props.currentRole === UserRole.ROLE_REQUESTER) {
+      routes.push(      {
+        path: "/pay/mission",
+        iconName: "tag-o",
+        id: ID_PREFIX + "payMission",
+        match: (pathname: string) => pathname.startsWith("/pay/mission")
+      })
+    }
+
     return <SubMenuLayout routes={routes}>
       <Switch>
         <Redirect exact from={"/pay"} to={"/pay/account"}/>
