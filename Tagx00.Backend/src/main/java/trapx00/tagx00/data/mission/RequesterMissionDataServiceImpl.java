@@ -182,6 +182,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         }
         instance.setMissionInstanceState(MissionInstanceState.FINALIZED);
         instance.setComment(missionFinalizeVo.getComment());
+        instance.setExpRatio(missionFinalizeVo.getExpRatio());
         instance.setExp(missionFinalizeVo.getExpRatio() * mission.getLevel() * 20);
         instance.setCredits(missionFinalizeVo.getCredits());
         switch (instance.getMissionType()) {
