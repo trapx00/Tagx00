@@ -6,6 +6,8 @@ import { UserStore } from "../../../stores/UserStore";
 import { PieChart, Pie, Legend, Tooltip, Cell } from "recharts";
 import { DefinitionItem } from "../../../components/DefinitionItem";
 import { LocaleMessage } from "../../../internationalization/components";
+import { MissionDateChart } from "./charts/MissionDateChart";
+
 
 export class AdminDashboardPage extends React.Component<{}, {}> {
 
@@ -49,7 +51,9 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
       {name: InstanceProps.finalized, value: info.finalizeInstanceCount}
     ];
     const colors = ["#39fc59", "#68ff41", "#4371ff", "#d6ff99"];
-    const pieText = [InstanceProps.inProgress, InstanceProps.submitted, InstanceProps.awaitingComment, InstanceProps.finalized]
+    const pieText = [InstanceProps.inProgress, InstanceProps.submitted, InstanceProps.awaitingComment, InstanceProps.finalized];
+
+
     return <div>
       <DefinitionItem prompt={"系统用户数"} children={info.userCount}/>
       <DefinitionItem prompt={"可接受任务数"} children={info.activeMissionCount}/>
@@ -59,7 +63,8 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
       <DefinitionItem prompt={"正在进行实例数"} children={info.inProgressInstanceCount}/>
       <DefinitionItem prompt={"已提交实例数"} children={info.submittedInstanceCount}/>
       <DefinitionItem prompt={"已结束实例数"} children={info.finalizeInstanceCount}/>
-
+      <p>任务实例接受和日期折线图</p>
+      <MissionDateChart data={info.listOfInstanceDateNum}/>
 
       <PieChart width={500} height={500} style={{"display": "inline"}}>
         <Pie isAnimationActive={false}

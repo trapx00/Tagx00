@@ -1,12 +1,11 @@
-package trapx00.tagx00.dataservice.mission;
+package trapx00.tagx00.dataservice.account;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
+import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
 import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.instance.ImageInstance;
 import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
@@ -25,19 +24,14 @@ import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
-
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class PublicMissionDataServiceTest {
+public class WorkerInfoDataServiceTest {
     @Autowired
-    private PublicMissionDataService publicMissionDataService;
-
+    private WorkerInfoDataService workerInfoDataService;
+    private WorkerMissionDataService workerMissionDataService;
     private RequesterMissionDataService requesterMissionDataService;
     private ImageMission mission;
     private MissionProperties missionProperties;
     private MissionInstanceItemVo missionInstanceItem;
-    private WorkerMissionDataService workerMissionDataService;
-
 
     @Before
     public void setUp() throws Exception {
@@ -67,37 +61,19 @@ public class PublicMissionDataServiceTest {
     }
 
     @Test
-    public void getMissions() {
+    public void getInstanceByWorkerUsername(){
         try{
             requesterMissionDataService.saveMission(mission);
-            assertEquals("凌尊", publicMissionDataService.getMissions()[0].getRequesterUsername());
-        }catch (SystemException e){
-
-        }
-
-
-    }
-    @Test
-    public void getOneMissionDetail() {
-        assertEquals("凌尊", publicMissionDataService.getOneMissionDetail(1, MissionType.IMAGE).getPublicItem().getRequesterUsername());
-
-    }
-
-    @Test
-    public void  getInstances(){
-        try {
-
             InstanceDetailVo instance=new InstanceDetailVo(MissionType.IMAGE,new InstanceVo("0",1,1,100,"123",
                     "123",MissionInstanceState.IN_PROGRESS,"1",new Date(),new Date(),false,0));
             workerMissionDataService.saveInstance(instance);
-            assertEquals(1,publicMissionDataService.getInstances().length);
+            assertEquals(1,workerInfoDataService.getInstanceByWorkerUsername("秦牧").length);
         }catch (SystemException e){
 
         }catch (MissionAlreadyAcceptedException e){
 
         }
 
+
     }
-
-
 }

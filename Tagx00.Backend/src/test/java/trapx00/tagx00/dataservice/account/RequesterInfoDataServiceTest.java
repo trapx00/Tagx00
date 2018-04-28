@@ -1,22 +1,17 @@
-package trapx00.tagx00.dataservice.mission;
+package trapx00.tagx00.dataservice.account;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.entity.mission.ImageMission;
-import trapx00.tagx00.entity.mission.instance.ImageInstance;
-import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
+import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.image.ImageMissionType;
-import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
-import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.instance.MissionInstanceItemVo;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
@@ -25,19 +20,15 @@ import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
+public class RequesterInfoDataServiceTest {
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class PublicMissionDataServiceTest {
     @Autowired
-    private PublicMissionDataService publicMissionDataService;
-
+    private RequesterInfoDataService requesterInfoDataService;
     private RequesterMissionDataService requesterMissionDataService;
+
     private ImageMission mission;
     private MissionProperties missionProperties;
     private MissionInstanceItemVo missionInstanceItem;
-    private WorkerMissionDataService workerMissionDataService;
-
 
     @Before
     public void setUp() throws Exception {
@@ -67,37 +58,21 @@ public class PublicMissionDataServiceTest {
     }
 
     @Test
-    public void getMissions() {
+    public void getMissionsByRequesterUsername(){
         try{
             requesterMissionDataService.saveMission(mission);
-            assertEquals("凌尊", publicMissionDataService.getMissions()[0].getRequesterUsername());
+            assertEquals("123",requesterInfoDataService.getMissionsByRequesterUsername("凌尊")[0].getTitle());
         }catch (SystemException e){
 
         }
 
-
-    }
-    @Test
-    public void getOneMissionDetail() {
-        assertEquals("凌尊", publicMissionDataService.getOneMissionDetail(1, MissionType.IMAGE).getPublicItem().getRequesterUsername());
-
     }
 
     @Test
-    public void  getInstances(){
-        try {
+    public void getInstancesByMissionId(){
 
-            InstanceDetailVo instance=new InstanceDetailVo(MissionType.IMAGE,new InstanceVo("0",1,1,100,"123",
-                    "123",MissionInstanceState.IN_PROGRESS,"1",new Date(),new Date(),false,0));
-            workerMissionDataService.saveInstance(instance);
-            assertEquals(1,publicMissionDataService.getInstances().length);
-        }catch (SystemException e){
-
-        }catch (MissionAlreadyAcceptedException e){
-
-        }
+        assertEquals(0,requesterInfoDataService.getInstancesByMissionId(1, MissionType.IMAGE).length);
 
     }
-
 
 }
