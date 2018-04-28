@@ -25,6 +25,18 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
       finalized: "已完成",
     };
 
+    // //
+    // activeMissionCount: number;
+    // endedMissionCount: number;
+    // pendingMissionCount: number;
+    // userCount: number;
+    // totalMissionCount: number;
+    // totalInstanceCount: number;
+    // inProgressInstanceCount: number;
+    // submittedInstanceCount: number;
+    // finalizeInstanceCount: number;
+    // //
+
     const info = await this.adminService.getAdminInfo(this.userStore.token);
     const MissionData = [
       {name: MissionProps.pending, value: info.pendingMissionCount},
@@ -38,34 +50,43 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
     ];
     const colors = ["#39fc59", "#68ff41", "#4371ff", "#d6ff99"];
     const pieText = [InstanceProps.inProgress, InstanceProps.submitted, InstanceProps.awaitingComment, InstanceProps.finalized]
-    return <div style={{textAlign: 'center'}}>
-      {/*<DefinitionItem prompt={"系统用户数"} children={info.userCount}/>*/}
-      <PieChart width={500} height={500} style={{"display": "inline"}}>
-        <Pie isAnimationActive={false}
-             data={MissionData}
-             cx="30%" cy="30%"
-             outerRadius={80}
-             label>
-          {
-            InstanceData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index]}/>
-            ))
-          }
-        </Pie>
-      </PieChart>
-      <PieChart width={500} height={500} style={{"display": "inline"}}>
-        <Pie isAnimationActive={false}
-             data={InstanceData}
-             cx="30%" cy="30%"
-             outerRadius={80}
-             label>
-          {
-            InstanceData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index]}/>
-            ))
-          }
-        </Pie>
-      </PieChart>
+    return <div>
+      <DefinitionItem prompt={"系统用户数"} children={info.userCount}/>
+      <DefinitionItem prompt={"可接受任务数"} children={info.activeMissionCount}/>
+      <DefinitionItem prompt={"未到时间任务数"} children={info.pendingMissionCount}/>
+      <DefinitionItem prompt={"结束任务数"} children={info.endedMissionCount}/>
+      <DefinitionItem prompt={"总任务数"} children={info.totalMissionCount}/>
+      <DefinitionItem prompt={"正在进行实例数"} children={info.inProgressInstanceCount}/>
+      <DefinitionItem prompt={"已提交实例数"} children={info.submittedInstanceCount}/>
+      <DefinitionItem prompt={"已结束实例数"} children={info.finalizeInstanceCount}/>
+
+
+      {/*<PieChart width={500} height={500} style={{"display": "inline"}}>*/}
+        {/*<Pie isAnimationActive={false}*/}
+             {/*data={MissionData}*/}
+             {/*cx="30%" cy="30%"*/}
+             {/*outerRadius={80}*/}
+             {/*label>*/}
+          {/*{*/}
+            {/*InstanceData.map((entry, index) => (*/}
+              {/*<Cell key={`cell-${index}`} fill={colors[index]}/>*/}
+            {/*))*/}
+          {/*}*/}
+        {/*</Pie>*/}
+      {/*</PieChart>*/}
+      {/*<PieChart width={500} height={500} style={{"display": "inline"}}>*/}
+        {/*<Pie isAnimationActive={false}*/}
+             {/*data={InstanceData}*/}
+             {/*cx="30%" cy="30%"*/}
+             {/*outerRadius={80}*/}
+             {/*label>*/}
+          {/*{*/}
+            {/*InstanceData.map((entry, index) => (*/}
+              {/*<Cell key={`cell-${index}`} fill={colors[index]}/>*/}
+            {/*))*/}
+          {/*}*/}
+        {/*</Pie>*/}
+      {/*</PieChart>*/}
     </div>
 
   }

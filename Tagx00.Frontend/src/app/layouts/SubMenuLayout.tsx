@@ -19,6 +19,10 @@ export class SubMenuLayout extends React.Component<Props, {}> {
     this.navStore.currentSubNavs = this.props.routes;
   }
 
+  @action componentDidUpdate() {
+    this.navStore.currentSubNavs = this.props.routes;
+  }
+
   render() {
     return this.props.children;
   }

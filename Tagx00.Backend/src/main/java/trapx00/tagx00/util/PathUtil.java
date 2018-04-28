@@ -52,6 +52,13 @@ public class PathUtil {
             e.printStackTrace();
         }
 
+        try (FileWriter writer = new FileWriter(getDatabasePath() + "topic.txt")) {
+            writer.write("{\"topicId\":1,\"value\":\"123123\"}\n");
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         for (File file : fileArrayList) {
             try {
