@@ -22,6 +22,7 @@ import { CurrentCreditsIndicator } from "../../../../../components/Pay/CurrentCr
 import { LocaleMessage } from "../../../../../internationalization/components";
 import { PayService } from "../../../../../api/PayService";
 import { CreditInput } from "../../../../../components/Pay/CreditInput";
+import { TopicSelector } from "./TopicSelector";
 
 const CheckboxGroup = Checkbox.Group;
 const {RangePicker} = DatePicker;
@@ -191,26 +192,6 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
     this.info.topics = selected;
   };
 
-
-  renderTopicSelector = async () => {
-    const locale: any = new Proxy({}, {
-      get: (target, key) => {
-        return this.localeStore.get(`${ID_PREFIX}fields.${key}`) as string;
-      }
-    });
-    const topics = (await this.topicService.getAllTopics()).topics;
-    return React.createElement(observer(() => <div>
-        {locale.topics}
-      <TagSelector onSelectedChanged={this.onTopicChange}
-                   selectedTags={toJS(this.info.topics)}
-                   availableTags={topics.map(x => x.value)}
-                   allowCustomTag={false}
-                   placeholder={locale.topics}
-      />
-      </div>));
-  };
-
-
   render() {
     const locale: any = new Proxy({}, {
       get: (target, key) => {
@@ -231,7 +212,7 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
         />
       </FormItem>
       <FormItem valid={true} messageOnInvalid={""}>
-        <ObserverAsyncComponent render={this.renderTopicSelector} componentWhenLoading={<Loading/>}/>
+        <TopicSelector selected={this.info.topics} onChange={this.onTopicChange}/>
       </FormItem>
       <FormItem valid={this.info.allowedTagsValid} messageOnInvalid={locale.requireTags}>
         <span style={{marginRight: "16px"}}>{locale.tags}</span>

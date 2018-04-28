@@ -12,6 +12,7 @@ export class RequesterDashboardPage extends React.Component<{},{}> {
 
     requesterInfo = async () => {
         const info = await this.requesterService.getRequesterInfo(this.userStore.user.username,this.userStore.token);
+        console.log(info);
         return <div>
           <DefinitionItem prompt={"已发布任务"} children={info.submittedMissionCount}/>
           <DefinitionItem prompt={"实例任务数"} children={info.instanceCount}/>
