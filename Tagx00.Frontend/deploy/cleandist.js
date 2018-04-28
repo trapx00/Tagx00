@@ -6,16 +6,13 @@ const distPath = './dist';
 const preservedDirectories = [".git"];
 const preservedFiles = ["CNAME"];
 
-declare interface Array<T> {
-  contains: (other: T) => boolean
-}
 
 Array.prototype.contains = function (other) {
   return this.indexOf(other) >= 0;
 };
 
 
-function cleanup(dirPath: string) {
+function cleanup(dirPath) {
   const files = fs.readdirSync(dirPath);
   if (files.length > 0)
     for (const file of files) {
