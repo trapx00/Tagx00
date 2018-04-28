@@ -38,7 +38,7 @@ export class RequesterService {
       {order, isCover},
       {"Authorization": "Bearer " + token}
     );
-
+    console.log(res.response)
     return res.response;
   }
 
@@ -58,7 +58,7 @@ export class RequesterService {
       token: token,
     });
 
-    return res.response;
+    return res.response.info;
   }
 
   async finalize(instanceId: string, parameters: MissionFinalizeVo, token: string): Promise<InstanceDetailResponse> {

@@ -88,8 +88,17 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
 
   removeSelected = () => {
     if (this.state.selectedIndex >= 0) {
-      this.state.notation.job.tuples = this.state.notation.job.tuples.filter(x => x !== this.selectedTuple);
-      this.forceUpdate();
+      if (this.selectedTuple) {
+        this.setState({
+          notation: {
+            ...this.state.notation,
+            job: {
+              ...this.state.notation.job,
+              tuples: this.state.notation.job.tuples.filter(x => x !== this.selectedTuple)
+            }
+          }
+        });
+      }
     }
   };
 

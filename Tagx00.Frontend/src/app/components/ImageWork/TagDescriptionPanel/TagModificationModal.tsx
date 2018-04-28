@@ -79,7 +79,7 @@ export class TagModificationModal extends React.Component<Props, {}> {
       footer={footer}
     >
       <h3><LocaleMessage id={ID_PREFIX + "tagName"}/></h3>
-      {this.props.allowedTags &&
+      {!this.props.readonly && this.props.allowedTags &&
       <div>
         <LocaleMessage id={ID_PREFIX + "tagLimited"}/>
         <div>{this.props.allowedTags.map(x => <ClickableTag key={x} onClick={() => this.onTagClick(x)}>{x}</ClickableTag>)}</div>

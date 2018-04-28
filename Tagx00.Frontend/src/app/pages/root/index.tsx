@@ -6,10 +6,10 @@ import { AsyncRouteConfig, constructRoute, RouteType } from "../../router/RouteC
 import { Router, Switch } from "react-router";
 import { AsyncComponent } from "../../router/AsyncComponent";
 import { BaseLayoutPage } from "./BaseLayoutPage";
+import DevTools from "mobx-react-devtools";
 
-async function renderDevTool() {
+function renderDevTool() {
   if (process.env.NODE_ENV !== 'production') {
-    const DevTools = (await import('mobx-react-devtools')).default;
     return (<DevTools/>);
   } else {
     return null;
@@ -56,7 +56,7 @@ export async function App() {
             {constructRoute(notFoundPage)}
           </Switch>
         </Router>
-        <AsyncComponent render={renderDevTool}/>
+        {/*{renderDevTool()}*/}
       </div>;
     }
   });

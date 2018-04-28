@@ -14,3 +14,5 @@ export class UiStore {
     this.loginModalLoading = loading;
   }
 }
+
+export const CONTENT_SIDE_PADDING = 8;

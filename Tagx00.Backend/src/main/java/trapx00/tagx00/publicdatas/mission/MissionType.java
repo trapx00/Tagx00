@@ -17,4 +17,16 @@ public enum MissionType {
         this.propertiesClass = propertiesClass;
         this.instanceDetailVoClass = instanceDetailVoClass;
     }
+
+    public Class<? extends MissionProperties> getPropertiesClass() {
+        return propertiesClass;
+    }
+
+    public Class<? extends InstanceDetailVo> getInstanceDetailVoClass() {
+        return instanceDetailVoClass;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

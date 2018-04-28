@@ -51,7 +51,7 @@ export class MissionServiceMock extends MissionService {
   }
 
 
-  async getAllMissions(): Promise<MissionPublicItem[]> {
+  async getMissions(): Promise<MissionPublicItem[]> {
 
     //mock
     return [1, 2, 3, 4, 5].map(x =>

@@ -9,6 +9,8 @@ import { Inject } from "react.di";
 import { UserStore } from "../../stores/UserStore";
 import { MissionItem } from "./MissionItem";
 import { LocaleStore } from "../../stores/LocaleStore";
+import { duration } from "moment";
+import { runInAction } from "mobx";
 
 const centerDivider = {
   marginTop: '-10%',
@@ -26,12 +28,12 @@ export class BrowserMissionList extends React.Component<any, {}> {
 
   render() {
     if (this.browserStore.isBrowsing) {
-      if (this.browserStore.listData.length == 0) {
+      if (!this.browserStore.listData) {
         return <div style={{textAlign: 'center', marginTop: '-10%'}}><Spin size="large"/></div>;
       }
       else {
         return <QueueAnim type={['right', 'left']} leaveReverse>
-          {this.browserStore.listData.length != 0 ? (
+          {this.browserStore.listData ? (
             <div><Divider style={centerDivider}><LocaleMessage id={ID_PREFIX + "dividerText"}/></Divider>
               <List
                 itemLayout="vertical"
