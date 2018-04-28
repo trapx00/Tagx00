@@ -5,12 +5,12 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.mission.ImageMissionDao;
 import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
-import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.entity.mission.instance.ImageInstance;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
@@ -40,7 +40,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
      * @param instanceDetailVo
      */
     @Override
-    public int saveInstance(InstanceDetailVo instanceDetailVo) throws SystemException, MissionAlreadyAcceptedException {
+    public int saveInstanceDetailVo(InstanceDetailVo instanceDetailVo) throws SystemException, MissionAlreadyAcceptedException {
         if (MissionUtil.getId(instanceDetailVo.getInstance().getInstanceId()) == 0) {
             instanceDetailVo.setMissionType(imageMissionDao.findMissionByMissionId(MissionUtil.getId(instanceDetailVo.getInstance().getMissionId())).getMissionType());
             instanceDetailVo = new ImageInstanceDetailVo(instanceDetailVo.getMissionType(), instanceDetailVo.getInstance(), new ArrayList<>());
@@ -59,6 +59,23 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         if (result == null)
             throw new SystemException();
         return result.getInstanceId();
+    }
+
+    /**
+     * save the instance
+     *
+     * @param instanceId
+     * @param missionType
+     */
+    @Override
+    public int abortInstance(int instanceId, MissionType missionType) {
+        switch (missionType) {
+            case IMAGE:
+                ImageInstance imageInstance = imageInstanceDao.findInstancesByMissionId(instanceId).get(0);
+                imageInstance.setMissionInstanceState(MissionInstanceState.ABANDONED);
+                imageInstanceDao.saveInstance(imageInstance);
+        }
+        return 0;
     }
 
 
@@ -98,24 +115,6 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     }
 
     /**
-     * get mission by mission id
-     *
-     * @param missionId   the id of the mission
-     * @param missionType
-     * @return the mission object
-     */
-    @Override
-    public Mission getMissionByMissionId(int missionId, MissionType missionType) {
-        Mission mission = null;
-        switch (missionType) {
-            case IMAGE:
-                mission = imageMissionDao.findMissionByMissionId(missionId);
-                break;
-        }
-        return mission;
-    }
-
-    /**
      * get the information of instance by username and missionId
      *
      * @param workerUsername
@@ -124,7 +123,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
      * @return the instance matching username and missionId
      */
     @Override
-    public InstanceDetailVo getInstanceByUsernameAndMissionId(String workerUsername, int missionId, MissionType missionType) {
+    public InstanceDetailVo getInstanceDetailVoByUsernameAndMissionId(String workerUsername, int missionId, MissionType missionType) {
         ArrayList<Instance> instances = new ArrayList<>();
 
         //获得每个种类的instance列表
@@ -152,9 +151,35 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         return null;
     }
 
+    /**
+     * get the information of  instance by username and missionId
+     *
+     * @param workerUsername
+     * @param missionId
+     * @param missionType
+     * @return the instance matching username and missionId
+     */
+    @Override
+    public Instance getInstanceByUsernameAndMissionId(String workerUsername, int missionId, MissionType missionType) {
+        ArrayList<Instance> instances = new ArrayList<>();
+
+        //获得每个种类的instance列表
+        instances.addAll(imageInstanceDao.findImageInstancesByWorkerUsername(workerUsername));
+
+        if (instances == null)
+            return null;
+        for (int i = 0; i < instances.size(); i++) {
+            if (instances.get(i).getMissionId() == missionId && instances.get(i).getMissionType() == missionType) {
+                Instance instance = instances.get(i);
+                return instance;
+            }
+        }
+        return null;
+    }
+
     @Override
     public boolean deleteInstanceByMissionIdAndUsername(int missionId, String username, MissionType missionType) {
-        InstanceDetailVo instanceDetailVo = this.getInstanceByUsernameAndMissionId(username, missionId, missionType);
+        InstanceDetailVo instanceDetailVo = this.getInstanceDetailVoByUsernameAndMissionId(username, missionId, missionType);
         switch (instanceDetailVo.getMissionType()) {
             case IMAGE:
                 imageInstanceDao.deleteInstance(MissionUtil.getId(instanceDetailVo.getInstance().getInstanceId()));

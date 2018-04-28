@@ -34,10 +34,10 @@ public class WorkerMissionDataServiceTest {
 //    }
 //
 //    @Test
-//    public void saveInstance() throws SystemException {
+//    public void saveInstanceDetailVo() throws SystemException {
 //        int result = 0;
 //        try {
-//            result = workerMissionDataService.saveInstance(missionInstanceItem);
+//            result = workerMissionDataService.saveInstanceDetailVo(missionInstanceItem);
 //        } catch (MissionAlreadyAcceptedException e) {
 //            e.printStackTrace();
 //        }
@@ -47,7 +47,7 @@ public class WorkerMissionDataServiceTest {
 //    @Test
 //    public void getMissionByUsername() throws SystemException {
 //        try {
-//            workerMissionDataService.saveInstance(missionInstanceItem);
+//            workerMissionDataService.saveInstanceDetailVo(missionInstanceItem);
 //        } catch (MissionAlreadyAcceptedException e) {
 //            e.printStackTrace();
 //        }
@@ -55,12 +55,12 @@ public class WorkerMissionDataServiceTest {
 //    }
 //
 //    @Test
-//    public void getInstanceByUsernameAndMissionId() throws SystemException {
+//    public void getInstanceDetailVoByUsernameAndMissionId() throws SystemException {
 //        try {
-//            workerMissionDataService.saveInstance(missionInstanceItem);
+//            workerMissionDataService.saveInstanceDetailVo(missionInstanceItem);
 //        } catch (MissionAlreadyAcceptedException e) {
 //            e.printStackTrace();
 //        }
-//        assertEquals("张三", workerMissionDataService.getInstanceByUsernameAndMissionId("张三", 1, ).getInstance().getWorkerUsername());
+//        assertEquals("张三", workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId("张三", 1, ).getInstance().getWorkerUsername());
 //    }
 }

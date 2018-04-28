@@ -54,9 +54,6 @@ public class WorkerMissionController {
         } catch (MissionDoesNotExistFromUsernameException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.FORBIDDEN);
-        } catch (NoMoreInstanceException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }
 
