@@ -17,11 +17,6 @@ const {SubMenu} = Menu;
 
 const routes: NavItemProps[] = [
   {
-    path: "/",
-    iconName: "home",
-    id: "navbar.home",
-    match: (pathname: string) => pathname == "/"
-  }, {
     path: "/browse",
     iconName: "cloud",
     id: "navbar.browse",
@@ -47,10 +42,12 @@ const routes: NavItemProps[] = [
 
 
 function LogoItem(props: {}) {
-  return <LogoContainer>
+  return <Link to={"/"}>
+  <LogoContainer>
     <img src={img}/>
     <span>Tag x00</span>
   </LogoContainer>
+  </Link>;
 }
 
 
