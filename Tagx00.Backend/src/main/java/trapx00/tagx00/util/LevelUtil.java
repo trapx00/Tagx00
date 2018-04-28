@@ -22,6 +22,9 @@ public class LevelUtil {
     }
 
     public static int calculateLevel(double exp) {
+        if (exp <= levels[0]) {
+            return 0;
+        }
         for (int i = 0; i < maxLevel - 1; i++) {
             if (exp > levels[i] && exp < levels[i + 1]) {
                 return i + 1;
