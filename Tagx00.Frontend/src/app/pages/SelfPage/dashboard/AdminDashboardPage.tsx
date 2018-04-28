@@ -6,7 +6,7 @@ import { UserStore } from "../../../stores/UserStore";
 import { PieChart, Pie, Legend, Tooltip, Cell } from "recharts";
 import { DefinitionItem } from "../../../components/DefinitionItem";
 import { LocaleMessage } from "../../../internationalization/components";
-import { MissionDateChart } from "./charts/MissionDateChart";
+import { MissionDateChart } from "./charts/InstanceAcceptedWithDateChart";
 
 
 export class AdminDashboardPage extends React.Component<{}, {}> {
