@@ -1,3 +1,9 @@
+
+export interface InstancesAcceptedPerDate {
+  date: string;
+  num: number;
+}
+
 export interface AdminInfo {
   activeMissionCount: number;
   endedMissionCount: number;
@@ -8,4 +14,5 @@ export interface AdminInfo {
   inProgressInstanceCount: number;
   submittedInstanceCount: number;
   finalizeInstanceCount: number;
+  listOfInstanceDateNum: InstancesAcceptedPerDate[];
 }
