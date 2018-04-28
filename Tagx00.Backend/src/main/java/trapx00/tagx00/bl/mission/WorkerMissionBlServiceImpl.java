@@ -43,9 +43,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
         int endIndex = startIndex + pagingQueryVo.getPageSize();
 
         ArrayList<InstanceVo> instanceVoArrayList = new ArrayList<>();
-        if (result.length <= startIndex) {
-            throw new NoMoreInstanceException();
-        } else {
+        if (result.length > startIndex) {
             if (result.length >= endIndex) {
                 for (int i = startIndex; i < endIndex; i++) {
                     instanceVoArrayList.add(result[i]);
