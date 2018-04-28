@@ -36,7 +36,7 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
       {name: InstanceProps.submitted, value: info.submittedInstanceCount},
       {name: InstanceProps.finalized, value: info.finalizeInstanceCount}
     ];
-    const colors = ["#99adff", "#99d6ff", "#9dfce9", "#d6ff99"];
+    const colors = ["#39fc59", "#68ff41", "#4371ff", "#d6ff99"];
     const pieText = [InstanceProps.inProgress, InstanceProps.submitted, InstanceProps.awaitingComment, InstanceProps.finalized]
     return <div style={{textAlign: 'center'}}>
       {/*<DefinitionItem prompt={"系统用户数"} children={info.userCount}/>*/}
