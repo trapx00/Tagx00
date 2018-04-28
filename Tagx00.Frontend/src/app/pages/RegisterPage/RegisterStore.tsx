@@ -17,7 +17,6 @@ export class RegisterStore {
   constructor(@Inject private userService: UserService) {
 
   }
-
   async validateEmailCode(code: string): Promise<number> {
     const res = await this.userService.registerValidate(this.token, code);
     return res.statusCode;
