@@ -11,10 +11,11 @@ export class MissionService {
   constructor(@Inject private http: HttpService) {
   }
 
-  async getAllMissions(): Promise<MissionPublicItem[]> {
+  async getMissions(searchTarget: string): Promise<MissionPublicItem[]> {
     const res = await this.http.fetch({
       path: "/mission",
-      method: HttpMethod.GET
+      method: HttpMethod.GET,
+      queryParams: {searchTarget: searchTarget}
     });
     return res.response.items as MissionPublicItem[];
 
@@ -32,7 +33,6 @@ export class MissionService {
       throw res.error;
     }
   }
-
 
 
 }

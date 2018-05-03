@@ -65,8 +65,8 @@ export class FinalizeForm extends React.Component<Props, {}> {
           {this.props.readonly
             ? <FormItem valid={true} messageOnInvalid={null}>
               <Input addonBefore={props.credits}
-                     readOnly={true}
                      value={value.credits}
+                     disabled={true}
               />
             </FormItem>
             :

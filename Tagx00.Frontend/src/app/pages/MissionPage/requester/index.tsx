@@ -1,16 +1,35 @@
 import React from 'react';
 import { Route, RouteComponentProps, Switch } from "react-router";
-import { SiderLayout } from "../../../layouts/SiderLayout";
-import { RequesterMissionPageSideMenu } from "./RequesterMissionPageSideMenu";
-import { AsyncComponent } from "../../../router/AsyncComponent";
+import { SubMenuLayout } from "../../../layouts/SubMenuLayout";
 import { parseQueryString } from "../../../router/utils";
 import { UserRole } from "../../../models/user/User";
 import { requireLogin } from "../../hoc/RequireLogin";
 import { AsyncRoute } from "../../../router/AsyncRoute";
+import { NavItemProps } from "../../../stores/NavStore";
 
 interface Props {
 
 }
+
+
+const routes: NavItemProps[] = [
+  {
+    path: "/mission/requester",
+    iconName: "tag-o",
+    id: "missions.sideMenu.mission",
+    match(pathname: string) {
+      return pathname === "/mission/requester" || pathname.startsWith("/mission/requester/create")
+    }
+  },
+  {
+    path: "/mission/requester/instance",
+    iconName: "tag",
+    id: "missions.sideMenu.instance",
+    match(pathname: string) {
+      return pathname.startsWith("/mission/requester/instance")
+    }
+  }
+];
 
 async function renderMissionPanel() {
   const Page = (await import("./RequesterMissionPanel")).RequesterMissionPanel;
@@ -38,7 +57,7 @@ export class RequesterMissionPage extends React.Component<Props, {}> {
   render() {
     return <Switch>
       <AsyncRoute exact path={"/mission/requester/instance/:instanceId"} render={renderInstanceSeeResult}/>}/>
-      <Route render={() => <SiderLayout leftSider={<RequesterMissionPageSideMenu/>}>
+      <Route render={() => <SubMenuLayout routes={routes}>
         <Switch>
           <AsyncRoute exact path={"/mission/requester/create/image"}
                  render={renderCreateImage}/>
@@ -46,7 +65,7 @@ export class RequesterMissionPage extends React.Component<Props, {}> {
           <AsyncRoute path={"/mission/requester/instance"} exact
                  render={renderInstancePanel}/>
         </Switch>
-      </SiderLayout>}/>
+      </SubMenuLayout>}/>
 
     </Switch>;
   }

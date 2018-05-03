@@ -76,10 +76,10 @@ export class WorkerService {
 
   async getWorkerInfo(username: string, token: string): Promise<WorkerInfo> {
     const res = await this.http.fetch({
-      path: `/mission/worker/${username}`,
+      path: `/account/worker/${username}`,
       token: token,
     });
-    return res.response.instances as WorkerInfo;
+    return res.response.info as WorkerInfo;
   }
 
   async abandonMission(missionId: string, token: string): Promise<Response> {

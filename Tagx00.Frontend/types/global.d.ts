@@ -8,6 +8,11 @@ declare module '*.svg' {
   export default svg;
 }
 
+declare module '*.png' {
+  const png: any;
+  export default png;
+}
+
 
 declare type ClassType<T> = {
   [P in keyof T]: T[P];

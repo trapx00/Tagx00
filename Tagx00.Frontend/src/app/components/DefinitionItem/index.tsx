@@ -3,7 +3,7 @@ import { default as React, ReactNode } from "react";
 
 export const Prompt = styled.span`
     float: left;
-    width: 100px;
+    width: 120px;
     color: darkgray;
    
 `;

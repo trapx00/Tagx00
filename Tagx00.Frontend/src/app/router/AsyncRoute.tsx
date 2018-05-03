@@ -9,14 +9,9 @@ interface Props<T> {
   render: (props: RouteComponentProps<T>) => Promise<ReactNode>;
 }
 
-export class AsyncRoute<T> extends React.Component<Props<T>, {}> {
+export function AsyncRoute<T>(props: Props<T>) {
 
-  static defaultProps = {
-    exact: false
-  };
+    return <Route path={props.path} exact={props.exact}
+                  render={props1 => <ObserverAsyncComponent render={props.render} props={props1}/>}/>;
 
-  render() {
-    return <Route path={this.props.path} exact={this.props.exact}
-                  render={props => <ObserverAsyncComponent render={this.props.render} props={props}/>}/>;
-  }
 }

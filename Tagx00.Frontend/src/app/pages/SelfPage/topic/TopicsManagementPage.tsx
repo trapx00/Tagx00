@@ -6,12 +6,15 @@ import { LocaleMessage } from "../../../internationalization/components/index";
 import { Tag, Button, Popover, Input } from "antd";
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { Loading } from "../../../components/Common/Loading";
+import { requireLogin } from "../../hoc/RequireLogin";
+import { UserRole } from "../../../models/user/User";
 
 interface State {
   key: number;
   input: string;
 }
 
+@requireLogin(UserRole.ROLE_ADMIN)
 export class TopicsManagementPage extends React.Component<any,State> {
   @Inject userStore: UserStore;
   @Inject topicService: TopicService;

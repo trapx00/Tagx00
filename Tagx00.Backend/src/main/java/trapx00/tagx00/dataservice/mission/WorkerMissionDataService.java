@@ -1,6 +1,6 @@
 package trapx00.tagx00.dataservice.mission;
 
-import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.mission.MissionType;
@@ -8,14 +8,6 @@ import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
 public interface WorkerMissionDataService {
-    /**
-     * get mission by mission id
-     *
-     * @param missionId   the id of the mission({type}-{id})
-     * @param missionType
-     * @return the mission object
-     */
-    Mission getMissionByMissionId(int missionId, MissionType missionType);
 
     /**
      * save the progress of the instance.
@@ -24,26 +16,44 @@ public interface WorkerMissionDataService {
      *
      * @param instanceVo
      */
-    int saveInstance(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
+    int saveInstanceDetailVo(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
+
+    /**
+     * save the instance
+     *
+     * @param instanceId
+     * @param missionType
+     */
+    int abortInstance(int instanceId, MissionType missionType);
 
 
     /**
      * get instance by username
      *
-     * @param workerusername
+     * @param workerUsername
      * @return the list of  the MissionWorkerQueryItemVo
      */
-    InstanceVo[] getInstanceByWorkerUsername(String workerusername);
+    InstanceVo[] getInstanceByWorkerUsername(String workerUsername);
 
     /**
-     * get the infomation of  instance by username and missionId
+     * get the information of  instance by username and missionId
      *
-     * @param workerusername
+     * @param workerUsername
      * @param missionId
      * @param missionType
      * @return the instance matching username and missionId
      */
-    InstanceDetailVo getInstanceByUsernameAndMissionId(String workerusername, int missionId, MissionType missionType);
+    InstanceDetailVo getInstanceDetailVoByUsernameAndMissionId(String workerUsername, int missionId, MissionType missionType);
+
+    /**
+     * get the information of  instance by username and missionId
+     *
+     * @param workerUsername
+     * @param missionId
+     * @param missionType
+     * @return the instance matching username and missionId
+     */
+    Instance getInstanceByUsernameAndMissionId(String workerUsername, int missionId, MissionType missionType);
 
     /**
      * delte the mission of a worker

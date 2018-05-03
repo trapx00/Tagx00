@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
+import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.response.SuccessResponse;
@@ -16,6 +17,7 @@ import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @Service
 public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
@@ -34,7 +36,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return the list of MissionRequesterQueryItemVo
      */
     @Override
-    public InstanceResponse queryOnesAllMissions(String workerUsername, PagingQueryVo pagingQueryVo) throws MissionDoesNotExistFromUsernameException, NoMoreInstanceException {
+    public InstanceResponse queryOnesAllMissions(String workerUsername, PagingQueryVo pagingQueryVo) throws MissionDoesNotExistFromUsernameException {
         InstanceVo[] result = workerMissionDataService.getInstanceByWorkerUsername(workerUsername);
         if (result == null)
             throw new MissionDoesNotExistFromUsernameException();
@@ -42,9 +44,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
         int endIndex = startIndex + pagingQueryVo.getPageSize();
 
         ArrayList<InstanceVo> instanceVoArrayList = new ArrayList<>();
-        if (result.length <= startIndex) {
-            throw new NoMoreInstanceException();
-        } else {
+        if (result.length > startIndex) {
             if (result.length >= endIndex) {
                 for (int i = startIndex; i < endIndex; i++) {
                     instanceVoArrayList.add(result[i]);
@@ -67,7 +67,8 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse abort(String missionId, String workerUsername) {
-        workerMissionDataService.deleteInstanceByMissionIdAndUsername(MissionUtil.getId(missionId), workerUsername, MissionUtil.getType(missionId));
+        Instance instance = workerMissionDataService.getInstanceByUsernameAndMissionId(workerUsername, MissionUtil.getId(missionId), MissionUtil.getType(missionId));
+        workerMissionDataService.abortInstance(instance.getInstanceId(), instance.getMissionType());
         return new SuccessResponse("Success Delete");
     }
 
@@ -80,7 +81,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public InstanceDetailResponse getInstanceInformation(String missionId, String workerUsername) throws InstanceNotExistException {
-        InstanceDetailVo instanceDetailVo = workerMissionDataService.getInstanceByUsernameAndMissionId(workerUsername, MissionUtil.getId(missionId), MissionUtil.getType(missionId));
+        InstanceDetailVo instanceDetailVo = workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(workerUsername, MissionUtil.getId(missionId), MissionUtil.getType(missionId));
         if (instanceDetailVo == null)
             throw new InstanceNotExistException();
         InstanceDetailResponse instanceDetailResponse = new InstanceDetailResponse(instanceDetailVo);
@@ -96,7 +97,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse saveProgress(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, UnmatchedUsernameAndMissionId {
-        workerMissionDataService.saveInstance(instanceVo);
+        workerMissionDataService.saveInstanceDetailVo(instanceVo);
         return new SuccessResponse("Success Save");
     }
 
@@ -108,12 +109,13 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException {
-        if (workerMissionDataService.getInstanceByUsernameAndMissionId(UserInfoUtil.getUsername(), MissionUtil.getId(instanceVo.getInstance().getMissionId()), instanceVo.getMissionType()) == null)
-            workerMissionDataService.saveInstance(instanceVo);
+        if (workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(UserInfoUtil.getUsername(), MissionUtil.getId(instanceVo.getInstance().getMissionId()), instanceVo.getMissionType()) == null)
+            workerMissionDataService.saveInstanceDetailVo(instanceVo);
         else {
             instanceVo.getInstance().setSubmitted(true);
+            instanceVo.getInstance().setSubmitDate(new Date());
             instanceVo.getInstance().setMissionInstanceState(MissionInstanceState.SUBMITTED);
-            workerMissionDataService.saveInstance(instanceVo);
+            workerMissionDataService.saveInstanceDetailVo(instanceVo);
         }
         return new SuccessResponse("Success Save");
     }

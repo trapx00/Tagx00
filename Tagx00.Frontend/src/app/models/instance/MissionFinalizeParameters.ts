@@ -8,13 +8,13 @@ export interface MissionFinalizeVo {
 }
 
 
-const defaultValue = { expRatio: 1, credits: 0, comment: ""};
+const defaultValue = {expRatio: 1, credits: 0, comment: ""};
 
 export class MissionFinalizeParameters {
-  @observable expRatio: string; // double
-  @observable credits : number = 0; // int
+  @observable expRatio: string = "1"; // double
+  @observable credits: number = 0; // int
   @observable creditsValid: boolean = true;
-  @observable comment : string;
+  @observable comment: string;
 
   @computed get expRadioValid() {
     const parsedValue = parseFloat(this.expRatio);

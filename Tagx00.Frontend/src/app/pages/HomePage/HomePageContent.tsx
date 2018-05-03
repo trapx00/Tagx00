@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { action } from "mobx";
 import { Link } from 'react-router-dom';
 import { LocaleMessage } from "../../internationalization/components";
+import { SvgImg } from "../../components/Common/SvgImg";
 
 interface Content0Props {
   isMobile: boolean;
@@ -118,7 +119,7 @@ export class HomePageContent extends React.Component<Content0Props, any> {
             id={`${this.props.id}-title`}
             style={{left: '-20%', margin: '10%'}}
           >
-            <img width="100%" src="../../../assets/svg/tag_x00_logo.svg"/>
+            <SvgImg width={300} height={300} filePath={"tag_x00_logo.svg"}/>
           </span>
           </QueueAnim>
           <QueueAnim

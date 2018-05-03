@@ -107,6 +107,28 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     }
 
     /**
+     * get all instances
+     *
+     * @return the instances
+     */
+    @Override
+    public InstanceVo[] getAllInstances() {
+        ArrayList<InstanceVo> result = new ArrayList<>();
+
+        for (ImageInstance imageInstance : imageInstanceDao.findAll()) {
+            int imageResultSize = 0;
+            List<ImageResult> imageResults = imageInstance.getImageResults();
+            for (ImageResult imageResult : imageResults) {
+                if (imageResult.isDone()) {
+                    imageResultSize++;
+                }
+            }
+            result.add(generateImageInstanceVo(imageInstance, imageResultSize));
+        }
+        return result.toArray(new InstanceVo[result.size()]);
+    }
+
+    /**
      * get mission by mission id
      *
      * @param missionId   the id of the mission
@@ -140,8 +162,6 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         }
         mission.setCredits(mission.getCredits() + credits);
         saveMission(mission);
-
-
     }
 
     /**
@@ -153,13 +173,18 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     @Override
     public void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo, MissionType missionType) throws SystemException {
         Instance instance = null;
+        Mission mission = null;
         switch (missionType) {
             case IMAGE:
                 instance = imageInstanceDao.findInstanceByInstanceId(instanceId);
+                int missionId = instance.getMissionId();
+                mission = imageMissionDao.findMissionByMissionId(missionId);
         }
         instance.setMissionInstanceState(MissionInstanceState.FINALIZED);
         instance.setComment(missionFinalizeVo.getComment());
-        instance.setExp(missionFinalizeVo.getExpRatio());
+        instance.setExpRatio(missionFinalizeVo.getExpRatio());
+        instance.setExp(missionFinalizeVo.getExpRatio() * mission.getLevel() * 20);
+        instance.setCredits(missionFinalizeVo.getCredits());
         switch (instance.getMissionType()) {
             case IMAGE:
                 if (imageInstanceDao.saveInstance((ImageInstance) instance) == null) {

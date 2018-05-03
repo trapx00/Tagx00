@@ -5,20 +5,16 @@ import { MissionService } from "../api/MissionService";
 import { Inject, Injectable } from "react.di";
 import { Topic } from "../models/topic/Topic";
 import { TopicService } from "../api/TopicService";
+import { waitForMs } from "../../utils/Wait";
 
 
 @Injectable
 export class BrowserStore {
-  private static _standardHeight: number = 600;
-  private static _standardWidth: number = 1200;
-  private static _maxLengthOfDescription: number = 100;
 
-  @observable searchBarWidth: number = -document.body.clientWidth * 3 / 4;
-  @observable moveHeightRate: number = document.body.clientHeight / BrowserStore._standardHeight;
-  @observable moveWidthRate: number = document.body.clientWidth / BrowserStore._standardWidth;
+  @observable moveHeight: number = -document.body.clientHeight * 0.3;
   @observable paused: boolean = true;
   @observable reverse: boolean = true;
-  @observable listData: MissionPublicItem[] = [];
+  @observable listData: MissionPublicItem[] = null;
   @observable topics: Topic[] = [];
   @observable isStop: boolean = false;
 
@@ -26,15 +22,11 @@ export class BrowserStore {
   constructor(@Inject private topicService: TopicService, @Inject private missionService: MissionService) {
   }
 
-  @action public startBrowsing = () => {
+  @action public startBrowsing = async () => {
     this.reverse = false;
     this.paused = false;
-    setTimeout(() => runInAction(() => this.isStop = true), 1200);
-  };
-
-  @action public resizeMoveRate = () => {
-    this.moveHeightRate = document.body.clientHeight / BrowserStore._standardHeight;
-    this.moveWidthRate = document.body.clientWidth / BrowserStore._standardWidth;
+    await waitForMs(450);
+    runInAction(() => this.isStop = true);
   };
 
   async fetchAllTopics() {
@@ -48,10 +40,11 @@ export class BrowserStore {
     return !this.paused;
   }
 
-  @action public search = async (info) => {
-    const items = await this.missionService.getAllMissions();
+  @action public search = async (props) => {
+    const items = await this.missionService.getMissions(props);
+    console.log(items);
     runInAction(() => {
-      this.listData = items
+      this.listData = items;
     });
   };
 }
