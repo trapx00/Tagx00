@@ -16,7 +16,6 @@ import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.response.mission.MissionCreateResponse;
-import trapx00.tagx00.response.mission.MissionQueryResponse;
 import trapx00.tagx00.response.mission.requester.MissionChargeResponse;
 import trapx00.tagx00.response.mission.requester.MissionRequestQueryResponse;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
@@ -79,7 +78,7 @@ public class RequesterMissionController {
     @ResponseBody
     public ResponseEntity<Response> chargeMission(@PathVariable("missionId") String missionId, @RequestParam("credits") int credits) {
         try {
-            return new ResponseEntity<>(requesterMissionBlService.chargeMission(missionId,credits), HttpStatus.OK);
+            return new ResponseEntity<>(requesterMissionBlService.chargeMission(missionId, credits), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
@@ -154,9 +153,9 @@ public class RequesterMissionController {
     @Authorization(value = "发布者")
     @ApiOperation(value = "查看任务的实例", notes = "查询任务实例")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = false, dataType = "int", paramType = "path")
     })
-    @RequestMapping(value = "/mission/requester/instances/", method = RequestMethod.GET)
+    @RequestMapping(value = "/mission/requester/instances", method = RequestMethod.GET)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Returns instances of the mission", response = InstanceResponse.class),
             @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
@@ -164,13 +163,8 @@ public class RequesterMissionController {
             @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> queryInstances(@RequestParam("missionId") String missionId) {
-        try {
-            return new ResponseEntity<>(requesterMissionBlService.queryInstances(missionId), HttpStatus.OK);
-        } catch (InstanceNotExistException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Response> queryInstances(@RequestParam(value = "missionId", defaultValue = "") String missionId) {
+        return new ResponseEntity<>(requesterMissionBlService.queryInstances(missionId), HttpStatus.OK);
     }
 
     @Authorization(value = "发布者")
@@ -187,7 +181,7 @@ public class RequesterMissionController {
             @ApiResponse(code = 404, message = "mission or instance not found", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> queryInstance(@PathVariable("missionId") String missionId, @PathVariable("instanceId") String instanceId) {
+    public ResponseEntity<Response> queryInstance(@PathVariable("instanceId") String instanceId) {
         try {
             return new ResponseEntity<>(requesterMissionBlService.queryInstance(instanceId), HttpStatus.OK);
         } catch (InstanceNotExistException e) {
@@ -219,9 +213,9 @@ public class RequesterMissionController {
         } catch (InstanceNotExistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
-        } catch (SystemException e){
-            e.printStackTrace();;
-            return new ResponseEntity<>(e.getResponse(),HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 

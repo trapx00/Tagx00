@@ -104,8 +104,15 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
 
   removeSelected = () => {
     if (this.selectedTuple) {
-      this.state.notation.job.tuples = this.state.notation.job.tuples.filter(x => x !== this.selectedTuple);
-      this.forceUpdate();
+      this.setState({
+        notation: {
+          ...this.state.notation,
+          job: {
+            ...this.state.notation.job,
+            tuples: this.state.notation.job.tuples.filter(x => x !== this.selectedTuple)
+          }
+        }
+      });
     }
   };
 

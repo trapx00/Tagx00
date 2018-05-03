@@ -9,6 +9,7 @@ import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.leaderboard.exp.ExpLeaderboardResponse;
 import trapx00.tagx00.response.leaderboard.exp.ExpSpecificWorkerLeaderboardResponse;
+import trapx00.tagx00.util.LevelUtil;
 import trapx00.tagx00.vo.leaderboard.ExpLeaderboardUserVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
@@ -58,6 +59,6 @@ public class ExpLeaderboardBlServiceImpl implements ExpLeaderboardBlService {
     }
 
     public static ExpLeaderboardUserVo generateExpLeaderboardUserVo(User user, int order) {
-        return new ExpLeaderboardUserVo(user.getUsername(), user.getExp(), user.getCredits(), order);
+        return new ExpLeaderboardUserVo(user.getUsername(), user.getExp(), LevelUtil.calculateLevel(user.getCredits()), order);
     }
 }

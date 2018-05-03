@@ -54,9 +54,6 @@ public class WorkerMissionController {
         } catch (MissionDoesNotExistFromUsernameException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.FORBIDDEN);
-        } catch (NoMoreInstanceException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -79,28 +76,6 @@ public class WorkerMissionController {
             return new ResponseEntity<>(workerMissionBlService.abort(missionId, UserInfoUtil.getUsername()), HttpStatus.OK);
         } catch (Exception e) {
             return null;
-        }
-    }
-
-    @Authorization(value = "工人")
-    @ApiOperation(value = "工人获取任务信息", notes = "工人获取自己领取任务的实例的信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
-    })
-    @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.GET)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Returns the instance", response = InstanceDetailResponse.class),
-            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
-            @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
-            @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
-    })
-    @ResponseBody
-    public ResponseEntity<Response> getInstanceInformation(@PathVariable("missionId") String missionId) {
-        try {
-            return new ResponseEntity<>(workerMissionBlService.getInstanceInformation(missionId, UserInfoUtil.getUsername()), HttpStatus.OK);
-        } catch (InstanceNotExistException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -166,4 +141,26 @@ public class WorkerMissionController {
         }
     }
 
+    @Authorization(value = "工人")
+    @ApiOperation(value = "工人获取任务信息", notes = "工人获取自己领取任务的实例的信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
+    })
+    @RequestMapping(value = "/mission/worker/{missionId}", method = RequestMethod.GET)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Returns the instance", response = InstanceDetailResponse.class),
+            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
+            @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
+    })
+    @ResponseBody
+    public ResponseEntity<Response> getInstanceInformation(@PathVariable("missionId") String missionId) {
+        try {
+            InstanceDetailResponse instanceDetailResponse = workerMissionBlService.getInstanceInformation(missionId, UserInfoUtil.getUsername());
+            return new ResponseEntity<>(instanceDetailResponse, HttpStatus.OK);
+        } catch (InstanceNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
+    }
 }

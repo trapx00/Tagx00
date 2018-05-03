@@ -3,6 +3,7 @@ package trapx00.tagx00.config.jsonAdapter;
 import com.google.gson.*;
 import trapx00.tagx00.config.GsonFactory;
 import trapx00.tagx00.publicdatas.mission.MissionType;
+import trapx00.tagx00.publicdatas.mission.image.ImageJob;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 
 import java.lang.reflect.Type;

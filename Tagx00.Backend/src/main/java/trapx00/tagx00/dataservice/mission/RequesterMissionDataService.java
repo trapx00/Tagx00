@@ -30,9 +30,16 @@ public interface RequesterMissionDataService {
      *
      * @param missionId
      * @param missionType
-     * @return the specific MissionInstanceItemVo
+     * @return the instances
      */
     InstanceVo[] getInstancesByMissionId(int missionId, MissionType missionType);
+
+    /**
+     * get all instances
+     *
+     * @return the instances
+     */
+    InstanceVo[] getAllInstances();
 
     /**
      * get mission by mission id
@@ -49,7 +56,7 @@ public interface RequesterMissionDataService {
      * @param missionId
      * @param credits
      */
-    void updateMission(int missionId, int credits,MissionType missionType) throws SystemException;
+    void updateMission(int missionId, int credits, MissionType missionType) throws SystemException;
 
     /**
      * finlize the instance
@@ -57,7 +64,5 @@ public interface RequesterMissionDataService {
      * @param instanceId
      * @param missionFinalizeVo
      */
-    void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo,MissionType missionType)throws SystemException;
-
-
+    void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo, MissionType missionType) throws SystemException;
 }

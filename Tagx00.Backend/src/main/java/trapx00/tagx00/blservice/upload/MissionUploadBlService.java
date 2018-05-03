@@ -12,8 +12,8 @@ public interface MissionUploadBlService {
      * @param missionId
      * @param multipartFile
      * @param order
-     * @param isCover
+     * @param isCoverString
      * @return the url of the image
      */
-    UploadMissionImageResponse uploadFiles(int missionId, MultipartFile multipartFile, int order, boolean isCover) throws SystemException, MissionIdDoesNotExistException;
+    UploadMissionImageResponse uploadFiles(String missionId, MultipartFile multipartFile, int order, boolean isCover) throws SystemException, MissionIdDoesNotExistException;
 }

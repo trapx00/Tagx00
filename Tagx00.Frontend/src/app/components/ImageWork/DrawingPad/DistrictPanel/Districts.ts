@@ -37,7 +37,7 @@ export class Boundary {
   }
 
   contains(point: Point) {
-    return this.points.contains(point);
+    return this.points.indexOf(point) >= 0;
   }
 
 }

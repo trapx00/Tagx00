@@ -15,7 +15,7 @@ public interface WorkerMissionBlService {
      * @param pagingQueryVo
      * @return the list of MissionRequesterQueryItemVo
      */
-    InstanceResponse queryOnesAllMissions(String workerUsername, PagingQueryVo pagingQueryVo) throws MissionDoesNotExistFromUsernameException, NoMoreInstanceException;
+    InstanceResponse queryOnesAllMissions(String workerUsername, PagingQueryVo pagingQueryVo) throws MissionDoesNotExistFromUsernameException;
 
     /**
      * workers abort one mission

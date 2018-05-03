@@ -33,7 +33,7 @@ public class Converter {
     }
 
     public static WorkerInfoVo userToWorkerInfoVo(User user, int completedMissionCount, int acceptedMissionCount, int inProgressMissionCount, int abandonedMissionCount, int finalizedMissionCount) {
-        return new WorkerInfoVo(user.getUsername(), user.getEmail(), user.getCredits(), user.getExp(), LevelUtil.caculateLevel(user.getExp()),
+        return new WorkerInfoVo(user.getUsername(), user.getEmail(), user.getCredits(), user.getExp(), LevelUtil.calculateLevel(user.getExp()),
                 completedMissionCount, acceptedMissionCount, inProgressMissionCount, abandonedMissionCount, finalizedMissionCount);
     }
 
