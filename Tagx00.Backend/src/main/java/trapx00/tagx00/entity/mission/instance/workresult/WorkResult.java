@@ -1,15 +1,13 @@
 package trapx00.tagx00.entity.mission.instance.workresult;
 
-import trapx00.tagx00.entity.Entity;
-import trapx00.tagx00.entity.annotation.Column;
-import trapx00.tagx00.entity.annotation.GeneratedValue;
-import trapx00.tagx00.entity.annotation.GenerationType;
-import trapx00.tagx00.entity.annotation.Id;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-public class WorkResult extends Entity {
+public class WorkResult {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private int id;
     @Column(name = "isDone")
     private boolean isDone;

@@ -1,13 +1,16 @@
 package trapx00.tagx00.entity.mission.instance;
 
-import trapx00.tagx00.entity.Entity;
-import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
-public class Instance extends Entity {
+
+public class Instance {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "instanceId")
@@ -16,19 +19,15 @@ public class Instance extends Entity {
     @Column(name = "workerUsername")
     private String workerUsername;
 
-    @EnumTranslate(targetClass = MissionInstanceState.class)
     @Column(name = "missionInstanceState")
     private MissionInstanceState missionInstanceState;
 
-    @EnumTranslate(targetClass = MissionType.class)
     @Column(name = "MissionType")
     private MissionType missionType;
 
-    @JsonSerialize
     @Column(name = "acceptDate")
     private Date acceptDate;
 
-    @JsonSerialize
     @Column(name = "submitDate")
     private Date submitDate;
 

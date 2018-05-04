@@ -1,40 +1,34 @@
 package trapx00.tagx00.entity.mission;
 
-import trapx00.tagx00.entity.Entity;
-import trapx00.tagx00.entity.annotation.*;
+import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Mission extends Entity {
+public class Mission {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "missionId")
     private int missionId;
     @Column(name = "title")
     private String title;
     @Column(name = "description")
     private String description;
-    @ElementCollection(targetClass = String.class)
     @Column(name = "topics")
     private List<String> topics;
     @Column(name = "allowCustomTag")
     private boolean allowCustomTag;
-    @ElementCollection(targetClass = String.class)
     @Column(name = "allowedTags")
     private List<String> allowedTags;
-    @EnumTranslate(targetClass = MissionType.class)
     @Column(name = "missionType")
     private MissionType missionType;
-    @EnumTranslate(targetClass = MissionState.class)
     @Column(name = "missionState")
     private MissionState missionState;
-    @JsonSerialize
     @Column(name = "start")
     private Date start;
-    @JsonSerialize
     @Column(name = "end")
     private Date end;
     @Column(name = "coverUrl")
@@ -47,11 +41,13 @@ public class Mission extends Entity {
     private int credits;
     @Column(name = "minimalWorkerLevel")
     private int minimalWorkerLevel;
+    @OneToMany(mappedBy = "mission", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    private ArrayList<User> browserUsers;
 
     public Mission() {
     }
 
-    public Mission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel) {
+    public Mission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, ArrayList<User> browserUsers) {
         this.title = title;
         this.description = description;
         this.topics = topics;
@@ -66,24 +62,7 @@ public class Mission extends Entity {
         this.level = level;
         this.credits = credits;
         this.minimalWorkerLevel = minimalWorkerLevel;
-    }
-
-    public Mission(int missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel) {
-        this.missionId = missionId;
-        this.title = title;
-        this.description = description;
-        this.topics = topics;
-        this.allowCustomTag = allowCustomTag;
-        this.allowedTags = allowedTags;
-        this.missionType = missionType;
-        this.missionState = missionState;
-        this.start = start;
-        this.end = end;
-        this.coverUrl = coverUrl;
-        this.requesterUsername = requesterUsername;
-        this.level = level;
-        this.credits = credits;
-        this.minimalWorkerLevel = minimalWorkerLevel;
+        this.browserUsers = browserUsers;
     }
 
     public MissionState getMissionState() {
@@ -205,4 +184,6 @@ public class Mission extends Entity {
     public void setMinimalWorkerLevel(int minimalWorkerLevel) {
         this.minimalWorkerLevel = minimalWorkerLevel;
     }
+
+
 }

@@ -1,19 +1,21 @@
 package trapx00.tagx00.entity.mission.instance;
 
-import trapx00.tagx00.entity.annotation.Column;
-import trapx00.tagx00.entity.annotation.JsonSerialize;
-import trapx00.tagx00.entity.annotation.Table;
 import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 @Table(name = "imageInstance")
 public class ImageInstance extends Instance {
-    @JsonSerialize
     @Column(name = "imageResults")
+    @ElementCollection(targetClass = ImageResult.class)
     private List<ImageResult> imageResults;
 
     public ImageInstance() {
