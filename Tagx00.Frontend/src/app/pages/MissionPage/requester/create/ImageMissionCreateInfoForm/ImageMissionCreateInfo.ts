@@ -6,10 +6,19 @@ import { MissionType } from "../../../../../models/mission/Mission";
 import { ImageMissionProperties } from "../../../../../models/mission/image/ImageMissionProperties";
 import moment from "moment";
 
+export enum CreditStatus {
+  Acceptable,
+  WrongFormat,
+  CreditsNotSufficient,
+  Loading,
+  FirstAttempt
+}
+
+
 export class ImageMissionCreateInfo {
   @observable title: string = "";
   @observable description: string = "";
-
+  @observable remainingCredits = -1;
   @observable imageMissionTypes: ImageMissionType[] = [];
   @observable images: UploadFile[] = [];
 
@@ -17,7 +26,10 @@ export class ImageMissionCreateInfo {
   @observable allowCustomTag: boolean = true;
   @observable allowedTags: string[] = [];
   @observable dateRange: [moment.Moment, moment.Moment] = [null,null];
-
+  @observable level: string = "1";
+  @observable minimalWorkerLevel: string = "1";
+  @observable credits: number = 0;
+  @observable creditsValid: boolean = true;
   @observable coverImage: UploadFile = null;
 
   @observable createAttempted: boolean = false;
@@ -35,6 +47,9 @@ export class ImageMissionCreateInfo {
       },
       start: this.dateRange[0].toDate(),
       end: this.dateRange[1].toDate(),
+      minimalWorkerLevel: parseInt(this.minimalWorkerLevel),
+      level: parseInt(this.level),
+      credits: this.credits,
       missionType: MissionType.IMAGE
     });
   }
@@ -67,10 +82,24 @@ export class ImageMissionCreateInfo {
     return !this.createAttempted || this.images.length > 0;
   }
 
+  @computed get minimalWorkerLevelValid() {
+    const parsed = parseInt(this.minimalWorkerLevel);
+    if (isNaN(parsed)) return false;
+    return 1<=parsed && parsed <=100;
+  }
+
+  @computed get levelValid() {
+    const parsed = parseInt(this.level);
+    if (isNaN(parsed)) return false;
+    return 1<=parsed && parsed <=5;
+  }
+
+
   @computed get valid() {
     return this.titleValid && this.descriptionValid
       && this.typesValid && this.allowedTagsValid
       && this.dateRangeValid && this.imageTypesValid
-    && this.imagesValid;
+    && this.imagesValid && this.minimalWorkerLevelValid && this.levelValid
+    && this.creditsValid;
   }
 }

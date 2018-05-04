@@ -7,41 +7,18 @@ export interface MissionFinalizeVo {
   comment: string;
 }
 
-export enum CreditStatus {
-  Acceptable,
-  WrongFormat,
-  CreditsNotSufficient,
-  FirstAttempt
-}
 
-
-const defaultValue = { expRatio: 1, credits: 0, comment: ""};
+const defaultValue = {expRatio: 1, credits: 0, comment: ""};
 
 export class MissionFinalizeParameters {
-  @observable expRatio: string; // double
-  @observable credits : string; // int
-  @observable comment : string;
-
-  @computed get creditsStatus() {
-    const parsedInt = parseInt(this.credits);
-    if (this.availableCredits != null && parsedInt > this.availableCredits) {
-      return CreditStatus.CreditsNotSufficient;
-    }
-
-    if (!(parsedInt >=0)) {
-      return CreditStatus.WrongFormat;
-    }
-
-    return CreditStatus.Acceptable;
-  }
+  @observable expRatio: string = "1"; // double
+  @observable credits: number = 0; // int
+  @observable creditsValid: boolean = true;
+  @observable comment: string;
 
   @computed get expRadioValid() {
     const parsedValue = parseFloat(this.expRatio);
     return !Number.isNaN(parsedValue) && 0 < parsedValue && parsedValue <= 1;
-  }
-
-  @computed get creditsValid() {
-    return this.creditsStatus === CreditStatus.Acceptable;
   }
 
   @computed get valid() {
@@ -51,18 +28,18 @@ export class MissionFinalizeParameters {
   get value(): MissionFinalizeVo {
     return {
       expRatio: parseFloat(this.expRatio),
-      credits: parseInt(this.credits),
+      credits: this.credits,
       comment: this.comment
     }
   }
 
-  constructor(public availableCredits: number = null) {
+  constructor() {
     this.backToDefault();
   }
 
   set value(value: MissionFinalizeVo) {
     this.comment = value.comment;
-    this.credits = value.credits + "";
+    this.credits = value.credits;
     this.expRatio = value.expRatio + "";
   }
 

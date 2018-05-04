@@ -7,10 +7,13 @@ import { LocaleMessage } from "../../../internationalization/components";
 import { Link } from 'react-router-dom';
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { LocaleStore } from "../../../stores/LocaleStore";
+import { MissionPublicItem } from "../../../models/mission/Mission";
+import { UserService } from "../../../api/UserService";
+import { LeaderboardService } from "../../../api/LeaderboardService";
 
 
 interface Props {
-  missionId: string;
+  missionPublicItem: MissionPublicItem;
 }
 
 interface State {
@@ -31,25 +34,33 @@ export class OperationBar extends React.Component<Props, State> {
   };
 
   accept = async () => {
-    await this.workerService.acceptMission(this.props.missionId, this.userStore.token);
+    const { missionId } = this.props.missionPublicItem;
+    await this.workerService.acceptMission(missionId, this.userStore.token);
     message.success(this.localeStore.get(ID_PREFIX + "accepted"));
     this.setState(prev => ({key: prev.key+1}));
   };
 
   renderContent = async () => {
+    const { missionId, minimalWorkerLevel } = this.props.missionPublicItem;
     try {
-      const detail = await this.workerService.getInstanceDetail(this.props.missionId, this.userStore.token);
+      const detail = await this.workerService.getInstanceDetail(missionId, this.userStore.token);
       return <p>
-        <Link to={`/mission/worker/${this.props.missionId}/doWork`}>
+        <Link to={`/mission/worker/${missionId}/doWork`}>
           <Button><LocaleMessage id={ID_PREFIX + "continueWorking"}/></Button>
         </Link>
-        <Link to={`/mission/worker/${this.props.missionId}`}>
+        <Link to={`/mission/worker/${missionId}`}>
           <Button><LocaleMessage id={ID_PREFIX + "seeResult"}/></Button>
         </Link>
       </p>
     } catch (e) {
       if (e.statusCode === 404) { // not accepted
-        return <Button type={"primary"} onClick={this.accept}><LocaleMessage id={ID_PREFIX + "accept"}/></Button>;
+        const level = (await this.workerService.getWorkerInfo(this.userStore.user.username, this.userStore.token)).level;
+        console.log(level);
+        if (level >= minimalWorkerLevel) {
+          return <Button type={"primary"} onClick={this.accept}><LocaleMessage id={ID_PREFIX + "accept"}/></Button>;
+        } else {
+          return <Button disabled type={"primary"}><LocaleMessage id={ID_PREFIX + "levelNotEnough"}/></Button>;
+        }
       } else {
         return <div/>
       }

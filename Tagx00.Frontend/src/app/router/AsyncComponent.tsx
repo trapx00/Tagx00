@@ -73,10 +73,8 @@ export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, S
 }
 
 
-export const ObserverAsyncComponent = observer(AsyncComponent)
+// export const ObserverAsyncComponent = observer(AsyncComponent);
 
-// export class ObserverAsyncComponent<T> extends  React.Component<AsyncComponentProps<T>, State<T>> {
-//   render() {
-//     return React.createElement(observer(() => <AsyncComponent {...this.props}/>));
-//   }
-// }
+export function ObserverAsyncComponent<T> (props: AsyncComponentProps<T>) {
+    return React.createElement(observer(() => <AsyncComponent {...props}/>));
+}

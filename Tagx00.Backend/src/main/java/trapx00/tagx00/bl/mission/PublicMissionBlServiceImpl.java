@@ -41,21 +41,47 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
      * @return the list of MissionPublicItemVo
      */
     @Override
-    public MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo, String searchTarget, String requesterUsername) throws NotMissionException {
+    public MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo, String searchTarget, String requesterUsername) {
+        if (requesterUsername.length() != 0) {
+            return justSearchByRequesterUsername(pagingQueryVo, requesterUsername);
+        } else {
+            return fuzzySearch(pagingQueryVo, searchTarget);
+        }
+    }
+
+    private MissionPublicResponse justSearchByRequesterUsername(PagingQueryVo pagingQueryVo, String requesterUsername) {
         int startIndex = (pagingQueryVo.getPageNumber() - 1) * pagingQueryVo.getPageSize();
         int endIndex = startIndex + pagingQueryVo.getPageSize();
         MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
-        if (missionPublicItemVos == null) {
-            throw new NotMissionException();
-        }
         ArrayList<MissionPublicItemVo> usernameResult = new ArrayList<>();
         for (MissionPublicItemVo missionPublicItemVo : missionPublicItemVos) {
             if (requesterUsername.length() == 0 || missionPublicItemVo.getRequesterUsername().equals(requesterUsername)) {
                 usernameResult.add(missionPublicItemVo);
             }
         }
+
+        ArrayList<MissionPublicItemVo> pArrayList = new ArrayList<>();
+        if (usernameResult.size() >= endIndex) {
+            for (int i = startIndex; i < endIndex; i++) {
+                pArrayList.add(usernameResult.get(i));
+            }
+        } else {
+            for (int i = startIndex; i < usernameResult.size(); i++) {
+                pArrayList.add(usernameResult.get(i));
+            }
+        }
+        int totalCount = usernameResult.size();
+        int pageNum = (int) Math.ceil(totalCount * 1.0 / pagingQueryVo.getPageSize());
+        return new MissionPublicResponse(new PagingInfoVo(totalCount, pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize(), pageNum), pArrayList);
+
+    }
+
+    private MissionPublicResponse fuzzySearch(PagingQueryVo pagingQueryVo, String searchTarget) {
+        int startIndex = (pagingQueryVo.getPageNumber() - 1) * pagingQueryVo.getPageSize();
+        int endIndex = startIndex + pagingQueryVo.getPageSize();
+        MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
         ArrayList<MissionPublicItemVo> result = new ArrayList<>();
-        for (MissionPublicItemVo missionPublicItemVo : usernameResult) {
+        for (MissionPublicItemVo missionPublicItemVo : missionPublicItemVos) {
             if (missionPublicItemVo.getTopics().contains(searchTarget)) {
                 result.add(missionPublicItemVo);
             } else if (missionPublicItemVo.getTitle().contains(searchTarget)) {
@@ -65,17 +91,13 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
             }
         }
         ArrayList<MissionPublicItemVo> pArrayList = new ArrayList<>();
-        if (result.size() <= startIndex) {
-            throw new NotMissionException();
+        if (result.size() >= endIndex) {
+            for (int i = startIndex; i < endIndex; i++) {
+                pArrayList.add(missionPublicItemVos[i]);
+            }
         } else {
-            if (result.size() >= endIndex) {
-                for (int i = startIndex; i < endIndex; i++) {
-                    pArrayList.add(missionPublicItemVos[i]);
-                }
-            } else {
-                for (int i = startIndex; i < result.size(); i++) {
-                    pArrayList.add(missionPublicItemVos[i]);
-                }
+            for (int i = startIndex; i < result.size(); i++) {
+                pArrayList.add(missionPublicItemVos[i]);
             }
         }
 
@@ -83,6 +105,5 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         int pageNum = (int) Math.ceil(totalCount * 1.0 / pagingQueryVo.getPageSize());
         return new MissionPublicResponse(new PagingInfoVo(totalCount, pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize(), pageNum), pArrayList);
     }
-
 
 }

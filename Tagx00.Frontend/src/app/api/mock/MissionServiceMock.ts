@@ -1,4 +1,4 @@
-import { MissionService, TopicFetchResponse } from "../MissionService";
+import { MissionService } from "../MissionService";
 import { ImageMissionDetail, ImageMissionType } from "../../models/mission/image/ImageMission";
 import { MissionPublicItem, MissionState, MissionType } from "../../models/mission/Mission";
 import { Injectable } from "react.di";
@@ -18,6 +18,8 @@ export class MissionServiceMock extends MissionService {
 
   async getAMission(missionId: string, token: string): Promise<ImageMissionDetail> {
 
+
+
     return  {
       publicItem: {
         missionId: missionId,
@@ -31,7 +33,10 @@ export class MissionServiceMock extends MissionService {
         end: new Date(),
         coverUrl: "https://desk-fd.zol-img.com.cn/t_s960x600c5/g3/M0A/0F/09/Cg-4WFRplp2IYqiNACQ0TQPPChQAARbPQEM84oAJDRl464.jpg",
         jobCount: 10,
-        requesterUsername: "123"
+        requesterUsername: "123",
+        minimalWorkerLevel: 2,
+        level: 1,
+        credits: 100
       },
       missionState: MissionState.ACTIVE,
       imageUrls: imgs,
@@ -46,7 +51,7 @@ export class MissionServiceMock extends MissionService {
   }
 
 
-  async getAllMissions(): Promise<MissionPublicItem[]> {
+  async getMissions(): Promise<MissionPublicItem[]> {
 
     //mock
     return [1, 2, 3, 4, 5].map(x =>
@@ -62,7 +67,10 @@ export class MissionServiceMock extends MissionService {
         end: new Date(),
         coverUrl: "http://pic1.16xx8.com/allimg/170801/1-1FP116442T62.jpg",
         jobCount: 10,
-        requesterUsername: "123"
+        requesterUsername: "123",
+        minimalWorkerLevel: 1,
+        level: 1,
+        credits: 100
       })
     );
 

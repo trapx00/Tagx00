@@ -45,7 +45,7 @@ export class RequesterCreditBoardPage extends React.Component<{}, {}> {
         <MinorTitle>
           <LocaleMessage id={"leaderboard.rankListBoard"}/>
         </MinorTitle>
-        <Table dataSource={requesterCreditBoard.users} columns={columns}
+        <Table rowKey={"order"} dataSource={requesterCreditBoard.users} columns={columns}
                pagination={requesterCreditBoard.pagingInfo}/>
       </div>
     );

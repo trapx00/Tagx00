@@ -13,6 +13,7 @@ public class PayDataServiceImpl implements PayDataService {
     private final UserDao userDao;
 
     @Autowired
+
     public PayDataServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }

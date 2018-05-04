@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { LocaleStore } from "../../stores/LocaleStore";
 import { Inject } from "react.di";
 import styled from "styled-components";
+import img from '../../../assets/logo.png';
 
 export interface FooterProps {
   isMobile?: boolean;
@@ -105,11 +106,13 @@ export class Footer extends React.Component<FooterProps, any> {
       {...props}
       playScale={isMobile ? 0.5 : 0.2}
     >
+
       <QueueAnim type="bottom" component="ul" key="ul" leaveReverse id={`${props.id}-ul`}>
         <li key="logo" id={`${props.id}-logo`}>
-          <p className="logo">
-            <SvgImg filePath={"tag_x00_mini_logo.svg"} width={170} height={38} />
-          </p>
+          <LogoContainer>
+            <img src={img}/>
+            <span>Tag x00</span>
+          </LogoContainer>
           <p><LocaleMessage id={ID_PREFIX + "productDescription"}/></p>
         </li>
         {liChildrenToRender}
@@ -128,3 +131,16 @@ export class Footer extends React.Component<FooterProps, any> {
     );
   }
 }
+
+export const LogoContainer = styled.div`
+  span {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 21px;
+  }
+  img {
+    margin-right: 8px;
+    width: 45px;
+    height: 41px;
+  }
+`;

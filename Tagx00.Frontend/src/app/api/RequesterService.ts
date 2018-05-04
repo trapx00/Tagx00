@@ -11,6 +11,8 @@ import { MissionFinalizeParameters, MissionFinalizeVo } from "../models/instance
 import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
 import { RequesterCreditBoardResponse } from "../models/leaderboard/RequesterCreditBoardResponse";
 import { RequesterCreditSelfRankResponse } from "../models/leaderboard/RequesterCreditSelfRankResponse";
+import { MissionRequestQueryResponse } from "../models/response/mission/MissionRequestQueryResponse";
+import { MissionChargeResponse } from "../models/response/mission/MissionChargeResponse";
 
 @Injectable
 export class RequesterService {
@@ -36,7 +38,7 @@ export class RequesterService {
       {order, isCover},
       {"Authorization": "Bearer " + token}
     );
-
+    console.log(res.response)
     return res.response;
   }
 
@@ -56,7 +58,7 @@ export class RequesterService {
       token: token,
     });
 
-    return res.response;
+    return res.response.info;
   }
 
   async finalize(instanceId: string, parameters: MissionFinalizeVo, token: string): Promise<InstanceDetailResponse> {
@@ -67,6 +69,16 @@ export class RequesterService {
       token
     });
 
+    return res.response;
+  }
+
+  async payMission(missionId: string, credits: number, token: string): Promise<MissionChargeResponse> {
+    const res = await this.http.fetch({
+      path: `/mission/requester/mission/${missionId}`,
+      method: HttpMethod.PATCH,
+      queryParams: { credits },
+      token
+    });
     return res.response;
   }
 
@@ -88,6 +100,20 @@ export class RequesterService {
     });
 
     return res.response;
+  }
+
+  async getRemainingCreditsForAMission(missionId: string, token: string): Promise<MissionRequestQueryResponse> {
+    const res = await this.http.fetch({
+      path: `/mission/requester/mission/${missionId}`,
+      token
+    });
+
+    if (res.ok) {
+      return res.response;
+    } else {
+      throw res.error;
+    }
+
   }
 
 

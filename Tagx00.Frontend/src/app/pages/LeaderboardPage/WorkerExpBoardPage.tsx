@@ -36,15 +36,19 @@ export class WorkerExpBoardPage extends React.Component<{}, {}> {
     const columns = [{
       title: '用户名',
       dataIndex: 'username',
+      key: "username"
     }, {
       title: '积分',
       dataIndex: 'exp',
+      key: "exp"
     }, {
       title: '等级',
       dataIndex: 'level',
+      key: "level"
     }, {
       title: '排名',
       dataIndex: 'order',
+      key: "order"
     }];
       return (
         <div>
@@ -52,7 +56,7 @@ export class WorkerExpBoardPage extends React.Component<{}, {}> {
             <LocaleMessage id={"leaderboard.rankListBoard"}/>
           </MinorTitle>
           <br/>
-          <Table dataSource={workerExpBoard.users} columns={columns} pagination={workerExpBoard.pagingInfo}/>
+          <Table rowKey={"order"} dataSource={workerExpBoard.users} columns={columns} pagination={workerExpBoard.pagingInfo}/>
         </div>
       );
   };

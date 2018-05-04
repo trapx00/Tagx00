@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Route, RouteComponentProps } from "react-router";
-import { AsyncComponent } from "./AsyncComponent";
+import { AsyncComponent, ObserverAsyncComponent } from "./AsyncComponent";
 import { observer } from "mobx-react";
 
 interface Props<T> {
@@ -9,15 +9,9 @@ interface Props<T> {
   render: (props: RouteComponentProps<T>) => Promise<ReactNode>;
 }
 
-@observer
-export class AsyncRoute<T> extends React.Component<Props<T>, {}> {
+export function AsyncRoute<T>(props: Props<T>) {
 
-  static defaultProps = {
-    exact: false
-  };
+    return <Route path={props.path} exact={props.exact}
+                  render={props1 => <ObserverAsyncComponent render={props.render} props={props1}/>}/>;
 
-  render() {
-    return <Route path={this.props.path} exact={this.props.exact}
-                  render={props => <AsyncComponent render={this.props.render} props={props}/>}/>;
-  }
 }

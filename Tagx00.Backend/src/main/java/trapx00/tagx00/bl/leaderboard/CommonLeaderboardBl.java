@@ -74,9 +74,9 @@ public class CommonLeaderboardBl<T, U, P> {
     private void sortUsers(Method getFieldMethod, User[] users) {
         Arrays.sort(users, (o1, o2) -> {
             try {
-                double element1 = (double) getFieldMethod.invoke(o1);
-                double element2 = (double) getFieldMethod.invoke(o2);
-                return (int) Math.ceil(element1 - element2);
+                double element1 = Double.parseDouble(getFieldMethod.invoke(o1).toString());
+                double element2 = Double.parseDouble(getFieldMethod.invoke(o2).toString());
+                return (int) Math.ceil(element2 - element1);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }

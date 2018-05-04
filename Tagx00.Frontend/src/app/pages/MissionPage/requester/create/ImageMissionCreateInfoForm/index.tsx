@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { observer } from "mobx-react";
 import { action, observable, runInAction, toJS } from "mobx";
-import { ImageMissionCreateInfo } from "./ImageMissionCreateInfo";
+import { CreditStatus, ImageMissionCreateInfo } from "./ImageMissionCreateInfo";
 import { Checkbox, DatePicker, Form, Input, Modal, Button } from 'antd';
 import { FormItemProps } from "antd/lib/form/FormItem";
 import { ImageMissionType } from "../../../../../models/mission/image/ImageMission";
@@ -17,6 +17,12 @@ import { TopicService } from "../../../../../api/TopicService";
 import { AsyncComponent, ObserverAsyncComponent } from "../../../../../router/AsyncComponent";
 import { Loading } from "../../../../../components/Common/Loading";
 import { FormItem } from "../../../../../components/Form/FormItem";
+import { RichFormItem } from "../../../../../components/Form/RichFormItem";
+import { CurrentCreditsIndicator } from "../../../../../components/Pay/CurrentCreditsIndicator";
+import { LocaleMessage } from "../../../../../internationalization/components";
+import { PayService } from "../../../../../api/PayService";
+import { CreditInput } from "../../../../../components/Pay/CreditInput";
+import { TopicSelector } from "./TopicSelector";
 
 const CheckboxGroup = Checkbox.Group;
 const {RangePicker} = DatePicker;
@@ -26,14 +32,6 @@ interface Props {
 }
 
 const ID_PREFIX = "missions.createMission.";
-
-
-function formItemProps(valid: boolean, error: ReactNode): FormItemProps {
-  return {
-    validateStatus: valid ? "success" : "error",
-    help: valid ? null : error
-  };
-}
 
 
 const formStrings = [
@@ -48,6 +46,8 @@ const formStrings = [
   "endDate",
   "requireEndDate",
   "selectFile",
+  "minimalWorkerLevel",
+  "missionLevel"
 ].reduce((prev, curr) => ({...prev, [curr]: `${ID_PREFIX}fields.${curr}`}), {});
 
 /**
@@ -85,6 +85,9 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
   @Inject routerStore: RouterStore;
   @Inject requesterService: RequesterService;
   @Inject topicService: TopicService;
+  @Inject payService: PayService;
+
+
 
   @action onTitleChange = (e) => {
     this.info.title = e.target.value;
@@ -121,12 +124,27 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
     this.info.allowedTags = tags;
   };
 
+  @action onMissionLevelChanged = (e) => {
+    this.info.level = e.target.value;
+  };
+
+  @action onMinimalWorkerLevelChanged = (e) => {
+    this.info.minimalWorkerLevel = e.target.value;
+  };
+
+  @action onCreditsChanged = (value, valid) => {
+    this.info.credits = value;
+    this.info.creditsValid = valid;
+  };
+
   @action submit = async () => {
 
     this.info.createAttempted = true;
     if (!this.info.valid) {
       return;
     }
+
+    console.log(this.info.missionCreateVo);
 
     const {token, id} = await this.requesterService.createMission(this.info.missionCreateVo, this.props.token);
 
@@ -174,25 +192,6 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
     this.info.topics = selected;
   };
 
-  renderTopicSelector = async () => {
-    const locale: any = new Proxy({}, {
-      get: (target, key) => {
-        return this.localeStore.get(`${ID_PREFIX}fields.${key}`) as string;
-      }
-    });
-    const topics = (await this.topicService.getAllTopics()).topics;
-    return React.createElement(observer(() => <div>
-        {locale.topics}
-      <TagSelector onSelectedChanged={this.onTopicChange}
-                   selectedTags={toJS(this.info.topics)}
-                   availableTags={topics.map(x => x.value)}
-                   allowCustomTag={false}
-                   placeholder={locale.topics}
-      />
-      </div>));
-  };
-
-
   render() {
     const locale: any = new Proxy({}, {
       get: (target, key) => {
@@ -213,7 +212,7 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
         />
       </FormItem>
       <FormItem valid={true} messageOnInvalid={""}>
-        <ObserverAsyncComponent render={this.renderTopicSelector} componentWhenLoading={<Loading/>}/>
+        <TopicSelector selected={this.info.topics} onChange={this.onTopicChange}/>
       </FormItem>
       <FormItem valid={this.info.allowedTagsValid} messageOnInvalid={locale.requireTags}>
         <span style={{marginRight: "16px"}}>{locale.tags}</span>
@@ -229,6 +228,29 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
         <p>{locale.dateRange}</p>
         <RangePicker value={toJS(this.info.dateRange)} onChange={this.onDateRangeChanged}/>
       </FormItem>
+
+      <FormItem valid={this.info.minimalWorkerLevelValid}
+                messageOnInvalid={locale.requireMinimalWorkerLevel}
+                messageOnSuccess={locale.requireMinimalWorkerLevel}
+      >
+        <Input addonBefore={locale.minimalWorkerLevel}
+               onChange={this.onMinimalWorkerLevelChanged}
+               value={this.info.minimalWorkerLevel}
+        />
+      </FormItem>
+
+      <FormItem valid={this.info.levelValid}
+                messageOnInvalid={locale.requireMissionLevel}
+                messageOnSuccess={locale.requireMissionLevel}
+      >
+        <Input addonBefore={locale.missionLevel}
+               onChange={this.onMissionLevelChanged}
+               value={this.info.level}
+        />
+      </FormItem>
+
+      <CreditInput onChanged={this.onCreditsChanged}/>
+
       <FormItem valid={this.info.imageTypesValid} messageOnInvalid={locale["IMAGE.requireTypes"]}>
         <p>{locale["IMAGE.types.name"]}</p>
         <CheckboxGroup options={Object.keys(ImageMissionType).map(x => ({label: locale[`IMAGE.types.${x}`], value: x}))}

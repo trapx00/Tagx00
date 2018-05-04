@@ -19,11 +19,14 @@ export class LevelStore {
     if (!this.levels) {
       await this.getLevelInfo();
     }
+    if (exp <= this.levels[0]) {
+      return this.levels[1];
+    }
     for (let i = 0; i < this.levels.length - 1; i++) {
-      if (this.levels[i] < exp && exp <= this.levels[i + 1]) {
+      if (exp > this.levels[i] && exp <= this.levels[i + 1]) {
         return this.levels[i + 1];
       }
     }
-    return -1; // max level
+    return Number.MAX_SAFE_INTEGER;
   }
 }

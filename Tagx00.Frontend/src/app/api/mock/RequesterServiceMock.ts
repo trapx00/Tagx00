@@ -14,6 +14,9 @@ import { MissionFinalizeParameters, MissionFinalizeVo } from "../../models/insta
 import { InstanceResponse } from "../../models/response/mission/InstanceResponse";
 import { RequesterCreditBoardResponse } from "../../models/leaderboard/RequesterCreditBoardResponse";
 import { RequesterCreditSelfRankResponse } from "../../models/leaderboard/RequesterCreditSelfRankResponse";
+import { MissionRequestQueryResponse } from "../../models/response/mission/MissionRequestQueryResponse";
+import { MissionChargeResponse } from "../../models/response/mission/MissionChargeResponse";
+import { waitForMs } from "../../../utils/Wait";
 
 @Injectable
 export class RequesterServiceMock extends RequesterService {
@@ -52,7 +55,10 @@ export class RequesterServiceMock extends RequesterService {
           end: new Date(),
           coverUrl: "http://pic1.16xx8.com/allimg/170801/1-1FP116442T62.jpg",
           jobCount: 10,
-          requesterUsername: "123"
+          requesterUsername: "123",
+          level: 1,
+          minimalWorkerLevel: 1,
+          credits: 100
         })
       )
     }
@@ -89,6 +95,12 @@ export class RequesterServiceMock extends RequesterService {
         })
       )
     };
+  }
+
+  async payMission(missionId: string, credits: number, token: string): Promise<MissionChargeResponse> {
+    return {
+      remainingCredits: 10
+    }
   }
 
 
@@ -139,6 +151,16 @@ export class RequesterServiceMock extends RequesterService {
         } as ImageInstanceDetail
     }
 
+  }
+
+  async getRemainingCreditsForAMission(missionId: string, token: string): Promise<MissionRequestQueryResponse> {
+    // await waitForMs(1000);
+    // if (Math.random() < 0.5) {
+    //   throw {};
+    // }
+    return {
+      remainingCredits: parseInt(missionId) || Math.random()*10
+    }
   }
 
 

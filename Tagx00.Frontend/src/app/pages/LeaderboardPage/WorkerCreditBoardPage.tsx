@@ -44,12 +44,11 @@ export class WorkerCreditBoardPage extends React.Component<{}, {}> {
 
     return (
       <div>
-        <br/>
         <MinorTitle>
           <LocaleMessage id={"leaderboard.rankListBoard"}/>
         </MinorTitle>
         <br/>
-        <Table dataSource={workerCreditBoard.users} columns={columns} pagination={workerCreditBoard.pagingInfo}/>
+        <Table rowKey={"order"} dataSource={workerCreditBoard.users} columns={columns} pagination={workerCreditBoard.pagingInfo}/>
       </div>
     );
   };

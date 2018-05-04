@@ -2,7 +2,7 @@ import { UserStore } from "../../../stores/UserStore";
 import React from "react";
 import { Dropdown, Icon, Menu } from 'antd';
 import { observer } from "mobx-react";
-import { LocaleMessage } from "../../../internationalization/components";
+import { LocaleMessage } from "../../../internationalization/components/index";
 import { Link } from "react-router-dom";
 import { Inject } from "react.di";
 
@@ -23,6 +23,10 @@ export class UserIndicator extends React.Component<Props, {}> {
     const dropdownMenu = <Menu>
       <Menu.Item key="self">
         <Link to={"/self"}><LocaleMessage id={"navbar.selfCenter"}/></Link>
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="charge">
+        <Link to={"/pay"}><LocaleMessage id={"navbar.pay"}/></Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="logout">

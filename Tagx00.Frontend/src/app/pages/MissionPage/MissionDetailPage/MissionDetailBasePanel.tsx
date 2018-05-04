@@ -32,9 +32,9 @@ export class MissionDetailBasePanel extends React.Component<Props, {}> {
   }
 
   render() {
-    const {missionId, title, jobCount, requesterUsername, allowCustomTag, allowedTags, coverUrl, description, end, missionType, start, topics} =
+    const {missionId, title, jobCount, requesterUsername, allowCustomTag, allowedTags, coverUrl, description, end, missionType, start, topics, minimalWorkerLevel, level, credits} =
       this.props.publicItem;
-    return <Row gutter={16}>
+    return <Row gutter={32}>
       <Col md={12} sm={24}>
         {this.props.picPanel}
       </Col>
@@ -59,6 +59,15 @@ export class MissionDetailBasePanel extends React.Component<Props, {}> {
         <Item promptTextId={"jobCount"}>
           {jobCount}
         </Item>
+        <Item promptTextId={"minimalWorkerLevel"}>
+          {minimalWorkerLevel}
+        </Item>
+        <Item promptTextId={"level"}>
+          {level}
+        </Item>
+        <Item promptTextId={"credits"}>
+          {credits}
+        </Item>
         <Item promptTextId={"description"}>
           {description}
         </Item>
@@ -69,7 +78,7 @@ export class MissionDetailBasePanel extends React.Component<Props, {}> {
           <LocaleMessage id={ID_PREFIX + missionType + ".name"}/>
         </Item>
         {this.props.extraInfo}
-        {this.showOperationBar && <OperationBar missionId={missionId}/>}
+        {this.showOperationBar && <OperationBar missionPublicItem={this.props.publicItem}/>}
       </Col>
     </Row>;
   }
