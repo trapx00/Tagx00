@@ -20,7 +20,7 @@ import java.util.Date;
 @Service
 public class ImageDataServiceImpl implements ImageDataService {
     private final static String TEMP_PATH = PathUtil.getTmpPath();
-    private static final long EXPIRATION = new Date().getTime() + 1000 * 60 * 60 * 24 * 100;
+    private static final long EXPIRATION = Long.MAX_VALUE;
 
     @Value("${oos.accessKey}")
     private String accessKey;
