@@ -10,7 +10,7 @@ import { UserRole } from "../../models/user/User";
 interface RegisterFormProps extends FormComponentProps {
 }
 
-type State = RegisterFormData;
+type State = RegisterFormData & { registering: boolean };
 
 @observer
 class RegisterTable extends React.Component<RegisterFormProps, State> {
@@ -20,7 +20,8 @@ class RegisterTable extends React.Component<RegisterFormProps, State> {
     role: UserRole.ROLE_WORKER,
     username: "",
     password: "",
-    email: ""
+    email: "",
+    registering: false
   };
 
   handleRoleSelect = (e) => {
@@ -48,7 +49,9 @@ class RegisterTable extends React.Component<RegisterFormProps, State> {
   };
 
   handleSubmit = async () => {
+    this.setState({ registering: true});
     const res = await this.registerStore.submitInfo(this.state);
+    this.setState({ registering: false});
     switch (res) {
       case 201:
         this.registerStore.nextStep();
@@ -164,7 +167,7 @@ class RegisterTable extends React.Component<RegisterFormProps, State> {
               )}
             </Form.Item>
             <Form.Item {...buttonItemLayout}>
-              <Button type="primary" size="large" style={{textAlign: 'center'}}
+              <Button loading={this.state.registering}  type="primary" size="large" style={{textAlign: 'center'}}
                       onClick={this.handleSubmit}>{props.submitLabel}</Button>
               <a href="#" style={{float: 'right'}}>{props.passwordForgot}</a>
             </Form.Item>
