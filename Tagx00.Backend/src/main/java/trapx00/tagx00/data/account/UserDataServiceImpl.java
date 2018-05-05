@@ -17,6 +17,7 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserDoesNotExistException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserDataServiceImpl implements UserDataService {
@@ -91,7 +92,7 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public void deleteUser(String username) {
-        userDao.delete(username);
+        userDao.deleteById(username);
     }
 
     /**
@@ -152,7 +153,7 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public void deleteTempUserByUsername(String tempUsername) {
-        tempUserDao.delete(tempUsername);
+        tempUserDao.deleteById(tempUsername);
     }
 
     /**
@@ -163,7 +164,7 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public User[] getUsersByRole(Role role) {
-        ArrayList<User> userArrayList = userDao.findUsersByRole(role);
+        ArrayList<User> userArrayList = userDao.findUsersByRoles(role);
         return userArrayList.toArray(new User[userArrayList.size()]);
     }
 
@@ -185,7 +186,7 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public User[] findAllUsers() {
-        ArrayList<User> userArrayList = userDao.findAll();
+        List<User> userArrayList = userDao.findAll();
         return userArrayList.toArray(new User[userArrayList.size()]);
     }
 }

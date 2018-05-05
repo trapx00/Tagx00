@@ -1,13 +1,11 @@
 package trapx00.tagx00.entity.mission.instance;
 
+import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +15,9 @@ public class ImageInstance extends Instance {
     @Column(name = "imageResults")
     @ElementCollection(targetClass = ImageResult.class)
     private List<ImageResult> imageResults;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "mission_id")
+    private ImageMission imageMission;
 
     public ImageInstance() {
     }

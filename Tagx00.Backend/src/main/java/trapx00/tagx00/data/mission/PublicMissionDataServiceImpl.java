@@ -81,7 +81,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
         MissionDetailVo missionDetailVo = null;
         switch (missionType) {
             case IMAGE:
-                ImageMission mission = imageMissionDao.findMissionByMissionId(missionId);
+                ImageMission mission = imageMissionDao.findImageMissionByMissionId(missionId);
                 if (mission == null)
                     return null;
                 if (mission.getMissionType().equals(MissionType.IMAGE)) {

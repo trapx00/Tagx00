@@ -45,7 +45,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         Mission result = null;
         switch (mission.getMissionType()) {
             case IMAGE:
-                if ((result = imageMissionDao.saveMission((ImageMission) mission)) == null) {
+                if ((result = imageMissionDao.save((ImageMission) mission)) == null) {
                     throw new SystemException();
                 }
         }
@@ -140,7 +140,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         Mission mission = null;
         switch (missionType) {
             case IMAGE:
-                mission = imageMissionDao.findMissionByMissionId(missionId);
+                mission = imageMissionDao.findImageMissionByMissionId(missionId);
                 break;
         }
         return mission;
@@ -157,7 +157,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         Mission mission = null;
         switch (missionType) {
             case IMAGE:
-                mission = imageMissionDao.findMissionByMissionId(missionId);
+                mission = imageMissionDao.findImageMissionByMissionId(missionId);
                 break;
         }
         mission.setCredits(mission.getCredits() + credits);
@@ -178,7 +178,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
             case IMAGE:
                 instance = imageInstanceDao.findInstanceByInstanceId(instanceId);
                 int missionId = instance.getMissionId();
-                mission = imageMissionDao.findMissionByMissionId(missionId);
+                mission = imageMissionDao.findImageMissionByMissionId(missionId);
         }
         instance.setMissionInstanceState(MissionInstanceState.FINALIZED);
         instance.setComment(missionFinalizeVo.getComment());
@@ -187,7 +187,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         instance.setCredits(missionFinalizeVo.getCredits());
         switch (instance.getMissionType()) {
             case IMAGE:
-                if (imageInstanceDao.saveInstance((ImageInstance) instance) == null) {
+                if (imageInstanceDao.save((ImageInstance) instance) == null) {
                     throw new SystemException();
                 }
         }

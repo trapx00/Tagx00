@@ -31,7 +31,7 @@ public class MissionStateAspect {
             MissionState missionState = getMissionState(imageMission.getStart(), imageMission.getEnd());
             if (missionState != imageMission.getMissionState()) {
                 imageMission.setMissionState(missionState);
-                imageMissionDao.saveMission(imageMission);
+                imageMissionDao.save(imageMission);
             }
         }
     }

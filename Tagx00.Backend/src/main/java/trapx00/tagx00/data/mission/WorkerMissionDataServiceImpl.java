@@ -42,7 +42,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     @Override
     public int saveInstanceDetailVo(InstanceDetailVo instanceDetailVo) throws SystemException, MissionAlreadyAcceptedException {
         if (MissionUtil.getId(instanceDetailVo.getInstance().getInstanceId()) == 0) {
-            instanceDetailVo.setMissionType(imageMissionDao.findMissionByMissionId(MissionUtil.getId(instanceDetailVo.getInstance().getMissionId())).getMissionType());
+            instanceDetailVo.setMissionType(imageMissionDao.findImageMissionByMissionId(MissionUtil.getId(instanceDetailVo.getInstance().getMissionId())).getMissionType());
             instanceDetailVo = new ImageInstanceDetailVo(instanceDetailVo.getMissionType(), instanceDetailVo.getInstance(), new ArrayList<>());
         }
         MissionType missionType = instanceDetailVo.getMissionType();
@@ -53,7 +53,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
             case IMAGE:
                 ImageInstanceDetailVo imageInstanceDetailVo = (ImageInstanceDetailVo) instanceDetailVo;
                 ImageInstance imageInstance = generateImageInstance(instanceVo, imageInstanceDetailVo);
-                result = imageInstanceDao.saveInstance(imageInstance);
+                result = imageInstanceDao.save(imageInstance);
                 break;
         }
         if (result == null)
@@ -73,7 +73,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
             case IMAGE:
                 ImageInstance imageInstance = imageInstanceDao.findInstancesByMissionId(instanceId).get(0);
                 imageInstance.setMissionInstanceState(MissionInstanceState.ABANDONED);
-                imageInstanceDao.saveInstance(imageInstance);
+                imageInstanceDao.save(imageInstance);
         }
         return 0;
     }
@@ -182,7 +182,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         InstanceDetailVo instanceDetailVo = this.getInstanceDetailVoByUsernameAndMissionId(username, missionId, missionType);
         switch (instanceDetailVo.getMissionType()) {
             case IMAGE:
-                imageInstanceDao.deleteInstance(MissionUtil.getId(instanceDetailVo.getInstance().getInstanceId()));
+                imageInstanceDao.deleteById(MissionUtil.getId(instanceDetailVo.getInstance().getInstanceId()));
         }
         return true;
     }
