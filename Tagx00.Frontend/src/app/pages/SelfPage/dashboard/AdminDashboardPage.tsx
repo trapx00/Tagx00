@@ -7,6 +7,8 @@ import { PieChart, Pie, Legend, Tooltip, Cell } from "recharts";
 import { DefinitionItem } from "../../../components/DefinitionItem";
 import { LocaleMessage } from "../../../internationalization/components";
 import { MissionDateChart } from "./charts/InstanceAcceptedWithDateChart";
+import { MissionCyclePieChart } from "./charts/MissionCyclePieChart";
+import { InstanceCyclePieChart } from "./charts/InstanceCyclePieChart";
 
 
 export class AdminDashboardPage extends React.Component<{}, {}> {
@@ -28,11 +30,11 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
     };
 
     // //
-    // activeMissionCount: number;
-    // endedMissionCount: number;
-    // pendingMissionCount: number;
+    // activeInstanceCount: number;
+    // endedInstanceCount: number;
+    // pendingInstanceCount: number;
     // userCount: number;
-    // totalMissionCount: number;
+    // totalInstanceCount: number;
     // totalInstanceCount: number;
     // inProgressInstanceCount: number;
     // submittedInstanceCount: number;
@@ -40,19 +42,10 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
     // //
 
     const info = await this.adminService.getAdminInfo(this.userStore.token);
-    const MissionData = [
-      {name: MissionProps.pending, value: info.pendingMissionCount},
-      {name: MissionProps.active, value: info.activeMissionCount},
-      {name: MissionProps.ended, value: info.endedMissionCount}
-    ];
-    const InstanceData = [
-      {name: InstanceProps.inProgress, value: info.inProgressInstanceCount},
-      {name: InstanceProps.submitted, value: info.submittedInstanceCount},
-      {name: InstanceProps.finalized, value: info.finalizeInstanceCount}
-    ];
+
+
     const colors = ["#39fc59", "#68ff41", "#4371ff", "#d6ff99"];
     const pieText = [InstanceProps.inProgress, InstanceProps.submitted, InstanceProps.awaitingComment, InstanceProps.finalized];
-
 
     return <div>
       <DefinitionItem prompt={"系统用户数"} children={info.userCount}/>
@@ -60,37 +53,12 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
       <DefinitionItem prompt={"未到时间任务数"} children={info.pendingMissionCount}/>
       <DefinitionItem prompt={"结束任务数"} children={info.endedMissionCount}/>
       <DefinitionItem prompt={"总任务数"} children={info.totalMissionCount}/>
-      <PieChart width={500} height={500} style={{"display": "inline"}}>
-        <Pie isAnimationActive={false}
-             data={MissionData}
-             dataKey="value"
-             cx="30%" cy="30%"
-             outerRadius={80}
-             label>
-          {
-            InstanceData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index]}/>
-            ))
-          }
-        </Pie>
-      </PieChart>
+      <MissionCyclePieChart activeMissionCount={info.activeMissionCount} pendingMissionCount={info.pendingMissionCount} endedMissionCount={info.endedMissionCount} totalMissionCount={info.totalMissionCount}/>
       <DefinitionItem prompt={"正在进行实例数"} children={info.inProgressInstanceCount}/>
       <DefinitionItem prompt={"已提交实例数"} children={info.submittedInstanceCount}/>
       <DefinitionItem prompt={"已结束实例数"} children={info.finalizeInstanceCount}/>
-      <PieChart width={500} height={500} style={{"display": "inline"}}>
-        <Pie isAnimationActive={false}
-             data={InstanceData}
-             dataKey="value"
-             cx="30%" cy="30%"
-             outerRadius={80}
-             label>
-          {
-            InstanceData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index]}/>
-            ))
-          }
-        </Pie>
-      </PieChart>
+      <DefinitionItem prompt={"总实例数"} children={info.totalInstanceCount}/>
+      <InstanceCyclePieChart activeInstanceCount={info.inProgressInstanceCount} pendingInstanceCount={info.submittedInstanceCount} endedInstanceCount={info.finalizeInstanceCount} totalInstanceCount={info.totalInstanceCount}/>
       <p>任务实例接受和日期折线图</p>
       <MissionDateChart data={info.listOfInstanceDateNum}/>
 
