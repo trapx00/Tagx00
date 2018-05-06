@@ -60,12 +60,6 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
       <DefinitionItem prompt={"未到时间任务数"} children={info.pendingMissionCount}/>
       <DefinitionItem prompt={"结束任务数"} children={info.endedMissionCount}/>
       <DefinitionItem prompt={"总任务数"} children={info.totalMissionCount}/>
-      <DefinitionItem prompt={"正在进行实例数"} children={info.inProgressInstanceCount}/>
-      <DefinitionItem prompt={"已提交实例数"} children={info.submittedInstanceCount}/>
-      <DefinitionItem prompt={"已结束实例数"} children={info.finalizeInstanceCount}/>
-      <p>任务实例接受和日期折线图</p>
-      <MissionDateChart data={info.listOfInstanceDateNum}/>
-
       <PieChart width={500} height={500} style={{"display": "inline"}}>
         <Pie isAnimationActive={false}
              data={MissionData}
@@ -80,6 +74,9 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
           }
         </Pie>
       </PieChart>
+      <DefinitionItem prompt={"正在进行实例数"} children={info.inProgressInstanceCount}/>
+      <DefinitionItem prompt={"已提交实例数"} children={info.submittedInstanceCount}/>
+      <DefinitionItem prompt={"已结束实例数"} children={info.finalizeInstanceCount}/>
       <PieChart width={500} height={500} style={{"display": "inline"}}>
         <Pie isAnimationActive={false}
              data={InstanceData}
@@ -94,6 +91,9 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
           }
         </Pie>
       </PieChart>
+      <p>任务实例接受和日期折线图</p>
+      <MissionDateChart data={info.listOfInstanceDateNum}/>
+
     </div>
 
   }
