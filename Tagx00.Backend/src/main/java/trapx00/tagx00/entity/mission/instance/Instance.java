@@ -4,17 +4,14 @@ import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
 
 public class Instance {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "instanceId")
-    private int instanceId;
+    private String instanceId;
 
     @Column(name = "workerUsername")
     private String workerUsername;
@@ -35,7 +32,7 @@ public class Instance {
     private boolean submitted;
 
     @Column(name = "missionId")
-    private int missionId;
+    private String missionId;
 
     @Column(name = "exp")
     private double exp;
@@ -52,7 +49,7 @@ public class Instance {
     public Instance() {
     }
 
-    public Instance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, MissionType missionType, Date acceptDate, Date submitDate, boolean submitted, int missionId, double exp, double expRatio, int credits, String comment) {
+    public Instance(String instanceId, String workerUsername, MissionInstanceState missionInstanceState, MissionType missionType, Date acceptDate, Date submitDate, boolean submitted, String missionId, double exp, double expRatio, int credits, String comment) {
         this.instanceId = instanceId;
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
@@ -67,20 +64,20 @@ public class Instance {
         this.comment = comment;
     }
 
+    public String getInstanceId() {
+        return instanceId;
+    }
+
+    public void setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
+    }
+
     public String getComment() {
         return comment;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public int getInstanceId() {
-        return instanceId;
-    }
-
-    public void setInstanceId(int instanceId) {
-        this.instanceId = instanceId;
     }
 
     public String getWorkerUsername() {
@@ -107,11 +104,11 @@ public class Instance {
         this.missionType = missionType;
     }
 
-    public int getMissionId() {
+    public String getMissionId() {
         return missionId;
     }
 
-    public void setMissionId(int missionId) {
+    public void setMissionId(String missionId) {
         this.missionId = missionId;
     }
 

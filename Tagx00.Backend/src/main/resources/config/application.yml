@@ -24,22 +24,22 @@ email:
             您正在注册Tagx00账号，请在验证码输入框中输入："
   content2: "<br/>以完成注册。"
 spring:
+  jpa:
+    database: mysql
+    properties:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/tagx00?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: zhanglingzhe0820
   aop:
     auto: true
     proxy-target-class: false
-  jpa:
-      database: mysql
-      properties:
-        dialect: org.hibernate.dialect.MySQL5Dialect
-      show-sql: true
-      hibernate:
-        ddl-auto: update
-      open-in-view: true
-    datasource:
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/tagx00?useUnicode=true&characterEncoding=UTF-8&useSSL=false
-      username: root
-      password: zhanglingzhe0820
   mail:
     host: smtp.163.com
     username: m18851822162@163.com

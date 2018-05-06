@@ -3,16 +3,16 @@ package trapx00.tagx00.entity.mission;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 public class Mission {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int missionId;
+    @Column(name = "missionId")
+    private String missionId;
     @Column(name = "title")
     private String title;
     @Column(name = "description")
@@ -47,7 +47,8 @@ public class Mission {
     public Mission() {
     }
 
-    public Mission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, ArrayList<String> browserUsers) {
+    public Mission(String missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, ArrayList<String> browserUsers) {
+        this.missionId = missionId;
         this.title = title;
         this.description = description;
         this.topics = topics;
@@ -65,20 +66,20 @@ public class Mission {
         this.browserUsers = browserUsers;
     }
 
+    public String getMissionId() {
+        return missionId;
+    }
+
+    public void setMissionId(String missionId) {
+        this.missionId = missionId;
+    }
+
     public MissionState getMissionState() {
         return missionState;
     }
 
     public void setMissionState(MissionState missionState) {
         this.missionState = missionState;
-    }
-
-    public int getMissionId() {
-        return missionId;
-    }
-
-    public void setMissionId(int missionId) {
-        this.missionId = missionId;
     }
 
     public String getTitle() {

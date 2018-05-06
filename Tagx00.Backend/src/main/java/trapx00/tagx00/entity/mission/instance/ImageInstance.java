@@ -16,7 +16,7 @@ public class ImageInstance extends Instance {
     @ElementCollection(targetClass = ImageResult.class)
     private List<ImageResult> imageResults;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "mission_id")
+    @JoinColumn(name = "imageMission_id")
     private ImageMission imageMission;
 
     public ImageInstance() {
@@ -26,11 +26,10 @@ public class ImageInstance extends Instance {
         this.imageResults = imageResults;
     }
 
-    public ImageInstance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState,
-                         MissionType missionType, Date acceptDate, Date submitDate, boolean submitted,
-                         int missionId, double exp, double expRatio, int credits, String comment, List<ImageResult> imageResults) {
+    public ImageInstance(String instanceId, String workerUsername, MissionInstanceState missionInstanceState, MissionType missionType, Date acceptDate, Date submitDate, boolean submitted, int missionId, double exp, double expRatio, int credits, String comment, List<ImageResult> imageResults, ImageMission imageMission) {
         super(instanceId, workerUsername, missionInstanceState, missionType, acceptDate, submitDate, submitted, missionId, exp, expRatio, credits, comment);
         this.imageResults = imageResults;
+        this.imageMission = imageMission;
     }
 
     public List<ImageResult> getImageResults() {

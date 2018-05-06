@@ -9,7 +9,6 @@ import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.publicdatas.mission.MissionType;
-import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 import trapx00.tagx00.vo.mission.image.ImageMissionDetailVo;
@@ -77,7 +76,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
      * @returnxs
      */
     @Override
-    public MissionDetailVo getOneMissionDetail(int missionId, MissionType missionType) {
+    public MissionDetailVo getOneMissionDetail(String missionId, MissionType missionType) {
         MissionDetailVo missionDetailVo = null;
         switch (missionType) {
             case IMAGE:
@@ -86,7 +85,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                     return null;
                 if (mission.getMissionType().equals(MissionType.IMAGE)) {
                     missionDetailVo = new ImageMissionDetailVo(new MissionPublicItemVo(
-                            MissionUtil.addTypeToId(missionId, missionType), mission.getTitle(), mission.getDescription(), mission.getTopics(),
+                            missionId, mission.getTitle(), mission.getDescription(), mission.getTopics(),
                             mission.isAllowCustomTag(), mission.getAllowedTags(), mission.getMissionType(),
                             mission.getStart(), mission.getEnd(), mission.getCoverUrl(), mission.getLevel(), mission.getCredits(), mission.getMinimalWorkerLevel(), mission.getImageUrls().size() * mission.getImageMissionTypes().size(), mission.getRequesterUsername()
                     ), mission.getMissionState(), mission.getRequesterUsername(), mission.getImageUrls(), mission.getImageMissionTypes());
@@ -111,7 +110,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
     }
 
     public ImageMissionPublicItemVo generateImageMissionPublicItemVo(ImageMission imageMission) {
-        return new ImageMissionPublicItemVo(MissionUtil.addTypeToId(imageMission.getMissionId(), imageMission.getMissionType()), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(),
+        return new ImageMissionPublicItemVo(imageMission.getMissionId(), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(),
                 imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), imageMission.getMissionType(),
                 imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(), imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(), imageMission.getImageUrls().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(), imageMission.getImageMissionTypes());
     }

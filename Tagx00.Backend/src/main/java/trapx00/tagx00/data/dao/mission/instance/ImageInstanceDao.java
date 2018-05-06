@@ -5,10 +5,10 @@ import trapx00.tagx00.entity.mission.instance.ImageInstance;
 
 import java.util.ArrayList;
 
-public interface ImageInstanceDao extends JpaRepository<ImageInstance, Integer> {
-    ArrayList<ImageInstance> findInstancesByMissionId(int missionId);
+public interface ImageInstanceDao extends JpaRepository<ImageInstance, String> {
+    ArrayList<ImageInstance> findImageInstancesByMissionId(String missionId);
 
     ArrayList<ImageInstance> findImageInstancesByWorkerUsername(String workerUsername);
 
-    ImageInstance findInstanceByInstanceId(int instanceId);
+    ImageInstance findImageInstanceByInstanceId(String instanceId);
 }

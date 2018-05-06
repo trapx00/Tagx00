@@ -1,18 +1,28 @@
 package trapx00.tagx00.entity.mission.instance.workresult;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 public class WorkResult {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private String workResultId;
     @Column(name = "isDone")
     private boolean isDone;
 
     public WorkResult() {
+    }
+
+    public WorkResult(String workResultId, boolean isDone) {
+        this.workResultId = workResultId;
+        this.isDone = isDone;
+    }
+
+    public String getWorkResultId() {
+        return workResultId;
+    }
+
+    public void setWorkResultId(String workResultId) {
+        this.workResultId = workResultId;
     }
 
     public WorkResult(boolean isDone) {
@@ -21,14 +31,6 @@ public class WorkResult {
 
     public boolean isDone() {
         return isDone;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setDone(boolean done) {

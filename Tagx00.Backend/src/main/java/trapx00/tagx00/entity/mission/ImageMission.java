@@ -1,5 +1,6 @@
 package trapx00.tagx00.entity.mission;
 
+import trapx00.tagx00.entity.mission.favorite.ImageFavorite;
 import trapx00.tagx00.entity.mission.instance.ImageInstance;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
@@ -21,19 +22,18 @@ public class ImageMission extends Mission {
     private List<ImageMissionType> imageMissionTypes;
     @OneToMany(mappedBy = "imageMission", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private List<ImageInstance> imageInstances;
+    @OneToMany(mappedBy = "imageMission", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    private List<ImageFavorite> imageFavorites;
 
     public ImageMission() {
     }
 
-    public ImageMission(List<String> imageUrls, List<ImageMissionType> imageMissionTypes) {
+    public ImageMission(String missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, ArrayList<String> browserUsers, List<String> imageUrls, List<ImageMissionType> imageMissionTypes, List<ImageInstance> imageInstances, List<ImageFavorite> imageFavorites) {
+        super(missionId, title, description, topics, allowCustomTag, allowedTags, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
         this.imageUrls = imageUrls;
         this.imageMissionTypes = imageMissionTypes;
-    }
-
-    public ImageMission(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, ArrayList<String> browserUsers, List<String> imageUrls, List<ImageMissionType> imageMissionTypes) {
-        super(title, description, topics, allowCustomTag, allowedTags, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
-        this.imageUrls = imageUrls;
-        this.imageMissionTypes = imageMissionTypes;
+        this.imageInstances = imageInstances;
+        this.imageFavorites = imageFavorites;
     }
 
     public List<String> getImageUrls() {
@@ -50,5 +50,21 @@ public class ImageMission extends Mission {
 
     public void setImageMissionTypes(List<ImageMissionType> imageMissionTypes) {
         this.imageMissionTypes = imageMissionTypes;
+    }
+
+    public List<ImageInstance> getImageInstances() {
+        return imageInstances;
+    }
+
+    public void setImageInstances(List<ImageInstance> imageInstances) {
+        this.imageInstances = imageInstances;
+    }
+
+    public List<ImageFavorite> getImageFavorites() {
+        return imageFavorites;
+    }
+
+    public void setImageFavorites(List<ImageFavorite> imageFavorites) {
+        this.imageFavorites = imageFavorites;
     }
 }
