@@ -164,7 +164,7 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public User[] getUsersByRole(Role role) {
-        ArrayList<User> userArrayList = userDao.findUsersByRoles(role);
+        ArrayList<User> userArrayList = userDao.findUsersByRole(role);
         return userArrayList.toArray(new User[userArrayList.size()]);
     }
 

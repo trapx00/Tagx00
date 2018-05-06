@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.List;
 
 @Entity
 @Table(name = "tempUser")
@@ -16,19 +15,19 @@ public class TempUser {
     private String password;
     @Column(name = "email")
     private String email;
-    @Column(name = "roles")
-    private List<Role> roles;
+    @Column(name = "role")
+    private Role role;
     @Column(name = "validationCode")
     private String validationCode;
 
     public TempUser() {
     }
 
-    public TempUser(String username, String password, String email, List<Role> roles, String validationCode) {
+    public TempUser(String username, String password, String email, Role role, String validationCode) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.roles = roles;
+        this.role = role;
         this.validationCode = validationCode;
     }
 
@@ -56,12 +55,12 @@ public class TempUser {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public String getValidationCode() {
