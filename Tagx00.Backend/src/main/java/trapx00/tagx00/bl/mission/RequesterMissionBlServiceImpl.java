@@ -60,13 +60,13 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     @Override
     public MissionCreateResponse createMission(MissionCreateVo mission) throws SystemException {
         String username = UserInfoUtil.getUsername();
-        int missionId = requesterMissionDataService.saveMission(generateMission(mission));
+        String missionId = requesterMissionDataService.saveMission(generateMission(mission));
         User user = userDataService.getUserByUsername(username);
         user.setCredits(user.getCredits() - mission.getCredits());
         userDataService.saveUser(user);
         JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
         String token = jwtService.generateToken(jwtUser, EXPIRATION);
-        return new MissionCreateResponse(MissionUtil.addTypeToId(missionId, mission.getMissionType()), token);
+        return new MissionCreateResponse(missionId, token);
     }
     /**
      *
@@ -134,7 +134,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public MissionRequestQueryResponse queryMissionCredits(String missionId) throws MissionIdDoesNotExistException {
-        Mission result = null;
+        Mission result;
         if ((result = requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId),
                 MissionUtil.getType(missionId))) == null)
             throw new MissionIdDoesNotExistException();
@@ -171,7 +171,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     private Mission generateMission(MissionCreateVo missionCreateVo) {
         switch (missionCreateVo.getMissionType()) {
             case IMAGE:
-                return new ImageMission(0, missionCreateVo.getTitle(), missionCreateVo.getDescription(), missionCreateVo.getTopics(), missionCreateVo.isAllowCustomTag(), missionCreateVo.getAllowedTags(), missionCreateVo.getMissionType(), MissionState.PENDING, missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<String>(), ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes());
+                return new ImageMission(missionCreateVo.getTitle(), missionCreateVo.getDescription(), missionCreateVo.getTopics(), missionCreateVo.isAllowCustomTag(), missionCreateVo.getAllowedTags(), missionCreateVo.getMissionType(), MissionState.PENDING, missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(), ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(), new ArrayList<>(), new ArrayList<>());
         }
         return null;
     }

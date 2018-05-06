@@ -1,16 +1,12 @@
 package trapx00.tagx00.entity.account;
 
 
-import trapx00.tagx00.entity.Entity;
-import trapx00.tagx00.entity.annotation.Column;
-import trapx00.tagx00.entity.annotation.ElementCollection;
-import trapx00.tagx00.entity.annotation.Id;
-import trapx00.tagx00.entity.annotation.Table;
-
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 @Table(name = "user")
-public class User extends Entity {
+public class User {
     @Id
     @Column(name = "username")
     private String username;
