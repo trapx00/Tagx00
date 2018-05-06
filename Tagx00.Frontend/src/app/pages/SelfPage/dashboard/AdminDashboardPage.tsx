@@ -63,37 +63,37 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
       <DefinitionItem prompt={"正在进行实例数"} children={info.inProgressInstanceCount}/>
       <DefinitionItem prompt={"已提交实例数"} children={info.submittedInstanceCount}/>
       <DefinitionItem prompt={"已结束实例数"} children={info.finalizeInstanceCount}/>
-      <p>任务实例接受和日期折线图</p>
-      <MissionDateChart data={info.listOfInstanceDateNum}/>
+      {/*<p>任务实例接受和日期折线图</p>*/}
+      {/*<MissionDateChart data={info.listOfInstanceDateNum}/>*/}
 
-      <PieChart width={500} height={500} style={{"display": "inline"}}>
-        <Pie isAnimationActive={false}
-             data={MissionData}
-             dataKey="value"
-             cx="30%" cy="30%"
-             outerRadius={80}
-             label>
-          {
-            InstanceData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index]}/>
-            ))
-          }
-        </Pie>
-      </PieChart>
-      <PieChart width={500} height={500} style={{"display": "inline"}}>
-        <Pie isAnimationActive={false}
-             data={InstanceData}
-             dataKey="value"
-             cx="30%" cy="30%"
-             outerRadius={80}
-             label>
-          {
-            InstanceData.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={colors[index]}/>
-            ))
-          }
-        </Pie>
-      </PieChart>
+      {/*<PieChart width={500} height={500} style={{"display": "inline"}}>*/}
+        {/*<Pie isAnimationActive={false}*/}
+             {/*data={MissionData}*/}
+             {/*dataKey="value"*/}
+             {/*cx="30%" cy="30%"*/}
+             {/*outerRadius={80}*/}
+             {/*label>*/}
+          {/*{*/}
+            {/*InstanceData.map((entry, index) => (*/}
+              {/*<Cell key={`cell-${index}`} fill={colors[index]}/>*/}
+            {/*))*/}
+          {/*}*/}
+        {/*</Pie>*/}
+      {/*</PieChart>*/}
+      {/*<PieChart width={500} height={500} style={{"display": "inline"}}>*/}
+        {/*<Pie isAnimationActive={false}*/}
+             {/*data={InstanceData}*/}
+             {/*dataKey="value"*/}
+             {/*cx="30%" cy="30%"*/}
+             {/*outerRadius={80}*/}
+             {/*label>*/}
+          {/*{*/}
+            {/*InstanceData.map((entry, index) => (*/}
+              {/*<Cell key={`cell-${index}`} fill={colors[index]}/>*/}
+            {/*))*/}
+          {/*}*/}
+        {/*</Pie>*/}
+      {/*</PieChart>*/}
     </div>
 
   }

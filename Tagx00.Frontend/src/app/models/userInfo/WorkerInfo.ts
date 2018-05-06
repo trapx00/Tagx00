@@ -8,4 +8,5 @@ export interface WorkerInfo {
     acceptedMissionCount: number;
     inProgressMissionCount: number;
     abandonedMissionCount: number;
+    finalizedMissionCount: number;
 }
