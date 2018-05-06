@@ -178,7 +178,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
 
     private ImageInstance generateImageInstance(InstanceVo instanceVo, ImageInstanceDetailVo instanceDetailVo) {
         ImageMission imageMission = imageMissionDao.findImageMissionByMissionId(instanceVo.getMissionId());
-        return new ImageInstance(instanceVo.getInstanceId(), instanceVo.getWorkerUsername(), instanceVo.getMissionInstanceState(), MissionType.IMAGE, instanceVo.getAcceptDate(), instanceVo.getSubmitDate(), instanceVo.isSubmitted(), MissionUtil.getId(instanceVo.getMissionId()), instanceVo.getExp(), instanceVo.getExpRatio(), instanceVo.getCredits(), instanceVo.getComment(), instanceDetailVo.getImageResults(), imageMission);
+        return new ImageInstance(instanceVo.getInstanceId(), instanceVo.getWorkerUsername(), instanceVo.getMissionInstanceState(), MissionType.IMAGE, instanceVo.getAcceptDate(), instanceVo.getSubmitDate(), instanceVo.isSubmitted(), instanceVo.getMissionId(), instanceVo.getExp(), instanceVo.getExpRatio(), instanceVo.getCredits(), instanceVo.getComment(), instanceDetailVo.getImageResults(), imageMission);
     }
 
     private ImageInstanceVo generateImageInstanceVo(Instance instance, int completedCounts) {

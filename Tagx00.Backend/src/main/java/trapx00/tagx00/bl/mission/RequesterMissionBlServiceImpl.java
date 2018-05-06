@@ -83,7 +83,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
         if (missionId.length() == 0) {
             return queryAllInstances();
         }
-        InstanceVo[] instance = requesterMissionDataService.getInstancesByMissionId(MissionUtil.getId(missionId), MissionUtil.getType(missionId));
+        InstanceVo[] instance = requesterMissionDataService.getInstancesByMissionId(missionId, MissionUtil.getType(missionId));
         InstanceResponse instanceResponse = new InstanceResponse(Arrays.asList(instance));
         return instanceResponse;
     }
@@ -102,7 +102,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public InstanceDetailResponse queryInstance(String instanceId) throws InstanceNotExistException {
-        InstanceDetailVo instanceVo = requesterMissionDataService.getInstanceByInstanceId(MissionUtil.getId(instanceId), MissionUtil.getType(instanceId));
+        InstanceDetailVo instanceVo = requesterMissionDataService.getInstanceByInstanceId(instanceId, MissionUtil.getType(instanceId));
         if (instanceVo == null)
             throw new InstanceNotExistException();
         InstanceDetailResponse instanceDetailResponse = new InstanceDetailResponse(instanceVo);
@@ -118,11 +118,11 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public MissionChargeResponse chargeMission(String missionId, int credits) throws SystemException {
-        requesterMissionDataService.updateMission(MissionUtil.getId(missionId), credits, MissionUtil.getType(missionId));
+        requesterMissionDataService.updateMission(missionId, credits, MissionUtil.getType(missionId));
         User user = userDataService.getUserByUsername(UserInfoUtil.getUsername());
         user.setCredits(user.getCredits() - credits);
         userDataService.saveUser(user);
-        Mission mission = requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId), MissionUtil.getType(missionId));
+        Mission mission = requesterMissionDataService.getMissionByMissionId(missionId, MissionUtil.getType(missionId));
         return new MissionChargeResponse(mission.getCredits());
     }
 
@@ -135,7 +135,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     @Override
     public MissionRequestQueryResponse queryMissionCredits(String missionId) throws MissionIdDoesNotExistException {
         Mission result;
-        if ((result = requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId),
+        if ((result = requesterMissionDataService.getMissionByMissionId(missionId,
                 MissionUtil.getType(missionId))) == null)
             throw new MissionIdDoesNotExistException();
         else
@@ -152,10 +152,10 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws SystemException {
-        requesterMissionDataService.updateInstance(MissionUtil.getId(instanceId), missionFinalizeVo, MissionUtil.getType(instanceId));
-        InstanceDetailVo instanceDetailVo = requesterMissionDataService.getInstanceByInstanceId(MissionUtil.getId(instanceId), MissionUtil.getType(instanceId));
+        requesterMissionDataService.updateInstance(instanceId, missionFinalizeVo, MissionUtil.getType(instanceId));
+        InstanceDetailVo instanceDetailVo = requesterMissionDataService.getInstanceByInstanceId(instanceId, MissionUtil.getType(instanceId));
         String missionId = instanceDetailVo.getInstance().getMissionId();
-        Mission mission = requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId), MissionUtil.getType(missionId));
+        Mission mission = requesterMissionDataService.getMissionByMissionId(missionId, MissionUtil.getType(missionId));
         User user = userDataService.getUserByUsername(instanceDetailVo.getInstance().getWorkerUsername());
         user.setCredits(user.getCredits() + missionFinalizeVo.getCredits());
         user.setExp(user.getExp() + missionFinalizeVo.getExpRatio() * mission.getLevel() * 20);
@@ -165,14 +165,18 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
         requesterMissionDataService.updateMission(mission.getMissionId(), -missionFinalizeVo.getCredits(), mission.getMissionType());
 
         return new InstanceDetailResponse(
-                requesterMissionDataService.getInstanceByInstanceId(MissionUtil.getId(instanceId), MissionUtil.getType(instanceId)));
+                requesterMissionDataService.getInstanceByInstanceId(instanceId, MissionUtil.getType(instanceId)));
     }
 
     private Mission generateMission(MissionCreateVo missionCreateVo) {
         switch (missionCreateVo.getMissionType()) {
             case IMAGE:
-                return new ImageMission(missionCreateVo.getTitle(), missionCreateVo.getDescription(), missionCreateVo.getTopics(), missionCreateVo.isAllowCustomTag(), missionCreateVo.getAllowedTags(), missionCreateVo.getMissionType(), MissionState.PENDING, missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(), ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(), new ArrayList<>(), new ArrayList<>());
+                return new ImageMission(getNextId(), missionCreateVo.getTitle(), missionCreateVo.getDescription(), missionCreateVo.getTopics(), missionCreateVo.isAllowCustomTag(), missionCreateVo.getAllowedTags(), missionCreateVo.getMissionType(), MissionState.PENDING, missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(), ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(), new ArrayList<>(), new ArrayList<>());
         }
+        return null;
+    }
+
+    private String getNextId() {
         return null;
     }
 }

@@ -4,14 +4,15 @@ import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Mission {
     @Id
-    @Column(name = "missionId")
     private String missionId;
     @Column(name = "title")
     private String title;

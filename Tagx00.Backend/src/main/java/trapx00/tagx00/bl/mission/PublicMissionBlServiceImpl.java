@@ -29,7 +29,7 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
     @Override
     public MissionDetailResponse getOneMissionDetail(String missionId) throws NotMissionException {
 
-        MissionDetailVo missionDetailVos = publicMissionDataService.getOneMissionDetail(MissionUtil.getId(missionId), MissionUtil.getType(missionId));
+        MissionDetailVo missionDetailVos = publicMissionDataService.getOneMissionDetail(missionId, MissionUtil.getType(missionId));
         if (missionDetailVos == null)
             throw new NotMissionException();
         return new MissionDetailResponse(missionDetailVos);

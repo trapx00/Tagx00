@@ -4,13 +4,13 @@ import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
 
-
+@Entity
 public class Instance {
     @Id
-    @Column(name = "instanceId")
     private String instanceId;
 
     @Column(name = "workerUsername")
