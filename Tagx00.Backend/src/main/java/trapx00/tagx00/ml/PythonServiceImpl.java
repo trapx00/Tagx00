@@ -1,8 +1,7 @@
 package trapx00.tagx00.ml;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -20,9 +19,13 @@ public class PythonServiceImpl implements PythonService {
     @Override
     public KeysVo extractKey(String content) throws SystemException {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<KeysVo> entity = restTemplate.postForEntity(mlAddress + apiExtractKey, new ExtractKeyParameter(content), KeysVo.class);
-        if (entity.getStatusCode() == HttpStatus.ACCEPTED) {
-            return entity.getBody();
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<ExtractKeyParameter> entity = new HttpEntity<>(new ExtractKeyParameter(content), headers);
+        String url = mlAddress + apiExtractKey;
+        ResponseEntity<KeysVo> keysVoResponseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, KeysVo.class);
+
+        if (keysVoResponseEntity.getStatusCode() == HttpStatus.ACCEPTED) {
+            return keysVoResponseEntity.getBody();
         } else {
             throw new SystemException();
         }
