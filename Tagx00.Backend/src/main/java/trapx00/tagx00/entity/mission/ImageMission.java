@@ -20,9 +20,9 @@ public class ImageMission extends Mission {
     @Column(name = "imageMissionType")
     @ElementCollection(targetClass = ImageMissionType.class)
     private List<ImageMissionType> imageMissionTypes;
-    @OneToMany(mappedBy = "imageMission", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<ImageInstance> imageInstances;
-    @OneToMany(mappedBy = "imageMission", cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<ImageFavorite> imageFavorites;
 
     public ImageMission() {

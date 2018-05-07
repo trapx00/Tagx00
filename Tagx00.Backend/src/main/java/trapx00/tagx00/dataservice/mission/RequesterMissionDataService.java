@@ -10,6 +10,13 @@ import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 public interface RequesterMissionDataService {
 
     /**
+     * update mission
+     *
+     * @param mission
+     */
+    String updateMission(Mission mission) throws SystemException;
+
+    /**
      * save mission
      *
      * @param mission
@@ -52,14 +59,16 @@ public interface RequesterMissionDataService {
 
     /**
      * update the mission's credits
-     *  @param missionId
+     *
+     * @param missionId
      * @param credits
      */
     void updateMission(String missionId, int credits, MissionType missionType) throws SystemException;
 
     /**
      * finlize the instance
-     *  @param instanceId
+     *
+     * @param instanceId
      * @param missionFinalizeVo
      */
     void updateInstance(String instanceId, MissionFinalizeVo missionFinalizeVo, MissionType missionType) throws SystemException;

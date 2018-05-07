@@ -22,6 +22,7 @@ import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RequesterMissionDataServiceImpl implements RequesterMissionDataService {
@@ -33,6 +34,23 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     public RequesterMissionDataServiceImpl(ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao) {
         this.imageInstanceDao = imageInstanceDao;
         this.imageMissionDao = imageMissionDao;
+    }
+
+    /**
+     * update mission
+     *
+     * @param mission
+     */
+    @Override
+    public String updateMission(Mission mission) throws SystemException {
+        Mission result = null;
+        switch (mission.getMissionType()) {
+            case IMAGE:
+                if ((result = imageMissionDao.save((ImageMission) mission)) == null) {
+                    throw new SystemException();
+                }
+        }
+        return result.getMissionId();
     }
 
     /**
@@ -207,7 +225,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     }
 
     private String getNextId(List<ImageMission> imageMissions) {
-        String maxId = imageMissions.stream().max((x1, x2) -> (MissionUtil.getId(x1.getMissionId()) - MissionUtil.getId(x2.getMissionId()))).get().getMissionId();
-        return MissionUtil.addTypeToId(MissionUtil.getId(maxId) + 1, MissionType.IMAGE);
+        int result = 0;
+        Optional<ImageMission> maxId = imageMissions.stream().max((x1, x2) -> (MissionUtil.getId(x1.getMissionId()) - MissionUtil.getId(x2.getMissionId())));
+        if (maxId.isPresent()) {
+            result = MissionUtil.getId(maxId.get().getMissionId()) + 1;
+        }
+        return MissionUtil.addTypeToId(result, MissionType.IMAGE);
     }
 }

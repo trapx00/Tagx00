@@ -50,7 +50,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                     urls.add(url);
                     imageMission.setImageUrls(urls);
                 }
-                requesterMissionDataService.saveMission(imageMission);
+                requesterMissionDataService.updateMission(imageMission);
                 return new UploadMissionImageResponse(url);
 
             } else {

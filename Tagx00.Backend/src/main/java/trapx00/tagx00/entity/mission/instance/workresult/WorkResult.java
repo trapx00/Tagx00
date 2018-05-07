@@ -1,10 +1,10 @@
 package trapx00.tagx00.entity.mission.instance.workresult;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.Id;
 
-@Entity
+@Embeddable
 public class WorkResult {
     @Id
     private String workResultId;

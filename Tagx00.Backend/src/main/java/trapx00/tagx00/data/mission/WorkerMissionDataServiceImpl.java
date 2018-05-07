@@ -21,6 +21,7 @@ import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
@@ -31,6 +32,33 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     public WorkerMissionDataServiceImpl(ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao) {
         this.imageInstanceDao = imageInstanceDao;
         this.imageMissionDao = imageMissionDao;
+    }
+
+    /**
+     * update the progress of the instance.
+     *
+     * @param instanceVo
+     */
+    @Override
+    public String updateInstanceDetailVo(InstanceDetailVo instanceDetailVo) throws SystemException, MissionAlreadyAcceptedException {
+        if (0 == MissionUtil.getId(instanceDetailVo.getInstance().getInstanceId())) {
+            instanceDetailVo.setMissionType(imageMissionDao.findImageMissionByMissionId(instanceDetailVo.getInstance().getMissionId()).getMissionType());
+            instanceDetailVo = new ImageInstanceDetailVo(instanceDetailVo.getMissionType(), instanceDetailVo.getInstance(), new ArrayList<>());
+        }
+        MissionType missionType = instanceDetailVo.getMissionType();
+        InstanceVo instanceVo = instanceDetailVo.getInstance();
+        Instance result = null;
+
+        switch (missionType) {
+            case IMAGE:
+                ImageInstanceDetailVo imageInstanceDetailVo = (ImageInstanceDetailVo) instanceDetailVo;
+                ImageInstance imageInstance = generateImageInstance(instanceVo, imageInstanceDetailVo);
+                result = imageInstanceDao.save(imageInstance);
+                break;
+        }
+        if (result == null)
+            throw new SystemException();
+        return result.getInstanceId();
     }
 
     /**
@@ -54,6 +82,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
             case IMAGE:
                 ImageInstanceDetailVo imageInstanceDetailVo = (ImageInstanceDetailVo) instanceDetailVo;
                 ImageInstance imageInstance = generateImageInstance(instanceVo, imageInstanceDetailVo);
+                imageInstance.setInstanceId(getNextId(imageInstanceDao.findAll()));
                 result = imageInstanceDao.save(imageInstance);
                 break;
         }
@@ -192,4 +221,12 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         return new ImageInstanceDetailVo(imageInstance.getMissionType(), instanceVo, imageInstance.getImageResults());
     }
 
+    private String getNextId(List<ImageInstance> imageInstances) {
+        int result = 0;
+        Optional<ImageInstance> maxId = imageInstances.stream().max((x1, x2) -> (MissionUtil.getId(x1.getMissionId()) - MissionUtil.getId(x2.getMissionId())));
+        if (maxId.isPresent()) {
+            result = MissionUtil.getId(maxId.get().getInstanceId()) + 1;
+        }
+        return MissionUtil.addTypeToId(result, MissionType.IMAGE);
+    }
 }

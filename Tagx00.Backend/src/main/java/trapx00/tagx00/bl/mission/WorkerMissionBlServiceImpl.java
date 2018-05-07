@@ -97,7 +97,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse saveProgress(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, UnmatchedUsernameAndMissionId {
-        workerMissionDataService.saveInstanceDetailVo(instanceVo);
+        workerMissionDataService.updateInstanceDetailVo(instanceVo);
         return new SuccessResponse("Success Save");
     }
 
@@ -115,7 +115,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
             instanceVo.getInstance().setSubmitted(true);
             instanceVo.getInstance().setSubmitDate(new Date());
             instanceVo.getInstance().setMissionInstanceState(MissionInstanceState.SUBMITTED);
-            workerMissionDataService.saveInstanceDetailVo(instanceVo);
+            workerMissionDataService.updateInstanceDetailVo(instanceVo);
         }
         return new SuccessResponse("Success Save");
     }
