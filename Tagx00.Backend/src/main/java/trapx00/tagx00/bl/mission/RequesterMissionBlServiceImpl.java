@@ -13,6 +13,7 @@ import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.mlservice.PythonService;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
@@ -28,6 +29,7 @@ import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
+import trapx00.tagx00.vo.ml.KeysVo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,16 +41,16 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     private final UserDataService userDataService;
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
-
+    private final PythonService pythonService;
 
     @Autowired
     public RequesterMissionBlServiceImpl(RequesterMissionDataService requesterMissionDataService,
-                                         UserDataService userDataService, @Qualifier("jwtUserDetailsServiceImpl") UserDetailsService userDetailsService, JwtService jwtService) {
+                                         UserDataService userDataService, @Qualifier("jwtUserDetailsServiceImpl") UserDetailsService userDetailsService, JwtService jwtService, PythonService pythonService) {
         this.requesterMissionDataService = requesterMissionDataService;
         this.userDataService = userDataService;
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
-
+        this.pythonService = pythonService;
     }
 
     /**
@@ -59,6 +61,8 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public MissionCreateResponse createMission(MissionCreateVo mission) throws SystemException {
+        KeysVo keysVo = pythonService.extractKey(mission.getDescription());
+        mission.setTopics(keysVo.getKeys());
         String username = UserInfoUtil.getUsername();
         String missionId = requesterMissionDataService.saveMission(generateMission(mission));
         User user = userDataService.getUserByUsername(username);
