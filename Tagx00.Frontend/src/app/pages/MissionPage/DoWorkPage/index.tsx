@@ -29,7 +29,7 @@ export class DoWorkPage extends React.Component<Props, any> {
       return<ImageWorkPage instanceDetail={instanceDetail as any}
                                  missionDetail={missionDetail as any}
                                  token={this.props.token}
-                                 jumpBack={() => this.routerStore.jumpTo("/missions")}
+                                 jumpBack={() => this.routerStore.jumpTo("/mission")}
                                  readonlyMode={this.props.readonly}
         />
     }

@@ -12,7 +12,6 @@ import { InstanceDetailResponse } from "../../../../models/response/mission/Inst
 import { Loading } from "../../../../components/Common/Loading";
 
 interface Props {
-  readonly: boolean;
   instanceId: string;
   missionId: string;
   close: () => void;
@@ -22,67 +21,26 @@ interface Props {
 
 const ID_PREFIX = "missions.requester.instancePanel.finalize.";
 
-enum InitializingState {
-  NotStarted,
-  Initializing,
-  Initialized
-}
-
 interface State {
-  instanceId: string;
   submitting: boolean;
-  initializingState: InitializingState;
 }
 
 export class FinalizeModal extends React.Component<Props, State> {
 
-  parameters: MissionFinalizeParameters;
+  parameters: MissionFinalizeParameters = new MissionFinalizeParameters();
 
   @Inject requesterService: RequesterService;
   @Inject userStore: UserStore;
   @Inject payService: PayService;
 
   state = {
-    instanceId: this.props.instanceId,
     submitting: false,
-    initializingState: InitializingState.NotStarted,
   };
 
-  componentDidMount() {
-    this.initializeParameters();
-  }
-
-  componentDidUpdate() {
-    this.initializeParameters();
-  }
-
-
-  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
-    if (nextProps.instanceId === prevState.instanceId) {
-      return null;
-    }
-    return {
-      instanceId: nextProps.instanceId,
-      initializingState: InitializingState.NotStarted
-    }
-  }
 
   getAvailableCredits = async () => {
     return (await this.requesterService.getRemainingCreditsForAMission(this.props.missionId, this.userStore.token)).remainingCredits;
   };
-
-  @action async initializeParameters() {
-    if (this.state.initializingState === InitializingState.NotStarted) {
-      this.setState({initializingState: InitializingState.Initializing});
-      this.parameters = new MissionFinalizeParameters();
-      if (this.props.readonly) {
-        const detail: InstanceDetailResponse = await this.requesterService.getInstanceDetail(this.props.instanceId, this.userStore.token);
-        const { expRatio, credits, comment  } = detail.detail.instance;
-        this.parameters.value = { expRatio, credits, comment };
-      }
-      this.setState({initializingState: InitializingState.Initialized});
-    }
-  }
 
   submit = async () => {
     if (!this.parameters.valid) {
@@ -105,15 +63,6 @@ export class FinalizeModal extends React.Component<Props, State> {
   };
 
   selectFooter() {
-
-    if (this.state.initializingState !== InitializingState.Initialized) {
-      return null;
-    }
-
-    if (this.props.readonly) {
-      return [<Button key={"back"} type={"primary"}><LocaleMessage id={ID_PREFIX + "back"}/></Button>];
-    }
-
     return [
       <Button key={"submit"} type={"primary"} loading={this.state.submitting} onClick={this.submit}><LocaleMessage
         id={ID_PREFIX + "submit"}/></Button>,
@@ -130,15 +79,11 @@ export class FinalizeModal extends React.Component<Props, State> {
                   onCancel={this.goBack}
                   footer={this.selectFooter()}
     >
-      {this.state.initializingState === InitializingState.Initialized
-        ?
         <FinalizeForm value={this.parameters}
-                      readonly={this.props.readonly}
                       missionId={this.props.missionId}
                       getAvailableCredits={this.getAvailableCredits}
         />
-        : <Loading/>
-      }
-    </Modal>
+
+          </Modal>
   }
 }

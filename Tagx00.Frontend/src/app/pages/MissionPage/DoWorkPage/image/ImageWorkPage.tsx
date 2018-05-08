@@ -74,9 +74,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
 
   submit = async () => {
 
-    const result = await this.store.submit(
-      this.props.token
-    );
+    const result = await this.store.submit(this.props.token);
     if (result) {
       console.log("success");
       this.props.jumpBack();
@@ -91,13 +89,8 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   };
 
   saveProgress = async () => {
-    const result = await this.store.saveProgress(this.props.token);
-    if (result) {
-      console.log("success");
-      this.props.jumpBack();
-    } else {
-      console.log("failure");
-    }
+    await this.store.saveProgress(this.props.token);
+    this.props.jumpBack();
   };
 
 
