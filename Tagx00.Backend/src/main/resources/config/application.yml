@@ -52,3 +52,6 @@ spring:
             enable: true
             required: true
     jndi-name: mail
+ml:
+  address: http://localhost:8888
+  apiExtractKey: /extractKeyWord

@@ -3,12 +3,13 @@ package trapx00.tagx00.entity.mission.favorite;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
 
+@Entity
 public class Favorite {
     @Id
-    @Column(name = "favoriteId")
     private String favoriteId;
 
     @Column(name = "workerUsername")

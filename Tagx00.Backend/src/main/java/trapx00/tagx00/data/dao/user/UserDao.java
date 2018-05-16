@@ -10,5 +10,5 @@ import java.util.ArrayList;
 public interface UserDao extends JpaRepository<User, String> {
     User findUserByUsername(String username);
 
-    ArrayList<User> findUsersByRoles(Role role);
+    ArrayList<User> findUsersByRole(Role role);
 }

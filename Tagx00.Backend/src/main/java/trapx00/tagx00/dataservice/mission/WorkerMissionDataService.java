@@ -10,6 +10,13 @@ import trapx00.tagx00.vo.mission.instance.InstanceVo;
 public interface WorkerMissionDataService {
 
     /**
+     * update the progress of the instance.
+     *
+     * @param instanceVo
+     */
+    String updateInstanceDetailVo(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
+
+    /**
      * save the progress of the instance.
      * if not accpet the mission before, the system will create a instance for workers
      * also use to abort the instance
@@ -20,7 +27,8 @@ public interface WorkerMissionDataService {
 
     /**
      * save the instance
-     *  @param instanceId
+     *
+     * @param instanceId
      * @param missionType
      */
     int abortInstance(String instanceId, MissionType missionType);

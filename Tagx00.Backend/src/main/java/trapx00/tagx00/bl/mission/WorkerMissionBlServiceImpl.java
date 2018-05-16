@@ -67,7 +67,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse abort(String missionId, String workerUsername) {
-        Instance instance = workerMissionDataService.getInstanceByUsernameAndMissionId(workerUsername, MissionUtil.getId(missionId), MissionUtil.getType(missionId));
+        Instance instance = workerMissionDataService.getInstanceByUsernameAndMissionId(workerUsername, missionId, MissionUtil.getType(missionId));
         workerMissionDataService.abortInstance(instance.getInstanceId(), instance.getMissionType());
         return new SuccessResponse("Success Delete");
     }
@@ -81,7 +81,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public InstanceDetailResponse getInstanceInformation(String missionId, String workerUsername) throws InstanceNotExistException {
-        InstanceDetailVo instanceDetailVo = workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(workerUsername, MissionUtil.getId(missionId), MissionUtil.getType(missionId));
+        InstanceDetailVo instanceDetailVo = workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(workerUsername, missionId, MissionUtil.getType(missionId));
         if (instanceDetailVo == null)
             throw new InstanceNotExistException();
         InstanceDetailResponse instanceDetailResponse = new InstanceDetailResponse(instanceDetailVo);
@@ -97,7 +97,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse saveProgress(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, UnmatchedUsernameAndMissionId {
-        workerMissionDataService.saveInstanceDetailVo(instanceVo);
+        workerMissionDataService.updateInstanceDetailVo(instanceVo);
         return new SuccessResponse("Success Save");
     }
 
@@ -109,13 +109,13 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException {
-        if (workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(UserInfoUtil.getUsername(), MissionUtil.getId(instanceVo.getInstance().getMissionId()), instanceVo.getMissionType()) == null)
+        if (workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(UserInfoUtil.getUsername(), instanceVo.getInstance().getMissionId(), instanceVo.getMissionType()) == null)
             workerMissionDataService.saveInstanceDetailVo(instanceVo);
         else {
             instanceVo.getInstance().setSubmitted(true);
             instanceVo.getInstance().setSubmitDate(new Date());
             instanceVo.getInstance().setMissionInstanceState(MissionInstanceState.SUBMITTED);
-            workerMissionDataService.saveInstanceDetailVo(instanceVo);
+            workerMissionDataService.updateInstanceDetailVo(instanceVo);
         }
         return new SuccessResponse("Success Save");
     }

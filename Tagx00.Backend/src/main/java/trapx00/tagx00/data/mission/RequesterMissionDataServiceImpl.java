@@ -13,6 +13,7 @@ import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
+import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
@@ -21,6 +22,7 @@ import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RequesterMissionDataServiceImpl implements RequesterMissionDataService {
@@ -35,6 +37,23 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     }
 
     /**
+     * update mission
+     *
+     * @param mission
+     */
+    @Override
+    public String updateMission(Mission mission) throws SystemException {
+        Mission result = null;
+        switch (mission.getMissionType()) {
+            case IMAGE:
+                if ((result = imageMissionDao.save((ImageMission) mission)) == null) {
+                    throw new SystemException();
+                }
+        }
+        return result.getMissionId();
+    }
+
+    /**
      * save mission
      *
      * @param mission
@@ -42,9 +61,9 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     @Override
     public String saveMission(Mission mission) throws SystemException {
         Mission result = null;
-        mission.setMissionId(getNextId());
         switch (mission.getMissionType()) {
             case IMAGE:
+                mission.setMissionId(getNextId(imageMissionDao.findAll()));
                 if ((result = imageMissionDao.save((ImageMission) mission)) == null) {
                     throw new SystemException();
                 }
@@ -205,7 +224,12 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         );
     }
 
-    private String getNextId() {
-        return null;
+    private String getNextId(List<ImageMission> imageMissions) {
+        int result = 0;
+        Optional<ImageMission> maxId = imageMissions.stream().max((x1, x2) -> (MissionUtil.getId(x1.getMissionId()) - MissionUtil.getId(x2.getMissionId())));
+        if (maxId.isPresent()) {
+            result = MissionUtil.getId(maxId.get().getMissionId()) + 1;
+        }
+        return MissionUtil.addTypeToId(result, MissionType.IMAGE);
     }
 }

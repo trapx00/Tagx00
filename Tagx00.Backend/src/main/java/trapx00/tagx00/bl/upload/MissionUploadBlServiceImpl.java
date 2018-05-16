@@ -11,7 +11,6 @@ import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.response.upload.UploadMissionImageResponse;
-import trapx00.tagx00.util.MissionUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,7 +40,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
     @Override
     public UploadMissionImageResponse uploadFiles(String missionId, MultipartFile multipartFile, int order, boolean isCover) throws SystemException, MissionIdDoesNotExistException {
         try {
-            ImageMission imageMission = (ImageMission) requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId), MissionType.IMAGE);
+            ImageMission imageMission = (ImageMission) requesterMissionDataService.getMissionByMissionId(missionId, MissionType.IMAGE);
             if (imageMission != null) {
                 String url = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
                 List<String> urls = imageMission.getImageUrls();
@@ -51,7 +50,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                     urls.add(url);
                     imageMission.setImageUrls(urls);
                 }
-                requesterMissionDataService.saveMission(imageMission);
+                requesterMissionDataService.updateMission(imageMission);
                 return new UploadMissionImageResponse(url);
 
             } else {

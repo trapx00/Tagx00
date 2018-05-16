@@ -3,24 +3,26 @@ package trapx00.tagx00.entity.mission;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Mission {
     @Id
-    @Column(name = "missionId")
     private String missionId;
     @Column(name = "title")
     private String title;
     @Column(name = "description")
     private String description;
+    @ElementCollection(fetch = FetchType.LAZY,
+            targetClass = String.class)
     @Column(name = "topics")
     private List<String> topics;
     @Column(name = "allowCustomTag")
     private boolean allowCustomTag;
+    @ElementCollection(fetch = FetchType.LAZY,
+            targetClass = String.class)
     @Column(name = "allowedTags")
     private List<String> allowedTags;
     @Column(name = "missionType")
@@ -42,12 +44,14 @@ public class Mission {
     @Column(name = "minimalWorkerLevel")
     private int minimalWorkerLevel;
     @Column(name = "browserUsers")
-    private ArrayList<String> browserUsers;
+    @ElementCollection(fetch = FetchType.LAZY,
+            targetClass = String.class)
+    private List<String> browserUsers;
 
     public Mission() {
     }
 
-    public Mission(String missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, ArrayList<String> browserUsers) {
+    public Mission(String missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> browserUsers) {
         this.missionId = missionId;
         this.title = title;
         this.description = description;
@@ -186,11 +190,11 @@ public class Mission {
         this.minimalWorkerLevel = minimalWorkerLevel;
     }
 
-    public ArrayList<String> getBrowserUsers() {
+    public List<String> getBrowserUsers() {
         return browserUsers;
     }
 
-    public void setBrowserUsers(ArrayList<String> browserUsers) {
+    public void setBrowserUsers(List<String> browserUsers) {
         this.browserUsers = browserUsers;
     }
 }

@@ -10,13 +10,13 @@ import java.util.Date;
 @Table(name = "imageFavorite")
 public class ImageFavorite extends Favorite {
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "mission_id")
+    @JoinColumn(name = "imageMission_id")
     private ImageMission imageMission;
 
     public ImageFavorite() {
     }
 
-    public ImageFavorite(String favoriteId, String workerUsername, MissionType missionType, Date acceptDate, int missionId, ImageMission imageMission) {
+    public ImageFavorite(String favoriteId, String workerUsername, MissionType missionType, Date acceptDate, String missionId, ImageMission imageMission) {
         super(favoriteId, workerUsername, missionType, acceptDate, missionId);
         this.imageMission = imageMission;
     }
