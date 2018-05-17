@@ -6,25 +6,25 @@ import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 import java.util.List;
 
 public class TextMissionProperties extends MissionProperties {
-    private List<TextMissionType> textMissionTypes;
+    private TextMissionSetting[] settings;
 
     public TextMissionProperties() {
     }
 
-    public TextMissionProperties(List<TextMissionType> textMissionTypes) {
-        this.textMissionTypes = textMissionTypes;
+    public TextMissionProperties(TextMissionSetting[] settings) {
+        this.settings = settings;
     }
 
-    public TextMissionProperties(MissionType type, List<TextMissionType> textMissionTypes) {
+    public TextMissionProperties(MissionType type, TextMissionSetting[] settings) {
         super(type);
-        this.textMissionTypes = textMissionTypes;
+        this.settings = settings;
     }
 
-    public List<TextMissionType> getImageMissionTypes() {
-        return textMissionTypes;
+    public TextMissionSetting[] getSettings() {
+        return settings;
     }
 
-    public void setImageMissionTypes(List<TextMissionType> textMissionTypes) {
-        this.textMissionTypes = textMissionTypes;
+    public void setSettings(TextMissionSetting[] settings) {
+        this.settings = settings;
     }
 }
