@@ -1,14 +1,15 @@
 import React from "react";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
-import { ImageNotation } from "../../../../stores/ImageWorkStore";
+import { ImageNotation } from "./ImageWorkStore";
 import { WholeJob } from "../../../../models/instance/image/job/WholeJob";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../../components/ImageWork/MissionTipCard";
 import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
 import { ProgressController } from "../../../../components/ImageWork/ProgressController";
 import { toJS } from "mobx";
-import { ImageWorkPageLayout } from "./Layout";
+import { WorkPageLayout } from "../WorkPageLayout";
 import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
+import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
 
 function initializeNotation(notation: ImageNotation<WholeJob>) {
   if (!(notation.job && notation.job.tuple)) {

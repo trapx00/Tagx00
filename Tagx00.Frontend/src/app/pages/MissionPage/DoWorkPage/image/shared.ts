@@ -1,4 +1,4 @@
-import { ImageNotation } from "../../../../stores/ImageWorkStore";
+import { ImageNotation } from "./ImageWorkStore";
 import { ImageMissionDetail } from "../../../../models/mission/image/ImageMission";
 import { ImageJob } from "../../../../models/instance/image/job/ImageJob";
 

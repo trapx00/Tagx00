@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { ImageMissionDetail, ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import { ImageInstanceDetail } from "../../../../models/instance/image/ImageInstanceDetail";
-import { ImageNotation, ImageWorkStore } from "../../../../stores/ImageWorkStore";
+import { ImageNotation, ImageWorkStore } from "./ImageWorkStore";
 import { observer } from "mobx-react";
 import { ImagePartWorkPage } from "./ImagePartWorkPage";
 import { ImageDistrictWorkPage } from "./ImageDistrictWorkPage";
