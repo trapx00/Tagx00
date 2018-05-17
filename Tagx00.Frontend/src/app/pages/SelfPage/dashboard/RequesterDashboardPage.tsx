@@ -14,11 +14,11 @@ export class RequesterDashboardPage extends React.Component<{},{}> {
         const info = await this.requesterService.getRequesterInfo(this.userStore.user.username,this.userStore.token);
         console.log(info);
         return <div>
-          <DefinitionItem prompt={"已发布任务"} children={info.submittedMissionCount}/>
-          <DefinitionItem prompt={"实例任务数"} children={info.instanceCount}/>
-          <DefinitionItem prompt={"进行中"} children={info.inProgressInstanceCount}/>
-          <DefinitionItem prompt={"待评价"} children={info.awaitingCommentInstanceCount}/>
-          <DefinitionItem prompt={"已完成"} children={info.finalizedInstanceCount}/>
+          <DefinitionItem prompt={"已发布任务数"} children={info.submittedMissionCount}/>
+          <DefinitionItem prompt={"实例数"} children={info.instanceCount}/>
+          <DefinitionItem prompt={"进行中实例数"} children={info.inProgressInstanceCount}/>
+          <DefinitionItem prompt={"待评价实例数"} children={info.awaitingCommentInstanceCount}/>
+          <DefinitionItem prompt={"已完成实例数"} children={info.finalizedInstanceCount}/>
         </div>
     }
     

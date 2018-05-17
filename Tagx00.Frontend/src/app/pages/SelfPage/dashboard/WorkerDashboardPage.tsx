@@ -15,8 +15,9 @@ export class WorkerDashboardPage extends React.Component<{},{}> {
         return <div>
             <DefinitionItem prompt={"已接受任务"} children={info.acceptedMissionCount}/>
             <DefinitionItem prompt={"进行中"} children={info.inProgressMissionCount}/>
-            <DefinitionItem prompt={"已完成"} children={info.completedMissionCount}/>
+            <DefinitionItem prompt={"已提交"} children={info.completedMissionCount}/>
             <DefinitionItem prompt={"已放弃"} children={info.abandonedMissionCount}/>
+          <DefinitionItem prompt={"已完成"} children={info.finalizedMissionCount}/>
         </div>
     }
 
