@@ -1,13 +1,13 @@
-package trapx00.tagx00.publicdatas.mission.text.whole;
+package trapx00.tagx00.publicdatas.mission.text.classification;
 
 import trapx00.tagx00.publicdatas.mission.TagDescriptionTuple;
 import trapx00.tagx00.publicdatas.mission.text.TextJob;
 import trapx00.tagx00.vo.mission.text.TextMissionType;
 
-public class TextWholeJob extends TextJob {
+public class TextClassificationJob extends TextJob {
     private TagDescriptionTuple tuple;
 
-    public TextWholeJob(TextMissionType type, TagDescriptionTuple tuple) {
+    public TextClassificationJob(TextMissionType type, TagDescriptionTuple tuple) {
         super(type);
         this.tuple = tuple;
     }
