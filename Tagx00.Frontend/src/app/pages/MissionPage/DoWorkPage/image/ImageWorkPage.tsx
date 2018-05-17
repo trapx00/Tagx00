@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { ImageMissionDetail, ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import { ImageInstanceDetail } from "../../../../models/instance/image/ImageInstanceDetail";
-import { ImageNotation, ImageWorkStore } from "../../../../stores/ImageWorkStore";
+import { ImageNotation, ImageWorkStore } from "./ImageWorkStore";
 import { observer } from "mobx-react";
 import { ImagePartWorkPage } from "./ImagePartWorkPage";
 import { ImageDistrictWorkPage } from "./ImageDistrictWorkPage";
@@ -74,9 +74,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
 
   submit = async () => {
 
-    const result = await this.store.submit(
-      this.props.token
-    );
+    const result = await this.store.submit(this.props.token);
     if (result) {
       console.log("success");
       this.props.jumpBack();
@@ -91,13 +89,8 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   };
 
   saveProgress = async () => {
-    const result = await this.store.saveProgress(this.props.token);
-    if (result) {
-      console.log("success");
-      this.props.jumpBack();
-    } else {
-      console.log("failure");
-    }
+    await this.store.saveProgress(this.props.token);
+    this.props.jumpBack();
   };
 
 

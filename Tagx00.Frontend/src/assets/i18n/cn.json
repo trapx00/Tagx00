@@ -223,6 +223,7 @@
           "continue": "继续做任务",
           "abandon": "放弃",
           "seeMore": "查看详细信息",
+          "seeFinalizeResult": "查看评分结果",
           "abandonConfirm": "您确定要放弃这个任务吗？"
         }
       },
@@ -285,6 +286,7 @@
           "default": "恢复默认",
           "back": "返回",
           "title": "评价",
+          "exp": "实际所得经验",
           "availableCredits": "可用积分：{credits}",
           "creditsNotSufficient": "积分不足。可用积分：{credits}。{goPay}",
           "goPay": "去充值"

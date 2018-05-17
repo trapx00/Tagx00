@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import styled from "styled-components";
+import { WorkPageLayout } from "../WorkPageLayout";
 
 interface Props {
   children: ReactNode[];
@@ -9,19 +10,11 @@ interface Props {
   imageUrl: string;
 }
 
-const Container = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-`;
-const Controller = styled.div`
-    flex: 1 0 auto;
-    min-width: 100px;
-`;
-
 interface PictureContainerProps {
   width: number;
   height: number;
 }
+
 const PictureContainer = styled.div`
     overflow: hidden;
     margin-right: 8px;
@@ -88,19 +81,17 @@ export class ImageWorkPageLayout extends React.Component<Props, {}> {
   render() {
 
 
-    return <Container>
+    return <WorkPageLayout>
       <PictureContainer innerRef={this.pictureContainerRef}
-               width={this.props.imageWidth}
-               height={this.props.imageHeight}>
+                        width={this.props.imageWidth}
+                        height={this.props.imageHeight}>
         <Picture innerRef={this.pictureRef}
                  width={this.props.imageWidth}
                  height={this.props.imageHeight}>
           {this.props.children[0]}
         </Picture>
       </PictureContainer>
-      <Controller>
-        {this.props.children[1]}
-      </Controller>
-    </Container>
+      {this.props.children[1]}
+    </WorkPageLayout>
   }
 }

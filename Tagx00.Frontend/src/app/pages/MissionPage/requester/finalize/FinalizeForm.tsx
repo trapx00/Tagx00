@@ -13,7 +13,6 @@ import { Inject } from "react.di";
 
 interface Props {
   value: MissionFinalizeParameters;
-  readonly: boolean;
   missionId: string;
 
   getAvailableCredits(): Promise<number>;
@@ -56,28 +55,19 @@ export class FinalizeForm extends React.Component<Props, {}> {
         props => <Form className="login-form">
           <FormItem valid={value.expRadioValid} messageOnInvalid={props.requireExpRatio}>
             <Input addonBefore={props.expRatio}
-                   disabled={this.props.readonly}
                    onChange={this.onExpRadioChange}
                    placeholder={props.expRatio}
                    value={value.expRatio}
             />
           </FormItem>
-          {this.props.readonly
-            ? <FormItem valid={true} messageOnInvalid={null}>
-              <Input addonBefore={props.credits}
-                     value={value.credits}
-                     disabled={true}
-              />
-            </FormItem>
-            :
+
             <CreditInput onChanged={this.onCreditsChange}
                          getRemainingCredits={this.props.getAvailableCredits}
                          toPayJumpTo={`/pay/mission?missionId=${this.props.missionId}`}
             />
-          }
+
           <FormItem valid={true} messageOnInvalid={null}>
             <Input.TextArea
-              disabled={this.props.readonly}
               onChange={this.onCommentChange}
               placeholder={props.comment}
               value={value.comment}

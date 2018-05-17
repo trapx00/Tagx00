@@ -1,5 +1,5 @@
 import React from "react";
-import { ImageNotation } from "../../../../stores/ImageWorkStore";
+import { ImageNotation } from "./ImageWorkStore";
 import { PartJob, PartJobTuple } from "../../../../models/instance/image/job/PartJob";
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
@@ -9,8 +9,9 @@ import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDe
 import { RectanglePanel } from "../../../../components/ImageWork/DrawingPad/RectanglePanel/index";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import { PartAddingModeController } from "../../../../components/ImageWork/Part/PartAddingModeController/index";
-import { ImageWorkPageLayout } from "./Layout";
+import { WorkPageLayout } from "../WorkPageLayout";
 import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
+import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
 
 
 function initializeNotation(notation: ImageNotation<PartJob>) {

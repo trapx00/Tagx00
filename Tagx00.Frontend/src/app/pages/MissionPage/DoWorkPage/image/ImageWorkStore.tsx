@@ -1,11 +1,11 @@
 import { action, computed, observable, runInAction, toJS } from "mobx";
-import { ImageInstanceDetail } from "../models/instance/image/ImageInstanceDetail";
-import { ImageJob, KnownImageJob } from "../models/instance/image/job/ImageJob";
-import { ImageMissionDetail, ImageMissionType } from "../models/mission/image/ImageMission";
-import { ImageResult } from "../models/instance/image/ImageResult";
-import { WorkerService } from "../api/WorkerService";
+import { ImageInstanceDetail } from "../../../../models/instance/image/ImageInstanceDetail";
+import { ImageJob, KnownImageJob } from "../../../../models/instance/image/job/ImageJob";
+import { ImageMissionDetail, ImageMissionType } from "../../../../models/mission/image/ImageMission";
+import { ImageResult } from "../../../../models/instance/image/ImageResult";
+import { WorkerService } from "../../../../api/WorkerService";
 import { Injectable } from "react.di";
-import { MissionType } from "../models/mission/Mission";
+import { MissionType } from "../../../../models/mission/Mission";
 
 export interface ImageNotation<T extends ImageJob = ImageJob> {
   imageUrl: string;
