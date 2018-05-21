@@ -63,7 +63,7 @@ public interface WorkerMissionDataService {
     Instance getInstanceByUsernameAndMissionId(String workerUsername, String missionId, MissionType missionType);
 
     /**
-     * delte the mission of a worker
+     * delete the mission of a worker
      *
      * @param missionId
      * @param username
@@ -71,4 +71,12 @@ public interface WorkerMissionDataService {
      * @return
      */
     boolean deleteInstanceByMissionIdAndUsername(String missionId, String username, MissionType missionType);
+
+    /**
+     * identify the image
+     *
+     * @param bytes
+     * @return
+     */
+    String identifyImage(byte[] bytes) throws SystemException;
 }

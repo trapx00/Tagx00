@@ -2,12 +2,14 @@ package trapx00.tagx00.bl.mission;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.response.SuccessResponse;
+import trapx00.tagx00.response.mission.ImageIdentificationResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.util.MissionUtil;
@@ -16,6 +18,7 @@ import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -118,5 +121,17 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
             workerMissionDataService.updateInstanceDetailVo(instanceVo);
         }
         return new SuccessResponse("Success Save");
+    }
+
+    /**
+     * identify the image's type
+     *
+     * @param multipartFile
+     * @return
+     */
+    @Override
+    public ImageIdentificationResponse identifyImage(MultipartFile multipartFile) throws IOException, SystemException {
+        String imageInfo = workerMissionDataService.identifyImage(multipartFile.getBytes());
+        return null;
     }
 }
