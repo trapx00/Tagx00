@@ -1,5 +1,6 @@
 package trapx00.tagx00.data.mission;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -223,12 +224,12 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
      * @return
      */
     @Override
-    public String identifyImage(byte[] bytes) throws SystemException {
+    public JSONArray identifyImage(byte[] bytes) throws SystemException {
         BASE64Encoder base64Encoder = new BASE64Encoder();
         String bodys = "{\"type\":1," +
                 "\"content\":\"" + base64Encoder.encode(bytes) + "\"}";
         try {
-            return (String) JSONObject.fromObject(ApiUtil.sendPost(imageHostUrl, bodys, akId, akSecret)).get("tags");
+            return (JSONArray) JSONObject.fromObject(ApiUtil.sendPost(imageHostUrl, bodys, akId, akSecret)).get("tags");
         } catch (IOException e) {
             e.printStackTrace();
             throw new SystemException();

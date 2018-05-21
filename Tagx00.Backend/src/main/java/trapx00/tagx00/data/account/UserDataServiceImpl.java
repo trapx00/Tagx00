@@ -15,6 +15,7 @@ import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.InvalidEmailAddressesException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserDoesNotExistException;
+import trapx00.tagx00.util.MD5Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -188,5 +189,16 @@ public class UserDataServiceImpl implements UserDataService {
     public User[] findAllUsers() {
         List<User> userArrayList = userDao.findAll();
         return userArrayList.toArray(new User[userArrayList.size()]);
+    }
+
+    /**
+     * get the avatar url of user
+     *
+     * @param email
+     * @return avatar url
+     */
+    @Override
+    public String getUserAvatarUrl(String email) {
+        return "https://www.gravatar.com/avatar/" + MD5Util.md5Hex(email);
     }
 }

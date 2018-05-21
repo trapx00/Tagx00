@@ -105,7 +105,7 @@ public class UserBlServiceImpl implements UserBlService {
             String token = jwtService.generateToken(jwtUser, EXPIRATION);
             String email = jwtUser.getEmail();
             Collection<JwtRole> jwtRoles = jwtUser.getAuthorities();
-            return new UserLoginResponse(token, jwtRoles, email);
+            return new UserLoginResponse(token, jwtRoles, email, null);
         } else {
             throw new WrongUsernameOrPasswordException();
         }

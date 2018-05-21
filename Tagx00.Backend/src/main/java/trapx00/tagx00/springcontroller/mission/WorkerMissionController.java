@@ -121,7 +121,12 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> identifyImage(@RequestParam("file") MultipartFile multipartFile) {
-        return new ResponseEntity<>(workerMissionBlService.identifyImage(multipartFile), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(workerMissionBlService.identifyImage(multipartFile), HttpStatus.OK);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Authorization(value = "工人")

@@ -9,8 +9,6 @@ import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
-import java.io.IOException;
-
 public interface WorkerMissionBlService {
     /**
      * query to get all instances of workers
@@ -61,5 +59,5 @@ public interface WorkerMissionBlService {
      * @param multipartFile
      * @return
      */
-    ImageIdentificationResponse identifyImage(MultipartFile multipartFile) throws IOException, SystemException;
+    ImageIdentificationResponse identifyImage(MultipartFile multipartFile) throws SystemException;
 }

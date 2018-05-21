@@ -1,5 +1,6 @@
 package trapx00.tagx00.dataservice.mission;
 
+import net.sf.json.JSONArray;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -78,5 +79,5 @@ public interface WorkerMissionDataService {
      * @param bytes
      * @return
      */
-    String identifyImage(byte[] bytes) throws SystemException;
+    JSONArray identifyImage(byte[] bytes) throws SystemException;
 }
