@@ -1,5 +1,6 @@
 package trapx00.tagx00.dataservice.mission;
 
+import net.sf.json.JSONArray;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -63,7 +64,7 @@ public interface WorkerMissionDataService {
     Instance getInstanceByUsernameAndMissionId(String workerUsername, String missionId, MissionType missionType);
 
     /**
-     * delte the mission of a worker
+     * delete the mission of a worker
      *
      * @param missionId
      * @param username
@@ -71,4 +72,12 @@ public interface WorkerMissionDataService {
      * @return
      */
     boolean deleteInstanceByMissionIdAndUsername(String missionId, String username, MissionType missionType);
+
+    /**
+     * identify the image
+     *
+     * @param bytes
+     * @return
+     */
+    JSONArray identifyImage(byte[] bytes) throws SystemException;
 }
