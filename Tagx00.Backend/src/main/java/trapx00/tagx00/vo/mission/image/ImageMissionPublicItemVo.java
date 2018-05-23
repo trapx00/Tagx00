@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public class ImageMissionPublicItemVo extends MissionPublicItemVo {
-    private List<String> topics;
+
     private boolean allowCustomTag;
     private List<String> allowedTags;
     public List<ImageMissionType> missionTypes;
@@ -15,23 +15,11 @@ public class ImageMissionPublicItemVo extends MissionPublicItemVo {
     public ImageMissionPublicItemVo() {
     }
 
-    public ImageMissionPublicItemVo(String missionId, String title, String description,
-                                    MissionType missionType, Date start, Date end, String coverUrl,
-                                    int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername,
-                                    List<String> topics, boolean allowCustomTag, List<String> allowedTags, List<ImageMissionType> missionTypes) {
-        super(missionId, title, description, missionType, start, end, coverUrl, level, credits, minimalWorkerLevel, jobCount, requesterUsername);
-        this.topics = topics;
+    public ImageMissionPublicItemVo(String missionId, String title, String description, List<String> topics, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername, boolean allowCustomTag, List<String> allowedTags, List<ImageMissionType> missionTypes) {
+        super(missionId, title, description, topics, missionType, start, end, coverUrl, level, credits, minimalWorkerLevel, jobCount, requesterUsername);
         this.allowCustomTag = allowCustomTag;
         this.allowedTags = allowedTags;
         this.missionTypes = missionTypes;
-    }
-
-    public List<String> getTopics() {
-        return topics;
-    }
-
-    public void setTopics(List<String> topics) {
-        this.topics = topics;
     }
 
     public boolean isAllowCustomTag() {

@@ -98,11 +98,10 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                     return null;
                 if (mission.getMissionType().equals(MissionType.IMAGE)) {
                     missionDetailVo = new ImageMissionDetailVo(new ImageMissionPublicItemVo(
-                            missionId, mission.getTitle(), mission.getDescription(), missionType,
+                            missionId, mission.getTitle(), mission.getDescription(),mission.getTopics(), missionType,
                             mission.getStart(), mission.getEnd(), mission.getCoverUrl(),
                             mission.getLevel(), mission.getCredits(), mission.getMinimalWorkerLevel(),
                             mission.getImageUrls().size() * mission.getImageMissionTypes().size(), mission.getRequesterUsername(),
-                            mission.getTopics(),
                             mission.isAllowCustomTag(), mission.getAllowedTags(), mission.getImageMissionTypes()
                     ),
                             mission.getMissionState(), mission.getRequesterUsername(), mission.getImageUrls(), mission.getImageMissionTypes());
@@ -115,7 +114,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                 if (mission1.getMissionType().equals(MissionType.IMAGE)) {
                     missionDetailVo = new TextMissionDetailVo(new TextMissionPublicItemVo(
                             missionId, mission1.getTitle(),
-                            mission1.getDescription(), missionType,
+                            mission1.getDescription(),mission1.getTopics(), missionType,
                             mission1.getStart(), mission1.getEnd(), mission1.getCoverUrl(), mission1.getLevel(), mission1.getCredits(),
                             mission1.getMinimalWorkerLevel(), mission1.getTextUrls().size() * mission1.getTextMissionTypes().size(),
                             mission1.getRequesterUsername(),mission1.getTextMissionTypes()
@@ -143,11 +142,10 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
 
     public ImageMissionPublicItemVo generateImageMissionPublicItemVo(ImageMission mission) {
         return new ImageMissionPublicItemVo(
-                mission.getMissionId(), mission.getTitle(), mission.getDescription(), mission.getMissionType(),
+                mission.getMissionId(), mission.getTitle(), mission.getDescription(), mission.getTopics(),mission.getMissionType(),
                 mission.getStart(), mission.getEnd(), mission.getCoverUrl(),
                 mission.getLevel(), mission.getCredits(), mission.getMinimalWorkerLevel(),
                 mission.getImageUrls().size() * mission.getImageMissionTypes().size(), mission.getRequesterUsername(),
-                mission.getTopics(),
                 mission.isAllowCustomTag(), mission.getAllowedTags(), mission.getImageMissionTypes()
         );
     }
@@ -155,7 +153,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
     public TextMissionPublicItemVo generateTextMissionPublicItemVo(TextMission mission1) {
         return new TextMissionPublicItemVo(
                 mission1.getMissionId(), mission1.getTitle(),
-                mission1.getDescription(), mission1.getMissionType(),
+                mission1.getDescription(), mission1.getTopics(),mission1.getMissionType(),
                 mission1.getStart(), mission1.getEnd(), mission1.getCoverUrl(), mission1.getLevel(), mission1.getCredits(),
                 mission1.getMinimalWorkerLevel(), mission1.getTextUrls().size() * mission1.getTextMissionTypes().size(),
                 mission1.getRequesterUsername(),mission1.getTextMissionTypes()

@@ -10,6 +10,7 @@ public class MissionPublicItemVo implements Serializable {
     private String missionId;
     private String title;
     private String description;
+    private List<String> topics;
     private MissionType missionType;
     private Date start;
     private Date end;
@@ -21,21 +22,6 @@ public class MissionPublicItemVo implements Serializable {
     private String requesterUsername;
 
     public MissionPublicItemVo() {
-    }
-
-    public MissionPublicItemVo(String missionId, String title, String description, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername) {
-        this.missionId = missionId;
-        this.title = title;
-        this.description = description;
-        this.missionType = missionType;
-        this.start = start;
-        this.end = end;
-        this.coverUrl = coverUrl;
-        this.level = level;
-        this.credits = credits;
-        this.minimalWorkerLevel = minimalWorkerLevel;
-        this.jobCount = jobCount;
-        this.requesterUsername = requesterUsername;
     }
 
     public String getMissionId() {
@@ -60,6 +46,14 @@ public class MissionPublicItemVo implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<String> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<String> topics) {
+        this.topics = topics;
     }
 
     public MissionType getMissionType() {
@@ -131,6 +125,22 @@ public class MissionPublicItemVo implements Serializable {
     }
 
     public void setRequesterUsername(String requesterUsername) {
+        this.requesterUsername = requesterUsername;
+    }
+
+    public MissionPublicItemVo(String missionId, String title, String description, List<String> topics, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername) {
+        this.missionId = missionId;
+        this.title = title;
+        this.description = description;
+        this.topics = topics;
+        this.missionType = missionType;
+        this.start = start;
+        this.end = end;
+        this.coverUrl = coverUrl;
+        this.level = level;
+        this.credits = credits;
+        this.minimalWorkerLevel = minimalWorkerLevel;
+        this.jobCount = jobCount;
         this.requesterUsername = requesterUsername;
     }
 }
