@@ -92,4 +92,12 @@ public interface UserDataService {
      * @return users
      */
     User[] findAllUsers();
+
+    /**
+     * get the avatar url of user
+     *
+     * @param email
+     * @return avatar url
+     */
+    String getUserAvatarUrl(String email);
 }

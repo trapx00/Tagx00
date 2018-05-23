@@ -1,7 +1,11 @@
 package trapx00.tagx00.data.mission;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import sun.misc.BASE64Encoder;
 import trapx00.tagx00.data.dao.mission.ImageMissionDao;
 import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
@@ -13,18 +17,26 @@ import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
+import trapx00.tagx00.util.ApiUtil;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
+    @Value("${aliyun.akId}")
+    private String akId;
+    @Value("${aliyun.akSecret}")
+    private String akSecret;
+    @Value("${aliyun.imageHostUrl}")
+    private String imageHostUrl;
     private final ImageInstanceDao imageInstanceDao;
     private final ImageMissionDao imageMissionDao;
 
@@ -203,6 +215,25 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 imageInstanceDao.deleteById(instanceDetailVo.getInstance().getInstanceId());
         }
         return true;
+    }
+
+    /**
+     * identify the image
+     *
+     * @param bytes
+     * @return
+     */
+    @Override
+    public JSONArray identifyImage(byte[] bytes) throws SystemException {
+        BASE64Encoder base64Encoder = new BASE64Encoder();
+        String bodys = "{\"type\":1," +
+                "\"content\":\"" + base64Encoder.encode(bytes) + "\"}";
+        try {
+            return (JSONArray) JSONObject.fromObject(ApiUtil.sendPost(imageHostUrl, bodys, akId, akSecret)).get("tags");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
     }
 
     private ImageInstance generateImageInstance(InstanceVo instanceVo, ImageInstanceDetailVo instanceDetailVo) {

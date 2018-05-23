@@ -1,5 +1,7 @@
 package trapx00.tagx00.bl.mission;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -63,7 +65,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     @Override
     public MissionCreateResponse createMission(MissionCreateVo mission) throws SystemException {
         KeysVo keysVo = pythonService.extractKey(mission.getDescription());
-        mission.setTopics(keysVo.getKeys());
+//        mission.setTopics(JSONArray.toList(keysVo.getKeys(),new String(),new JsonConfig()));
         String username = UserInfoUtil.getUsername();
         String missionId = requesterMissionDataService.saveMission(generateMission(mission));
         User user = userDataService.getUserByUsername(username);

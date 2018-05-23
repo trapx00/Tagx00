@@ -139,14 +139,11 @@
       "topics": "主题",
       "jobCount": "工作数量",
       "cover": "封面",
-      "allowCustomTag": {
-        "true": "允许自定义标签",
-        "false": "不允许自定义标签"
-      },
+
       "minimalWorkerLevel": "最低工人等级",
       "level": "任务等级",
       "requesterUsername": "发起者",
-      "tags": "设置标签",
+
       "missionType": "任务类型",
       "credits": "奖金池",
       "IMAGE": {
@@ -156,6 +153,20 @@
           "WHOLE": "整体",
           "PART": "局部",
           "DISTRICT": "区域"
+        },
+        "allowCustomTag": {
+          "true": "允许自定义标签",
+          "false": "不允许自定义标签"
+        },
+        "tags": "设置标签",
+      },
+      "TEXT": {
+        "name":"文本任务",
+        "CLASSIFICATION": {
+          "classes":"预设分类（用户不可自定义）"
+        },
+        "KEYWORDS": {
+          "keywords": "主题词（用户可自定义）"
         }
       }
     },

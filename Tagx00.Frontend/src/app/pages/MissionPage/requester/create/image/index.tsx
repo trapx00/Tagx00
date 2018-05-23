@@ -36,21 +36,6 @@ interface Props {
 const ID_PREFIX = "missions.createMission.";
 
 
-const formStrings = [
-  "title",
-  "requireTitle",
-  "description",
-  "requireDescription",
-  "topics",
-  "availableTopics",
-  "startDate",
-  "requireStartDate",
-  "endDate",
-  "requireEndDate",
-  "selectFile",
-  "minimalWorkerLevel",
-  "missionLevel"
-].reduce((prev, curr) => ({...prev, [curr]: `${ID_PREFIX}fields.${curr}`}), {});
 
 /**
  *       "fields": {
@@ -92,15 +77,6 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
 
 
 
-  @action onTitleChange = (e) => {
-    this.info.title = e.target.value;
-  };
-
-  @action onDescriptionChange = (e) => {
-    this.info.description = e.target.value;
-  };
-
-
   @action onTypeChange = (checkedValues: string[]) => {
     this.info.imageMissionTypes = checkedValues.map(x => ImageMissionType[x]);
   };
@@ -110,34 +86,15 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
     this.info.images = files;
   };
 
-  @action onCoverImageChange = (files) => {
-    this.info.coverImage = files[0];
-  };
 
   @action upload = async () => {
     console.log(this.info.images);
 
   };
 
-  @action onDateRangeChanged = (dates: [moment.Moment, moment.Moment]) => {
-    this.info.dateRange = dates;
-  };
 
   @action onTagsChange = (tags: string[]) => {
     this.info.allowedTags = tags;
-  };
-
-  @action onMissionLevelChanged = (e) => {
-    this.info.level = e.target.value;
-  };
-
-  @action onMinimalWorkerLevelChanged = (e) => {
-    this.info.minimalWorkerLevel = e.target.value;
-  };
-
-  @action onCreditsChanged = (value, valid) => {
-    this.info.credits = value;
-    this.info.creditsValid = valid;
   };
 
   @action submit = async () => {
@@ -191,9 +148,6 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
     this.info.allowCustomTag = e.target.checked;
   };
 
-  @action onTopicChange = (selected: string[]) => {
-    this.info.topics = selected;
-  };
 
   render() {
     const locale: any = new Proxy({}, {
