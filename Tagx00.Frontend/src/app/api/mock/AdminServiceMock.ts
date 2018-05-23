@@ -8,6 +8,9 @@ export class AdminServiceMock extends AdminService {
        return {
            userCount: 100,
            totalMissionCount: 1000,
+           activeMissionCount:200,
+           pendingMissionCount:300,
+           endedMissionCount:300,
            totalInstanceCount: 10000,
            inProgressInstanceCount: 2000,
            submittedInstanceCount: 3000,

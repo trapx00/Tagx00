@@ -26,6 +26,7 @@ export class ImageMissionCreatePage extends React.Component<Props, {}> {
   render() {
     return <div>
       <h1><LocaleMessage id={"missions.createMission.title"}/></h1>
+      <br/>
       <ImageMissionCreateInfoForm token={this.userStore.user.token}/>
     </div>;
   }
