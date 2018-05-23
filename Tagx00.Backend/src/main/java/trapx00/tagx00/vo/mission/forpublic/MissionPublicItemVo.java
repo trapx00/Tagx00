@@ -10,9 +10,6 @@ public class MissionPublicItemVo implements Serializable {
     private String missionId;
     private String title;
     private String description;
-    private List<String> topics;
-    private boolean allowCustomTag;
-    private List<String> allowedTags;
     private MissionType missionType;
     private Date start;
     private Date end;
@@ -26,28 +23,19 @@ public class MissionPublicItemVo implements Serializable {
     public MissionPublicItemVo() {
     }
 
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
+    public MissionPublicItemVo(String missionId, String title, String description, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername) {
+        this.missionId = missionId;
+        this.title = title;
+        this.description = description;
+        this.missionType = missionType;
+        this.start = start;
+        this.end = end;
+        this.coverUrl = coverUrl;
         this.level = level;
-    }
-
-    public int getCredits() {
-        return credits;
-    }
-
-    public void setCredits(int credits) {
         this.credits = credits;
-    }
-
-    public int getMinimalWorkerLevel() {
-        return minimalWorkerLevel;
-    }
-
-    public void setMinimalWorkerLevel(int minimalWorkerLevel) {
         this.minimalWorkerLevel = minimalWorkerLevel;
+        this.jobCount = jobCount;
+        this.requesterUsername = requesterUsername;
     }
 
     public String getMissionId() {
@@ -72,30 +60,6 @@ public class MissionPublicItemVo implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<String> getTopics() {
-        return topics;
-    }
-
-    public void setTopics(List<String> topics) {
-        this.topics = topics;
-    }
-
-    public boolean isAllowCustomTag() {
-        return allowCustomTag;
-    }
-
-    public void setAllowCustomTag(boolean allowCustomTag) {
-        this.allowCustomTag = allowCustomTag;
-    }
-
-    public List<String> getAllowedTags() {
-        return allowedTags;
-    }
-
-    public void setAllowedTags(List<String> allowedTags) {
-        this.allowedTags = allowedTags;
     }
 
     public MissionType getMissionType() {
@@ -130,12 +94,28 @@ public class MissionPublicItemVo implements Serializable {
         this.coverUrl = coverUrl;
     }
 
-    public String getRequesterUsername() {
-        return requesterUsername;
+    public int getLevel() {
+        return level;
     }
 
-    public void setRequesterUsername(String requesterUsername) {
-        this.requesterUsername = requesterUsername;
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
+    public int getMinimalWorkerLevel() {
+        return minimalWorkerLevel;
+    }
+
+    public void setMinimalWorkerLevel(int minimalWorkerLevel) {
+        this.minimalWorkerLevel = minimalWorkerLevel;
     }
 
     public int getJobCount() {
@@ -146,23 +126,11 @@ public class MissionPublicItemVo implements Serializable {
         this.jobCount = jobCount;
     }
 
-    public MissionPublicItemVo(String missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername) {
-        this.missionId = missionId;
-        this.title = title;
-        this.description = description;
-        this.topics = topics;
-        this.allowCustomTag = allowCustomTag;
-        this.allowedTags = allowedTags;
-        this.missionType = missionType;
-        this.start = start;
-        this.end = end;
-        this.coverUrl = coverUrl;
-        this.level = level;
-        this.credits = credits;
-        this.minimalWorkerLevel = minimalWorkerLevel;
-        this.jobCount = jobCount;
-        this.requesterUsername = requesterUsername;
+    public String getRequesterUsername() {
+        return requesterUsername;
     }
 
-
+    public void setRequesterUsername(String requesterUsername) {
+        this.requesterUsername = requesterUsername;
+    }
 }

@@ -21,7 +21,9 @@ public class TextMissionDetailVo extends MissionDetailVo {
         this.textMissionTypes = textMissionTypes;
     }
 
-    public TextMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, String requesterUsername, List<String> textUrls, List<TextMissionType> textMissionTypes) {
+    public TextMissionDetailVo(MissionPublicItemVo publicItem,
+                               MissionState missionState,
+                               String requesterUsername, List<String> textUrls, List<TextMissionType> textMissionTypes) {
         super(publicItem, missionState, requesterUsername);
         this.textUrls = textUrls;
         this.textMissionTypes = textMissionTypes;
