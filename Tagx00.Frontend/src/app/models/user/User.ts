@@ -6,10 +6,12 @@ export enum UserRole {
 
 
 export class User {
-  public username: string;
-  public role: UserRole;
-  public token: string;
-  public email: string;
+  username: string;
+  role: UserRole;
+  token: string;
+  email: string;
+  avatarUrl: string;
+
 
   constructor(params: Partial<User>) {
     Object.assign(this, params);

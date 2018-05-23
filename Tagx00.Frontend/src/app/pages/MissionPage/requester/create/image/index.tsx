@@ -1,11 +1,11 @@
 import React, { ReactNode } from 'react';
 import { observer } from "mobx-react";
 import { action, observable, runInAction, toJS } from "mobx";
-import { CreditStatus, ImageMissionCreateInfo } from "./ImageMissionCreateInfo";
+import { ImageMissionCreateInfo } from "./ImageMissionCreateInfo";
 import { Checkbox, DatePicker, Form, Input, Modal, Button, Card, Row, Col } from 'antd';
 import { FormItemProps } from "antd/lib/form/FormItem";
 import { ImageMissionType } from "../../../../../models/mission/image/ImageMission";
-import { ImageUploadPanel } from "./ImageUploadPanel";
+import { ImageUploadPanel } from "../ImageUploadPanel";
 import { RequesterService } from "../../../../../api/RequesterService";
 import { Inject } from "react.di";
 import { LocaleStore } from "../../../../../stores/LocaleStore";
@@ -23,8 +23,8 @@ import { LocaleMessage } from "../../../../../internationalization/components";
 import { PayService } from "../../../../../api/PayService";
 import { CreditInput } from "../../../../../components/Pay/CreditInput";
 import { TopicSelector } from "./TopicSelector";
-import { MissionTypeSelectPanel } from "../MissionTypeSelectPanel";
 import { UserStore } from "../../../../../stores/UserStore";
+import { MissionCreateInfoForm } from "../MissionCreateInfoForm";
 
 const CheckboxGroup = Checkbox.Group;
 const {RangePicker} = DatePicker;
@@ -106,7 +106,7 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
 
     console.log(this.info.missionCreateVo);
 
-    const {token, id} = await this.requesterService.createMission(this.info.missionCreateVo);
+    const {token, id} = await this.requesterService.createMission(this.info.missionCreateVo());
 
     console.log(token, id);
 
@@ -155,85 +155,34 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
         return this.localeStore.get(`${ID_PREFIX}fields.${key}`) as string;
       }
     });
-    return <Row gutter={{xs:0,sm:4}}>
-      <Col xs={24} sm={16}>
-    <Form className="login-form" >
-      <Card>
-        <FormItem valid={this.info.titleValid} messageOnInvalid={locale.requireTitle}>
-          <Input addonBefore={locale.title}
-                 onChange={this.onTitleChange}
-                 value={this.info.title}
+    return <MissionCreateInfoForm info={this.info}>
+      <div>
+        <FormItem valid={this.info.allowedTagsValid} messageOnInvalid={locale.requireTags}>
+          <span style={{marginRight: "16px"}}>{locale.tags}</span>
+          <Checkbox checked={this.info.allowCustomTag} onChange={this.onAllowCustomTagChanged}>
+            {locale.allowCustomTag}
+          </Checkbox>
+          <TagSelector onSelectedChanged={this.onTagsChange}
+                       selectedTags={toJS(this.info.allowedTags)}
+                       placeholder={locale.tags}
           />
         </FormItem>
-        <FormItem valid={this.info.descriptionValid} messageOnInvalid={locale.requireDescription}>
-          <Input.TextArea onChange={this.onDescriptionChange}
-                          placeholder={locale.description}
-                          value={this.info.description}
+        <FormItem valid={this.info.imageTypesValid} messageOnInvalid={locale["IMAGE.requireTypes"]}>
+          <p>{locale["IMAGE.types.name"]}</p>
+          <CheckboxGroup options={Object.keys(ImageMissionType).map(x => ({label: locale[`IMAGE.types.${x}`], value: x}))}
+                         value={toJS(this.info.imageMissionTypes)}
+                         onChange={this.onTypeChange}/>
+        </FormItem>
+        <FormItem valid={this.info.imagesValid} messageOnInvalid={locale["IMAGE.requireImages"]}>
+          <p>{locale["IMAGE.images"]}</p>
+          <ImageUploadPanel onFileListChange={this.onFileListChange}
+                            fileList={this.info.images}
+                            maxFileNum={Number.MAX_SAFE_INTEGER}
+                            multiple={true}
+                            buttonChildren={locale.selectFile}
           />
         </FormItem>
-        <FormItem valid={true} messageOnInvalid={""}>
-          <TopicSelector selected={this.info.topics} onChange={this.onTopicChange}/>
-        </FormItem>
-      </Card>
-
-      <Card >
-        <FormItem valid={true} messageOnInvalid={""}>
-          <p>{locale.cover}</p>
-          <ImageUploadPanel onFileListChange={this.onCoverImageChange}
-                          fileList={[this.info.coverImage].filter(x => !!x)}
-                          maxFileNum={1}
-                          multiple={false}
-                          buttonChildren={locale.selectFile}
-          />
-        </FormItem>
-        <FormItem valid={this.info.dateRangeValid} messageOnInvalid={locale.requireDateRange}>
-          <p>{locale.dateRange}</p>
-          <RangePicker value={toJS(this.info.dateRange)} onChange={this.onDateRangeChanged}/>
-        </FormItem>
-      </Card>
-
-      <Card >
-      <FormItem valid={this.info.minimalWorkerLevelValid}
-                messageOnInvalid={locale.requireMinimalWorkerLevel}
-                messageOnSuccess={locale.requireMinimalWorkerLevel}
-      >
-        <Input addonBefore={locale.minimalWorkerLevel}
-               onChange={this.onMinimalWorkerLevelChanged}
-               value={this.info.minimalWorkerLevel}
-        />
-      </FormItem>
-
-      <FormItem valid={this.info.levelValid}
-                messageOnInvalid={locale.requireMissionLevel}
-                messageOnSuccess={locale.requireMissionLevel}
-      >
-        <Input addonBefore={locale.missionLevel}
-               onChange={this.onMissionLevelChanged}
-               value={this.info.level}
-        />
-      </FormItem>
-
-      <CreditInput onChanged={this.onCreditsChanged}/>
-      </Card>
-      </Form>
-      </Col>
-
-      <Col xs={24} sm={8}>
-        <Card>
-          <MissionTypeSelectPanel info={this.info}
-                                  locale={locale}
-                                  onAllowCustomTagChanged={this.onAllowCustomTagChanged}
-                                  onTagsChange={this.onTagsChange}
-                                  onFileListChange={this.onFileListChange}
-                                  onTypeChange={this.onTypeChange}
-          />
-        </Card>
-        <Card>
-        <Button type={"primary"} onClick={this.submit} loading={this.uploading}>
-          {locale.submit}
-        </Button>
-        </Card>
-      </Col>
-    </Row>
+      </div>
+    </MissionCreateInfoForm>;
   }
 }

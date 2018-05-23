@@ -1,6 +1,6 @@
 import React from "react";
 import { Checkbox } from "antd";
-import { FormItem } from "../../../../components/Form/FormItem";
+import { FormItem } from "../../../../../components/Form/FormItem";
 
 interface Props {
 }

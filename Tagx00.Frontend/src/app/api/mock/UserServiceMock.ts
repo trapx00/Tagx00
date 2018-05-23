@@ -1,34 +1,41 @@
 import { Injectable } from "react.di";
 import { NetworkResponse } from "../HttpService";
-import { LoginResult, UserRegisterConfirmationResponse, UserRegisterResponse, UserService } from "../UserService";
+import { UserRegisterResponse, UserService } from "../UserService";
 import { UserRole } from "../../models/user/User";
 import { HttpMethod } from "../utils";
 import { LevelInfo } from "../../models/user/LevelInfo";
+import { LoginResponse } from "../../models/user/LoginResponse";
+
+
+const sampleAvatar = "https://en.gravatar.com/userimage/57315252/e9c37404163b4b2e73fd72003e391aac.jpg?size=200";
 
 @Injectable
 export class UserServiceMock extends UserService {
 
-  async login(username: string, password: string): Promise<NetworkResponse<LoginResult>> {
+  async login(username: string, password: string): Promise<NetworkResponse<LoginResponse>> {
 
     if (username === "worker") {
       return new NetworkResponse(200, {
         token: "123",
         jwtRoles: [{roleName: UserRole.ROLE_WORKER}],
-        email: "1@1.com"
+        email: "1@1.com",
+        avatarUrl: sampleAvatar
       })
     }
 
-    else if(username === "admin") {
-        return new NetworkResponse(200, {
-            token: "123",
-            jwtRoles: [{roleName: UserRole.ROLE_ADMIN}],
-            email: "1@1.com"
-        })
+    else if (username === "admin") {
+      return new NetworkResponse(200, {
+        token: "123",
+        jwtRoles: [{roleName: UserRole.ROLE_ADMIN}],
+        email: "1@1.com",
+        avatarUrl: sampleAvatar
+      })
     }
     return new NetworkResponse(200, {
         token: "123",
-        jwtRoles: [{ roleName: UserRole.ROLE_REQUESTER}],
-        email: "1@1.com"
+        jwtRoles: [{roleName: UserRole.ROLE_REQUESTER}],
+        email: "1@1.com",
+        avatarUrl: sampleAvatar
       }
     );
   }
@@ -44,12 +51,13 @@ export class UserServiceMock extends UserService {
     );
   }
 
-  async registerValidate(token: string, code: string): Promise<NetworkResponse<UserRegisterConfirmationResponse>> {
+  async registerValidate(token: string, code: string): Promise<NetworkResponse<LoginResponse>> {
 
     return new NetworkResponse(200, {
         token: "123",
-        jwtRoles: [{ authority: UserRole.ROLE_REQUESTER}],
-        email: "1@1.com"
+        jwtRoles: [{roleName: UserRole.ROLE_REQUESTER}],
+        email: "1@1.com",
+        avatarUrl: sampleAvatar
       }
     );
   }

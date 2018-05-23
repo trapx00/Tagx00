@@ -45,7 +45,7 @@ export default class RequesterMissionPanel extends React.Component<Props, {}> {
     return <div>
       <h1>
         <span><LocaleMessage id={"missions.requester.mission.title"}/></span>
-        <Link to={"/mission/requester/create/image"}>
+        <Link to={"/mission/requester/create"}>
           <Button style={btnAddMissionStyle} type="primary">
             <LocaleMessage id={"missions.requester.mission.add"}/>
           </Button>

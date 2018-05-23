@@ -1,5 +1,5 @@
 import { action, computed, observable, runInAction } from "mobx";
-import { LoginResult, UserService } from "../../../api/UserService";
+import { UserService } from "../../../api/UserService";
 import { UserStore } from "../../../stores/UserStore";
 import { Inject, Injectable } from "react.di";
 

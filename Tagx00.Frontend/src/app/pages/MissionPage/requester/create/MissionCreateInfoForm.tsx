@@ -13,7 +13,7 @@ import { ImageMissionType } from "../../../../models/mission/image/ImageMission"
 import moment from 'moment';
 import { FormItem } from "../../../../components/Form/FormItem";
 import { TopicSelector } from "./image/TopicSelector";
-import { ImageUploadPanel } from "./image/ImageUploadPanel";
+import { ImageUploadPanel } from "./ImageUploadPanel";
 import { CreditInput } from "../../../../components/Pay/CreditInput";
 import { MissionCreateInfo } from "./MissionCreateInfo";
 
@@ -46,23 +46,12 @@ export class MissionCreateInfoForm extends React.Component<Props, {}> {
   };
 
 
-  @action onTypeChange = (checkedValues: string[]) => {
-    this.props.info.imageMissionTypes = checkedValues.map(x => ImageMissionType[x]);
-  };
 
-
-  @action onFileListChange = (files) => {
-    this.props.info.images = files;
-  };
 
   @action onCoverImageChange = (files) => {
     this.props.info.coverImage = files[0];
   };
 
-  @action upload = async () => {
-    console.log(this.props.info.images);
-
-  };
 
   @action onDateRangeChanged = (dates: [moment.Moment, moment.Moment]) => {
     this.props.info.dateRange = dates;
@@ -91,10 +80,9 @@ export class MissionCreateInfoForm extends React.Component<Props, {}> {
         return this.localeStore.get(`${ID_PREFIX}fields.${key}`) as string;
       }
     });
-    return <Row gutter={{xs:0,sm:4}}>
-      <Col xs={24} sm={16}>
+    return <Row gutter={16}>
+      <Col xs={24} sm={12}>
         <Form className="login-form" >
-          <Card>
             <FormItem valid={this.props.info.titleValid} messageOnInvalid={locale.requireTitle}>
               <Input addonBefore={locale.title}
                      onChange={this.onTitleChange}
@@ -110,9 +98,6 @@ export class MissionCreateInfoForm extends React.Component<Props, {}> {
             <FormItem valid={true} messageOnInvalid={""}>
               <TopicSelector selected={this.props.info.topics} onChange={this.onTopicChange}/>
             </FormItem>
-          </Card>
-
-          <Card >
             <FormItem valid={true} messageOnInvalid={""}>
               <p>{locale.cover}</p>
               <ImageUploadPanel onFileListChange={this.onCoverImageChange}
@@ -126,9 +111,6 @@ export class MissionCreateInfoForm extends React.Component<Props, {}> {
               <p>{locale.dateRange}</p>
               <RangePicker value={toJS(this.props.info.dateRange)} onChange={this.onDateRangeChanged}/>
             </FormItem>
-          </Card>
-
-          <Card >
             <FormItem valid={this.props.info.minimalWorkerLevelValid}
                       messageOnInvalid={locale.requireMinimalWorkerLevel}
                       messageOnSuccess={locale.requireMinimalWorkerLevel}
@@ -150,10 +132,9 @@ export class MissionCreateInfoForm extends React.Component<Props, {}> {
             </FormItem>
 
             <CreditInput onChanged={this.onCreditsChanged}/>
-          </Card>
         </Form>
       </Col>
-      <Col xs={24} sm={8}>
+      <Col xs={24} sm={12}>
         {this.props.children}
       </Col>
     </Row>

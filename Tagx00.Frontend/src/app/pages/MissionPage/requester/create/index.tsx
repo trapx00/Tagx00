@@ -30,11 +30,13 @@ export default class MissionCreatePage extends React.Component<Props, {}> {
       <h1><LocaleMessage id={"missions.createMission.title"}/></h1>
       <br/>
       <MissionTypeMenu/>
+      <div style={{marginTop: "16px"}}>
       <Switch>
         <AsyncRoute exact path={"/mission/requester/create/IMAGE"} component={import("./image")}/>
         <AsyncRoute exact path={"/mission/requester/create/TEXT"} component={import("./text")}/>
         <Redirect to={"/mission/requester/create/IMAGE"}/>
       </Switch>
+    </div>
     </div>;
   }
 }

@@ -6,12 +6,10 @@ import { ImageMissionProperties } from "../../../../models/mission/image/ImageMi
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import moment from 'moment';
 
-export class MissionCreateInfo {
+export abstract class MissionCreateInfo {
   @observable title: string = "";
   @observable description: string = "";
   @observable remainingCredits = -1;
-  @observable imageMissionTypes: ImageMissionType[] = [];
-  @observable images: UploadFile[] = [];
 
   @observable topics: string[] = [];
   @observable dateRange: [moment.Moment, moment.Moment] = [null,null];
@@ -23,7 +21,7 @@ export class MissionCreateInfo {
 
   @observable createAttempted: boolean = false;
 
-  get missionCreateVo(): MissionCreate {
+  missionCreateVo(): MissionCreate {
     return toJS({
       title: this.title,
       description: this.description,
@@ -45,20 +43,9 @@ export class MissionCreateInfo {
     return !this.createAttempted || !!this.description;
   }
 
-  @computed get typesValid() {
-    return !this.createAttempted || this.imageMissionTypes.length >0;
-  }
 
   @computed get dateRangeValid() {
     return !this.createAttempted || this.dateRange[0] != null;
-  }
-
-  @computed get imageTypesValid() {
-    return !this.createAttempted || this.imageMissionTypes.length >0;
-  }
-
-  @computed get imagesValid() {
-    return !this.createAttempted || this.images.length > 0;
   }
 
   @computed get minimalWorkerLevelValid() {
@@ -74,11 +61,11 @@ export class MissionCreateInfo {
   }
 
 
-  @computed get valid() {
+  baseValid() {
     return this.titleValid && this.descriptionValid
-      && this.typesValid
-      && this.dateRangeValid && this.imageTypesValid
-      && this.imagesValid && this.minimalWorkerLevelValid && this.levelValid
+      && this.dateRangeValid && this.minimalWorkerLevelValid && this.levelValid
       && this.creditsValid;
   }
+
+  abstract get valid(): boolean;
 }
