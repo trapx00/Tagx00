@@ -1,22 +1,25 @@
 package trapx00.tagx00.publicdatas.mission.text.keyword;
 
 import trapx00.tagx00.publicdatas.mission.TagDescriptionTuple;
+import trapx00.tagx00.publicdatas.mission.TagTuple;
 import trapx00.tagx00.publicdatas.mission.text.TextJob;
 import trapx00.tagx00.vo.mission.text.TextMissionType;
 
+import java.util.List;
+
 public class TextKeywordsJob extends TextJob {
-    private TagDescriptionTuple tuple;
+    private List<TagTuple> tagTuples;
 
-    public TextKeywordsJob (TextMissionType type, TagDescriptionTuple tuple) {
-        super(type);
-        this.tuple = tuple;
+    public TextKeywordsJob(List<TagTuple> tagTuples) {
+        super(TextMissionType.KEYWORDS);
+        this.tagTuples = tagTuples;
     }
 
-    public TagDescriptionTuple getTuple() {
-        return tuple;
+    public List<TagTuple> getTagTuples() {
+        return tagTuples;
     }
 
-    public void setTuple(TagDescriptionTuple tuple) {
-        this.tuple = tuple;
+    public void setTagTuples(List<TagTuple> tagTuples) {
+        this.tagTuples = tagTuples;
     }
 }

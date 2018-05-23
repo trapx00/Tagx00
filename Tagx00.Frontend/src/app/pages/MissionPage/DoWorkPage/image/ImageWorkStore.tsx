@@ -47,7 +47,7 @@ export class ImageWorkStore {
     return {
       missionType: MissionType.IMAGE,
       imageResults: this.currentNotations.map((x, index) => ({
-        id: index,
+        workResultId: index+"",
         instanceId: instance.instanceId,
         imageJob: x.job,
         url: x.imageUrl,
