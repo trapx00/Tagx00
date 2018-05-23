@@ -10,13 +10,20 @@ import trapx00.tagx00.vo.mission.instance.InstanceVo;
 public interface WorkerMissionDataService {
 
     /**
+     * update the progress of the instance.
+     *
+     * @param instanceVo
+     */
+    String updateInstanceDetailVo(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
+
+    /**
      * save the progress of the instance.
      * if not accpet the mission before, the system will create a instance for workers
      * also use to abort the instance
      *
      * @param instanceVo
      */
-    int saveInstanceDetailVo(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
+    String saveInstanceDetailVo(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
 
     /**
      * save the instance
@@ -24,7 +31,7 @@ public interface WorkerMissionDataService {
      * @param instanceId
      * @param missionType
      */
-    int abortInstance(int instanceId, MissionType missionType);
+    int abortInstance(String instanceId, MissionType missionType);
 
 
     /**
@@ -43,7 +50,7 @@ public interface WorkerMissionDataService {
      * @param missionType
      * @return the instance matching username and missionId
      */
-    InstanceDetailVo getInstanceDetailVoByUsernameAndMissionId(String workerUsername, int missionId, MissionType missionType);
+    InstanceDetailVo getInstanceDetailVoByUsernameAndMissionId(String workerUsername, String missionId, MissionType missionType);
 
     /**
      * get the information of  instance by username and missionId
@@ -53,7 +60,7 @@ public interface WorkerMissionDataService {
      * @param missionType
      * @return the instance matching username and missionId
      */
-    Instance getInstanceByUsernameAndMissionId(String workerUsername, int missionId, MissionType missionType);
+    Instance getInstanceByUsernameAndMissionId(String workerUsername, String missionId, MissionType missionType);
 
     /**
      * delte the mission of a worker
@@ -63,5 +70,5 @@ public interface WorkerMissionDataService {
      * @param missionType
      * @return
      */
-    boolean deleteInstanceByMissionIdAndUsername(int missionId, String username, MissionType missionType);
+    boolean deleteInstanceByMissionIdAndUsername(String missionId, String username, MissionType missionType);
 }

@@ -1,34 +1,30 @@
 package trapx00.tagx00.entity.mission.instance;
 
-import trapx00.tagx00.entity.Entity;
-import trapx00.tagx00.entity.annotation.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Date;
 
-public class Instance extends Entity {
+@Entity
+public class Instance {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "instanceId")
-    private int instanceId;
+    private String instanceId;
 
     @Column(name = "workerUsername")
     private String workerUsername;
 
-    @EnumTranslate(targetClass = MissionInstanceState.class)
     @Column(name = "missionInstanceState")
     private MissionInstanceState missionInstanceState;
 
-    @EnumTranslate(targetClass = MissionType.class)
     @Column(name = "MissionType")
     private MissionType missionType;
 
-    @JsonSerialize
     @Column(name = "acceptDate")
     private Date acceptDate;
 
-    @JsonSerialize
     @Column(name = "submitDate")
     private Date submitDate;
 
@@ -36,7 +32,7 @@ public class Instance extends Entity {
     private boolean submitted;
 
     @Column(name = "missionId")
-    private int missionId;
+    private String missionId;
 
     @Column(name = "exp")
     private double exp;
@@ -53,7 +49,7 @@ public class Instance extends Entity {
     public Instance() {
     }
 
-    public Instance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState, MissionType missionType, Date acceptDate, Date submitDate, boolean submitted, int missionId, double exp, double expRatio, int credits, String comment) {
+    public Instance(String instanceId, String workerUsername, MissionInstanceState missionInstanceState, MissionType missionType, Date acceptDate, Date submitDate, boolean submitted, String missionId, double exp, double expRatio, int credits, String comment) {
         this.instanceId = instanceId;
         this.workerUsername = workerUsername;
         this.missionInstanceState = missionInstanceState;
@@ -68,20 +64,20 @@ public class Instance extends Entity {
         this.comment = comment;
     }
 
+    public String getInstanceId() {
+        return instanceId;
+    }
+
+    public void setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
+    }
+
     public String getComment() {
         return comment;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public int getInstanceId() {
-        return instanceId;
-    }
-
-    public void setInstanceId(int instanceId) {
-        this.instanceId = instanceId;
     }
 
     public String getWorkerUsername() {
@@ -108,11 +104,11 @@ public class Instance extends Entity {
         this.missionType = missionType;
     }
 
-    public int getMissionId() {
+    public String getMissionId() {
         return missionId;
     }
 
-    public void setMissionId(int missionId) {
+    public void setMissionId(String missionId) {
         this.missionId = missionId;
     }
 

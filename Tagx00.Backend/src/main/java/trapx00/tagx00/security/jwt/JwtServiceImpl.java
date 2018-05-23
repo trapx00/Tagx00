@@ -10,10 +10,7 @@ import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.entity.account.TempUser;
 import trapx00.tagx00.entity.account.User;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -56,7 +53,7 @@ public class JwtServiceImpl implements JwtService {
                 user.getUsername(),
                 user.getPassword(),
                 user.getEmail(),
-                mapToJwtRole(user.getRoles())
+                mapToJwtRole(user.getRole())
         );
     }
 
@@ -66,11 +63,13 @@ public class JwtServiceImpl implements JwtService {
                 tempUser.getUsername(),
                 tempUser.getPassword(),
                 tempUser.getEmail(),
-                mapToJwtRole(tempUser.getRoles())
+                mapToJwtRole(tempUser.getRole())
         );
     }
 
-    private List<JwtRole> mapToJwtRole(List<Role> roles) {
+    private List<JwtRole> mapToJwtRole(Role role) {
+        List<Role> roles = new ArrayList<>();
+        roles.add(role);
         return roles.stream()
                 .map(JwtRole::new)
                 .collect(Collectors.toList());

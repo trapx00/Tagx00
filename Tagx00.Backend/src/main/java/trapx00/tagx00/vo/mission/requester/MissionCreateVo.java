@@ -11,8 +11,6 @@ public class MissionCreateVo implements Serializable {
     private String title;
     private String description;
     private List<String> topics;
-    private boolean allowCustomTag;
-    private List<String> allowedTags;
     private MissionProperties properties;
     private Date start;
     private Date end;
@@ -23,30 +21,17 @@ public class MissionCreateVo implements Serializable {
     public MissionCreateVo() {
     }
 
-    public MissionCreateVo(String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionProperties properties, Date start, Date end, int level, int credits, int minimalWorkerLevel, MissionType missionType) {
+    public MissionCreateVo(String title, String description, List<String> topics, MissionProperties properties, Date start, Date end, int level, int credits, int minimalWorkerLevel) {
         this.title = title;
         this.description = description;
         this.topics = topics;
-        this.allowCustomTag = allowCustomTag;
-        this.allowedTags = allowedTags;
         this.properties = properties;
         this.start = start;
         this.end = end;
         this.level = level;
         this.credits = credits;
         this.minimalWorkerLevel = minimalWorkerLevel;
-        this.missionType = missionType;
     }
-
-    public MissionType getMissionType() {
-        return missionType;
-    }
-
-    public void setMissionType(MissionType missionType) {
-        this.missionType = missionType;
-    }
-
-    private MissionType missionType;
 
     public String getTitle() {
         return title;
@@ -72,22 +57,6 @@ public class MissionCreateVo implements Serializable {
         this.topics = topics;
     }
 
-    public boolean isAllowCustomTag() {
-        return allowCustomTag;
-    }
-
-    public void setAllowCustomTag(boolean allowCustomTag) {
-        this.allowCustomTag = allowCustomTag;
-    }
-
-    public List<String> getAllowedTags() {
-        return allowedTags;
-    }
-
-    public void setAllowedTags(List<String> allowedTags) {
-        this.allowedTags = allowedTags;
-    }
-
     public MissionProperties getProperties() {
         return properties;
     }
@@ -110,14 +79,6 @@ public class MissionCreateVo implements Serializable {
 
     public void setEnd(Date end) {
         this.end = end;
-    }
-
-    public boolean getCustomTag() {
-        return allowCustomTag;
-    }
-
-    public void setCustomTag(boolean allowCustomTag) {
-        this.allowCustomTag = allowCustomTag;
     }
 
     public int getLevel() {

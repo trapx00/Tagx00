@@ -1,13 +1,12 @@
 package trapx00.tagx00.entity.mission.topic;
 
-import trapx00.tagx00.entity.Entity;
-import trapx00.tagx00.entity.annotation.*;
+import javax.persistence.*;
 
+@Entity
 @Table(name = "topic")
-public class Topic extends Entity {
+public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "topicId")
     private int topicId;
 
     @Column(name = "value")

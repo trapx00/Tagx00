@@ -10,11 +10,18 @@ import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 public interface RequesterMissionDataService {
 
     /**
+     * update mission
+     *
+     * @param mission
+     */
+    String updateMission(Mission mission) throws SystemException;
+
+    /**
      * save mission
      *
      * @param mission
      */
-    int saveMission(Mission mission) throws SystemException;
+    String saveMission(Mission mission) throws SystemException;
 
     /**
      * get instance by instanceId
@@ -23,7 +30,7 @@ public interface RequesterMissionDataService {
      * @param missionType
      * @return the specific MissionInstanceItemVo
      */
-    InstanceDetailVo getInstanceByInstanceId(int instanceId, MissionType missionType);
+    InstanceDetailVo getInstanceByInstanceId(String instanceId, MissionType missionType);
 
     /**
      * get instance by instanceId
@@ -32,7 +39,7 @@ public interface RequesterMissionDataService {
      * @param missionType
      * @return the instances
      */
-    InstanceVo[] getInstancesByMissionId(int missionId, MissionType missionType);
+    InstanceVo[] getInstancesByMissionId(String missionId, MissionType missionType);
 
     /**
      * get all instances
@@ -48,7 +55,7 @@ public interface RequesterMissionDataService {
      * @param missionType the type of the mission
      * @return the mission object
      */
-    Mission getMissionByMissionId(int missionId, MissionType missionType);
+    Mission getMissionByMissionId(String missionId, MissionType missionType);
 
     /**
      * update the mission's credits
@@ -56,7 +63,7 @@ public interface RequesterMissionDataService {
      * @param missionId
      * @param credits
      */
-    void updateMission(int missionId, int credits, MissionType missionType) throws SystemException;
+    void updateMission(String missionId, int credits, MissionType missionType) throws SystemException;
 
     /**
      * finlize the instance
@@ -64,5 +71,5 @@ public interface RequesterMissionDataService {
      * @param instanceId
      * @param missionFinalizeVo
      */
-    void updateInstance(int instanceId, MissionFinalizeVo missionFinalizeVo, MissionType missionType) throws SystemException;
+    void updateInstance(String instanceId, MissionFinalizeVo missionFinalizeVo, MissionType missionType) throws SystemException;
 }

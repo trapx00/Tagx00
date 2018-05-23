@@ -1,11 +1,8 @@
 package trapx00.tagx00.data.dao.user;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import trapx00.tagx00.entity.account.TempUser;
 
-public interface TempUserDao {
-    TempUser save(TempUser tempUser);
-
+public interface TempUserDao extends JpaRepository<TempUser, String> {
     TempUser findTempUserByUsername(String username);
-
-    void delete(String username);
 }

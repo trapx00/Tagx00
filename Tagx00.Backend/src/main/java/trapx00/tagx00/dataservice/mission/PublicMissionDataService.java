@@ -29,7 +29,7 @@ public interface PublicMissionDataService {
      * @param missionType
      * @return the missionDetailVo
      */
-    MissionDetailVo getOneMissionDetail(int missionId, MissionType missionType);
+    MissionDetailVo getOneMissionDetail(String missionId, MissionType missionType);
 
 
     /**

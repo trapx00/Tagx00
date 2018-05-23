@@ -7,7 +7,6 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import trapx00.tagx00.MainApplication;
 import trapx00.tagx00.dataservice.upload.ImageDataService;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.util.PathUtil;
