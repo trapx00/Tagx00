@@ -58,7 +58,7 @@ export class CreditInput extends React.Component<Props, State> {
   componentDidMount() {
     if (this.state.availableCredits == -1) {
       const func = this.props.getRemainingCredits ||
-        (async () => (await this.payService.getCredits(this.userStore.token)).credits);
+        (async () => (await this.payService.getCredits()).credits);
       func().then(credits => {
         this.setState({
           availableCredits: credits,

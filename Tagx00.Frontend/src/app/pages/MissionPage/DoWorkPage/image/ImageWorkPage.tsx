@@ -18,7 +18,6 @@ import { LocaleStore } from "../../../../stores/LocaleStore";
 interface Props {
   instanceDetail: ImageInstanceDetail;
   missionDetail: ImageMissionDetail;
-  token: string;
   jumpBack: () => void;
   readonlyMode: boolean;
 }
@@ -41,7 +40,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
 
   @action saveWork = async (notation: ImageNotation) => {
     this.store.saveWork(notation);
-    await this.store.saveProgress(this.props.token);
+    await this.store.saveProgress();
     message.success(this.localeStore.get(ID_PREFIX + "finish.workSaved"));
   };
 
@@ -74,7 +73,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
 
   submit = async () => {
 
-    const result = await this.store.submit(this.props.token);
+    const result = await this.store.submit();
     if (result) {
       console.log("success");
       this.props.jumpBack();
@@ -89,7 +88,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   };
 
   saveProgress = async () => {
-    await this.store.saveProgress(this.props.token);
+    await this.store.saveProgress();
     this.props.jumpBack();
   };
 

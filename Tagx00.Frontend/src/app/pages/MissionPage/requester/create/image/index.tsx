@@ -24,12 +24,13 @@ import { PayService } from "../../../../../api/PayService";
 import { CreditInput } from "../../../../../components/Pay/CreditInput";
 import { TopicSelector } from "./TopicSelector";
 import { MissionTypeSelectPanel } from "../MissionTypeSelectPanel";
+import { UserStore } from "../../../../../stores/UserStore";
 
 const CheckboxGroup = Checkbox.Group;
 const {RangePicker} = DatePicker;
 
 interface Props {
-  token: string;
+
 }
 
 const ID_PREFIX = "missions.createMission.";
@@ -87,6 +88,7 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
   @Inject requesterService: RequesterService;
   @Inject topicService: TopicService;
   @Inject payService: PayService;
+  @Inject userStore: UserStore;
 
 
 
@@ -147,7 +149,7 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
 
     console.log(this.info.missionCreateVo);
 
-    const {token, id} = await this.requesterService.createMission(this.info.missionCreateVo, this.props.token);
+    const {token, id} = await this.requesterService.createMission(this.info.missionCreateVo);
 
     console.log(token, id);
 
@@ -159,12 +161,12 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
     const coverFormData = new FormData();
     coverFormData.append("files[]", this.info.coverImage as any);
 
-    const coverUrl = await this.requesterService.uploadImageFile(id, coverFormData, 1, true, token);
+    const coverUrl = await this.requesterService.uploadImageFile(id, coverFormData, 1, true);
 
     for (let i = 0; i < this.info.images.length; i++) {
       const imageFormData = new FormData();
       imageFormData.append("files[]", this.info.images[i] as any);
-      const img = await this.requesterService.uploadImageFile(id, imageFormData, i + 2, false, token);
+      const img = await this.requesterService.uploadImageFile(id, imageFormData, i + 2, false);
       console.log(img);
     }
 
@@ -199,7 +201,7 @@ export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
         return this.localeStore.get(`${ID_PREFIX}fields.${key}`) as string;
       }
     });
-    return <Row gutter={{xs:"0",sm:"4"}}>
+    return <Row gutter={{xs:0,sm:4}}>
       <Col xs={24} sm={16}>
     <Form className="login-form" >
       <Card>

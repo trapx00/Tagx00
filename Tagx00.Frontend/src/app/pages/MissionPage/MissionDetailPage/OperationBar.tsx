@@ -35,7 +35,7 @@ export class OperationBar extends React.Component<Props, State> {
 
   accept = async () => {
     const { missionId } = this.props.missionPublicItem;
-    await this.workerService.acceptMission(missionId, this.userStore.token);
+    await this.workerService.acceptMission(missionId);
     message.success(this.localeStore.get(ID_PREFIX + "accepted"));
     this.setState(prev => ({key: prev.key+1}));
   };
@@ -43,7 +43,7 @@ export class OperationBar extends React.Component<Props, State> {
   renderContent = async () => {
     const { missionId, minimalWorkerLevel } = this.props.missionPublicItem;
     try {
-      const detail = await this.workerService.getInstanceDetail(missionId, this.userStore.token);
+      const detail = await this.workerService.getInstanceDetail(missionId);
       return <p>
         <Link to={`/mission/worker/${missionId}/doWork`}>
           <Button><LocaleMessage id={ID_PREFIX + "continueWorking"}/></Button>
@@ -54,7 +54,7 @@ export class OperationBar extends React.Component<Props, State> {
       </p>
     } catch (e) {
       if (e.statusCode === 404) { // not accepted
-        const level = (await this.workerService.getWorkerInfo(this.userStore.user.username, this.userStore.token)).level;
+        const level = (await this.workerService.getWorkerInfo(this.userStore.user.username)).level;
         console.log(level);
         if (level >= minimalWorkerLevel) {
           return <Button type={"primary"} onClick={this.accept}><LocaleMessage id={ID_PREFIX + "accept"}/></Button>;

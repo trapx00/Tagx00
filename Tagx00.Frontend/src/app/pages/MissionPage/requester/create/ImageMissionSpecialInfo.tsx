@@ -2,10 +2,10 @@ import { toJS } from "mobx";
 import React from "react";
 import {  Checkbox } from "antd";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
-import { ImageMissionCreateInfo } from "./ImageMissionCreateInfoForm/ImageMissionCreateInfo";
+import { ImageMissionCreateInfo } from "./image/ImageMissionCreateInfo";
 import { FormItem } from "../../../../components/Form/FormItem";
 import { TagSelector } from "../../../../components/TagSelector";
-import { ImageUploadPanel } from "./ImageMissionCreateInfoForm/ImageUploadPanel";
+import { ImageUploadPanel } from "./image/ImageUploadPanel";
 
 const CheckboxGroup = Checkbox.Group;
 

@@ -1,15 +1,14 @@
 import { action, computed, observable } from "mobx";
 import { User, UserRole } from "../models/user/User";
-import { LoginResult } from "../api/UserService";
+import { LoginResult, UserService } from "../api/UserService";
 import { localStorage } from './UiUtil';
-import { Injectable } from "react.di";
+import { Inject, Injectable } from "react.di";
 
 const USER_LOCALSTORAGE_KEY = "user";
 
 @Injectable
 export class UserStore {
   @observable user: User = null;
-
 
   @computed get loggedIn() {
     return !!this.user;
@@ -25,18 +24,23 @@ export class UserStore {
 
   @action logout() {
     this.user = null;
+    this.userService.logout();
     this.clearUser();
   };
 
 
-  @action login(username: string, response: LoginResult) {
+  @action async login(username: string, password: string) {
+    const { response, ok, error, statusCode } = await this.userService.login(username, password);
+
+    if (!ok) {
+      throw { response, error, statusCode};
+    }
     this.user = new User({
       username: username,
       token: response.token,
-      role: UserRole[response.jwtRoles[0].roleName],
+      role: response.jwtRoles[0].roleName as UserRole,
       email: response.email
     });
-    console.log(this.user.role)
   };
 
   remember() {
@@ -47,15 +51,13 @@ export class UserStore {
     localStorage.removeItem(USER_LOCALSTORAGE_KEY);
   }
 
-  constructor(detectLocalStorage: boolean = true) {
-    if (detectLocalStorage) {
-      const user = localStorage.getItem(USER_LOCALSTORAGE_KEY);
-      if (user) {
-        try {
-          this.user = new User(JSON.parse(user));
-        } catch (ignored) {
-          console.log(ignored);
-        }
+  constructor(@Inject private userService: UserService) {
+    const user = localStorage.getItem(USER_LOCALSTORAGE_KEY);
+    if (user) {
+      try {
+        this.user = new User(JSON.parse(user));
+      } catch (ignored) {
+        console.log(ignored);
       }
     }
   }

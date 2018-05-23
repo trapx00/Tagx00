@@ -14,21 +14,19 @@ export class WorkerService {
   constructor(@Inject private http: HttpService) {
   }
 
-  async getAllInstances(token: string): Promise<Instance[]> {
+  async getAllInstances(): Promise<Instance[]> {
 
     const res = await this.http.fetch({
-      token: token,
       path: "/mission/worker"
     });
     return res.response.instances as Instance[];
 
   }
 
-  async getInstanceDetail(missionId: string, token: string): Promise<InstanceDetailResponse> {
+  async getInstanceDetail(missionId: string): Promise<InstanceDetailResponse> {
 
 
     const res = await this.http.fetch({
-      token: token,
       path: `/mission/worker/${missionId}`,
     });
     if (res.ok) {
@@ -39,9 +37,8 @@ export class WorkerService {
 
   }
 
-  async saveProgress(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
+  async saveProgress(missionId: string, detail: InstanceDetail): Promise<boolean> {
     const res = await this.http.fetch({
-      token: token,
       path: `/mission/worker/${missionId}`,
       body: detail,
       method: HttpMethod.PUT
@@ -50,10 +47,8 @@ export class WorkerService {
     return res.ok;
   }
 
-  async submit(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
-    console.log(detail)
+  async submit(missionId: string, detail: InstanceDetail): Promise<boolean> {
     const res = await this.http.fetch({
-      token: token,
       path: `/mission/worker/${missionId}`,
       method: HttpMethod.POST,
       body: detail
@@ -62,11 +57,10 @@ export class WorkerService {
     return res.ok;
   }
 
-  async acceptMission(missionId: string, token: string): Promise<Response> {
+  async acceptMission(missionId: string): Promise<Response> {
     const res = await this.http.fetch({
       path: `/mission/worker/${missionId}`,
       body: {instance: null, missionType: MissionType.IMAGE},
-      token,
       method: HttpMethod.POST
     });
 
@@ -74,18 +68,16 @@ export class WorkerService {
 
   }
 
-  async getWorkerInfo(username: string, token: string): Promise<WorkerInfo> {
+  async getWorkerInfo(username: string): Promise<WorkerInfo> {
     const res = await this.http.fetch({
       path: `/account/worker/${username}`,
-      token: token,
     });
     return res.response.info as WorkerInfo;
   }
 
-  async abandonMission(missionId: string, token: string): Promise<Response> {
+  async abandonMission(missionId: string): Promise<Response> {
     const res = await this.http.fetch({
       path: `mission/worker/${missionId}`,
-      token,
       method: HttpMethod.DELETE
     });
 

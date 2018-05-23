@@ -7,10 +7,9 @@ export class AdminService {
     constructor(@Inject private http: HttpService){
     }
 
-    async getAdminInfo(token: string): Promise<AdminInfo> {
+    async getAdminInfo(): Promise<AdminInfo> {
       const res = await this.http.fetch({
         path: "account/admin",
-        token: token,
       });
       return res.response;
     }

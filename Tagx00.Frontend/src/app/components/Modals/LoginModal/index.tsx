@@ -30,7 +30,6 @@ export class LoginModal extends React.Component<Props, any> {
 
   @Inject controller: LoginController;
 
-  @Inject userStore: UserStore;
   @Inject uiStore: UiStore;
 
   onCancel = () => {
@@ -43,7 +42,7 @@ export class LoginModal extends React.Component<Props, any> {
     fields.loginAttempted = true;
     if (fields.valid) {
       try {
-        await this.controller.doLogin(this.userStore);
+        await this.controller.doLogin();
         this.uiStore.toggleLoginModalShown();
       } catch (e) {
         console.log(e);

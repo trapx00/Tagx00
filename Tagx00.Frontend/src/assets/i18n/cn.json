@@ -166,6 +166,10 @@
         "description": "任务已经创建。{to}查看任务详细信息",
         "to": "点击这里"
       },
+      "menu": {
+        "IMAGE": "图片",
+        "TEXT": "文本"
+      },
       "fields": {
         "title": "任务标题",
         "requireTitle": "请输入任务标题",

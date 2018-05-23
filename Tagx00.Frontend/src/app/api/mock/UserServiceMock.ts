@@ -33,6 +33,10 @@ export class UserServiceMock extends UserService {
     );
   }
 
+  logout() {
+
+  }
+
   async register(username: string, password: string): Promise<NetworkResponse<UserRegisterResponse>> {
     return new NetworkResponse(201, {
         token: "123",
@@ -50,7 +54,7 @@ export class UserServiceMock extends UserService {
     );
   }
 
-  async getLevelInfo(token: string): Promise<LevelInfo> {
+  async getLevelInfo(): Promise<LevelInfo> {
     return {
       levels: [0, 100, 200, 300]
     } as LevelInfo;

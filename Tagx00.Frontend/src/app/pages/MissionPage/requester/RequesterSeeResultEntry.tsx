@@ -15,13 +15,11 @@ interface Props {
 export class RequesterSeeResultEntry extends React.Component<Props, {}> {
   @Inject requesterService: RequesterService;
   @Inject missionService: MissionService;
-  @Inject userStore: UserStore;
 
   renderContent = async () => {
-    const token = this.userStore.token;
-    const instanceDetail = (await this.requesterService.getInstanceDetail(this.props.instanceId, token)).detail;
-    const missionDetail = await this.missionService.getAMission(instanceDetail.instance.missionId, token);
-    return <DoWorkPage instanceDetail={instanceDetail} missionDetail={missionDetail} token={token} readonly={true}/>
+    const instanceDetail = (await this.requesterService.getInstanceDetail(this.props.instanceId)).detail;
+    const missionDetail = await this.missionService.getAMission(instanceDetail.instance.missionId);
+    return <DoWorkPage instanceDetail={instanceDetail} missionDetail={missionDetail} readonly={true}/>
   };
 
   render() {

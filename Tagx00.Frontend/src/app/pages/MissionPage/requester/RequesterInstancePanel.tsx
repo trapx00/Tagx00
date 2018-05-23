@@ -78,7 +78,7 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
 
   async fetchInfo() {
     this.setState({loading: true});
-    const result = await this.requesterService.getAllInstancesByMissionId(this.state.missionId, this.userStore.token);
+    const result = await this.requesterService.getAllInstancesByMissionId(this.state.missionId);
     this.setState({data: result.instances, loading: false});
   }
 

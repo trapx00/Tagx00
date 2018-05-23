@@ -21,7 +21,7 @@ export class MissionDetailPage extends React.Component<Props, {}> {
 
   renderPage = async () => {
     console.log(this.props.token);
-    const detail = await this.missionService.getAMission(this.props.missionId, this.props.token);
+    const detail = await this.missionService.getAMission(this.props.missionId);
     return <ImageMissionDetailPage detail={detail}/>
   };
 

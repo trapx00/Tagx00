@@ -33,13 +33,14 @@ export interface FetchInfo {
   method?: HttpMethod;
   queryParams?: any;
   body?: any;
-  token?: string;
 }
 
 declare var APIROOTURL: string;
 
 @Injectable
 export class HttpService {
+
+  token: string  = "";
 
   async sendFile<T = any>(files: FormData,
                           url: string,
@@ -49,7 +50,7 @@ export class HttpService {
     try {
       const res = await fetch(appendQueryString(actualUrl, queryParams), {
         method: HttpMethod.POST,
-        headers: headers,
+        headers: {Authorization: "Bearer "+this.token, ...headers},
         body: files
       });
       const json = await res.json();
@@ -62,8 +63,8 @@ export class HttpService {
   async fetch<T = any>(fetchInfo: FetchInfo = {}): Promise<NetworkResponse<T>> {
 
 
-    const authHeader = fetchInfo.token
-      ? {"Authorization": `Bearer ${fetchInfo.token}`}
+    const authHeader = this.token
+      ? {"Authorization": `Bearer ${this.token}`}
       : {};
     const body = fetchInfo.body
       ? {body: JSON.stringify(fetchInfo.body)}

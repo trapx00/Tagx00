@@ -1,12 +1,9 @@
 import { MissionDetail } from "../Mission";
+import { TextMissionSetting } from "./TextMissionProperties";
 
-export enum TextMissionType {
-  TOPIC,
-  CLASSIFICATION
-}
 
 
 export interface TextMissionDetail extends  MissionDetail {
   textUrls: string[];
-  textMissionTypes: TextMissionType[];
+  settings: TextMissionSetting[];
 }

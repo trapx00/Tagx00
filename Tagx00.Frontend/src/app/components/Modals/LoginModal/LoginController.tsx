@@ -54,6 +54,9 @@ export class LoginController {
   @observable state: LoginState;
   @observable fields: LoginFormFields = new LoginFormFields();
 
+
+  @Inject userStore: UserStore;
+
   @action public logout = () => {
     this.state = LoginState.NotLoggedIn;
   };
@@ -66,12 +69,11 @@ export class LoginController {
     return this.state === LoginState.LoggingIn;
   }
 
-  async doLogin(userStore: UserStore) {
+  async doLogin() {
     try {
-      const res = await this.requestLogin(this.fields.username, this.fields.password);
-      userStore.login(this.fields.username, res);
+      await this.requestLogin(this.fields.username, this.fields.password);
       if (this.fields.remember) {
-        userStore.remember();
+        this.userStore.remember();
       }
     } catch (e) {
       console.log(e);
@@ -79,28 +81,27 @@ export class LoginController {
     }
   }
 
-  @action public requestLogin = async (username: string, password: string): Promise<LoginResult> => {
+  @action public requestLogin = async (username: string, password: string) => {
     this.state = LoginState.LoggingIn;
-
-    const res = await this.userService.login(username, password);
-
-    const {statusCode, response, error, ok} = res;
-
-    if (ok) {
-      return runInAction("requestLogin success", () => {
+    try {
+      await this.userStore.login(username, password);
+      runInAction("requestLogin success", () => {
         this.state = LoginState.LoggedIn;
-        return response;
       });
+    } catch (e) {
+      const { statusCode, error, response } = e;
+      runInAction("requestLogin failed", () => {
+        this.state = LoginState.NotLoggedIn;
+      });
+      if (statusCode === 401) {
+        throw {type: LoginErrorType.WrongCredential};
+      } else if (error.isNetworkError) {
+        throw {type: LoginErrorType.NetworkError, error: error.info};
+      } else {
+        throw {type: LoginErrorType.ServerError, messages: (response as any).errorDescriptions} as LoginServerError;
+      }
     }
-    runInAction("requestLogin failed", () => {
-      this.state = LoginState.NotLoggedIn;
-    });
-    if (statusCode === 401) {
-      throw {type: LoginErrorType.WrongCredential};
-    } else if (error.isNetworkError) {
-      throw {type: LoginErrorType.NetworkError, error: error.info};
-    } else {
-      throw {type: LoginErrorType.ServerError, messages: (response as any).errorDescriptions} as LoginServerError;
-    }
+
+
   }
 }

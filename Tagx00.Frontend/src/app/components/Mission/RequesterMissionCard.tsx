@@ -44,12 +44,11 @@ function getActions(mission: MissionDetail) {
 export class RequesterMissionCard extends React.Component<Props, {}> {
 
   @Inject missionService: MissionService;
-  @Inject userStore: UserStore;
 
   detail: MissionDetail;
 
   renderCard = async () => {
-    this.detail = await this.missionService.getAMission(this.props.mission.missionId, this.userStore.token);
+    this.detail = await this.missionService.getAMission(this.props.mission.missionId);
 
     return <>
       <Card

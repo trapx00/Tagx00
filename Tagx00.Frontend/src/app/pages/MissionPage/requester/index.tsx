@@ -46,8 +46,8 @@ async function renderInstanceSeeResult(props: RouteComponentProps<any>) {
   return <Page instanceId={props.match.params.instanceId}/>;
 }
 
-async function renderCreateImage() {
-  const Page = (await import("./create/ImageMissionCreatePage")).ImageMissionCreatePage;
+async function renderCreatePage() {
+  const Page = (await import("./create/index")).MissionCreatePage;
   return <Page/>;
 }
 
@@ -59,8 +59,7 @@ export class RequesterMissionPage extends React.Component<Props, {}> {
       <AsyncRoute exact path={"/mission/requester/instance/:instanceId"} render={renderInstanceSeeResult}/>}/>
       <Route render={() => <SubMenuLayout routes={routes}>
         <Switch>
-          <AsyncRoute exact path={"/mission/requester/create/image"}
-                 render={renderCreateImage}/>
+          <AsyncRoute path={"/mission/requester/create"} render={renderCreatePage}/>
           <AsyncRoute exact path={"/mission/requester"} render={renderMissionPanel}/>
           <AsyncRoute path={"/mission/requester/instance"} exact
                  render={renderInstancePanel}/>

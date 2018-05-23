@@ -19,26 +19,25 @@ export class RequesterService {
   constructor(@Inject private http: HttpService) {
   }
 
-  async createMission(createVo: MissionCreate, token: string): Promise<MissionCreateResponse> {
+  async createMission(createVo: MissionCreate): Promise<MissionCreateResponse> {
     const res = await this.http.fetch({
       path: "/mission",
       method: HttpMethod.POST,
       body: createVo,
-      token: token
+      
     });
 
     return res.response;
 
   }
 
-  async uploadImageFile(missionId: string, formData: FormData, order: number, isCover: boolean, token: string): Promise<ImageUploadResponse> {
+  async uploadImageFile(missionId: string, formData: FormData, order: number, isCover: boolean): Promise<ImageUploadResponse> {
     const res = await this.http.sendFile(
       formData,
       `/upload/mission/image/${missionId}`,
       {order, isCover},
-      {"Authorization": "Bearer " + token}
     );
-    console.log(res.response)
+    console.log(res.response);
     return res.response;
   }
 
@@ -52,60 +51,54 @@ export class RequesterService {
     return res.response;
   }
 
-  async getRequesterInfo(username: string, token: string): Promise<RequesterInfo> {
+  async getRequesterInfo(username: string): Promise<RequesterInfo> {
     const res = await this.http.fetch({
-      path: `/account/requester/${username}`,
-      token: token,
+      path: `/account/requester/${username}`
     });
 
     return res.response.info;
   }
 
-  async finalize(instanceId: string, parameters: MissionFinalizeVo, token: string): Promise<InstanceDetailResponse> {
+  async finalize(instanceId: string, parameters: MissionFinalizeVo): Promise<InstanceDetailResponse> {
     const res = await this.http.fetch({
       path: `/mission/requester/instances/${instanceId}`,
       method: HttpMethod.POST,
       body: parameters,
-      token
     });
 
     return res.response;
   }
 
-  async payMission(missionId: string, credits: number, token: string): Promise<MissionChargeResponse> {
+  async payMission(missionId: string, credits: number): Promise<MissionChargeResponse> {
     const res = await this.http.fetch({
       path: `/mission/requester/mission/${missionId}`,
       method: HttpMethod.PATCH,
       queryParams: { credits },
-      token
     });
     return res.response;
   }
 
 
-  async getAllInstancesByMissionId(missionId: string, token: string): Promise<InstanceResponse> {
+  async getAllInstancesByMissionId(missionId: string): Promise<InstanceResponse> {
     const res = await this.http.fetch({
       method: HttpMethod.GET,
       path: `/mission/requester/instances/`,
       queryParams: missionId ? {missionId} : {},
-      token
     });
     return res.response;
   }
 
-  async getInstanceDetail(instanceId: string, token: string): Promise<InstanceDetailResponse> {
+  async getInstanceDetail(instanceId: string): Promise<InstanceDetailResponse> {
     const res = await this.http.fetch({
       path: `/mission/requester/instances/${instanceId}`,
-      token
     });
 
     return res.response;
   }
 
-  async getRemainingCreditsForAMission(missionId: string, token: string): Promise<MissionRequestQueryResponse> {
+  async getRemainingCreditsForAMission(missionId: string): Promise<MissionRequestQueryResponse> {
     const res = await this.http.fetch({
       path: `/mission/requester/mission/${missionId}`,
-      token
     });
 
     if (res.ok) {

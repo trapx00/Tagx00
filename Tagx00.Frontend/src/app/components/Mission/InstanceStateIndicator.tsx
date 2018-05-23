@@ -32,10 +32,9 @@ function judgeStatus(state: MissionInstanceState) {
 export class InstanceStateIndicator extends React.Component<{instance: Instance}> {
 
   @Inject missionService: MissionService;
-  @Inject userStore: UserStore;
 
   renderProgress = async () => {
-    const missionPublicItem = await this.missionService.getAMission(this.props.instance.missionId, this.userStore.token);
+    const missionPublicItem = await this.missionService.getAMission(this.props.instance.missionId);
     console.log(missionPublicItem);
     return <Progress percent={this.props.instance.completedJobsCount / missionPublicItem.publicItem.jobCount * 100}
                      type="circle"

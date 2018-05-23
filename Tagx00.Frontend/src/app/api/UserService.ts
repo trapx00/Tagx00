@@ -27,16 +27,26 @@ function encryptPassword(password: string) {
 @Injectable
 export class UserService {
 
+
+
   constructor(@Inject private http: HttpService) {
   }
 
   async login(username: string, password: string): Promise<NetworkResponse> {
     password = encryptPassword(password);
 
-    return await this.http.fetch({
+    const res = await this.http.fetch({
       path: "account/login",
       queryParams: {username, password}
     });
+    if (res.ok) {
+      this.http.token = res.response.token;
+    }
+    return res;
+  }
+
+  logout() {
+    this.http.token = "";
   }
 
   async register(username: string, password: string, email: string, role: UserRole): Promise<NetworkResponse<UserRegisterResponse>> {

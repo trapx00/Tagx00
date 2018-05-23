@@ -16,7 +16,7 @@ export const imgs = [
 @Injectable
 export class MissionServiceMock extends MissionService {
 
-  async getAMission(missionId: string, token: string): Promise<ImageMissionDetail> {
+  async getAMission(missionId: string): Promise<ImageMissionDetail> {
 
 
 

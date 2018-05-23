@@ -12,7 +12,6 @@ import { MissionDetail, MissionType } from "../../../models/mission/Mission";
 interface Props {
   instanceDetail: InstanceDetail;
   missionDetail: MissionDetail;
-  token: string;
   readonly: boolean;
 }
 
@@ -28,7 +27,6 @@ export class DoWorkPage extends React.Component<Props, any> {
     if (missionDetail.publicItem.missionType === MissionType.IMAGE) {
       return<ImageWorkPage instanceDetail={instanceDetail as any}
                                  missionDetail={missionDetail as any}
-                                 token={this.props.token}
                                  jumpBack={() => this.routerStore.jumpTo("/mission")}
                                  readonlyMode={this.props.readonly}
         />
