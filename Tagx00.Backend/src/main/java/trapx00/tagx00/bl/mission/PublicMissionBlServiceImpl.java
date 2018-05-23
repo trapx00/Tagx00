@@ -11,6 +11,7 @@ import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 import trapx00.tagx00.vo.mission.image.ImageMissionPublicItemVo;
+import trapx00.tagx00.vo.mission.text.TextMissionPublicItemVo;
 import trapx00.tagx00.vo.paging.PagingInfoVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
@@ -94,7 +95,9 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
                     }
                     break;
                 case IMAGE:
-                    if (missionPublicItemVo.getTitle().contains(searchTarget)) {
+                    if (((TextMissionPublicItemVo)missionPublicItemVo).getTopics().contains(searchTarget)) {
+                        result.add(missionPublicItemVo);
+                    } else if (missionPublicItemVo.getTitle().contains(searchTarget)) {
                         result.add(missionPublicItemVo);
                     } else if (missionPublicItemVo.getDescription().contains(searchTarget)) {
                         result.add(missionPublicItemVo);

@@ -11,19 +11,17 @@ public class TextMissionDetailVo extends MissionDetailVo {
 
     private List<String> textUrls;
 
-    private List<TextMissionType> textMissionTypes;
+    private List<TextMissionSetting> textMissionTypes;
 
     public TextMissionDetailVo() {
     }
 
-    public TextMissionDetailVo(List<String> textUrls, List<TextMissionType> textMissionTypes) {
+    public TextMissionDetailVo(List<String> textUrls, List<TextMissionSetting> textMissionTypes) {
         this.textUrls = textUrls;
         this.textMissionTypes = textMissionTypes;
     }
 
-    public TextMissionDetailVo(MissionPublicItemVo publicItem,
-                               MissionState missionState,
-                               String requesterUsername, List<String> textUrls, List<TextMissionType> textMissionTypes) {
+    public TextMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, String requesterUsername, List<String> textUrls, List<TextMissionSetting> textMissionTypes) {
         super(publicItem, missionState, requesterUsername);
         this.textUrls = textUrls;
         this.textMissionTypes = textMissionTypes;
@@ -37,11 +35,11 @@ public class TextMissionDetailVo extends MissionDetailVo {
         this.textUrls = textUrls;
     }
 
-    public List<TextMissionType> getTextMissionTypes() {
+    public List<TextMissionSetting> getTextMissionTypes() {
         return textMissionTypes;
     }
 
-    public void setTextMissionTypes(List<TextMissionType> textMissionTypes) {
+    public void setTextMissionTypes(List<TextMissionSetting> textMissionTypes) {
         this.textMissionTypes = textMissionTypes;
     }
 }

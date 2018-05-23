@@ -18,8 +18,11 @@ import trapx00.tagx00.vo.mission.image.ImageMissionDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageMissionPublicItemVo;
 import trapx00.tagx00.vo.mission.text.TextMissionDetailVo;
 import trapx00.tagx00.vo.mission.text.TextMissionPublicItemVo;
+import trapx00.tagx00.vo.mission.text.TextMissionSetting;
+import trapx00.tagx00.vo.mission.text.TextMissionType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PublicMissionDataServiceImpl implements PublicMissionDataService {
@@ -118,7 +121,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                             mission1.getStart(), mission1.getEnd(), mission1.getCoverUrl(), mission1.getLevel(), mission1.getCredits(),
                             mission1.getMinimalWorkerLevel(), mission1.getTextUrls().size() * mission1.getTextMissionTypes().size(),
                             mission1.getRequesterUsername(),mission1.getTextMissionTypes()
-                    ), mission1.getMissionState(), mission1.getRequesterUsername(), mission1.getTextUrls(), mission1.getTextMissionTypes());
+                    ), mission1.getMissionState(), mission1.getRequesterUsername(), mission1.getTextUrls(), generateTextMissionSettings(mission1.getTextMissionTypes()));
                 }
                 break;
         }
@@ -158,5 +161,11 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                 mission1.getMinimalWorkerLevel(), mission1.getTextUrls().size() * mission1.getTextMissionTypes().size(),
                 mission1.getRequesterUsername(),mission1.getTextMissionTypes()
         );
+    }
+    public List<TextMissionSetting> generateTextMissionSettings(List<TextMissionType> missionTypes){
+        List<TextMissionSetting> textMissionSettings=new ArrayList<>();
+        for(TextMissionType textMissionType:missionTypes)
+            textMissionSettings.add(new TextMissionSetting(textMissionType));
+        return textMissionSettings;
     }
 }
