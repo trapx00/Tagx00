@@ -8,8 +8,6 @@ import { Link } from 'react-router-dom';
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { LocaleStore } from "../../../stores/LocaleStore";
 import { MissionPublicItem } from "../../../models/mission/Mission";
-import { UserService } from "../../../api/UserService";
-import { LeaderboardService } from "../../../api/LeaderboardService";
 
 
 interface Props {

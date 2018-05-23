@@ -4,7 +4,6 @@ import React from "react";
 import { initProviders } from "../../providers";
 import { AsyncRouteConfig, constructRoute, RouteType } from "../../router/RouteConfig";
 import { Router, Switch } from "react-router";
-import { AsyncComponent } from "../../router/AsyncComponent";
 import { BaseLayoutPage } from "./BaseLayoutPage";
 import DevTools from "mobx-react-devtools";
 

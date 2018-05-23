@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { LocaleDate, LocaleMessage, Localize } from "../../../internationalization/components";
-import { Input, Table, Divider } from 'antd';
+import { Divider, Input, Table } from 'antd';
 import { Instance } from "../../../models/instance/Instance";
 import { Inject } from "react.di";
 import { RequesterService } from "../../../api/RequesterService";

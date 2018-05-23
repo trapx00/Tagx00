@@ -1,8 +1,8 @@
 import React from "react";
-import {UserStore} from "../../../stores/UserStore";
-import {Inject} from "react.di";
-import {WorkerInfoPage} from "./WorkerInfoPage";
-import {RequesterInfoPage} from "./RequesterInfoPage";
+import { UserStore } from "../../../stores/UserStore";
+import { Inject } from "react.di";
+import { WorkerInfoPage } from "./WorkerInfoPage";
+import { RequesterInfoPage } from "./RequesterInfoPage";
 import { UserRole } from "../../../models/user/User";
 
 export default class PersonalInfoPage extends React.Component<{},{}> {

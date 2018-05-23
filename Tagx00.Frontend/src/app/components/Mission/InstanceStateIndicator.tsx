@@ -1,11 +1,10 @@
 import { MissionInstanceState } from "../../models/instance/MissionInstanceState";
-import { Tag, Progress, Spin, Popover } from 'antd';
+import { Popover, Progress, Spin, Tag } from 'antd';
 import { LocaleMessage } from "../../internationalization/components";
 import React from "react";
 import { Instance } from "../../models/instance/Instance";
 import { Inject } from "react.di";
 import { MissionService } from "../../api/MissionService";
-import { UserStore } from "../../stores/UserStore";
 import { AsyncComponent } from "../../router/AsyncComponent";
 
 const ID_PREFIX = "missions.worker.myMissions.";

@@ -9,7 +9,6 @@ import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDe
 import { RectanglePanel } from "../../../../components/ImageWork/DrawingPad/RectanglePanel/index";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import { PartAddingModeController } from "../../../../components/ImageWork/Part/PartAddingModeController/index";
-import { WorkPageLayout } from "../WorkPageLayout";
 import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
 

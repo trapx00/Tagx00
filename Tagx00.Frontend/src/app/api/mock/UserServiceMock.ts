@@ -2,7 +2,6 @@ import { Injectable } from "react.di";
 import { NetworkResponse } from "../HttpService";
 import { UserRegisterResponse, UserService } from "../UserService";
 import { UserRole } from "../../models/user/User";
-import { HttpMethod } from "../utils";
 import { LevelInfo } from "../../models/user/LevelInfo";
 import { LoginResponse } from "../../models/user/LoginResponse";
 

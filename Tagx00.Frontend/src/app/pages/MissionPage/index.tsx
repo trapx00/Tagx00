@@ -1,6 +1,5 @@
 import React from "react";
-import { Redirect, Route, RouteComponentProps, Switch } from "react-router";
-import { AsyncComponent } from "../../router/AsyncComponent";
+import { Redirect, Route, Switch } from "react-router";
 import { Location } from "history";
 import { parseQueryString } from "../../router/utils";
 import { MissionDetailPage } from "./MissionDetailPage";

@@ -3,7 +3,7 @@ import { Inject } from "react.di";
 import { UserStore } from "../../../stores/UserStore";
 import { TopicService } from "../../../api/TopicService";
 import { LocaleMessage } from "../../../internationalization/components/index";
-import { Tag, Button, Popover, Input } from "antd";
+import { Input, Tag } from "antd";
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { Loading } from "../../../components/Common/Loading";
 import { requireLogin } from "../../hoc/RequireLogin";

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Inject } from "react.di";
 import { PayService } from "../../api/PayService";
-import { action } from "mobx";
 import { Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { FormItemProps } from "antd/lib/form/FormItem";

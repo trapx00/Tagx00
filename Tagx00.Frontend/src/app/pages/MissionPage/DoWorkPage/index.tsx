@@ -2,7 +2,6 @@ import React from "react";
 import { ImageWorkPage } from "./image/ImageWorkPage";
 import { observer } from "mobx-react";
 import { RouterStore } from "../../../stores/RouterStore";
-import { Localize } from "../../../internationalization/components";
 import { Inject } from "react.di";
 import { WorkerService } from "../../../api/WorkerService";
 import { MissionService } from "../../../api/MissionService";

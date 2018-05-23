@@ -1,5 +1,4 @@
 import { MissionProperties } from "../MissionProperties";
-import { MissionType } from "../Mission";
 
 export interface MissionCreate {
   title: string;

@@ -1,12 +1,11 @@
 import React from "react";
 import { Inject } from "react.di";
-import { WorkerService } from "../../api/WorkerService";
 import { UserStore } from "../../stores/UserStore";
 import { UserRole } from "../../models/user/User";
 import { DefinitionItem } from "../../components/DefinitionItem";
 import { Table } from "antd";
 import { LocaleMessage } from "../../internationalization/components";
-import { AsyncComponent, ObserverAsyncComponent } from "../../router/AsyncComponent";
+import { AsyncComponent } from "../../router/AsyncComponent";
 import { MajorTitle, MinorTitle } from "./common";
 import { LeaderboardService } from "../../api/LeaderboardService";
 import { Loading } from "../../components/Common/Loading";

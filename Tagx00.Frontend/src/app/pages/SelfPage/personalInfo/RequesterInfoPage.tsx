@@ -1,11 +1,10 @@
 import React from "react";
-import {UserStore} from "../../../stores/UserStore";
-import {RequesterService} from "../../../api/RequesterService";
-import {Inject} from "react.di";
-import {LocaleMessage} from "../../../internationalization/components";
-import {AsyncComponent} from "../../../router/AsyncComponent";
+import { UserStore } from "../../../stores/UserStore";
+import { RequesterService } from "../../../api/RequesterService";
+import { Inject } from "react.di";
+import { LocaleMessage } from "../../../internationalization/components";
+import { AsyncComponent } from "../../../router/AsyncComponent";
 import { DefinitionItem } from "../../../components/DefinitionItem";
-import { LeaderboardService } from "../../../api/LeaderboardService";
 import { PayService } from "../../../api/PayService";
 
 export class RequesterInfoPage extends React.Component<{},{}> {

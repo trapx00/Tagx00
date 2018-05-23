@@ -5,7 +5,6 @@ import { AsyncComponent } from "../../../router/AsyncComponent";
 import { Loading } from "../../../components/Common/Loading";
 import { ImageMissionDetailPage } from "./ImageMissionDetailPage";
 import { requireLogin } from "../../hoc/RequireLogin";
-import { UserRole } from "../../../models/user/User";
 
 interface Props {
   missionId: string;

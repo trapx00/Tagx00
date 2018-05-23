@@ -1,6 +1,5 @@
 import React from "react";
 import { AsyncRouteConfig, RedirectRouteConfig, RouteType } from "../../router/RouteConfig";
-import { asyncAction } from "mobx-utils";
 
 export const dashboardPage: AsyncRouteConfig = {
   type: RouteType.Async,

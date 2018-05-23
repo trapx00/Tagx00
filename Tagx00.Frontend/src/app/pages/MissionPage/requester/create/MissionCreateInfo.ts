@@ -1,9 +1,6 @@
 import { MissionCreate } from "../../../../models/mission/create/MissionCreate";
-import { MissionType } from "../../../../models/mission/Mission";
 import { UploadFile } from "antd/lib/upload/interface";
 import { computed, observable, toJS } from "mobx";
-import { ImageMissionProperties } from "../../../../models/mission/image/ImageMissionProperties";
-import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import moment from 'moment';
 
 export abstract class MissionCreateInfo {

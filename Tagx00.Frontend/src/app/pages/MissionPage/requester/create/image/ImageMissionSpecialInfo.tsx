@@ -1,6 +1,6 @@
 import { toJS } from "mobx";
 import React from "react";
-import {  Checkbox } from "antd";
+import { Checkbox } from "antd";
 import { ImageMissionType } from "../../../../../models/mission/image/ImageMission";
 import { ImageMissionCreateInfo } from "./ImageMissionCreateInfo";
 import { FormItem } from "../../../../../components/Form/FormItem";

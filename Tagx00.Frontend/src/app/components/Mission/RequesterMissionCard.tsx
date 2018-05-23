@@ -5,7 +5,6 @@ import { CardAction, stubCard, truncateText } from "./util";
 import { Link } from 'react-router-dom';
 import { MissionService } from "../../api/MissionService";
 import { Inject } from "react.di";
-import { UserStore } from "../../stores/UserStore";
 import { AsyncComponent } from "../../router/AsyncComponent";
 import { MissionStateTag } from "./MissionStateTag";
 

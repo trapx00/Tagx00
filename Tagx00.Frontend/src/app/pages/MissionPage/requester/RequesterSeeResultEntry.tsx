@@ -1,8 +1,6 @@
 import React from 'react';
 import { Inject } from "react.di";
-import { WorkerService } from "../../../api/WorkerService";
 import { MissionService } from "../../../api/MissionService";
-import { UserStore } from "../../../stores/UserStore";
 import { DoWorkPage } from "../DoWorkPage";
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { Loading } from "../../../components/Common/Loading";

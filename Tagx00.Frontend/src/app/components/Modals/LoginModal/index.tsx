@@ -6,7 +6,6 @@ import { UiStore } from "../../../stores/UiStore";
 import { LoginController } from "./LoginController";
 import { LoginForm } from "./Form";
 import { action } from "mobx";
-import { UserStore } from "../../../stores/UserStore";
 import { Inject, Module } from "react.di";
 import { Link } from 'react-router-dom';
 import styled from "styled-components";

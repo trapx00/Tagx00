@@ -1,6 +1,6 @@
-import {Inject, Injectable} from "react.di";
-import {HttpService} from "./HttpService";
-import {AdminInfo} from "../models/userInfo/AdminInfo";
+import { Inject, Injectable } from "react.di";
+import { HttpService } from "./HttpService";
+import { AdminInfo } from "../models/userInfo/AdminInfo";
 
 @Injectable
 export class AdminService {

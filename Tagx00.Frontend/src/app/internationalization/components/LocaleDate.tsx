@@ -1,7 +1,6 @@
 import { observer } from "mobx-react";
 import React from "react"
-import moment from 'moment';
-import { MomentInput } from 'moment';
+import moment, { MomentInput } from 'moment';
 import { LocaleStore } from "../../stores/LocaleStore";
 import { Inject } from "react.di";
 

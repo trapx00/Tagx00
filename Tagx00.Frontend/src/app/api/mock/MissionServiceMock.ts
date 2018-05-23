@@ -2,7 +2,6 @@ import { MissionService } from "../MissionService";
 import { ImageMissionDetail, ImageMissionType } from "../../models/mission/image/ImageMission";
 import { MissionPublicItem, MissionState, MissionType } from "../../models/mission/Mission";
 import { Injectable } from "react.di";
-import { HttpMethod } from "../utils";
 
 export const imgs = [
   "https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/0E/00/ChMkJlnJ4TOIAyeVAJqtjV-XTiAAAgzDAE7v40Amq2l708.jpg",

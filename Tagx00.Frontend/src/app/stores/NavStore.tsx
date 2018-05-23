@@ -1,6 +1,5 @@
 import { Injectable } from "react.di";
 import { observable } from "mobx";
-import { ReactNode } from "react";
 
 export interface NavItemProps {
   path: string;

@@ -7,7 +7,6 @@ import { MissionTipCard } from "../../../../components/ImageWork/MissionTipCard"
 import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
 import { ProgressController } from "../../../../components/ImageWork/ProgressController";
 import { toJS } from "mobx";
-import { WorkPageLayout } from "../WorkPageLayout";
 import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
 

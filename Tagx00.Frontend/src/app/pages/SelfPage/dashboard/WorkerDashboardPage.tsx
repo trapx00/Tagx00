@@ -1,9 +1,9 @@
 import React from 'react';
-import {UserStore} from "../../../stores/UserStore";
-import {Inject} from "react.di";
-import {WorkerService} from "../../../api/WorkerService";
-import {LocaleMessage} from "../../../internationalization/components";
-import {AsyncComponent} from "../../../router/AsyncComponent";
+import { UserStore } from "../../../stores/UserStore";
+import { Inject } from "react.di";
+import { WorkerService } from "../../../api/WorkerService";
+import { LocaleMessage } from "../../../internationalization/components";
+import { AsyncComponent } from "../../../router/AsyncComponent";
 import { DefinitionItem } from "../../../components/DefinitionItem";
 
 export class WorkerDashboardPage extends React.Component<{},{}> {

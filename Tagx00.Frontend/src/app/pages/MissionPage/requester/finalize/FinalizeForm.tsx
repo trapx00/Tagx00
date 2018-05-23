@@ -1,15 +1,12 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { MissionFinalizeParameters } from "../../../../models/instance/MissionFinalizeParameters";
-import { FormItemProps } from "antd/lib/form/FormItem";
-import { Form, Input, Icon } from 'antd';
-import { LocaleMessage, Localize } from "../../../../internationalization/components";
+import { Form, Input } from 'antd';
+import { Localize } from "../../../../internationalization/components";
 import { observer } from "mobx-react";
 import { action } from "mobx";
-import { RichFormItem } from "../../../../components/Form/RichFormItem";
 import { Link } from 'react-router-dom';
 import { FormItem } from "../../../../components/Form/FormItem";
 import { CreditInput } from "../../../../components/Pay/CreditInput";
-import { Inject } from "react.di";
 
 interface Props {
   value: MissionFinalizeParameters;

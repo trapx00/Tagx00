@@ -5,7 +5,7 @@ import { ImageInstanceDetail } from "../../models/instance/image/ImageInstanceDe
 import { InstanceDetail } from "../../models/instance/InstanceDetail";
 import { Response } from "../../models/response/Response";
 import { WorkerService } from "../WorkerService";
-import {WorkerInfo} from "../../models/userInfo/WorkerInfo";
+import { WorkerInfo } from "../../models/userInfo/WorkerInfo";
 import { MissionType } from "../../models/mission/Mission";
 import { InstanceDetailResponse } from "../../models/response/mission/InstanceDetailResponse";
 

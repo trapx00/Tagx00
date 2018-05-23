@@ -1,7 +1,5 @@
 import React from "react";
 import { AsyncRouteConfig, RouteType } from "../../router/RouteConfig";
-import { RouteComponentProps } from "react-router";
-import { imgs } from "../../api/mock/MissionServiceMock";
 
 export const missionPage: AsyncRouteConfig = {
   type: RouteType.Async,

@@ -7,10 +7,8 @@ import { Inject, Injectable } from "react.di";
 import { MissionPublicResponse } from "../models/response/mission/MissionPublicResponse";
 import { RequesterInfo } from "../models/userInfo/RequesterInfo";
 import { InstanceResponse } from "../models/response/mission/InstanceResponse";
-import { MissionFinalizeParameters, MissionFinalizeVo } from "../models/instance/MissionFinalizeParameters";
+import { MissionFinalizeVo } from "../models/instance/MissionFinalizeParameters";
 import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
-import { RequesterCreditBoardResponse } from "../models/leaderboard/RequesterCreditBoardResponse";
-import { RequesterCreditSelfRankResponse } from "../models/leaderboard/RequesterCreditSelfRankResponse";
 import { MissionRequestQueryResponse } from "../models/response/mission/MissionRequestQueryResponse";
 import { MissionChargeResponse } from "../models/response/mission/MissionChargeResponse";
 

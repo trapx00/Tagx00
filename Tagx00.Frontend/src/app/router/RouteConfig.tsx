@@ -1,6 +1,5 @@
-import { Redirect, Route, RouteComponentProps } from "react-router";
-import { AsyncComponent } from "./AsyncComponent";
-import React, { ReactNode } from 'react';
+import { Redirect } from "react-router";
+import React from 'react';
 import { AsyncRoute } from "./AsyncRoute";
 
 export enum RouteType {

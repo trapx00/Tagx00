@@ -7,7 +7,7 @@ import { Form } from 'antd';
 import { Inject } from "react.di";
 import { LocaleMessage } from "../../../../internationalization/components";
 import { MissionTypeMenu } from "./MissionTypeMenu";
-import { Redirect, Route, Switch } from "react-router";
+import { Redirect, Switch } from "react-router";
 import { AsyncRoute } from "../../../../router/AsyncRoute";
 
 const FormItem = Form.Item;

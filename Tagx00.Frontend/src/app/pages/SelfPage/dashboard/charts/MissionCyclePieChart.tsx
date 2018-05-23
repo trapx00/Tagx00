@@ -1,5 +1,5 @@
 import React from 'react';
-import { Axis as BizAxis, Chart as BizChart,Geom, Axis, Tooltip, Coord, Label, Legend, Guide, Shape } from 'bizCharts';
+import { Axis as BizAxis, Axis, Chart as BizChart, Coord, Geom, Guide, Label, Legend, Tooltip } from 'bizCharts';
 import { DataView } from '@antv/data-set';
 
 interface Props {

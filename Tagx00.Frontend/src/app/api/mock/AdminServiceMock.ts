@@ -1,6 +1,6 @@
-import {Injectable} from "react.di";
-import {AdminService} from "../AdminService";
-import {AdminInfo} from "../../models/userInfo/AdminInfo";
+import { Injectable } from "react.di";
+import { AdminService } from "../AdminService";
+import { AdminInfo } from "../../models/userInfo/AdminInfo";
 
 @Injectable
 export class AdminServiceMock extends AdminService {

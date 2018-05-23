@@ -1,10 +1,9 @@
-import { computed, observable, toJS } from "mobx";
+import { computed, observable } from "mobx";
 import { ImageMissionType } from "../../../../../models/mission/image/ImageMission";
 import { UploadFile } from "antd/lib/upload/interface";
 import { MissionCreate } from "../../../../../models/mission/create/MissionCreate";
 import { MissionType } from "../../../../../models/mission/Mission";
 import { ImageMissionProperties } from "../../../../../models/mission/image/ImageMissionProperties";
-import moment from "moment";
 import { MissionCreateInfo } from "../MissionCreateInfo";
 
 

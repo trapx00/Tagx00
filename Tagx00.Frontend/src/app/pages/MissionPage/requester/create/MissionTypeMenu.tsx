@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Icon } from "antd";
+import { Icon, Menu } from "antd";
 import { MissionType } from "../../../../models/mission/Mission";
 import { observer } from "mobx-react";
 import { Link } from 'react-router-dom';

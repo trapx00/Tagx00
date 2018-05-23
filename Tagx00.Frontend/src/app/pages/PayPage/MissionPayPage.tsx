@@ -1,15 +1,12 @@
 import React from 'react';
 import { Inject } from "react.di";
-import { Form, Input, Button, Modal } from 'antd';
-import { UserStore } from "../../stores/UserStore";
+import { Button, Input, Modal } from 'antd';
 import { requireLogin } from "../hoc/RequireLogin";
 import { UserRole } from "../../models/user/User";
 import { FormItem } from "../../components/Form/FormItem";
 import { LocaleMessage } from "../../internationalization/components";
-import { PayService } from "../../api/PayService";
 import { RequesterService } from "../../api/RequesterService";
 import { LocaleStore } from "../../stores/LocaleStore";
-import { DefinitionItem } from "../../components/DefinitionItem";
 import { RichFormItem } from "../../components/Form/RichFormItem";
 import { FormItemProps } from "antd/es/form";
 

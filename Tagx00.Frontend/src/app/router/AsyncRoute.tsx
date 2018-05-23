@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Route, RouteComponentProps } from "react-router";
-import { AsyncComponent, ObserverAsyncComponent } from "./AsyncComponent";
-import { observer } from "mobx-react";
+import { ObserverAsyncComponent } from "./AsyncComponent";
 
 interface Props<T> {
   path: string;
