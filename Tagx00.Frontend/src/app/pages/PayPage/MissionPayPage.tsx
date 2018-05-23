@@ -60,7 +60,7 @@ export class MissionPayPage extends React.Component<Props, State> {
     this.setState({ fetchingRemainingCredits: true});
     if (this.state.missionId)
       try {
-        const res = await this.requesterService.getRemainingCreditsForAMission(this.state.missionId, this.props.token);
+        const res = await this.requesterService.getRemainingCreditsForAMission(this.state.missionId);
         this.setState({remainingCredits: res.remainingCredits, fetchingRemainingCredits: false,missionIdCheckOutOfDate: false});
       } catch (e) {
         this.setState({remainingCredits: -2, fetchingRemainingCredits: false, missionIdCheckOutOfDate: false});
@@ -88,7 +88,7 @@ export class MissionPayPage extends React.Component<Props, State> {
 
     if (this.submittable()) {
 
-      const res = await this.requesterService.payMission(this.state.missionId, parseInt(this.state.value), this.props.token);
+      const res = await this.requesterService.payMission(this.state.missionId, parseInt(this.state.value));
       this.setState({remainingCredits: res.remainingCredits, paying: false});
       Modal.success({
         title: this.localeStore.get(ID_PREFIX + "paymentComplete")

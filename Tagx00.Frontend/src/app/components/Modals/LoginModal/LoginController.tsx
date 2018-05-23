@@ -51,18 +51,17 @@ export class LoginFormFields {
 
 @Injectable
 export class LoginController {
-  @observable state: LoginState;
+  @observable state: LoginState = LoginState.NotLoggedIn;
   @observable fields: LoginFormFields = new LoginFormFields();
 
 
-  @Inject userStore: UserStore;
+
 
   @action public logout = () => {
     this.state = LoginState.NotLoggedIn;
   };
 
-  constructor(@Inject private userService: UserService) {
-    this.state = LoginState.NotLoggedIn;
+  constructor(@Inject private userService: UserService, @Inject private userStore: UserStore) {
   }
 
   @computed get loggingIn() {
@@ -89,6 +88,7 @@ export class LoginController {
         this.state = LoginState.LoggedIn;
       });
     } catch (e) {
+      console.log(e);
       const { statusCode, error, response } = e;
       runInAction("requestLogin failed", () => {
         this.state = LoginState.NotLoggedIn;

@@ -14,8 +14,8 @@ export class RequesterInfoPage extends React.Component<{},{}> {
     @Inject payService: PayService;
 
     requesterInfo = async () => {
-        const info = await this.requesterService.getRequesterInfo(this.userStore.user.username,this.userStore.token);
-        const credit = await this.payService.getCredits(this.userStore.token);
+        const info = await this.requesterService.getRequesterInfo(this.userStore.user.username);
+        const credit = await this.payService.getCredits();
         return <div>
             <DefinitionItem prompt={"用户名"}>
               {info.username}

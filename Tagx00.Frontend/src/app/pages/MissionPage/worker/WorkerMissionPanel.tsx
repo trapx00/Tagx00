@@ -16,9 +16,8 @@ interface State {
 }
 
 
-export class WorkerMissionPanel extends React.Component<Props, State> {
+export default class WorkerMissionPanel extends React.Component<Props, State> {
   @Inject workerService: WorkerService;
-  @Inject userStore: UserStore;
 
   state = {
     key: 0
@@ -30,7 +29,7 @@ export class WorkerMissionPanel extends React.Component<Props, State> {
 
 
   renderList = async () => {
-    const instances = await this.workerService.getAllInstances(this.userStore.token);
+    const instances = await this.workerService.getAllInstances();
     return <MissionCardPane items={instances} refresh={this.refresh} />;
 
   };

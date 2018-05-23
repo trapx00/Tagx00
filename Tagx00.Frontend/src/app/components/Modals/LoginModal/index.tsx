@@ -17,7 +17,7 @@ interface Props  {
 
 const RegisterButton = styled(Button)`
   float: left;
-`;
+` as any;
 
 
 @Module({

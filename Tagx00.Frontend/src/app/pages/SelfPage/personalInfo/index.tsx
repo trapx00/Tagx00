@@ -5,7 +5,7 @@ import {WorkerInfoPage} from "./WorkerInfoPage";
 import {RequesterInfoPage} from "./RequesterInfoPage";
 import { UserRole } from "../../../models/user/User";
 
-export class PersonalInfoPage extends React.Component<{},{}> {
+export default class PersonalInfoPage extends React.Component<{},{}> {
 
     @Inject userStore:UserStore;
 

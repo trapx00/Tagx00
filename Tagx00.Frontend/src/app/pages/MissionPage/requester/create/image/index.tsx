@@ -78,7 +78,7 @@ const formStrings = [
  */
 
 @observer
-export class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
+export default class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
 
   @observable info: ImageMissionCreateInfo = new ImageMissionCreateInfo();
   @observable uploading = false;

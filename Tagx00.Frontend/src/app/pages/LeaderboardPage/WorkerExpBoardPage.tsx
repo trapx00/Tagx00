@@ -11,12 +11,11 @@ import { requireLogin } from "../hoc/RequireLogin";
 import { Loading } from "../../components/Common/Loading";
 import styled from "styled-components";
 import { MajorTitle, MinorTitle } from "./common";
-import { LeaderboardPage } from "./index";
 import { LeaderboardService } from "../../api/LeaderboardService";
 import { observer } from "mobx-react";
 
 @observer
-export class WorkerExpBoardPage extends React.Component<{}, {}> {
+export default class WorkerExpBoardPage extends React.Component<{}, {}> {
 
   @Inject leaderboardService: LeaderboardService;
   @Inject userStore: UserStore;

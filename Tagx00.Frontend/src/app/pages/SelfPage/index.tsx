@@ -8,7 +8,7 @@ import { Switch } from "react-router";
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 
-export class SelfPage extends React.Component<any, any> {
+export default class SelfPage extends React.Component<any, any> {
   render() {
     return <SelfCenterLayout>
       <Switch>

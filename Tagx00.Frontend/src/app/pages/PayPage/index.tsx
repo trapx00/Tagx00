@@ -18,12 +18,6 @@ interface State {
   paying: boolean;
 }
 
-async function renderAccountPayPage() {
-  const Page = (await import("./AccountPayPage")).AccountPayPage;
-
-  return <Page />;
-}
-
 async function renderMissionPayPage(props: RouteComponentProps<any>) {
   const parsedQuery = parseQueryString(props.location.search);
   const Page = (await import("./MissionPayPage")).MissionPayPage;
@@ -34,7 +28,7 @@ const ID_PREFIX = "pay.";
 
 
 @requireLogin()
-export class PaymentPage extends React.Component<Props, State> {
+export default class PaymentPage extends React.Component<Props, State> {
 
   render() {
 
@@ -59,7 +53,7 @@ export class PaymentPage extends React.Component<Props, State> {
     return <SubMenuLayout routes={routes}>
       <Switch>
         <Redirect exact from={"/pay"} to={"/pay/account"}/>
-        <AsyncRoute path={"/pay/account"} render={renderAccountPayPage}/>
+        <AsyncRoute path={"/pay/account"} component={import("./AccountPayPage")}/>
         <AsyncRoute path={"/pay/mission"} render={renderMissionPayPage}/>
       </Switch>
     </SubMenuLayout>

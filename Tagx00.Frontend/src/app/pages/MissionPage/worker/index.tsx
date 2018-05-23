@@ -22,10 +22,6 @@ const routes: NavItemProps[] = [
   },
 ];
 
-async function renderMissionPanel() {
-  const Page = (await import("./WorkerMissionPanel")).WorkerMissionPanel;
-  return <Page/>;
-}
 
 async function renderDoWork(props: RouteComponentProps<any>) {
   const Page = (await import("./WorkerDoWorkEntry")).WorkerDoWorkEntry;
@@ -38,7 +34,7 @@ async function renderSeeResult(props) {
 }
 
 @requireLogin(UserRole.ROLE_WORKER)
-export class WorkerMissionPage extends React.Component<Props, {}> {
+export default class WorkerMissionPage extends React.Component<Props, {}> {
 
   render() {
     return <Switch>
@@ -48,8 +44,7 @@ export class WorkerMissionPage extends React.Component<Props, {}> {
              render={renderDoWork}/>
       <Route render={() => <SubMenuLayout routes={routes}>
         <Switch>
-          <AsyncRoute exact path={"/mission/worker"}
-                 render={renderMissionPanel}/>
+          <AsyncRoute exact path={"/mission/worker"} component={import("./WorkerMissionPanel")}/>
         </Switch>
       </SubMenuLayout>}/>
     </Switch>;

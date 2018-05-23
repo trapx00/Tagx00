@@ -31,11 +31,6 @@ const routes: NavItemProps[] = [
   }
 ];
 
-async function renderMissionPanel() {
-  const Page = (await import("./RequesterMissionPanel")).RequesterMissionPanel;
-  return <Page/>;
-}
-
 async function renderInstancePanel(props: RouteComponentProps<any>) {
   const RequesterInstancePanel = (await import("./RequesterInstancePanel")).RequesterInstancePanel;
   return <RequesterInstancePanel missionId={parseQueryString(props).missionId as string}/>;
@@ -46,21 +41,17 @@ async function renderInstanceSeeResult(props: RouteComponentProps<any>) {
   return <Page instanceId={props.match.params.instanceId}/>;
 }
 
-async function renderCreatePage() {
-  const Page = (await import("./create/index")).MissionCreatePage;
-  return <Page/>;
-}
 
 @requireLogin(UserRole.ROLE_REQUESTER)
-export class RequesterMissionPage extends React.Component<Props, {}> {
+export default class RequesterMissionPage extends React.Component<Props, {}> {
 
   render() {
     return <Switch>
       <AsyncRoute exact path={"/mission/requester/instance/:instanceId"} render={renderInstanceSeeResult}/>}/>
       <Route render={() => <SubMenuLayout routes={routes}>
         <Switch>
-          <AsyncRoute path={"/mission/requester/create"} render={renderCreatePage}/>
-          <AsyncRoute exact path={"/mission/requester"} render={renderMissionPanel}/>
+          <AsyncRoute path={"/mission/requester/create"} component={import("./create")}/>
+          <AsyncRoute exact path={"/mission/requester"} component={import("./RequesterMissionPanel")}/>
           <AsyncRoute path={"/mission/requester/instance"} exact
                  render={renderInstancePanel}/>
         </Switch>

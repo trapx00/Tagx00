@@ -1,4 +1,4 @@
-import { action, computed, observable } from "mobx";
+import { action, computed, observable, runInAction } from "mobx";
 import { User, UserRole } from "../models/user/User";
 import { LoginResult, UserService } from "../api/UserService";
 import { localStorage } from './UiUtil';
@@ -35,12 +35,15 @@ export class UserStore {
     if (!ok) {
       throw { response, error, statusCode};
     }
-    this.user = new User({
-      username: username,
-      token: response.token,
-      role: response.jwtRoles[0].roleName as UserRole,
-      email: response.email
+    runInAction(() => {
+      this.user = new User({
+        username: username,
+        token: response.token,
+        role: response.jwtRoles[0].roleName as UserRole,
+        email: response.email
+      });
     });
+
   };
 
   remember() {

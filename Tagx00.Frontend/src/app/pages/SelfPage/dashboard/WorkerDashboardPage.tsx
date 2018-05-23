@@ -11,7 +11,7 @@ export class WorkerDashboardPage extends React.Component<{},{}> {
     @Inject workerService:WorkerService;
 
     workerInfo = async () => {
-        const info = await this.workerService.getWorkerInfo(this.userStore.user.username,this.userStore.token);
+        const info = await this.workerService.getWorkerInfo(this.userStore.user.username);
         return <div>
             <DefinitionItem prompt={"已接受任务"} children={info.acceptedMissionCount}/>
             <DefinitionItem prompt={"进行中"} children={info.inProgressMissionCount}/>

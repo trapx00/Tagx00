@@ -4,7 +4,6 @@ import { observer } from "mobx-react";
 import { observable } from "mobx";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import { Form } from 'antd';
-import { ImageMissionCreateInfoForm } from "./image";
 import { Inject } from "react.di";
 import { LocaleMessage } from "../../../../internationalization/components";
 import { MissionTypeMenu } from "./MissionTypeMenu";
@@ -17,13 +16,8 @@ interface Props {
 
 }
 
-async function renderImageCreate() {
-  const Page = (await import("./image")).ImageMissionCreateInfoForm;
-  return <Page/>;
-}
-
 @observer
-export class MissionCreatePage extends React.Component<Props, {}> {
+export default class MissionCreatePage extends React.Component<Props, {}> {
 
   @observable title: string = "";
   @observable description: string = "";
@@ -37,15 +31,10 @@ export class MissionCreatePage extends React.Component<Props, {}> {
       <br/>
       <MissionTypeMenu/>
       <Switch>
-        <AsyncRoute exact path={"/mission/requester/create/IMAGE"} render={() => {
-
-      }}/>
-        <Route exact path={"/mission/requester/create/TEXT"} render={() => {
-
-        }}/>
+        <AsyncRoute exact path={"/mission/requester/create/IMAGE"} component={import("./image")}/>
+        <AsyncRoute exact path={"/mission/requester/create/TEXT"} component={import("./text")}/>
         <Redirect to={"/mission/requester/create/IMAGE"}/>
       </Switch>
-      <ImageMissionCreateInfoForm/>
     </div>;
   }
 }

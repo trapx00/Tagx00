@@ -30,7 +30,6 @@ export class FinalizeModal extends React.Component<Props, State> {
   parameters: MissionFinalizeParameters = new MissionFinalizeParameters();
 
   @Inject requesterService: RequesterService;
-  @Inject userStore: UserStore;
   @Inject payService: PayService;
 
   state = {
@@ -39,7 +38,7 @@ export class FinalizeModal extends React.Component<Props, State> {
 
 
   getAvailableCredits = async () => {
-    return (await this.requesterService.getRemainingCreditsForAMission(this.props.missionId, this.userStore.token)).remainingCredits;
+    return (await this.requesterService.getRemainingCreditsForAMission(this.props.missionId)).remainingCredits;
   };
 
   submit = async () => {
@@ -47,7 +46,7 @@ export class FinalizeModal extends React.Component<Props, State> {
       return;
     }
     this.setState({submitting: true});
-    const res = await this.requesterService.finalize(this.props.instanceId, this.parameters.value, this.userStore.token);
+    const res = await this.requesterService.finalize(this.props.instanceId, this.parameters.value);
     this.setState({submitting: false});
     Modal.success({
       title: "成功",

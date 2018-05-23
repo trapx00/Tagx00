@@ -14,7 +14,6 @@ import { InstanceCyclePieChart } from "./charts/InstanceCyclePieChart";
 export class AdminDashboardPage extends React.Component<{}, {}> {
 
   @Inject adminService: AdminService;
-  @Inject userStore: UserStore;
 
   renderInfo = async () => {
     const MissionProps = {
@@ -41,7 +40,7 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
     // finalizeInstanceCount: number;
     // //
 
-    const info = await this.adminService.getAdminInfo(this.userStore.token);
+    const info = await this.adminService.getAdminInfo();
 
 
     const colors = ["#39fc59", "#68ff41", "#4371ff", "#d6ff99"];

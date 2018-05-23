@@ -13,7 +13,7 @@ import { Loading } from "../../components/Common/Loading";
 import { observer } from "mobx-react";
 
 @observer
-export class WorkerCreditBoardPage extends React.Component<{}, {}> {
+export default class WorkerCreditBoardPage extends React.Component<{}, {}> {
   @Inject leaderboardService: LeaderboardService;
   @Inject userStore: UserStore;
 

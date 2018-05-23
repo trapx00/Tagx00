@@ -6,12 +6,19 @@ import { observer } from "mobx-react";
 interface Props<T> {
   path: string;
   exact?: boolean;
-  render: (props: RouteComponentProps<T>) => Promise<ReactNode>;
+  component?: Promise<any>;
+  render?: (props: RouteComponentProps<T>) => Promise<ReactNode>;
 }
 
 export function AsyncRoute<T>(props: Props<T>) {
 
+
     return <Route path={props.path} exact={props.exact}
-                  render={props1 => <ObserverAsyncComponent render={props.render} props={props1}/>}/>;
+                  render={props1 => <ObserverAsyncComponent
+                      render={props.component
+                        ? async () => React.createElement((await props.component).default, props1)
+                        : props.render}
+                      props={props1}/>
+                  }/>;
 
 }

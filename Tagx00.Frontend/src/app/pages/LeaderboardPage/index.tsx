@@ -9,21 +9,6 @@ import { NavStore } from "../../stores/NavStore";
 interface Props {
 }
 
-async function renderExpLeaderboard() {
-  const Page = (await import("./WorkerExpBoardPage")).WorkerExpBoardPage;
-  return <Page/>;
-}
-
-async function renderWorkerCreditLeaderboard() {
-  const Page = (await import("./WorkerCreditBoardPage")).WorkerCreditBoardPage;
-  return <Page/>;
-}
-
-async function renderRequesterCreditLeaderboard() {
- const Page = (await import("./RequesterCreditBoardPage")).RequesterCreditBoardPage;
-  return <Page/>;
-}
-
 const routes = [
 
   {
@@ -46,15 +31,15 @@ const routes = [
 
 ];
 
-export class LeaderboardPage extends React.Component<Props, {}> {
+export default class LeaderboardPage extends React.Component<Props, {}> {
 
   render() {
     return <SubMenuLayout routes={routes}>
       <Switch>
         <Redirect exact from={"/leaderboard"} to={"/leaderboard/exp"}/>
-        <AsyncRoute path={"/leaderboard/exp"} render={renderExpLeaderboard}/>
-        <AsyncRoute path={"/leaderboard/workerCredits"} render={renderWorkerCreditLeaderboard}/>
-        <AsyncRoute path={"/leaderboard/requesterCredits"} render={renderRequesterCreditLeaderboard}/>
+        <AsyncRoute path={"/leaderboard/exp"} component={import("./WorkerExpBoardPage")}/>
+        <AsyncRoute path={"/leaderboard/workerCredits"} component={import("./WorkerCreditBoardPage")}/>
+        <AsyncRoute path={"/leaderboard/requesterCredits"} component={import("./RequesterCreditBoardPage")}/>
       </Switch>
     </SubMenuLayout>
   }

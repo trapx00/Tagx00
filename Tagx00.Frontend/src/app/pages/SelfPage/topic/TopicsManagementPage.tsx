@@ -15,7 +15,7 @@ interface State {
 }
 
 @requireLogin(UserRole.ROLE_ADMIN)
-export class TopicsManagementPage extends React.Component<any,State> {
+export default class TopicsManagementPage extends React.Component<any,State> {
   @Inject userStore: UserStore;
   @Inject topicService: TopicService;
 
@@ -25,7 +25,7 @@ export class TopicsManagementPage extends React.Component<any,State> {
   };
 
   handleClose = async(topicId) => {
-    await this.topicService.deleteTopics({ topicIds: [topicId]},this.userStore.token);
+    await this.topicService.deleteTopics({ topicIds: [topicId]});
     this.setState({ key: this.state.key+1});
 
   }
@@ -35,7 +35,7 @@ export class TopicsManagementPage extends React.Component<any,State> {
   }
 
   handleAdd = async() => {
-    await this.topicService.addTopics({topics: [this.state.input]}, this.userStore.token);
+    await this.topicService.addTopics({topics: [this.state.input]});
     this.setState({ input: "", key: this.state.key+1});
   }
 

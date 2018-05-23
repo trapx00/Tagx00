@@ -13,7 +13,7 @@ import { MajorTitle, MinorTitle } from "./common";
 import { observer } from "mobx-react";
 
 @observer
-export class RequesterCreditBoardPage extends React.Component<{}, {}> {
+export default class RequesterCreditBoardPage extends React.Component<{}, {}> {
   @Inject leaderboardService: LeaderboardService;
   @Inject userStore: UserStore;
 

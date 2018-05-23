@@ -16,7 +16,7 @@ export interface RouteConfig {
 
 export interface AsyncRouteConfig extends RouteConfig {
   type: RouteType.Async;
-  render(props: RouteComponentProps<any>): Promise<ReactNode>;
+  component: Promise<any>;
 }
 
 export interface RedirectRouteConfig extends RouteConfig {
@@ -29,7 +29,7 @@ export type KnownRouteConfig = AsyncRouteConfig | RedirectRouteConfig;
 export function constructRoute(config: KnownRouteConfig) {
   switch (config.type) {
     case RouteType.Async:
-      return <AsyncRoute exact={config.exact} key={config.path} path={config.path} render={config.render}/>;
+      return <AsyncRoute exact={config.exact} key={config.path} path={config.path} component={config.component}/>;
     case RouteType.Redirect:
       return <Redirect exact={config.exact} key={config.path} from={config.path} path={config.path} to={config.to}/>
   }

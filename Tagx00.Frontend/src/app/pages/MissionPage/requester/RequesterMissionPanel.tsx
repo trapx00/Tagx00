@@ -40,7 +40,7 @@ export class RequesterMissionCardList extends React.Component<{},{}>{
   }
 }
 
-export class RequesterMissionPanel extends React.Component<Props, {}> {
+export default class RequesterMissionPanel extends React.Component<Props, {}> {
   render() {
     return <div>
       <h1>

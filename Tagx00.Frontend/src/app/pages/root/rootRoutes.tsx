@@ -1,75 +1,55 @@
 import React from "react";
 import { AsyncRouteConfig, RouteType } from "../../router/RouteConfig";
 import { RouteComponentProps } from "react-router";
+import { imgs } from "../../api/mock/MissionServiceMock";
 
 export const missionPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: false,
   path: "/mission",
-  render: async (props: RouteComponentProps<any>) => {
-    const Page = (await import("../MissionPage")).MissionPage;
-    return <Page location={props.location}/>;
-  },
+  component: import("../MissionPage")
 };
 
 export const leaderboardPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: false,
   path: "/leaderboard",
-  render: async (props) => {
-    const Page = (await import("../LeaderboardPage")).LeaderboardPage;
-    return <Page/>;
-  }
+  component: import("../LeaderboardPage")
 };
 
 export const browsePage: AsyncRouteConfig  = {
   type: RouteType.Async,
   exact: true,
   path: "/browse",
-  render: async (props) => {
-    const BrowsePage = (await import("../BrowsePage")).BrowsePage;
-    return <BrowsePage/>;
-  },
+  component: import("../BrowsePage")
 };
 
 export const registerPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: true,
   path: "/register",
-  render: async (props) => {
-    const RegisterPage = (await import("../../pages/RegisterPage")).RegisterPage;
-    return <RegisterPage/>;
-  },
+  component: import("../../pages/RegisterPage")
 };
 
 export const aboutPage:AsyncRouteConfig = {
   type: RouteType.Async,
   exact: true,
   path: "/about",
-  render: async (props) => {
-    const AboutPage = (await import("../AboutPage")).AboutPage;
-    return <AboutPage/>;
-  },
+  component: import("../AboutPage")
 };
 
 export const selfCenterPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: false,
   path: "/self",
-  render: async (props) => {
-    const Page = (await import("../SelfPage")).SelfPage;
-    return <Page/>;
-  }
+  component: import("../SelfPage")
 };
 
 export const payPage: AsyncRouteConfig  = {
   type: RouteType.Async,
   exact: false,
   path: "/pay",
-  render: async (props) => {
-    const Page = (await import("../PayPage")).PaymentPage;
-    return <Page/>
-  }
+  component: import("../PayPage")
 };
 
 
