@@ -2,16 +2,11 @@ package trapx00.tagx00.entity.mission.instance.workresult;
 
 import trapx00.tagx00.publicdatas.mission.image.ImageJob;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 
 @Embeddable
 public class ImageResult extends WorkResult {
-    @Column(name = "imageJob")
     private ImageJob imageJob;
-
-    @Column(name = "filename")
     private String url;
 
     public ImageResult() {

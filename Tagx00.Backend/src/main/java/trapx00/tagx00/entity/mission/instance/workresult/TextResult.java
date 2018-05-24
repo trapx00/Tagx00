@@ -2,7 +2,10 @@ package trapx00.tagx00.entity.mission.instance.workresult;
 
 import trapx00.tagx00.publicdatas.mission.text.TextJob;
 
-public class TextResult extends  WorkResult  {
+import javax.persistence.Embeddable;
+
+@Embeddable
+public class TextResult extends WorkResult {
     private String url;
     private TextJob textJob;
 
