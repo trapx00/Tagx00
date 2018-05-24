@@ -1,17 +1,44 @@
 import React, { ReactNode } from 'react';
 import { Route, RouteComponentProps } from "react-router";
-import { AsyncComponent, ObserverAsyncComponent } from "./AsyncComponent";
-import { observer } from "mobx-react";
+import { ObserverAsyncComponent } from "./AsyncComponent";
+import { Inject } from "react.di";
+import { NavStore } from "../stores/NavStore";
+import { action, runInAction } from "mobx";
+import { waitForMs } from "../../utils/Wait";
 
 interface Props<T> {
   path: string;
   exact?: boolean;
-  render: (props: RouteComponentProps<T>) => Promise<ReactNode>;
+  component?: Promise<any>;
+  render?: (props: RouteComponentProps<T>) => Promise<ReactNode>;
 }
 
-export function AsyncRoute<T>(props: Props<T>) {
+export class AsyncRoute<T> extends React.PureComponent<Props<T>> {
 
-    return <Route path={props.path} exact={props.exact}
-                  render={props1 => <ObserverAsyncComponent render={props.render} props={props1}/>}/>;
 
+  @Inject navStore: NavStore;
+
+
+  @action renderRoute = (props) => {
+    this.navStore.pageWideLoadingBarShown = true;
+    console.log("load start");
+    return <ObserverAsyncComponent
+      render={this.props.component
+        ? async () => {
+        await waitForMs(3000);
+        return React.createElement((await this.props.component).default, props)
+        }
+        : this.props.render}
+      props={props}
+      onRenderSuccess={action(()=> {
+        this.navStore.pageWideLoadingBarShown = false;
+        console.log("load complete")
+      })}
+    />;
+  };
+
+  render() {
+    return <Route path={this.props.path}  exact={this.props.exact}
+                  render={this.renderRoute}/>;
+  }
 }

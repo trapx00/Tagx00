@@ -3,22 +3,13 @@ import { HttpMethod } from "./utils";
 import { Inject, Injectable } from "react.di";
 import { UserRole } from "../models/user/User";
 import { LevelInfo } from "../models/user/LevelInfo";
+import { LoginResponse } from "../models/user/LoginResponse";
 
-export interface LoginResult {
-  token: string,
-  jwtRoles: { roleName: string }[];
-  email: string;
-}
 
 export interface UserRegisterResponse {
   token: string
 }
 
-export interface UserRegisterConfirmationResponse {
-  token: string
-  jwtRoles: { authority: string}[]
-  email: string
-}
 
 function encryptPassword(password: string) {
   return password;
@@ -27,16 +18,26 @@ function encryptPassword(password: string) {
 @Injectable
 export class UserService {
 
+
+
   constructor(@Inject private http: HttpService) {
   }
 
-  async login(username: string, password: string): Promise<NetworkResponse> {
+  async login(username: string, password: string): Promise<NetworkResponse<LoginResponse>> {
     password = encryptPassword(password);
 
-    return await this.http.fetch({
+    const res = await this.http.fetch({
       path: "account/login",
       queryParams: {username, password}
     });
+    if (res.ok) {
+      this.http.token = res.response.token;
+    }
+    return res;
+  }
+
+  logout() {
+    this.http.token = "";
   }
 
   async register(username: string, password: string, email: string, role: UserRole): Promise<NetworkResponse<UserRegisterResponse>> {
@@ -48,7 +49,7 @@ export class UserService {
     });
   }
 
-  async registerValidate(token: string, code: string): Promise<NetworkResponse<UserRegisterConfirmationResponse>> {
+  async registerValidate(token: string, code: string): Promise<NetworkResponse<LoginResponse>> {
 
     return await this.http.fetch({
       path: "account/register/validate",

@@ -1,11 +1,10 @@
 import React from "react";
-import {UserStore} from "../../../stores/UserStore";
-import {RequesterService} from "../../../api/RequesterService";
-import {Inject} from "react.di";
-import {LocaleMessage} from "../../../internationalization/components";
-import {AsyncComponent} from "../../../router/AsyncComponent";
+import { UserStore } from "../../../stores/UserStore";
+import { RequesterService } from "../../../api/RequesterService";
+import { Inject } from "react.di";
+import { LocaleMessage } from "../../../internationalization/components";
+import { AsyncComponent } from "../../../router/AsyncComponent";
 import { DefinitionItem } from "../../../components/DefinitionItem";
-import { LeaderboardService } from "../../../api/LeaderboardService";
 import { PayService } from "../../../api/PayService";
 
 export class RequesterInfoPage extends React.Component<{},{}> {
@@ -14,8 +13,8 @@ export class RequesterInfoPage extends React.Component<{},{}> {
     @Inject payService: PayService;
 
     requesterInfo = async () => {
-        const info = await this.requesterService.getRequesterInfo(this.userStore.user.username,this.userStore.token);
-        const credit = await this.payService.getCredits(this.userStore.token);
+        const info = await this.requesterService.getRequesterInfo(this.userStore.user.username);
+        const credit = await this.payService.getCredits();
         return <div>
             <DefinitionItem prompt={"用户名"}>
               {info.username}

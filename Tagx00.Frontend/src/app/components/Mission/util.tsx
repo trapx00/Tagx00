@@ -1,6 +1,6 @@
 import React from "react";
-import { LocaleMessage, Localize } from "../../internationalization/components";
-import { Tooltip, Icon, Card, Popconfirm } from 'antd';
+import { Localize } from "../../internationalization/components";
+import { Card, Icon, Tooltip } from 'antd';
 
 const maxTextCount = 23;
 

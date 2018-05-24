@@ -1,6 +1,6 @@
 import * as React from "react";
-import {DataView} from "@antv/data-set";
-import {PieChart, Pie, Legend, Tooltip} from "recharts";
+import { DataView } from "@antv/data-set";
+import { Legend, Pie, PieChart, Tooltip } from "recharts";
 
 export class BasicCycleGraph extends React.Component<BasicCycleGraph, any> {
 

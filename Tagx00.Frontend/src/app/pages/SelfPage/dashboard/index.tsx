@@ -6,7 +6,7 @@ import { RequesterDashboardPage } from "./RequesterDashboardPage";
 import { AdminDashboardPage } from "./AdminDashboardPage";
 import { UserRole } from "../../../models/user/User";
 
-export class DashboardPage extends React.Component<{}, {}> {
+export default class DashboardPage extends React.Component<{}, {}> {
 
   @Inject userStore: UserStore;
 

@@ -5,14 +5,14 @@ import { ImageInstanceDetail } from "../../models/instance/image/ImageInstanceDe
 import { InstanceDetail } from "../../models/instance/InstanceDetail";
 import { Response } from "../../models/response/Response";
 import { WorkerService } from "../WorkerService";
-import {WorkerInfo} from "../../models/userInfo/WorkerInfo";
+import { WorkerInfo } from "../../models/userInfo/WorkerInfo";
 import { MissionType } from "../../models/mission/Mission";
 import { InstanceDetailResponse } from "../../models/response/mission/InstanceDetailResponse";
 
 @Injectable
 export class WorkerServiceMock extends WorkerService {
 
-  async getAllInstances(token: string): Promise<Instance[]> {
+  async getAllInstances(): Promise<Instance[]> {
     //mock
     return [1, 2, 3, 4, 5].map(x =>
       ({
@@ -33,7 +33,7 @@ export class WorkerServiceMock extends WorkerService {
 
   }
 
-  async getInstanceDetail(missionId: string, token: string): Promise<InstanceDetailResponse> {
+  async getInstanceDetail(missionId: string): Promise<InstanceDetailResponse> {
 
     if (Math.random()<0.5) {
       throw {
@@ -62,22 +62,22 @@ export class WorkerServiceMock extends WorkerService {
     };
   }
 
-  async saveProgress(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
+  async saveProgress(missionId: string, detail: InstanceDetail): Promise<boolean> {
     return true;
   }
 
-  async submit(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
+  async submit(missionId: string, detail: InstanceDetail): Promise<boolean> {
     return true;
   }
 
-  async acceptMission(missionId: string, token: string): Promise<Response> {
+  async acceptMission(missionId: string): Promise<Response> {
     return {
       infoCode: 10000,
       description: "success"
     };
   }
 
-  async getWorkerInfo(username: string, token: string): Promise<WorkerInfo> {
+  async getWorkerInfo(username: string): Promise<WorkerInfo> {
       return {
           username: "worker",
           email: "1@1.com",
@@ -91,7 +91,7 @@ export class WorkerServiceMock extends WorkerService {
       } as WorkerInfo
   }
 
-  async abandonMission(missionId: string, token: string): Promise<Response> {
+  async abandonMission(missionId: string): Promise<Response> {
     return {
       infoCode: 10000,
       description: "success"

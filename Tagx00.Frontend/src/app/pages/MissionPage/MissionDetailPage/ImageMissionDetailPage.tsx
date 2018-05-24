@@ -1,11 +1,11 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { ImageMissionDetail } from "../../../models/mission/image/ImageMission";
 import { Gallery } from "../../../components/Gallery";
-import { LocaleDate, LocaleMessage } from "../../../internationalization/components";
-import { Tag, Input, Icon } from 'antd';
-import styled from "styled-components";
+import { LocaleMessage } from "../../../internationalization/components";
+import { Tag } from 'antd';
 import { MissionDetailBasePanel } from "./MissionDetailBasePanel";
 import { Item } from "./common";
+
 const ID_PREFIX = "missions.missionDetail.IMAGE.";
 
 interface Props {

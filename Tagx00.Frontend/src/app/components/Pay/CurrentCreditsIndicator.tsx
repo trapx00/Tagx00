@@ -14,7 +14,7 @@ export class CurrentCreditsIndicator extends React.Component<Props, {}> {
   @Inject payService: PayService;
 
   fetchDataAndRender = async () => {
-    const res = await this.payService.getCredits(this.props.token);
+    const res = await this.payService.getCredits();
     this.props.onCreditFetched && this.props.onCreditFetched(res.credits);
     return <span className={this.props.className}>
       {res.credits}

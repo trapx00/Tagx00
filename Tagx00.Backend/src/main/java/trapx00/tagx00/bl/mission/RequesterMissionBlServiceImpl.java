@@ -12,6 +12,7 @@ import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.entity.mission.TextMission;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -175,9 +176,20 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     }
 
     private Mission generateMission(MissionCreateVo missionCreateVo) {
-        switch (missionCreateVo.getMissionType()) {
+        switch (missionCreateVo.getProperties().getType()) {
             case IMAGE:
-                return new ImageMission(getNextId(), missionCreateVo.getTitle(), missionCreateVo.getDescription(), missionCreateVo.getTopics(), missionCreateVo.isAllowCustomTag(), missionCreateVo.getAllowedTags(), missionCreateVo.getMissionType(), MissionState.PENDING, missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(), ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(), new ArrayList<>(), new ArrayList<>());
+                return new ImageMission(getNextId(), missionCreateVo.getTitle(), missionCreateVo.getDescription(),
+                        missionCreateVo.getTopics(), ((ImageMissionProperties)missionCreateVo.getProperties()).isAllowCustomTag(),
+                        ((ImageMissionProperties)missionCreateVo.getProperties()).getAllowedTags(),
+                        missionCreateVo.getProperties().getType(), MissionState.PENDING,
+                        missionCreateVo.getStart(), missionCreateVo.getEnd(), "",
+                        UserInfoUtil.getUsername(), missionCreateVo.getLevel(),
+                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(),
+                        new ArrayList<>(), new ArrayList<>(),
+                        ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(),
+                        new ArrayList<>(), new ArrayList<>());
+            case TEXT:
+                return new TextMission( );
         }
         return null;
     }

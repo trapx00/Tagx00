@@ -6,7 +6,6 @@ import { UiStore } from "../../../stores/UiStore";
 import { LoginController } from "./LoginController";
 import { LoginForm } from "./Form";
 import { action } from "mobx";
-import { UserStore } from "../../../stores/UserStore";
 import { Inject, Module } from "react.di";
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
@@ -17,7 +16,7 @@ interface Props  {
 
 const RegisterButton = styled(Button)`
   float: left;
-`;
+` as any;
 
 
 @Module({
@@ -30,7 +29,6 @@ export class LoginModal extends React.Component<Props, any> {
 
   @Inject controller: LoginController;
 
-  @Inject userStore: UserStore;
   @Inject uiStore: UiStore;
 
   onCancel = () => {
@@ -43,7 +41,7 @@ export class LoginModal extends React.Component<Props, any> {
     fields.loginAttempted = true;
     if (fields.valid) {
       try {
-        await this.controller.doLogin(this.userStore);
+        await this.controller.doLogin();
         this.uiStore.toggleLoginModalShown();
       } catch (e) {
         console.log(e);

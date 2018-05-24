@@ -19,12 +19,6 @@ public class Mission {
             targetClass = String.class)
     @Column(name = "topics")
     private List<String> topics;
-    @Column(name = "allowCustomTag")
-    private boolean allowCustomTag;
-    @ElementCollection(fetch = FetchType.LAZY,
-            targetClass = String.class)
-    @Column(name = "allowedTags")
-    private List<String> allowedTags;
     @Column(name = "missionType")
     private MissionType missionType;
     @Column(name = "missionState")
@@ -51,13 +45,11 @@ public class Mission {
     public Mission() {
     }
 
-    public Mission(String missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> browserUsers) {
+    public Mission(String missionId, String title, String description, List<String> topics, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> browserUsers) {
         this.missionId = missionId;
         this.title = title;
         this.description = description;
         this.topics = topics;
-        this.allowCustomTag = allowCustomTag;
-        this.allowedTags = allowedTags;
         this.missionType = missionType;
         this.missionState = missionState;
         this.start = start;
@@ -76,14 +68,6 @@ public class Mission {
 
     public void setMissionId(String missionId) {
         this.missionId = missionId;
-    }
-
-    public MissionState getMissionState() {
-        return missionState;
-    }
-
-    public void setMissionState(MissionState missionState) {
-        this.missionState = missionState;
     }
 
     public String getTitle() {
@@ -110,28 +94,20 @@ public class Mission {
         this.topics = topics;
     }
 
-    public boolean isAllowCustomTag() {
-        return allowCustomTag;
-    }
-
-    public void setAllowCustomTag(boolean allowCustomTag) {
-        this.allowCustomTag = allowCustomTag;
-    }
-
-    public List<String> getAllowedTags() {
-        return allowedTags;
-    }
-
-    public void setAllowedTags(List<String> allowedTags) {
-        this.allowedTags = allowedTags;
-    }
-
     public MissionType getMissionType() {
         return missionType;
     }
 
     public void setMissionType(MissionType missionType) {
         this.missionType = missionType;
+    }
+
+    public MissionState getMissionState() {
+        return missionState;
+    }
+
+    public void setMissionState(MissionState missionState) {
+        this.missionState = missionState;
     }
 
     public Date getStart() {

@@ -9,7 +9,6 @@ import { BrowserStore } from "../stores/BrowserStore";
 import { NavStore } from "../stores/NavStore";
 
 export async function initProviders(history) {
-  const userStore = new UserStore();
   const routerStore = new RouterStore(history);
   const localeStore = new LocaleStore();
   const uiStore = new UiStore();
@@ -19,7 +18,7 @@ export async function initProviders(history) {
   return [
     ...apiServiceProviders,
     {provide: RouterStore, useValue: routerStore},
-    {provide: UserStore, useValue: userStore},
+    {provide: UserStore, useClass: UserStore},
     {provide: UiStore, useValue: uiStore},
     {provide: LocaleStore, useValue: localeStore},
     {provide: LevelStore, useClass: LevelStore},

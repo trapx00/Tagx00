@@ -9,18 +9,16 @@ export class PayService {
   constructor(@Inject private http: HttpService) {
   }
 
-  async getCredits(token: string): Promise<PayQueryResponse> {
+  async getCredits(): Promise<PayQueryResponse> {
     const res = await this.http.fetch({
-      path: "/pay",
-      token
+      path: "/pay"
     });
     return res.response;
   }
 
-  async pay(credits: number, token: string): Promise<PayResponse> {
+  async pay(credits: number): Promise<PayResponse> {
     const res = await this.http.fetch({
       path: "/pay",
-      token,
       body: {credits},
       method: HttpMethod.POST
     });

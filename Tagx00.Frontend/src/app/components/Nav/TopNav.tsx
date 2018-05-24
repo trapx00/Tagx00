@@ -1,8 +1,8 @@
 import React from 'react';
 import { Inject } from "react.di";
-import { Menu, Icon } from 'antd';
+import { Icon, Menu } from 'antd';
 import { RouterStore } from "../../stores/RouterStore";
-import { NavItemProps, NavStore } from "../../stores/NavStore";
+import { NavItemProps } from "../../stores/NavStore";
 import { Link } from 'react-router-dom';
 import { dropdownMenuStyle, horizontalMenuStyle } from "./Layout";
 import { LocaleMessage } from "../../internationalization/components";

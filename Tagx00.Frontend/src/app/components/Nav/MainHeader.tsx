@@ -1,16 +1,13 @@
 import React from 'react';
-import { Layout, Icon as AntdIcon, Menu, Popover } from 'antd';
+import { Icon as AntdIcon, Layout } from 'antd';
 import { Inject } from "react.di";
-import { CONTENT_SIDE_PADDING, UiStore } from "../../stores/UiStore";
+import { UiStore } from "../../stores/UiStore";
 import { action } from "mobx";
 import { observer } from "mobx-react";
 import styled from "styled-components";
 import { LanguageSelector } from "../LanguageSelector";
-import { UserIndicator } from "./NavbarUserIndicator/UserIndicator";
 import { NavStore } from "../../stores/NavStore";
-import { TopNav } from "./TopNav";
-import { DropdownContainer, LeftDiv, MobileNavContainer, NavItem, RightDiv, Row, SvgImgContainer } from "./Layout";
-import { SvgImg } from "../Common/SvgImg";
+import { LeftDiv, MobileNavContainer, NavItem, RightDiv, Row } from "./Layout";
 import { NavbarUserIndicator } from "./NavbarUserIndicator";
 import { NavbarModals } from "./NavbarModals";
 
@@ -72,14 +69,6 @@ export class MainHeader extends React.Component<Props, {}> {
         <MobileNavContainer>
           <NavbarUserIndicator/>
           <LanguageSelector/>
-          <DropdownContainer innerRef={this.dropdownContainerRef}>
-            <Popover getPopupContainer={() => this.dropdownContainerRef.current} trigger={"click"}
-                     placement={"bottomRight"} content={
-              <TopNav dropdownMode={true} routes={this.navStore.currentSubNavs}/>
-            }>
-              <AntdIcon type="menu-fold"/>
-            </Popover>
-          </DropdownContainer>
         </MobileNavContainer>
       </LeftDiv>
       <RightDiv>
@@ -88,9 +77,6 @@ export class MainHeader extends React.Component<Props, {}> {
         </NavItem>
         <NavItem>
           <NavbarUserIndicator/>
-        </NavItem>
-        <NavItem>
-          <TopNav dropdownMode={false} routes={this.navStore.currentSubNavs}/>
         </NavItem>
         <NavbarModals/>
       </RightDiv>

@@ -1,24 +1,20 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { ImageMissionDetail, ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import { ImageInstanceDetail } from "../../../../models/instance/image/ImageInstanceDetail";
-import { ImageNotation, ImageWorkStore } from "../../../../stores/ImageWorkStore";
+import { ImageNotation, ImageWorkStore } from "./ImageWorkStore";
 import { observer } from "mobx-react";
 import { ImagePartWorkPage } from "./ImagePartWorkPage";
 import { ImageDistrictWorkPage } from "./ImageDistrictWorkPage";
 import { ImageWholeWorkPage } from "./ImageWholeWorkPage";
 import { message, Progress } from 'antd';
 import { CompleteModal } from "../../../../components/ImageWork/CompleteModal";
-import { ImageJob } from "../../../../models/instance/image/job/ImageJob";
-import { action, observable, runInAction } from "mobx";
-import { WorkerService } from "../../../../api/WorkerService";
+import { action, observable } from "mobx";
 import { Inject, Module } from "react.di";
-import { DistrictJob } from "../../../../models/instance/image/job/DistrictJob";
 import { LocaleStore } from "../../../../stores/LocaleStore";
 
 interface Props {
   instanceDetail: ImageInstanceDetail;
   missionDetail: ImageMissionDetail;
-  token: string;
   jumpBack: () => void;
   readonlyMode: boolean;
 }
@@ -41,7 +37,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
 
   @action saveWork = async (notation: ImageNotation) => {
     this.store.saveWork(notation);
-    await this.store.saveProgress(this.props.token);
+    await this.store.saveProgress();
     message.success(this.localeStore.get(ID_PREFIX + "finish.workSaved"));
   };
 
@@ -74,9 +70,7 @@ export class ImageWorkPage extends React.Component<Props, {}> {
 
   submit = async () => {
 
-    const result = await this.store.submit(
-      this.props.token
-    );
+    const result = await this.store.submit();
     if (result) {
       console.log("success");
       this.props.jumpBack();
@@ -91,13 +85,8 @@ export class ImageWorkPage extends React.Component<Props, {}> {
   };
 
   saveProgress = async () => {
-    const result = await this.store.saveProgress(this.props.token);
-    if (result) {
-      console.log("success");
-      this.props.jumpBack();
-    } else {
-      console.log("failure");
-    }
+    await this.store.saveProgress();
+    this.props.jumpBack();
   };
 
 

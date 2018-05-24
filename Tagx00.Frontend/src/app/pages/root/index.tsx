@@ -4,7 +4,6 @@ import React from "react";
 import { initProviders } from "../../providers";
 import { AsyncRouteConfig, constructRoute, RouteType } from "../../router/RouteConfig";
 import { Router, Switch } from "react-router";
-import { AsyncComponent } from "../../router/AsyncComponent";
 import { BaseLayoutPage } from "./BaseLayoutPage";
 import DevTools from "mobx-react-devtools";
 
@@ -22,10 +21,7 @@ export interface AppProps {
 export const notFoundPage: AsyncRouteConfig = {
   type: RouteType.Async,
   path: "",
-  render: async (props) => {
-    const NotFoundPage = (await import("../../pages/NotFound")).NotFoundPage;
-    return <NotFoundPage/>
-  },
+  component: import("../../pages/NotFound"),
   exact: false
 };
 
@@ -33,10 +29,7 @@ export const homePage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: true,
   path: "/",
-  render: async (props) => {
-    const HomePage = (await import("../HomePage")).HomePage;
-    return <HomePage/>;
-  },
+  component: import("../HomePage")
 };
 
 

@@ -1,12 +1,11 @@
 import React from 'react';
-import { observer } from "mobx-react";
-import { toJS } from "mobx";
 import { Loading } from "../../../../../components/Common/Loading";
-import { AsyncComponent, ObserverAsyncComponent } from "../../../../../router/AsyncComponent";
 import { Inject } from "react.di";
 import { LocaleStore } from "../../../../../stores/LocaleStore";
 import { TagSelector } from "../../../../../components/TagSelector";
 import { TopicService } from "../../../../../api/TopicService";
+import { LocaleMessage } from "../../../../../internationalization/components";
+import { Checkbox} from 'antd';
 
 interface Props {
   selected: string[];
@@ -55,7 +54,7 @@ export class TopicSelector extends React.Component<Props, State> {
     }
 
     return <div>
-      {locale.topics}
+      <LocaleMessage id={ID_PREFIX+"fields.topics"}/>
       <TagSelector onSelectedChanged={this.onTopicChange}
                    selectedTags={this.props.selected}
                    availableTags={this.state.availableTags}
