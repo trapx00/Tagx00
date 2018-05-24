@@ -61,7 +61,9 @@ const leaderboardSubmenus = [
   }
 ];
 
-const common = {leaderboard: leaderboardSubmenus};
+const common = {
+  leaderboard: leaderboardSubmenus
+};
 
 
 export const submenuMap: { [K: string]: UserConfig } = {
@@ -73,7 +75,7 @@ export const submenuMap: { [K: string]: UserConfig } = {
         iconName: "tag-o",
         id: "missions.sideMenu.mission",
         match(pathname: string) {
-          return pathname.startsWith("/mission/requester")
+          return pathname == "/mission/requester" || pathname.startsWith("/mission/requester/create")
         }
       },
       {

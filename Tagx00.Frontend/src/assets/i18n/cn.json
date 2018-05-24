@@ -182,6 +182,7 @@
         "TEXT": "文本"
       },
       "fields": {
+        "generalProperties": "任务属性",
         "title": "任务标题",
         "requireTitle": "请输入任务标题",
         "description": "任务描述",
@@ -190,9 +191,7 @@
         "availableTopics": "可选主题词",
         "dateRange":"时间段",
         "requireDateRange": "请选择任务有效时间段",
-        "tags": "标签",
-        "allowCustomTag": "允许工人自定义标签",
-        "requireTags": "当不允许工人自定义标签时，请添加至少一个可用标签",
+
         "cover": "封面图",
         "selectFile": "选择文件",
         "minimalWorkerLevel": "工人最低等级",
@@ -208,15 +207,38 @@
           "remaining": "现有积分：{current}"
         },
         "IMAGE": {
+          "title": "图片任务属性",
           "types": {
             "name": "图片任务类型",
             "DISTRICT": "区域",
             "WHOLE":"整体",
             "PART": "局部"
           },
+          "selectFile": "选择文件",
+          "tags": "标签",
+          "allowCustomTag": "允许工人自定义标签",
+          "requireTags": "当不允许工人自定义标签时，请添加至少一个可用标签",
           "requireTypes": "请选择至少一种任务",
           "images": "任务图片",
           "requireImages": "请上传至少一张图片"
+        },
+        "TEXT": {
+          "title": "文本任务属性",
+          "classification": {
+            "placeholder": "输入主题。输入完一个主题，按一下回车确认",
+            "prompt": "主题分类（工人只能在预设主题中选择）",
+            "requireClasses": "请至少填入一个预设主题"
+          },
+          "keywords": {
+            "placeholder": "输入主题词。输入完一个主题，按一下回车确认",
+            "prompt": "提取主题词（工人可自定义主题词）"
+          },
+          "requireTask": "请选择至少一种任务",
+          "zip": {
+            "prompt": "请讲所有文本文件处理成TXT文件，然后打包上传。",
+            "upload": "上传",
+            "requireZip": "请上传压缩包"
+          }
         },
         "submit": "提交"
       }

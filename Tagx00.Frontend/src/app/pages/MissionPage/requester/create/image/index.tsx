@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from "mobx-react";
 import { action, observable, runInAction, toJS } from "mobx";
 import { ImageMissionCreateInfo } from "./ImageMissionCreateInfo";
-import { Checkbox, DatePicker, Modal } from 'antd';
+import { Checkbox, DatePicker, Modal, Button } from 'antd';
 import { ImageMissionType } from "../../../../../models/mission/image/ImageMission";
 import { ImageUploadPanel } from "../ImageUploadPanel";
 import { RequesterService } from "../../../../../api/RequesterService";
@@ -16,6 +16,7 @@ import { FormItem } from "../../../../../components/Form/FormItem";
 import { PayService } from "../../../../../api/PayService";
 import { UserStore } from "../../../../../stores/UserStore";
 import { MissionCreateInfoForm } from "../MissionCreateInfoForm";
+import { LocaleMessage } from "../../../../../internationalization/components";
 
 const CheckboxGroup = Checkbox.Group;
 const {RangePicker} = DatePicker;
@@ -91,11 +92,9 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
   @action submit = async () => {
 
     this.info.createAttempted = true;
-    if (!this.info.valid) {
+    if (!this.info.valid()) {
       return;
     }
-
-    console.log(this.info.missionCreateVo);
 
     const {token, id} = await this.requesterService.createMission(this.info.missionCreateVo());
 
@@ -106,6 +105,7 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
     runInAction(() => {
       this.uploading = true;
     });
+
     const coverFormData = new FormData();
     coverFormData.append("files[]", this.info.coverImage as any);
 
@@ -143,11 +143,14 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
   render() {
     const locale: any = new Proxy({}, {
       get: (target, key) => {
-        return this.localeStore.get(`${ID_PREFIX}fields.${key}`) as string;
+        return this.localeStore.get(`${ID_PREFIX}fields.IMAGE.${key}`) as string;
       }
     });
-    return <MissionCreateInfoForm info={this.info}>
-      <div>
+    return <MissionCreateInfoForm info={this.info}
+                                  submit={this.submit}
+                                  submitting={this.uploading}
+                                  title={locale.title}
+    >
         <FormItem valid={this.info.allowedTagsValid} messageOnInvalid={locale.requireTags}>
           <span style={{marginRight: "16px"}}>{locale.tags}</span>
           <Checkbox checked={this.info.allowCustomTag} onChange={this.onAllowCustomTagChanged}>
@@ -158,14 +161,14 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
                        placeholder={locale.tags}
           />
         </FormItem>
-        <FormItem valid={this.info.imageTypesValid} messageOnInvalid={locale["IMAGE.requireTypes"]}>
-          <p>{locale["IMAGE.types.name"]}</p>
-          <CheckboxGroup options={Object.keys(ImageMissionType).map(x => ({label: locale[`IMAGE.types.${x}`], value: x}))}
+        <FormItem valid={this.info.imageTypesValid} messageOnInvalid={locale["requireTypes"]}>
+          <p>{locale["types.name"]}</p>
+          <CheckboxGroup options={Object.keys(ImageMissionType).map(x => ({label: locale[`types.${x}`], value: x}))}
                          value={toJS(this.info.imageMissionTypes)}
                          onChange={this.onTypeChange}/>
         </FormItem>
-        <FormItem valid={this.info.imagesValid} messageOnInvalid={locale["IMAGE.requireImages"]}>
-          <p>{locale["IMAGE.images"]}</p>
+        <FormItem valid={this.info.imagesValid} messageOnInvalid={locale["requireImages"]}>
+          <p>{locale["images"]}</p>
           <ImageUploadPanel onFileListChange={this.onFileListChange}
                             fileList={this.info.images}
                             maxFileNum={Number.MAX_SAFE_INTEGER}
@@ -173,7 +176,6 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
                             buttonChildren={locale.selectFile}
           />
         </FormItem>
-      </div>
     </MissionCreateInfoForm>;
   }
 }

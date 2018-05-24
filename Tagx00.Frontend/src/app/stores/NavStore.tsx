@@ -13,4 +13,6 @@ export class NavStore {
   @observable navMenuShown: boolean = true;
 
   @observable currentSubNavs: NavItemProps[] = [];
+
+  @observable pageWideLoadingBarShown = false;
 }

@@ -38,7 +38,7 @@ export class ImageMissionCreateInfo extends MissionCreateInfo {
     return !this.createAttempted || this.images.length > 0;
   }
 
-  @computed get valid() {
-    return super.baseValid() && this.allowedTagsValid && this.imageTypesValid && this.imagesValid;
+  valid() {
+    return super.valid() && this.allowedTagsValid && this.imageTypesValid && this.imagesValid;
   }
 }

@@ -57,12 +57,9 @@ export abstract class MissionCreateInfo {
     return 1<=parsed && parsed <=5;
   }
 
-
-  baseValid() {
+  valid(): boolean {
     return this.titleValid && this.descriptionValid
       && this.dateRangeValid && this.minimalWorkerLevelValid && this.levelValid
       && this.creditsValid;
   }
-
-  abstract get valid(): boolean;
 }

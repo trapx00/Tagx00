@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { RequesterService } from "../../../../api/RequesterService";
 import { UserStore } from "../../../../stores/UserStore";
 import { action, observable, toJS } from "mobx";
@@ -6,7 +6,7 @@ import { PayService } from "../../../../api/PayService";
 import { Inject } from "react.di";
 import { RouterStore } from "../../../../stores/RouterStore";
 import { LocaleStore } from "../../../../stores/LocaleStore";
-import { Col, DatePicker, Form, Input, Row } from "antd";
+import { Col, DatePicker, Form, Input, Row, Button } from "antd";
 import { TopicService } from "../../../../api/TopicService";
 import moment from 'moment';
 import { FormItem } from "../../../../components/Form/FormItem";
@@ -14,24 +14,23 @@ import { TopicSelector } from "./image/TopicSelector";
 import { ImageUploadPanel } from "./ImageUploadPanel";
 import { CreditInput } from "../../../../components/Pay/CreditInput";
 import { MissionCreateInfo } from "./MissionCreateInfo";
+import { observer } from "mobx-react";
 
 const { RangePicker } = DatePicker;
 
 interface Props {
   info: MissionCreateInfo;
+  submit(): Promise<void>;
+  submitting: boolean;
+  title: ReactNode;
 }
 
 const ID_PREFIX = "missions.createMission.";
 
+@observer
 export class MissionCreateInfoForm extends React.Component<Props, {}> {
-  @observable uploading = false;
 
   @Inject localeStore: LocaleStore;
-  @Inject routerStore: RouterStore;
-  @Inject requesterService: RequesterService;
-  @Inject topicService: TopicService;
-  @Inject payService: PayService;
-  @Inject userStore: UserStore;
 
 
 
@@ -42,8 +41,6 @@ export class MissionCreateInfoForm extends React.Component<Props, {}> {
   @action onDescriptionChange = (e) => {
     this.props.info.description = e.target.value;
   };
-
-
 
 
   @action onCoverImageChange = (files) => {
@@ -72,6 +69,10 @@ export class MissionCreateInfoForm extends React.Component<Props, {}> {
     this.props.info.topics = selected;
   };
 
+  submit = async () => {
+    await this.props.submit();
+  };
+
   render() {
     const locale: any = new Proxy({}, {
       get: (target, key) => {
@@ -80,6 +81,7 @@ export class MissionCreateInfoForm extends React.Component<Props, {}> {
     });
     return <Row gutter={16}>
       <Col xs={24} sm={12}>
+        <h3>{locale.generalProperties}</h3>
         <Form className="login-form" >
             <FormItem valid={this.props.info.titleValid} messageOnInvalid={locale.requireTitle}>
               <Input addonBefore={locale.title}
@@ -133,7 +135,11 @@ export class MissionCreateInfoForm extends React.Component<Props, {}> {
         </Form>
       </Col>
       <Col xs={24} sm={12}>
+        <h3>{this.props.title}</h3>
         {this.props.children}
+        <Button type={"primary"} loading={this.props.submitting} onClick={this.submit}>
+          {locale["submit"]}
+        </Button>
       </Col>
     </Row>
   }

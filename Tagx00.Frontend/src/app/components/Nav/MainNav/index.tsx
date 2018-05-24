@@ -39,17 +39,15 @@ export class MainNav extends React.Component<{}, {}> {
   }
 
   get selectedRoute() {
-    let selected = Object.keys(navRoutes)
+    const selected = Object.keys(navRoutes)
       .map(x => navRoutes[x])
       .filter(x => x.match(this.routerStore.path))
       .map(x => x.path);
-    Object.keys(this.currentSubMenuMap).map(x => this.currentSubMenuMap[x])
-      .map(x => x.filter(y => y.match(this.routerStore.path)).map(x => x.path))
-      .forEach(x => {
-        selected = selected.concat(x)
-      });
-    console.log(selected);
-    return selected;
+
+    const selectedSubMenus= Object.keys(this.currentSubMenuMap).map(x => this.currentSubMenuMap[x])
+      .map(x => x.filter(y => y.match(this.routerStore.path)).map(x => x.path));
+
+    return selectedSubMenus.reduce((prev, curr) => ([...prev, ...curr]), selected);
   }
 
   jumpTo = (path: string) => {
@@ -67,7 +65,6 @@ export class MainNav extends React.Component<{}, {}> {
         {Object.keys(navRoutes)
           .map(x => {
               const root = navRoutes[x];
-              console.log(submenuMap);
               const subs: NavItemProps[] = this.currentSubMenuMap[x];
               if (!subs || subs.length == 0) {
                 return <Menu.Item key={root.path}>
@@ -81,9 +78,7 @@ export class MainNav extends React.Component<{}, {}> {
                   <span>
                   <Icon type={root.iconName}/>
                   <span><LocaleMessage id={root.id}/></span>
-                </span>}
-
-                >
+                </span>}>
                   {subs.map(sub =>
                     <Menu.Item key={sub.path}>
                       <Icon type={sub.iconName}/>
