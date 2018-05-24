@@ -1,7 +1,6 @@
 package trapx00.tagx00.entity.mission;
 
 
-import trapx00.tagx00.entity.mission.favorite.ImageFavorite;
 import trapx00.tagx00.entity.mission.favorite.TextFavorite;
 import trapx00.tagx00.entity.mission.instance.TextInstance;
 import trapx00.tagx00.publicdatas.mission.MissionState;

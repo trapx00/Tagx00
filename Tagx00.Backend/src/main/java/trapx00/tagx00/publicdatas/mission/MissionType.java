@@ -9,7 +9,7 @@ import trapx00.tagx00.vo.mission.text.TextMissionProperties;
 
 public enum MissionType {
     IMAGE("IMAGE", ImageMissionProperties.class, ImageInstanceDetailVo.class),
-    TEXT("TEXT",TextMissionProperties.class, TextInstanceDetailVo.class);
+    TEXT("TEXT", TextMissionProperties.class, TextInstanceDetailVo.class);
 
     public final Class<? extends MissionProperties> propertiesClass;
     public final Class<? extends InstanceDetailVo> instanceDetailVoClass;

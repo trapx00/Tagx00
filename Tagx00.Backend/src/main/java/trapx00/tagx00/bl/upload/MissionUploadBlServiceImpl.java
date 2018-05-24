@@ -18,6 +18,7 @@ import trapx00.tagx00.util.PathUtil;
 
 import javax.imageio.stream.FileImageOutputStream;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -84,7 +85,8 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
     public UploadMissionTextResponse uploadText(String missionId, MultipartFile multipartFile) throws SystemException {
         //保存到临时文件
         try {
-            TextMission textMission=(TextMission) requesterMissionDataService.getMissionByMissionId(missionId, MissionType.)
+            TextMission textMission = (TextMission) requesterMissionDataService.getMissionByMissionId(missionId, MissionType.TEXT);
+            List<String> textUrls = new ArrayList<>();
             File file = new File(TEMP_PATH + "/text");
             FileImageOutputStream fileWriter = new FileImageOutputStream(file);
             fileWriter.write(multipartFile.getBytes());
@@ -124,9 +126,11 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                 in.close();
                 out.close();
                 String url = textDataService.uploadText(generateTextKey(missionId, index), file);
-                
+                textUrls.add(url);
                 index++;
             }
+            textMission.setTextUrls(textUrls);
+            requesterMissionDataService.updateMission(textMission);
             System.out.println("******************解压完毕********************");
             return new UploadMissionTextResponse("success");
         } catch (IOException e) {
