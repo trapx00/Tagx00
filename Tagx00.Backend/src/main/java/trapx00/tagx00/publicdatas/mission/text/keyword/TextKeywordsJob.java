@@ -16,6 +16,7 @@ public class TextKeywordsJob extends TextJob {
     }
 
     public TextKeywordsJob(List<TagTuple> tagTuples) {
+        super(TextMissionType.KEYWORDS);
         this.tagTuples = tagTuples;
     }
 

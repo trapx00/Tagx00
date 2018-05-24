@@ -1,5 +1,5 @@
 import { Instance } from "../Instance";
 
-export class TextInstance extends Instance {
+export interface TextInstance extends Instance {
 
 }

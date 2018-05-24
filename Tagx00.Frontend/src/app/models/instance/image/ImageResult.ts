@@ -1,13 +1,8 @@
 import { ImageJob } from "./job/ImageJob";
+import { WorkResult } from "../WorkResult";
 
-export interface ImageResult {
-  id: number;
-
-  instanceId: string;
-
+export interface ImageResult extends WorkResult {
   imageJob: ImageJob;
 
   url: string;
-
-  isDone: boolean;
 }

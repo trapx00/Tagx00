@@ -21,10 +21,9 @@ export class MissionService {
 
   }
 
-  async getAMission(missionId: number | string, token: string): Promise<ImageMissionDetail> {
+  async getAMission(missionId: string): Promise<ImageMissionDetail> {
     const res = await this.http.fetch({
       path: `/mission/${missionId}`,
-      token: token
     });
 
     if (res.ok) {

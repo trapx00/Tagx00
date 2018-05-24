@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tag, Input, Checkbox } from 'antd';
+import { Checkbox, Input, Tag } from 'antd';
 
 export interface TagSelectorProps {
   availableTags?: string[];

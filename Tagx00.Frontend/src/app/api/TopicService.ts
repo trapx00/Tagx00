@@ -19,12 +19,11 @@ export class TopicService {
     return res.response;
   }
 
-  async deleteTopics(topicDelete:TopicDelete, token: string): Promise<Response> {
+  async deleteTopics(topicDelete:TopicDelete): Promise<Response> {
     const res = await this.http.fetch({
       path: "mission/topics",
       method:HttpMethod.DELETE,
       body:topicDelete,
-      token:token
     });
     if (res.ok) {
       return res.response;
@@ -34,12 +33,11 @@ export class TopicService {
 
   }
 
-  async addTopics(topicSave:TopicSave, token: string): Promise<Response> {
+  async addTopics(topicSave:TopicSave): Promise<Response> {
     const res = await this.http.fetch({
       path: "mission/topics",
       method:HttpMethod.PUT,
       body:topicSave,
-      token:token
     });
     if (res.ok) {
       return res.response;

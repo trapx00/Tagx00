@@ -1,4 +1,3 @@
-import CheckableTag from "antd/lib/tag/CheckableTag";
 import * as React from "react";
 
 

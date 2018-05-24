@@ -40,7 +40,7 @@ export class WorkerInstanceCard extends React.PureComponent<Props, any> {
 
   abandonMission = async () => {
     const missionId = this.props.instance.missionId;
-    await this.workerService.abandonMission(missionId, this.userStore.token);
+    await this.workerService.abandonMission(missionId);
     this.props.refresh();
   };
 
@@ -103,7 +103,7 @@ export class WorkerInstanceCard extends React.PureComponent<Props, any> {
 
   renderCard = async () => {
     const {instance} = this.props;
-    const mission: ImageMissionDetail = await this.missionService.getAMission(instance.missionId, this.userStore.token);
+    const mission: ImageMissionDetail = await this.missionService.getAMission(instance.missionId);
     const {publicItem} = mission;
     return <Card
       style={{width: 300}}

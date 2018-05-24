@@ -1,5 +1,6 @@
 export enum MissionType {
-  IMAGE = "IMAGE"
+  IMAGE = "IMAGE",
+  TEXT = "TEXT"
 }
 
 export enum MissionState {

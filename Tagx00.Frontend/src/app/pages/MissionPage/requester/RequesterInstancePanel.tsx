@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { LocaleDate, LocaleMessage, Localize } from "../../../internationalization/components";
-import { Input, Table, Divider } from 'antd';
+import { Divider, Input, Table } from 'antd';
 import { Instance } from "../../../models/instance/Instance";
 import { Inject } from "react.di";
 import { RequesterService } from "../../../api/RequesterService";
@@ -78,7 +78,7 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
 
   async fetchInfo() {
     this.setState({loading: true});
-    const result = await this.requesterService.getAllInstancesByMissionId(this.state.missionId, this.userStore.token);
+    const result = await this.requesterService.getAllInstancesByMissionId(this.state.missionId);
     this.setState({data: result.instances, loading: false});
   }
 

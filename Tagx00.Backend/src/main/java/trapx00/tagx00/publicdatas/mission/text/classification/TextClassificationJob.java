@@ -10,12 +10,11 @@ import java.util.List;
 public class TextClassificationJob extends TextJob {
     private List<TagTuple> tagTuples;
 
-    public TextClassificationJob(TextMissionType type, List<TagTuple> tagTuples) {
-        super(type);
-        this.tagTuples = tagTuples;
+    public TextClassificationJob() {
     }
 
     public TextClassificationJob(List<TagTuple> tagTuples) {
+        super(TextMissionType.CLASSIFICATION);
         this.tagTuples = tagTuples;
     }
 

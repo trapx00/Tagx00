@@ -47,7 +47,7 @@ export class ImageWorkStore {
     return {
       missionType: MissionType.IMAGE,
       imageResults: this.currentNotations.map((x, index) => ({
-        id: index,
+        workResultId: index+"",
         instanceId: instance.instanceId,
         imageJob: x.job,
         url: x.imageUrl,
@@ -134,22 +134,21 @@ export class ImageWorkStore {
     }
   }
 
-  @action async saveProgress(token: string) {
+  @action async saveProgress() {
     this.saving = true;
     console.log(toJS(this.currentInstanceDetail));
-    await this.workerService.saveProgress(this.missionDetail.publicItem.missionId, this.currentInstanceDetail, token);
+    await this.workerService.saveProgress(this.missionDetail.publicItem.missionId, this.currentInstanceDetail);
     runInAction(() => {
       this.saving = false;
     });
   };
 
-  submit = async (token: string) => {
+  submit = async () => {
     const submitVo = this.currentInstanceDetail;
     submitVo.instance.submitDate = new Date();
     const result = await this.workerService.submit(
       this.missionDetail.publicItem.missionId,
       submitVo,
-      token
     );
     return result;
   };

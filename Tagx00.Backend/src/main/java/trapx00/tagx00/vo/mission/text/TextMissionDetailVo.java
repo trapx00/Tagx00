@@ -13,9 +13,6 @@ public class TextMissionDetailVo extends MissionDetailVo {
 
     private List<TextMissionSetting> textMissionTypes;
 
-    public TextMissionDetailVo() {
-    }
-
     public TextMissionDetailVo(List<String> textUrls, List<TextMissionSetting> textMissionTypes) {
         this.textUrls = textUrls;
         this.textMissionTypes = textMissionTypes;
@@ -42,4 +39,5 @@ public class TextMissionDetailVo extends MissionDetailVo {
     public void setTextMissionTypes(List<TextMissionSetting> textMissionTypes) {
         this.textMissionTypes = textMissionTypes;
     }
+
 }

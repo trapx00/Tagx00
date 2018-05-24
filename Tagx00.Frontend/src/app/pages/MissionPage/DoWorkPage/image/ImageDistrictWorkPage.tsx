@@ -11,7 +11,6 @@ import { DistrictPanel } from "../../../../components/ImageWork/DrawingPad/Distr
 import { DistrictAddingModeController } from "../../../../components/ImageWork/DistrictAddingModeController";
 import { DistrictDrawingSession } from "../../../../components/ImageWork/DrawingPad/DistrictPanel/DistrictCanvas/DistrictDrawingSession";
 import { District } from "../../../../components/ImageWork/DrawingPad/DistrictPanel/Districts";
-import { WorkPageLayout } from "../WorkPageLayout";
 import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
 

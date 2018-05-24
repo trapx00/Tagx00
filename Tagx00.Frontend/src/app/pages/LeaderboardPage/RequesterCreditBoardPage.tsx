@@ -1,11 +1,10 @@
 import React from "react";
 import { Table } from "antd";
 import { Inject } from "react.di";
-import { RequesterService } from "../../api/RequesterService";
 import { UserStore } from "../../stores/UserStore";
 import { DefinitionItem } from "../../components/DefinitionItem";
 import { LocaleMessage } from "../../internationalization/components";
-import { AsyncComponent, ObserverAsyncComponent } from "../../router/AsyncComponent";
+import { AsyncComponent } from "../../router/AsyncComponent";
 import { UserRole } from "../../models/user/User";
 import { LeaderboardService } from "../../api/LeaderboardService";
 import { Loading } from "../../components/Common/Loading";
@@ -13,7 +12,7 @@ import { MajorTitle, MinorTitle } from "./common";
 import { observer } from "mobx-react";
 
 @observer
-export class RequesterCreditBoardPage extends React.Component<{}, {}> {
+export default class RequesterCreditBoardPage extends React.Component<{}, {}> {
   @Inject leaderboardService: LeaderboardService;
   @Inject userStore: UserStore;
 

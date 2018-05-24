@@ -18,9 +18,9 @@ export class WorkerSeeResultEntry extends React.Component<Props, {}> {
 
   renderContent = async () => {
     const token = this.userStore.token;
-    const instanceDetail = (await this.workerService.getInstanceDetail(this.props.missionId, token)).detail;
-    const missionDetail = await this.missionService.getAMission(this.props.missionId, token);
-    return <DoWorkPage instanceDetail={instanceDetail} missionDetail={missionDetail} token={token} readonly={true}/>
+    const instanceDetail = (await this.workerService.getInstanceDetail(this.props.missionId)).detail;
+    const missionDetail = await this.missionService.getAMission(this.props.missionId);
+    return <DoWorkPage instanceDetail={instanceDetail} missionDetail={missionDetail} readonly={true}/>
   };
 
   render() {

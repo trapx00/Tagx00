@@ -2,7 +2,6 @@ import React from "react";
 import { WorkerInstanceCard } from "../../../components/Mission/WorkerInstanceCard";
 import { Instance } from "../../../models/instance/Instance";
 import { CardPaneLayout } from "../../../layouts/CardPaneLayout";
-import { FinalizeModal } from "../requester/finalize/FinalizeModal";
 import { FinalizeInfo, FinalizeInfoModal } from "../requester/finalize/FinalizeInfoModal";
 
 interface Props {

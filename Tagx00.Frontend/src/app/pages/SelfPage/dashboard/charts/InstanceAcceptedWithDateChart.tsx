@@ -1,6 +1,6 @@
 import React from 'react';
 import { InstancesAcceptedPerDate } from "../../../../models/userInfo/AdminInfo";
-import { Chart as BizChart, Geom, Axis as BizAxis, Tooltip, Coord, Label, Legend, View, Guide, Shape } from 'bizCharts';
+import { Axis as BizAxis, Chart as BizChart, Geom, Tooltip } from 'bizCharts';
 
 interface Props {
   data: InstancesAcceptedPerDate[];

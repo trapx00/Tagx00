@@ -14,6 +14,7 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.upload.UploadMissionImageResponse;
+import trapx00.tagx00.response.upload.UploadMissionTextResponse;
 
 @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "')")
 @RestController
@@ -43,7 +44,7 @@ public class MissionUploadController {
     })
     public ResponseEntity<Response> uploadImage(@PathVariable("missionId") String missionId, @RequestParam("files[]") MultipartFile multipartFile, @RequestParam("order") int order, @RequestParam("isCover") boolean isCover) {
         try {
-            return new ResponseEntity<>(missionUploadBlService.uploadFiles(missionId, multipartFile, order, isCover), HttpStatus.CREATED);
+            return new ResponseEntity<>(missionUploadBlService.uploadImage(missionId, multipartFile, order, isCover), HttpStatus.CREATED);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
@@ -53,7 +54,7 @@ public class MissionUploadController {
     }
 
     @Authorization(value = "发布者")
-    @ApiOperation(value = "发布者上传文件", notes = "发布者上传本次任务的图片，传输时限为10min")
+    @ApiOperation(value = "发布者上传文本文件", notes = "发布者上传本次任务的文本文件，传输时限为10min")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "multipartFile", value = "图片", required = true, dataType = "MultipartFile"),
             @ApiImplicitParam(name = "order", value = "图片顺序", required = true, dataType = "int"),
@@ -62,12 +63,17 @@ public class MissionUploadController {
     })
     @RequestMapping(value = "/upload/mission/text/{missionId}", method = RequestMethod.POST)
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Text uploaded", response = UploadMissionImageResponse.class),
+            @ApiResponse(code = 201, message = "Text uploaded", response = UploadMissionTextResponse.class),
             @ApiResponse(code = 403, message = "Upload session timed out", response = WrongResponse.class),
             @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
             @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
-    public ResponseEntity<Response> uploadText(@PathVariable("missionId") String missionId, @RequestParam("files[]") MultipartFile multipartFile, @RequestParam("order") int order) {
-        return null;
+    public ResponseEntity<Response> uploadText(@PathVariable("missionId") String missionId, @RequestParam("files[]") MultipartFile multipartFile) {
+        try {
+            return new ResponseEntity<>(missionUploadBlService.uploadText(missionId, multipartFile), HttpStatus.CREATED);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
