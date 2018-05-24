@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.NotMissionException;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
 import trapx00.tagx00.util.MissionUtil;
+import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
-import trapx00.tagx00.vo.mission.image.ImageMissionPublicItemVo;
-import trapx00.tagx00.vo.mission.text.TextMissionPublicItemVo;
 import trapx00.tagx00.vo.paging.PagingInfoVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
@@ -29,11 +29,9 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
     }
 
     @Override
-    public MissionDetailResponse getOneMissionDetail(String missionId) throws NotMissionException {
-
+    public MissionDetailResponse getOneMissionDetail(String missionId) throws NotMissionException, MissionIdDoesNotExistException {
         MissionDetailVo missionDetailVos = publicMissionDataService.getOneMissionDetail(missionId, MissionUtil.getType(missionId));
-        if (missionDetailVos == null)
-            throw new NotMissionException();
+        publicMissionDataService.addBrowserUserToMission(missionId, UserInfoUtil.getUsername());
         return new MissionDetailResponse(missionDetailVos);
     }
 
@@ -84,24 +82,12 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
         ArrayList<MissionPublicItemVo> result = new ArrayList<>();
         for (MissionPublicItemVo missionPublicItemVo : missionPublicItemVos) {
-            switch (missionPublicItemVo.getMissionType()){
+            switch (missionPublicItemVo.getMissionType()) {
                 case TEXT:
-                    if (((ImageMissionPublicItemVo)missionPublicItemVo).getTopics().contains(searchTarget)) {
-                        result.add(missionPublicItemVo);
-                    } else if (missionPublicItemVo.getTitle().contains(searchTarget)) {
-                        result.add(missionPublicItemVo);
-                    } else if (missionPublicItemVo.getDescription().contains(searchTarget)) {
-                        result.add(missionPublicItemVo);
-                    }
+                    search(searchTarget, result, missionPublicItemVo);
                     break;
                 case IMAGE:
-                    if (((TextMissionPublicItemVo)missionPublicItemVo).getTopics().contains(searchTarget)) {
-                        result.add(missionPublicItemVo);
-                    } else if (missionPublicItemVo.getTitle().contains(searchTarget)) {
-                        result.add(missionPublicItemVo);
-                    } else if (missionPublicItemVo.getDescription().contains(searchTarget)) {
-                        result.add(missionPublicItemVo);
-                    }
+                    search(searchTarget, result, missionPublicItemVo);
                     break;
             }
         }
@@ -119,6 +105,16 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         int totalCount = missionPublicItemVos.length;
         int pageNum = (int) Math.ceil(totalCount * 1.0 / pagingQueryVo.getPageSize());
         return new MissionPublicResponse(new PagingInfoVo(totalCount, pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize(), pageNum), pArrayList);
+    }
+
+    private void search(String searchTarget, ArrayList<MissionPublicItemVo> result, MissionPublicItemVo missionPublicItemVo) {
+        if (missionPublicItemVo.getTopics().contains(searchTarget)) {
+            result.add(missionPublicItemVo);
+        } else if (missionPublicItemVo.getTitle().contains(searchTarget)) {
+            result.add(missionPublicItemVo);
+        } else if (missionPublicItemVo.getDescription().contains(searchTarget)) {
+            result.add(missionPublicItemVo);
+        }
     }
 
 }

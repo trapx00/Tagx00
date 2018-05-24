@@ -10,13 +10,12 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "imageInstance")
 public class ImageInstance extends Instance {
     @Column(name = "imageResults")
     @ElementCollection(targetClass = ImageResult.class)
     private List<ImageResult> imageResults;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "imageMission_id")
+    @JoinColumn(name = "mission_missionId")
     private ImageMission imageMission;
 
     public ImageInstance() {

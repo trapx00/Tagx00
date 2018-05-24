@@ -3,12 +3,12 @@ package trapx00.tagx00.entity.mission.instance;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "instance")
 public class Instance {
     @Id
     private String instanceId;

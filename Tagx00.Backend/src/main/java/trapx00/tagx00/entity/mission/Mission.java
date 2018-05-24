@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "mission")
 public class Mission {
     @Id
     private String missionId;

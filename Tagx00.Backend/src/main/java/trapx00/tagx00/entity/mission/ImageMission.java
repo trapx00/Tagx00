@@ -7,12 +7,10 @@ import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.image.ImageMissionType;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "imageMission")
 public class ImageMission extends Mission {
     @Column(name = "allowCustomTag")
     private boolean allowCustomTag;

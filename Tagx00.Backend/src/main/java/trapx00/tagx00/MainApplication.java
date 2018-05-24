@@ -22,9 +22,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableAutoConfiguration(exclude = {JacksonAutoConfiguration.class})
 public class MainApplication {
-//    static {
-//        PathUtil.initDatabase();
-//    }
 
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class, args);

@@ -8,7 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.entity.account.Role;
-import trapx00.tagx00.exception.viewexception.NotMissionException;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
@@ -60,7 +60,7 @@ public class PublicMissionController {
     public ResponseEntity<Response> getOneMission(@PathVariable(name = "missionId") String missionId) {
         try {
             return new ResponseEntity<>(publicMissionBlService.getOneMissionDetail(missionId), HttpStatus.OK);
-        } catch (NotMissionException e) {
+        } catch (MissionIdDoesNotExistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }

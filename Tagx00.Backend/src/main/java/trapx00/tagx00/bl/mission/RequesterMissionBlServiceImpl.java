@@ -1,7 +1,5 @@
 package trapx00.tagx00.bl.mission;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JsonConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,6 +7,7 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
 import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
+import trapx00.tagx00.dataservice.topic.TopicDataService;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
@@ -46,15 +45,17 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
     private final PythonService pythonService;
+    private final TopicDataService topicDataService;
 
     @Autowired
     public RequesterMissionBlServiceImpl(RequesterMissionDataService requesterMissionDataService,
-                                         UserDataService userDataService, @Qualifier("jwtUserDetailsServiceImpl") UserDetailsService userDetailsService, JwtService jwtService, PythonService pythonService) {
+                                         UserDataService userDataService, @Qualifier("jwtUserDetailsServiceImpl") UserDetailsService userDetailsService, JwtService jwtService, PythonService pythonService, TopicDataService topicDataService) {
         this.requesterMissionDataService = requesterMissionDataService;
         this.userDataService = userDataService;
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
         this.pythonService = pythonService;
+        this.topicDataService = topicDataService;
     }
 
     /**
@@ -66,8 +67,13 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     @Override
     public MissionCreateResponse createMission(MissionCreateVo mission) throws SystemException {
         KeysVo keysVo = pythonService.extractKey(mission.getDescription());
-//        mission.setTopics(JSONArray.toList(keysVo.getKeys(),new String(),new JsonConfig()));
+        for (String topic : keysVo.getKeys()) {
+            if (!topicDataService.isTopicExists(topic)) {
+                topicDataService.addTopic(topic);
+            }
+        }
         String username = UserInfoUtil.getUsername();
+        mission.setTopics(keysVo.getKeys());
         String missionId = requesterMissionDataService.saveMission(generateMission(mission));
         User user = userDataService.getUserByUsername(username);
         user.setCredits(user.getCredits() - mission.getCredits());
@@ -180,8 +186,8 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
         switch (missionCreateVo.getProperties().getType()) {
             case IMAGE:
                 return new ImageMission(getNextId(), missionCreateVo.getTitle(), missionCreateVo.getDescription(),
-                        missionCreateVo.getTopics(), ((ImageMissionProperties)missionCreateVo.getProperties()).isAllowCustomTag(),
-                        ((ImageMissionProperties)missionCreateVo.getProperties()).getAllowedTags(),
+                        missionCreateVo.getTopics(), ((ImageMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
+                        ((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags(),
                         missionCreateVo.getProperties().getType(), MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(), "",
                         UserInfoUtil.getUsername(), missionCreateVo.getLevel(),
@@ -190,13 +196,13 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(),
                         new ArrayList<>(), new ArrayList<>());
             case TEXT:
-                return new TextMission(getNextId(),missionCreateVo.getTitle(),missionCreateVo.getDescription(),
-                        missionCreateVo.getTopics(),missionCreateVo.getProperties().getType(),MissionState.PENDING,
-                        missionCreateVo.getStart(),missionCreateVo.getEnd(),
-                        "",UserInfoUtil.getUsername(),missionCreateVo.getLevel(),missionCreateVo.getCredits(),
-                        missionCreateVo.getMinimalWorkerLevel(),new ArrayList<>(),new ArrayList<>(),
+                return new TextMission(getNextId(), missionCreateVo.getTitle(), missionCreateVo.getDescription(),
+                        missionCreateVo.getTopics(), missionCreateVo.getProperties().getType(), MissionState.PENDING,
+                        missionCreateVo.getStart(), missionCreateVo.getEnd(),
+                        "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(),
+                        missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(),
                         ((TextMissionProperties) missionCreateVo.getProperties()).getTextMissionTypes()
-                        ,new ArrayList<>(),new ArrayList<>()
+                        , new ArrayList<>(), new ArrayList<>()
                 );
         }
         return null;

@@ -5,14 +5,13 @@ import trapx00.tagx00.entity.mission.favorite.TextFavorite;
 import trapx00.tagx00.entity.mission.instance.TextInstance;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
-import trapx00.tagx00.vo.mission.text.TextMissionSetting;
 import trapx00.tagx00.vo.mission.text.TextMissionType;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+
 @Entity
-@Table(name = "textMission")
 public class TextMission extends Mission {
     @Column(name = "textUrls")
     @ElementCollection(targetClass = String.class)
