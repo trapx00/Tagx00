@@ -10,6 +10,11 @@ import java.util.List;
 public class TextKeywordsJob extends TextJob {
     private List<TagTuple> tagTuples;
 
+    public TextKeywordsJob(TextMissionType type, List<TagTuple> tagTuples) {
+        super(type);
+        this.tagTuples = tagTuples;
+    }
+
     public TextKeywordsJob(List<TagTuple> tagTuples) {
         super(TextMissionType.KEYWORDS);
         this.tagTuples = tagTuples;

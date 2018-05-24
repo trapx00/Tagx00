@@ -10,6 +10,8 @@ import trapx00.tagx00.response.mission.MissionPublicResponse;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
+import trapx00.tagx00.vo.mission.image.ImageMissionPublicItemVo;
+import trapx00.tagx00.vo.mission.text.TextMissionPublicItemVo;
 import trapx00.tagx00.vo.paging.PagingInfoVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
@@ -82,12 +84,25 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
         ArrayList<MissionPublicItemVo> result = new ArrayList<>();
         for (MissionPublicItemVo missionPublicItemVo : missionPublicItemVos) {
-            if (missionPublicItemVo.getTopics().contains(searchTarget)) {
-                result.add(missionPublicItemVo);
-            } else if (missionPublicItemVo.getTitle().contains(searchTarget)) {
-                result.add(missionPublicItemVo);
-            } else if (missionPublicItemVo.getDescription().contains(searchTarget)) {
-                result.add(missionPublicItemVo);
+            switch (missionPublicItemVo.getMissionType()){
+                case TEXT:
+                    if (((ImageMissionPublicItemVo)missionPublicItemVo).getTopics().contains(searchTarget)) {
+                        result.add(missionPublicItemVo);
+                    } else if (missionPublicItemVo.getTitle().contains(searchTarget)) {
+                        result.add(missionPublicItemVo);
+                    } else if (missionPublicItemVo.getDescription().contains(searchTarget)) {
+                        result.add(missionPublicItemVo);
+                    }
+                    break;
+                case IMAGE:
+                    if (((TextMissionPublicItemVo)missionPublicItemVo).getTopics().contains(searchTarget)) {
+                        result.add(missionPublicItemVo);
+                    } else if (missionPublicItemVo.getTitle().contains(searchTarget)) {
+                        result.add(missionPublicItemVo);
+                    } else if (missionPublicItemVo.getDescription().contains(searchTarget)) {
+                        result.add(missionPublicItemVo);
+                    }
+                    break;
             }
         }
         ArrayList<MissionPublicItemVo> pArrayList = new ArrayList<>();

@@ -32,6 +32,7 @@ import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
+import trapx00.tagx00.vo.mission.text.TextMissionProperties;
 import trapx00.tagx00.vo.ml.KeysVo;
 
 import java.util.ArrayList;
@@ -189,7 +190,14 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(),
                         new ArrayList<>(), new ArrayList<>());
             case TEXT:
-                return new TextMission( );
+                return new TextMission(getNextId(),missionCreateVo.getTitle(),missionCreateVo.getDescription(),
+                        missionCreateVo.getTopics(),missionCreateVo.getProperties().getType(),MissionState.PENDING,
+                        missionCreateVo.getStart(),missionCreateVo.getEnd(),
+                        "",UserInfoUtil.getUsername(),missionCreateVo.getLevel(),missionCreateVo.getCredits(),
+                        missionCreateVo.getMinimalWorkerLevel(),new ArrayList<>(),new ArrayList<>(),
+                        ((TextMissionProperties) missionCreateVo.getProperties()).getTextMissionTypes()
+                        ,new ArrayList<>(),new ArrayList<>()
+                );
         }
         return null;
     }

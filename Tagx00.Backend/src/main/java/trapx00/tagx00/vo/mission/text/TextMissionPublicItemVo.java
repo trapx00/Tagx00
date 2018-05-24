@@ -13,8 +13,8 @@ public class TextMissionPublicItemVo extends MissionPublicItemVo {
     public TextMissionPublicItemVo() {
     }
 
-    public TextMissionPublicItemVo(String missionId, String title, String description, List<String> topics, boolean allowCustomTag, List<String> allowedTags, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername, List<TextMissionType> missionTypes) {
-        super(missionId, title, description, topics, allowCustomTag, allowedTags, missionType, start, end, coverUrl, level, credits, minimalWorkerLevel, jobCount, requesterUsername);
+    public TextMissionPublicItemVo(String missionId, String title, String description, List<String> topics, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername, List<TextMissionType> missionTypes) {
+        super(missionId, title, description, topics, missionType, start, end, coverUrl, level, credits, minimalWorkerLevel, jobCount, requesterUsername);
         this.missionTypes = missionTypes;
     }
 

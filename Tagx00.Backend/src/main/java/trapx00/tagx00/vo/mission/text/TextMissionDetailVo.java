@@ -11,7 +11,33 @@ public class TextMissionDetailVo extends MissionDetailVo {
 
     private List<String> textUrls;
 
-    private List<TextMissionSetting> settings;
+    private List<TextMissionSetting> textMissionTypes;
 
+    public TextMissionDetailVo(List<String> textUrls, List<TextMissionSetting> textMissionTypes) {
+        this.textUrls = textUrls;
+        this.textMissionTypes = textMissionTypes;
+    }
+
+    public TextMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, String requesterUsername, List<String> textUrls, List<TextMissionSetting> textMissionTypes) {
+        super(publicItem, missionState, requesterUsername);
+        this.textUrls = textUrls;
+        this.textMissionTypes = textMissionTypes;
+    }
+
+    public List<String> getTextUrls() {
+        return textUrls;
+    }
+
+    public void setTextUrls(List<String> textUrls) {
+        this.textUrls = textUrls;
+    }
+
+    public List<TextMissionSetting> getTextMissionTypes() {
+        return textMissionTypes;
+    }
+
+    public void setTextMissionTypes(List<TextMissionSetting> textMissionTypes) {
+        this.textMissionTypes = textMissionTypes;
+    }
 
 }

@@ -8,12 +8,25 @@ import java.util.List;
 public class TextMissionProperties extends MissionProperties {
 
     private List<TextMissionSetting> settings;
+    private List<TextMissionType> textMissionTypes;
+
+    public List<TextMissionType> getTextMissionTypes() {
+        return textMissionTypes;
+    }
+
+    public void setTextMissionTypes(List<TextMissionType> textMissionTypes) {
+        this.textMissionTypes = textMissionTypes;
+    }
 
     public TextMissionProperties() {
     }
 
     public TextMissionProperties(List<TextMissionSetting> settings) {
+
         this.settings = settings;
+        for( TextMissionSetting a:settings){
+            textMissionTypes.add(a.getTextMissionType());
+        }
     }
 
     public TextMissionProperties(MissionType type, List<TextMissionSetting> settings) {

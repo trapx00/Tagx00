@@ -45,7 +45,11 @@
 //    @Test
 //    public void findImageResultById() {
 //        ImageResult integer = fileService.findOne("1", ImageResult.class);
+
+//        System.out.println(((ImageWholeJob) integer.getTextJob()).getTuple().getDescriptions().get(0));
+
 //        System.out.println(((ImageWholeJob) integer.getImageJob()).getTuple().getDescriptions().get(0));
+
 //    }
 //
 //    @Test
