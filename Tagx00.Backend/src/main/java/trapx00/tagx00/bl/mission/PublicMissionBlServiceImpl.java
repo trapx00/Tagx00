@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
-import trapx00.tagx00.exception.viewexception.NotMissionException;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
 import trapx00.tagx00.util.MissionUtil;
@@ -29,7 +28,7 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
     }
 
     @Override
-    public MissionDetailResponse getOneMissionDetail(String missionId) throws NotMissionException, MissionIdDoesNotExistException {
+    public MissionDetailResponse getOneMissionDetail(String missionId) throws MissionIdDoesNotExistException {
         MissionDetailVo missionDetailVos = publicMissionDataService.getOneMissionDetail(missionId, MissionUtil.getType(missionId));
         publicMissionDataService.addBrowserUserToMission(missionId, UserInfoUtil.getUsername());
         return new MissionDetailResponse(missionDetailVos);
