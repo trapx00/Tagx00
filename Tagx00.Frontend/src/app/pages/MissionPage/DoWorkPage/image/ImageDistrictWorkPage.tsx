@@ -1,5 +1,5 @@
 import React from "react";
-import { ImageNotation } from "./ImageWorkStore";
+import { ImageNotation } from "./ImageWorkPageController";
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../../components/ImageWork/MissionTipCard";

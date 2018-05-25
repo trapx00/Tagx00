@@ -8,6 +8,7 @@ import { MissionService } from "../../../api/MissionService";
 import { InstanceDetail } from "../../../models/instance/InstanceDetail";
 import { MissionType } from "../../../models/mission/Mission";
 import { MissionDetail } from "../../../models/mission/MissionDetail";
+import { TextWorkPage } from "./text/TextWorkPage";
 
 interface Props {
   instanceDetail: InstanceDetail;
@@ -22,13 +23,24 @@ export class DoWorkPage extends React.Component<Props, any> {
   @Inject workerService: WorkerService;
   @Inject missionService: MissionService;
 
+  jumpBack = () => {
+    this.routerStore.jumpTo("/mission");
+  };
+
   render() {
     const {instanceDetail, missionDetail} = this.props;
-    if (missionDetail.publicItem.missionType === MissionType.IMAGE) {
-      return<ImageWorkPage instanceDetail={instanceDetail as any}
-                                 missionDetail={missionDetail as any}
-                                 jumpBack={() => this.routerStore.jumpTo("/mission")}
-                                 readonlyMode={this.props.readonly}
+    switch (missionDetail.publicItem.missionType) {
+      case MissionType.IMAGE:
+        return <ImageWorkPage instanceDetail={instanceDetail as any}
+                              missionDetail={missionDetail as any}
+                              jumpBack={this.jumpBack}
+                              readonlyMode={this.props.readonly}
+        />;
+      case MissionType.TEXT:
+        return <TextWorkPage instanceDetail={instanceDetail as any}
+                             missionDetail={missionDetail as any}
+                             readonlyMode={this.props.readonly}
+                             jumpBack={this.jumpBack}
         />
     }
     return null;

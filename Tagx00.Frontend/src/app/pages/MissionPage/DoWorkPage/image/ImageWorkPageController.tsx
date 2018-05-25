@@ -6,10 +6,10 @@ import { ImageResult } from "../../../../models/instance/image/ImageResult";
 import { WorkerService } from "../../../../api/WorkerService";
 import { Injectable } from "react.di";
 import { MissionType } from "../../../../models/mission/Mission";
+import { Notation, WorkPageController } from "../WorkPageController";
 
-export interface ImageNotation<T extends ImageJob = ImageJob> {
+export interface ImageNotation<T extends ImageJob = ImageJob> extends Notation<T> {
   imageUrl: string;
-  job: T;
 }
 
 function any<T>(array: T[]) {
@@ -30,19 +30,12 @@ function judgeJobComplete(job: KnownImageJob) {
 }
 
 @Injectable
-export class ImageWorkStore {
+export class ImageWorkPageController extends WorkPageController<ImageMissionDetail, ImageInstanceDetail,ImageJob, ImageNotation> {
   imageUrls: string[];
 
   @observable saving: boolean = false;
 
-
-  initialized: boolean = false;
-  currentNotations: ImageNotation[] = [];
-
-  initialDetail: ImageInstanceDetail;
-  missionDetail: ImageMissionDetail;
-
-  get currentInstanceDetail(): ImageInstanceDetail {
+  currentInstanceDetail(): ImageInstanceDetail {
     const {instance} = this.initialDetail;
     return {
       missionType: MissionType.IMAGE,
@@ -57,15 +50,12 @@ export class ImageWorkStore {
     }
   }
 
-  @observable workIndex: number = 0;
-
   get types() {
     return this.missionDetail.imageMissionTypes;
   }
 
-  initialize(missionDetail: ImageMissionDetail, instanceDetail: ImageInstanceDetail) {
-    this.missionDetail = missionDetail;
-    this.initialDetail = instanceDetail;
+  constructor(missionDetail: ImageMissionDetail, instanceDetail: ImageInstanceDetail) {
+    super(missionDetail, instanceDetail);
     this.imageUrls = missionDetail.imageUrls;
 
 
@@ -92,64 +82,7 @@ export class ImageWorkStore {
         }
       }
     }
-    this.initialized = true;
-
-  }
-
-  constructor(private workerService: WorkerService) { }
-
-  @computed get finished() {
-    return this.workIndex === this.currentNotations.length;
-  }
-
-  get totalCount() {
-    return this.currentNotations.length;
-  }
-
-  @computed get progress() {
-    return this.workIndex;
-  }
-
-  @computed get currentWork(): ImageNotation {
-    if (this.workIndex == this.currentNotations.length) {
-      return null;
-    } else {
-      return this.currentNotations[this.workIndex];
-    }
-
-  }
-
-  @action saveWork(notation: ImageNotation) {
-    this.currentNotations[this.workIndex] = notation;
-  }
-
-  @action nextWork() { // second step of going next work
-    this.workIndex++;
   }
 
 
-  @action previousWork() {
-    if (this.workIndex > 0) {
-      this.workIndex--;
-    }
-  }
-
-  @action async saveProgress() {
-    this.saving = true;
-    console.log(toJS(this.currentInstanceDetail));
-    await this.workerService.saveProgress(this.missionDetail.publicItem.missionId, this.currentInstanceDetail);
-    runInAction(() => {
-      this.saving = false;
-    });
-  };
-
-  submit = async () => {
-    const submitVo = this.currentInstanceDetail;
-    submitVo.instance.submitDate = new Date();
-    const result = await this.workerService.submit(
-      this.missionDetail.publicItem.missionId,
-      submitVo,
-    );
-    return result;
-  };
 }

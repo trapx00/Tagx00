@@ -1,5 +1,5 @@
 import React from "react";
-import { ImageNotation } from "./ImageWorkStore";
+import { ImageNotation } from "./ImageWorkPageController";
 import { PartJob, PartJobTuple } from "../../../../models/instance/image/job/PartJob";
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";

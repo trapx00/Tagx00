@@ -1,6 +1,6 @@
 import React from "react";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
-import { ImageNotation } from "./ImageWorkStore";
+import { ImageNotation } from "./ImageWorkPageController";
 import { WholeJob } from "../../../../models/instance/image/job/WholeJob";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../../components/ImageWork/MissionTipCard";
