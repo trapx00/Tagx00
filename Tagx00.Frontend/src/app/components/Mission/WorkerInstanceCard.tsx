@@ -14,6 +14,7 @@ import { InstanceStateIndicator } from "./InstanceStateIndicator";
 import { LocaleMessage } from "../../internationalization/components";
 import { WorkerService } from "../../api/WorkerService";
 import { FinalizeInfo } from "../../pages/MissionPage/requester/finalize/FinalizeInfoModal";
+import { MissionDetail } from "../../models/mission/MissionDetail";
 
 const {Meta} = Card;
 
@@ -103,7 +104,7 @@ export class WorkerInstanceCard extends React.PureComponent<Props, any> {
 
   renderCard = async () => {
     const {instance} = this.props;
-    const mission: ImageMissionDetail = await this.missionService.getAMission(instance.missionId);
+    const mission: MissionDetail = await this.missionService.getAMission(instance.missionId);
     const {publicItem} = mission;
     return <Card
       style={{width: 300}}

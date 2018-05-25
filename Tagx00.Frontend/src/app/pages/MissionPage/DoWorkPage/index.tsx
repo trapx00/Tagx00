@@ -6,7 +6,8 @@ import { Inject } from "react.di";
 import { WorkerService } from "../../../api/WorkerService";
 import { MissionService } from "../../../api/MissionService";
 import { InstanceDetail } from "../../../models/instance/InstanceDetail";
-import { MissionDetail, MissionType } from "../../../models/mission/Mission";
+import { MissionType } from "../../../models/mission/Mission";
+import { MissionDetail } from "../../../models/mission/MissionDetail";
 
 interface Props {
   instanceDetail: InstanceDetail;

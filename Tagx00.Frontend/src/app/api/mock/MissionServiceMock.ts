@@ -1,7 +1,15 @@
 import { MissionService } from "../MissionService";
 import { ImageMissionDetail, ImageMissionType } from "../../models/mission/image/ImageMission";
-import { MissionPublicItem, MissionState, MissionType } from "../../models/mission/Mission";
+import { MissionState, MissionType } from "../../models/mission/Mission";
 import { Injectable } from "react.di";
+import { MissionPublicItem } from "../../models/mission/MissionPublicItem";
+import { MissionDetail } from "../../models/mission/MissionDetail";
+import { TextMissionDetail } from "../../models/mission/text/TextMissionDetail";
+import {
+  TextMissionClassificationSetting,
+  TextMissionKeywordsSettings,
+  TextMissionType
+} from "../../models/mission/text/TextMissionProperties";
 
 export const imgs = [
   "https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/0E/00/ChMkJlnJ4TOIAyeVAJqtjV-XTiAAAgzDAE7v40Amq2l708.jpg",
@@ -15,19 +23,16 @@ export const imgs = [
 @Injectable
 export class MissionServiceMock extends MissionService {
 
-  async getAMission(missionId: string): Promise<ImageMissionDetail> {
+  async getAMission(missionId: string): Promise<MissionDetail> {
 
 
-
-    return  {
+    return {
       publicItem: {
         missionId: missionId,
         title: "Mission " + missionId,
-        description: "Description "+missionId,
+        description: "Description " + missionId,
         topics: ["scenes"],
-        allowCustomTag: false,
-        allowedTags: ["tag1", "tag2"],
-        missionType: MissionType.IMAGE,
+        missionType: MissionType.TEXT,
         start: new Date(),
         end: new Date(),
         coverUrl: "https://desk-fd.zol-img.com.cn/t_s960x600c5/g3/M0A/0F/09/Cg-4WFRplp2IYqiNACQ0TQPPChQAARbPQEM84oAJDRl464.jpg",
@@ -35,16 +40,49 @@ export class MissionServiceMock extends MissionService {
         requesterUsername: "123",
         minimalWorkerLevel: 2,
         level: 1,
-        credits: 100
+        credits: 100,
+        missionTypes: [ TextMissionType.KEYWORDS, TextMissionType.CLASSIFICATION ]
       },
       missionState: MissionState.ACTIVE,
-      imageUrls: imgs,
-      imageMissionTypes: [
-        ImageMissionType.DISTRICT,
-        // ImageMissionType.PART,
-        // ImageMissionType.WHOLE
-      ]
-    } as ImageMissionDetail;
+      settings: [
+        {
+        textMissionType: TextMissionType.KEYWORDS,
+        keywords: ["1","2"]
+      } as TextMissionKeywordsSettings,
+        {
+          textMissionType: TextMissionType.CLASSIFICATION,
+          classes: ["1","2"]
+        } as TextMissionClassificationSetting,
+      ],
+      textUrls: []
+    } as TextMissionDetail;
+
+    // return  {
+    //   publicItem: {
+    //     missionId: missionId,
+    //     title: "Mission " + missionId,
+    //     description: "Description "+missionId,
+    //     topics: ["scenes"],
+    //     allowCustomTag: false,
+    //     allowedTags: ["tag1", "tag2"],
+    //     missionType: MissionType.IMAGE,
+    //     start: new Date(),
+    //     end: new Date(),
+    //     coverUrl: "https://desk-fd.zol-img.com.cn/t_s960x600c5/g3/M0A/0F/09/Cg-4WFRplp2IYqiNACQ0TQPPChQAARbPQEM84oAJDRl464.jpg",
+    //     jobCount: 10,
+    //     requesterUsername: "123",
+    //     minimalWorkerLevel: 2,
+    //     level: 1,
+    //     credits: 100
+    //   },
+    //   missionState: MissionState.ACTIVE,
+    //   imageUrls: imgs,
+    //   imageMissionTypes: [
+    //     ImageMissionType.DISTRICT,
+    //     // ImageMissionType.PART,
+    //     // ImageMissionType.WHOLE
+    //   ]
+    // } as ImageMissionDetail;
 
 
   }

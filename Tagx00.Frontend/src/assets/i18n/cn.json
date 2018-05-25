@@ -162,11 +162,14 @@
       },
       "TEXT": {
         "name":"文本任务",
+        "types": "文本任务种类",
         "CLASSIFICATION": {
-          "classes":"预设分类（用户不可自定义）"
+          "name": "主题分类",
+          "classes":"预设分类"
         },
         "KEYWORDS": {
-          "keywords": "主题词（用户可自定义）"
+          "name": "提取主题词",
+          "keywords": "主题词"
         }
       }
     },

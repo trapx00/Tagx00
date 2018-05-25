@@ -7,7 +7,7 @@ import { LocaleMessage } from "../../../internationalization/components";
 import { Link } from 'react-router-dom';
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { LocaleStore } from "../../../stores/LocaleStore";
-import { MissionPublicItem } from "../../../models/mission/Mission";
+import { MissionPublicItem } from "../../../models/mission/MissionPublicItem";
 
 
 interface Props {
