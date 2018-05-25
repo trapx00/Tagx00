@@ -29,14 +29,24 @@ export class RequesterService {
 
   }
 
-  async uploadImageFile(missionId: string, formData: FormData, order: number, isCover: boolean): Promise<ImageUploadResponse> {
+  async uploadImageFile(missionId: string, formData: FormData, order: number, isCover: boolean, token: string): Promise<ImageUploadResponse> {
     const res = await this.http.sendFile(
       formData,
       `/upload/mission/image/${missionId}`,
+      token,
       {order, isCover},
     );
     console.log(res.response);
     return res.response;
+  }
+
+  async uploadTextZipFile(missionId: string, formData: FormData, token: string) : Promise<void> {
+    const res = await this.http.sendFile(
+      formData,
+      `/upload/mission/text/${missionId}`,
+      token
+    );
+
   }
 
   async getAllMissionsBySelf(username: string): Promise<MissionPublicResponse> {

@@ -15,6 +15,9 @@ export class LoadingBarContainer extends React.Component<Props, {}> {
   @Inject navStore: NavStore;
 
   render() {
-    return <PageWideLoadingBar show={this.navStore.pageWideLoadingBarShown}/>
+    if (this.navStore.pageWideLoadingBarShown) {
+      return <PageWideLoadingBar/>
+    }
+    return null;
   }
 }

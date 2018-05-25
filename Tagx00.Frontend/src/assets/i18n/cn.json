@@ -181,6 +181,11 @@
         "IMAGE": "图片",
         "TEXT": "文本"
       },
+      "uploadStage": {
+        "0": "上传信息",
+        "1": "上传封面图",
+        "2": "上传附件"
+      },
       "fields": {
         "generalProperties": "任务属性",
         "title": "任务标题",
@@ -235,7 +240,8 @@
           },
           "requireTask": "请选择至少一种任务",
           "zip": {
-            "prompt": "请讲所有文本文件处理成TXT文件，然后打包上传。",
+            "selectFile": "选择文件",
+            "prompt": "请讲所有文本文件处理成TXT文件，并打包成ZIP文件，再上传。",
             "upload": "上传",
             "requireZip": "请上传压缩包"
           }
