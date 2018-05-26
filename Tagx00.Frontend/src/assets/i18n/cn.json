@@ -80,18 +80,37 @@
       "missionTipCard": {
         "missionTitle": "任务标题",
         "title": "任务目标",
-        "type": "类型",
-        "allowCustomTag": {
-          "prompt": "允许自定义标签",
-          "true": "是",
-          "false": "否"
+        "missionType":"任务类型",
+        "IMAGE": {
+          "name":"图片任务",
+          "type": "图片任务类型",
+          "allowCustomTag": {
+            "prompt": "允许自定义标签",
+            "true": "是",
+            "false": "否"
+          },
+          "tags": "预设标签",
+          "types": {
+            "WHOLE": "整体",
+            "PART": "局部",
+            "DISTRICT": "区域"
+          }
         },
-        "tags": "预设标签",
-        "types": {
-          "WHOLE": "整体",
-          "PART": "局部",
-          "DISTRICT": "区域"
+        "TEXT": {
+          "name": "文本任务",
+          "type": "文本任务类型",
+          "types": {
+            "CLASSIFICATION": {
+              "name": "主题分类",
+              "classes":"预设分类"
+            },
+            "KEYWORDS": {
+              "name": "提取主题词",
+              "keywords": "主题词"
+            }
+          }
         }
+
       },
       "finish": {
         "editingComplete": "祝贺！您已经完成了这次任务的所有工作。您现在可以选择保存进度或者提交现在的进度。（一旦您选择了提交，您将无法再更改您的进度。）",
@@ -162,11 +181,14 @@
       },
       "TEXT": {
         "name":"文本任务",
+        "types": "文本任务种类",
         "CLASSIFICATION": {
-          "classes":"预设分类（用户不可自定义）"
+          "name": "主题分类",
+          "classes":"预设分类"
         },
         "KEYWORDS": {
-          "keywords": "主题词（用户可自定义）"
+          "name": "提取主题词",
+          "keywords": "预设主题词"
         }
       }
     },
@@ -180,6 +202,11 @@
       "menu": {
         "IMAGE": "图片",
         "TEXT": "文本"
+      },
+      "uploadStage": {
+        "0": "上传信息",
+        "1": "上传封面图",
+        "2": "上传附件"
       },
       "fields": {
         "generalProperties": "任务属性",
@@ -235,7 +262,8 @@
           },
           "requireTask": "请选择至少一种任务",
           "zip": {
-            "prompt": "请讲所有文本文件处理成TXT文件，然后打包上传。",
+            "selectFile": "选择文件",
+            "prompt": "请讲所有文本文件处理成TXT文件，并打包成ZIP文件，再上传。",
             "upload": "上传",
             "requireZip": "请上传压缩包"
           }

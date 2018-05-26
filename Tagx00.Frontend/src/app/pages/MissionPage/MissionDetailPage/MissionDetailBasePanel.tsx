@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import { MissionPublicItem } from "../../../models/mission/Mission";
 import { LocaleDate, LocaleMessage } from "../../../internationalization/components";
 import { Col, Row, Tag } from 'antd';
 import { ID_PREFIX, Item } from "./common";
@@ -10,11 +9,11 @@ import { UserStore } from "../../../stores/UserStore";
 import { computed } from "mobx";
 import { UserRole } from "../../../models/user/User";
 import styled from "styled-components";
+import { MissionPublicItem } from "../../../models/mission/MissionPublicItem";
 
 interface Props {
   publicItem: MissionPublicItem;
   picPanel: ReactNode;
-  extraInfo: ReactNode;
 }
 
 const Title = styled.h1`
@@ -32,7 +31,7 @@ export class MissionDetailBasePanel extends React.Component<Props, {}> {
   }
 
   render() {
-    const {missionId, title, jobCount, requesterUsername, allowCustomTag, allowedTags, coverUrl, description, end, missionType, start, topics, minimalWorkerLevel, level, credits} =
+    const {missionId, title, jobCount, requesterUsername, coverUrl, description, end, missionType, start, topics, minimalWorkerLevel, level, credits} =
       this.props.publicItem;
     return <Row gutter={32}>
       <Col md={12} sm={24}>
@@ -45,10 +44,6 @@ export class MissionDetailBasePanel extends React.Component<Props, {}> {
         </Item>
         <Item promptTextId={"topics"}>
           {topics.map(x => <Tag key={x} color={"geekblue"}>{x}</Tag>)}
-        </Item>
-        <Item promptTextId={"tags"}>
-          {allowedTags.map(x => <Tag key={x}>{x}</Tag>)}
-          <LocaleMessage id={ID_PREFIX + "allowCustomTag." + allowCustomTag}/>
         </Item>
         <Item promptTextId={"dateRange"}>
           <LocaleMessage id={ID_PREFIX + "dateRangeFormat"} replacements={{
@@ -77,7 +72,7 @@ export class MissionDetailBasePanel extends React.Component<Props, {}> {
         <Item promptTextId={"missionType"}>
           <LocaleMessage id={ID_PREFIX + missionType + ".name"}/>
         </Item>
-        {this.props.extraInfo}
+        {this.props.children}
         {this.showOperationBar && <OperationBar missionPublicItem={this.props.publicItem}/>}
       </Col>
     </Row>;

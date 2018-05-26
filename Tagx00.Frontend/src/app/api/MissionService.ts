@@ -1,8 +1,9 @@
 import { HttpService } from "./HttpService";
-import { MissionPublicItem } from "../models/mission/Mission";
 import { ImageMissionDetail } from "../models/mission/image/ImageMission";
 import { HttpMethod } from "./utils";
 import { Inject, Injectable } from "react.di";
+import { MissionPublicItem } from "../models/mission/MissionPublicItem";
+import { MissionDetail } from "../models/mission/MissionDetail";
 
 
 @Injectable
@@ -21,7 +22,7 @@ export class MissionService {
 
   }
 
-  async getAMission(missionId: string): Promise<ImageMissionDetail> {
+  async getAMission(missionId: string): Promise<MissionDetail> {
     const res = await this.http.fetch({
       path: `/mission/${missionId}`,
     });

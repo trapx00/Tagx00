@@ -11,12 +11,10 @@ const defaultProps = {
 };
 
 interface Props {
-  show: boolean;
 }
 
 interface State {
   percent: number;
-  started: boolean;
 }
 
 
@@ -52,7 +50,6 @@ export class PageWideLoadingBar extends React.Component<Props, State> {
 
   state = {
     percent: 0,
-    started: false
   };
 
   increment = async () => {
@@ -61,27 +58,15 @@ export class PageWideLoadingBar extends React.Component<Props, State> {
     }
   };
 
-  static getDerivedStateFromProps(nextProps: Props) {
-    if (!nextProps.show) {
-      return {percent: 0, started: false};
-    }
-    return { percent: 0};
+  componentDidMount() {
+    this.timer = setInterval(this.increment, defaultProps.incrementInterval*1000);
   }
 
-  componentDidUpdate() {
-    if (this.props.show && !this.state.started) {
-      clearInterval(this.timer);
-      this.timer = setInterval(this.increment, defaultProps.incrementInterval*1000);
-      this.setState({ started: true });
-    }else if (!this.props.show && this.state.started) {
-      clearInterval(this.timer);
-    }
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   render() {
-    if (!this.props.show) {
-      return null;
-    }
     return (
       <Container percent={this.state.percent}>
         <Bar percent={this.state.percent}/>

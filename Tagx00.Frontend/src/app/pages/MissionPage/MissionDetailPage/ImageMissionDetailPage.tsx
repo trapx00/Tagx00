@@ -22,10 +22,15 @@ export class ImageMissionDetailPage extends React.Component<Props, State> {
     const {detail} = this.props;
     return <MissionDetailBasePanel publicItem={detail.publicItem}
                                    picPanel={<Gallery images={[detail.publicItem.coverUrl, ...detail.imageUrls]}/>}
-                                   extraInfo={
-                                     <Item promptTextId={"IMAGE.imageMissionTypes"}>
-                                       {detail.imageMissionTypes.map(x => <Tag key={x}><LocaleMessage
-                                         id={ID_PREFIX + "types." + x}/></Tag>)}
-                                     </Item>}/>
+    >
+      <Item promptTextId={"IMAGE.tags"}>
+        {detail.publicItem.allowedTags.map(x => <Tag key={x}>{x}</Tag>)}
+        <LocaleMessage id={ID_PREFIX + "allowCustomTag." + detail.publicItem.allowCustomTag}/>
+      </Item>
+      <Item promptTextId={"IMAGE.imageMissionTypes"}>
+        {detail.imageMissionTypes.map(x => <Tag key={x}><LocaleMessage
+          id={ID_PREFIX + "types." + x}/></Tag>)}
+      </Item>
+    </MissionDetailBasePanel>
   }
 }

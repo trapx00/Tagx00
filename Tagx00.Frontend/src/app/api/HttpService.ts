@@ -44,13 +44,14 @@ export class HttpService {
 
   async sendFile<T = any>(files: FormData,
                           url: string,
+                          token: string,
                           queryParams?: any,
                           headers?: {[s: string]: string}): Promise<NetworkResponse<T>> {
     const actualUrl = urlJoin(APIROOTURL, url);
     try {
       const res = await fetch(appendQueryString(actualUrl, queryParams), {
         method: HttpMethod.POST,
-        headers: {Authorization: "Bearer "+this.token, ...headers},
+        headers: {Authorization: "Bearer "+token, ...headers},
         body: files
       });
       const json = await res.json();
@@ -70,7 +71,7 @@ export class HttpService {
       ? {body: JSON.stringify(fetchInfo.body)}
       : {};
 
-    const url = urlJoin(APIROOTURL, fetchInfo.path);
+    const url = fetchInfo.path.startsWith("http") ? fetchInfo.path : urlJoin(APIROOTURL, fetchInfo.path);
 
     try {
       const res = await fetch(appendQueryString(url, fetchInfo.queryParams), {
