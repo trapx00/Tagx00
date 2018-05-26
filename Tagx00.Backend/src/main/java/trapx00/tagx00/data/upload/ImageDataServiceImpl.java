@@ -41,7 +41,7 @@ public class ImageDataServiceImpl implements ImageDataService {
     public String uploadImage(String key, byte[] bytes) throws SystemException {
         try {
             //保存到临时文件
-            File file = new File(TEMP_PATH);
+            File file = new File(TEMP_PATH + "/image");
             FileImageOutputStream fileWriter = new FileImageOutputStream(file);
             fileWriter.write(bytes);
             fileWriter.close();

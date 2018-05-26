@@ -55,6 +55,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
         ArrayList<Mission> missionArrayList = new ArrayList<>();
 
         missionArrayList.addAll(imageMissionDao.findAll());
+        missionArrayList.addAll(textMissionDao.findAll());
 
         Mission[] missions = missionArrayList.toArray(new Mission[missionArrayList.size()]);
         MissionPublicItemVo[] result = new MissionPublicItemVo[missions.length];

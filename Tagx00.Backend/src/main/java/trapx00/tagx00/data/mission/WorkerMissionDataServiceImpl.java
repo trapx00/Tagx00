@@ -51,11 +51,11 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
 
     @Autowired
     public WorkerMissionDataServiceImpl(ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao,
-                                        TextMissionDao textMissionDao,TextInstanceDao textInstanceDao) {
+                                        TextMissionDao textMissionDao, TextInstanceDao textInstanceDao) {
         this.imageInstanceDao = imageInstanceDao;
         this.imageMissionDao = imageMissionDao;
-        this.textInstanceDao=textInstanceDao;
-        this.textMissionDao=textMissionDao;
+        this.textInstanceDao = textInstanceDao;
+        this.textMissionDao = textMissionDao;
     }
 
     /**
@@ -80,9 +80,9 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 result = imageInstanceDao.save(imageInstance);
                 break;
             case TEXT:
-                TextInstanceDetailVo textInstanceDetailVo=(TextInstanceDetailVo) instanceDetailVo;
-                TextInstance textInstance=generateTextInstance(instanceVo,textInstanceDetailVo);
-                result=textInstanceDao.save(textInstance);
+                TextInstanceDetailVo textInstanceDetailVo = (TextInstanceDetailVo) instanceDetailVo;
+                TextInstance textInstance = generateTextInstance(instanceVo, textInstanceDetailVo);
+                result = textInstanceDao.save(textInstance);
         }
         if (result == null)
             throw new SystemException();
@@ -110,14 +110,14 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
             case IMAGE:
                 ImageInstanceDetailVo imageInstanceDetailVo = (ImageInstanceDetailVo) instanceDetailVo;
                 ImageInstance imageInstance = generateImageInstance(instanceVo, imageInstanceDetailVo);
-                imageInstance.setInstanceId(getNextId(imageInstanceDao.findAll()));
+                imageInstance.setInstanceId(getNextId(imageInstanceDao.findAll(), MissionType.IMAGE));
                 result = imageInstanceDao.save(imageInstance);
                 break;
             case TEXT:
-                TextInstanceDetailVo textInstanceDetailVo=(TextInstanceDetailVo) instanceDetailVo;
-                TextInstance textInstance=generateTextInstance(instanceVo,textInstanceDetailVo);
-                textInstance.setInstanceId(getNextId(textInstanceDao.findAll()));
-                result=textInstanceDao.save(textInstance);
+                TextInstanceDetailVo textInstanceDetailVo = (TextInstanceDetailVo) instanceDetailVo;
+                TextInstance textInstance = generateTextInstance(instanceVo, textInstanceDetailVo);
+                textInstance.setInstanceId(getNextId(textInstanceDao.findAll(), MissionType.TEXT));
+                result = textInstanceDao.save(textInstance);
                 break;
         }
         if (result == null)
@@ -140,7 +140,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 imageInstanceDao.save(imageInstance);
                 break;
             case TEXT:
-                TextInstance textInstance=textInstanceDao.findTextInstanceByInstanceId(instanceId);
+                TextInstance textInstance = textInstanceDao.findTextInstanceByInstanceId(instanceId);
                 textInstance.setMissionInstanceState(MissionInstanceState.ABANDONED);
                 textInstanceDao.save(textInstance);
                 break;
@@ -177,9 +177,9 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                     instanceVos[i] = generateImageInstanceVo(instance, instanceResultIdsSize);
                     break;
                 case TEXT:
-                    List<TextResult> textResults=((TextInstance)instance).getTextResults();
-                    for(TextResult textResult: textResults){
-                        if(textResult.isDone()){
+                    List<TextResult> textResults = ((TextInstance) instance).getTextResults();
+                    for (TextResult textResult : textResults) {
+                        if (textResult.isDone()) {
                             instanceResultIdsSize++;
                         }
                     }
@@ -221,10 +221,10 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         }
                         return generateImageInstanceDetailVo(imageInstance, instanceResultIdsSize);
                     case TEXT:
-                        TextInstance textInstance=(TextInstance) instance1;
-                        List<TextResult> textResults=textInstance.getTextResults();
-                        for(TextResult textResult:textResults){
-                            if(textResult.isDone())
+                        TextInstance textInstance = (TextInstance) instance1;
+                        List<TextResult> textResults = textInstance.getTextResults();
+                        for (TextResult textResult : textResults) {
+                            if (textResult.isDone())
                                 instanceResultIdsSize++;
                         }
                         return generateTextInstanceDetailVo(textInstance, instanceResultIdsSize);
@@ -296,6 +296,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 instanceVo.isSubmitted(), instanceVo.getMissionId(), instanceVo.getExp(),
                 instanceVo.getExpRatio(), instanceVo.getCredits(), instanceVo.getComment(), instanceDetailVo.getImageResults(), imageMission);
     }
+
     private TextInstance generateTextInstance(InstanceVo instanceVo, TextInstanceDetailVo instanceDetailVo) {
         TextMission textMission = textMissionDao.findTextMissionByMissionId(instanceVo.getMissionId());
         return new TextInstance(instanceVo.getInstanceId(), instanceVo.getWorkerUsername(), instanceVo.getMissionInstanceState(),
@@ -327,13 +328,13 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         return new TextInstanceDetailVo(textinstance.getMissionType(), instanceVo, textinstance.getTextResults());
     }
 
-    private <T extends Instance> String getNextId(List<T> imageInstances) {
+    private <T extends Instance> String getNextId(List<T> instances, MissionType missionType) {
         int result = 0;
-        Optional<T> maxId = imageInstances.stream().max((x1, x2) -> (MissionUtil.getId(x1.getMissionId()) - MissionUtil.getId(x2.getMissionId())));
+        Optional<T> maxId = instances.stream().max((x1, x2) -> (MissionUtil.getId(x1.getMissionId()) - MissionUtil.getId(x2.getMissionId())));
         if (maxId.isPresent()) {
             result = MissionUtil.getId(maxId.get().getInstanceId()) + 1;
         }
-        return MissionUtil.addTypeToId(result, MissionType.IMAGE);
+        return MissionUtil.addTypeToId(result, missionType);
     }
 
 }

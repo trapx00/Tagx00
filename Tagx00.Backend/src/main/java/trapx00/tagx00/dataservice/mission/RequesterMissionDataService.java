@@ -66,10 +66,18 @@ public interface RequesterMissionDataService {
     void updateMission(String missionId, int credits, MissionType missionType) throws SystemException;
 
     /**
-     * finlize the instance
+     * finalize the instance
      *
      * @param instanceId
      * @param missionFinalizeVo
      */
     void updateInstance(String instanceId, MissionFinalizeVo missionFinalizeVo, MissionType missionType) throws SystemException;
+
+    /**
+     * get the latest mission's id
+     *
+     * @param missionType
+     * @return
+     */
+    int getLatestMissionId(MissionType missionType);
 }

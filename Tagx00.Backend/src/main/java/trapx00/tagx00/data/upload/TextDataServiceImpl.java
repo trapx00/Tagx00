@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.dataservice.upload.TextDataService;
 import trapx00.tagx00.exception.viewexception.SystemException;
-import trapx00.tagx00.util.PathUtil;
 
 import java.io.File;
 import java.net.URL;
@@ -17,7 +16,6 @@ import java.util.Date;
 
 @Service
 public class TextDataServiceImpl implements TextDataService {
-    private final static String TEMP_PATH = PathUtil.getTmpPath();
     private static final long EXPIRATION = Long.MAX_VALUE;
 
     @Value("${oos.accessKey}")
@@ -32,8 +30,7 @@ public class TextDataServiceImpl implements TextDataService {
     /**
      * upload the text to the oos cloud
      *
-     * @param key  the id of the image
-     * @param path the text content path
+     * @param key the id of the image
      * @return the url of the uploaded text
      */
     @Override

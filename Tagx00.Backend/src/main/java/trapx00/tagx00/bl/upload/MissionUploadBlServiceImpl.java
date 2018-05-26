@@ -103,7 +103,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                 ZipEntry entry = (ZipEntry) entries.nextElement();
                 String zipEntryName = entry.getName();
                 InputStream in = zip.getInputStream(entry);
-                String outPath = (descDir + zipEntryName).replaceAll("\\*", "/");
+                String outPath = (descDir + "/" + zipEntryName).replaceAll("\\*", "/");
 
                 //判断路径是否存在,不存在则创建文件路径
                 file = new File(outPath.substring(0, outPath.lastIndexOf('/')));
@@ -125,7 +125,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                 }
                 in.close();
                 out.close();
-                String url = textDataService.uploadText(generateTextKey(missionId, index), file);
+                String url = textDataService.uploadText(generateTextKey(missionId, index), new File(outPath));
                 textUrls.add(url);
                 index++;
             }

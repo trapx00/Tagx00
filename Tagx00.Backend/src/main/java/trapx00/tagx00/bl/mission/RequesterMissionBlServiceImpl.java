@@ -185,7 +185,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     private Mission generateMission(MissionCreateVo missionCreateVo) {
         switch (missionCreateVo.getProperties().getType()) {
             case IMAGE:
-                return new ImageMission(getNextId(), missionCreateVo.getTitle(), missionCreateVo.getDescription(),
+                return new ImageMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
                         missionCreateVo.getTopics(), ((ImageMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
                         ((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags(),
                         missionCreateVo.getProperties().getType(), MissionState.PENDING,
@@ -196,7 +196,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(),
                         new ArrayList<>(), new ArrayList<>());
             case TEXT:
-                return new TextMission(getNextId(), missionCreateVo.getTitle(), missionCreateVo.getDescription(),
+                return new TextMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
                         missionCreateVo.getTopics(), missionCreateVo.getProperties().getType(), MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(),
                         "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(),
@@ -205,10 +205,6 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         , new ArrayList<>(), new ArrayList<>()
                 );
         }
-        return null;
-    }
-
-    private String getNextId() {
         return null;
     }
 }

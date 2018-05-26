@@ -5,6 +5,8 @@ import trapx00.tagx00.data.dao.user.UserDao;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.entity.account.User;
 
+import java.io.File;
+
 public class PathUtil {
     public final static String TEMP_FILE_NAME = "Tagx00";
     private final UserDao userDao;
@@ -14,6 +16,12 @@ public class PathUtil {
         this.userDao = userDao;
     }
 
+    static {
+        File tmpDir = new File(getTmpPath());
+        if (!tmpDir.exists()) {
+            tmpDir.mkdirs();
+        }
+    }
 
     public static String getTmpPath() {
         java.util.Properties properties = System.getProperties();
