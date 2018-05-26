@@ -3,12 +3,14 @@ import { ImageMissionType } from "../../../../models/mission/image/ImageMission"
 import { ImageNotation } from "./ImageWorkPageController";
 import { WholeJob } from "../../../../models/instance/image/job/WholeJob";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
-import { MissionTipCard } from "../../../../components/ImageWork/MissionTipCard";
+import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
 import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
 import { ProgressController } from "../../../../components/ImageWork/ProgressController";
 import { toJS } from "mobx";
 import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
+import { MissionType } from "../../../../models/mission/Mission";
+import { ImageMissionTipCard } from "../../../../components/Mission/MissionTipCard/ImageMissionTipCard";
 
 function initializeNotation(notation: ImageNotation<WholeJob>) {
   if (!(notation.job && notation.job.tuple)) {
@@ -81,11 +83,11 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
         <img onLoad={this.onImageLoad} src={imageUrl}/>
       </>
       <>
-          <MissionTipCard jobType={job.type}
-            tags={missionDetail.publicItem.allowedTags}
-            allowCustomTag={missionDetail.publicItem.allowCustomTag}
-            title={missionDetail.publicItem.title}
-          />
+        <ImageMissionTipCard imageMissionType={job.type}
+                             tags={missionDetail.publicItem.allowedTags}
+                             allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                             title={missionDetail.publicItem.title}
+        />
           <TagDescriptionTuplePanel tuple={job.tuple}
                                     onChange={this.onTupleChange}
                                     readonlyMode={this.props.readonlyMode}

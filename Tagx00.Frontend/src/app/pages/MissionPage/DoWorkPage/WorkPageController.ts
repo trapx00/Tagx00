@@ -10,7 +10,7 @@ export interface Notation<J> {
 }
 
 export abstract class WorkPageController<M extends MissionDetail, I extends InstanceDetail, J, N extends Notation<J>> {
-  currentNotations: N[];
+  currentNotations: N[] = [];
 
   missionDetail: M;
   initialDetail: I;

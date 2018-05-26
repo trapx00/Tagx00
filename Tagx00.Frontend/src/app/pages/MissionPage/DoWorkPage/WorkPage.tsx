@@ -26,6 +26,12 @@ export interface WorkPageProps<M extends MissionDetail, J, N extends Notation<J>
   readonlyMode: boolean;
 }
 
+export interface WorkPageState<J, N extends Notation<J>> {
+  notation: N;
+  selectedIndex: number;
+  addingMode: boolean;
+}
+
 
 interface Props<M extends MissionDetail, I extends InstanceDetail, J, N extends Notation<J>> {
   controller: WorkPageController<M, I, J, N>;

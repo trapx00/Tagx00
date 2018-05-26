@@ -71,7 +71,7 @@ export class HttpService {
       ? {body: JSON.stringify(fetchInfo.body)}
       : {};
 
-    const url = urlJoin(APIROOTURL, fetchInfo.path);
+    const url = fetchInfo.path.startsWith("http") ? fetchInfo.path : urlJoin(APIROOTURL, fetchInfo.path);
 
     try {
       const res = await fetch(appendQueryString(url, fetchInfo.queryParams), {

@@ -80,18 +80,37 @@
       "missionTipCard": {
         "missionTitle": "任务标题",
         "title": "任务目标",
-        "type": "类型",
-        "allowCustomTag": {
-          "prompt": "允许自定义标签",
-          "true": "是",
-          "false": "否"
+        "missionType":"任务类型",
+        "IMAGE": {
+          "name":"图片任务",
+          "type": "图片任务类型",
+          "allowCustomTag": {
+            "prompt": "允许自定义标签",
+            "true": "是",
+            "false": "否"
+          },
+          "tags": "预设标签",
+          "types": {
+            "WHOLE": "整体",
+            "PART": "局部",
+            "DISTRICT": "区域"
+          }
         },
-        "tags": "预设标签",
-        "types": {
-          "WHOLE": "整体",
-          "PART": "局部",
-          "DISTRICT": "区域"
+        "TEXT": {
+          "name": "文本任务",
+          "type": "文本任务类型",
+          "types": {
+            "CLASSIFICATION": {
+              "name": "主题分类",
+              "classes":"预设分类"
+            },
+            "KEYWORDS": {
+              "name": "提取主题词",
+              "keywords": "主题词"
+            }
+          }
         }
+
       },
       "finish": {
         "editingComplete": "祝贺！您已经完成了这次任务的所有工作。您现在可以选择保存进度或者提交现在的进度。（一旦您选择了提交，您将无法再更改您的进度。）",
@@ -169,7 +188,7 @@
         },
         "KEYWORDS": {
           "name": "提取主题词",
-          "keywords": "主题词"
+          "keywords": "预设主题词"
         }
       }
     },

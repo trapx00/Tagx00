@@ -3,7 +3,7 @@ import { ImageNotation } from "./ImageWorkPageController";
 import { PartJob, PartJobTuple } from "../../../../models/instance/image/job/PartJob";
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
-import { MissionTipCard } from "../../../../components/ImageWork/MissionTipCard";
+import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
 import { ProgressController } from "../../../../components/ImageWork/ProgressController";
 import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel/index";
 import { RectanglePanel } from "../../../../components/ImageWork/DrawingPad/RectanglePanel/index";
@@ -11,6 +11,8 @@ import { ImageMissionType } from "../../../../models/mission/image/ImageMission"
 import { PartAddingModeController } from "../../../../components/ImageWork/Part/PartAddingModeController/index";
 import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
+import { MissionType } from "../../../../models/mission/Mission";
+import { ImageMissionTipCard } from "../../../../components/Mission/MissionTipCard/ImageMissionTipCard";
 
 
 function initializeNotation(notation: ImageNotation<PartJob>) {
@@ -136,10 +138,10 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
           />
         </>
         <>
-          <MissionTipCard jobType={job.type}
-                          tags={missionDetail.publicItem.allowedTags}
-                          allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                          title={missionDetail.publicItem.title}
+          <ImageMissionTipCard imageMissionType={job.type}
+                               tags={missionDetail.publicItem.allowedTags}
+                               allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                               title={missionDetail.publicItem.title}
           />
           {readonlyMode ? null
             :

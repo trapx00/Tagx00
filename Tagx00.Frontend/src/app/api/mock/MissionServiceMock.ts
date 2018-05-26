@@ -18,6 +18,11 @@ export const imgs = [
   "http://p4-q.mafengwo.net/s7/M00/BD/0E/wKgB6lSwiyyAMQDHAA_6txvdndY07.jpeg?imageMogr2%2Fthumbnail%2F%21690x370r%2Fgravity%2FCenter%2Fcrop%2F%21690x370%2Fquality%2F100"
 ];
 
+const texts = [
+  // "https://raw.githubusercontent.com/viccrubs/VicBlog-Backend/master/VicBlogServer/Data/DefaultCrudDataController.cs"
+  // "https://viccrubs.tk"
+"http://vicblogapi.azurewebsites.net/api/Articles"
+];
 
 
 @Injectable
@@ -51,10 +56,10 @@ export class MissionServiceMock extends MissionService {
       } as TextMissionKeywordsSettings,
         {
           textMissionType: TextMissionType.CLASSIFICATION,
-          classes: ["1","2"]
+          classes: ["1","2","3"]
         } as TextMissionClassificationSetting,
       ],
-      textUrls: []
+      textUrls: texts
     } as TextMissionDetail;
 
     // return  {
