@@ -45,7 +45,7 @@ public interface RequesterMissionBlService {
      * @param credits
      * @return MissionChargeResponse
      */
-    MissionChargeResponse chargeMission(String missionId, int credits) throws SystemException;
+    MissionChargeResponse chargeMission(String missionId, int credits) throws SystemException, MissionIdDoesNotExistException;
 
 
     /**
@@ -64,7 +64,7 @@ public interface RequesterMissionBlService {
      * @param missionFinalizeVo
      * @return InstanceDetailResponse
      */
-    InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws InstanceNotExistException, SystemException;
+    InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws InstanceNotExistException, SystemException, MissionIdDoesNotExistException;
 
 
 }

@@ -16,6 +16,7 @@ import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.entity.mission.instance.TextInstance;
 import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.entity.mission.instance.workresult.TextResult;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
@@ -218,24 +219,19 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     }
 
     /**
-     * get mission by mission id
+     * get mission by id
      *
-     * @param missionId   the id of the mission
-     * @param missionType the type of the mission
-     * @return the mission object
+     * @param missionId
+     * @return
      */
     @Override
-    public Mission getMissionByMissionId(String missionId, MissionType missionType) {
-        Mission mission = null;
-        switch (missionType) {
-            case IMAGE:
-                mission = imageMissionDao.findImageMissionByMissionId(missionId);
-                break;
-            case TEXT:
-                mission = textMissionDao.findTextMissionByMissionId(missionId);
-                break;
+    public Mission getMissionByMissionId(String missionId) throws MissionIdDoesNotExistException {
+        Optional<Mission> optionalMission = missionDao.findById(missionId);
+        if (optionalMission.isPresent()) {
+            return optionalMission.get();
+        } else {
+            throw new MissionIdDoesNotExistException();
         }
-        return mission;
     }
 
     /**

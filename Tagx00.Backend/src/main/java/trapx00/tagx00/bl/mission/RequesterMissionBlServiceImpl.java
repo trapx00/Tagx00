@@ -131,12 +131,12 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return MissionChargeResponse
      */
     @Override
-    public MissionChargeResponse chargeMission(String missionId, int credits) throws SystemException {
+    public MissionChargeResponse chargeMission(String missionId, int credits) throws SystemException, MissionIdDoesNotExistException {
         requesterMissionDataService.updateMission(missionId, credits, MissionUtil.getType(missionId));
         User user = userDataService.getUserByUsername(UserInfoUtil.getUsername());
         user.setCredits(user.getCredits() - credits);
         userDataService.saveUser(user);
-        Mission mission = requesterMissionDataService.getMissionByMissionId(missionId, MissionUtil.getType(missionId));
+        Mission mission = requesterMissionDataService.getMissionByMissionId(missionId);
         return new MissionChargeResponse(mission.getCredits());
     }
 
@@ -148,12 +148,8 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public MissionRequestQueryResponse queryMissionCredits(String missionId) throws MissionIdDoesNotExistException {
-        Mission result;
-        if ((result = requesterMissionDataService.getMissionByMissionId(missionId,
-                MissionUtil.getType(missionId))) == null)
-            throw new MissionIdDoesNotExistException();
-        else
-            return new MissionRequestQueryResponse(result.getCredits());
+        Mission result = requesterMissionDataService.getMissionByMissionId(missionId);
+        return new MissionRequestQueryResponse(result.getCredits());
     }
 
 
@@ -165,11 +161,11 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return InstanceDetailResponse
      */
     @Override
-    public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws SystemException {
+    public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws SystemException, MissionIdDoesNotExistException {
         requesterMissionDataService.updateInstance(instanceId, missionFinalizeVo, MissionUtil.getType(instanceId));
         InstanceDetailVo instanceDetailVo = requesterMissionDataService.getInstanceByInstanceId(instanceId, MissionUtil.getType(instanceId));
         String missionId = instanceDetailVo.getInstance().getMissionId();
-        Mission mission = requesterMissionDataService.getMissionByMissionId(missionId, MissionUtil.getType(missionId));
+        Mission mission = requesterMissionDataService.getMissionByMissionId(missionId);
         User user = userDataService.getUserByUsername(instanceDetailVo.getInstance().getWorkerUsername());
         user.setCredits(user.getCredits() + missionFinalizeVo.getCredits());
         user.setExp(user.getExp() + missionFinalizeVo.getExpRatio() * mission.getLevel() * 20);

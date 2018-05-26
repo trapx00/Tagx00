@@ -1,6 +1,7 @@
 package trapx00.tagx00.dataservice.mission;
 
 import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
@@ -49,13 +50,12 @@ public interface RequesterMissionDataService {
     InstanceVo[] getAllInstances();
 
     /**
-     * get mission by mission id
+     * get mission by id
      *
-     * @param missionId   the id of the mission
-     * @param missionType the type of the mission
-     * @return the mission object
+     * @param missionId
+     * @return
      */
-    Mission getMissionByMissionId(String missionId, MissionType missionType);
+    Mission getMissionByMissionId(String missionId) throws MissionIdDoesNotExistException;
 
     /**
      * update the mission's credits

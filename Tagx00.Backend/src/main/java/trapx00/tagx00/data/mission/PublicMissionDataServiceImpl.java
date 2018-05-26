@@ -118,7 +118,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                 TextMission mission1 = textMissionDao.findTextMissionByMissionId(missionId);
                 if (mission1 == null)
                     return null;
-                if (mission1.getMissionType().equals(MissionType.IMAGE)) {
+                if (mission1.getMissionType().equals(MissionType.TEXT)) {
                     missionDetailVo = new TextMissionDetailVo(new TextMissionPublicItemVo(
                             missionId, mission1.getTitle(),
                             mission1.getDescription(), mission1.getTopics(), missionType,
