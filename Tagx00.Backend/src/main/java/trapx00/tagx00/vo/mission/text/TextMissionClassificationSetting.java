@@ -1,7 +1,12 @@
 package trapx00.tagx00.vo.mission.text;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import java.util.List;
 
+@Embeddable
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class TextMissionClassificationSetting extends TextMissionSetting {
 
     private List<String> classes;

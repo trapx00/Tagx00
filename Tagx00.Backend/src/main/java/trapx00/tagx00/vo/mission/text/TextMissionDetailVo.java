@@ -10,17 +10,17 @@ public class TextMissionDetailVo extends MissionDetailVo {
 
     private List<String> tokens;
 
-    private List<TextMissionSetting> textMissionTypes;
+    private List<TextMissionSetting> settings;
 
-    public TextMissionDetailVo(List<String> tokens, List<TextMissionSetting> textMissionTypes) {
+    public TextMissionDetailVo(List<String> tokens, List<TextMissionSetting> settings) {
         this.tokens = tokens;
-        this.textMissionTypes = textMissionTypes;
+        this.settings = settings;
     }
 
-    public TextMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, String requesterUsername, List<String> tokens, List<TextMissionSetting> textMissionTypes) {
+    public TextMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, String requesterUsername, List<String> tokens, List<TextMissionSetting> settings) {
         super(publicItem, missionState, requesterUsername);
         this.tokens = tokens;
-        this.textMissionTypes = textMissionTypes;
+        this.settings = settings;
     }
 
     public List<String> getTokens() {
@@ -31,12 +31,12 @@ public class TextMissionDetailVo extends MissionDetailVo {
         this.tokens = tokens;
     }
 
-    public List<TextMissionSetting> getTextMissionTypes() {
-        return textMissionTypes;
+    public List<TextMissionSetting> getSettings() {
+        return settings;
     }
 
-    public void setTextMissionTypes(List<TextMissionSetting> textMissionTypes) {
-        this.textMissionTypes = textMissionTypes;
+    public void setSettings(List<TextMissionSetting> settings) {
+        this.settings = settings;
     }
 
 }

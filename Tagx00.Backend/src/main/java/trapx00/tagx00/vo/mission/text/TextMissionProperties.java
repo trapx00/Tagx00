@@ -24,7 +24,7 @@ public class TextMissionProperties extends MissionProperties {
     public TextMissionProperties(List<TextMissionSetting> settings) {
 
         this.settings = settings;
-        for( TextMissionSetting a:settings){
+        for (TextMissionSetting a : settings) {
             textMissionTypes.add(a.getTextMissionType());
         }
     }

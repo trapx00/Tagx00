@@ -1,8 +1,10 @@
 package trapx00.tagx00.vo.mission.text;
 
-import java.util.List;
+import javax.persistence.Embeddable;
+import java.io.Serializable;
 
-public class TextMissionSetting {
+@Embeddable
+public class TextMissionSetting implements Serializable {
 
     private TextMissionType textMissionType;
 

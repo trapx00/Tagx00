@@ -196,9 +196,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         missionCreateVo.getTopics(), missionCreateVo.getProperties().getType(), MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(),
                         "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(),
-                        missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(),
-                        ((TextMissionProperties) missionCreateVo.getProperties()).getTextMissionTypes()
-                        , new ArrayList<>(), new ArrayList<>()
+                        missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(), ((TextMissionProperties) missionCreateVo.getProperties()).getSettings(), new ArrayList<>(), new ArrayList<>()
                 );
         }
         return null;

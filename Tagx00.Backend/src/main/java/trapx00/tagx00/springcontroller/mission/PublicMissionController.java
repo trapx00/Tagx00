@@ -8,8 +8,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.entity.account.Role;
-import trapx00.tagx00.exception.viewexception.IllegalUriException;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
+import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
@@ -86,11 +86,9 @@ public class PublicMissionController {
     public ResponseEntity<Response> getText(@RequestParam(name = "token") String token) {
         try {
             return new ResponseEntity<>(publicMissionBlService.getText(token), HttpStatus.OK);
-        } catch (IllegalUriException e) {
+        } catch (TextNotExistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
-
     }
-
 }
