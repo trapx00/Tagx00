@@ -70,7 +70,7 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
     const { missionDetail, controllerProps } = this.props;
     return <WorkPageLayout >
       <>
-       <TextReader url={this.state.notation.textUrl}/>
+       <TextReader textUrl={this.state.notation.textUrl}/>
       </>
       <>
         <TextMissionTipCard

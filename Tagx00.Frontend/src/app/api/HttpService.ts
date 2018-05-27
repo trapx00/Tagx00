@@ -23,7 +23,6 @@ export class NetworkResponse<T = any> {
       isNetworkError: statusCode === NetworkErrorCode,
       isServerError: statusCode >= 500
     };
-    console.log(this);
   }
 }
 
@@ -33,6 +32,8 @@ export interface FetchInfo {
   method?: HttpMethod;
   queryParams?: any;
   body?: any;
+  headers?: {[s: string]: string};
+  mode?: RequestMode;
 }
 
 declare var APIROOTURL: string;
@@ -61,32 +62,45 @@ export class HttpService {
     }
   }
 
+  async fetchRaw(fetchInfo: FetchInfo = {}): Promise<Response> {
+    const body = fetchInfo.body
+      ? {body: fetchInfo.body}
+      : null;
+
+    const mode = fetchInfo.mode
+    ? { mode: fetchInfo.mode}
+    : {};
+
+    return await fetch(appendQueryString(fetchInfo.path, fetchInfo.queryParams), {
+        method: fetchInfo.method || HttpMethod.GET,
+        headers: fetchInfo.headers,
+        ...mode,
+        ...body
+      });
+  }
+
   async fetch<T = any>(fetchInfo: FetchInfo = {}): Promise<NetworkResponse<T>> {
-
-
     const authHeader = this.token
       ? {"Authorization": `Bearer ${this.token}`}
       : {};
-    const body = fetchInfo.body
-      ? {body: JSON.stringify(fetchInfo.body)}
-      : {};
-
-    const url = fetchInfo.path.startsWith("http") ? fetchInfo.path : urlJoin(APIROOTURL, fetchInfo.path);
-
     try {
-      const res = await fetch(appendQueryString(url, fetchInfo.queryParams), {
-        method: fetchInfo.method || HttpMethod.GET,
+      const response = await this.fetchRaw({
+        ...fetchInfo,
+        body: JSON.stringify(fetchInfo.body),
+        path: urlJoin(APIROOTURL, fetchInfo.path),
         headers: {
+          ...authHeader,
           'Content-Type': 'application/json',
-          ...authHeader
-        },
-        ...body
+          ...fetchInfo.headers,
+        }
       });
-      const json = await res.json();
-      return new NetworkResponse(res.status, json);
+      return new NetworkResponse(response.status, (await response.json()));
     } catch (e) {
       return new NetworkResponse(NetworkErrorCode, null, e);
     }
+
+
+
 
   }
 }

@@ -71,7 +71,7 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
     console.log(this.props.setting.classes);
     return <WorkPageLayout >
       <>
-        <TextReader url={this.state.notation.textUrl}/>
+        <TextReader textUrl={this.state.notation.textUrl}/>
       </>
       <>
         <TextMissionTipCard

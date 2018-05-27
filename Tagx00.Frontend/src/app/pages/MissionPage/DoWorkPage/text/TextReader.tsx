@@ -5,9 +5,10 @@ import { Inject } from "react.di";
 import { HttpService } from "../../../../api/HttpService";
 import { HttpMethod } from "../../../../api/utils";
 import styled from "styled-components";
+import { MissionService } from "../../../../api/MissionService";
 
 interface Props {
-  url: string;
+  textUrl: string;
 }
 
 const Container = styled.div`
@@ -18,16 +19,13 @@ const Container = styled.div`
 
 export class TextReader extends React.Component<Props, {}> {
 
-  @Inject http: HttpService;
+  @Inject missionService: MissionService;
 
   renderText = async () => {
-    const res = await this.http.fetch({
-      path: this.props.url,
-      method: HttpMethod.GET
-    });
+    const text = await this.missionService.getTextByUrl(this.props.textUrl);
 
     return <Container>
-      {JSON.stringify(res.response)}
+      {text}
     </Container>
 
 
