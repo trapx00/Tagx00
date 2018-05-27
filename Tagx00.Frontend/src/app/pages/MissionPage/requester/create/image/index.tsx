@@ -148,10 +148,13 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
           <Checkbox checked={this.info.allowCustomTag} onChange={this.onAllowCustomTagChanged}>
             {locale.allowCustomTag}
           </Checkbox>
+          <div>
           <TagSelector onSelectedChanged={this.onTagsChange}
                        selectedTags={toJS(this.info.allowedTags)}
                        placeholder={locale.tags}
+                       style={{display: "block", width: "100%"}}
           />
+          </div>
         </FormItem>
         <FormItem valid={this.info.imageTypesValid} messageOnInvalid={locale["requireTypes"]}>
           <p>{locale["types.name"]}</p>
