@@ -60,6 +60,7 @@ export class TopicSelector extends React.Component<Props, State> {
                    availableTags={this.state.availableTags}
                    allowCustomTag={false}
                    placeholder={locale.topics}
+                   
       />
     </div>;
   }
