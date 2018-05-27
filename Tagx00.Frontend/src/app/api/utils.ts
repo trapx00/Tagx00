@@ -9,7 +9,12 @@ export function urlJoin(...params: string[]) {
 export const NetworkErrorCode = -1;
 
 export function appendQueryString(url: string, params: any) {
-  return url + "?" + queryString.stringify(params);
+  const parsed = queryString.stringify(params);
+  if (parsed.length === 0) {
+    return url;
+  } else {
+    return url + "?" + parsed;
+  }
 }
 
 export enum HttpMethod {
