@@ -5,6 +5,6 @@ import { TextMissionPublicItem } from "./TextMissionPublicItem";
 
 
 export interface TextMissionDetail extends  MissionDetail<TextMissionPublicItem> {
-  textUrls: string[];
+  textTokens: string[];
   settings: TextMissionSetting[];
 }

@@ -7,7 +7,7 @@ import { MissionDetail } from "../../models/mission/MissionDetail";
 import { TextMissionDetail } from "../../models/mission/text/TextMissionDetail";
 import {
   TextMissionClassificationSetting,
-  TextMissionKeywordsSettings,
+  TextMissionKeywordsSetting,
   TextMissionType
 } from "../../models/mission/text/TextMissionProperties";
 import { HttpMethod } from "../utils";
@@ -55,13 +55,13 @@ export class MissionServiceMock extends MissionService {
         {
         textMissionType: TextMissionType.KEYWORDS,
         keywords: ["1","2"]
-      } as TextMissionKeywordsSettings,
+      } as TextMissionKeywordsSetting,
         {
           textMissionType: TextMissionType.CLASSIFICATION,
           classes: ["1","2","3"]
         } as TextMissionClassificationSetting,
       ],
-      textUrls: texts
+      textTokens: texts
     } as TextMissionDetail;
 
     // return  {
@@ -94,7 +94,7 @@ export class MissionServiceMock extends MissionService {
 
   }
 
-  async getTextByUrl(textUrl: string): Promise<string> {
+  async getTextByToken(textToken: string): Promise<string> {
     return "hahahahahahahahaha";
   }
 

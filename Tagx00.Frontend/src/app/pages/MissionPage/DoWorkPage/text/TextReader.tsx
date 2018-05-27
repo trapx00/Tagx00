@@ -8,7 +8,7 @@ import styled from "styled-components";
 import { MissionService } from "../../../../api/MissionService";
 
 interface Props {
-  textUrl: string;
+  textToken: string;
 }
 
 const Container = styled.div`
@@ -22,7 +22,7 @@ export class TextReader extends React.Component<Props, {}> {
   @Inject missionService: MissionService;
 
   renderText = async () => {
-    const text = await this.missionService.getTextByUrl(this.props.textUrl);
+    const text = await this.missionService.getTextByToken(this.props.textToken);
 
     return <Container>
       {text}
