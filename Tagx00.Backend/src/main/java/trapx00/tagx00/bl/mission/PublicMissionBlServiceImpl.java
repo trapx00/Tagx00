@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
+import trapx00.tagx00.dataservice.upload.TextDataService;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
+import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
+import trapx00.tagx00.response.mission.TextGetResponse;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
@@ -20,11 +23,12 @@ import java.util.ArrayList;
 public class PublicMissionBlServiceImpl implements PublicMissionBlService {
 
     private final PublicMissionDataService publicMissionDataService;
+    private final TextDataService textDataService;
 
     @Autowired
-    public PublicMissionBlServiceImpl(PublicMissionDataService publicMissionDataService) {
+    public PublicMissionBlServiceImpl(PublicMissionDataService publicMissionDataService, TextDataService textDataService) {
         this.publicMissionDataService = publicMissionDataService;
-
+        this.textDataService = textDataService;
     }
 
     @Override
@@ -32,6 +36,18 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         MissionDetailVo missionDetailVos = publicMissionDataService.getOneMissionDetail(missionId, MissionUtil.getType(missionId));
         publicMissionDataService.addBrowserUserToMission(missionId, UserInfoUtil.getUsername());
         return new MissionDetailResponse(missionDetailVos);
+    }
+
+    /**
+     * w
+     * get text by text token
+     *
+     * @param token
+     * @return
+     */
+    @Override
+    public TextGetResponse getText(String token) throws TextNotExistException {
+        return new TextGetResponse(textDataService.getText(token));
     }
 
     /**

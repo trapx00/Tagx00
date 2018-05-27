@@ -1,23 +1,29 @@
 package trapx00.tagx00.dataservice.upload;
 
-import trapx00.tagx00.exception.viewexception.SystemException;
-
-import java.io.File;
+import trapx00.tagx00.exception.viewexception.TextNotExistException;
 
 public interface TextDataService {
     /**
-     * upload the text to the oos cloud
+     * save the text
      *
-     * @param key  the id of the image
-     * @param path the text content path
-     * @return the url of the uploaded text
+     * @param token the token of the text
+     * @param text  the content of the text
+     * @return the token of the uploaded text
      */
-    String uploadText(String key, File file) throws SystemException;
+    String uploadText(String token, String text);
+
+    /**
+     * get text by its token
+     *
+     * @param token
+     * @return
+     */
+    String getText(String token) throws TextNotExistException;
 
     /**
      * delete the text
      *
-     * @param key the id of the text
+     * @param token the token of the text
      */
-    void deleteText(String key);
+    void deleteText(String token);
 }

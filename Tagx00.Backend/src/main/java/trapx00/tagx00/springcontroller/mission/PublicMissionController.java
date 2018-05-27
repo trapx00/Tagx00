@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.entity.account.Role;
+import trapx00.tagx00.exception.viewexception.IllegalUriException;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
@@ -61,6 +62,31 @@ public class PublicMissionController {
         try {
             return new ResponseEntity<>(publicMissionBlService.getOneMissionDetail(missionId), HttpStatus.OK);
         } catch (MissionIdDoesNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    //    @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
+    @Authorization(value = "工人、发布者、管理员")
+    @ApiOperation(value = "获得文本", notes = "通过base64后的url获得文本")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "string", paramType = "path"),
+            @ApiImplicitParam(name = "textToken", value = "base64后的url", required = true, dataType = "string", paramType = "path")
+    })
+    @RequestMapping(value = "/mission/text", method = RequestMethod.GET)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success", response = MissionDetailResponse.class),
+            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
+            @ApiResponse(code = 403, message = "Not requester or not the author of the mission", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
+    })
+    @ResponseBody
+    public ResponseEntity<Response> getText(@RequestParam(name = "token") String token) {
+        try {
+            return new ResponseEntity<>(publicMissionBlService.getText(token), HttpStatus.OK);
+        } catch (IllegalUriException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }

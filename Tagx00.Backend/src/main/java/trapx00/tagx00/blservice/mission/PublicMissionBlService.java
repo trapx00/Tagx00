@@ -1,8 +1,10 @@
 package trapx00.tagx00.blservice.mission;
 
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
+import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
+import trapx00.tagx00.response.mission.TextGetResponse;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 public interface PublicMissionBlService {
@@ -22,4 +24,11 @@ public interface PublicMissionBlService {
     MissionDetailResponse getOneMissionDetail(String missionId) throws MissionIdDoesNotExistException;
 
 
+    /**
+     * get text by text token
+     *
+     * @param token
+     * @return
+     */
+    TextGetResponse getText(String token) throws TextNotExistException;
 }
