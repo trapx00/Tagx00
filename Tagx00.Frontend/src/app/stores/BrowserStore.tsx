@@ -1,11 +1,11 @@
 import { action, computed, observable, runInAction } from "mobx";
-import { MissionPublicItem } from "../models/mission/Mission";
 import React from "react";
 import { MissionService } from "../api/MissionService";
 import { Inject, Injectable } from "react.di";
 import { Topic } from "../models/topic/Topic";
 import { TopicService } from "../api/TopicService";
 import { waitForMs } from "../../utils/Wait";
+import { MissionPublicItem } from "../models/mission/MissionPublicItem";
 
 
 @Injectable

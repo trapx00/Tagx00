@@ -1,15 +1,12 @@
 import React from 'react';
 import { Inject } from "react.di";
-import { Form, Input, Button, Modal } from 'antd';
-import { UserStore } from "../../stores/UserStore";
+import { Button, Input, Modal } from 'antd';
 import { requireLogin } from "../hoc/RequireLogin";
 import { UserRole } from "../../models/user/User";
 import { FormItem } from "../../components/Form/FormItem";
 import { LocaleMessage } from "../../internationalization/components";
-import { PayService } from "../../api/PayService";
 import { RequesterService } from "../../api/RequesterService";
 import { LocaleStore } from "../../stores/LocaleStore";
-import { DefinitionItem } from "../../components/DefinitionItem";
 import { RichFormItem } from "../../components/Form/RichFormItem";
 import { FormItemProps } from "antd/es/form";
 
@@ -60,7 +57,7 @@ export class MissionPayPage extends React.Component<Props, State> {
     this.setState({ fetchingRemainingCredits: true});
     if (this.state.missionId)
       try {
-        const res = await this.requesterService.getRemainingCreditsForAMission(this.state.missionId, this.props.token);
+        const res = await this.requesterService.getRemainingCreditsForAMission(this.state.missionId);
         this.setState({remainingCredits: res.remainingCredits, fetchingRemainingCredits: false,missionIdCheckOutOfDate: false});
       } catch (e) {
         this.setState({remainingCredits: -2, fetchingRemainingCredits: false, missionIdCheckOutOfDate: false});
@@ -88,7 +85,7 @@ export class MissionPayPage extends React.Component<Props, State> {
 
     if (this.submittable()) {
 
-      const res = await this.requesterService.payMission(this.state.missionId, parseInt(this.state.value), this.props.token);
+      const res = await this.requesterService.payMission(this.state.missionId, parseInt(this.state.value));
       this.setState({remainingCredits: res.remainingCredits, paying: false});
       Modal.success({
         title: this.localeStore.get(ID_PREFIX + "paymentComplete")

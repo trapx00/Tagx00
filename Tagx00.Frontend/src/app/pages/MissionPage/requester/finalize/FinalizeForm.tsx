@@ -1,19 +1,15 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { MissionFinalizeParameters } from "../../../../models/instance/MissionFinalizeParameters";
-import { FormItemProps } from "antd/lib/form/FormItem";
-import { Form, Input, Icon } from 'antd';
-import { LocaleMessage, Localize } from "../../../../internationalization/components";
+import { Form, Input } from 'antd';
+import { Localize } from "../../../../internationalization/components";
 import { observer } from "mobx-react";
 import { action } from "mobx";
-import { RichFormItem } from "../../../../components/Form/RichFormItem";
 import { Link } from 'react-router-dom';
 import { FormItem } from "../../../../components/Form/FormItem";
 import { CreditInput } from "../../../../components/Pay/CreditInput";
-import { Inject } from "react.di";
 
 interface Props {
   value: MissionFinalizeParameters;
-  readonly: boolean;
   missionId: string;
 
   getAvailableCredits(): Promise<number>;
@@ -56,28 +52,19 @@ export class FinalizeForm extends React.Component<Props, {}> {
         props => <Form className="login-form">
           <FormItem valid={value.expRadioValid} messageOnInvalid={props.requireExpRatio}>
             <Input addonBefore={props.expRatio}
-                   disabled={this.props.readonly}
                    onChange={this.onExpRadioChange}
                    placeholder={props.expRatio}
                    value={value.expRatio}
             />
           </FormItem>
-          {this.props.readonly
-            ? <FormItem valid={true} messageOnInvalid={null}>
-              <Input addonBefore={props.credits}
-                     value={value.credits}
-                     disabled={true}
-              />
-            </FormItem>
-            :
+
             <CreditInput onChanged={this.onCreditsChange}
                          getRemainingCredits={this.props.getAvailableCredits}
                          toPayJumpTo={`/pay/mission?missionId=${this.props.missionId}`}
             />
-          }
+
           <FormItem valid={true} messageOnInvalid={null}>
             <Input.TextArea
-              disabled={this.props.readonly}
               onChange={this.onCommentChange}
               placeholder={props.comment}
               value={value.comment}

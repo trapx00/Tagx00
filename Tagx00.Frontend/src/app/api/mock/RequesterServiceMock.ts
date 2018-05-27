@@ -4,24 +4,20 @@ import { Injectable } from "react.di";
 import { MissionCreate } from "../../models/mission/create/MissionCreate";
 import { RequesterService } from "../RequesterService";
 import { MissionPublicResponse } from "../../models/response/mission/MissionPublicResponse";
-import { HttpMethod } from "../utils";
 import { MissionType } from "../../models/mission/Mission";
-import { RequesterInfo} from "../../models/userInfo/RequesterInfo";
+import { RequesterInfo } from "../../models/userInfo/RequesterInfo";
 import { ImageInstanceDetail } from "../../models/instance/image/ImageInstanceDetail";
 import { MissionInstanceState } from "../../models/instance/MissionInstanceState";
 import { InstanceDetailResponse } from "../../models/response/mission/InstanceDetailResponse";
-import { MissionFinalizeParameters, MissionFinalizeVo } from "../../models/instance/MissionFinalizeParameters";
+import { MissionFinalizeVo } from "../../models/instance/MissionFinalizeParameters";
 import { InstanceResponse } from "../../models/response/mission/InstanceResponse";
-import { RequesterCreditBoardResponse } from "../../models/leaderboard/RequesterCreditBoardResponse";
-import { RequesterCreditSelfRankResponse } from "../../models/leaderboard/RequesterCreditSelfRankResponse";
 import { MissionRequestQueryResponse } from "../../models/response/mission/MissionRequestQueryResponse";
 import { MissionChargeResponse } from "../../models/response/mission/MissionChargeResponse";
-import { waitForMs } from "../../../utils/Wait";
 
 @Injectable
 export class RequesterServiceMock extends RequesterService {
 
-  async createMission(createVo: MissionCreate, token: string): Promise<MissionCreateResponse> {
+  async createMission(createVo: MissionCreate): Promise<MissionCreateResponse> {
     // mock
     return {
       id: "123",
@@ -30,12 +26,17 @@ export class RequesterServiceMock extends RequesterService {
 
   }
 
-  async uploadImageFile(missionId: string, formData: FormData, order: number, isCover: boolean, token: string): Promise<ImageUploadResponse> {
+  async uploadImageFile(missionId: string, formData: FormData, order: number, isCover: boolean): Promise<ImageUploadResponse> {
 
     // mock
     return {
       url: "123"
     };
+
+  }
+
+  async uploadTextZipFile(missionId: string, formData: FormData, token: string) : Promise<void> {
+
 
   }
 
@@ -64,7 +65,7 @@ export class RequesterServiceMock extends RequesterService {
     }
   };
 
-  async getRequesterInfo(username: string, token: string): Promise<RequesterInfo> {
+  async getRequesterInfo(username: string): Promise<RequesterInfo> {
       return {
           username: "123",
           email: "1@1.com",
@@ -76,7 +77,7 @@ export class RequesterServiceMock extends RequesterService {
       } as RequesterInfo;
   };
 
-  async getAllInstancesByMissionId(missionId: string, token: string): Promise<InstanceResponse> {
+  async getAllInstancesByMissionId(missionId: string): Promise<InstanceResponse> {
     return {
       instances: [1, 2, 3, 4, 5].map(x =>
         ({
@@ -97,14 +98,14 @@ export class RequesterServiceMock extends RequesterService {
     };
   }
 
-  async payMission(missionId: string, credits: number, token: string): Promise<MissionChargeResponse> {
+  async payMission(missionId: string, credits: number): Promise<MissionChargeResponse> {
     return {
       remainingCredits: 10
     }
   }
 
 
-  async getInstanceDetail(instanceId: string, token: string): Promise<InstanceDetailResponse> {
+  async getInstanceDetail(instanceId: string): Promise<InstanceDetailResponse> {
     return {
       detail:
         {
@@ -128,7 +129,7 @@ export class RequesterServiceMock extends RequesterService {
     }
   }
 
-  async finalize(instanceId: string, parameters: MissionFinalizeVo, token: string) : Promise<InstanceDetailResponse> {
+  async finalize(instanceId: string, parameters: MissionFinalizeVo) : Promise<InstanceDetailResponse> {
     return {
       detail:
         {
@@ -153,7 +154,7 @@ export class RequesterServiceMock extends RequesterService {
 
   }
 
-  async getRemainingCreditsForAMission(missionId: string, token: string): Promise<MissionRequestQueryResponse> {
+  async getRemainingCreditsForAMission(missionId: string): Promise<MissionRequestQueryResponse> {
     // await waitForMs(1000);
     // if (Math.random() < 0.5) {
     //   throw {};

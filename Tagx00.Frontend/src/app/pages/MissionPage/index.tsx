@@ -1,23 +1,11 @@
 import React from "react";
-import { Redirect, Route, RouteComponentProps, Switch } from "react-router";
-import { AsyncComponent } from "../../router/AsyncComponent";
+import { Redirect, Route, Switch } from "react-router";
 import { Location } from "history";
 import { parseQueryString } from "../../router/utils";
 import { MissionDetailPage } from "./MissionDetailPage";
 import { UserRole } from "../../models/user/User";
 import { requireLogin } from "../hoc/RequireLogin";
 import { AsyncRoute } from "../../router/AsyncRoute";
-
-
-async function renderRequester() {
-  const Page = (await import("./requester")).RequesterMissionPage;
-  return <Page/>;
-}
-
-async function renderWorker() {
-  const Page = (await import("./worker")).WorkerMissionPage;
-  return <Page/>;
-}
 
 const redirectMap = {
   [UserRole.ROLE_REQUESTER]: "requester",
@@ -42,15 +30,15 @@ interface Props {
 }
 
 @requireLogin()
-export class MissionPage extends React.Component<Props> {
+export default class MissionPage extends React.Component<Props> {
 
   render() {
     const redirectTo = redirectMap[this.props.currentRole];
     return <Switch>
       <Route exact path={"/mission"}
              render={props => <MissionPageRoot search={props.location.search} redirectTo={redirectTo}/>}/>
-      <AsyncRoute path={"/mission/requester"} render={renderRequester}/>
-      <AsyncRoute path={"/mission/worker"} render={renderWorker}/>
+      <AsyncRoute path={"/mission/requester"} component={import("./requester")}/>
+      <AsyncRoute path={"/mission/worker"} component={import("./worker")}/>
 
     </Switch>
   }

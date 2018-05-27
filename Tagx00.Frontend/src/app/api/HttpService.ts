@@ -33,7 +33,6 @@ export interface FetchInfo {
   method?: HttpMethod;
   queryParams?: any;
   body?: any;
-  token?: string;
 }
 
 declare var APIROOTURL: string;
@@ -41,15 +40,18 @@ declare var APIROOTURL: string;
 @Injectable
 export class HttpService {
 
+  token: string  = "";
+
   async sendFile<T = any>(files: FormData,
                           url: string,
+                          token: string,
                           queryParams?: any,
                           headers?: {[s: string]: string}): Promise<NetworkResponse<T>> {
     const actualUrl = urlJoin(APIROOTURL, url);
     try {
       const res = await fetch(appendQueryString(actualUrl, queryParams), {
         method: HttpMethod.POST,
-        headers: headers,
+        headers: {Authorization: "Bearer "+token, ...headers},
         body: files
       });
       const json = await res.json();
@@ -62,14 +64,14 @@ export class HttpService {
   async fetch<T = any>(fetchInfo: FetchInfo = {}): Promise<NetworkResponse<T>> {
 
 
-    const authHeader = fetchInfo.token
-      ? {"Authorization": `Bearer ${fetchInfo.token}`}
+    const authHeader = this.token
+      ? {"Authorization": `Bearer ${this.token}`}
       : {};
     const body = fetchInfo.body
       ? {body: JSON.stringify(fetchInfo.body)}
       : {};
 
-    const url = urlJoin(APIROOTURL, fetchInfo.path);
+    const url = fetchInfo.path.startsWith("http") ? fetchInfo.path : urlJoin(APIROOTURL, fetchInfo.path);
 
     try {
       const res = await fetch(appendQueryString(url, fetchInfo.queryParams), {

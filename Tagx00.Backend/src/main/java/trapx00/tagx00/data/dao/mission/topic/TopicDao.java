@@ -1,15 +1,8 @@
 package trapx00.tagx00.data.dao.mission.topic;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import trapx00.tagx00.entity.mission.topic.Topic;
 
-import java.util.ArrayList;
-
-public interface TopicDao {
-    Topic save(Topic topics);
-
-    ArrayList<Topic> findAll();
-
+public interface TopicDao extends JpaRepository<Topic, Integer> {
     Topic findTopicByValue(String value);
-
-    void delete(int id);
 }

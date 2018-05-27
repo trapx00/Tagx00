@@ -7,7 +7,6 @@ import { BrowserStore } from "../../stores/BrowserStore";
 import { Inject } from "react.di";
 import { AsyncComponent } from "../../router/AsyncComponent";
 import { Loading } from "../../components/Common/Loading";
-import styled from "styled-components";
 
 const Search = Input.Search;
 

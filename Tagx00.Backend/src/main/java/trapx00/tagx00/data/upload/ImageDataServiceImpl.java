@@ -7,7 +7,6 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import trapx00.tagx00.MainApplication;
 import trapx00.tagx00.dataservice.upload.ImageDataService;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.util.PathUtil;
@@ -20,7 +19,7 @@ import java.util.Date;
 @Service
 public class ImageDataServiceImpl implements ImageDataService {
     private final static String TEMP_PATH = PathUtil.getTmpPath();
-    private static final long EXPIRATION = new Date().getTime() + 1000 * 60 * 60 * 24 * 100;
+    private static final long EXPIRATION = Long.MAX_VALUE;
 
     @Value("${oos.accessKey}")
     private String accessKey;
@@ -42,7 +41,7 @@ public class ImageDataServiceImpl implements ImageDataService {
     public String uploadImage(String key, byte[] bytes) throws SystemException {
         try {
             //保存到临时文件
-            File file = new File(TEMP_PATH);
+            File file = new File(TEMP_PATH + "/image");
             FileImageOutputStream fileWriter = new FileImageOutputStream(file);
             fileWriter.write(bytes);
             fileWriter.close();

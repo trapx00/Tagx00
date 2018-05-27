@@ -7,6 +7,8 @@ import { CONTENT_SIDE_PADDING, UiStore } from "../../stores/UiStore";
 import { MainHeader } from "../../components/Nav/MainHeader";
 import { observer } from "mobx-react";
 import { NavStore } from "../../stores/NavStore";
+import { PageWideLoadingBar } from "../../components/PageWideLoadingBar";
+import { LoadingBarContainer } from "./LoadingBarContainer";
 
 const {Header, Content, Sider} = Layout;
 
@@ -18,12 +20,9 @@ export class BaseLayout extends React.Component<{}, {}> {
 
   render() {
     return <Layout className="layout">
-      {this.navStore.navMenuShown
-      &&
-
-      <Sider
-        trigger={null}
-      >
+      <LoadingBarContainer/>
+      {this.navStore.navMenuShown &&
+      <Sider trigger={null}>
         <MainNav/>
       </Sider>
       }

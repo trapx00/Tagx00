@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { LocaleDate, LocaleMessage, Localize } from "../../../internationalization/components";
-import { Input, Table, Divider } from 'antd';
+import { Divider, Input, Table } from 'antd';
 import { Instance } from "../../../models/instance/Instance";
 import { Inject } from "react.di";
 import { RequesterService } from "../../../api/RequesterService";
@@ -11,6 +11,7 @@ import { InstanceStateIndicator } from "../../../components/Mission/InstanceStat
 import styled from "styled-components";
 import { MissionInstanceState } from "../../../models/instance/MissionInstanceState";
 import { FinalizeModal } from "./finalize/FinalizeModal";
+import { FinalizeInfo, FinalizeInfoModal } from "./finalize/FinalizeInfoModal";
 
 const {Search} = Input;
 
@@ -22,7 +23,8 @@ interface State {
   loading: boolean;
   missionId: string;
   data: Instance[];
-  finalizeModalState: {shown: boolean, instanceId: string, readonly: boolean, missionId: string}
+  finalizeModalState: {shown: boolean, instanceId: string, missionId: string};
+  finalizeInfoState: { shown: boolean, info: FinalizeInfo };
 }
 
 const ID_PREFIX = "missions.requester.instancePanel.";
@@ -41,28 +43,6 @@ const Container = styled.div`
 `;
 
 
-function selectActions(item: Instance, showFinalizeModal: (readonly: boolean, instanceId: string, missionId: string) => void) {
-  const actions: ReactNode[] =  [
-    <Link to={`/mission/requester/instance/${item.instanceId}`} key={"seeResult"}>
-      <a><LocaleMessage id={TABLE_TITLE_ID_PREFIX + "seeResult"}/></a>
-    </Link>
-  ];
-
-  switch (item.missionInstanceState) {
-    case MissionInstanceState.SUBMITTED:
-      actions.push(<Divider key={"splitter1"} type={"vertical"}/>);
-      actions.push(<a onClick={() => showFinalizeModal(false, item.instanceId, item.missionId)}>
-          <LocaleMessage id={TABLE_TITLE_ID_PREFIX + "finalize"}/>
-        </a>);
-      break;
-    case MissionInstanceState.FINALIZED:
-      actions.push(<Divider key={"splitter1"} type={"vertical"}/>);
-      actions.push(<a key={"seeFinalizeResult"} onClick={() => showFinalizeModal(true, item.instanceId, item.missionId)}><LocaleMessage id={TABLE_TITLE_ID_PREFIX + "finalizeResult"}/></a>);
-      break;
-  }
-
-  return <span>{actions}</span>;
-}
 
 const TABLE_TITLE_ID_PREFIX = ID_PREFIX + "table.";
 
@@ -74,15 +54,22 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
   @Inject requesterService: RequesterService;
   @Inject userStore: UserStore;
 
+
+
   state = {
     loading: false,
     missionId: this.props.missionId || "",
     data: [],
-    finalizeModalState: { shown: false, instanceId: "", readonly: true, missionId: this.props.missionId || ""}
+    finalizeModalState: { shown: false, instanceId: "", missionId: this.props.missionId || ""},
+    finalizeInfoState: { shown: false, info: null }
   };
 
-  showFinalizeModal = (readonly: boolean, instanceId: string, missionId: string) => {
-    this.setState({ finalizeModalState: { shown: true, instanceId,  readonly, missionId }});
+  showFinalizeModal = (instanceId: string, missionId: string) => {
+    this.setState({ finalizeModalState: { shown: true, instanceId, missionId }});
+  };
+
+  showFinalizeInfoModal = (info: FinalizeInfo) => {
+    this.setState({ finalizeInfoState: {shown: true, info}});
   };
 
   onSearch = () => {
@@ -91,7 +78,7 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
 
   async fetchInfo() {
     this.setState({loading: true});
-    const result = await this.requesterService.getAllInstancesByMissionId(this.state.missionId, this.userStore.token);
+    const result = await this.requesterService.getAllInstancesByMissionId(this.state.missionId);
     this.setState({data: result.instances, loading: false});
   }
 
@@ -111,6 +98,36 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
     this.fetchInfo();
   };
 
+  closeFinalizeInfoModal = () => {
+    this.setState({ finalizeInfoState: {shown : false, info: null}});
+  };
+
+
+  selectActions(item: Instance) {
+    const actions: ReactNode[] =  [
+      <Link to={`/mission/requester/instance/${item.instanceId}`} key={"seeResult"}>
+        <a><LocaleMessage id={TABLE_TITLE_ID_PREFIX + "seeResult"}/></a>
+      </Link>
+    ];
+
+    switch (item.missionInstanceState) {
+      case MissionInstanceState.SUBMITTED:
+        actions.push(<Divider key={"splitter1"} type={"vertical"}/>);
+        actions.push(<a onClick={() => this.showFinalizeModal(item.instanceId, item.missionId)}>
+          <LocaleMessage id={TABLE_TITLE_ID_PREFIX + "finalize"}/>
+        </a>);
+        break;
+      case MissionInstanceState.FINALIZED:
+        actions.push(<Divider key={"splitter1"} type={"vertical"}/>);
+        actions.push(<a key={"seeFinalizeResult"}
+                        onClick={() => this.showFinalizeInfoModal(item as any)}>
+          <LocaleMessage id={TABLE_TITLE_ID_PREFIX + "finalizeResult"}/>
+        </a>);
+        break;
+    }
+
+    return <span>{actions}</span>;
+  }
 
   render() {
 
@@ -151,7 +168,7 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
       },
       {
         title: "action",
-        render: (_, item: Instance) => selectActions(item, this.showFinalizeModal)
+        render: (_, item: Instance) => this.selectActions(item)
       }
     ].map(x => ({...x, key: x.dataIndex, title: <LocaleMessage id={TABLE_TITLE_ID_PREFIX + x.title}/>}));
 
@@ -168,9 +185,12 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
       <Table rowKey={"instanceId"} columns={columns}
              dataSource={this.state.data}
              loading={this.state.loading}/>
-      <FinalizeModal {...this.state.finalizeModalState}
-                     close={this.closeFinalizeModal} refresh={this.refresh}/>
-
+      { this.state.finalizeModalState.shown
+      && <FinalizeModal {...this.state.finalizeModalState} close={this.closeFinalizeModal} refresh={this.refresh}/>
+      }
+      { this.state.finalizeInfoState.shown
+      && <FinalizeInfoModal info={this.state.finalizeInfoState.info} close={this.closeFinalizeInfoModal}/>
+      }
     </Container>
   }
 }

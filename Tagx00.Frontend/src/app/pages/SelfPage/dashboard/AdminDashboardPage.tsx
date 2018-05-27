@@ -2,8 +2,7 @@ import React from 'react';
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { AdminService } from "../../../api/AdminService";
 import { Inject } from "react.di";
-import { UserStore } from "../../../stores/UserStore";
-import { PieChart, Pie, Legend, Tooltip, Cell } from "recharts";
+import { Cell, Legend, Pie, PieChart, Tooltip } from "recharts";
 import { DefinitionItem } from "../../../components/DefinitionItem";
 import { LocaleMessage } from "../../../internationalization/components";
 import { MissionDateChart } from "./charts/InstanceAcceptedWithDateChart";
@@ -14,7 +13,6 @@ import { InstanceCyclePieChart } from "./charts/InstanceCyclePieChart";
 export class AdminDashboardPage extends React.Component<{}, {}> {
 
   @Inject adminService: AdminService;
-  @Inject userStore: UserStore;
 
   renderInfo = async () => {
     const MissionProps = {
@@ -41,7 +39,7 @@ export class AdminDashboardPage extends React.Component<{}, {}> {
     // finalizeInstanceCount: number;
     // //
 
-    const info = await this.adminService.getAdminInfo(this.userStore.token);
+    const info = await this.adminService.getAdminInfo();
 
 
     const colors = ["#39fc59", "#68ff41", "#4371ff", "#d6ff99"];

@@ -29,6 +29,7 @@ export class AsyncComponent<T> extends React.Component<AsyncComponentProps<T>, S
   async loadComponent() {
     try {
       const component = await this.props.render(this.props.props);
+      this.props.onRenderSuccess && this.props.onRenderSuccess();
       this.setState({
         component: component,
         loaded: true

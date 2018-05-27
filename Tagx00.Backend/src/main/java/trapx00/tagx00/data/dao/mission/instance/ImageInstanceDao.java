@@ -1,6 +1,14 @@
 package trapx00.tagx00.data.dao.mission.instance;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import trapx00.tagx00.entity.mission.instance.ImageInstance;
 
-public interface ImageInstanceDao extends InstanceDao<ImageInstance> {
+import java.util.ArrayList;
+
+public interface ImageInstanceDao extends JpaRepository<ImageInstance, String> {
+    ArrayList<ImageInstance> findImageInstancesByMissionId(String missionId);
+
+    ArrayList<ImageInstance> findImageInstancesByWorkerUsername(String workerUsername);
+
+    ImageInstance findImageInstanceByInstanceId(String instanceId);
 }

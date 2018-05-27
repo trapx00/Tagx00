@@ -1,20 +1,53 @@
 import React from "react";
-import { Menu, Icon } from "antd";
+import { Icon, Menu } from "antd";
+import { MissionType } from "../../../../models/mission/Mission";
+import { observer } from "mobx-react";
+import { Link } from 'react-router-dom';
+import { Inject } from "react.di";
+import { RouterStore } from "../../../../stores/RouterStore";
+import { LocaleMessage } from "../../../../internationalization/components";
 
 interface Props {
-  handleClick:(e)=>void,
-  current: string
 }
-export class MissionTypeMenu extends React.Component<Props,{}> {
+
+const URL = "/mission/requester/create/";
+
+const ID_PREFIX = "missions.createMission.menu.";
+
+const tabs = [
+  {
+    key: MissionType.IMAGE,
+    icon: "picture",
+    textId: ID_PREFIX + "IMAGE",
+  },
+  {
+    key: MissionType.TEXT,
+    icon: "file-text",
+    textId: ID_PREFIX + "TEXT",
+  }
+];
+
+@observer
+export class MissionTypeMenu extends React.Component<Props, {}> {
+
+  @Inject routerStore: RouterStore;
+
+  onClick = (e) => {
+    this.routerStore.jumpTo(URL + e.key);
+  };
+
   render() {
-    const props = this.props;
-    return <Menu onClick={props.handleClick} selectedKeys={[props.current]} mode="horizontal">
-        <Menu.Item key="image">
-          <Icon type="picture"/>图片标注
-        </Menu.Item>
-        <Menu.Item key="text">
-          <Icon type="file-text"/>文本标注
-        </Menu.Item>
-      </Menu>
+    const pathArray = this.routerStore.path.split("/");
+    const currentTab = pathArray[pathArray.length - 1];
+    return <Menu onClick={this.onClick}
+                 selectedKeys={[currentTab.toUpperCase()]}
+                 mode="horizontal">
+
+      {tabs.map(x =>
+        <Menu.Item key={x.key}>
+          <Icon type={x.icon}/>
+          <LocaleMessage id={x.textId}/>
+        </Menu.Item>)}
+    </Menu>
   }
 }

@@ -25,7 +25,7 @@ function inputValid(str: string) {
 
 const ID_PREFIX = "pay.account.";
 
-export class AccountPayPage extends React.Component<Props, State> {
+export default class AccountPayPage extends React.Component<Props, State> {
 
   @Inject userStore: UserStore;
   @Inject localeStore: LocaleStore;
@@ -51,7 +51,7 @@ export class AccountPayPage extends React.Component<Props, State> {
       return;
     }
     this.setState({ paying: true});
-    const res = await this.payService.pay(parseInt(this.state.input), this.userStore.token);
+    const res = await this.payService.pay(parseInt(this.state.input));
     this.setState({ remainingCredits: res.remainingCredits, paying: false });
     Modal.success({
       title: this.localeStore.get(ID_PREFIX + "paymentComplete")
@@ -59,7 +59,7 @@ export class AccountPayPage extends React.Component<Props, State> {
   };
 
   loadCurrentCredits = async () => {
-    const credits = (await this.payService.getCredits(this.userStore.token)).credits;
+    const credits = (await this.payService.getCredits()).credits;
     this.setState({ remainingCredits: credits});
   };
 

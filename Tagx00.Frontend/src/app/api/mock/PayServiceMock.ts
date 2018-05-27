@@ -4,11 +4,11 @@ import { PayResponse } from "../../models/response/pay/PayResponse";
 
 export class PayServiceMock extends PayService {
 
-  async getCredits(token: string): Promise<PayQueryResponse> {
+  async getCredits(): Promise<PayQueryResponse> {
     return { credits: 1};
   }
 
-  async pay(credits: number, token :string): Promise<PayResponse> {
+  async pay(credits: number): Promise<PayResponse> {
     return { remainingCredits: 1};
   }
 }

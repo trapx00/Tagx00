@@ -1,7 +1,6 @@
 import { Inject, Injectable } from "react.di";
 import { UserService } from "../api/UserService";
 import { UserStore } from "./UserStore";
-import { User } from "../models/user/User";
 
 @Injectable
 export class LevelStore {

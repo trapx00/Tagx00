@@ -3,7 +3,6 @@ import TweenOne from 'rc-tween-one';
 import OverPack from 'rc-scroll-anim/lib/ScrollOverPack';
 import QueueAnim from 'rc-queue-anim';
 import { LocaleMessage } from "../../internationalization/components";
-import { SvgImg } from "../Common/SvgImg";
 import { Link } from 'react-router-dom';
 import { observer } from "mobx-react";
 import { LocaleStore } from "../../stores/LocaleStore";

@@ -1,16 +1,14 @@
 package trapx00.tagx00.entity.account;
 
 
-import trapx00.tagx00.entity.Entity;
-import trapx00.tagx00.entity.annotation.Column;
-import trapx00.tagx00.entity.annotation.ElementCollection;
-import trapx00.tagx00.entity.annotation.Id;
-import trapx00.tagx00.entity.annotation.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import java.util.List;
-
+@Entity
 @Table(name = "user")
-public class User extends Entity {
+public class User {
     @Id
     @Column(name = "username")
     private String username;
@@ -18,9 +16,8 @@ public class User extends Entity {
     private String password;
     @Column(name = "email")
     private String email;
-    @ElementCollection(targetClass = Role.class)
-    @Column(name = "roles")
-    private List<Role> roles;
+    @Column(name = "role")
+    private Role role;
     @Column(name = "exp")
     private double exp;
     @Column(name = "credits")
@@ -29,11 +26,11 @@ public class User extends Entity {
     public User() {
     }
 
-    public User(String username, String password, String email, List<Role> roles, double exp, int credits) {
+    public User(String username, String password, String email, Role role, double exp, int credits) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.roles = roles;
+        this.role = role;
         this.exp = exp;
         this.credits = credits;
     }
@@ -62,12 +59,12 @@ public class User extends Entity {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public double getExp() {

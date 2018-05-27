@@ -1,5 +1,6 @@
 export enum MissionType {
-  IMAGE = "IMAGE"
+  IMAGE = "IMAGE",
+  TEXT = "TEXT"
 }
 
 export enum MissionState {
@@ -9,26 +10,4 @@ export enum MissionState {
 
 }
 
-export interface MissionPublicItem {
-  missionId: string;
-  requesterUsername: string;
-  title: string;
-  description: string;
-  topics: string[];
-  allowCustomTag: boolean;
-  allowedTags: string[];
-  missionType: MissionType;
-  start: Date;
-  end: Date;
-  coverUrl: string;
 
-  jobCount: number;
-  level:number;
-  credits: number;
-  minimalWorkerLevel: number;
-}
-
-export interface MissionDetail {
-  publicItem: MissionPublicItem;
-  missionState: MissionState;
-}

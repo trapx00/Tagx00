@@ -3,30 +3,46 @@ package trapx00.tagx00.data.mission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.mission.ImageMissionDao;
+import trapx00.tagx00.data.dao.mission.MissionDao;
+import trapx00.tagx00.data.dao.mission.TextMissionDao;
 import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
+import trapx00.tagx00.data.dao.mission.instance.TextInstanceDao;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.entity.mission.TextMission;
 import trapx00.tagx00.entity.mission.instance.Instance;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.publicdatas.mission.MissionType;
-import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 import trapx00.tagx00.vo.mission.image.ImageMissionDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageMissionPublicItemVo;
+import trapx00.tagx00.vo.mission.text.TextMissionDetailVo;
+import trapx00.tagx00.vo.mission.text.TextMissionPublicItemVo;
+import trapx00.tagx00.vo.mission.text.TextMissionSetting;
+import trapx00.tagx00.vo.mission.text.TextMissionType;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PublicMissionDataServiceImpl implements PublicMissionDataService {
 
+    private final MissionDao missionDao;
     private final ImageMissionDao imageMissionDao;
     private final ImageInstanceDao imageInstanceDao;
+    private final TextInstanceDao textInstanceDao;
+    private final TextMissionDao textMissionDao;
 
     @Autowired
-    public PublicMissionDataServiceImpl(ImageMissionDao imageMissionDao, ImageInstanceDao imageInstanceDao) {
-        this.imageMissionDao = imageMissionDao;
+    public PublicMissionDataServiceImpl(MissionDao missionDao, ImageMissionDao imageMissionDao, ImageInstanceDao imageInstanceDao, TextMissionDao textMissionDao, TextInstanceDao textInstanceDao) {
+        this.missionDao = missionDao;
         this.imageInstanceDao = imageInstanceDao;
+        this.imageMissionDao = imageMissionDao;
+        this.textInstanceDao = textInstanceDao;
+        this.textMissionDao = textMissionDao;
     }
 
     /**
@@ -39,15 +55,17 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
         ArrayList<Mission> missionArrayList = new ArrayList<>();
 
         missionArrayList.addAll(imageMissionDao.findAll());
+        missionArrayList.addAll(textMissionDao.findAll());
 
         Mission[] missions = missionArrayList.toArray(new Mission[missionArrayList.size()]);
-        if (missions == null)
-            return null;
         MissionPublicItemVo[] result = new MissionPublicItemVo[missions.length];
         for (int i = 0; i < missions.length; i++) {
             switch (missions[i].getMissionType()) {
                 case IMAGE:
                     result[i] = generateImageMissionPublicItemVo((ImageMission) missions[i]);
+                    break;
+                case TEXT:
+                    result[i] = generateTextMissionPublicItemVo((TextMission) missions[i]);
                     break;
             }
         }
@@ -64,6 +82,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
         ArrayList<Mission> missionArrayList = new ArrayList<>();
 
         missionArrayList.addAll(imageMissionDao.findAll());
+        missionArrayList.addAll(textMissionDao.findAll());
 
         return missionArrayList.toArray(new Mission[missionArrayList.size()]);
     }
@@ -77,19 +96,36 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
      * @returnxs
      */
     @Override
-    public MissionDetailVo getOneMissionDetail(int missionId, MissionType missionType) {
+    public MissionDetailVo getOneMissionDetail(String missionId, MissionType missionType) {
         MissionDetailVo missionDetailVo = null;
         switch (missionType) {
             case IMAGE:
-                ImageMission mission = imageMissionDao.findMissionByMissionId(missionId);
+                ImageMission mission = imageMissionDao.findImageMissionByMissionId(missionId);
                 if (mission == null)
                     return null;
                 if (mission.getMissionType().equals(MissionType.IMAGE)) {
-                    missionDetailVo = new ImageMissionDetailVo(new MissionPublicItemVo(
-                            MissionUtil.addTypeToId(missionId, missionType), mission.getTitle(), mission.getDescription(), mission.getTopics(),
-                            mission.isAllowCustomTag(), mission.getAllowedTags(), mission.getMissionType(),
-                            mission.getStart(), mission.getEnd(), mission.getCoverUrl(), mission.getLevel(), mission.getCredits(), mission.getMinimalWorkerLevel(), mission.getImageUrls().size() * mission.getImageMissionTypes().size(), mission.getRequesterUsername()
-                    ), mission.getMissionState(), mission.getRequesterUsername(), mission.getImageUrls(), mission.getImageMissionTypes());
+                    missionDetailVo = new ImageMissionDetailVo(new ImageMissionPublicItemVo(
+                            missionId, mission.getTitle(), mission.getDescription(), mission.getTopics(), missionType,
+                            mission.getStart(), mission.getEnd(), mission.getCoverUrl(),
+                            mission.getLevel(), mission.getCredits(), mission.getMinimalWorkerLevel(),
+                            mission.getImageUrls().size() * mission.getImageMissionTypes().size(), mission.getRequesterUsername(),
+                            mission.isAllowCustomTag(), mission.getAllowedTags(), mission.getImageMissionTypes()
+                    ),
+                            mission.getMissionState(), mission.getRequesterUsername(), mission.getImageUrls(), mission.getImageMissionTypes());
+                }
+                break;
+            case TEXT:
+                TextMission mission1 = textMissionDao.findTextMissionByMissionId(missionId);
+                if (mission1 == null)
+                    return null;
+                if (mission1.getMissionType().equals(MissionType.IMAGE)) {
+                    missionDetailVo = new TextMissionDetailVo(new TextMissionPublicItemVo(
+                            missionId, mission1.getTitle(),
+                            mission1.getDescription(), mission1.getTopics(), missionType,
+                            mission1.getStart(), mission1.getEnd(), mission1.getCoverUrl(), mission1.getLevel(), mission1.getCredits(),
+                            mission1.getMinimalWorkerLevel(), mission1.getTextUrls().size() * mission1.getTextMissionTypes().size(),
+                            mission1.getRequesterUsername(), mission1.getTextMissionTypes()
+                    ), mission1.getMissionState(), mission1.getRequesterUsername(), mission1.getTextUrls(), generateTextMissionSettings(mission1.getTextMissionTypes()));
                 }
                 break;
         }
@@ -106,13 +142,57 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
         ArrayList<Instance> instanceArrayList = new ArrayList<>();
 
         instanceArrayList.addAll(imageInstanceDao.findAll());
+        instanceArrayList.addAll(textInstanceDao.findAll());
 
         return instanceArrayList.toArray(new Instance[instanceArrayList.size()]);
     }
 
-    public ImageMissionPublicItemVo generateImageMissionPublicItemVo(ImageMission imageMission) {
-        return new ImageMissionPublicItemVo(MissionUtil.addTypeToId(imageMission.getMissionId(), imageMission.getMissionType()), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(),
-                imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), imageMission.getMissionType(),
-                imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(), imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(), imageMission.getImageUrls().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(), imageMission.getImageMissionTypes());
+    /**
+     * add the browsing username to the mission
+     *
+     * @param missionId
+     * @param username
+     */
+    @Override
+    public void addBrowserUserToMission(String missionId, String username) throws MissionIdDoesNotExistException {
+        Optional<Mission> optionalMission = missionDao.findById(missionId);
+        if (optionalMission.isPresent()) {
+            Mission mission = optionalMission.get();
+            List<String> browserUserList = mission.getBrowserUsers();
+            if (!browserUserList.contains(username)) {
+                browserUserList.add(username);
+            }
+            mission.setBrowserUsers(browserUserList);
+            missionDao.save(mission);
+        } else {
+            throw new MissionIdDoesNotExistException();
+        }
+    }
+
+    private ImageMissionPublicItemVo generateImageMissionPublicItemVo(ImageMission mission) {
+        return new ImageMissionPublicItemVo(
+                mission.getMissionId(), mission.getTitle(), mission.getDescription(), mission.getTopics(), mission.getMissionType(),
+                mission.getStart(), mission.getEnd(), mission.getCoverUrl(),
+                mission.getLevel(), mission.getCredits(), mission.getMinimalWorkerLevel(),
+                mission.getImageUrls().size() * mission.getImageMissionTypes().size(), mission.getRequesterUsername(),
+                mission.isAllowCustomTag(), mission.getAllowedTags(), mission.getImageMissionTypes()
+        );
+    }
+
+    private TextMissionPublicItemVo generateTextMissionPublicItemVo(TextMission mission1) {
+        return new TextMissionPublicItemVo(
+                mission1.getMissionId(), mission1.getTitle(),
+                mission1.getDescription(), mission1.getTopics(), mission1.getMissionType(),
+                mission1.getStart(), mission1.getEnd(), mission1.getCoverUrl(), mission1.getLevel(), mission1.getCredits(),
+                mission1.getMinimalWorkerLevel(), mission1.getTextUrls().size() * mission1.getTextMissionTypes().size(),
+                mission1.getRequesterUsername(), mission1.getTextMissionTypes()
+        );
+    }
+
+    private List<TextMissionSetting> generateTextMissionSettings(List<TextMissionType> missionTypes) {
+        List<TextMissionSetting> textMissionSettings = new ArrayList<>();
+        for (TextMissionType textMissionType : missionTypes)
+            textMissionSettings.add(new TextMissionSetting(textMissionType));
+        return textMissionSettings;
     }
 }

@@ -2,7 +2,6 @@ import { DistrictNotation } from "./Districts";
 import React from "react"
 import { DistrictDrawer } from "./DistrictCanvas/DistrictDrawer";
 import { observer } from "mobx-react";
-import { Point } from "../../../../models/instance/image/Shapes";
 import { getCursorPosition } from "../utils/getCursorPosition";
 
 interface ExistingDistrictsLayerProps {

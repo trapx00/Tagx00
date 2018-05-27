@@ -1,20 +1,26 @@
 package trapx00.tagx00.entity.mission.instance.workresult;
 
-import trapx00.tagx00.entity.Entity;
-import trapx00.tagx00.entity.annotation.Column;
-import trapx00.tagx00.entity.annotation.GeneratedValue;
-import trapx00.tagx00.entity.annotation.GenerationType;
-import trapx00.tagx00.entity.annotation.Id;
+import javax.persistence.Embeddable;
 
-public class WorkResult extends Entity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private int id;
-    @Column(name = "isDone")
+@Embeddable
+public class WorkResult {
+    private String workResultId;
     private boolean isDone;
 
     public WorkResult() {
+    }
+
+    public WorkResult(String workResultId, boolean isDone) {
+        this.workResultId = workResultId;
+        this.isDone = isDone;
+    }
+
+    public String getWorkResultId() {
+        return workResultId;
+    }
+
+    public void setWorkResultId(String workResultId) {
+        this.workResultId = workResultId;
     }
 
     public WorkResult(boolean isDone) {
@@ -23,14 +29,6 @@ public class WorkResult extends Entity {
 
     public boolean isDone() {
         return isDone;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setDone(boolean done) {
