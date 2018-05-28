@@ -73,11 +73,6 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 if ((result = textMissionDao.save((TextMission) mission)) == null) {
                     throw new SystemException();
                 }
-                FileOutputStream fileOut = new FileOutputStream(PathUtil.getSerPath() + "text_mission" + "_" + result.getMissionId());
-                ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                out.writeObject(((TextMission) result).getTextMissionSettings());
-                out.close();
-                fileOut.close();
                 break;
         }
         return result.getMissionId();
@@ -105,7 +100,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 }
                 FileOutputStream fileOut = new FileOutputStream(PathUtil.getSerPath() + "text_mission" + "_" + result.getMissionId());
                 ObjectOutputStream out = new ObjectOutputStream(fileOut);
-                out.writeObject(((TextMission) result).getTextMissionSettings());
+                out.writeObject(((TextMission) mission).getTextMissionSettings());
                 out.close();
                 fileOut.close();
                 break;
@@ -263,14 +258,14 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param credits
      */
     @Override
-    public void updateMission(String missionId, int credits, MissionType missionType) throws SystemException, IOException {
+    public void updateMission(String missionId, int credits, MissionType missionType) throws SystemException, IOException, MissionIdDoesNotExistException, ClassNotFoundException {
         Mission mission = null;
         switch (missionType) {
             case IMAGE:
                 mission = imageMissionDao.findImageMissionByMissionId(missionId);
                 break;
             case TEXT:
-                mission = textMissionDao.findTextMissionByMissionId(missionId);
+                mission = getMissionByMissionId(missionId);
                 break;
         }
         mission.setCredits(mission.getCredits() + credits);

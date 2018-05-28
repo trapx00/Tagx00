@@ -8,7 +8,6 @@ import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public interface RequesterMissionDataService {
@@ -66,7 +65,7 @@ public interface RequesterMissionDataService {
      * @param missionId
      * @param credits
      */
-    void updateMission(String missionId, int credits, MissionType missionType) throws SystemException, IOException;
+    void updateMission(String missionId, int credits, MissionType missionType) throws SystemException, IOException, MissionIdDoesNotExistException, ClassNotFoundException;
 
     /**
      * finalize the instance

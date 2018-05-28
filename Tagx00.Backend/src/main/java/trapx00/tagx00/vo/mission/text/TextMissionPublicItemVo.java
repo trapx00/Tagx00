@@ -1,6 +1,5 @@
 package trapx00.tagx00.vo.mission.text;
 
-import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 
@@ -9,22 +8,22 @@ import java.util.List;
 
 public class TextMissionPublicItemVo extends MissionPublicItemVo {
 
-    public List<TextMissionSetting> textMissionSettings;
+    public List<TextMissionType> missionTypes;
 
     public TextMissionPublicItemVo() {
     }
 
-    public TextMissionPublicItemVo(String missionId, String title, String description, List<String> topics, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername, List<TextMissionSetting> textMissionSettings) {
+    public TextMissionPublicItemVo(String missionId, String title, String description, List<String> topics, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername, List<TextMissionType> missionTypes) {
         super(missionId, title, description, topics, missionType, start, end, coverUrl, level, credits, minimalWorkerLevel, jobCount, requesterUsername);
-        this.textMissionSettings = textMissionSettings;
+        this.missionTypes = missionTypes;
     }
 
-    public List<TextMissionSetting> getTextMissionSettings() {
-        return textMissionSettings;
+    public List<TextMissionType> getMissionTypes() {
+        return missionTypes;
     }
 
-    public void setTextMissionSettings(List<TextMissionSetting> textMissionSettings) {
-        this.textMissionSettings = textMissionSettings;
+    public void setMissionTypes(List<TextMissionType> missionTypes) {
+        this.missionTypes = missionTypes;
     }
 }
 

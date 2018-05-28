@@ -126,7 +126,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                             textMission.getDescription(), textMission.getTopics(), missionType,
                             textMission.getStart(), textMission.getEnd(), textMission.getCoverUrl(), textMission.getLevel(), textMission.getCredits(),
                             textMission.getMinimalWorkerLevel(), textMission.getTextUrls().size() * textMission.getTextMissionSettings().size(),
-                            textMission.getRequesterUsername(), textMission.getTextMissionSettings()
+                            textMission.getRequesterUsername(), textMission.getTextMissionSettings().stream().collect(ArrayList::new, (list, textMissionSetting) -> list.add(textMissionSetting.getTextMissionType()), ArrayList::addAll)
                     ), textMission.getMissionState(), textMission.getRequesterUsername(), textMission.getTextUrls(), textMission.getTextMissionSettings());
                 }
                 break;
@@ -187,7 +187,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                 textMission.getDescription(), textMission.getTopics(), textMission.getMissionType(),
                 textMission.getStart(), textMission.getEnd(), textMission.getCoverUrl(), textMission.getLevel(), textMission.getCredits(),
                 textMission.getMinimalWorkerLevel(), textMission.getTextUrls().size() * textMission.getTextMissionSettings().size(),
-                textMission.getRequesterUsername(), textMission.getTextMissionSettings()
+                textMission.getRequesterUsername(), textMission.getTextMissionSettings().stream().collect(ArrayList::new, (list, textMissionSetting) -> list.add(textMissionSetting.getTextMissionType()), ArrayList::addAll)
         );
     }
 }
