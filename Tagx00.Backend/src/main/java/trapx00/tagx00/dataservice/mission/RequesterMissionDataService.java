@@ -8,6 +8,9 @@ import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public interface RequesterMissionDataService {
 
     /**
@@ -15,14 +18,14 @@ public interface RequesterMissionDataService {
      *
      * @param mission
      */
-    String updateMission(Mission mission) throws SystemException;
+    String updateMission(Mission mission) throws SystemException, IOException;
 
     /**
      * save mission
      *
      * @param mission
      */
-    String saveMission(Mission mission) throws SystemException;
+    String saveMission(Mission mission) throws SystemException, IOException;
 
     /**
      * get instance by instanceId
@@ -55,7 +58,7 @@ public interface RequesterMissionDataService {
      * @param missionId
      * @return
      */
-    Mission getMissionByMissionId(String missionId) throws MissionIdDoesNotExistException;
+    Mission getMissionByMissionId(String missionId) throws MissionIdDoesNotExistException, IOException, ClassNotFoundException;
 
     /**
      * update the mission's credits
@@ -63,7 +66,7 @@ public interface RequesterMissionDataService {
      * @param missionId
      * @param credits
      */
-    void updateMission(String missionId, int credits, MissionType missionType) throws SystemException;
+    void updateMission(String missionId, int credits, MissionType missionType) throws SystemException, IOException;
 
     /**
      * finalize the instance

@@ -3,9 +3,9 @@ package trapx00.tagx00.entity.mission;
 
 import trapx00.tagx00.entity.mission.favorite.TextFavorite;
 import trapx00.tagx00.entity.mission.instance.TextInstance;
+import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
-import trapx00.tagx00.vo.mission.text.TextMissionSetting;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,7 +16,7 @@ public class TextMission extends Mission {
     @Column(name = "textUrls")
     @ElementCollection(targetClass = String.class)
     private List<String> textUrls;
-    @Column(name = "textMissionType")
+    @Column(name = "textMissionSettings")
     @ElementCollection(targetClass = TextMissionSetting.class)
     private List<TextMissionSetting> textMissionSettings;
     @OneToMany(mappedBy = "textMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)

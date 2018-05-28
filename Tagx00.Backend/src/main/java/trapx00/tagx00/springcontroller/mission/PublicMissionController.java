@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
+import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
@@ -64,6 +65,9 @@ public class PublicMissionController {
         } catch (MissionIdDoesNotExistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
 
     }
@@ -89,6 +93,9 @@ public class PublicMissionController {
         } catch (TextNotExistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 }

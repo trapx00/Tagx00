@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import trapx00.tagx00.vo.mission.text.TextMissionSetting;
+import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 
 import java.lang.reflect.Type;
 

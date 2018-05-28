@@ -6,7 +6,7 @@ import trapx00.tagx00.config.jsonAdapter.*;
 import trapx00.tagx00.publicdatas.mission.image.ImageJob;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
-import trapx00.tagx00.vo.mission.text.TextMissionSetting;
+import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 
 public class GsonFactory {
     public static Gson get() {

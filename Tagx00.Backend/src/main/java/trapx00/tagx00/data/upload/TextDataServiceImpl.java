@@ -5,8 +5,13 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.mission.TextTokenDao;
 import trapx00.tagx00.dataservice.upload.TextDataService;
 import trapx00.tagx00.entity.mission.TextToken;
+import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.TextNotExistException;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.UnsupportedEncodingException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Service
@@ -26,8 +31,13 @@ public class TextDataServiceImpl implements TextDataService {
      * @return the token of the uploaded text
      */
     @Override
-    public String uploadText(String token, String text) {
-        textTokenDao.save(new TextToken(token, text));
+    public String uploadText(String token, String text) throws SystemException {
+        try {
+            textTokenDao.save(new TextToken(token, new SerialBlob(text.getBytes("GBK"))));
+        } catch (SQLException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
         return token;
     }
 
@@ -38,10 +48,16 @@ public class TextDataServiceImpl implements TextDataService {
      * @return
      */
     @Override
-    public String getText(String token) throws TextNotExistException {
+    public String getText(String token) throws TextNotExistException, SystemException {
         Optional<TextToken> optionalTextToken = textTokenDao.findById(token);
         if (optionalTextToken.isPresent()) {
-            return optionalTextToken.get().getText();
+            Blob blobText = optionalTextToken.get().getText();
+            try {
+                return new String(blobText.getBytes(1, (int) blobText.length()), "GBK");
+            } catch (UnsupportedEncodingException | SQLException e) {
+                e.printStackTrace();
+                throw new SystemException();
+            }
         } else {
             throw new TextNotExistException();
         }

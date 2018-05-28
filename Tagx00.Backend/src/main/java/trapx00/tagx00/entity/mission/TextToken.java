@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.sql.Blob;
 
 @Entity
 @Table(name = "textToken")
@@ -12,12 +13,12 @@ public class TextToken {
     @Column(name = "token")
     private String token;
     @Column(name = "text")
-    private String text;
+    private Blob text;
 
     public TextToken() {
     }
 
-    public TextToken(String token, String text) {
+    public TextToken(String token, Blob text) {
         this.token = token;
         this.text = text;
     }
@@ -30,11 +31,11 @@ public class TextToken {
         this.token = token;
     }
 
-    public String getText() {
+    public Blob getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(Blob text) {
         this.text = text;
     }
 }

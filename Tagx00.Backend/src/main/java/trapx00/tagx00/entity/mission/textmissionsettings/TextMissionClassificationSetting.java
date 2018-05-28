@@ -1,14 +1,17 @@
-package trapx00.tagx00.vo.mission.text;
+package trapx00.tagx00.entity.mission.textmissionsettings;
 
+import trapx00.tagx00.vo.mission.text.TextMissionType;
+
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import java.util.List;
 
 @Embeddable
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class TextMissionClassificationSetting extends TextMissionSetting {
 
+    @Column(name = "classes")
+    @ElementCollection(targetClass = String.class)
     private List<String> classes;
 
     public TextMissionClassificationSetting() {

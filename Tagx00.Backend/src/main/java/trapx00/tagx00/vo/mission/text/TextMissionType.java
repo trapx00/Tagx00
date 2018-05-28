@@ -1,5 +1,8 @@
 package trapx00.tagx00.vo.mission.text;
 
+import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionClassificationSetting;
+import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionKeywordsSettings;
+import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 import trapx00.tagx00.publicdatas.mission.text.TextJob;
 import trapx00.tagx00.publicdatas.mission.text.classification.TextClassificationJob;
 import trapx00.tagx00.publicdatas.mission.text.keyword.TextKeywordsJob;

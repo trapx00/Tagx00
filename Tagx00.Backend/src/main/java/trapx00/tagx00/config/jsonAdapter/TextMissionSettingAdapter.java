@@ -5,7 +5,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import trapx00.tagx00.config.GsonFactory;
-import trapx00.tagx00.vo.mission.text.TextMissionSetting;
+import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 import trapx00.tagx00.vo.mission.text.TextMissionType;
 
 import java.lang.reflect.Type;

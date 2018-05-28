@@ -8,6 +8,7 @@ import trapx00.tagx00.data.dao.mission.TextMissionDao;
 import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
 import trapx00.tagx00.data.dao.mission.instance.TextInstanceDao;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
+import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.entity.mission.TextMission;
@@ -21,6 +22,7 @@ import trapx00.tagx00.vo.mission.image.ImageMissionPublicItemVo;
 import trapx00.tagx00.vo.mission.text.TextMissionDetailVo;
 import trapx00.tagx00.vo.mission.text.TextMissionPublicItemVo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,14 +35,16 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
     private final ImageInstanceDao imageInstanceDao;
     private final TextInstanceDao textInstanceDao;
     private final TextMissionDao textMissionDao;
+    private final RequesterMissionDataService requesterMissionDataService;
 
     @Autowired
-    public PublicMissionDataServiceImpl(MissionDao missionDao, ImageMissionDao imageMissionDao, ImageInstanceDao imageInstanceDao, TextMissionDao textMissionDao, TextInstanceDao textInstanceDao) {
+    public PublicMissionDataServiceImpl(MissionDao missionDao, ImageMissionDao imageMissionDao, ImageInstanceDao imageInstanceDao, TextMissionDao textMissionDao, TextInstanceDao textInstanceDao, RequesterMissionDataService requesterMissionDataService) {
         this.missionDao = missionDao;
         this.imageInstanceDao = imageInstanceDao;
         this.imageMissionDao = imageMissionDao;
         this.textInstanceDao = textInstanceDao;
         this.textMissionDao = textMissionDao;
+        this.requesterMissionDataService = requesterMissionDataService;
     }
 
     /**
@@ -94,7 +98,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
      * @returnxs
      */
     @Override
-    public MissionDetailVo getOneMissionDetail(String missionId, MissionType missionType) {
+    public MissionDetailVo getOneMissionDetail(String missionId, MissionType missionType) throws MissionIdDoesNotExistException, IOException, ClassNotFoundException {
         MissionDetailVo missionDetailVo = null;
         switch (missionType) {
             case IMAGE:
@@ -113,7 +117,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                 }
                 break;
             case TEXT:
-                TextMission textMission = textMissionDao.findTextMissionByMissionId(missionId);
+                TextMission textMission = (TextMission) requesterMissionDataService.getMissionByMissionId(missionId);
                 if (textMission == null)
                     return null;
                 if (textMission.getMissionType().equals(MissionType.TEXT)) {

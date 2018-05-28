@@ -74,7 +74,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                     requesterMissionDataService.updateMission(imageMission);
                     return new UploadMissionImageResponse(url);
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new SystemException();
         }
@@ -102,6 +102,9 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
             String descDir = TEMP_PATH + "/textZip";
             File pathFile = new File(descDir);
             if (!pathFile.exists()) {
+                pathFile.mkdirs();
+            } else {
+                pathFile.delete();
                 pathFile.mkdirs();
             }
             ZipFile zip = new ZipFile(file);
@@ -133,13 +136,14 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                 in.close();
                 out.close();
 
-                File textFile = new File(outPath);
-                Long textFileLength = textFile.length();
-                byte[] textFileContent = new byte[textFileLength.intValue()];
-                in = new FileInputStream(file);
-                in.read(textFileContent);
-                in.close();
-                String url = textDataService.uploadText(generateTextKey(missionId, index), new String(textFileContent, "utf-8"));
+                StringBuilder result = new StringBuilder();
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(outPath), "GBK"));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    result.append(line);
+                }
+                br.close();
+                String url = textDataService.uploadText(generateTextKey(missionId, index), new String(result));
                 textUrls.add(url);
 
                 index++;
@@ -148,7 +152,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
             requesterMissionDataService.updateMission(textMission);
             System.out.println("******************解压完毕********************");
             return new UploadMissionTextResponse("success");
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new SystemException();
         }

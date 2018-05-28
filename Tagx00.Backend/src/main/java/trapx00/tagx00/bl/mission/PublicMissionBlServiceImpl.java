@@ -6,6 +6,7 @@ import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.dataservice.upload.TextDataService;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
+import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
@@ -17,6 +18,7 @@ import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 import trapx00.tagx00.vo.paging.PagingInfoVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Service
@@ -32,8 +34,14 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
     }
 
     @Override
-    public MissionDetailResponse getOneMissionDetail(String missionId) throws MissionIdDoesNotExistException {
-        MissionDetailVo missionDetailVos = publicMissionDataService.getOneMissionDetail(missionId, MissionUtil.getType(missionId));
+    public MissionDetailResponse getOneMissionDetail(String missionId) throws MissionIdDoesNotExistException, SystemException {
+        MissionDetailVo missionDetailVos;
+        try {
+            missionDetailVos = publicMissionDataService.getOneMissionDetail(missionId, MissionUtil.getType(missionId));
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
         publicMissionDataService.addBrowserUserToMission(missionId, UserInfoUtil.getUsername());
         return new MissionDetailResponse(missionDetailVos);
     }
@@ -46,7 +54,7 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
      * @return
      */
     @Override
-    public TextGetResponse getText(String token) throws TextNotExistException {
+    public TextGetResponse getText(String token) throws TextNotExistException, SystemException {
         return new TextGetResponse(textDataService.getText(token));
     }
 

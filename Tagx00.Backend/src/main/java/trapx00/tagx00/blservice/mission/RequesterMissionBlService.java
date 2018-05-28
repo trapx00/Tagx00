@@ -54,7 +54,7 @@ public interface RequesterMissionBlService {
      * @param missionId
      * @return MissionRequestQueryResponse
      */
-    MissionRequestQueryResponse queryMissionCredits(String missionId) throws MissionIdDoesNotExistException;
+    MissionRequestQueryResponse queryMissionCredits(String missionId) throws MissionIdDoesNotExistException, SystemException;
 
 
     /**

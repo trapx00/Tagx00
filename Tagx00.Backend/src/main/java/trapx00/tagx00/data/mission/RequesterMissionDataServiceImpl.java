@@ -16,11 +16,13 @@ import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.entity.mission.instance.TextInstance;
 import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.entity.mission.instance.workresult.TextResult;
+import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.util.MissionUtil;
+import trapx00.tagx00.util.PathUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
@@ -29,6 +31,7 @@ import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceDetailVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceVo;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -58,7 +61,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param mission
      */
     @Override
-    public String updateMission(Mission mission) throws SystemException {
+    public String updateMission(Mission mission) throws SystemException, IOException {
         Mission result = null;
         switch (mission.getMissionType()) {
             case IMAGE:
@@ -70,6 +73,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 if ((result = textMissionDao.save((TextMission) mission)) == null) {
                     throw new SystemException();
                 }
+                FileOutputStream fileOut = new FileOutputStream(PathUtil.getSerPath() + "text_mission" + "_" + result.getMissionId());
+                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                out.writeObject(((TextMission) result).getTextMissionSettings());
+                out.close();
+                fileOut.close();
                 break;
         }
         return result.getMissionId();
@@ -81,7 +89,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param mission
      */
     @Override
-    public String saveMission(Mission mission) throws SystemException {
+    public String saveMission(Mission mission) throws SystemException, IOException {
         Mission result = null;
         switch (mission.getMissionType()) {
             case IMAGE:
@@ -95,6 +103,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 if ((result = textMissionDao.save((TextMission) mission)) == null) {
                     throw new SystemException();
                 }
+                FileOutputStream fileOut = new FileOutputStream(PathUtil.getSerPath() + "text_mission" + "_" + result.getMissionId());
+                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                out.writeObject(((TextMission) result).getTextMissionSettings());
+                out.close();
+                fileOut.close();
                 break;
         }
         return result.getMissionId();
@@ -225,10 +238,19 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @return
      */
     @Override
-    public Mission getMissionByMissionId(String missionId) throws MissionIdDoesNotExistException {
+    public Mission getMissionByMissionId(String missionId) throws MissionIdDoesNotExistException, IOException, ClassNotFoundException {
         Optional<Mission> optionalMission = missionDao.findById(missionId);
         if (optionalMission.isPresent()) {
-            return optionalMission.get();
+            Mission mission = optionalMission.get();
+            if (mission.getMissionType() == MissionType.TEXT) {
+                FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "text_mission" + "_" + mission.getMissionId());
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                List<TextMissionSetting> textMissionSettings = (List<TextMissionSetting>) in.readObject();
+                in.close();
+                fileIn.close();
+                ((TextMission) mission).setTextMissionSettings(textMissionSettings);
+            }
+            return mission;
         } else {
             throw new MissionIdDoesNotExistException();
         }
@@ -241,7 +263,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param credits
      */
     @Override
-    public void updateMission(String missionId, int credits, MissionType missionType) throws SystemException {
+    public void updateMission(String missionId, int credits, MissionType missionType) throws SystemException, IOException {
         Mission mission = null;
         switch (missionType) {
             case IMAGE:
