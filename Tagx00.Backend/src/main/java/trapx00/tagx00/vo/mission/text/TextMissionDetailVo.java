@@ -1,43 +1,43 @@
 package trapx00.tagx00.vo.mission.text;
 
+import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
-import trapx00.tagx00.vo.mission.text.TextMissionType;
 
 import java.util.List;
 
 public class TextMissionDetailVo extends MissionDetailVo {
 
-    private List<String> textUrls;
+    private List<String> tokens;
 
-    private List<TextMissionSetting> textMissionTypes;
+    private List<TextMissionSetting> settings;
 
-    public TextMissionDetailVo(List<String> textUrls, List<TextMissionSetting> textMissionTypes) {
-        this.textUrls = textUrls;
-        this.textMissionTypes = textMissionTypes;
+    public TextMissionDetailVo(List<String> tokens, List<TextMissionSetting> settings) {
+        this.tokens = tokens;
+        this.settings = settings;
     }
 
-    public TextMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, String requesterUsername, List<String> textUrls, List<TextMissionSetting> textMissionTypes) {
+    public TextMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, String requesterUsername, List<String> tokens, List<TextMissionSetting> settings) {
         super(publicItem, missionState, requesterUsername);
-        this.textUrls = textUrls;
-        this.textMissionTypes = textMissionTypes;
+        this.tokens = tokens;
+        this.settings = settings;
     }
 
-    public List<String> getTextUrls() {
-        return textUrls;
+    public List<String> getTokens() {
+        return tokens;
     }
 
-    public void setTextUrls(List<String> textUrls) {
-        this.textUrls = textUrls;
+    public void setTokens(List<String> tokens) {
+        this.tokens = tokens;
     }
 
-    public List<TextMissionSetting> getTextMissionTypes() {
-        return textMissionTypes;
+    public List<TextMissionSetting> getSettings() {
+        return settings;
     }
 
-    public void setTextMissionTypes(List<TextMissionSetting> textMissionTypes) {
-        this.textMissionTypes = textMissionTypes;
+    public void setSettings(List<TextMissionSetting> settings) {
+        this.settings = settings;
     }
 
 }

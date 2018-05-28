@@ -74,6 +74,9 @@ public class MissionUploadController {
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (MissionIdDoesNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }
 }

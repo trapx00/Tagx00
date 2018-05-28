@@ -29,6 +29,17 @@ public class PathUtil {
         return tempFileName + TEMP_FILE_NAME;
     }
 
+    public static void initFile() {
+        File dataDir = new File(getDatabasePath());
+        File serDir = new File(getSerPath());
+        if (!dataDir.exists()) {
+            dataDir.mkdirs();
+        }
+        if (!serDir.exists()) {
+            serDir.mkdirs();
+        }
+    }
+
     public static String getDatabasePath() {
         return ResourceUtil.getFilePathUnderRootDirOfJarFileOrClassDir("/data/");
     }

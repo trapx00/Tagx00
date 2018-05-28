@@ -25,5 +25,5 @@ public interface MissionUploadBlService {
      * @param multipartFile
      * @return the urls of the texts
      */
-    UploadMissionTextResponse uploadText(String missionId, MultipartFile multipartFile) throws SystemException;
+    UploadMissionTextResponse uploadText(String missionId, MultipartFile multipartFile) throws SystemException, MissionIdDoesNotExistException;
 }

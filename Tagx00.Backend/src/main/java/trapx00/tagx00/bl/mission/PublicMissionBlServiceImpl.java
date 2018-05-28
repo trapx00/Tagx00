@@ -4,9 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
+import trapx00.tagx00.dataservice.upload.TextDataService;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
+import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
+import trapx00.tagx00.response.mission.TextGetResponse;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
@@ -14,24 +18,44 @@ import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 import trapx00.tagx00.vo.paging.PagingInfoVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 @Service
 public class PublicMissionBlServiceImpl implements PublicMissionBlService {
 
     private final PublicMissionDataService publicMissionDataService;
+    private final TextDataService textDataService;
 
     @Autowired
-    public PublicMissionBlServiceImpl(PublicMissionDataService publicMissionDataService) {
+    public PublicMissionBlServiceImpl(PublicMissionDataService publicMissionDataService, TextDataService textDataService) {
         this.publicMissionDataService = publicMissionDataService;
-
+        this.textDataService = textDataService;
     }
 
     @Override
-    public MissionDetailResponse getOneMissionDetail(String missionId) throws MissionIdDoesNotExistException {
-        MissionDetailVo missionDetailVos = publicMissionDataService.getOneMissionDetail(missionId, MissionUtil.getType(missionId));
+    public MissionDetailResponse getOneMissionDetail(String missionId) throws MissionIdDoesNotExistException, SystemException {
+        MissionDetailVo missionDetailVos;
+        try {
+            missionDetailVos = publicMissionDataService.getOneMissionDetail(missionId, MissionUtil.getType(missionId));
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
         publicMissionDataService.addBrowserUserToMission(missionId, UserInfoUtil.getUsername());
         return new MissionDetailResponse(missionDetailVos);
+    }
+
+    /**
+     * w
+     * get text by text token
+     *
+     * @param token
+     * @return
+     */
+    @Override
+    public TextGetResponse getText(String token) throws TextNotExistException, SystemException {
+        return new TextGetResponse(textDataService.getText(token));
     }
 
     /**

@@ -7,6 +7,8 @@ import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 
+import java.io.IOException;
+
 public interface PublicMissionDataService {
 
     /**
@@ -30,7 +32,7 @@ public interface PublicMissionDataService {
      * @param missionType
      * @return the missionDetailVo
      */
-    MissionDetailVo getOneMissionDetail(String missionId, MissionType missionType);
+    MissionDetailVo getOneMissionDetail(String missionId, MissionType missionType) throws MissionIdDoesNotExistException, IOException, ClassNotFoundException;
 
 
     /**

@@ -1,9 +1,14 @@
-package trapx00.tagx00.vo.mission.text;
+package trapx00.tagx00.entity.mission.textmissionsettings;
 
-import java.util.List;
+import trapx00.tagx00.vo.mission.text.TextMissionType;
 
-public class TextMissionSetting {
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import java.io.Serializable;
 
+@Embeddable
+public class TextMissionSetting implements Serializable {
+    @Column(name = "textMissionType")
     private TextMissionType textMissionType;
 
     public TextMissionSetting() {

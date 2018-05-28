@@ -34,6 +34,7 @@ import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 import trapx00.tagx00.vo.mission.text.TextMissionProperties;
 import trapx00.tagx00.vo.ml.KeysVo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -74,7 +75,13 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
         }
         String username = UserInfoUtil.getUsername();
         mission.setTopics(keysVo.getKeys());
-        String missionId = requesterMissionDataService.saveMission(generateMission(mission));
+        String missionId;
+        try {
+            missionId = requesterMissionDataService.saveMission(generateMission(mission));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
         User user = userDataService.getUserByUsername(username);
         user.setCredits(user.getCredits() - mission.getCredits());
         userDataService.saveUser(user);
@@ -131,13 +138,18 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return MissionChargeResponse
      */
     @Override
-    public MissionChargeResponse chargeMission(String missionId, int credits) throws SystemException {
-        requesterMissionDataService.updateMission(missionId, credits, MissionUtil.getType(missionId));
-        User user = userDataService.getUserByUsername(UserInfoUtil.getUsername());
-        user.setCredits(user.getCredits() - credits);
-        userDataService.saveUser(user);
-        Mission mission = requesterMissionDataService.getMissionByMissionId(missionId, MissionUtil.getType(missionId));
-        return new MissionChargeResponse(mission.getCredits());
+    public MissionChargeResponse chargeMission(String missionId, int credits) throws SystemException, MissionIdDoesNotExistException {
+        try {
+            requesterMissionDataService.updateMission(missionId, credits, MissionUtil.getType(missionId));
+            User user = userDataService.getUserByUsername(UserInfoUtil.getUsername());
+            user.setCredits(user.getCredits() - credits);
+            userDataService.saveUser(user);
+            Mission mission = requesterMissionDataService.getMissionByMissionId(missionId);
+            return new MissionChargeResponse(mission.getCredits());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
     }
 
     /**
@@ -147,13 +159,14 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return MissionRequestQueryResponse
      */
     @Override
-    public MissionRequestQueryResponse queryMissionCredits(String missionId) throws MissionIdDoesNotExistException {
-        Mission result;
-        if ((result = requesterMissionDataService.getMissionByMissionId(missionId,
-                MissionUtil.getType(missionId))) == null)
-            throw new MissionIdDoesNotExistException();
-        else
+    public MissionRequestQueryResponse queryMissionCredits(String missionId) throws MissionIdDoesNotExistException, SystemException {
+        try {
+            Mission result = requesterMissionDataService.getMissionByMissionId(missionId);
             return new MissionRequestQueryResponse(result.getCredits());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
     }
 
 
@@ -165,21 +178,26 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return InstanceDetailResponse
      */
     @Override
-    public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws SystemException {
-        requesterMissionDataService.updateInstance(instanceId, missionFinalizeVo, MissionUtil.getType(instanceId));
-        InstanceDetailVo instanceDetailVo = requesterMissionDataService.getInstanceByInstanceId(instanceId, MissionUtil.getType(instanceId));
-        String missionId = instanceDetailVo.getInstance().getMissionId();
-        Mission mission = requesterMissionDataService.getMissionByMissionId(missionId, MissionUtil.getType(missionId));
-        User user = userDataService.getUserByUsername(instanceDetailVo.getInstance().getWorkerUsername());
-        user.setCredits(user.getCredits() + missionFinalizeVo.getCredits());
-        user.setExp(user.getExp() + missionFinalizeVo.getExpRatio() * mission.getLevel() * 20);
+    public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws SystemException, MissionIdDoesNotExistException {
+        try {
+            requesterMissionDataService.updateInstance(instanceId, missionFinalizeVo, MissionUtil.getType(instanceId));
+            InstanceDetailVo instanceDetailVo = requesterMissionDataService.getInstanceByInstanceId(instanceId, MissionUtil.getType(instanceId));
+            String missionId = instanceDetailVo.getInstance().getMissionId();
+            Mission mission = requesterMissionDataService.getMissionByMissionId(missionId);
+            User user = userDataService.getUserByUsername(instanceDetailVo.getInstance().getWorkerUsername());
+            user.setCredits(user.getCredits() + missionFinalizeVo.getCredits());
+            user.setExp(user.getExp() + missionFinalizeVo.getExpRatio() * mission.getLevel() * 20);
 
-        userDataService.saveUser(user);
+            userDataService.saveUser(user);
 
-        requesterMissionDataService.updateMission(mission.getMissionId(), -missionFinalizeVo.getCredits(), mission.getMissionType());
+            requesterMissionDataService.updateMission(mission.getMissionId(), -missionFinalizeVo.getCredits(), mission.getMissionType());
 
-        return new InstanceDetailResponse(
-                requesterMissionDataService.getInstanceByInstanceId(instanceId, MissionUtil.getType(instanceId)));
+            return new InstanceDetailResponse(
+                    requesterMissionDataService.getInstanceByInstanceId(instanceId, MissionUtil.getType(instanceId)));
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
     }
 
     private Mission generateMission(MissionCreateVo missionCreateVo) {
@@ -200,9 +218,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         missionCreateVo.getTopics(), missionCreateVo.getProperties().getType(), MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(),
                         "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(),
-                        missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(),
-                        ((TextMissionProperties) missionCreateVo.getProperties()).getTextMissionTypes()
-                        , new ArrayList<>(), new ArrayList<>()
+                        missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(), ((TextMissionProperties) missionCreateVo.getProperties()).getSettings(), new ArrayList<>(), new ArrayList<>()
                 );
         }
         return null;

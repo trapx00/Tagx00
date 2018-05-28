@@ -15,6 +15,7 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import trapx00.tagx00.util.PathUtil;
 
 @EnableTransactionManagement
 @SpringBootApplication
@@ -22,6 +23,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableAutoConfiguration(exclude = {JacksonAutoConfiguration.class})
 public class MainApplication {
+
+    static {
+        PathUtil.initFile();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class, args);

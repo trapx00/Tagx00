@@ -82,6 +82,9 @@ public class RequesterMissionController {
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionIdDoesNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -105,6 +108,9 @@ public class RequesterMissionController {
         } catch (MissionIdDoesNotExistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 
@@ -216,6 +222,9 @@ public class RequesterMissionController {
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionIdDoesNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }
 

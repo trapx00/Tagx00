@@ -1,5 +1,6 @@
 package trapx00.tagx00.vo.mission.text;
 
+import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
@@ -24,7 +25,7 @@ public class TextMissionProperties extends MissionProperties {
     public TextMissionProperties(List<TextMissionSetting> settings) {
 
         this.settings = settings;
-        for( TextMissionSetting a:settings){
+        for (TextMissionSetting a : settings) {
             textMissionTypes.add(a.getTextMissionType());
         }
     }
