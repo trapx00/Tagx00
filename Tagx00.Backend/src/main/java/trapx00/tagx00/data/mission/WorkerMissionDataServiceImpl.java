@@ -64,11 +64,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
      * @param
      */
     @Override
-    public String updateInstanceDetailVo(InstanceDetailVo instanceDetailVo) throws SystemException, MissionAlreadyAcceptedException {
-        if (0 == MissionUtil.getId(instanceDetailVo.getInstance().getInstanceId())) {
-            instanceDetailVo.setMissionType(instanceDetailVo.getMissionType());
-            instanceDetailVo = new ImageInstanceDetailVo(instanceDetailVo.getMissionType(), instanceDetailVo.getInstance(), new ArrayList<>());
-        }
+    public String updateInstanceDetailVo(InstanceDetailVo instanceDetailVo) throws SystemException {
         MissionType missionType = instanceDetailVo.getMissionType();
         InstanceVo instanceVo = instanceDetailVo.getInstance();
         Instance result = null;

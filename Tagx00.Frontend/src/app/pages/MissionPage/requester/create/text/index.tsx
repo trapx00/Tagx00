@@ -131,7 +131,9 @@ export default class TextMissionCreateInfoForm extends React.Component<Props, {}
         <span>{this.localeMessage("classification.prompt")}</span>
         <TagSelector onSelectedChanged={this.onClassesChanged}
                      selectedTags={this.info.classes}
-                     placeholder={this.localeMessage("classification.placeholder")}/>
+                     placeholder={this.localeMessage("classification.placeholder")}
+                     style={{display: "block", width: "100%"}}
+        />
       </FormItem>
       <FormItem valid={true} messageOnInvalid={""}>
         <Checkbox checked={this.info.enableKeywords} onChange={this.onKeywordsEnableChanged}/>
@@ -139,6 +141,7 @@ export default class TextMissionCreateInfoForm extends React.Component<Props, {}
         <TagSelector onSelectedChanged={this.onKeywordsChanged}
                      selectedTags={this.info.keywords}
                      placeholder={this.localeMessage("keywords.placeholder")}
+                     style={{display: "block", width: "100%"}}
         />
       </FormItem>
       <FormItem valid={this.info.zipValid} messageOnInvalid={this.localeMessage("zip.requireZip")}>

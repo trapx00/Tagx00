@@ -7,9 +7,10 @@ import { MissionDetail } from "../../models/mission/MissionDetail";
 import { TextMissionDetail } from "../../models/mission/text/TextMissionDetail";
 import {
   TextMissionClassificationSetting,
-  TextMissionKeywordsSettings,
+  TextMissionKeywordsSetting,
   TextMissionType
 } from "../../models/mission/text/TextMissionProperties";
+import { HttpMethod } from "../utils";
 
 export const imgs = [
   "https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/0E/00/ChMkJlnJ4TOIAyeVAJqtjV-XTiAAAgzDAE7v40Amq2l708.jpg",
@@ -21,7 +22,8 @@ export const imgs = [
 const texts = [
   // "https://raw.githubusercontent.com/viccrubs/VicBlog-Backend/master/VicBlogServer/Data/DefaultCrudDataController.cs"
   // "https://viccrubs.tk"
-"http://vicblogapi.azurewebsites.net/api/Articles"
+// "http://vicblogapi.azurewebsites.net/api/Articles",
+  "http://tagx00.oos-bj2.ctyunapi.cn/text_text-18_0?AWSAccessKeyId=c4582dec5d0809103126&Expires=9223372036854775&Signature=up6rePJY2fc92TzErMw5jbwTfmM%3D"
 ];
 
 
@@ -53,13 +55,13 @@ export class MissionServiceMock extends MissionService {
         {
         textMissionType: TextMissionType.KEYWORDS,
         keywords: ["1","2"]
-      } as TextMissionKeywordsSettings,
+      } as TextMissionKeywordsSetting,
         {
           textMissionType: TextMissionType.CLASSIFICATION,
           classes: ["1","2","3"]
         } as TextMissionClassificationSetting,
       ],
-      textUrls: texts
+      textTokens: texts
     } as TextMissionDetail;
 
     // return  {
@@ -90,6 +92,10 @@ export class MissionServiceMock extends MissionService {
     // } as ImageMissionDetail;
 
 
+  }
+
+  async getTextByToken(textToken: string): Promise<string> {
+    return "hahahahahahahahaha";
   }
 
 

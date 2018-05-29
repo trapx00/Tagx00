@@ -5,7 +5,7 @@ import { TagDescriptionTuple, TagTuple } from "../../../../models/instance/TagTu
 import { toJS } from "mobx";
 import { TextNotation } from "./TextWorkPageController";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
-import { TextMissionKeywordsSettings, TextMissionType } from "../../../../models/mission/text/TextMissionProperties";
+import { TextMissionKeywordsSetting, TextMissionType } from "../../../../models/mission/text/TextMissionProperties";
 import { WorkPageLayout } from "../WorkPageLayout";
 import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
 import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
@@ -15,11 +15,11 @@ import { MissionType } from "../../../../models/mission/Mission";
 import { TextReader } from "./TextReader";
 import { TextMissionTipCard } from "../../../../components/Mission/MissionTipCard/TextMissionTipCard";
 
-interface Props extends TextWorkPageProps<TextKeywordsJob>{
-  setting: TextMissionKeywordsSettings;
+interface Props extends TextWorkPageProps<TextKeywordsJob, TextMissionKeywordsSetting>{
+
 }
 
-function initializeNotation(notation: TextNotation<TextKeywordsJob>) {
+function initializeNotation(notation: TextNotation<TextKeywordsJob, TextMissionKeywordsSetting>) {
   if (!(notation.job && notation.job.tagTuples)) {
     notation.job = {
       type: TextMissionType.KEYWORDS,
@@ -31,7 +31,7 @@ function initializeNotation(notation: TextNotation<TextKeywordsJob>) {
 
 
 
-export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageState<TextKeywordsJob>> {
+export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageState<TextKeywordsJob, TextMissionKeywordsSetting>> {
   state = {
     notation: initializeNotation(this.props.notation),
     selectedIndex: -1,
@@ -42,7 +42,7 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.notation !== prevState.notation) {
       return {
-        notation: initializeNotation(nextProps.notation),
+        notation: initializeNotation(nextProps.notation)
       }
     } else {
       return null;
@@ -70,16 +70,18 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
     const { missionDetail, controllerProps } = this.props;
     return <WorkPageLayout >
       <>
-       <TextReader url={this.state.notation.textUrl}/>
+       <TextReader textToken={this.state.notation.textToken}/>
       </>
       <>
         <TextMissionTipCard
-                        setting={this.props.setting}
+                        setting={this.props.notation.setting}
                         title={missionDetail.publicItem.title}
         />
         <TagPanel tagTuples={job.tagTuples}
                   onChange={this.onTagChange}
                   readonly={this.props.readonlyMode}
+                  allowCustomTag={true}
+                  tags={this.props.notation.setting.keywords}
         />
         <ProgressController {...controllerProps}
                             goNext={this.goNext}

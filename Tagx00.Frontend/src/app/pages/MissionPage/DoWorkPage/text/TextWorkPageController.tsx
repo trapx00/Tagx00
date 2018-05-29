@@ -9,8 +9,9 @@ import { TextResult } from "../../../../models/instance/text/TextResult";
 import { Notation, WorkPageController } from "../WorkPageController";
 
 
-export interface TextNotation<T extends TextJob> extends Notation<T> {
-  textUrl: string;
+export interface TextNotation<T extends TextJob, S extends TextMissionSetting> extends Notation<T> {
+  textToken: string;
+  setting: S;
   job: T;
 }
 
@@ -31,9 +32,9 @@ function judgeJobComplete(job: KnownTextJob) {
   return false;
 }
 
-export class TextWorkPageController extends WorkPageController<TextMissionDetail, TextInstanceDetail, TextJob, TextNotation<TextJob>> {
+export class TextWorkPageController extends WorkPageController<TextMissionDetail, TextInstanceDetail, TextJob, TextNotation<TextJob, TextMissionSetting>> {
 
-  textUrls: string[] = [];
+  textTokens: string[] = [];
 
   settings: TextMissionSetting[];
 
@@ -44,7 +45,7 @@ export class TextWorkPageController extends WorkPageController<TextMissionDetail
       textResults: this.currentNotations.map((x, index) => ({
         workResultId: index+"",
         textJob: x.job,
-        url: x.textUrl,
+        url: x.textToken,
         isDone: judgeJobComplete(x.job as any)
       }) as TextResult),
       instance: instance
@@ -54,10 +55,10 @@ export class TextWorkPageController extends WorkPageController<TextMissionDetail
   constructor(missionDetail: TextMissionDetail, instanceDetail: TextInstanceDetail) {
     super(missionDetail, instanceDetail);
     this.settings = missionDetail.settings;
-    this.textUrls = missionDetail.textUrls;
+    this.textTokens = missionDetail.textTokens;
 
     // initialize jobs
-    for (const url of missionDetail.textUrls) {
+    for (const url of missionDetail.textTokens) {
       for (const setting of missionDetail.settings) {
         // find if the result is already exists
         const result = instanceDetail.textResults
@@ -65,12 +66,14 @@ export class TextWorkPageController extends WorkPageController<TextMissionDetail
 
         if (!result){
           this.currentNotations.push({
-            textUrl: url,
+            textToken: url,
+            setting: setting,
             job: { type: setting.textMissionType }
           });
         } else {
           this.currentNotations.push({
-            textUrl: url,
+            textToken: url,
+            setting: setting,
             job: result.textJob
           });
         }

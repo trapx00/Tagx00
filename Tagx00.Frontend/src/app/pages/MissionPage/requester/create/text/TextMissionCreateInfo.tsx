@@ -3,7 +3,7 @@ import { computed, observable } from "mobx";
 import { UploadFile } from "antd/es/upload/interface";
 import { MissionType } from "../../../../../models/mission/Mission";
 import {
-  TextMissionKeywordsSettings,
+  TextMissionKeywordsSetting,
   TextMissionProperties,
   TextMissionType
 } from "../../../../../models/mission/text/TextMissionProperties";

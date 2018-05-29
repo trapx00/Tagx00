@@ -10,7 +10,7 @@ import { WorkPage, WorkPageProps } from "../WorkPage";
 import { TextJob } from "../../../../models/instance/text/job/TextJob";
 import {
   TextMissionClassificationSetting,
-  TextMissionKeywordsSettings,
+  TextMissionKeywordsSetting, TextMissionSetting,
   TextMissionType
 } from "../../../../models/mission/text/TextMissionProperties";
 import { TextKeywordsWorkPage } from "./TextKeywordsWorkPage";
@@ -28,14 +28,12 @@ export class TextWorkPage extends React.Component<Props, {}> {
 
   @Inject controller: TextWorkPageController = new TextWorkPageController(this.props.missionDetail, this.props.instanceDetail);
 
-  chooseWorkPage = (context: WorkPageProps<TextMissionDetail, TextJob, TextNotation<TextJob>>) => {
-    switch (context.notation.job.type) {
+  chooseWorkPage = (context: WorkPageProps<TextMissionDetail, TextJob, TextNotation<TextJob, TextMissionSetting>>) => {
+    switch (context.notation.setting.textMissionType) {
       case TextMissionType.KEYWORDS:
-        return <TextKeywordsWorkPage setting={this.props.missionDetail.settings.find(x => x.textMissionType === TextMissionType.KEYWORDS) as TextMissionKeywordsSettings}
-                                     {...context as any}/>;
+        return <TextKeywordsWorkPage {...context as any}/>;
       case TextMissionType.CLASSIFICATION:
-        return <TextClassificationWorkPage setting={this.props.missionDetail.settings.find(x => x.textMissionType === TextMissionType.CLASSIFICATION) as TextMissionClassificationSetting}
-                                     {...context as any}
+        return <TextClassificationWorkPage {...context as any}
         />
     }
   };

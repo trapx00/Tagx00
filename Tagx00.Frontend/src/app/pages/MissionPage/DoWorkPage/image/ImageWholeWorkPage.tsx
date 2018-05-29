@@ -91,7 +91,8 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
           <TagDescriptionTuplePanel tuple={job.tuple}
                                     onChange={this.onTupleChange}
                                     readonlyMode={this.props.readonlyMode}
-                                    allowedTags={missionDetail.publicItem.allowCustomTag ? null : missionDetail.publicItem.allowedTags}
+                                    allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                                    tags={missionDetail.publicItem.allowedTags}
           />
           <ProgressController {...this.props.controllerProps}
             goNext={this.goNext}

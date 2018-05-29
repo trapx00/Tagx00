@@ -83,13 +83,13 @@
 //    }
 //
 //    @Test
-//    public void getMissionByMissionId() {
+//    public void getMissionByMissionIdAndMissionType() {
 //        try {
 //            requesterMissionDataService.saveMission(mission);
 //        } catch (SystemException e) {
 //            e.printStackTrace();
 //        }
-//        assertEquals("123", requesterMissionDataService.getMissionByMissionId(1, MissionType.IMAGE).getTitle());
+//        assertEquals("123", requesterMissionDataService.getMissionByMissionIdAndMissionType(1, MissionType.IMAGE).getTitle());
 //    }
 //
 //    @Test
@@ -126,7 +126,7 @@
 //        } catch (SystemException e) {
 //            e.printStackTrace();
 //        }
-//        assertEquals(110, requesterMissionDataService.getMissionByMissionId(1, MissionType.IMAGE).getCredits());
+//        assertEquals(110, requesterMissionDataService.getMissionByMissionIdAndMissionType(1, MissionType.IMAGE).getCredits());
 //    }
 //
 //    @Test

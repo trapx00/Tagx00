@@ -11,9 +11,9 @@ import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.TextMission;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
-import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.response.upload.UploadMissionImageResponse;
 import trapx00.tagx00.response.upload.UploadMissionTextResponse;
+import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.PathUtil;
 
 import javax.imageio.stream.FileImageOutputStream;
@@ -52,26 +52,33 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
     @Override
     public UploadMissionImageResponse uploadImage(String missionId, MultipartFile multipartFile, int order, boolean isCover) throws SystemException, MissionIdDoesNotExistException {
         try {
-            ImageMission imageMission = (ImageMission) requesterMissionDataService.getMissionByMissionId(missionId, MissionType.IMAGE);
-            if (imageMission != null) {
-                String url = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
-                List<String> urls = imageMission.getImageUrls();
-                if (isCover) {
-                    imageMission.setCoverUrl(url);
-                } else {
-                    urls.add(url);
-                    imageMission.setImageUrls(urls);
-                }
-                requesterMissionDataService.updateMission(imageMission);
-                return new UploadMissionImageResponse(url);
-
-            } else {
-                throw new MissionIdDoesNotExistException();
+            switch (MissionUtil.getType(missionId)) {
+                case TEXT:
+                    TextMission textMission = (TextMission) requesterMissionDataService.getMissionByMissionId(missionId);
+                    String url = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
+                    if (isCover) {
+                        textMission.setCoverUrl(url);
+                    }
+                    requesterMissionDataService.updateMission(textMission);
+                    return new UploadMissionImageResponse(url);
+                case IMAGE:
+                    ImageMission imageMission = (ImageMission) requesterMissionDataService.getMissionByMissionId(missionId);
+                    url = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
+                    List<String> urls = imageMission.getImageUrls();
+                    if (isCover) {
+                        imageMission.setCoverUrl(url);
+                    } else {
+                        urls.add(url);
+                        imageMission.setImageUrls(urls);
+                    }
+                    requesterMissionDataService.updateMission(imageMission);
+                    return new UploadMissionImageResponse(url);
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new SystemException();
         }
+        return null;
     }
 
     /**
@@ -82,10 +89,10 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
      * @return the urls of the texts
      */
     @Override
-    public UploadMissionTextResponse uploadText(String missionId, MultipartFile multipartFile) throws SystemException {
+    public UploadMissionTextResponse uploadText(String missionId, MultipartFile multipartFile) throws SystemException, MissionIdDoesNotExistException {
         //保存到临时文件
         try {
-            TextMission textMission = (TextMission) requesterMissionDataService.getMissionByMissionId(missionId, MissionType.TEXT);
+            TextMission textMission = (TextMission) requesterMissionDataService.getMissionByMissionId(missionId);
             List<String> textUrls = new ArrayList<>();
             File file = new File(TEMP_PATH + "/text");
             FileImageOutputStream fileWriter = new FileImageOutputStream(file);
@@ -95,6 +102,9 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
             String descDir = TEMP_PATH + "/textZip";
             File pathFile = new File(descDir);
             if (!pathFile.exists()) {
+                pathFile.mkdirs();
+            } else {
+                pathFile.delete();
                 pathFile.mkdirs();
             }
             ZipFile zip = new ZipFile(file);
@@ -125,15 +135,24 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                 }
                 in.close();
                 out.close();
-                String url = textDataService.uploadText(generateTextKey(missionId, index), new File(outPath));
+
+                StringBuilder result = new StringBuilder();
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(outPath), "GBK"));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    result.append(line);
+                }
+                br.close();
+                String url = textDataService.uploadText(generateTextKey(missionId, index), new String(result));
                 textUrls.add(url);
+
                 index++;
             }
             textMission.setTextUrls(textUrls);
             requesterMissionDataService.updateMission(textMission);
             System.out.println("******************解压完毕********************");
             return new UploadMissionTextResponse("success");
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new SystemException();
         }

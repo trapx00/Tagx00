@@ -22,6 +22,15 @@ export class MissionService {
 
   }
 
+  async getTextByToken(textToken: string): Promise<string> {
+    const res = await this.http.fetch({
+      path: `/mission/text`,
+      queryParams: { token: textToken },
+      method: HttpMethod.GET,
+    });
+    return res.response.text;
+  }
+
   async getAMission(missionId: string): Promise<MissionDetail> {
     const res = await this.http.fetch({
       path: `/mission/${missionId}`,

@@ -178,7 +178,8 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
             ? <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
                                         readonlyMode={readonlyMode}
                                         onChange={this.onTupleChanged}
-                                        allowedTags={missionDetail.publicItem.allowCustomTag ? null : missionDetail.publicItem.allowedTags}
+                                        allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                                        tags={missionDetail.publicItem.allowedTags}
             />
             : null}
 
