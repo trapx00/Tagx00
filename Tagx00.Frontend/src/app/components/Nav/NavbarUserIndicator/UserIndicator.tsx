@@ -1,6 +1,6 @@
 import { UserStore } from "../../../stores/UserStore";
 import React from "react";
-import { Dropdown, Icon, Menu } from 'antd';
+import { Dropdown, Avatar, Icon, Menu } from 'antd';
 import { observer } from "mobx-react";
 import { LocaleMessage } from "../../../internationalization/components/index";
 import { Link } from "react-router-dom";
@@ -32,9 +32,9 @@ export class UserIndicator extends React.Component<Props, {}> {
 
     return <Dropdown overlay={dropdownMenu} trigger={["click"]}>
       <a className="ant-dropdown-link">
-        <Icon type="user"/> <LocaleMessage id={"navbar.welcome"} replacements={{
+        <Avatar size="small" src={this.userStore.user.avatarUrl}/> <LocaleMessage id={"navbar.welcome"} replacements={{
         username: this.userStore.user.username
-      }}/> <Icon type="down"/>
+      }}/> <Icon type = "down"/>
       </a></Dropdown>;
   }
 }

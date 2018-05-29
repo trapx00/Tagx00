@@ -10,6 +10,7 @@ import { LeaderboardService } from "../../api/LeaderboardService";
 import { Loading } from "../../components/Common/Loading";
 import { MajorTitle, MinorTitle } from "./common";
 import { observer } from "mobx-react";
+import { LeaderboardLineChart } from "./lineChart/LeaderboardLineChart";
 
 @observer
 export default class RequesterCreditBoardPage extends React.Component<{}, {}> {
@@ -39,15 +40,20 @@ export default class RequesterCreditBoardPage extends React.Component<{}, {}> {
       title: '排名',
       dataIndex: 'order',
     }];
-    return (
-      <div>
+
+    const tops = [0,1,2,3,4].map(i => ({username: requesterCreditBoard.users[i].username, value: requesterCreditBoard.users[i].credits}));
+    return <div>
+        <MinorTitle>
+          巅峰榜单
+        </MinorTitle>
+        <LeaderboardLineChart data={tops}/>
         <MinorTitle>
           <LocaleMessage id={"leaderboard.rankListBoard"}/>
         </MinorTitle>
         <Table rowKey={"order"} dataSource={requesterCreditBoard.users} columns={columns}
                pagination={requesterCreditBoard.pagingInfo}/>
       </div>
-    );
+
   };
 
   render() {
