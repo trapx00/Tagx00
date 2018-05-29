@@ -26,7 +26,7 @@ public interface WorkerMissionBlService {
      * @param workerUsername
      * @return whether the abortion is successful
      */
-    SuccessResponse abort(String missionId, String workerUsername);
+    SuccessResponse abort(String missionId, String workerUsername) throws SystemException;
 
     /**
      * get the infomation of the instance of workers

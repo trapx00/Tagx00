@@ -8,6 +8,8 @@ import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
+import java.io.IOException;
+
 public interface WorkerMissionDataService {
 
     /**
@@ -15,7 +17,7 @@ public interface WorkerMissionDataService {
      *
      * @param instanceVo
      */
-    String updateInstanceDetailVo(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
+    String updateInstanceDetailVo(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, IOException;
 
     /**
      * save the progress of the instance.
@@ -24,7 +26,7 @@ public interface WorkerMissionDataService {
      *
      * @param instanceVo
      */
-    String saveInstanceDetailVo(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
+    String saveInstanceDetailVo(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, IOException;
 
     /**
      * save the instance
@@ -32,7 +34,7 @@ public interface WorkerMissionDataService {
      * @param instanceId
      * @param missionType
      */
-    int abortInstance(String instanceId, MissionType missionType);
+    int abortInstance(String instanceId, MissionType missionType) throws IOException;
 
 
     /**

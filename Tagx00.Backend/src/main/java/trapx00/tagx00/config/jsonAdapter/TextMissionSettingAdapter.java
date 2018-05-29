@@ -49,6 +49,6 @@ public class TextMissionSettingAdapter implements JsonDeserializer<TextMissionSe
      */
     @Override
     public JsonElement serialize(TextMissionSetting src, Type typeOfSrc, JsonSerializationContext context) {
-        return new Gson().toJsonTree(src);
+        return GsonFactory.get().toJsonTree(src);
     }
 }
