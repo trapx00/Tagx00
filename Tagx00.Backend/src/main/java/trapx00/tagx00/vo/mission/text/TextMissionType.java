@@ -14,19 +14,19 @@ public enum TextMissionType implements Serializable {
     CLASSIFICATION(TextClassificationJob.class, TextMissionClassificationSetting.class),
     KEYWORDS(TextKeywordsJob.class, TextMissionKeywordsSettings.class);
 
-    public final Class<? extends TextJob> clazz;
-    public final Class<? extends TextMissionSetting> textMissionClazz;
+    public final Class<? extends TextJob> jobClass;
+    public final Class<? extends TextMissionSetting> settingClass;
 
-    TextMissionType(Class<? extends TextJob> clazz, Class<? extends TextMissionSetting> textMissionClazz) {
-        this.clazz = clazz;
-        this.textMissionClazz = textMissionClazz;
+    TextMissionType(Class<? extends TextJob> jobClass, Class<? extends TextMissionSetting> settingClass) {
+        this.jobClass = jobClass;
+        this.settingClass = settingClass;
     }
 
-    public Class<? extends TextJob> getClazz() {
-        return clazz;
+    public Class<? extends TextJob> getJobClass() {
+        return jobClass;
     }
 
-    public Class<? extends TextMissionSetting> getTextMissionClazz() {
-        return textMissionClazz;
+    public Class<? extends TextMissionSetting> getSettingClass() {
+        return settingClass;
     }
 }
