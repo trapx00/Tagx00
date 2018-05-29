@@ -15,12 +15,12 @@ export const achievementPage: AsyncRouteConfig = {
   component: import("./AchievementPage")
 };
 
-export const personalInfoPage: AsyncRouteConfig = {
-  type: RouteType.Async,
-  exact: true,
-  path: "/self/personalInfo",
-  component: import("./personalInfo")
-};
+// export const personalInfoPage: AsyncRouteConfig = {
+//   type: RouteType.Async,
+//   exact: true,
+//   path: "/self/personalInfo",
+//   component: import()
+// };
 
 export const manageTopicsPage: AsyncRouteConfig = {
   type: RouteType.Async,
@@ -40,6 +40,6 @@ export default [
   selfRedirect,
   dashboardPage,
   achievementPage,
-  personalInfoPage,
+  // personalInfoPage,
   manageTopicsPage,
 ]

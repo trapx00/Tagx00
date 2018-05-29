@@ -33,7 +33,7 @@ function initializeNotation(notation: TextNotation<TextKeywordsJob, TextMissionK
 
 export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageState<TextKeywordsJob, TextMissionKeywordsSetting>> {
   state = {
-    notation: this.props.notation,
+    notation: initializeNotation(this.props.notation),
     selectedIndex: -1,
     addingMode: false,
 
@@ -42,7 +42,7 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.notation !== prevState.notation) {
       return {
-        notation: nextProps.notation
+        notation: initializeNotation(nextProps.notation)
       }
     } else {
       return null;
