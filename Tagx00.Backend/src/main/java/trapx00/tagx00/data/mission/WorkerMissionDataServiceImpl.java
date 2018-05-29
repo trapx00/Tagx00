@@ -24,6 +24,7 @@ import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.util.ApiUtil;
 import trapx00.tagx00.util.MissionUtil;
+import trapx00.tagx00.util.PathUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
@@ -31,7 +32,7 @@ import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceDetailVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceVo;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -64,7 +65,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
      * @param
      */
     @Override
-    public String updateInstanceDetailVo(InstanceDetailVo instanceDetailVo) throws SystemException {
+    public String updateInstanceDetailVo(InstanceDetailVo instanceDetailVo) throws SystemException, IOException {
         MissionType missionType = instanceDetailVo.getMissionType();
         InstanceVo instanceVo = instanceDetailVo.getInstance();
         Instance result = null;
@@ -73,12 +74,12 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
             case IMAGE:
                 ImageInstanceDetailVo imageInstanceDetailVo = (ImageInstanceDetailVo) instanceDetailVo;
                 ImageInstance imageInstance = generateImageInstance(instanceVo, imageInstanceDetailVo);
-                result = imageInstanceDao.save(imageInstance);
+                result = saveImageInstance(imageInstance);
                 break;
             case TEXT:
                 TextInstanceDetailVo textInstanceDetailVo = (TextInstanceDetailVo) instanceDetailVo;
                 TextInstance textInstance = generateTextInstance(instanceVo, textInstanceDetailVo);
-                result = textInstanceDao.save(textInstance);
+                result = saveTextInstance(textInstance);
         }
         if (result == null)
             throw new SystemException();
@@ -93,7 +94,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
      * @param instanceDetailVo
      */
     @Override
-    public String saveInstanceDetailVo(InstanceDetailVo instanceDetailVo) throws SystemException, MissionAlreadyAcceptedException {
+    public String saveInstanceDetailVo(InstanceDetailVo instanceDetailVo) throws SystemException, MissionAlreadyAcceptedException, IOException {
         if (0 == MissionUtil.getId(instanceDetailVo.getInstance().getInstanceId())) {
             instanceDetailVo.setMissionType(instanceDetailVo.getMissionType());
             instanceDetailVo = new ImageInstanceDetailVo(instanceDetailVo.getMissionType(), instanceDetailVo.getInstance(), new ArrayList<>());
@@ -107,13 +108,13 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 ImageInstanceDetailVo imageInstanceDetailVo = (ImageInstanceDetailVo) instanceDetailVo;
                 ImageInstance imageInstance = generateImageInstance(instanceVo, imageInstanceDetailVo);
                 imageInstance.setInstanceId(getNextId(imageInstanceDao.findAll(), MissionType.IMAGE));
-                result = imageInstanceDao.save(imageInstance);
+                result = saveImageInstance(imageInstance);
                 break;
             case TEXT:
                 TextInstanceDetailVo textInstanceDetailVo = (TextInstanceDetailVo) instanceDetailVo;
                 TextInstance textInstance = generateTextInstance(instanceVo, textInstanceDetailVo);
                 textInstance.setInstanceId(getNextId(textInstanceDao.findAll(), MissionType.TEXT));
-                result = textInstanceDao.save(textInstance);
+                result = saveTextInstance(textInstance);
                 break;
         }
         if (result == null)
@@ -128,17 +129,17 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
      * @param missionType
      */
     @Override
-    public int abortInstance(String instanceId, MissionType missionType) {
+    public int abortInstance(String instanceId, MissionType missionType) throws IOException {
         switch (missionType) {
             case IMAGE:
                 ImageInstance imageInstance = imageInstanceDao.findImageInstanceByInstanceId(instanceId);
                 imageInstance.setMissionInstanceState(MissionInstanceState.ABANDONED);
-                imageInstanceDao.save(imageInstance);
+                saveImageInstance(imageInstance);
                 break;
             case TEXT:
                 TextInstance textInstance = textInstanceDao.findTextInstanceByInstanceId(instanceId);
                 textInstance.setMissionInstanceState(MissionInstanceState.ABANDONED);
-                textInstanceDao.save(textInstance);
+                saveTextInstance(textInstance);
                 break;
         }
         return 0;
@@ -331,6 +332,48 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
             result = MissionUtil.getId(maxId.get().getInstanceId()) + 1;
         }
         return MissionUtil.addTypeToId(result, missionType);
+    }
+
+    private TextInstance saveTextInstance(TextInstance textInstance) throws IOException {
+        TextInstance result = textInstanceDao.save(textInstance);
+        FileOutputStream fileOut = new FileOutputStream(PathUtil.getSerPath() + "text_instance" + "_" + textInstance.getInstanceId());
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(textInstance.getTextResults());
+        out.close();
+        fileOut.close();
+        return result;
+    }
+
+    private ImageInstance saveImageInstance(ImageInstance imageInstance) throws IOException {
+        ImageInstance result = imageInstanceDao.save(imageInstance);
+        FileOutputStream fileOut = new FileOutputStream(PathUtil.getSerPath() + "image_instance" + "_" + imageInstance.getInstanceId());
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(imageInstance.getImageResults());
+        out.close();
+        fileOut.close();
+        return result;
+    }
+
+    private TextInstance getTextInstance(String instanceId) throws IOException, ClassNotFoundException {
+        TextInstance textInstance = textInstanceDao.findTextInstanceByInstanceId(instanceId);
+        FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "text_instance" + "_" + instanceId);
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+        List<TextResult> textResults = (List<TextResult>) in.readObject();
+        in.close();
+        fileIn.close();
+        textInstance.setTextResults(textResults);
+        return textInstance;
+    }
+
+    private ImageInstance getImageInstance(String instanceId) throws IOException, ClassNotFoundException {
+        ImageInstance imageInstance = imageInstanceDao.findImageInstanceByInstanceId(instanceId);
+        FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "image_instance" + "_" + instanceId);
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+        List<ImageResult> imageResults = (List<ImageResult>) in.readObject();
+        in.close();
+        fileIn.close();
+        imageInstance.setImageResults(imageResults);
+        return imageInstance;
     }
 
 }

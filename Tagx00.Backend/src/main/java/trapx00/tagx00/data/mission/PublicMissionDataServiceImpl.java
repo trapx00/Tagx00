@@ -113,7 +113,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                             imageMission.getImageUrls().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(),
                             imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), imageMission.getImageMissionTypes()
                     ),
-                            imageMission.getMissionState(), imageMission.getRequesterUsername(), imageMission.getImageUrls(), imageMission.getImageMissionTypes());
+                            imageMission.getMissionState(), imageMission.getRequesterUsername(), MissionType.IMAGE, imageMission.getImageUrls(), imageMission.getImageMissionTypes());
                 }
                 break;
             case TEXT:
@@ -127,7 +127,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                             textMission.getStart(), textMission.getEnd(), textMission.getCoverUrl(), textMission.getLevel(), textMission.getCredits(),
                             textMission.getMinimalWorkerLevel(), textMission.getTextUrls().size() * textMission.getTextMissionSettings().size(),
                             textMission.getRequesterUsername(), textMission.getTextMissionSettings().stream().collect(ArrayList::new, (list, textMissionSetting) -> list.add(textMissionSetting.getTextMissionType()), ArrayList::addAll)
-                    ), textMission.getMissionState(), textMission.getRequesterUsername(), textMission.getTextUrls(), textMission.getTextMissionSettings());
+                    ), textMission.getMissionState(), textMission.getRequesterUsername(), MissionType.TEXT, textMission.getTextUrls(), textMission.getTextMissionSettings());
                 }
                 break;
         }
