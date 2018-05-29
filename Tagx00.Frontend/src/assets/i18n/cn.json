@@ -369,7 +369,12 @@
     "forgetPassword": "忘记密码",
     "remember": "记住我",
     "cancel": "取消",
-    "register": "注册"
+    "register": "注册",
+    "error": {
+      "WrongCredential": "用户名或者密码错误",
+      "ServerError": "服务器出错，请稍候再试",
+      "NetworkError" :"本地网络出错，请检查网络连接"
+    }
   },
   "languageSelector": {
     "loading": "载入中"
@@ -404,7 +409,8 @@
     "missionAccepted": "任务已经成功接受",
     "seeDetail": "查看详细信息",
     "missionType": {
-      "IMAGE": "图片"
+      "IMAGE": "图片",
+      "TEXT":"文本"
     },
     "dateFormat": "YYYY/MM/DD HH:mm:ss"
   },
