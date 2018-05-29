@@ -198,7 +198,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
      * @return the instance matching username and missionId
      */
     @Override
-    public InstanceDetailVo getInstanceDetailVoByUsernameAndMissionId(String workerUsername, String missionId, MissionType missionType) {
+    public InstanceDetailVo getInstanceDetailVoByUsernameAndMissionId(String workerUsername, String missionId, MissionType missionType) throws IOException, ClassNotFoundException {
 
         //获得每个种类的instance列表
         ArrayList<Instance> instances = new ArrayList<>(imageInstanceDao.findImageInstancesByWorkerUsername(workerUsername));
@@ -209,7 +209,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 int instanceResultIdsSize = 0;
                 switch (instance1.getMissionType()) {
                     case IMAGE:
-                        ImageInstance imageInstance = (ImageInstance) instance1;
+                        ImageInstance imageInstance = getImageInstance(instance1.getInstanceId());
                         List<ImageResult> imageResults = imageInstance.getImageResults();
                         for (ImageResult imageResult : imageResults) {
                             if (imageResult.isDone()) {
@@ -218,7 +218,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         }
                         return generateImageInstanceDetailVo(imageInstance, instanceResultIdsSize);
                     case TEXT:
-                        TextInstance textInstance = (TextInstance) instance1;
+                        TextInstance textInstance = getTextInstance(instance1.getInstanceId());
                         List<TextResult> textResults = textInstance.getTextResults();
                         for (TextResult textResult : textResults) {
                             if (textResult.isDone())
@@ -254,7 +254,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     }
 
     @Override
-    public boolean deleteInstanceByMissionIdAndUsername(String missionId, String username, MissionType missionType) {
+    public boolean deleteInstanceByMissionIdAndUsername(String missionId, String username, MissionType missionType) throws IOException, ClassNotFoundException {
         InstanceDetailVo instanceDetailVo = this.getInstanceDetailVoByUsernameAndMissionId(username, missionId, missionType);
         switch (instanceDetailVo.getMissionType()) {
             case IMAGE:
