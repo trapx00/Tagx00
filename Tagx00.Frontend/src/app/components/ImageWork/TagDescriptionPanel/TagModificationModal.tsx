@@ -14,13 +14,19 @@ interface Props {
   onComplete: (tagTuple: TagTuple) => void;
   onCancel: () => void;
   readonly: boolean;
-  allowedTags?: string[];
+  tags?: string[];
+  allowCustomTag?: boolean;
 }
 
 const ID_PREFIX = "drawingPad.common.tagDescriptionTuplePanel.";
 
 @observer
 export class TagModificationModal extends React.Component<Props, {}> {
+
+  static defaultProps = {
+    allowCustomTag: true,
+    tags: []
+  };
 
   @observable tuple: TagTuple = {...this.props.tagTuple};
 
@@ -79,12 +85,17 @@ export class TagModificationModal extends React.Component<Props, {}> {
       footer={footer}
     >
       <h3><LocaleMessage id={ID_PREFIX + "tagName"}/></h3>
-      {!this.props.readonly && this.props.allowedTags &&
-      <div>
+      {!this.props.readonly && <div>
+        {!this.props.allowCustomTag &&
         <LocaleMessage id={ID_PREFIX + "tagLimited"}/>
-        <div>{this.props.allowedTags.map(x => <ClickableTag key={x} onClick={() => this.onTagClick(x)}>{x}</ClickableTag>)}</div>
-      </div>
         }
+        {this.props.tags.map(x =>
+          <ClickableTag key={x}
+                        onClick={() => this.onTagClick(x)}>{x}</ClickableTag>)}
+      </div>
+      }
+
+
       <Localize replacements={{
         placeholder: ID_PREFIX + "tagName",
         messageOnInvalid: ID_PREFIX + "tagNameInvalid"
@@ -95,7 +106,7 @@ export class TagModificationModal extends React.Component<Props, {}> {
 
           <Input placeholder={props.placeholder}
                  value={this.tuple.tag}
-                 disabled={!!this.props.allowedTags}
+                 disabled={!this.props.allowCustomTag}
                  onChange={this.onTagNameChange}
           />
 

@@ -5,7 +5,7 @@ import { Gallery } from "../../../components/Gallery";
 import { Item } from "./common";
 import { Tag } from 'antd';
 import {
-  TextMissionClassificationSetting, TextMissionKeywordsSettings,
+  TextMissionClassificationSetting, TextMissionKeywordsSetting,
   TextMissionSetting,
   TextMissionType
 } from "../../../models/mission/text/TextMissionProperties";
@@ -26,7 +26,7 @@ function generateSettingElements(setting: TextMissionSetting) {
       </Item>;
     case TextMissionType.KEYWORDS:
       return <Item promptTextId={"TEXT.KEYWORDS.keywords"}>
-        {(setting as TextMissionKeywordsSettings)
+        {(setting as TextMissionKeywordsSetting)
           .keywords.map(x => <Tag key={x}>{x}</Tag>)
         }
       </Item>

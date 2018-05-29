@@ -3,7 +3,7 @@ import { TextClassificationJob } from "../../../../models/instance/text/job/Text
 import { TextNotation } from "./TextWorkPageController";
 import { TextWorkPageProps, TextWorkPageState } from "./shared";
 import {
-  TextMissionClassificationSetting,
+  TextMissionClassificationSetting, TextMissionKeywordsSetting,
   TextMissionType
 } from "../../../../models/mission/text/TextMissionProperties";
 import { TagTuple } from "../../../../models/instance/TagTuple";
@@ -15,12 +15,14 @@ import { TagPanel } from "../../../../components/ImageWork/TagDescriptionPanel/T
 import { ProgressController } from "../../../../components/ImageWork/ProgressController";
 import { TextReader } from "./TextReader";
 import { TextMissionTipCard } from "../../../../components/Mission/MissionTipCard/TextMissionTipCard";
+import { TextKeywordsJob } from "../../../../models/instance/text/job/TextKeywordsJob";
 
-interface Props extends TextWorkPageProps<TextClassificationJob>{
-  setting: TextMissionClassificationSetting;
+interface Props extends TextWorkPageProps<TextClassificationJob, TextMissionClassificationSetting>{
+
 }
 
-function initializeNotation(notation: TextNotation<TextClassificationJob>) {
+
+function initializeNotation(notation: TextNotation<TextClassificationJob, TextMissionClassificationSetting>) {
   if (!(notation.job && notation.job.tagTuples)) {
     notation.job = {
       type: TextMissionType.CLASSIFICATION,
@@ -31,7 +33,7 @@ function initializeNotation(notation: TextNotation<TextClassificationJob>) {
 }
 
 
-export class TextClassificationWorkPage extends React.Component<Props, TextWorkPageState<TextClassificationJob>> {
+export class TextClassificationWorkPage extends React.Component<Props, TextWorkPageState<TextClassificationJob, TextMissionClassificationSetting>> {
   state = {
     notation: initializeNotation(this.props.notation),
     selectedIndex: -1,
@@ -68,21 +70,22 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
 
     const { job } = this.state.notation;
     const { missionDetail, controllerProps } = this.props;
-    console.log(this.props.setting.classes);
+    // console.log(this.props.setting.classes);
     return <WorkPageLayout >
       <>
-        <TextReader textUrl={this.state.notation.textUrl}/>
+        <TextReader textToken={this.state.notation.textToken}/>
       </>
       <>
         <TextMissionTipCard
-          setting={this.props.setting}
+          setting={this.props.notation.setting}
           title={missionDetail.publicItem.title}
 
         />
         <TagPanel tagTuples={job.tagTuples}
                   onChange={this.onTagChange}
                   readonly={this.props.readonlyMode}
-                  allowedTags={this.props.setting.classes}
+                  allowCustomTag={false}
+                  tags={this.props.notation.setting.classes}
         />
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}

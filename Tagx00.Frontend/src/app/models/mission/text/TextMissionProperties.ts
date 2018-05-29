@@ -15,7 +15,7 @@ export interface TextMissionClassificationSetting extends TextMissionSetting{
   classes: string[];
 }
 
-export interface TextMissionKeywordsSettings extends TextMissionSetting {
+export interface TextMissionKeywordsSetting extends TextMissionSetting {
   textMissionType: TextMissionType.KEYWORDS;
   keywords: string[];
 }

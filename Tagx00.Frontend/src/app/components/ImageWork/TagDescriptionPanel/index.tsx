@@ -9,7 +9,8 @@ interface Props {
   tuple: TagDescriptionTuple;
   onChange: (tuple: TagDescriptionTuple) => void;
   readonlyMode: boolean;
-  allowedTags?: string[];
+  tags?: string[];
+  allowCustomTag?: boolean;
 }
 
 export const panelStyle = {
@@ -19,6 +20,11 @@ export const panelStyle = {
 const ID_PREFIX = "drawingPad.common.tagDescriptionTuplePanel.";
 
 export class TagDescriptionTuplePanel extends React.Component<Props, {}> {
+
+  static defaultProps = {
+    tags: [],
+    allowCustomTag: true
+  };
 
   onDescriptionsInputChange = (newItems: string[]) => {
     this.props.onChange({
@@ -42,7 +48,8 @@ export class TagDescriptionTuplePanel extends React.Component<Props, {}> {
       <TagPanel tagTuples={this.props.tuple.tagTuples}
                 onChange={this.onTagsChange}
                 readonly={this.props.readonlyMode}
-                allowedTags={this.props.allowedTags}
+                allowCustomTag={this.props.allowCustomTag}
+                tags={this.props.tags}
       />
       <Card style={panelStyle} title={<LocaleMessage id={ID_PREFIX + "descriptions"}/>}>
 

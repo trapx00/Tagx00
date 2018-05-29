@@ -22,10 +22,10 @@ export class MissionService {
 
   }
 
-  async getTextByUrl(url: string): Promise<string> {
+  async getTextByToken(textToken: string): Promise<string> {
     const res = await this.http.fetch({
       path: `/mission/text`,
-      queryParams: { url: encodeURIComponent(url)},
+      queryParams: { token: textToken },
       method: HttpMethod.GET,
     });
     return res.response.text;

@@ -2,15 +2,12 @@ package trapx00.tagx00.config.jsonAdapter;
 
 import com.google.gson.*;
 import trapx00.tagx00.config.GsonFactory;
-import trapx00.tagx00.publicdatas.mission.MissionType;
-import trapx00.tagx00.publicdatas.mission.image.ImageJob;
-import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
+import trapx00.tagx00.publicdatas.mission.text.TextJob;
+import trapx00.tagx00.vo.mission.text.TextMissionType;
 
 import java.lang.reflect.Type;
 
-public class InstanceDetailAdapter implements JsonDeserializer<InstanceDetailVo>,JsonSerializer<InstanceDetailVo> {
-
-
+public class TextJobAdapter implements JsonDeserializer<TextJob>, JsonSerializer<TextJob> {
     /**
      * Gson invokes this call-back method during deserialization when it encounters a field of the
      * specified type.
@@ -27,17 +24,17 @@ public class InstanceDetailAdapter implements JsonDeserializer<InstanceDetailVo>
      * @throws JsonParseException if json is not in the expected format of {@code typeofT}
      */
     @Override
-    public InstanceDetailVo deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public TextJob deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         return GsonFactory.get().fromJson(json,
-                (Type) MissionType.valueOf(
-                        json.getAsJsonObject().get("missionType").getAsString()
-                ).instanceDetailVoClass);
+            TextMissionType.valueOf(
+                json.getAsJsonObject().get("type").getAsString()
+            ).jobClass);
     }
 
     /**
      * Gson invokes this call-back method during serialization when it encounters a field of the
      * specified type.
-     * <p>
+     *
      * <p>In the implementation of this call-back method, you should consider invoking
      * {@link JsonSerializationContext#serialize(Object, Type)} method to create JsonElements for any
      * non-trivial field of the {@code src} object. However, you should never invoke it on the
@@ -50,8 +47,7 @@ public class InstanceDetailAdapter implements JsonDeserializer<InstanceDetailVo>
      * @return a JsonElement corresponding to the specified object.
      */
     @Override
-    public JsonElement serialize(InstanceDetailVo src, Type typeOfSrc, JsonSerializationContext context) {
-//        return new JsonPrimitive(GsonFactory.get().toJson(src, src.getMissionType().getInstanceDetailVoClass()));
+    public JsonElement serialize(TextJob src, Type typeOfSrc, JsonSerializationContext context) {
         return new Gson().toJsonTree(src);
     }
 }
