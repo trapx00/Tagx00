@@ -42,6 +42,7 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
             e.printStackTrace();
             throw new SystemException();
         }
+
         publicMissionDataService.addBrowserUserToMission(missionId, UserInfoUtil.getUsername());
         return new MissionDetailResponse(missionDetailVos);
     }

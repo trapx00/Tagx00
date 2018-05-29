@@ -61,7 +61,7 @@ export class MissionServiceMock extends MissionService {
           classes: ["1","2","3"]
         } as TextMissionClassificationSetting,
       ],
-      textTokens: texts
+      tokens: texts
     } as TextMissionDetail;
 
     // return  {

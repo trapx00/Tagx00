@@ -55,10 +55,10 @@ export class TextWorkPageController extends WorkPageController<TextMissionDetail
   constructor(missionDetail: TextMissionDetail, instanceDetail: TextInstanceDetail) {
     super(missionDetail, instanceDetail);
     this.settings = missionDetail.settings;
-    this.textTokens = missionDetail.textTokens;
+    this.textTokens = missionDetail.tokens;
 
     // initialize jobs
-    for (const url of missionDetail.textTokens) {
+    for (const url of missionDetail.tokens) {
       for (const setting of missionDetail.settings) {
         // find if the result is already exists
         const result = instanceDetail.textResults
