@@ -10,6 +10,7 @@ import { MajorTitle, MinorTitle } from "./common";
 import { LeaderboardService } from "../../api/LeaderboardService";
 import { Loading } from "../../components/Common/Loading";
 import { observer } from "mobx-react";
+import { LeaderboardLineChart } from "./lineChart/LeaderboardLineChart";
 
 @observer
 export default class WorkerCreditBoardPage extends React.Component<{}, {}> {
@@ -41,8 +42,13 @@ export default class WorkerCreditBoardPage extends React.Component<{}, {}> {
       dataIndex: 'order',
     }];
 
+    const tops = [0,1,2,3,4].map(i => ({username: workerCreditBoard.users[i].username, value: workerCreditBoard.users[i].credits}));
     return (
-      <div>
+        <div>
+          <MinorTitle>
+            巅峰榜单
+          </MinorTitle>
+          <LeaderboardLineChart data={tops}/>
         <MinorTitle>
           <LocaleMessage id={"leaderboard.rankListBoard"}/>
         </MinorTitle>

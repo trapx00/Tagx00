@@ -101,10 +101,11 @@ export class WorkerServiceMock extends WorkerService {
       credits: 23,
       exp: 150,
       level: 1,
-      completedMissionCount: 7,
-      acceptedMissionCount: 12,
-      inProgressMissionCount: 3,
-      abandonedMissionCount: 2,
+      completedMissionCount: 30,
+      acceptedMissionCount: 130,
+      inProgressMissionCount: 30,
+      abandonedMissionCount: 10,
+      finalizedMissionCount: 60,
     } as WorkerInfo
   }
 
