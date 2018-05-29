@@ -37,7 +37,7 @@
     "about": "关于",
     "login": "登录",
     "logout": "登出",
-    "welcome": "欢迎，{username}",
+    "welcome": "{username}",
     "selfCenter": "个人中心",
     "pay": "充值中心",
     "leaderboard":"排行榜"
@@ -53,7 +53,11 @@
     "dashboard": "仪表盘",
     "achievement": "成就",
     "personalInfo": "我的信息",
-    "manageTopics":"管理主题"
+    "manageTopics":"管理主题",
+    "avatar": {
+      "gravatar": "头像通过邮箱从gravatar上获得。",
+      "whatIsGravatar": "什么是Gravatar？"
+    }
   },
   "drawingPad": {
     "common": {

@@ -199,6 +199,6 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public String getUserAvatarUrl(String email) {
-        return "https://www.gravatar.com/avatar/" + MD5Util.md5Hex(email);
+        return "https://www.gravatar.com/avatar/" + MD5Util.md5Hex(email) + "?s=200";
     }
 }

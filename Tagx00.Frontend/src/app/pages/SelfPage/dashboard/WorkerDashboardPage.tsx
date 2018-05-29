@@ -10,6 +10,7 @@ import { PayService } from "../../../api/PayService";
 import { LevelStore } from "../../../stores/LevelStore";
 import { InstanceCyclePieChart } from "./charts/InstanceCyclePieChart";
 import { WorkerMissionCyclePieChart } from "./charts/WorkerMissionCyclePieChart";
+import { AvatarContainer } from "./AvatarContainer";
 
 export class WorkerDashboardPage extends React.Component<{},{}> {
   @Inject userStore: UserStore;
@@ -62,7 +63,7 @@ export class WorkerDashboardPage extends React.Component<{},{}> {
         return <div style={{maxWidth: "1000px", marginLeft: "auto", marginRight: "auto"}}>
           <Row>
             <Col sm={24} md={8} lg={6} >
-              <img alt="avatar" height={200} width={200} src={this.userStore.user.avatarUrl}/>
+              <AvatarContainer avatarUrl={this.userStore.user.avatarUrl}/>
             </Col>
             <Col md={16} lg={18}>
               <br/>
