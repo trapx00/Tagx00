@@ -35,7 +35,7 @@ public interface WorkerMissionBlService {
      * @param workerUsername
      * @return MissionQueryDetailResponse the detail of the mission
      */
-    InstanceDetailResponse getInstanceInformation(String missionId, String workerUsername) throws InstanceNotExistException;
+    InstanceDetailResponse getInstanceInformation(String missionId, String workerUsername) throws InstanceNotExistException, SystemException;
 
     /**
      * save the progress of the instance
