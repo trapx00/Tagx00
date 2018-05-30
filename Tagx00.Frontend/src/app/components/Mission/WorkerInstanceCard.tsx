@@ -84,8 +84,6 @@ export class WorkerInstanceCard extends React.PureComponent<Props, any> {
       case MissionInstanceState.SUBMITTED:
         break;
       case MissionInstanceState.ABANDONED:
-        buttons.push(<CardAction key={"continue"} iconType={"edit"} onClick={this.goToDoMission}
-                                 hoverTextId={ID_PREFIX + "cardActions.continue"}/>);
         break;
       case MissionInstanceState.FINALIZED:
         console.log("finalized");

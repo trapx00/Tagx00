@@ -95,10 +95,6 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
      */
     @Override
     public String saveInstanceDetailVo(InstanceDetailVo instanceDetailVo) throws SystemException, MissionAlreadyAcceptedException, IOException {
-        if (0 == MissionUtil.getId(instanceDetailVo.getInstance().getInstanceId())) {
-            instanceDetailVo.setMissionType(instanceDetailVo.getMissionType());
-            instanceDetailVo = new ImageInstanceDetailVo(instanceDetailVo.getMissionType(), instanceDetailVo.getInstance(), new ArrayList<>());
-        }
         MissionType missionType = instanceDetailVo.getMissionType();
         InstanceVo instanceVo = instanceDetailVo.getInstance();
         Instance result = null;
@@ -287,20 +283,22 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
 
     private ImageInstance generateImageInstance(InstanceVo instanceVo, ImageInstanceDetailVo instanceDetailVo) {
         ImageMission imageMission = imageMissionDao.findImageMissionByMissionId(instanceVo.getMissionId());
+        List<ImageResult> imageResults = instanceDetailVo.getImageResults() == null ? new ArrayList<>() : instanceDetailVo.getImageResults();
         return new ImageInstance(instanceVo.getInstanceId(), instanceVo.getWorkerUsername(),
                 instanceVo.getMissionInstanceState(), MissionType.IMAGE,
                 instanceVo.getAcceptDate(), instanceVo.getSubmitDate(),
                 instanceVo.isSubmitted(), instanceVo.getMissionId(), instanceVo.getExp(),
-                instanceVo.getExpRatio(), instanceVo.getCredits(), instanceVo.getComment(), instanceDetailVo.getImageResults(), imageMission);
+                instanceVo.getExpRatio(), instanceVo.getCredits(), instanceVo.getComment(), imageResults, imageMission);
     }
 
     private TextInstance generateTextInstance(InstanceVo instanceVo, TextInstanceDetailVo instanceDetailVo) {
         TextMission textMission = textMissionDao.findTextMissionByMissionId(instanceVo.getMissionId());
+        List<TextResult> textResults = instanceDetailVo.getTextResults() == null ? new ArrayList<>() : instanceDetailVo.getTextResults();
         return new TextInstance(instanceVo.getInstanceId(), instanceVo.getWorkerUsername(), instanceVo.getMissionInstanceState(),
                 MissionType.TEXT, instanceVo.getAcceptDate(), instanceVo.getSubmitDate(),
                 instanceVo.isSubmitted(), instanceVo.getMissionId(), instanceVo.getExp(),
                 instanceVo.getExpRatio(), instanceVo.getCredits(), instanceVo.getComment(),
-                instanceDetailVo.getTextResults(), textMission);
+                textResults, textMission);
     }
 
     private ImageInstanceVo generateImageInstanceVo(Instance instance, int completedCounts) {
