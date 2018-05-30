@@ -42,7 +42,8 @@ export class UserStore {
         username: username,
         token: response.token,
         role: response.jwtRoles[0].roleName as UserRole,
-        email: response.email
+        email: response.email,
+        avatarUrl: response.avatarUrl
       });
     });
 
