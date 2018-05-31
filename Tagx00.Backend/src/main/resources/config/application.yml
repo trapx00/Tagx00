@@ -34,7 +34,7 @@ spring:
     open-in-view: true
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/tagx00?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/tagx00?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false
     username: root
     password: zhanglingzhe0820
   aop:

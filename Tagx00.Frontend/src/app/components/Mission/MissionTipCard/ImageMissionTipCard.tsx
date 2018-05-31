@@ -17,8 +17,8 @@ const ID_PREFIX = "drawingPad.common.missionTipCard.IMAGE.";
 
 export function ImageMissionTipCard(props: Props) {
     return <MissionTipCard missionType={MissionType.IMAGE} title={props.title}>
-      <DefinitionItem prompt={<LocaleMessage id={`${ID_PREFIX}.type`}/>}>
-        <LocaleMessage id={`${ID_PREFIX}.types.${props.imageMissionType}.name`}/>
+      <DefinitionItem prompt={<LocaleMessage id={`${ID_PREFIX}type`}/>}>
+        <LocaleMessage id={`${ID_PREFIX}types.${props.imageMissionType}.name`}/>
       </DefinitionItem>
       <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "allowCustomTag.prompt"}/>}>
         <LocaleMessage id={`${ID_PREFIX}allowCustomTag.${props.allowCustomTag}`}/>
