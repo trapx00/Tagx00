@@ -1,6 +1,13 @@
 import React from "react";
 import { AsyncRouteConfig, RouteType } from "../../router/RouteConfig";
 
+export const ThreePage: AsyncRouteConfig = {
+  type: RouteType.Async,
+  exact: false,
+  path: "/mission/three",
+  component: import("../ThreePage")
+};
+
 export const missionPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: false,
@@ -15,7 +22,7 @@ export const leaderboardPage: AsyncRouteConfig = {
   component: import("../LeaderboardPage")
 };
 
-export const browsePage: AsyncRouteConfig  = {
+export const browsePage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: true,
   path: "/browse",
@@ -29,7 +36,7 @@ export const registerPage: AsyncRouteConfig = {
   component: import("../../pages/RegisterPage")
 };
 
-export const aboutPage:AsyncRouteConfig = {
+export const aboutPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: true,
   path: "/about",
@@ -43,7 +50,7 @@ export const selfCenterPage: AsyncRouteConfig = {
   component: import("../SelfPage")
 };
 
-export const payPage: AsyncRouteConfig  = {
+export const payPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: false,
   path: "/pay",
@@ -51,10 +58,8 @@ export const payPage: AsyncRouteConfig  = {
 };
 
 
-
-
-
 export default [
+  ThreePage,
   missionPage,
   browsePage,
   leaderboardPage,
