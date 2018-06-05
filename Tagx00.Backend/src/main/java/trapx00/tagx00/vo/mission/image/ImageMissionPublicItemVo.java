@@ -9,16 +9,14 @@ import java.util.List;
 public class ImageMissionPublicItemVo extends MissionPublicItemVo {
 
     private boolean allowCustomTag;
-    private List<String> allowedTags;
     public List<ImageMissionType> missionTypes;
 
     public ImageMissionPublicItemVo() {
     }
 
-    public ImageMissionPublicItemVo(String missionId, String title, String description, List<String> topics, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername, boolean allowCustomTag, List<String> allowedTags, List<ImageMissionType> missionTypes) {
+    public ImageMissionPublicItemVo(String missionId, String title, String description, List<String> topics, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername, boolean allowCustomTag, List<ImageMissionType> missionTypes) {
         super(missionId, title, description, topics, missionType, start, end, coverUrl, level, credits, minimalWorkerLevel, jobCount, requesterUsername);
         this.allowCustomTag = allowCustomTag;
-        this.allowedTags = allowedTags;
         this.missionTypes = missionTypes;
     }
 
@@ -28,14 +26,6 @@ public class ImageMissionPublicItemVo extends MissionPublicItemVo {
 
     public void setAllowCustomTag(boolean allowCustomTag) {
         this.allowCustomTag = allowCustomTag;
-    }
-
-    public List<String> getAllowedTags() {
-        return allowedTags;
-    }
-
-    public void setAllowedTags(List<String> allowedTags) {
-        this.allowedTags = allowedTags;
     }
 
     public List<ImageMissionType> getMissionTypes() {

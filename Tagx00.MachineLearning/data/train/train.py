@@ -87,7 +87,7 @@ biases = tf.Variable(tf.random_normal([n_size, batch_size]))
 X = tf.placeholder(tf.float32, [n_size, None])
 Y = tf.placeholder(tf.float32, [n_size, None])
 
-y_pred = tf.sigmoid(tf.matmul(weight, X) + biases)
+y_pred = tf.matmul(weight, X) + biases
 cost = tf.reduce_mean(tf.square(Y - y_pred))
 
 optimizer = tf.train.AdamOptimizer(learning_rate).minimize(cost)
@@ -100,6 +100,7 @@ for epoch in range(training_epochs):
         batch_xs, batch_ys = next_train_batch()
         _, c, pred = sess.run([optimizer, cost, y_pred], feed_dict={X: batch_xs, Y: batch_ys})
         print(c)
+        print(pred)
         if i % 10 == 0:
             print("accuracy")
             compute_accuracy()

@@ -3,11 +3,13 @@ package trapx00.tagx00.bl.upload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.blservice.upload.MissionUploadBlService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.dataservice.upload.ImageDataService;
 import trapx00.tagx00.dataservice.upload.TextDataService;
 import trapx00.tagx00.entity.mission.ImageMission;
+import trapx00.tagx00.entity.mission.MissionAsset;
 import trapx00.tagx00.entity.mission.TextMission;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -18,9 +20,7 @@ import trapx00.tagx00.util.PathUtil;
 
 import javax.imageio.stream.FileImageOutputStream;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -31,13 +31,15 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
     private final ImageDataService imageDataService;
     private final TextDataService textDataService;
     private final RequesterMissionDataService requesterMissionDataService;
+    private final WorkerMissionBlService workerMissionBlService;
     private final static String TEMP_PATH = PathUtil.getTmpPath();
 
     @Autowired
-    public MissionUploadBlServiceImpl(ImageDataService imageDataService, TextDataService textDataService, RequesterMissionDataService requesterMissionDataService) {
+    public MissionUploadBlServiceImpl(ImageDataService imageDataService, TextDataService textDataService, RequesterMissionDataService requesterMissionDataService, WorkerMissionBlService workerMissionBlService) {
         this.imageDataService = imageDataService;
         this.textDataService = textDataService;
         this.requesterMissionDataService = requesterMissionDataService;
+        this.workerMissionBlService = workerMissionBlService;
     }
 
     /**
@@ -64,13 +66,23 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                 case IMAGE:
                     ImageMission imageMission = (ImageMission) requesterMissionDataService.getMissionByMissionId(missionId);
                     url = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
-                    List<String> urls = imageMission.getImageUrls();
+                    List<MissionAsset> missionAssets = imageMission.getMissionAssets();
                     if (isCover) {
                         imageMission.setCoverUrl(url);
                     } else {
-                        urls.add(url);
-                        imageMission.setImageUrls(urls);
+                        Map<String, Double> tagConfTuple = new HashMap<>();
+                        for (String tag : imageMission.getAllowedTags()) {
+                            tagConfTuple.put(tag, 1.0);
+                        }
+                        if (imageMission.isAllowCustomTag()) {
+                            Map<String, Double> apiTagConfTuple = workerMissionBlService.identifyImage(multipartFile).getObjects();
+                            apiTagConfTuple.forEach((key, value) -> {
+                                if (tagConfTuple.containsKey(key)) tagConfTuple.put(key, value);
+                            });
+                        }
+                        missionAssets.add(new MissionAsset(url, tagConfTuple));
                     }
+                    imageMission.setMissionAssets(missionAssets);
                     requesterMissionDataService.updateMission(imageMission);
                     return new UploadMissionImageResponse(url);
             }

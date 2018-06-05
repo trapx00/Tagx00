@@ -109,13 +109,13 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                     return null;
                 if (imageMission.getMissionType().equals(MissionType.IMAGE)) {
                     missionDetailVo = new ImageMissionDetailVo(new ImageMissionPublicItemVo(
-                        missionId, imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), missionType,
-                        imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(),
-                        imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(),
-                        imageMission.getImageUrls().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(),
-                        imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), imageMission.getImageMissionTypes()
+                            missionId, imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), missionType,
+                            imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(),
+                            imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(),
+                            imageMission.getMissionAssets().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(),
+                            imageMission.isAllowCustomTag(), imageMission.getImageMissionTypes()
                     ),
-                        imageMission.getMissionState(), imageMission.getRequesterUsername(), MissionType.IMAGE, imageMission.getImageUrls(), imageMission.getImageMissionTypes());
+                            imageMission.getMissionState(), imageMission.getRequesterUsername(), MissionType.IMAGE, imageMission.getMissionAssets(), imageMission.getImageMissionTypes());
                 }
                 break;
             case TEXT:
@@ -124,22 +124,22 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                     return null;
                 if (textMission.getMissionType().equals(MissionType.TEXT)) {
                     missionDetailVo = new TextMissionDetailVo(new TextMissionPublicItemVo(
-                        missionId,
-                        textMission.getTitle(),
-                        textMission.getDescription(),
-                        textMission.getTopics(), missionType,
-                        textMission.getStart(), textMission.getEnd(),
-                        textMission.getCoverUrl(), textMission.getLevel(), textMission.getCredits(),
-                        textMission.getMinimalWorkerLevel(),
-                        textMission.getTextUrls().size() * textMission.getTextMissionSettings().size(),
-                        textMission.getRequesterUsername(),
-                        textMission.getTextMissionSettings().stream().map(TextMissionSetting::getTextMissionType).collect(Collectors.toList())
+                            missionId,
+                            textMission.getTitle(),
+                            textMission.getDescription(),
+                            textMission.getTopics(), missionType,
+                            textMission.getStart(), textMission.getEnd(),
+                            textMission.getCoverUrl(), textMission.getLevel(), textMission.getCredits(),
+                            textMission.getMinimalWorkerLevel(),
+                            textMission.getTextUrls().size() * textMission.getTextMissionSettings().size(),
+                            textMission.getRequesterUsername(),
+                            textMission.getTextMissionSettings().stream().map(TextMissionSetting::getTextMissionType).collect(Collectors.toList())
 //                        textMission.getTextMissionSettings().stream().collect(ArrayList::new, (list, textMissionSetting) -> list.add(textMissionSetting.getTextMissionType()), ArrayList::addAll)
                     ), textMission.getMissionState(),
-                        textMission.getRequesterUsername(),
-                        MissionType.TEXT,
-                        textMission.getTextUrls(),
-                        new ArrayList<>(textMission.getTextMissionSettings()));
+                            textMission.getRequesterUsername(),
+                            MissionType.TEXT,
+                            textMission.getTextUrls(),
+                            new ArrayList<>(textMission.getTextMissionSettings()));
                 }
                 break;
         }
@@ -185,21 +185,21 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
 
     private ImageMissionPublicItemVo generateImageMissionPublicItemVo(ImageMission imageMission) {
         return new ImageMissionPublicItemVo(
-            imageMission.getMissionId(), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), imageMission.getMissionType(),
-            imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(),
-            imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(),
-            imageMission.getImageUrls().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(),
-            imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), imageMission.getImageMissionTypes()
+                imageMission.getMissionId(), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), imageMission.getMissionType(),
+                imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(),
+                imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(),
+                imageMission.getMissionAssets().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(),
+                imageMission.isAllowCustomTag(), imageMission.getImageMissionTypes()
         );
     }
 
     private TextMissionPublicItemVo generateTextMissionPublicItemVo(TextMission textMission) {
         return new TextMissionPublicItemVo(
-            textMission.getMissionId(), textMission.getTitle(),
-            textMission.getDescription(), textMission.getTopics(), textMission.getMissionType(),
-            textMission.getStart(), textMission.getEnd(), textMission.getCoverUrl(), textMission.getLevel(), textMission.getCredits(),
-            textMission.getMinimalWorkerLevel(), textMission.getTextUrls().size() * textMission.getTextMissionSettings().size(),
-            textMission.getRequesterUsername(), textMission.getTextMissionSettings().stream().collect(ArrayList::new, (list, textMissionSetting) -> list.add(textMissionSetting.getTextMissionType()), ArrayList::addAll)
+                textMission.getMissionId(), textMission.getTitle(),
+                textMission.getDescription(), textMission.getTopics(), textMission.getMissionType(),
+                textMission.getStart(), textMission.getEnd(), textMission.getCoverUrl(), textMission.getLevel(), textMission.getCredits(),
+                textMission.getMinimalWorkerLevel(), textMission.getTextUrls().size() * textMission.getTextMissionSettings().size(),
+                textMission.getRequesterUsername(), textMission.getTextMissionSettings().stream().collect(ArrayList::new, (list, textMissionSetting) -> list.add(textMissionSetting.getTextMissionType()), ArrayList::addAll)
         );
     }
 }
