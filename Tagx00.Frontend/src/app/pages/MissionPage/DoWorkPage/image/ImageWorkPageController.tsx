@@ -56,7 +56,7 @@ export class ImageWorkPageController extends WorkPageController<ImageMissionDeta
 
   constructor(missionDetail: ImageMissionDetail, instanceDetail: ImageInstanceDetail) {
     super(missionDetail, instanceDetail);
-    this.imageAssets = missionDetail.imageAssets;
+    this.imageAssets = missionDetail.missionAssets;
 
     console.log(this.imageAssets);
 

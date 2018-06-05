@@ -15,6 +15,7 @@ import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.response.upload.UploadMissionImageResponse;
 import trapx00.tagx00.response.upload.UploadMissionTextResponse;
+import trapx00.tagx00.util.Converter;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.PathUtil;
 
@@ -77,10 +78,10 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                         if (imageMission.isAllowCustomTag()) {
                             Map<String, Double> apiTagConfTuple = workerMissionBlService.identifyImage(multipartFile).getObjects();
                             apiTagConfTuple.forEach((key, value) -> {
-                                if (tagConfTuple.containsKey(key)) tagConfTuple.put(key, value);
+                                if (!tagConfTuple.containsKey(key)) tagConfTuple.put(key, value * 0.01);
                             });
                         }
-                        missionAssets.add(new MissionAsset(url, tagConfTuple));
+                        missionAssets.add(new MissionAsset(url, Converter.MapToTagConfTupleList(tagConfTuple)));
                     }
                     imageMission.setMissionAssets(missionAssets);
                     requesterMissionDataService.updateMission(imageMission);

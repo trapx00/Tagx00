@@ -17,6 +17,7 @@ interface Props {
 const ID_PREFIX = "drawingPad.common.missionTipCard.IMAGE.";
 
 export function ImageMissionTipCard(props: Props) {
+  console.log(props.tagConfMap);
     return <MissionTipCard missionType={MissionType.IMAGE} title={props.title}>
       <DefinitionItem prompt={<LocaleMessage id={`${ID_PREFIX}type`}/>}>
         <LocaleMessage id={`${ID_PREFIX}types.${props.imageMissionType}.name`}/>
