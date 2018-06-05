@@ -1,5 +1,4 @@
 import React from 'react';
-import { MissionDetail, MissionPublicItem } from "../../models/mission/Mission";
 import { Card } from 'antd';
 import { CardAction, stubCard, truncateText } from "./util";
 import { Link } from 'react-router-dom';
@@ -7,6 +6,8 @@ import { MissionService } from "../../api/MissionService";
 import { Inject } from "react.di";
 import { AsyncComponent } from "../../router/AsyncComponent";
 import { MissionStateTag } from "./MissionStateTag";
+import { MissionDetail } from "../../models/mission/MissionDetail";
+import { MissionPublicItem } from "../../models/mission/MissionPublicItem";
 
 const {Meta} = Card;
 

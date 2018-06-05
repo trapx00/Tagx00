@@ -4,10 +4,10 @@ import { Inject } from "react.di";
 import { WorkerService } from "../../api/WorkerService";
 import { UserStore } from "../../stores/UserStore";
 import { Link } from 'react-router-dom';
-import { MissionPublicItem } from "../../models/mission/Mission";
 import { LocaleDate, LocaleMessage } from "../../internationalization/components";
 import { RouterStore } from "../../stores/RouterStore";
 import styled from "styled-components";
+import { MissionPublicItem } from "../../models/mission/MissionPublicItem";
 
 interface Props {
   item: MissionPublicItem;

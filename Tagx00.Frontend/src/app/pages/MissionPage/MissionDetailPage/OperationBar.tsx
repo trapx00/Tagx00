@@ -7,7 +7,7 @@ import { LocaleMessage } from "../../../internationalization/components";
 import { Link } from 'react-router-dom';
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { LocaleStore } from "../../../stores/LocaleStore";
-import { MissionPublicItem } from "../../../models/mission/Mission";
+import { MissionPublicItem } from "../../../models/mission/MissionPublicItem";
 
 
 interface Props {
@@ -18,7 +18,7 @@ interface State {
   key: number;
 }
 
-const ID_PREFIX= "missions.worker.detailOperationBar.";
+const ID_PREFIX = "missions.worker.detailOperationBar.";
 
 export class OperationBar extends React.Component<Props, State> {
 
@@ -32,14 +32,14 @@ export class OperationBar extends React.Component<Props, State> {
   };
 
   accept = async () => {
-    const { missionId } = this.props.missionPublicItem;
-    await this.workerService.acceptMission(missionId);
+    const {missionId, missionType} = this.props.missionPublicItem;
+    await this.workerService.acceptMission(missionId, missionType);
     message.success(this.localeStore.get(ID_PREFIX + "accepted"));
-    this.setState(prev => ({key: prev.key+1}));
+    this.setState(prev => ({key: prev.key + 1}));
   };
 
   renderContent = async () => {
-    const { missionId, minimalWorkerLevel } = this.props.missionPublicItem;
+    const {missionId, minimalWorkerLevel} = this.props.missionPublicItem;
     try {
       const detail = await this.workerService.getInstanceDetail(missionId);
       return <p>

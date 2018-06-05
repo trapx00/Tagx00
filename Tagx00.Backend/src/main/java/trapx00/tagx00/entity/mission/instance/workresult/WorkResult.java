@@ -1,14 +1,11 @@
 package trapx00.tagx00.entity.mission.instance.workresult;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Id;
+import java.io.Serializable;
 
 @Embeddable
-public class WorkResult {
-    @Id
+public class WorkResult implements Serializable {
     private String workResultId;
-    @Column(name = "isDone")
     private boolean isDone;
 
     public WorkResult() {

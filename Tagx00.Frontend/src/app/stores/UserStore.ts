@@ -3,6 +3,7 @@ import { User, UserRole } from "../models/user/User";
 import { UserService } from "../api/UserService";
 import { localStorage } from './UiUtil';
 import { Inject, Injectable } from "react.di";
+import { HttpService } from "../api/HttpService";
 
 const USER_LOCALSTORAGE_KEY = "user";
 
@@ -24,6 +25,7 @@ export class UserStore {
 
   @action logout() {
     this.user = null;
+    this.httpService.token = "";
     this.userService.logout();
     this.clearUser();
   };
@@ -40,7 +42,8 @@ export class UserStore {
         username: username,
         token: response.token,
         role: response.jwtRoles[0].roleName as UserRole,
-        email: response.email
+        email: response.email,
+        avatarUrl: response.avatarUrl
       });
     });
 
@@ -54,11 +57,12 @@ export class UserStore {
     localStorage.removeItem(USER_LOCALSTORAGE_KEY);
   }
 
-  constructor(@Inject private userService: UserService) {
+  constructor(@Inject private userService: UserService, @Inject private httpService: HttpService) {
     const user = localStorage.getItem(USER_LOCALSTORAGE_KEY);
     if (user) {
       try {
         this.user = new User(JSON.parse(user));
+        httpService.token = this.user.token;
       } catch (ignored) {
         console.log(ignored);
       }

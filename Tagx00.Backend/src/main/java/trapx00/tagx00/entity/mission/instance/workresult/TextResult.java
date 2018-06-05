@@ -2,16 +2,12 @@ package trapx00.tagx00.entity.mission.instance.workresult;
 
 import trapx00.tagx00.publicdatas.mission.text.TextJob;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class TextResult extends WorkResult {
-    @Column(name = "textJob")
-    private TextJob textJob;
-
-    @Column(name = "filename")
     private String url;
+    private TextJob textJob;
 
     public TextResult() {
     }

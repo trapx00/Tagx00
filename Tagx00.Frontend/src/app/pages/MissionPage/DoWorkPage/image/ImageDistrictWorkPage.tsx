@@ -1,8 +1,8 @@
 import React from "react";
-import { ImageNotation } from "./ImageWorkStore";
+import { ImageNotation } from "./ImageWorkPageController";
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
-import { MissionTipCard } from "../../../../components/ImageWork/MissionTipCard";
+import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
 import { ProgressController } from "../../../../components/ImageWork/ProgressController";
 import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
@@ -13,6 +13,8 @@ import { DistrictDrawingSession } from "../../../../components/ImageWork/Drawing
 import { District } from "../../../../components/ImageWork/DrawingPad/DistrictPanel/Districts";
 import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
+import { MissionType } from "../../../../models/mission/Mission";
+import { ImageMissionTipCard } from "../../../../components/Mission/MissionTipCard/ImageMissionTipCard";
 
 function initializeNotation(notation: ImageNotation<DistrictJob>) {
   if (!(notation.job && notation.job.tuples)) {
@@ -159,7 +161,7 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
             />
         </>
         <>
-          <MissionTipCard jobType={job.type}
+          <ImageMissionTipCard imageMissionType={job.type}
                           tags={missionDetail.publicItem.allowedTags}
                           allowCustomTag={missionDetail.publicItem.allowCustomTag}
                           title={missionDetail.publicItem.title}
@@ -176,7 +178,8 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
             ? <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
                                         readonlyMode={readonlyMode}
                                         onChange={this.onTupleChanged}
-                                        allowedTags={missionDetail.publicItem.allowCustomTag ? null : missionDetail.publicItem.allowedTags}
+                                        allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                                        tags={missionDetail.publicItem.allowedTags}
             />
             : null}
 

@@ -3,7 +3,6 @@ import { Icon, Menu } from 'antd';
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react";
 import { Inject } from "react.di";
-import img from '../../../../assets/logo.png';
 import { LogoContainer } from "../Layout";
 import { RouterStore } from "../../../stores/RouterStore";
 import { NavItemProps, NavStore } from "../../../stores/NavStore";
@@ -11,19 +10,27 @@ import { navRoutes, NOT_LOGIN_FLAG, submenuMap } from "./SubMenus";
 import { LocaleMessage } from "../../../internationalization/components";
 import { UserStore } from "../../../stores/UserStore";
 import { computed } from "mobx";
+import { SvgImg } from "../../Common/SvgImg";
+import styled from "styled-components";
 
 const {SubMenu} = Menu;
 
 // import pages will result in circular dependency and I can't figure out why
 // hard-code is the only option :(
 
+const CenterDiv = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 12px;
+  height: 60px;
+  
+`;
 
 function LogoItem(props: {}) {
   return <Link to={"/"}>
-    <LogoContainer>
-      <img src={img}/>
-      <span>Tag x00</span>
-    </LogoContainer>
+    <CenterDiv>
+    <SvgImg width={120} height={35} filePath={"tag_x00_logo_landscape_with_texts.svg"}/>
+    </CenterDiv>
   </Link>;
 }
 

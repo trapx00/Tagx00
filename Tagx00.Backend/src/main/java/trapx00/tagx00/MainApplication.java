@@ -15,6 +15,9 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import trapx00.tagx00.util.PathUtil;
+
+import java.io.IOException;
 
 @EnableTransactionManagement
 @SpringBootApplication
@@ -22,12 +25,14 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableAutoConfiguration(exclude = {JacksonAutoConfiguration.class})
 public class MainApplication {
-//    static {
-//        PathUtil.initDatabase();
-//    }
+
+    static {
+        PathUtil.initFile();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class, args);
+        updateSQL();
     }
 
     @Bean
@@ -47,5 +52,16 @@ public class MainApplication {
                 .contact(new Contact("Trap x00", "https://github.com/trapx00", "445073309@qq.com"))
                 .version("1.0")
                 .build();
+    }
+
+    private static void updateSQL() {
+        try {
+            String shpath = MainApplication.class.getResource("/../resources/shell/mysql.sh").getPath();
+            System.out.println(shpath);
+            Process ps = Runtime.getRuntime().exec(shpath);
+            ps.waitFor();
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
     }
 }

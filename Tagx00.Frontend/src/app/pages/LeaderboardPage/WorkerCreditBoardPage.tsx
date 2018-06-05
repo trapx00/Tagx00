@@ -6,10 +6,12 @@ import { DefinitionItem } from "../../components/DefinitionItem";
 import { Table } from "antd";
 import { LocaleMessage } from "../../internationalization/components";
 import { AsyncComponent } from "../../router/AsyncComponent";
-import { MajorTitle, MinorTitle } from "./common";
+import { MajorTitle, MAX_TOP_LIST_LENGTH, MinorTitle } from "./common";
 import { LeaderboardService } from "../../api/LeaderboardService";
 import { Loading } from "../../components/Common/Loading";
 import { observer } from "mobx-react";
+import { LeaderboardLineChart } from "./lineChart/LeaderboardLineChart";
+import { range } from "../../../utils/Range";
 
 @observer
 export default class WorkerCreditBoardPage extends React.Component<{}, {}> {
@@ -32,7 +34,7 @@ export default class WorkerCreditBoardPage extends React.Component<{}, {}> {
     const columns = [{
       title: '用户名',
       dataIndex: 'username',
-      render: text => <a href="#">{text}</a>,
+      render: text => <a>{text}</a>,
     }, {
       title: '积分',
       dataIndex: 'credits',
@@ -41,8 +43,14 @@ export default class WorkerCreditBoardPage extends React.Component<{}, {}> {
       dataIndex: 'order',
     }];
 
+    const tops = range(0,Math.min(MAX_TOP_LIST_LENGTH, workerCreditBoard.users.length))
+      .map(i => ({username: workerCreditBoard.users[i].username, value: workerCreditBoard.users[i].credits}));
     return (
-      <div>
+        <div>
+          <MinorTitle>
+            巅峰榜单
+          </MinorTitle>
+          <LeaderboardLineChart data={tops}/>
         <MinorTitle>
           <LocaleMessage id={"leaderboard.rankListBoard"}/>
         </MinorTitle>

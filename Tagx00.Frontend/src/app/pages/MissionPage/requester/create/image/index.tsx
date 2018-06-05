@@ -15,7 +15,7 @@ import { TopicService } from "../../../../../api/TopicService";
 import { FormItem } from "../../../../../components/Form/FormItem";
 import { PayService } from "../../../../../api/PayService";
 import { UserStore } from "../../../../../stores/UserStore";
-import { MissionCreateInfoForm } from "../MissionCreateInfoForm";
+import { MissionCreateInfoForm, showCompleteModal, UploadStage } from "../MissionCreateInfoForm";
 import { LocaleMessage } from "../../../../../internationalization/components";
 
 const CheckboxGroup = Checkbox.Group;
@@ -58,7 +58,7 @@ const ID_PREFIX = "missions.createMission.";
 export default class ImageMissionCreateInfoForm extends React.Component<Props, {}> {
 
   @observable info: ImageMissionCreateInfo = new ImageMissionCreateInfo();
-  @observable uploading = false;
+  @observable uploadStage = UploadStage.NotStarted;
 
   @Inject localeStore: LocaleStore;
   @Inject routerStore: RouterStore;
@@ -89,6 +89,10 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
     this.info.allowedTags = tags;
   };
 
+  @action setStage(stage: UploadStage) {
+    this.uploadStage = stage;
+  }
+
   @action submit = async () => {
 
     this.info.createAttempted = true;
@@ -96,43 +100,31 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
       return;
     }
 
+    this.setStage(UploadStage.Info);
+
     const {token, id} = await this.requesterService.createMission(this.info.missionCreateVo());
 
-    console.log(token, id);
+    this.setStage(UploadStage.CoverImage);
 
-    // upload cover
+    if (this.info.coverImage) {
+      const coverFormData = new FormData();
+      coverFormData.append("files[]", this.info.coverImage as any);
 
-    runInAction(() => {
-      this.uploading = true;
-    });
+      const coverUrl = await this.requesterService.uploadImageFile(id, coverFormData, 1, true, token);
+    }
 
-    const coverFormData = new FormData();
-    coverFormData.append("files[]", this.info.coverImage as any);
-
-    const coverUrl = await this.requesterService.uploadImageFile(id, coverFormData, 1, true);
+    this.setStage(UploadStage.Attachments);
 
     for (let i = 0; i < this.info.images.length; i++) {
       const imageFormData = new FormData();
       imageFormData.append("files[]", this.info.images[i] as any);
-      const img = await this.requesterService.uploadImageFile(id, imageFormData, i + 2, false);
+      const img = await this.requesterService.uploadImageFile(id, imageFormData, i + 2, false, token);
       console.log(img);
     }
 
-    const modalIdPrefix = ID_PREFIX + "completeCreation.";
+    this.setStage(UploadStage.NotStarted);
 
-    const modal = Modal.success({
-      title: this.localeStore.get(modalIdPrefix + "title"),
-      content: this.localeStore.get(modalIdPrefix + "description", {
-        to: <a onClick={() => {
-          modal.destroy();
-          this.routerStore.jumpTo(`/mission?missionId=${id}`);
-        }}>
-          {this.localeStore.get(modalIdPrefix + "to")}
-        </a>
-      }),
-    });
-
-    runInAction(() => this.uploading = false);
+    showCompleteModal(id, this.routerStore, this.localeStore);
   };
 
   @action onAllowCustomTagChanged = (e) => {
@@ -148,7 +140,7 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
     });
     return <MissionCreateInfoForm info={this.info}
                                   submit={this.submit}
-                                  submitting={this.uploading}
+                                  stage={this.uploadStage}
                                   title={locale.title}
     >
         <FormItem valid={this.info.allowedTagsValid} messageOnInvalid={locale.requireTags}>
@@ -156,10 +148,13 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
           <Checkbox checked={this.info.allowCustomTag} onChange={this.onAllowCustomTagChanged}>
             {locale.allowCustomTag}
           </Checkbox>
+          <div>
           <TagSelector onSelectedChanged={this.onTagsChange}
                        selectedTags={toJS(this.info.allowedTags)}
                        placeholder={locale.tags}
+                       style={{display: "block", width: "100%"}}
           />
+          </div>
         </FormItem>
         <FormItem valid={this.info.imageTypesValid} messageOnInvalid={locale["requireTypes"]}>
           <p>{locale["types.name"]}</p>

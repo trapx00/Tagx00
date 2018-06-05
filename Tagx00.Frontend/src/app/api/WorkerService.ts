@@ -57,10 +57,10 @@ export class WorkerService {
     return res.ok;
   }
 
-  async acceptMission(missionId: string): Promise<Response> {
+  async acceptMission(missionId: string, missionType: MissionType): Promise<Response> {
     const res = await this.http.fetch({
       path: `/mission/worker/${missionId}`,
-      body: {instance: null, missionType: MissionType.IMAGE},
+      body: {instance: null, missionType: missionType},
       method: HttpMethod.POST
     });
 

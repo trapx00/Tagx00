@@ -50,7 +50,7 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps, any
 
   render() {
     return <Dropdown overlay={this.constructMenu()}>
-      <a className="ant-dropdown-link" href="#">
+      <a className="ant-dropdown-link">
         {this.localeStore.currentLanguage.name} <Icon type="down" />
       </a>
     </Dropdown>

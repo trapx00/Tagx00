@@ -2,12 +2,12 @@ package trapx00.tagx00.entity.mission.favorite;
 
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "favorite")
 public class Favorite {
     @Id
     private String favoriteId;
@@ -21,18 +21,14 @@ public class Favorite {
     @Column(name = "acceptDate")
     private Date acceptDate;
 
-    @Column(name = "missionId")
-    private String missionId;
-
     public Favorite() {
     }
 
-    public Favorite(String favoriteId, String workerUsername, MissionType missionType, Date acceptDate, String missionId) {
+    public Favorite(String favoriteId, String workerUsername, MissionType missionType, Date acceptDate) {
         this.favoriteId = favoriteId;
         this.workerUsername = workerUsername;
         this.missionType = missionType;
         this.acceptDate = acceptDate;
-        this.missionId = missionId;
     }
 
     public String getFavoriteId() {
@@ -65,13 +61,5 @@ public class Favorite {
 
     public void setAcceptDate(Date acceptDate) {
         this.acceptDate = acceptDate;
-    }
-
-    public String getMissionId() {
-        return missionId;
-    }
-
-    public void setMissionId(String missionId) {
-        this.missionId = missionId;
     }
 }

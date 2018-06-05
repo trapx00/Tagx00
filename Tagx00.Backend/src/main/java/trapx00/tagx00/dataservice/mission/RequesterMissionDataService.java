@@ -1,11 +1,14 @@
 package trapx00.tagx00.dataservice.mission;
 
 import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
+
+import java.io.IOException;
 
 public interface RequesterMissionDataService {
 
@@ -14,14 +17,14 @@ public interface RequesterMissionDataService {
      *
      * @param mission
      */
-    String updateMission(Mission mission) throws SystemException;
+    String updateMission(Mission mission) throws SystemException, IOException;
 
     /**
      * save mission
      *
      * @param mission
      */
-    String saveMission(Mission mission) throws SystemException;
+    String saveMission(Mission mission) throws SystemException, IOException;
 
     /**
      * get instance by instanceId
@@ -49,13 +52,12 @@ public interface RequesterMissionDataService {
     InstanceVo[] getAllInstances();
 
     /**
-     * get mission by mission id
+     * get mission by id
      *
-     * @param missionId   the id of the mission
-     * @param missionType the type of the mission
-     * @return the mission object
+     * @param missionId
+     * @return
      */
-    Mission getMissionByMissionId(String missionId, MissionType missionType);
+    Mission getMissionByMissionId(String missionId) throws MissionIdDoesNotExistException, IOException, ClassNotFoundException;
 
     /**
      * update the mission's credits
@@ -63,13 +65,21 @@ public interface RequesterMissionDataService {
      * @param missionId
      * @param credits
      */
-    void updateMission(String missionId, int credits, MissionType missionType) throws SystemException;
+    void updateMission(String missionId, int credits, MissionType missionType) throws SystemException, IOException, MissionIdDoesNotExistException, ClassNotFoundException;
 
     /**
-     * finlize the instance
+     * finalize the instance
      *
      * @param instanceId
      * @param missionFinalizeVo
      */
     void updateInstance(String instanceId, MissionFinalizeVo missionFinalizeVo, MissionType missionType) throws SystemException;
+
+    /**
+     * get the latest mission's id
+     *
+     * @param missionType
+     * @return
+     */
+    int getLatestMissionId(MissionType missionType);
 }

@@ -14,13 +14,19 @@ interface Props {
   tagTuples: TagTuple[];
   onChange: (tags: TagTuple[]) => void;
   readonly: boolean;
-  allowedTags?: string[];
+  tags?: string[];
+  allowCustomTag?: boolean;
 }
 
 const ID_PREFIX = "drawingPad.common.tagDescriptionTuplePanel.";
 
 @observer
 export class TagPanel extends React.Component<Props, {}> {
+
+  static defaultProps = {
+    allowCustomTag: true,
+    tags: []
+  };
 
   @observable selectedIndex: number = -1;
 
@@ -94,7 +100,8 @@ export class TagPanel extends React.Component<Props, {}> {
                                 onComplete={this.onTagChangeComplete}
                                 onCancel={this.onTagChangeCancelled}
                                 readonly={this.props.readonly}
-                                allowedTags={this.props.allowedTags}
+                                tags={this.props.tags}
+                                allowCustomTag={this.props.allowCustomTag}
         />
         : null
       }

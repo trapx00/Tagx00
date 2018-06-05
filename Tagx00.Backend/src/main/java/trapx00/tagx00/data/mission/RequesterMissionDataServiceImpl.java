@@ -1,9 +1,9 @@
 package trapx00.tagx00.data.mission;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.mission.ImageMissionDao;
+import trapx00.tagx00.data.dao.mission.MissionDao;
 import trapx00.tagx00.data.dao.mission.TextMissionDao;
 import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
 import trapx00.tagx00.data.dao.mission.instance.TextInstanceDao;
@@ -16,10 +16,13 @@ import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.entity.mission.instance.TextInstance;
 import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.entity.mission.instance.workresult.TextResult;
+import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.util.MissionUtil;
+import trapx00.tagx00.util.PathUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
@@ -28,6 +31,7 @@ import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceDetailVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceVo;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,14 +39,16 @@ import java.util.Optional;
 @Service
 public class RequesterMissionDataServiceImpl implements RequesterMissionDataService {
 
+    private final MissionDao missionDao;
     private final ImageInstanceDao imageInstanceDao;
     private final ImageMissionDao imageMissionDao;
     private final TextInstanceDao textInstanceDao;
     private final TextMissionDao textMissionDao;
 
     @Autowired
-    public RequesterMissionDataServiceImpl(ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao ,
-                                           TextMissionDao textMissionDao,TextInstanceDao textInstanceDao) {
+    public RequesterMissionDataServiceImpl(MissionDao missionDao, ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao,
+                                           TextMissionDao textMissionDao, TextInstanceDao textInstanceDao) {
+        this.missionDao = missionDao;
         this.imageInstanceDao = imageInstanceDao;
         this.imageMissionDao = imageMissionDao;
         this.textInstanceDao = textInstanceDao;
@@ -55,7 +61,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param mission
      */
     @Override
-    public String updateMission(Mission mission) throws SystemException {
+    public String updateMission(Mission mission) throws SystemException, IOException {
         Mission result = null;
         switch (mission.getMissionType()) {
             case IMAGE:
@@ -64,7 +70,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 }
                 break;
             case TEXT:
-                if((result=textMissionDao.save((TextMission)mission))==null){
+                if ((result = textMissionDao.save((TextMission) mission)) == null) {
                     throw new SystemException();
                 }
                 break;
@@ -78,20 +84,25 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param mission
      */
     @Override
-    public String saveMission(Mission mission) throws SystemException {
+    public String saveMission(Mission mission) throws SystemException, IOException {
         Mission result = null;
         switch (mission.getMissionType()) {
             case IMAGE:
-                mission.setMissionId(getNextId(imageMissionDao.findAll()));
+                mission.setMissionId(getNextId(imageMissionDao.findAll(), MissionType.IMAGE));
                 if ((result = imageMissionDao.save((ImageMission) mission)) == null) {
                     throw new SystemException();
                 }
                 break;
             case TEXT:
-                mission.setMissionId(getNextId(textMissionDao.findAll()));
-                if((result=textMissionDao.save((TextMission)mission))==null){
+                mission.setMissionId(getNextId(textMissionDao.findAll(), MissionType.TEXT));
+                if ((result = textMissionDao.save((TextMission) mission)) == null) {
                     throw new SystemException();
                 }
+                FileOutputStream fileOut = new FileOutputStream(PathUtil.getSerPath() + "text_mission" + "_" + result.getMissionId());
+                ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                out.writeObject(((TextMission) mission).getTextMissionSettings());
+                out.close();
+                fileOut.close();
                 break;
         }
         return result.getMissionId();
@@ -203,37 +214,41 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
             }
             result.add(generateImageInstanceVo(imageInstance, imageResultSize));
         }
-        for(TextInstance textInstance:textInstanceDao.findAll()){
-            int textResultSize=0;
-            List<TextResult> textResults=textInstance.getTextResults();
-            for( TextResult textResult:textResults){
-                if(textResult.isDone())
+        for (TextInstance textInstance : textInstanceDao.findAll()) {
+            int textResultSize = 0;
+            List<TextResult> textResults = textInstance.getTextResults();
+            for (TextResult textResult : textResults) {
+                if (textResult.isDone())
                     textResultSize++;
             }
-            result.add(generateTextInstanceVo(textInstance,textResultSize));
+            result.add(generateTextInstanceVo(textInstance, textResultSize));
         }
         return result.toArray(new InstanceVo[result.size()]);
     }
 
     /**
-     * get mission by mission id
+     * get mission by id
      *
-     * @param missionId   the id of the mission
-     * @param missionType the type of the mission
-     * @return the mission object
+     * @param missionId
+     * @return
      */
     @Override
-    public Mission getMissionByMissionId(String missionId, MissionType missionType) {
-        Mission mission = null;
-        switch (missionType) {
-            case IMAGE:
-                mission = imageMissionDao.findImageMissionByMissionId(missionId);
-                break;
-            case TEXT:
-                mission=textMissionDao.findTextMissionByMissionId(missionId);
-                break;
+    public Mission getMissionByMissionId(String missionId) throws MissionIdDoesNotExistException, IOException, ClassNotFoundException {
+        Optional<Mission> optionalMission = missionDao.findById(missionId);
+        if (optionalMission.isPresent()) {
+            Mission mission = optionalMission.get();
+            if (mission.getMissionType() == MissionType.TEXT) {
+                FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "text_mission" + "_" + mission.getMissionId());
+                ObjectInputStream in = new ObjectInputStream(fileIn);
+                List<TextMissionSetting> textMissionSettings = (List<TextMissionSetting>) in.readObject();
+                in.close();
+                fileIn.close();
+                ((TextMission) mission).setTextMissionSettings(textMissionSettings);
+            }
+            return mission;
+        } else {
+            throw new MissionIdDoesNotExistException();
         }
-        return mission;
     }
 
     /**
@@ -243,14 +258,14 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param credits
      */
     @Override
-    public void updateMission(String missionId, int credits, MissionType missionType) throws SystemException {
+    public void updateMission(String missionId, int credits, MissionType missionType) throws SystemException, IOException, MissionIdDoesNotExistException, ClassNotFoundException {
         Mission mission = null;
         switch (missionType) {
             case IMAGE:
                 mission = imageMissionDao.findImageMissionByMissionId(missionId);
                 break;
             case TEXT:
-                mission=textMissionDao.findTextMissionByMissionId(missionId);
+                mission = getMissionByMissionId(missionId);
                 break;
         }
         mission.setCredits(mission.getCredits() + credits);
@@ -274,9 +289,9 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 mission = imageMissionDao.findImageMissionByMissionId(missionId);
                 break;
             case TEXT:
-                instance=textInstanceDao.findTextInstanceByInstanceId(instanceId);
-                String missionId1=instance.getMissionId();
-                mission=textMissionDao.findTextMissionByMissionId(missionId1);
+                instance = textInstanceDao.findTextInstanceByInstanceId(instanceId);
+                String missionId1 = instance.getMissionId();
+                mission = textMissionDao.findTextMissionByMissionId(missionId1);
                 break;
         }
         instance.setMissionInstanceState(MissionInstanceState.FINALIZED);
@@ -291,11 +306,23 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 }
                 break;
             case TEXT:
-                if(textInstanceDao.save((TextInstance)instance)==null) {
+                if (textInstanceDao.save((TextInstance) instance) == null) {
                     throw new SystemException();
                 }
                 break;
         }
+    }
+
+    /**
+     * get the latest mission's id
+     *
+     * @param missionType
+     * @return
+     */
+    @Override
+    public int getLatestMissionId(MissionType missionType) {
+
+        return 0;
     }
 
     private ImageInstanceDetailVo generateImageInstanceDetailVo(ImageInstance imageInstance, int completedCounts) {
@@ -309,23 +336,25 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts
         );
     }
+
     private TextInstanceDetailVo generateTextInstanceDetailVo(TextInstance textinstance, int completedCounts) {
         InstanceVo instanceVo = new InstanceVo(textinstance.getInstanceId(), textinstance.getExpRatio(), textinstance.getExp(), textinstance.getCredits(), textinstance.getComment(), textinstance.getWorkerUsername(), textinstance.getMissionInstanceState(), textinstance.getMissionId(), textinstance.getAcceptDate(), textinstance.getSubmitDate(), textinstance.isSubmitted(), completedCounts);
         return new TextInstanceDetailVo(textinstance.getMissionType(), instanceVo, textinstance.getTextResults());
     }
+
     private TextInstanceVo generateTextInstanceVo(Instance instance, int completedCounts) {
         return new TextInstanceVo(instance.getInstanceId(), instance.getExpRatio(), instance.getExp(), instance.getCredits(), instance.getComment(), instance.getWorkerUsername(), instance.getMissionInstanceState(),
                 instance.getMissionId(), instance.getAcceptDate(), instance.getSubmitDate(),
                 instance.isSubmitted(), completedCounts);
     }
 
-    private <T extends Mission> String getNextId(List<T> imageMissions) {
+    private <T extends Mission> String getNextId(List<T> missions, MissionType missionType) {
         int result = 0;
-        Optional<T> maxId = imageMissions.stream().max((x1, x2) -> (MissionUtil.getId(x1.getMissionId()) - MissionUtil.getId(x2.getMissionId())));
+        Optional<T> maxId = missions.stream().max((x1, x2) -> (MissionUtil.getId(x1.getMissionId()) - MissionUtil.getId(x2.getMissionId())));
         if (maxId.isPresent()) {
             result = MissionUtil.getId(maxId.get().getMissionId()) + 1;
         }
-        return MissionUtil.addTypeToId(result, MissionType.IMAGE);
+        return MissionUtil.addTypeToId(result, missionType);
     }
 
 

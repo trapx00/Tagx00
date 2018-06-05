@@ -4,11 +4,14 @@ import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Mission {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "mission")
+public class Mission implements Serializable {
     @Id
     private String missionId;
     @Column(name = "title")

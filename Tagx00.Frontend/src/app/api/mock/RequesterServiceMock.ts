@@ -35,6 +35,11 @@ export class RequesterServiceMock extends RequesterService {
 
   }
 
+  async uploadTextZipFile(missionId: string, formData: FormData, token: string) : Promise<void> {
+
+
+  }
+
   async getAllMissionsBySelf(username: string): Promise<MissionPublicResponse> {
     return {
       pagingInfoVo: null,

@@ -3,21 +3,23 @@ package trapx00.tagx00.entity.mission.favorite;
 import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity
-@Table(name = "imageFavorite")
 public class ImageFavorite extends Favorite {
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "imageMission_id")
+    @JoinColumn(name = "mission_missionId")
     private ImageMission imageMission;
 
     public ImageFavorite() {
     }
 
-    public ImageFavorite(String favoriteId, String workerUsername, MissionType missionType, Date acceptDate, String missionId, ImageMission imageMission) {
-        super(favoriteId, workerUsername, missionType, acceptDate, missionId);
+    public ImageFavorite(String favoriteId, String workerUsername, MissionType missionType, Date acceptDate, ImageMission imageMission) {
+        super(favoriteId, workerUsername, missionType, acceptDate);
         this.imageMission = imageMission;
     }
 

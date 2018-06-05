@@ -1,71 +1,75 @@
 package trapx00.tagx00.data.upload;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import trapx00.tagx00.data.dao.mission.TextTokenDao;
 import trapx00.tagx00.dataservice.upload.TextDataService;
+import trapx00.tagx00.entity.mission.TextToken;
 import trapx00.tagx00.exception.viewexception.SystemException;
-import trapx00.tagx00.util.PathUtil;
+import trapx00.tagx00.exception.viewexception.TextNotExistException;
 
-import java.io.File;
-import java.net.URL;
-import java.util.Date;
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.UnsupportedEncodingException;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Optional;
 
 @Service
 public class TextDataServiceImpl implements TextDataService {
-    private final static String TEMP_PATH = PathUtil.getTmpPath();
-    private static final long EXPIRATION = Long.MAX_VALUE;
+    private final TextTokenDao textTokenDao;
 
-    @Value("${oos.accessKey}")
-    private String accessKey;
-    @Value("${oos.secretKey}")
-    private String secretKey;
-    @Value("${oos.endPoint}")
-    private String endPoint;
-    @Value("${oos.bucketName}")
-    private String bucketName;
+    @Autowired
+    public TextDataServiceImpl(TextTokenDao textTokenDao) {
+        this.textTokenDao = textTokenDao;
+    }
 
     /**
-     * upload the text to the oos cloud
+     * save the text
      *
-     * @param key  the id of the image
-     * @param path the text content path
-     * @return the url of the uploaded text
+     * @param token the token of the text
+     * @param text  the content of the text
+     * @return the token of the uploaded text
      */
     @Override
-    public String uploadText(String key, File file) throws SystemException {
+    public String uploadText(String token, String text) throws SystemException {
         try {
-            //上传文本
-            AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
-            AmazonS3 oos = new AmazonS3Client(credentials);
-            oos.setEndpoint(endPoint);
-            oos.putObject(bucketName, key, file);
-
-            //生成共享地址
-            GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                    new GeneratePresignedUrlRequest(bucketName, key);
-            generatePresignedUrlRequest.setExpiration(new Date(EXPIRATION));
-            URL url = oos.generatePresignedUrl(generatePresignedUrlRequest);
-            return url.toURI().toString();
-        } catch (Exception e) {
+            textTokenDao.save(new TextToken(token, new SerialBlob(text.getBytes("GBK"))));
+        } catch (SQLException | UnsupportedEncodingException e) {
+            e.printStackTrace();
             throw new SystemException();
+        }
+        return token;
+    }
+
+    /**
+     * get text by its token
+     *
+     * @param token
+     * @return
+     */
+    @Override
+    public String getText(String token) throws TextNotExistException, SystemException {
+        Optional<TextToken> optionalTextToken = textTokenDao.findById(token);
+        if (optionalTextToken.isPresent()) {
+            Blob blobText = optionalTextToken.get().getText();
+            try {
+                return new String(blobText.getBytes(1, (int) blobText.length()), "GBK");
+            } catch (UnsupportedEncodingException | SQLException e) {
+                e.printStackTrace();
+                throw new SystemException();
+            }
+        } else {
+            throw new TextNotExistException();
         }
     }
 
     /**
      * delete the text
      *
-     * @param key the id of the text
+     * @param token the id of the text
      */
     @Override
-    public void deleteText(String key) {
-        AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
-        AmazonS3 oos = new AmazonS3Client(credentials);
-        oos.setEndpoint(endPoint);
-        oos.deleteObject(bucketName, key);
+    public void deleteText(String token) {
+        textTokenDao.deleteById(token);
     }
 }

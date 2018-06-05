@@ -19,26 +19,23 @@ export class AsyncRoute<T> extends React.PureComponent<Props<T>> {
   @Inject navStore: NavStore;
 
 
-  @action renderRoute = (props) => {
-    this.navStore.pageWideLoadingBarShown = true;
-    console.log("load start");
+  renderRoute = (props) => {
+    this.navStore.showLoadingBar();
     return <ObserverAsyncComponent
       render={this.props.component
         ? async () => {
-        await waitForMs(3000);
-        return React.createElement((await this.props.component).default, props)
+          return React.createElement((await this.props.component).default, props)
         }
         : this.props.render}
       props={props}
-      onRenderSuccess={action(()=> {
-        this.navStore.pageWideLoadingBarShown = false;
-        console.log("load complete")
-      })}
+      onRenderSuccess={() => {
+        this.navStore.hideLoadingBar();
+      }}
     />;
   };
 
   render() {
-    return <Route path={this.props.path}  exact={this.props.exact}
+    return <Route path={this.props.path} exact={this.props.exact}
                   render={this.renderRoute}/>;
   }
 }

@@ -24,7 +24,7 @@ public class PythonServiceImpl implements PythonService {
         String url = mlAddress + apiExtractKey;
         ResponseEntity<KeysVo> keysVoResponseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, KeysVo.class);
 
-        if (keysVoResponseEntity.getStatusCode() == HttpStatus.ACCEPTED) {
+        if (keysVoResponseEntity.getStatusCode() == HttpStatus.OK) {
             return keysVoResponseEntity.getBody();
         } else {
             throw new SystemException();

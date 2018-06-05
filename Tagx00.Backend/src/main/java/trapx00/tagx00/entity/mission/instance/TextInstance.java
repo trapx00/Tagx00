@@ -12,13 +12,12 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "textInstance")
 public class TextInstance extends Instance {
     @Column(name = "textResults")
     @ElementCollection(targetClass = TextResult.class)
     private List<TextResult> textResults;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "textMission_id")
+    @JoinColumn(name = "mission_missionId")
     private TextMission textMission;
 
     public TextInstance(){
