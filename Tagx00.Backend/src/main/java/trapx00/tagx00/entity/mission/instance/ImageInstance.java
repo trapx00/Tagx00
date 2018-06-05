@@ -38,4 +38,12 @@ public class ImageInstance extends Instance {
     public void setImageResults(List<ImageResult> imageResults) {
         this.imageResults = imageResults;
     }
+
+    public ImageMission getImageMission() {
+        return imageMission;
+    }
+
+    public void setImageMission(ImageMission imageMission) {
+        this.imageMission = imageMission;
+    }
 }

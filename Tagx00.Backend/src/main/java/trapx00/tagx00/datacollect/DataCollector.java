@@ -16,7 +16,7 @@ public class DataCollector {
         try {
             String[] urls = new String[DATA_NUM];
             int randomStart = (int) (Math.random() * 10000);
-            File file = new File("/Users/apple/Documents/workspace/java/SE3/Tagx00.MachineLearning/data/proval/TagedData.txt");
+            File file = new File("/Users/apple/Documents/workspace/java/SE3/Tagx00.MachineLearning/data/proval/train.txt");
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)));
             File dataFile = new File("/Users/apple/Downloads/fall11_urls.txt");
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(dataFile)));
