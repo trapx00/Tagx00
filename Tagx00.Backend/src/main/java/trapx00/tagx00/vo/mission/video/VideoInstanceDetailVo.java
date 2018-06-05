@@ -9,4 +9,5 @@ import java.util.List;
 public class VideoInstanceDetailVo extends InstanceDetailVo {
     private List<VideoResult> resultList;
 
+
 }

@@ -12,8 +12,8 @@ public class AudioWholeJob extends AudioJob {
 
     }
 
-    public AudioWholeJob(AudioMissionType type, TagDescriptionTuple tuple) {
-        super(type);
+    public AudioWholeJob(TagDescriptionTuple tuple) {
+        super(AudioMissionType.WHOLE);
         this.tuple = tuple;
     }
 
