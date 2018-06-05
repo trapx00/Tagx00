@@ -75,9 +75,10 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
 
   render() {
 
-    const { imageAsset, job } = this.state.notation;
-    const { missionDetail, controllerProps } = this.props;
-    return <ImageWorkPageLayout imageUrl={imageAsset.url} imageWidth={this.state.width} imageHeight={this.state.height} setScale={this.setScale}>
+    const {imageAsset, job} = this.state.notation;
+    const {missionDetail, controllerProps} = this.props;
+    return <ImageWorkPageLayout imageUrl={imageAsset.url} imageWidth={this.state.width} imageHeight={this.state.height}
+                                setScale={this.setScale}>
       <>
         <img onLoad={this.onImageLoad} src={imageAsset.url}/>
       </>
@@ -87,17 +88,17 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
                              allowCustomTag={missionDetail.publicItem.allowCustomTag}
                              title={missionDetail.publicItem.title}
         />
-          <TagDescriptionTuplePanel tuple={job.tuple}
-                                    onChange={this.onTupleChange}
-                                    readonlyMode={this.props.readonlyMode}
-                                    allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                    tagConfTuples={imageAsset.tagConfTuple}
-          />
-          <ProgressController {...this.props.controllerProps}
-            goNext={this.goNext}
-            readonlyMode={this.props.readonlyMode}
-            saveProgress={this.submit}
-          />
+        <TagDescriptionTuplePanel tuple={job.tuple}
+                                  onChange={this.onTupleChange}
+                                  readonlyMode={this.props.readonlyMode}
+                                  allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                                  tagConfTuples={imageAsset.tagConfTuple}
+        />
+        <ProgressController {...this.props.controllerProps}
+                            goNext={this.goNext}
+                            readonlyMode={this.props.readonlyMode}
+                            saveProgress={this.submit}
+        />
       </>
     </ImageWorkPageLayout>
   }

@@ -26,7 +26,6 @@ function judgeJobComplete(job: KnownImageJob) {
   return false;
 }
 
-@Injectable
 export class ImageWorkPageController extends WorkPageController<ImageMissionDetail, ImageInstanceDetail,ImageJob, ImageNotation> {
   imageAssets: MissionAsset[];
 

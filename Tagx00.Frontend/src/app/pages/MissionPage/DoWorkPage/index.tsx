@@ -9,6 +9,7 @@ import { InstanceDetail } from "../../../models/instance/InstanceDetail";
 import { MissionType } from "../../../models/mission/Mission";
 import { MissionDetail } from "../../../models/mission/MissionDetail";
 import { TextWorkPage } from "./text/TextWorkPage";
+import { AudioWorkPage } from "./audiovideo/audio/AudioWorkPage";
 
 interface Props {
   instanceDetail: InstanceDetail;
@@ -29,19 +30,21 @@ export class DoWorkPage extends React.Component<Props, any> {
 
   render() {
     const {instanceDetail, missionDetail} = this.props;
+
+    const props = {
+      instanceDetail,
+      missionDetail,
+      jumpBack: this.jumpBack,
+      readonlyMode: this.props.readonly
+    };
+
     switch (missionDetail.publicItem.missionType) {
       case MissionType.IMAGE:
-        return <ImageWorkPage instanceDetail={instanceDetail as any}
-                              missionDetail={missionDetail as any}
-                              jumpBack={this.jumpBack}
-                              readonlyMode={this.props.readonly}
-        />;
+        return <ImageWorkPage {...props as any}/>;
       case MissionType.TEXT:
-        return <TextWorkPage instanceDetail={instanceDetail as any}
-                             missionDetail={missionDetail as any}
-                             readonlyMode={this.props.readonly}
-                             jumpBack={this.jumpBack}
-        />
+        return <TextWorkPage {...props as any}/>;
+      case MissionType.AUDIO:
+        return <AudioWorkPage {...props as any}/>;
     }
     return null;
   }

@@ -9,8 +9,59 @@ import { WorkerInfo } from "../../models/userInfo/WorkerInfo";
 import { MissionType } from "../../models/mission/Mission";
 import { InstanceDetailResponse } from "../../models/response/mission/InstanceDetailResponse";
 import { TextInstanceDetail } from "../../models/instance/text/TextInstanceDetail";
+import { AudioInstance } from "../../models/instance/audio/AudioInstance";
+import { AudioInstanceDetail } from "../../models/instance/audio/AudioInstanceDetail";
 
+const textInstance = {
+    textResults: [],
+    instance: {
+      instanceId: 1 + "",
+      workerUsername: "123",
+      title: `Title`,
+      description: `Description `,
+      missionId: "1",
+      acceptDate: new Date(),
+      submitDate: null,
+      isSubmitted: false,
+      completedJobsCount: 0,
+      missionInstanceState: MissionInstanceState.IN_PROGRESS,
+    },
+    missionType: MissionType.TEXT
+  } as TextInstanceDetail;
 
+const imgInstance = {
+      imageResults: [],
+      instance: {
+        instanceId: 1 + "",
+        workerUsername: "123",
+        title: `Title`,
+        description: `Description `,
+        missionId: "1",
+        acceptDate: new Date(),
+        submitDate: null,
+        isSubmitted: false,
+        completedJobsCount: 0,
+        missionInstanceState: MissionInstanceState.IN_PROGRESS,
+      },
+      missionType: MissionType.IMAGE,
+    } as ImageInstanceDetail;
+
+const audioInstance = {
+  resultList: [],
+  missionType: MissionType.AUDIO,
+  instance: {
+    instanceId: 1 + "",
+    workerUsername: "123",
+    title: `Title`,
+    description: `Description `,
+    missionId: "1",
+    acceptDate: new Date(),
+    submitDate: null,
+    isSubmitted: false,
+    completedJobsCount: 0,
+    missionInstanceState: MissionInstanceState.IN_PROGRESS,
+  }
+} as AudioInstanceDetail;
 
 @Injectable
 export class WorkerServiceMock extends WorkerService {
@@ -40,26 +91,11 @@ export class WorkerServiceMock extends WorkerService {
 
 
     return {
-      detail: {
-        textResults: [],
-        instance: {
-          instanceId: 1 + "",
-          workerUsername: "123",
-          title: `Title`,
-          description: `Description `,
-          missionId: missionId,
-          acceptDate: new Date(),
-          submitDate: null,
-          isSubmitted: false,
-          completedJobsCount: 0,
-          missionInstanceState: MissionInstanceState.IN_PROGRESS,
-        },
-        missionType: MissionType.TEXT
-      } as TextInstanceDetail
-    }
+      detail: audioInstance
+    };
 
-    // mock
-    // return {
+
+      // return {
     //   detail: {
     //     imageResults: [],
     //     instance: {

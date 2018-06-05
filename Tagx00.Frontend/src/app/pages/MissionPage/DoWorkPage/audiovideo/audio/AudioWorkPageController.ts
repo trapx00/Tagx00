@@ -12,7 +12,7 @@ import { AudioPartJob } from "../../../../../models/instance/audio/job/AudioPart
 import { AudioWholeJob } from "../../../../../models/instance/audio/job/AudioWholeJob";
 import { arrayContainsElement } from "../../../../../../utils/Array";
 
-type KnownAudioJob = AudioPartJob | AudioWholeJob;
+export type KnownAudioJob = AudioPartJob | AudioWholeJob;
 
 function judgeJobComplete(job: KnownAudioJob) {
   if (!job) return false;

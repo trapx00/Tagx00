@@ -13,6 +13,14 @@ import { CompleteModal } from "../../../components/ImageWork/CompleteModal";
 import { observer } from "mobx-react";
 import { ImageJob } from "../../../models/instance/image/job/ImageJob";
 
+
+export interface RootWorkPageProps<M extends MissionDetail, I extends InstanceDetail> {
+  missionDetail: M;
+  instanceDetail: I;
+  jumpBack(): void;
+  readonlyMode: boolean;
+}
+
 export interface WorkPageProps<M extends MissionDetail, J, N extends Notation<J>> {
   notation: N;
   submit(notation: N): void;
