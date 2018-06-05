@@ -87,8 +87,12 @@ export class MissionServiceMock extends MissionService {
         credits: 100
       },
       missionState: MissionState.ACTIVE,
-      missionAssets: imgs.map(x => ({url: x, tagConfTuple: {"1": 1, "2": 0.4, "3": 0.8}})),
-
+      missionAssets: imgs.map(x => ({url: x, tagConfTuple:
+          [
+            {tag: "1", confidence: 1},
+            {tag: "2", confidence: 0.4},
+            {tag: "3", confidence: 0.8}
+        ]}))
     } as ImageMissionDetail;
 
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextClassificationJob } from "../../../../models/instance/text/job/TextClassificationJob";
-import { TextNotation } from "./TextWorkPageController";
-import { TextWorkPageProps, TextWorkPageState } from "./shared";
+import { TextNotation, TextWorkPageProps, TextWorkPageState } from "./shared";
 import {
   TextMissionClassificationSetting, TextMissionKeywordsSetting,
   TextMissionType
@@ -85,7 +84,7 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
                   onChange={this.onTagChange}
                   readonly={this.props.readonlyMode}
                   allowCustomTag={false}
-                  tagConfMap={this.props.notation.setting.classes.reduce((prev, curr) => ({...prev, [curr]: 1}), {})}
+                  tagConfTuples={this.props.notation.setting.classes.map(x=>({tag: x, confidence: 1}))}
         />
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}

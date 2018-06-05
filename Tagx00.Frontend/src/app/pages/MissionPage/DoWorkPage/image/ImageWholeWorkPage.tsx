@@ -1,13 +1,12 @@
 import React from "react";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
-import { ImageNotation } from "./ImageWorkPageController";
 import { WholeJob } from "../../../../models/instance/image/job/WholeJob";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
 import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
 import { ProgressController } from "../../../../components/ImageWork/ProgressController";
 import { toJS } from "mobx";
-import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
+import { ImageNotation, ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
 import { MissionType } from "../../../../models/mission/Mission";
 import { ImageMissionTipCard } from "../../../../components/Mission/MissionTipCard/ImageMissionTipCard";
@@ -84,7 +83,7 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
       </>
       <>
         <ImageMissionTipCard imageMissionType={job.type}
-                             tagConfMap={imageAsset.tagConfTuple}
+                             tagConfTuples={imageAsset.tagConfTuple}
                              allowCustomTag={missionDetail.publicItem.allowCustomTag}
                              title={missionDetail.publicItem.title}
         />
@@ -92,7 +91,7 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
                                     onChange={this.onTupleChange}
                                     readonlyMode={this.props.readonlyMode}
                                     allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                    tagConfMap={imageAsset.tagConfTuple}
+                                    tagConfTuples={imageAsset.tagConfTuple}
           />
           <ProgressController {...this.props.controllerProps}
             goNext={this.goNext}

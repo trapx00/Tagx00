@@ -1,5 +1,4 @@
 import React from "react";
-import { ImageNotation } from "./ImageWorkPageController";
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
@@ -11,7 +10,7 @@ import { DistrictPanel } from "../../../../components/ImageWork/DrawingPad/Distr
 import { DistrictAddingModeController } from "../../../../components/ImageWork/DistrictAddingModeController";
 import { DistrictDrawingSession } from "../../../../components/ImageWork/DrawingPad/DistrictPanel/DistrictCanvas/DistrictDrawingSession";
 import { District } from "../../../../components/ImageWork/DrawingPad/DistrictPanel/Districts";
-import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
+import { ImageNotation, ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
 import { MissionType } from "../../../../models/mission/Mission";
 import { ImageMissionTipCard } from "../../../../components/Mission/MissionTipCard/ImageMissionTipCard";
@@ -162,7 +161,7 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
         </>
         <>
           <ImageMissionTipCard imageMissionType={job.type}
-                               tagConfMap={imageAsset.tagConfTuple}
+                               tagConfTuples={imageAsset.tagConfTuple}
                                allowCustomTag={missionDetail.publicItem.allowCustomTag}
                                title={missionDetail.publicItem.title}
           />
@@ -179,7 +178,7 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
                                         readonlyMode={readonlyMode}
                                         onChange={this.onTupleChanged}
                                         allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                        tagConfMap={imageAsset.tagConfTuple}
+                                        tagConfTuples={imageAsset.tagConfTuple}
             />
             : null}
 
