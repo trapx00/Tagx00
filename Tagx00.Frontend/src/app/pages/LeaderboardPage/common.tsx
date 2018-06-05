@@ -7,3 +7,5 @@ export const MajorTitle = styled.h1`
 export const MinorTitle = styled.h2`
   margin-bottom: 16px;
 `;
+
+export const MAX_TOP_LIST_LENGTH = 5;

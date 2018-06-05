@@ -12,7 +12,9 @@ export enum LoginState {
 
 
 export enum LoginErrorType {
-  WrongCredential, ServerError, NetworkError
+  WrongCredential = "WrongCredential",
+  ServerError = "ServerError",
+  NetworkError = "NetworkError"
 }
 
 export interface LoginError {
@@ -55,8 +57,6 @@ export class LoginController {
   @observable fields: LoginFormFields = new LoginFormFields();
 
 
-
-
   @action public logout = () => {
     this.state = LoginState.NotLoggedIn;
   };
@@ -69,14 +69,9 @@ export class LoginController {
   }
 
   async doLogin() {
-    try {
-      await this.requestLogin(this.fields.username, this.fields.password);
-      if (this.fields.remember) {
-        this.userStore.remember();
-      }
-    } catch (e) {
-      console.log(e);
-      throw e;
+    await this.requestLogin(this.fields.username, this.fields.password);
+    if (this.fields.remember) {
+      this.userStore.remember();
     }
   }
 
@@ -89,7 +84,7 @@ export class LoginController {
       });
     } catch (e) {
       console.log(e);
-      const { statusCode, error, response } = e;
+      const {statusCode, error, response} = e;
       runInAction("requestLogin failed", () => {
         this.state = LoginState.NotLoggedIn;
       });
@@ -98,7 +93,7 @@ export class LoginController {
       } else if (error.isNetworkError) {
         throw {type: LoginErrorType.NetworkError, error: error.info};
       } else {
-        throw {type: LoginErrorType.ServerError, messages: (response as any).errorDescriptions} as LoginServerError;
+        throw {type: LoginErrorType.ServerError, messages: response!.errorDescriptions } as LoginServerError;
       }
     }
 

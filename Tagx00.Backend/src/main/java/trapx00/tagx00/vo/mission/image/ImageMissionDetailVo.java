@@ -1,6 +1,7 @@
 package trapx00.tagx00.vo.mission.image;
 
 import trapx00.tagx00.publicdatas.mission.MissionState;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 
@@ -15,15 +16,8 @@ public class ImageMissionDetailVo extends MissionDetailVo {
     public ImageMissionDetailVo() {
     }
 
-    public ImageMissionDetailVo(List<String> imageUrls, List<ImageMissionType> imageMissionTypes) {
-        this.imageUrls = imageUrls;
-        this.imageMissionTypes = imageMissionTypes;
-    }
-
-    public ImageMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState,
-                                String requesterUsername, List<String> imageUrls,
-                                List<ImageMissionType> imageMissionTypes) {
-        super(publicItem, missionState, requesterUsername);
+    public ImageMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, String requesterUsername, MissionType missionType, List<String> imageUrls, List<ImageMissionType> imageMissionTypes) {
+        super(publicItem, missionState, requesterUsername, missionType);
         this.imageUrls = imageUrls;
         this.imageMissionTypes = imageMissionTypes;
     }

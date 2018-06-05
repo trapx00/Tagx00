@@ -13,6 +13,7 @@ import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.entity.mission.TextMission;
 import trapx00.tagx00.entity.mission.instance.Instance;
+import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PublicMissionDataServiceImpl implements PublicMissionDataService {
@@ -107,13 +109,13 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                     return null;
                 if (imageMission.getMissionType().equals(MissionType.IMAGE)) {
                     missionDetailVo = new ImageMissionDetailVo(new ImageMissionPublicItemVo(
-                            missionId, imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), missionType,
-                            imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(),
-                            imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(),
-                            imageMission.getImageUrls().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(),
-                            imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), imageMission.getImageMissionTypes()
+                        missionId, imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), missionType,
+                        imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(),
+                        imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(),
+                        imageMission.getImageUrls().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(),
+                        imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), imageMission.getImageMissionTypes()
                     ),
-                            imageMission.getMissionState(), imageMission.getRequesterUsername(), imageMission.getImageUrls(), imageMission.getImageMissionTypes());
+                        imageMission.getMissionState(), imageMission.getRequesterUsername(), MissionType.IMAGE, imageMission.getImageUrls(), imageMission.getImageMissionTypes());
                 }
                 break;
             case TEXT:
@@ -122,12 +124,22 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                     return null;
                 if (textMission.getMissionType().equals(MissionType.TEXT)) {
                     missionDetailVo = new TextMissionDetailVo(new TextMissionPublicItemVo(
-                            missionId, textMission.getTitle(),
-                            textMission.getDescription(), textMission.getTopics(), missionType,
-                            textMission.getStart(), textMission.getEnd(), textMission.getCoverUrl(), textMission.getLevel(), textMission.getCredits(),
-                            textMission.getMinimalWorkerLevel(), textMission.getTextUrls().size() * textMission.getTextMissionSettings().size(),
-                            textMission.getRequesterUsername(), textMission.getTextMissionSettings().stream().collect(ArrayList::new, (list, textMissionSetting) -> list.add(textMissionSetting.getTextMissionType()), ArrayList::addAll)
-                    ), textMission.getMissionState(), textMission.getRequesterUsername(), textMission.getTextUrls(), textMission.getTextMissionSettings());
+                        missionId,
+                        textMission.getTitle(),
+                        textMission.getDescription(),
+                        textMission.getTopics(), missionType,
+                        textMission.getStart(), textMission.getEnd(),
+                        textMission.getCoverUrl(), textMission.getLevel(), textMission.getCredits(),
+                        textMission.getMinimalWorkerLevel(),
+                        textMission.getTextUrls().size() * textMission.getTextMissionSettings().size(),
+                        textMission.getRequesterUsername(),
+                        textMission.getTextMissionSettings().stream().map(TextMissionSetting::getTextMissionType).collect(Collectors.toList())
+//                        textMission.getTextMissionSettings().stream().collect(ArrayList::new, (list, textMissionSetting) -> list.add(textMissionSetting.getTextMissionType()), ArrayList::addAll)
+                    ), textMission.getMissionState(),
+                        textMission.getRequesterUsername(),
+                        MissionType.TEXT,
+                        textMission.getTextUrls(),
+                        new ArrayList<>(textMission.getTextMissionSettings()));
                 }
                 break;
         }
@@ -173,21 +185,21 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
 
     private ImageMissionPublicItemVo generateImageMissionPublicItemVo(ImageMission imageMission) {
         return new ImageMissionPublicItemVo(
-                imageMission.getMissionId(), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), imageMission.getMissionType(),
-                imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(),
-                imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(),
-                imageMission.getImageUrls().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(),
-                imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), imageMission.getImageMissionTypes()
+            imageMission.getMissionId(), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), imageMission.getMissionType(),
+            imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(),
+            imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(),
+            imageMission.getImageUrls().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(),
+            imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), imageMission.getImageMissionTypes()
         );
     }
 
     private TextMissionPublicItemVo generateTextMissionPublicItemVo(TextMission textMission) {
         return new TextMissionPublicItemVo(
-                textMission.getMissionId(), textMission.getTitle(),
-                textMission.getDescription(), textMission.getTopics(), textMission.getMissionType(),
-                textMission.getStart(), textMission.getEnd(), textMission.getCoverUrl(), textMission.getLevel(), textMission.getCredits(),
-                textMission.getMinimalWorkerLevel(), textMission.getTextUrls().size() * textMission.getTextMissionSettings().size(),
-                textMission.getRequesterUsername(), textMission.getTextMissionSettings().stream().collect(ArrayList::new, (list, textMissionSetting) -> list.add(textMissionSetting.getTextMissionType()), ArrayList::addAll)
+            textMission.getMissionId(), textMission.getTitle(),
+            textMission.getDescription(), textMission.getTopics(), textMission.getMissionType(),
+            textMission.getStart(), textMission.getEnd(), textMission.getCoverUrl(), textMission.getLevel(), textMission.getCredits(),
+            textMission.getMinimalWorkerLevel(), textMission.getTextUrls().size() * textMission.getTextMissionSettings().size(),
+            textMission.getRequesterUsername(), textMission.getTextMissionSettings().stream().collect(ArrayList::new, (list, textMissionSetting) -> list.add(textMissionSetting.getTextMissionType()), ArrayList::addAll)
         );
     }
 }

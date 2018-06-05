@@ -1,9 +1,10 @@
 package trapx00.tagx00.entity.mission.instance.workresult;
 
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 @Embeddable
-public class WorkResult {
+public class WorkResult implements Serializable {
     private String workResultId;
     private boolean isDone;
 

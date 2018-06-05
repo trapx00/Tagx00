@@ -8,6 +8,8 @@ import { DefinitionItem } from "../../../components/DefinitionItem";
 import { Row, Col } from "antd";
 import { PayService } from "../../../api/PayService";
 import { InstanceCyclePieChart } from "./charts/InstanceCyclePieChart";
+import { AvatarContainer } from "./AvatarContainer";
+import { UserProfileLayout } from "./UserProfileLayout";
 
 export class RequesterDashboardPage extends React.Component<{},{}> {
     @Inject userStore:UserStore;
@@ -46,15 +48,9 @@ export class RequesterDashboardPage extends React.Component<{},{}> {
     render() {
         return (
             <div style={{maxWidth: "1000px", marginLeft: "auto", marginRight: "auto"}}>
-              <Row>
-                <Col xs={24} sm={8} md={6} lg={4} >
-                  <img alt="avatar" height={150} width={150} src={this.userStore.user.avatarUrl}/>
-                </Col>
-                <Col sm={16} md={18} lg={20}>
-                  <br/>
-                  <AsyncComponent render={this.registerInfo}/>
-                </Col>
-              </Row>
+              <UserProfileLayout avatarUrl={this.userStore.user.avatarUrl}>
+                <AsyncComponent render={this.registerInfo}/>
+              </UserProfileLayout>
 
               <br/>
               <br/>

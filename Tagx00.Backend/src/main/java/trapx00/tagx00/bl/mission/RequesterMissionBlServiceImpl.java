@@ -67,14 +67,15 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public MissionCreateResponse createMission(MissionCreateVo mission) throws SystemException {
-        KeysVo keysVo = pythonService.extractKey(mission.getDescription());
-        for (String topic : keysVo.getKeys()) {
-            if (!topicDataService.isTopicExists(topic)) {
-                topicDataService.addTopic(topic);
-            }
-        }
+//        KeysVo keysVo = pythonService.extractKey(mission.getDescription());
+//        for (String topic : keysVo.getKeys()) {
+//            if (!topicDataService.isTopicExists(topic)) {
+//                topicDataService.addTopic(topic);
+//            }
+//        }
         String username = UserInfoUtil.getUsername();
-        mission.setTopics(keysVo.getKeys());
+//        mission.setTopics(keysVo.getKeys());
+
         String missionId;
         try {
             missionId = requesterMissionDataService.saveMission(generateMission(mission));

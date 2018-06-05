@@ -2,6 +2,7 @@ package trapx00.tagx00.vo.mission.text;
 
 import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 import trapx00.tagx00.publicdatas.mission.MissionState;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 
@@ -13,13 +14,11 @@ public class TextMissionDetailVo extends MissionDetailVo {
 
     private List<TextMissionSetting> settings;
 
-    public TextMissionDetailVo(List<String> tokens, List<TextMissionSetting> settings) {
-        this.tokens = tokens;
-        this.settings = settings;
+    public TextMissionDetailVo() {
     }
 
-    public TextMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, String requesterUsername, List<String> tokens, List<TextMissionSetting> settings) {
-        super(publicItem, missionState, requesterUsername);
+    public TextMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, String requesterUsername, MissionType missionType, List<String> tokens, List<TextMissionSetting> settings) {
+        super(publicItem, missionState, requesterUsername, missionType);
         this.tokens = tokens;
         this.settings = settings;
     }

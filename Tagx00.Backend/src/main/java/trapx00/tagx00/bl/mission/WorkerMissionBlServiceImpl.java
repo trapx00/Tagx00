@@ -73,9 +73,14 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return whether the abortion is successful
      */
     @Override
-    public SuccessResponse abort(String missionId, String workerUsername) {
+    public SuccessResponse abort(String missionId, String workerUsername) throws SystemException {
         Instance instance = workerMissionDataService.getInstanceByUsernameAndMissionId(workerUsername, missionId, MissionUtil.getType(missionId));
-        workerMissionDataService.abortInstance(instance.getInstanceId(), instance.getMissionType());
+        try {
+            workerMissionDataService.abortInstance(instance.getInstanceId(), instance.getMissionType());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
         return new SuccessResponse("Success Delete");
     }
 
@@ -87,8 +92,14 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return MissionQueryDetailResponse the detail of the mission
      */
     @Override
-    public InstanceDetailResponse getInstanceInformation(String missionId, String workerUsername) throws InstanceNotExistException {
-        InstanceDetailVo instanceDetailVo = workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(workerUsername, missionId, MissionUtil.getType(missionId));
+    public InstanceDetailResponse getInstanceInformation(String missionId, String workerUsername) throws InstanceNotExistException, SystemException {
+        InstanceDetailVo instanceDetailVo;
+        try {
+            instanceDetailVo = workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(workerUsername, missionId, MissionUtil.getType(missionId));
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
         if (instanceDetailVo == null)
             throw new InstanceNotExistException();
         InstanceDetailResponse instanceDetailResponse = new InstanceDetailResponse(instanceDetailVo);
@@ -104,7 +115,12 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse saveProgress(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, UnmatchedUsernameAndMissionId {
-        workerMissionDataService.updateInstanceDetailVo(instanceVo);
+        try {
+            workerMissionDataService.updateInstanceDetailVo(instanceVo);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
         return new SuccessResponse("Success Save");
     }
 
@@ -116,13 +132,28 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException {
-        if (workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(UserInfoUtil.getUsername(), instanceVo.getInstance().getMissionId(), instanceVo.getMissionType()) == null)
-            workerMissionDataService.saveInstanceDetailVo(instanceVo);
-        else {
-            instanceVo.getInstance().setSubmitted(true);
-            instanceVo.getInstance().setSubmitDate(new Date());
-            instanceVo.getInstance().setMissionInstanceState(MissionInstanceState.SUBMITTED);
-            workerMissionDataService.updateInstanceDetailVo(instanceVo);
+        try {
+            if (workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(UserInfoUtil.getUsername(), instanceVo.getInstance().getMissionId(), instanceVo.getMissionType()) == null) {
+                try {
+                    workerMissionDataService.saveInstanceDetailVo(instanceVo);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new SystemException();
+                }
+            } else {
+                instanceVo.getInstance().setSubmitted(true);
+                instanceVo.getInstance().setSubmitDate(new Date());
+                instanceVo.getInstance().setMissionInstanceState(MissionInstanceState.SUBMITTED);
+                try {
+                    workerMissionDataService.updateInstanceDetailVo(instanceVo);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new SystemException();
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new SystemException();
         }
         return new SuccessResponse("Success Save");
     }

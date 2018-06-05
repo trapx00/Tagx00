@@ -182,6 +182,9 @@ public class WorkerMissionController {
         } catch (InstanceNotExistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 }
