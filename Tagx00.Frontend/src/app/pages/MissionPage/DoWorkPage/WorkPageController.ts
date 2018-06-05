@@ -1,6 +1,5 @@
 import { MissionDetail } from "../../../models/mission/MissionDetail";
 import { InstanceDetail } from "../../../models/instance/InstanceDetail";
-import { TextNotation } from "./text/TextWorkPageController";
 import { action, computed, observable, runInAction, toJS } from "mobx";
 import { WorkerService } from "../../../api/WorkerService";
 
