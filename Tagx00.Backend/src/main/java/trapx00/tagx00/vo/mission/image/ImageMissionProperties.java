@@ -4,23 +4,18 @@ import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
 import java.util.List;
+import java.util.Map;
 
 public class ImageMissionProperties extends MissionProperties {
 
     private boolean allowCustomTag;
-    private List<String> allowedTags;
+    private Map<String,Double> allowedTags;
     private List<ImageMissionType> imageMissionTypes;
 
     public ImageMissionProperties() {
     }
 
-    public ImageMissionProperties(boolean allowCustomTag, List<String> allowedTags, List<ImageMissionType> imageMissionTypes) {
-        this.allowCustomTag = allowCustomTag;
-        this.allowedTags = allowedTags;
-        this.imageMissionTypes = imageMissionTypes;
-    }
-
-    public ImageMissionProperties(MissionType type, boolean allowCustomTag, List<String> allowedTags, List<ImageMissionType> imageMissionTypes) {
+    public ImageMissionProperties(MissionType type, boolean allowCustomTag, Map<String, Double> allowedTags, List<ImageMissionType> imageMissionTypes) {
         super(type);
         this.allowCustomTag = allowCustomTag;
         this.allowedTags = allowedTags;
@@ -35,11 +30,11 @@ public class ImageMissionProperties extends MissionProperties {
         this.allowCustomTag = allowCustomTag;
     }
 
-    public List<String> getAllowedTags() {
+    public Map<String, Double> getAllowedTags() {
         return allowedTags;
     }
 
-    public void setAllowedTags(List<String> allowedTags) {
+    public void setAllowedTags(Map<String, Double> allowedTags) {
         this.allowedTags = allowedTags;
     }
 

@@ -206,7 +206,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
             case IMAGE:
                 return new ImageMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
                         missionCreateVo.getTopics(), ((ImageMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
-                        ((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags(),
+                        new ArrayList<String>(((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags().keySet()),
                         missionCreateVo.getProperties().getType(), MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(), "",
                         UserInfoUtil.getUsername(), missionCreateVo.getLevel(),
