@@ -1,0 +1,1 @@
+{"url":"http://tagx00.oos-bj2.ctyunapi.cn/image_image-0_2?AWSAccessKeyId\u003dc4582dec5d0809103126\u0026Expires\u003d9223372036854775\u0026Signature\u003dFxEm0iDiTArnlWD92USoxK%2BhLrw%3D","tags":["党徽"],"response":[{"tag":"钱","confidence":0.11},{"tag":"灯笼","confidence":0.13},{"tag":"盘子","confidence":0.2},{"tag":"党徽","confidence":1.0},{"tag":"奖牌","confidence":0.81}]}

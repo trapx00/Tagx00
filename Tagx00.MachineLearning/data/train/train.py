@@ -6,7 +6,7 @@ import tensorflow as tf
 total_train = 100
 learning_rate = 0.01
 training_epochs = 100
-batch_size = 3
+batch_size = 1
 n_size = 6
 
 train_data = []
@@ -19,7 +19,7 @@ with open("../proval/train.txt", "r") as file:
         tag = []
         for i in range(n_size):
             if i < tags.__len__():
-                if tags[i]["value"] in targets:
+                if tags[i]["tag"] in targets:
                     tag.append([tags[i]["confidence"], 1])
                 else:
                     tag.append([tags[i]["confidence"], 0])
@@ -38,7 +38,7 @@ with open("../proval/test.txt", "r") as file:
         tag = []
         for i in range(n_size):
             if i < tags.__len__():
-                if tags[i]["value"] in targets:
+                if tags[i]["tag"] in targets:
                     tag.append([tags[i]["confidence"], 1])
                 else:
                     tag.append([tags[i]["confidence"], 0])
