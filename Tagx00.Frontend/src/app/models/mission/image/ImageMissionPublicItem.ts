@@ -5,7 +5,6 @@ import { MissionType } from "../Mission";
 
 export interface ImageMissionPublicItem extends MissionPublicItem {
   allowCustomTag: boolean;
-  allowedTags: string[];
-  missionTypes: ImageMissionType[];
+  imageMissionTypes: ImageMissionType[];
   missionType: MissionType.IMAGE
 }

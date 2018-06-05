@@ -12,6 +12,7 @@ import { UserStore } from "../../../stores/UserStore";
 import { computed } from "mobx";
 import { SvgImg } from "../../Common/SvgImg";
 import styled from "styled-components";
+import { flatten } from "../../../../utils/Array";
 
 const {SubMenu} = Menu;
 
@@ -54,7 +55,7 @@ export class MainNav extends React.Component<{}, {}> {
     const selectedSubMenus= Object.keys(this.currentSubMenuMap).map(x => this.currentSubMenuMap[x])
       .map(x => x.filter(y => y.match(this.routerStore.path)).map(x => x.path));
 
-    return selectedSubMenus.reduce((prev, curr) => ([...prev, ...curr]), selected);
+    return [...selected, ...flatten(selectedSubMenus)];
   }
 
   jumpTo = (path: string) => {

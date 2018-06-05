@@ -6,9 +6,10 @@ import { ImageResult } from "../../../../models/instance/image/ImageResult";
 import { Injectable } from "react.di";
 import { MissionType } from "../../../../models/mission/Mission";
 import { Notation, WorkPageController } from "../WorkPageController";
+import { MissionAsset } from "../../../../models/mission/MissionAsset";
 
 export interface ImageNotation<T extends ImageJob = ImageJob> extends Notation<T> {
-  imageUrl: string;
+  imageAsset: MissionAsset;
 }
 
 function any<T>(array: T[]) {
@@ -30,7 +31,7 @@ function judgeJobComplete(job: KnownImageJob) {
 
 @Injectable
 export class ImageWorkPageController extends WorkPageController<ImageMissionDetail, ImageInstanceDetail,ImageJob, ImageNotation> {
-  imageUrls: string[];
+  imageAssets: MissionAsset[];
 
   @observable saving: boolean = false;
 
@@ -42,7 +43,7 @@ export class ImageWorkPageController extends WorkPageController<ImageMissionDeta
         workResultId: index+"",
         instanceId: instance.instanceId,
         imageJob: x.job,
-        url: x.imageUrl,
+        url: x.imageAsset.url,
         isDone: judgeJobComplete(x.job as any)
       })),
       instance: instance
@@ -50,32 +51,28 @@ export class ImageWorkPageController extends WorkPageController<ImageMissionDeta
   }
 
   get types() {
-    return this.missionDetail.imageMissionTypes;
+    return this.missionDetail.publicItem.imageMissionTypes;
   }
 
   constructor(missionDetail: ImageMissionDetail, instanceDetail: ImageInstanceDetail) {
     super(missionDetail, instanceDetail);
-    this.imageUrls = missionDetail.imageUrls;
+    this.imageAssets = missionDetail.imageAssets;
 
+    console.log(this.imageAssets);
 
-    for (const url of this.imageUrls) {
-      for (const type of missionDetail.imageMissionTypes) {
-        let result: ImageResult;
-        //confirm if results exists
-        if (instanceDetail.imageResults) {
-          result = instanceDetail.imageResults.find(x => x.url === url && x.imageJob && x.imageJob.type === type);
-        } else {
-          result = null;
-        }
+    for (const asset of this.imageAssets) {
+      for (const type of missionDetail.publicItem.imageMissionTypes) {
+
+        const result: ImageResult = instanceDetail.imageResults && instanceDetail.imageResults.find(x => x.url === asset.url && x.imageJob && x.imageJob.type === type);
         if (result) { //existing job, push in
           this.currentNotations.push({
-            imageUrl: url,
+            imageAsset: asset,
             job: result.imageJob,
           });
           // this.workIndex++; // existing job, resume progress
         } else {
           this.currentNotations.push({
-            imageUrl: url,
+            imageAsset: asset,
             job: {type: type}
           });
         }

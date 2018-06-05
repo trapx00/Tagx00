@@ -4,12 +4,13 @@ import { TagDescriptionTuple, TagTuple } from "../../../models/instance/TagTuple
 import { AddableInputGroup } from "../AddableInputGroup";
 import { TagPanel } from "./TagPanel";
 import { LocaleMessage, Localize } from "../../../internationalization/components";
+import { TagConfMap } from "../../../models/mission/MissionAsset";
 
 interface Props {
   tuple: TagDescriptionTuple;
   onChange: (tuple: TagDescriptionTuple) => void;
   readonlyMode: boolean;
-  tags?: string[];
+  tagConfMap?: TagConfMap;
   allowCustomTag?: boolean;
 }
 
@@ -49,7 +50,7 @@ export class TagDescriptionTuplePanel extends React.Component<Props, {}> {
                 onChange={this.onTagsChange}
                 readonly={this.props.readonlyMode}
                 allowCustomTag={this.props.allowCustomTag}
-                tags={this.props.tags}
+                tagConfMap={this.props.tagConfMap}
       />
       <Card style={panelStyle} title={<LocaleMessage id={ID_PREFIX + "descriptions"}/>}>
 

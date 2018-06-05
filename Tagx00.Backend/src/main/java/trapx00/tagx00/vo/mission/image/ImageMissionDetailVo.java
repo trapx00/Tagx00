@@ -12,7 +12,7 @@ public class ImageMissionDetailVo extends MissionDetailVo {
 
     private List<MissionAsset> missionAssets;
 
-    private List<ImageMissionType> imageMissionTypes;
+
 
     public ImageMissionDetailVo() {
     }
@@ -20,7 +20,6 @@ public class ImageMissionDetailVo extends MissionDetailVo {
     public ImageMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, String requesterUsername, MissionType missionType, List<MissionAsset> missionAssets, List<ImageMissionType> imageMissionTypes) {
         super(publicItem, missionState, requesterUsername, missionType);
         this.missionAssets = missionAssets;
-        this.imageMissionTypes = imageMissionTypes;
     }
 
     public List<MissionAsset> getMissionAssets() {
@@ -31,11 +30,4 @@ public class ImageMissionDetailVo extends MissionDetailVo {
         this.missionAssets = missionAssets;
     }
 
-    public List<ImageMissionType> getImageMissionTypes() {
-        return imageMissionTypes;
-    }
-
-    public void setImageMissionTypes(List<ImageMissionType> imageMissionTypes) {
-        this.imageMissionTypes = imageMissionTypes;
-    }
 }

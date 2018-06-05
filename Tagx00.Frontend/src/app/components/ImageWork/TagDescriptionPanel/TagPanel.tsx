@@ -6,6 +6,7 @@ import { Card, Icon, Tag, Tooltip } from 'antd';
 import { panelStyle } from "./index";
 import { TagModificationModal } from "./TagModificationModal";
 import { LocaleMessage } from "../../../internationalization/components";
+import { TagConfMap } from "../../../models/mission/MissionAsset";
 
 
 const AnyTag = Tag as any;
@@ -14,7 +15,7 @@ interface Props {
   tagTuples: TagTuple[];
   onChange: (tags: TagTuple[]) => void;
   readonly: boolean;
-  tags?: string[];
+  tagConfMap?: TagConfMap;
   allowCustomTag?: boolean;
 }
 
@@ -100,7 +101,7 @@ export class TagPanel extends React.Component<Props, {}> {
                                 onComplete={this.onTagChangeComplete}
                                 onCancel={this.onTagChangeCancelled}
                                 readonly={this.props.readonly}
-                                tags={this.props.tags}
+                                tagConfMap={this.props.tagConfMap}
                                 allowCustomTag={this.props.allowCustomTag}
         />
         : null
