@@ -78,7 +78,7 @@ def save_models():
 def compute_accuracy():
     batch_xs, batch_ys = next_test_batch()
     pred = sess.run(y_pred, feed_dict={X: batch_xs, Y: batch_ys})
-    print(sess.run(tf.reduce_mean(tf.square(pred - batch_ys))))
+    print(sess.run(tf.reduce_mean(tf.multiply(pred, batch_ys))))
 
 
 weight = tf.Variable(tf.random_normal([n_size, n_size]))
@@ -87,8 +87,8 @@ biases = tf.Variable(tf.random_normal([n_size, batch_size]))
 X = tf.placeholder(tf.float32, [n_size, None])
 Y = tf.placeholder(tf.float32, [n_size, None])
 
-y_pred = tf.matmul(weight, X) + biases
-cost = tf.reduce_mean(tf.square(Y - y_pred))
+y_pred = tf.sigmoid(tf.matmul(weight, X) + biases)
+cost = tf.reduce_mean(tf.multiply(y_pred, Y))
 
 optimizer = tf.train.AdamOptimizer(learning_rate).minimize(cost)
 sess = tf.Session()
