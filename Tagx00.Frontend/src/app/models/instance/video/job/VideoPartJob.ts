@@ -8,5 +8,5 @@ export interface VideoPartTuple {
 }
 
 export interface VideoPartJob extends VideoJob {
-  tuple: VideoPartTuple;
+  tupleList: VideoPartTuple[];
 }

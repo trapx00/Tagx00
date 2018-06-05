@@ -89,9 +89,12 @@ export class TagModificationModal extends React.Component<Props, {}> {
         {!this.props.allowCustomTag &&
         <LocaleMessage id={ID_PREFIX + "tagLimited"}/>
         }
+        <div>
         {this.props.tagConfTuples.map(x =>
           <ClickableTag key={x.tag}
-                        onClick={() => this.onTagClick(x.tag)}>{x}({x.confidence})</ClickableTag>)}
+                        color={this.tuple.tag === x.tag ? "blue" : undefined}
+                        onClick={() => this.onTagClick(x.tag)}>{x.tag}({x.confidence})</ClickableTag>)}
+        </div>
       </div>
       }
 
