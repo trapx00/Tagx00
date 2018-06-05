@@ -94,14 +94,13 @@ public class MissionUploadController {
             @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
             @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
-    public ResponseEntity<Response> uploadAudio(@PathVariable("missionId") String missionId, @RequestParam("files[]") MultipartFile multipartFile) {
+    public ResponseEntity<Response> uploadAudio(@PathVariable("missionId") String missionId, @RequestParam("files[]") MultipartFile multipartFile, @RequestParam("order") int order) {
         try {
-            return new ResponseEntity<>(missionUploadBlService.uploadText(missionId, multipartFile), HttpStatus.CREATED);
+            return new ResponseEntity<>(missionUploadBlService.uploadAudio(missionId, multipartFile, order), HttpStatus.CREATED);
         } catch (SystemException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         } catch (MissionIdDoesNotExistException e) {
-            e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }
@@ -119,14 +118,37 @@ public class MissionUploadController {
             @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
             @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
-    public ResponseEntity<Response> uploadVideo(@PathVariable("missionId") String missionId, @RequestParam("files[]") MultipartFile multipartFile) {
+    public ResponseEntity<Response> uploadVideo(@PathVariable("missionId") String missionId, @RequestParam("files[]") MultipartFile multipartFile, @RequestParam("order") int order) {
         try {
-            return new ResponseEntity<>(missionUploadBlService.uploadText(missionId, multipartFile), HttpStatus.CREATED);
+            return new ResponseEntity<>(missionUploadBlService.uploadVideo(missionId, multipartFile, order), HttpStatus.CREATED);
         } catch (SystemException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         } catch (MissionIdDoesNotExistException e) {
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
+    }
+    @Authorization(value = "发布者")
+    @ApiOperation(value = "发布者上传3D文件", notes = "发布者上传本次任务的3D文件，传输时限为10min")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "multipartFile", value = "图片", required = true, dataType = "MultipartFile"),
+            @ApiImplicitParam(name = "order", value = "图片顺序", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
+    })
+    @RequestMapping(value = "/upload/mission/3d/{missionId}", method = RequestMethod.POST)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Audio uploaded", response = UploadMissionTextResponse.class),
+            @ApiResponse(code = 403, message = "Upload session timed out", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
+            @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
+    })
+    public ResponseEntity<Response> uploadThreeDimension(@PathVariable("missionId") String missionId, @RequestParam("files[]") MultipartFile multipartFile, @RequestParam("order") int order) {
+        try {
+            return new ResponseEntity<>(missionUploadBlService.uploadThreeDimension(missionId, multipartFile, order), HttpStatus.CREATED);
+        } catch (SystemException e) {
             e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionIdDoesNotExistException e) {
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }

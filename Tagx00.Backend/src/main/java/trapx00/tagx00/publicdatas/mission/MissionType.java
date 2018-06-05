@@ -24,8 +24,8 @@ import trapx00.tagx00.vo.mission.video.VideoMissionPublicItemVo;
 public enum MissionType {
     IMAGE("IMAGE", ImageMissionProperties.class, ImageInstanceDetailVo.class, ImageMissionDetailVo.class, ImageMissionPublicItemVo.class),
     TEXT("TEXT", TextMissionProperties.class, TextInstanceDetailVo.class, TextMissionDetailVo.class, TextMissionPublicItemVo.class),
-    Audio("AUDIO",AudioMissionProperties.class, AudioInstanceDetailVo.class, AudioMissionDetailVo.class, AudioMissionPublicItemVo.class),
-    Video("VIDEO", VideoMissionProperties.class, VideoInstanceDetailVo.class, VideoMissionDetailVo.class, VideoMissionPublicItemVo.class);
+    AUDIO("AUDIO",AudioMissionProperties.class, AudioInstanceDetailVo.class, AudioMissionDetailVo.class, AudioMissionPublicItemVo.class),
+    VIDEO("VIDEO", VideoMissionProperties.class, VideoInstanceDetailVo.class, VideoMissionDetailVo.class, VideoMissionPublicItemVo.class);
 
     public final Class<? extends MissionProperties> propertiesClass;
     public final Class<? extends InstanceDetailVo> instanceDetailVoClass;
