@@ -1,12 +1,17 @@
 package trapx00.tagx00.entity.mission;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import java.util.HashMap;
 import java.util.Map;
 
 @Embeddable
 public class MissionAsset {
+    @Column(name = "url")
     private String url;
-    private Map<String, Double> tagConfTuple;
+    @Embedded
+    private HashMap<String, Double> tagConfTuple;
 
     public MissionAsset() {
     }

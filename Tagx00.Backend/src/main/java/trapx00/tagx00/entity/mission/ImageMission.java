@@ -15,8 +15,9 @@ public class ImageMission extends Mission {
     @Column(name = "allowCustomTag")
     private boolean allowCustomTag;
     @Column(name = "allowedTag")
+    @ElementCollection(targetClass = String.class)
     private List<String> allowedTags;
-    @Column(name = "imageUrls")
+    @Column(name = "missionAssets")
     @ElementCollection(targetClass = MissionAsset.class)
     private List<MissionAsset> missionAssets;
     @Column(name = "imageMissionType")
