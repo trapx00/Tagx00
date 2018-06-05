@@ -17,7 +17,7 @@ import { TopicServiceMock } from "./mock/TopicServiceMock";
 import { LeaderboardService } from "./LeaderboardService";
 import { LeaderboardServiceMock } from "./mock/LeaderboardServiceMock";
 
-const useMock = false;
+const useMock = true;
 
 export const apiServiceProviders: Binding[] = [
   {provide: MissionService, useClass: useMock ? MissionServiceMock : MissionService},

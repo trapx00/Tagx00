@@ -1,9 +1,8 @@
 import React from 'react';
-import { TextWorkPageProps, TextWorkPageState } from "./shared";
+import { TextNotation, TextWorkPageProps, TextWorkPageState } from "./shared";
 import { TextKeywordsJob } from "../../../../models/instance/text/job/TextKeywordsJob";
 import { TagDescriptionTuple, TagTuple } from "../../../../models/instance/TagTuple";
 import { toJS } from "mobx";
-import { TextNotation } from "./TextWorkPageController";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import { TextMissionKeywordsSetting, TextMissionType } from "../../../../models/mission/text/TextMissionProperties";
 import { WorkPageLayout } from "../WorkPageLayout";
@@ -81,7 +80,7 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
                   onChange={this.onTagChange}
                   readonly={this.props.readonlyMode}
                   allowCustomTag={true}
-                  tagConfMap={this.props.notation.setting.keywords.reduce((prev, curr) => ({...prev, [curr]: 1}), {})}
+                  tagConfTuples={this.props.notation.setting.keywords.map(x => ({tag: x, confidence: 1}))}
         />
         <ProgressController {...controllerProps}
                             goNext={this.goNext}

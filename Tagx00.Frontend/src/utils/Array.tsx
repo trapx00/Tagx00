@@ -21,3 +21,7 @@ export function takeAtMost<T>(array: Array<T>, n: number) {
     return array.slice(0,n);
   }
 }
+
+export function arrayContainsElement<T>(array: Array<T>) {
+  return !!array && array.length >0;
+}

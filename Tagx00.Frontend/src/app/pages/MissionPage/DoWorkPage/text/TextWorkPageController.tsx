@@ -7,27 +7,22 @@ import { TextKeywordsJob } from "../../../../models/instance/text/job/TextKeywor
 import { TextClassificationJob } from "../../../../models/instance/text/job/TextClassificationJob";
 import { TextResult } from "../../../../models/instance/text/TextResult";
 import { Notation, WorkPageController } from "../WorkPageController";
+import { arrayContainsElement } from "../../../../../utils/Array";
+import { TextNotation } from "./shared";
 
 
-export interface TextNotation<T extends TextJob, S extends TextMissionSetting> extends Notation<T> {
-  textToken: string;
-  setting: S;
-  job: T;
-}
+
 
 type KnownTextJob = TextKeywordsJob | TextClassificationJob;
 
-function any<T>(array: T[]) {
-  return !!array && array.length > 0;
-}
 
 function judgeJobComplete(job: KnownTextJob) {
   if (!job) return false;
   switch (job.type) {
     case TextMissionType.CLASSIFICATION:
-      return any(job.tagTuples);
+      return arrayContainsElement(job.tagTuples);
     case TextMissionType.KEYWORDS:
-      return any(job.tagTuples);
+      return arrayContainsElement(job.tagTuples);
   }
   return false;
 }
