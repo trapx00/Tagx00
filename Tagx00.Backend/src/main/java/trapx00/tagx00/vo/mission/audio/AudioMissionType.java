@@ -4,19 +4,20 @@ import trapx00.tagx00.publicdatas.mission.audio.AudioJob;
 import trapx00.tagx00.publicdatas.mission.audio.part.AudioPartJob;
 import trapx00.tagx00.publicdatas.mission.audio.whole.AudioWholeJob;
 
-import java.io.Serializable;
 
-public enum AudioMissionType implements Serializable {
-    PART(AudioPartJob.class),
-    WHOLE(AudioWholeJob.class);
+public enum AudioMissionType {
+    WHOLE(AudioWholeJob.class),
+    PART(AudioPartJob.class);
 
-    public final Class<? extends AudioJob> clazz;
 
-    AudioMissionType(Class<? extends AudioJob> clazz) {
-        this.clazz = clazz;
+    private Class<? extends AudioJob> jobClass;
+
+    AudioMissionType(Class<? extends AudioJob> jobClass) {
+        this.jobClass = jobClass;
     }
 
-    public Class<? extends AudioJob> getClazz() {
-        return clazz;
+    public Class<? extends AudioJob> getJobClass() {
+        return jobClass;
+
     }
 }

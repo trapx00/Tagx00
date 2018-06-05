@@ -121,13 +121,13 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
   };
 
   render() {
-    const {imageUrl, job} = this.props.notation;
+    const {imageAsset, job} = this.props.notation;
 
     const {missionDetail, controllerProps, readonlyMode} = this.props;
     const selectedTuple = this.selectedTuple;
-    return <ImageWorkPageLayout imageUrl={imageUrl} imageHeight={this.state.height} imageWidth={this.state.width} setScale={this.setScale}>
+    return <ImageWorkPageLayout imageUrl={imageAsset.url} imageHeight={this.state.height} imageWidth={this.state.width} setScale={this.setScale}>
         <>
-          <RectanglePanel imageUrl={imageUrl}
+          <RectanglePanel imageUrl={imageAsset.url}
                           tuples={this.state.notation.job.tuples}
                           onDrawComplete={this.onTupleCreated}
                           addingMode={this.state.addingMode}
@@ -139,7 +139,7 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
         </>
         <>
           <ImageMissionTipCard imageMissionType={job.type}
-                               tags={missionDetail.publicItem.allowedTags}
+                               tagConfMap={imageAsset.tagConfTuple}
                                allowCustomTag={missionDetail.publicItem.allowCustomTag}
                                title={missionDetail.publicItem.title}
           />
@@ -154,7 +154,7 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
                                         readonlyMode={readonlyMode}
                                         onChange={this.onTupleChanged}
                                         allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                        tags={missionDetail.publicItem.allowedTags}
+                                        tagConfMap={imageAsset.tagConfTuple}
             />
             : null}
 

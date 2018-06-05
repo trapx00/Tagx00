@@ -1,5 +1,6 @@
 package trapx00.tagx00.vo.mission.video;
 
+
 import trapx00.tagx00.publicdatas.mission.video.VideoJob;
 import trapx00.tagx00.publicdatas.mission.video.part.VideoPartJob;
 import trapx00.tagx00.publicdatas.mission.video.whole.VideoWholeJob;

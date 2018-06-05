@@ -22,4 +22,5 @@ public class AudioJob implements Serializable {
     public void setType(AudioMissionType type) {
         this.type = type;
     }
+
 }

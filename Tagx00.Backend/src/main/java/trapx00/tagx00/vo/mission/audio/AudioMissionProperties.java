@@ -7,16 +7,12 @@ import java.util.List;
 
 public class AudioMissionProperties  extends MissionProperties {
 
-    private boolean allowCustomTag;
-    private List<String> allowedTags;
 
-    public AudioMissionProperties() {
-    }
-
-    public AudioMissionProperties(MissionType type, boolean allowCustomTag, List<String> allowedTags) {
+    public AudioMissionProperties(MissionType type, boolean allowCustomTag, List<String> allowedTags, List<AudioMissionType> audioMissionTypes) {
         super(type);
         this.allowCustomTag = allowCustomTag;
         this.allowedTags = allowedTags;
+        this.audioMissionTypes = audioMissionTypes;
     }
 
     public boolean isAllowCustomTag() {
@@ -34,4 +30,21 @@ public class AudioMissionProperties  extends MissionProperties {
     public void setAllowedTags(List<String> allowedTags) {
         this.allowedTags = allowedTags;
     }
+
+    public List<AudioMissionType> getAudioMissionTypes() {
+        return audioMissionTypes;
+    }
+
+    public void setAudioMissionTypes(List<AudioMissionType> audioMissionTypes) {
+        this.audioMissionTypes = audioMissionTypes;
+    }
+
+    public AudioMissionProperties() {
+        super(MissionType.AUDIO);
+    }
+
+    private boolean allowCustomTag;
+    private List<String> allowedTags;
+    private List<AudioMissionType> audioMissionTypes;
+
 }

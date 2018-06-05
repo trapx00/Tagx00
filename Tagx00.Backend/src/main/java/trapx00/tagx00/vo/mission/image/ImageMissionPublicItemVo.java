@@ -9,17 +9,15 @@ import java.util.List;
 public class ImageMissionPublicItemVo extends MissionPublicItemVo {
 
     private boolean allowCustomTag;
-    private List<String> allowedTags;
-    public List<ImageMissionType> missionTypes;
+    public List<ImageMissionType> imageMissionTypes;
 
     public ImageMissionPublicItemVo() {
     }
 
-    public ImageMissionPublicItemVo(String missionId, String title, String description, List<String> topics, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername, boolean allowCustomTag, List<String> allowedTags, List<ImageMissionType> missionTypes) {
+    public ImageMissionPublicItemVo(String missionId, String title, String description, List<String> topics, MissionType missionType, Date start, Date end, String coverUrl, int level, int credits, int minimalWorkerLevel, int jobCount, String requesterUsername, boolean allowCustomTag, List<ImageMissionType> imageMissionTypes) {
         super(missionId, title, description, topics, missionType, start, end, coverUrl, level, credits, minimalWorkerLevel, jobCount, requesterUsername);
         this.allowCustomTag = allowCustomTag;
-        this.allowedTags = allowedTags;
-        this.missionTypes = missionTypes;
+        this.imageMissionTypes = imageMissionTypes;
     }
 
     public boolean isAllowCustomTag() {
@@ -30,19 +28,11 @@ public class ImageMissionPublicItemVo extends MissionPublicItemVo {
         this.allowCustomTag = allowCustomTag;
     }
 
-    public List<String> getAllowedTags() {
-        return allowedTags;
+    public List<ImageMissionType> getImageMissionTypes() {
+        return imageMissionTypes;
     }
 
-    public void setAllowedTags(List<String> allowedTags) {
-        this.allowedTags = allowedTags;
-    }
-
-    public List<ImageMissionType> getMissionTypes() {
-        return missionTypes;
-    }
-
-    public void setMissionTypes(List<ImageMissionType> missionTypes) {
-        this.missionTypes = missionTypes;
+    public void setImageMissionTypes(List<ImageMissionType> imageMissionTypes) {
+        this.imageMissionTypes = imageMissionTypes;
     }
 }

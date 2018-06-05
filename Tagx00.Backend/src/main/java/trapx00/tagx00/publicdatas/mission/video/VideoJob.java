@@ -22,4 +22,8 @@ public class VideoJob implements Serializable {
     public void setType(VideoMissionType type) {
         this.type = type;
     }
+
+
+
+
 }

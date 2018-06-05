@@ -95,9 +95,11 @@
           },
           "tags": "预设标签",
           "types": {
-            "WHOLE": "整体",
-            "PART": "局部",
-            "DISTRICT": "区域"
+            "WHOLE": {"name": "整体"},
+            "PART": { "name": "局部"},
+            "DISTRICT": {
+              "name": "区域"
+            }
           }
         },
         "TEXT": {
@@ -181,7 +183,7 @@
           "true": "允许自定义标签",
           "false": "不允许自定义标签"
         },
-        "tags": "设置标签"
+        "tags": "可用标签示例"
       },
       "TEXT": {
         "name":"文本任务",

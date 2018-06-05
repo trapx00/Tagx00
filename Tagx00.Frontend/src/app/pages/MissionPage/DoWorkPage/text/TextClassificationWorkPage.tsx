@@ -85,7 +85,7 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
                   onChange={this.onTagChange}
                   readonly={this.props.readonlyMode}
                   allowCustomTag={false}
-                  tags={this.props.notation.setting.classes}
+                  tagConfMap={this.props.notation.setting.classes.reduce((prev, curr) => ({...prev, [curr]: 1}), {})}
         />
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}

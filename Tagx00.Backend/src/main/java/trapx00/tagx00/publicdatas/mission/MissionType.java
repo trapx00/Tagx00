@@ -16,6 +16,10 @@ import trapx00.tagx00.vo.mission.text.TextInstanceDetailVo;
 import trapx00.tagx00.vo.mission.text.TextMissionDetailVo;
 import trapx00.tagx00.vo.mission.text.TextMissionProperties;
 import trapx00.tagx00.vo.mission.text.TextMissionPublicItemVo;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionInstanceDetailVo;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionDetailVo;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionProperties;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionPublicItemVo;
 import trapx00.tagx00.vo.mission.video.VideoInstanceDetailVo;
 import trapx00.tagx00.vo.mission.video.VideoMissionDetailVo;
 import trapx00.tagx00.vo.mission.video.VideoMissionProperties;
@@ -24,8 +28,11 @@ import trapx00.tagx00.vo.mission.video.VideoMissionPublicItemVo;
 public enum MissionType {
     IMAGE("IMAGE", ImageMissionProperties.class, ImageInstanceDetailVo.class, ImageMissionDetailVo.class, ImageMissionPublicItemVo.class),
     TEXT("TEXT", TextMissionProperties.class, TextInstanceDetailVo.class, TextMissionDetailVo.class, TextMissionPublicItemVo.class),
-    AUDIO("AUDIO",AudioMissionProperties.class, AudioInstanceDetailVo.class, AudioMissionDetailVo.class, AudioMissionPublicItemVo.class),
-    VIDEO("VIDEO", VideoMissionProperties.class, VideoInstanceDetailVo.class, VideoMissionDetailVo.class, VideoMissionPublicItemVo.class);
+    AUDIO("AUDIO", AudioMissionProperties.class, AudioInstanceDetailVo.class, AudioMissionDetailVo.class, AudioMissionPublicItemVo.class),
+    VIDEO("VIDEO", VideoMissionProperties.class, VideoInstanceDetailVo.class, VideoMissionDetailVo.class, VideoMissionPublicItemVo.class),
+    THREE_DIMENSION("THREE_DIMENSION", ThreeDimensionMissionProperties.class,
+        ThreeDimensionInstanceDetailVo.class, ThreeDimensionMissionDetailVo.class, ThreeDimensionMissionPublicItemVo.class);
+
 
     public final Class<? extends MissionProperties> propertiesClass;
     public final Class<? extends InstanceDetailVo> instanceDetailVoClass;

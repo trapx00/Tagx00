@@ -135,7 +135,7 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
   };
 
   render() {
-    const {imageUrl, job} = this.props.notation;
+    const {imageAsset, job} = this.props.notation;
 
     const {missionDetail, readonlyMode} = this.props;
 
@@ -148,9 +148,9 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
 
 
 
-    return <ImageWorkPageLayout imageUrl={imageUrl} imageWidth={this.state.width} imageHeight={this.state.height} setScale={this.setScale}>
+    return <ImageWorkPageLayout imageUrl={imageAsset.url} imageWidth={this.state.width} imageHeight={this.state.height} setScale={this.setScale}>
           <>
-            <DistrictPanel imageUrl={imageUrl}
+            <DistrictPanel imageUrl={imageAsset.url}
                            tuples={this.state.notation.job.tuples}
                            addingMode={this.state.addingMode}
                            session={session}
@@ -162,9 +162,9 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
         </>
         <>
           <ImageMissionTipCard imageMissionType={job.type}
-                          tags={missionDetail.publicItem.allowedTags}
-                          allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                          title={missionDetail.publicItem.title}
+                               tagConfMap={imageAsset.tagConfTuple}
+                               allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                               title={missionDetail.publicItem.title}
           />
           {readonlyMode ? null
             : <DistrictAddingModeController session={session} start={this.startAdding}
@@ -179,7 +179,7 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
                                         readonlyMode={readonlyMode}
                                         onChange={this.onTupleChanged}
                                         allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                        tags={missionDetail.publicItem.allowedTags}
+                                        tagConfMap={imageAsset.tagConfTuple}
             />
             : null}
 
