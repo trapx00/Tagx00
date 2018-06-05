@@ -1,12 +1,12 @@
 import React from "react";
 import { AsyncRouteConfig, RouteType } from "../../router/RouteConfig";
 
-export const ThreePage: AsyncRouteConfig = {
-  type: RouteType.Async,
-  exact: false,
-  path: "/mission/three",
-  component: import("../ThreePage")
-};
+// export const ThreePage: AsyncRouteConfig = {
+//   type: RouteType.Async,
+//   exact: false,
+//   path: "/mission/three",
+//   component: import("../ThreePage")
+// };
 
 export const missionPage: AsyncRouteConfig = {
   type: RouteType.Async,
@@ -59,7 +59,7 @@ export const payPage: AsyncRouteConfig = {
 
 
 export default [
-  ThreePage,
+  // ThreePage,
   missionPage,
   browsePage,
   leaderboardPage,

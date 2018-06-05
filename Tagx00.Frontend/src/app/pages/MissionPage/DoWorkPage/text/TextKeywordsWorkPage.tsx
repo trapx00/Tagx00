@@ -81,7 +81,7 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
                   onChange={this.onTagChange}
                   readonly={this.props.readonlyMode}
                   allowCustomTag={true}
-                  tags={this.props.notation.setting.keywords}
+                  tagConfMap={this.props.notation.setting.keywords.reduce((prev, curr) => ({...prev, [curr]: 1}), {})}
         />
         <ProgressController {...controllerProps}
                             goNext={this.goNext}

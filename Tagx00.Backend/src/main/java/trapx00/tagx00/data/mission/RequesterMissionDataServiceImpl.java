@@ -157,8 +157,6 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         switch (missionType) {
             case IMAGE:
                 instances.addAll(imageInstanceDao.findImageInstancesByMissionId(missionId));
-                if (instances.size() == 0)
-                    return null;
                 instanceVos = new InstanceVo[instances.size()];
                 for (int i = 0; i < instanceVos.length; i++) {
                     Instance instanceVo = instances.get(i);
@@ -175,8 +173,6 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 break;
             case TEXT:
                 instances.addAll(textInstanceDao.findTextInstancesByMissionId(missionId));
-                if (instances.size() == 0)
-                    return null;
                 instanceVos = new InstanceVo[instances.size()];
                 for (int i = 0; i < instanceVos.length; i++) {
                     Instance instanceVo = instances.get(i);

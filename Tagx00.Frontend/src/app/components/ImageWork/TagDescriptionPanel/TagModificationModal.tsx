@@ -7,6 +7,7 @@ import { action, computed, observable } from "mobx";
 import { LocaleMessage, Localize } from "../../../internationalization/components";
 import { FormItem } from "../../Form/FormItem";
 import { ClickableTag } from "../../ClickableTag";
+import { TagConfMap } from "../../../models/mission/MissionAsset";
 
 interface Props {
   tagTuple: TagTuple;
@@ -14,7 +15,7 @@ interface Props {
   onComplete: (tagTuple: TagTuple) => void;
   onCancel: () => void;
   readonly: boolean;
-  tags?: string[];
+  tagConfMap?: TagConfMap;
   allowCustomTag?: boolean;
 }
 
@@ -89,9 +90,9 @@ export class TagModificationModal extends React.Component<Props, {}> {
         {!this.props.allowCustomTag &&
         <LocaleMessage id={ID_PREFIX + "tagLimited"}/>
         }
-        {this.props.tags.map(x =>
+        {Object.keys(this.props.tagConfMap).map(x =>
           <ClickableTag key={x}
-                        onClick={() => this.onTagClick(x)}>{x}</ClickableTag>)}
+                        onClick={() => this.onTagClick(x)}>{x}({this.props.tagConfMap[x]})</ClickableTag>)}
       </div>
       }
 
