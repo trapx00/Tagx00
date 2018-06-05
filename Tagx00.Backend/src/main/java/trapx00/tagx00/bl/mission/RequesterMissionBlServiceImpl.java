@@ -17,6 +17,7 @@ import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.mlservice.PythonService;
 import trapx00.tagx00.publicdatas.mission.MissionState;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.response.mission.MissionCreateResponse;
@@ -32,7 +33,6 @@ import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 import trapx00.tagx00.vo.mission.text.TextMissionProperties;
-import trapx00.tagx00.vo.ml.KeysVo;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -205,13 +205,12 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
         switch (missionCreateVo.getProperties().getType()) {
             case IMAGE:
                 return new ImageMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
-                        missionCreateVo.getTopics(), ((ImageMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
-                        ((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags(),
-                        missionCreateVo.getProperties().getType(), MissionState.PENDING,
-                        missionCreateVo.getStart(), missionCreateVo.getEnd(), "",
-                        UserInfoUtil.getUsername(), missionCreateVo.getLevel(),
-                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(),
-                        new ArrayList<>(), new ArrayList<>(),
+                        missionCreateVo.getTopics(), MissionType.IMAGE,
+                        MissionState.PENDING,
+                        missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
+                        missionCreateVo.getLevel(),
+                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
+                        ((ImageMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(), ((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags(), new ArrayList<>(),
                         ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(),
                         new ArrayList<>(), new ArrayList<>());
             case TEXT:
