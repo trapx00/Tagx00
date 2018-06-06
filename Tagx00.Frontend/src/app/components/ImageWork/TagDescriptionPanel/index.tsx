@@ -46,14 +46,14 @@ export class TagDescriptionTuplePanel extends React.Component<Props, {}> {
   render() {
 
 
-    return <div>
+    return <>
       <TagPanel tagTuples={this.props.tuple.tagTuples}
                 onChange={this.onTagsChange}
                 readonly={this.props.readonlyMode}
                 allowCustomTag={this.props.allowCustomTag}
                 tagConfTuples={this.props.tagConfTuples}
       />
-      <Card style={panelStyle} title={<LocaleMessage id={ID_PREFIX + "descriptions"}/>}>
+      <Card title={<LocaleMessage id={ID_PREFIX + "descriptions"}/>}>
 
         <Localize replacements={{prompt: ID_PREFIX + "inputPrompt", addOne: ID_PREFIX+"addOne"}}>
           {props => <AddableInputGroup items={this.props.tuple.descriptions}
@@ -66,6 +66,6 @@ export class TagDescriptionTuplePanel extends React.Component<Props, {}> {
         </Localize>
 
       </Card>
-    </div>
+    </>
   }
 }

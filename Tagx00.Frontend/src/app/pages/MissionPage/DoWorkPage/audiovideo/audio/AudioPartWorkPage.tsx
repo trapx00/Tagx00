@@ -13,6 +13,7 @@ import immer from "immer";
 import { AudioMissionTipCard } from "../../../../../components/Mission/MissionTipCard/AudioMissionTipCard";
 import { TagDescriptionTuplePanel } from "../../../../../components/ImageWork/TagDescriptionPanel";
 import { ProgressController } from "../../../../../components/ImageWork/ProgressController";
+import { AudioWorkPageLayout } from "./AudioWorkPageLayout";
 
 function initializeNotation(notation: AudioNotation<AudioPartJob>) {
   if (!(notation.job && notation.job.tupleList)) {
@@ -43,7 +44,7 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
     height: 1,
   };
 
-  audioRef: HTMLAudioElement;
+  audioRef: AudioPlayer;
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.notation !== prevState.notation) {
@@ -91,7 +92,7 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
     const audio = this.audioRef;
 
     const prevStart = audio.currentTime;
-    const prevPause = audio.onpause;
+    const prevPause = audio.audioRef.onpause;
 
 
     audio.pause();
@@ -99,16 +100,16 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
     audio.play();
     let interrupted = false;
 
-    audio.onpause = () => {
+    audio.audioRef.onpause = () => {
       interrupted = true;
-      audio.onpause = prevPause;
+      audio.audioRef.onpause = prevPause;
     };
 
     setTimeout(() => {
       if (!interrupted) {
-        audio.pause();
         audio.currentTime = prevStart;
-        audio.onpause = prevPause;
+        audio.audioRef.onpause = prevPause;
+        audio.pause();
       }
     },1000*(tuple.endOffset - tuple.startOffset));
   };
@@ -140,14 +141,15 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
     const { missionDetail } = this.props;
     const { notation } = this.state;
     const { job } = notation;
-    return <WorkPageLayout>
-      <div>
+    return <AudioWorkPageLayout>
+      <>
         <AudioPlayer url={this.props.notation.audioUrl}
                      // onTimeChanged={this.onAudioProgress}
                      setRef={ref => this.audioRef = ref}
 
         />
-      </div>
+
+      </>
       <>
         <AudioMissionTipCard audioMissionType={job.type}
                              tagConfTuples={missionDetail.publicItem.tags.map(x => ({tag: x, confidence: 1}))}
@@ -177,6 +179,6 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
                             saveProgress={this.submit}
         />
       </>
-    </WorkPageLayout>
+    </AudioWorkPageLayout>
   }
 }

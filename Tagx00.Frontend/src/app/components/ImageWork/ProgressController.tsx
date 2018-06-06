@@ -15,7 +15,7 @@ interface Props {
 export class ProgressController extends React.Component<Props, {}> {
   render() {
     const prefix = "drawingPad.common.progressController.";
-    return <Card style={{marginTop: "8px"}}>
+    return <Card>
       <Button.Group size={"large"}>
         <Button onClick={this.props.goPrevious}>
           <Icon type="left" /><LocaleMessage id={prefix+"backward"}/>

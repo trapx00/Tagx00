@@ -5,7 +5,7 @@ interface Props {
   onPlay?(): void;
   onPause?(): void;
   onTimeChanged?(offset: number): void;
-  setRef?: (ref: HTMLAudioElement) => void;
+  setRef?(player: AudioPlayer): void;
 }
 
 interface State {
@@ -30,8 +30,24 @@ export class AudioPlayer extends React.Component<Props, State> {
 
   ref = (ref) => {
     this.audioRef = ref;
-    this.props.setRef && this.props.setRef(ref);
+    this.props.setRef && this.props.setRef(this);
   };
+
+  get currentTime() {
+    return this.audioRef.currentTime;
+  }
+
+  set currentTime(value: number) {
+    this.audioRef.currentTime = value;
+  }
+
+  pause() {
+    this.audioRef.pause();
+  }
+
+  play() {
+    this.audioRef.play();
+  }
 
   render() {
     return <audio

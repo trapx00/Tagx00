@@ -25,6 +25,16 @@ const ID_PREFIX = "drawingPad.audio.tupleSelector.list.";
 
 export class AudioTupleList extends React.Component<Props, {}> {
 
+  TupleItem(item: AudioPartTuple, index: number) {
+    return <div>
+      <p>片段{index}。{item===this.props.selected ? "被选中了" : ""}</p>
+      <p><button onClick={()=>this.onPlay(item)}>播放我</button></p>
+      <p>开始时间：{item.startOffset} <button onClick={() => this.props.onSetStartTime(item)}>设置</button></p>
+      <p>结束时间：{item.endOffset}<button onClick={() => this.props.onSetEndTime(item)}>设置</button></p>
+      <p><button onClick={()=>this.onRemove(item)}>删掉我</button></p>
+      <p><button onClick={()=>this.onSelect(item)}>选择我</button></p>
+    </div>;
+  }
 
   onSelect = (tuple: AudioPartTuple) => {
     if (tuple && this.props.onSelect) {
@@ -50,19 +60,14 @@ export class AudioTupleList extends React.Component<Props, {}> {
 
   render() {
     return <Card
-      title={<LocaleMessage id={ID_PREFIX+"title"}/>}
+      title={<p>
+        <LocaleMessage id={ID_PREFIX+"title"}/>
+        <Button type={"primary"} onClick={this.onAdd}><LocaleMessage id={ID_PREFIX+"add"}/></Button>
+      </p>
+        }
     >
-      <Button type={"primary"} onClick={this.onAdd}><LocaleMessage id={ID_PREFIX+"add"}/></Button>
-      {this.props.tuples.map( (x,index) => {
-        return <div>
-          <p>片段{index}。{x===this.props.selected ? "被选中了" : ""}</p>
-          <p><button onClick={()=>this.onPlay(x)}>播放我</button></p>
-          <p>开始时间：{x.startOffset} <button onClick={() => this.props.onSetStartTime(x)}>设置</button></p>
-          <p>结束时间：{x.endOffset}<button onClick={() => this.props.onSetEndTime(x)}>设置</button></p>
-          <p><button onClick={()=>this.onRemove(x)}>删掉我</button></p>
-          <p><button onClick={()=>this.onSelect(x)}>选择我</button></p>
-        </div>
-      })}
+
+      {this.props.tuples.map( (x,index) => this.TupleItem(x, index))}
     </Card>
   }
 }

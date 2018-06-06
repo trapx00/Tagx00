@@ -10,6 +10,7 @@ import { AudioPlayer } from "./AudioPlayer/AudioPlayer";
 import { AudioMissionTipCard } from "../../../../../components/Mission/MissionTipCard/AudioMissionTipCard";
 import { TagDescriptionTuplePanel } from "../../../../../components/ImageWork/TagDescriptionPanel";
 import { ProgressController } from "../../../../../components/ImageWork/ProgressController";
+import { AudioWorkPageLayout } from "./AudioWorkPageLayout";
 
 function initializeNotation(notation: AudioNotation<AudioWholeJob>) {
   if (!(notation.job && notation.job.tuple)) {
@@ -67,7 +68,7 @@ export class AudioWholeWorkPage extends React.Component<Props, AudioWorkPageStat
     const { missionDetail } = this.props;
     const { notation } = this.state;
     const { job } = notation;
-    return <WorkPageLayout>
+    return <AudioWorkPageLayout>
       <>
         <AudioPlayer url={this.props.notation.audioUrl}/>
       </>
@@ -89,6 +90,6 @@ export class AudioWholeWorkPage extends React.Component<Props, AudioWorkPageStat
                             saveProgress={this.submit}
         />
       </>
-    </WorkPageLayout>
+    </AudioWorkPageLayout>
   }
 }

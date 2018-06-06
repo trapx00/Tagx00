@@ -12,6 +12,9 @@ const Container = styled.div`
 const Controller = styled.div`
     flex: 1 0 auto;
     min-width: 100px;
+    & > * {
+    margin: 8px 8px 8px 8px; !important;
+    }
 `;
 
 
