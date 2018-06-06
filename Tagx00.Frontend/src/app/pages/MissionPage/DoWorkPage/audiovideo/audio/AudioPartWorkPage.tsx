@@ -92,26 +92,8 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
     const audio = this.audioRef;
 
     const prevStart = audio.currentTime;
-    const prevPause = audio.audioRef.onpause;
-
-
     audio.pause();
-    audio.currentTime = tuple.startOffset;
-    audio.play();
-    let interrupted = false;
-
-    audio.audioRef.onpause = () => {
-      interrupted = true;
-      audio.audioRef.onpause = prevPause;
-    };
-
-    setTimeout(() => {
-      if (!interrupted) {
-        audio.currentTime = prevStart;
-        audio.audioRef.onpause = prevPause;
-        audio.pause();
-      }
-    },1000*(tuple.endOffset - tuple.startOffset));
+    audio.playRegion(tuple.startOffset, tuple.endOffset);
   };
 
   goNext = () => {
