@@ -14,7 +14,7 @@ import { AudioMissionType } from "../../../../../models/mission/audio/AudioMissi
 import { Checkbox, DatePicker } from "antd";
 import { FormItem } from "../../../../../components/Form/FormItem";
 import { TagSelector } from "../../../../../components/TagSelector";
-import { UploadPanel } from "../UploadPanel";
+import { AudioUploadPanel } from "../AudioUploadPanel";
 
 
 const CheckboxGroup = Checkbox.Group;
@@ -128,7 +128,7 @@ export default class AudioMissionCreateInfoForm extends React.Component<Props, {
       </FormItem>
       <FormItem valid={this.info.audiosValid} messageOnInvalid={locale["requireAudios"]}>
         <p>{locale["audios"]}</p>
-        <UploadPanel onFileListChange={this.onFileListChange}
+        <AudioUploadPanel onFileListChange={this.onFileListChange}
                           fileList={this.info.audios}
                           maxFileNum={Number.MAX_SAFE_INTEGER}
                           multiple={true}
