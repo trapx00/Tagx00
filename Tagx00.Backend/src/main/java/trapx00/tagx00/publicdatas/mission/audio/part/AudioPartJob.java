@@ -9,6 +9,7 @@ public class AudioPartJob extends AudioJob {
 
     private List<AudioPartTuple> tupleList;
 
+
     public List<AudioPartTuple> getTupleList() {
         return tupleList;
     }
@@ -21,6 +22,7 @@ public class AudioPartJob extends AudioJob {
     public void setTupleList(List<AudioPartTuple> tupleList) {
         this.tupleList = tupleList;
     }
+
 
     public AudioPartJob() {
         super(AudioMissionType.PART);

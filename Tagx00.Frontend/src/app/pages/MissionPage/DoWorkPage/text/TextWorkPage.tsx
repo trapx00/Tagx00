@@ -5,7 +5,7 @@ import { TextInstanceDetail } from "../../../../models/instance/text/TextInstanc
 import { TextMissionDetail } from "../../../../models/mission/text/TextMissionDetail";
 import { Inject } from "react.di";
 import { WorkerService } from "../../../../api/WorkerService";
-import { TextNotation, TextWorkPageController } from "./TextWorkPageController";
+import { TextWorkPageController } from "./TextWorkPageController";
 import { WorkPage, WorkPageProps } from "../WorkPage";
 import { TextJob } from "../../../../models/instance/text/job/TextJob";
 import {
@@ -15,6 +15,7 @@ import {
 } from "../../../../models/mission/text/TextMissionProperties";
 import { TextKeywordsWorkPage } from "./TextKeywordsWorkPage";
 import { TextClassificationWorkPage } from "./TextClassificationWorkPage";
+import { TextNotation } from "./shared";
 
 interface Props {
   instanceDetail: TextInstanceDetail;

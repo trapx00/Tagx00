@@ -1,22 +1,23 @@
 package trapx00.tagx00.entity.mission;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-import java.util.HashMap;
-import java.util.Map;
+import trapx00.tagx00.entity.mission.topic.TagConfTuple;
 
-@Embeddable
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "missionAsset")
 public class MissionAsset {
+    @Id
     @Column(name = "url")
     private String url;
-    @Embedded
-    private Map<String, Double> tagConfTuple;
+    @ElementCollection(targetClass = TagConfTuple.class)
+    private List<TagConfTuple> tagConfTuple;
 
     public MissionAsset() {
     }
 
-    public MissionAsset(String url, Map<String, Double> tagConfTuple) {
+    public MissionAsset(String url, List<TagConfTuple> tagConfTuple) {
         this.url = url;
         this.tagConfTuple = tagConfTuple;
     }
@@ -29,11 +30,11 @@ public class MissionAsset {
         this.url = url;
     }
 
-    public Map<String, Double> getTagConfTuple() {
+    public List<TagConfTuple> getTagConfTuple() {
         return tagConfTuple;
     }
 
-    public void setTagConfTuple(Map<String, Double> tagConfTuple) {
+    public void setTagConfTuple(List<TagConfTuple> tagConfTuple) {
         this.tagConfTuple = tagConfTuple;
     }
 }

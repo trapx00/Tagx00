@@ -18,7 +18,7 @@ public class ImageMission extends Mission {
     @ElementCollection(targetClass = String.class)
     private List<String> allowedTags;
     @Column(name = "missionAssets")
-    @ElementCollection(targetClass = MissionAsset.class)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private List<MissionAsset> missionAssets;
     @Column(name = "imageMissionType")
     @ElementCollection(targetClass = ImageMissionType.class)

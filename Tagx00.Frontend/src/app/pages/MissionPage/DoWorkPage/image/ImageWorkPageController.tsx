@@ -7,24 +7,21 @@ import { Injectable } from "react.di";
 import { MissionType } from "../../../../models/mission/Mission";
 import { Notation, WorkPageController } from "../WorkPageController";
 import { MissionAsset } from "../../../../models/mission/MissionAsset";
+import { arrayContainsElement } from "../../../../../utils/Array";
 
 export interface ImageNotation<T extends ImageJob = ImageJob> extends Notation<T> {
   imageAsset: MissionAsset;
-}
-
-function any<T>(array: T[]) {
-  return !!array && array.length > 0;
 }
 
 function judgeJobComplete(job: KnownImageJob) {
   if (!job) return false;
   switch (job.type) {
     case ImageMissionType.DISTRICT:
-      return any(job.tuples);
+      return arrayContainsElement(job.tuples);
     case ImageMissionType.PART:
-      return any(job.tuples);
+      return arrayContainsElement(job.tuples);
     case ImageMissionType.WHOLE:
-      return !!job.tuple && ( any(job.tuple.tagTuples) || any(job.tuple.descriptions));
+      return !!job.tuple && ( arrayContainsElement(job.tuple.tagTuples) || arrayContainsElement(job.tuple.descriptions));
   }
   return false;
 }
@@ -56,9 +53,7 @@ export class ImageWorkPageController extends WorkPageController<ImageMissionDeta
 
   constructor(missionDetail: ImageMissionDetail, instanceDetail: ImageInstanceDetail) {
     super(missionDetail, instanceDetail);
-    this.imageAssets = missionDetail.imageAssets;
-
-    console.log(this.imageAssets);
+    this.imageAssets = missionDetail.missionAssets;
 
     for (const asset of this.imageAssets) {
       for (const type of missionDetail.publicItem.imageMissionTypes) {

@@ -5,18 +5,19 @@ import { MissionType } from "../../../models/mission/Mission";
 import { DefinitionItem } from "../../DefinitionItem";
 import { LocaleMessage } from "../../../internationalization/components";
 import { Tag}  from 'antd';
-import { TagConfMap } from "../../../models/mission/MissionAsset";
+import { TagConfTuple } from "../../../models/mission/MissionAsset";
 
 interface Props {
   title: string;
   imageMissionType: ImageMissionType;
   allowCustomTag: boolean;
-  tagConfMap: TagConfMap;
+  tagConfTuples: TagConfTuple[];
 }
 
 const ID_PREFIX = "drawingPad.common.missionTipCard.IMAGE.";
 
 export function ImageMissionTipCard(props: Props) {
+  console.log(props.tagConfTuples);
     return <MissionTipCard missionType={MissionType.IMAGE} title={props.title}>
       <DefinitionItem prompt={<LocaleMessage id={`${ID_PREFIX}type`}/>}>
         <LocaleMessage id={`${ID_PREFIX}types.${props.imageMissionType}.name`}/>
@@ -25,8 +26,8 @@ export function ImageMissionTipCard(props: Props) {
         <LocaleMessage id={`${ID_PREFIX}allowCustomTag.${props.allowCustomTag}`}/>
       </DefinitionItem>
       <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "tags"}/>}>
-        {Object.keys(props.tagConfMap).map(x => {
-          return <Tag key={x} color={"blue"}>{x}({props.tagConfMap[x]})</Tag>
+        {props.tagConfTuples.map(x => {
+          return <Tag key={x.tag} color={"blue"}>{x.tag}({x.confidence})</Tag>
         })}
       </DefinitionItem>
     </MissionTipCard>

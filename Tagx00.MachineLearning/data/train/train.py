@@ -6,7 +6,7 @@ import tensorflow as tf
 total_train = 100
 learning_rate = 0.01
 training_epochs = 100
-batch_size = 3
+batch_size = 1
 n_size = 6
 
 train_data = []
@@ -19,7 +19,7 @@ with open("../proval/train.txt", "r") as file:
         tag = []
         for i in range(n_size):
             if i < tags.__len__():
-                if tags[i]["value"] in targets:
+                if tags[i]["tag"] in targets:
                     tag.append([tags[i]["confidence"], 1])
                 else:
                     tag.append([tags[i]["confidence"], 0])
@@ -38,7 +38,7 @@ with open("../proval/test.txt", "r") as file:
         tag = []
         for i in range(n_size):
             if i < tags.__len__():
-                if tags[i]["value"] in targets:
+                if tags[i]["tag"] in targets:
                     tag.append([tags[i]["confidence"], 1])
                 else:
                     tag.append([tags[i]["confidence"], 0])
@@ -78,7 +78,7 @@ def save_models():
 def compute_accuracy():
     batch_xs, batch_ys = next_test_batch()
     pred = sess.run(y_pred, feed_dict={X: batch_xs, Y: batch_ys})
-    print(sess.run(tf.reduce_mean(tf.square(pred - batch_ys))))
+    print(sess.run(tf.reduce_mean(tf.multiply(pred, batch_ys))))
 
 
 weight = tf.Variable(tf.random_normal([n_size, n_size]))
@@ -87,8 +87,8 @@ biases = tf.Variable(tf.random_normal([n_size, batch_size]))
 X = tf.placeholder(tf.float32, [n_size, None])
 Y = tf.placeholder(tf.float32, [n_size, None])
 
-y_pred = tf.matmul(weight, X) + biases
-cost = tf.reduce_mean(tf.square(Y - y_pred))
+y_pred = tf.sigmoid(tf.matmul(weight, X) + biases)
+cost = tf.reduce_mean(tf.multiply(y_pred, Y))
 
 optimizer = tf.train.AdamOptimizer(learning_rate).minimize(cost)
 sess = tf.Session()

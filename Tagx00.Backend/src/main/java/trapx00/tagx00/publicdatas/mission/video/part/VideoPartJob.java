@@ -6,6 +6,7 @@ import trapx00.tagx00.vo.mission.video.VideoMissionType;
 import java.util.List;
 
 
+
 public class VideoPartJob extends VideoJob {
 
     private List<VideoPartTuple> tupleList;
@@ -22,6 +23,7 @@ public class VideoPartJob extends VideoJob {
     public void setTupleList(List<VideoPartTuple> tupleList) {
         this.tupleList = tupleList;
     }
+
 
     public VideoPartJob() {
         super(VideoMissionType.PART);

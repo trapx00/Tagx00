@@ -12,8 +12,6 @@ public class ImageMissionDetailVo extends MissionDetailVo {
 
     private List<MissionAsset> missionAssets;
 
-
-
     public ImageMissionDetailVo() {
     }
 

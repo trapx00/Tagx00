@@ -1,7 +1,7 @@
 import React from "react";
 import { ImageMissionDetail, ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import { ImageInstanceDetail } from "../../../../models/instance/image/ImageInstanceDetail";
-import { ImageNotation, ImageWorkPageController } from "./ImageWorkPageController";
+import { ImageWorkPageController } from "./ImageWorkPageController";
 import { observer } from "mobx-react";
 import { ImagePartWorkPage } from "./ImagePartWorkPage";
 import { ImageDistrictWorkPage } from "./ImageDistrictWorkPage";
@@ -9,6 +9,7 @@ import { ImageWholeWorkPage } from "./ImageWholeWorkPage";
 import { Inject } from "react.di";
 import { WorkPage, WorkPageProps } from "../WorkPage";
 import { ImageJob } from "../../../../models/instance/image/job/ImageJob";
+import { ImageNotation } from "./shared";
 
 interface Props {
   instanceDetail: ImageInstanceDetail;
