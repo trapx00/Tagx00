@@ -59,7 +59,7 @@ export class ImageWorkPageLayout extends React.Component<Props, {}> {
   appendScale() {
     const width = this.scale * this.props.imageWidth;
     const height = this.scale * this.props.imageHeight;
-    this.pictureRef.current.style.transform = `scale(${Math.min(this.scale, 1)})`;
+    this.pictureRef.current.style.transform = `scale(${this.scale})`;
     // this.pictureRef.current.style.width = `${width}px`;
     // this.pictureRef.current.style.height = `${height}px`;
     // this.pictureContainerRef.current.style.width = `${width}px`;
@@ -92,6 +92,7 @@ export class ImageWorkPageLayout extends React.Component<Props, {}> {
         </Picture>
       </PictureContainer>
       {this.props.children[1]}
+      {this.props.children[2]}
     </WorkPageLayout>
   }
 }

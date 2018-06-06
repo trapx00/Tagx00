@@ -94,6 +94,8 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
                                   allowCustomTag={missionDetail.publicItem.allowCustomTag}
                                   tagConfTuples={imageAsset.tagConfTuple}
         />
+      </>
+      <>
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}

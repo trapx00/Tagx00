@@ -86,6 +86,8 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
                   allowCustomTag={false}
                   tagConfTuples={this.props.notation.setting.classes.map(x=>({tag: x, confidence: 1}))}
         />
+      </>
+      <>
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}

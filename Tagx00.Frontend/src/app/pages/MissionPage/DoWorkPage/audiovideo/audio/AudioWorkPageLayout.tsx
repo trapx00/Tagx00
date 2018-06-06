@@ -7,16 +7,10 @@ interface Props {
 }
 
 
-const AudioAndListContainer = styled.div`
-  min-width: 500px;
-  text-align:center;
-`;
-
 export function AudioWorkPageLayout(props: Props) {
   return <WorkPageLayout>
-    <AudioAndListContainer>
-      {props.children[0]}
-    </AudioAndListContainer>
+    {props.children[0]}
     {props.children[1]}
+    {props.children[2]}
   </WorkPageLayout>;
 }

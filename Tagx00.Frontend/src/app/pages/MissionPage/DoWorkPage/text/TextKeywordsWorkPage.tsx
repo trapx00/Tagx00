@@ -82,6 +82,9 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
                   allowCustomTag={true}
                   tagConfTuples={this.props.notation.setting.keywords.map(x => ({tag: x, confidence: 1}))}
         />
+
+      </>
+      <>
         <ProgressController {...controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}

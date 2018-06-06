@@ -60,7 +60,13 @@
     }
   },
   "drawingPad": {
-    "audio": {
+    "media": {
+      "audioPlayer": {
+        "play": "播放",
+        "pause":"暂停",
+        "mute": "静音",
+        "unmute": "取消静音"
+      },
       "tupleSelector":{
         "list": {
           "title": "已有片段列表",
@@ -69,7 +75,9 @@
           "play": "播放这个片段",
           "add": "增加一个片段",
           "remove": "删除这个片段",
-          "select": "选择这个片段"
+          "select": "选择这个片段",
+          "selected": "当前选择项",
+          "range": "从 {start}秒 到 {end}秒"
         }
       }
     },

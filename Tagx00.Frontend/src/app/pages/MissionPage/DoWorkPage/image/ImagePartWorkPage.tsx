@@ -156,7 +156,8 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
                                         tagConfTuples={imageAsset.tagConfTuple}
             />
             : null}
-
+        </>
+      <>
           <ProgressController {...this.props.controllerProps}
                               goNext={this.goNext}
                               readonlyMode={this.props.readonlyMode}

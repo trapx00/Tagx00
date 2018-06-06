@@ -6,7 +6,7 @@ import { AudioMissionType } from "../../../../../models/mission/audio/AudioMissi
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../../../models/instance/TagTuple";
 import { WorkPageLayout } from "../../WorkPageLayout";
-import { AudioPlayer } from "./AudioPlayer/AudioPlayer";
+import { AudioPlayer } from "./AudioPlayer";
 import { AudioMissionTipCard } from "../../../../../components/Mission/MissionTipCard/AudioMissionTipCard";
 import { TagDescriptionTuplePanel } from "../../../../../components/ImageWork/TagDescriptionPanel";
 import { ProgressController } from "../../../../../components/ImageWork/ProgressController";
@@ -84,6 +84,8 @@ export class AudioWholeWorkPage extends React.Component<Props, AudioWorkPageStat
                                   allowCustomTag={missionDetail.publicItem.allowCustomTag}
                                   tagConfTuples={missionDetail.publicItem.tags.map(x => ({tag: x, confidence: 1}))}
         />
+        <>
+          </>
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}

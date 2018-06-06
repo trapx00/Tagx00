@@ -181,7 +181,8 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
                                         tagConfTuples={imageAsset.tagConfTuple}
             />
             : null}
-
+</>
+      <>
           <ProgressController {...this.props.controllerProps}
                               goNext={this.goNext}
                               readonlyMode={readonlyMode}

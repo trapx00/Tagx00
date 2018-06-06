@@ -7,8 +7,8 @@ import { toJS } from "mobx";
 import { TagDescriptionTuple, TagTuple } from "../../../../../models/instance/TagTuple";
 import { PartJobTuple } from "../../../../../models/instance/image/job/PartJob";
 import { WorkPageLayout } from "../../WorkPageLayout";
-import { AudioPlayer } from "./AudioPlayer/AudioPlayer";
-import { AudioTupleList } from "./AudioPlayer/AudioTupleList";
+import { AudioPlayer } from "./AudioPlayer";
+import { MediaTupleList } from "../MediaTupleList";
 import immer from "immer";
 import { AudioMissionTipCard } from "../../../../../components/Mission/MissionTipCard/AudioMissionTipCard";
 import { TagDescriptionTuplePanel } from "../../../../../components/ImageWork/TagDescriptionPanel";
@@ -85,14 +85,12 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
   };
 
   onSelect = (tuple: AudioPartTuple) => {
-    this.setState({ selected: tuple});
+    this.setState({selected: tuple});
   };
 
   onPlay = (tuple: AudioPartTuple) => {
     const audio = this.audioRef;
 
-    const prevStart = audio.currentTime;
-    audio.pause();
     audio.playRegion(tuple.startOffset, tuple.endOffset);
   };
 
@@ -120,17 +118,16 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
 
   render() {
 
-    const { missionDetail } = this.props;
-    const { notation } = this.state;
-    const { job } = notation;
+    const {missionDetail} = this.props;
+    const {notation} = this.state;
+    const {job} = notation;
     return <AudioWorkPageLayout>
       <>
         <AudioPlayer url={this.props.notation.audioUrl}
-                     // onTimeChanged={this.onAudioProgress}
+          // onTimeChanged={this.onAudioProgress}
                      setRef={ref => this.audioRef = ref}
 
         />
-
       </>
       <>
         <AudioMissionTipCard audioMissionType={job.type}
@@ -138,7 +135,7 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
                              allowCustomTag={missionDetail.publicItem.allowCustomTag}
                              title={missionDetail.publicItem.title}
         />
-        <AudioTupleList tuples={this.state.notation.job.tupleList}
+        <MediaTupleList tuples={this.state.notation.job.tupleList}
                         selected={this.state.selected}
                         onAdd={this.onAddTuple}
                         onSelect={this.onSelect}
@@ -155,6 +152,8 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
                                   tagConfTuples={missionDetail.publicItem.tags.map(x => ({tag: x, confidence: 1}))}
         />
         }
+      </>
+      <>
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}
