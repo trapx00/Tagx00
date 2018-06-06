@@ -17,17 +17,17 @@ interface Props {
 const ID_PREFIX = "drawingPad.common.missionTipCard.AUDIO.";
 
 export function AudioMissionTipCard(props: Props){
-    return <MissionTipCard missionType={MissionType.AUDIO} title={props.title}>
-      <DefinitionItem prompt={<LocaleMessage id={`${ID_PREFIX}type`}/>}>
-        <LocaleMessage id={`${ID_PREFIX}types.${props.audioMissionType}.name`}/>
-      </DefinitionItem>
-      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "allowCustomTag.prompt"}/>}>
-        <LocaleMessage id={`${ID_PREFIX}allowCustomTag.${props.allowCustomTag}`}/>
-      </DefinitionItem>
-      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "tags"}/>}>
-        {props.tagConfTuples.map(x => {
-          return <Tag key={x.tag} color={"blue"}>{x.tag}({x.confidence})</Tag>
-        })}
-      </DefinitionItem>
-    </MissionTipCard>;
+  return <MissionTipCard missionType={MissionType.AUDIO} title={props.title}>
+    <DefinitionItem prompt={<LocaleMessage id={`${ID_PREFIX}type`}/>}>
+      <LocaleMessage id={`${ID_PREFIX}types.${props.audioMissionType}.name`}/>
+    </DefinitionItem>
+    <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "allowCustomTag.prompt"}/>}>
+      <LocaleMessage id={`${ID_PREFIX}allowCustomTag.${props.allowCustomTag}`}/>
+    </DefinitionItem>
+    <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "tags"}/>}>
+      {props.tagConfTuples.map(x => {
+        return <Tag key={x.tag} color={"blue"}>{x.tag}({x.confidence})</Tag>
+      })}
+    </DefinitionItem>
+  </MissionTipCard>;
 }

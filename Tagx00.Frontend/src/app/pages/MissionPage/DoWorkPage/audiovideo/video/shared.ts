@@ -1,6 +1,7 @@
 import { VideoMissionDetail } from "../../../../../models/mission/video/VideoMission";
 import { VideoJob } from "../../../../../models/instance/video/job/VideoJob";
 import { WorkPageProps, WorkPageState } from "../../WorkPage";
+import { Notation } from "../../WorkPageController";
 
 
 export interface VideoNotation<T extends VideoJob= VideoJob> extends Notation<T> {

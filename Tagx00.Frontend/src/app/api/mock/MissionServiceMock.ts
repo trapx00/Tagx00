@@ -12,6 +12,7 @@ import {
 } from "../../models/mission/text/TextMissionProperties";
 import { HttpMethod } from "../utils";
 import { AudioMissionDetail, AudioMissionType } from "../../models/mission/audio/AudioMission";
+import { VideoMissionDetail, VideoMissionType } from "../../models/mission/video/VideoMission";
 
 export const imgs = [
   "https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/0E/00/ChMkJlnJ4TOIAyeVAJqtjV-XTiAAAgzDAE7v40Amq2l708.jpg",
@@ -124,11 +125,45 @@ const audioMission = {
   ],
 } as AudioMissionDetail;
 
+
+const videoMission = {
+  publicItem: {
+    missionId: "1",
+    title: "Mission " + "1",
+    description: "Description " + "1",
+    topics: ["scenes"],
+    allowCustomTag: false,
+    missionType: MissionType.VIDEO,
+    videoMissionTypes: [
+      VideoMissionType.WHOLE,
+      VideoMissionType.PART
+    ],
+    tags: ["1","2"],
+    start: new Date(),
+    end: new Date(),
+    coverUrl: "https://desk-fd.zol-img.com.cn/t_s960x600c5/g3/M0A/0F/09/Cg-4WFRplp2IYqiNACQ0TQPPChQAARbPQEM84oAJDRl464.jpg",
+    jobCount: 10,
+    requesterUsername: "123",
+    minimalWorkerLevel: 2,
+    level: 1,
+    credits: 100
+  },
+  missionState: MissionState.ACTIVE,
+  videoMissionTypes: [
+    VideoMissionType.WHOLE,
+    VideoMissionType.PART
+  ],
+  videoUrls: [
+    "https://archive.org/download/ZeldaMajorasMask_100p_655/ZeldaMajorasMask_100p_655_HQ_part01_512kb.mp4",
+    "https://ia800309.us.archive.org/2/items/Hitman2_4347/Hitman2_4347_HQ_part01_512kb.mp4"
+  ],
+} as VideoMissionDetail;
+
 @Injectable
 export class MissionServiceMock extends MissionService {
 
   async getAMission(missionId: string): Promise<MissionDetail> {
-    return audioMission;
+    return videoMission;
 
   }
 

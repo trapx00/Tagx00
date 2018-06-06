@@ -88,6 +88,7 @@
     "three-obj-mtl-loader": "^1.0.3",
     "three-orbitcontrols": "^2.1.2",
     "three.js": "latest",
+    "video-react": "^0.10.9",
     "viser-react": "^2.2.6",
     "wavesurfer.js": "^2.0.5"
   }

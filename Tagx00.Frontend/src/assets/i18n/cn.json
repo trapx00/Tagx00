@@ -67,6 +67,12 @@
         "mute": "静音",
         "unmute": "取消静音"
       },
+      "videoPlayer": {
+        "play": "播放",
+        "pause":"暂停",
+        "mute": "静音",
+        "unmute": "取消静音"
+      },
       "tupleSelector":{
         "list": {
           "title": "已有片段列表",
@@ -142,6 +148,20 @@
         "AUDIO": {
           "name":"音频任务",
           "type": "音频任务类型",
+          "allowCustomTag": {
+            "prompt": "允许自定义标签",
+            "true": "是",
+            "false": "否"
+          },
+          "tags": "预设标签",
+          "types": {
+            "WHOLE": {"name": "整体"},
+            "PART": { "name": "局部"}
+          }
+        },
+        "VIDEO": {
+          "name":"视频任务",
+          "type": "视频任务类型",
           "allowCustomTag": {
             "prompt": "允许自定义标签",
             "true": "是",
