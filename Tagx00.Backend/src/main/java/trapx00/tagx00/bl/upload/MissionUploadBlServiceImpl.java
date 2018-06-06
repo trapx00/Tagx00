@@ -72,13 +72,10 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                         imageMission.setCoverUrl(url);
                     } else {
                         Map<String, Double> tagConfTuple = new HashMap<>();
-                        for (String tag : imageMission.getAllowedTags()) {
-                            tagConfTuple.put(tag, 1.0);
-                        }
                         if (imageMission.isAllowCustomTag()) {
                             Map<String, Double> apiTagConfTuple = workerMissionBlService.identifyImage(multipartFile).getObjects();
                             apiTagConfTuple.forEach((key, value) -> {
-                                if (!tagConfTuple.containsKey(key)) tagConfTuple.put(key, value * 0.01);
+                                tagConfTuple.put(key, value * 0.01);
                             });
                         }
                         missionAssets.add(new MissionAsset(url, Converter.MapToTagConfTupleList(tagConfTuple)));
