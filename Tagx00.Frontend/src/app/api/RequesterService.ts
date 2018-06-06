@@ -11,6 +11,7 @@ import { MissionFinalizeVo } from "../models/instance/MissionFinalizeParameters"
 import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
 import { MissionRequestQueryResponse } from "../models/response/mission/MissionRequestQueryResponse";
 import { MissionChargeResponse } from "../models/response/mission/MissionChargeResponse";
+import { AudioUploadResponse } from "../models/mission/audio/AudioUploadResponse";
 
 @Injectable
 export class RequesterService {
@@ -47,6 +48,17 @@ export class RequesterService {
       token
     );
 
+  }
+
+  async uploadAudioFile(missionId: string, formData: FormData, order: number, isCover: boolean, token: string): Promise<AudioUploadResponse> {
+    const res = await this.http.sendFile(
+      formData,
+      `/upload/mission/audio/${missionId}`,
+      token,
+      {order, isCover},
+    );
+    console.log(res.response);
+    return res.response;
   }
 
   async getAllMissionsBySelf(username: string): Promise<MissionPublicResponse> {

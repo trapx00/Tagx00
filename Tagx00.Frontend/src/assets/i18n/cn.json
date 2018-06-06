@@ -205,7 +205,10 @@
       },
       "menu": {
         "IMAGE": "图片",
-        "TEXT": "文本"
+        "TEXT": "文本",
+        "AUDIO": "音频",
+        "VIDEO": "视屏",
+        "THREE_DIMENSION": "3D"
       },
       "uploadStage": {
         "0": "上传信息",
@@ -272,9 +275,23 @@
             "requireZip": "请上传压缩包"
           }
         },
+        "AUDIO": {
+          "title": "音频任务属性",
+          "types": {
+            "name": "音频任务类型",
+            "WHOLE":"整体",
+            "PART": "局部"
+          },
+          "selectFile": "选择文件",
+          "tags": "标签",
+          "allowCustomTag": "允许工人自定义标签",
+          "requireTags": "当不允许工人自定义标签时，请添加至少一个可用标签",
+          "requireTypes": "请选择至少一种任务",
+          "audios": "音频文件",
+          "requireAudios": "请上传至少一份音频文件"
+        },
         "submit": "提交"
       }
-
 
     },
     "worker": {
