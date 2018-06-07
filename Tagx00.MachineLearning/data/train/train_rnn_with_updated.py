@@ -9,7 +9,7 @@ training_epochs = 100000
 batch_size = 10
 n_size = 3
 last_index = 0
-dismiss_value = 0.01
+dismiss_value = 0.4
 
 n_hidden_units = 128
 train_data = []
@@ -105,7 +105,7 @@ def compute_accuracy():
     for i in range(batch_size):
         is_reject = True
         for j in range(n_size):
-            if pred[i][j] > dismiss_value:
+            if pred[i][j] > dismiss_value or batch_ys[i][j] is not 0:
                 is_reject = False
                 break
         if is_reject:
@@ -127,7 +127,7 @@ def compute_origin_accuracy():
     for i in range(batch_size):
         is_reject = True
         for j in range(n_size):
-            if batch_xs[i][j] > dismiss_value:
+            if batch_xs[i][j] > dismiss_value or batch_ys[i][j] is not 0:
                 is_reject = False
                 break
         if is_reject:
@@ -150,7 +150,7 @@ def draw_plt():
         accuracy = 0
         is_reject = True
         for j in range(n_size):
-            if all_pred[i][j] > dismiss_value:
+            if all_pred[i][j] > dismiss_value or all_ys[i][j] is not 0:
                 is_reject = False
                 break
         if is_reject:
@@ -165,6 +165,36 @@ def draw_plt():
     Xs = range(total_train)
     plt.title("compute adoption rate after train")
     plt.xlim(xmax=150, xmin=0)
+    plt.ylim(ymax=1, ymin=0)
+    plt.xlabel("image index")
+    plt.ylabel("adoption rate")
+    plt.plot(Xs, accuracys)
+    plt.show()
+
+
+def draw_plt_test():
+    test_xs, test_ys = next_test_batch()
+    pred = sess.run(y_pred, feed_dict={X: test_xs, Y: test_ys, keep_prob: 1})
+    accuracys = np.empty(total_train)
+    for i in range(batch_size):
+        accuracy = 0
+        is_reject = True
+        for j in range(n_size):
+            if pred[i][j] > dismiss_value or test_ys[i][j] is not 0:
+                is_reject = False
+                break
+        if is_reject:
+            accuracy += 1
+        else:
+            total_confidence = 0
+            for j in range(n_size):
+                total_confidence += pred[i][j]
+            for j in range(n_size):
+                accuracy += (pred[i][j] / total_confidence) * test_ys[i][j]
+        accuracys[i] = accuracy
+    Xs = range(total_train)
+    plt.title("compute adoption rate after train")
+    plt.xlim(xmax=10, xmin=0)
     plt.ylim(ymax=1, ymin=0)
     plt.xlabel("image index")
     plt.ylabel("adoption rate")
@@ -210,5 +240,5 @@ for epoch in range(training_epochs):
         if epoch % 10 == 9:
             print("accuracy")
             accuracy = compute_accuracy()
-            if accuracy >= 0.78:
-                draw_plt()
+            if accuracy >= 0.6:
+                draw_plt_test()
