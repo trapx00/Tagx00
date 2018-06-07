@@ -11,6 +11,7 @@ import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
 import trapx00.tagx00.response.mission.TextGetResponse;
+import trapx00.tagx00.response.mission.ThreeModelGetResponse;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
@@ -57,6 +58,17 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
     @Override
     public TextGetResponse getText(String token) throws TextNotExistException, SystemException {
         return new TextGetResponse(textDataService.getText(token));
+    }
+
+    /**
+     * get 3d model by tokens
+     *
+     * @param tokens
+     * @return
+     */
+    @Override
+    public ThreeModelGetResponse get3d(String tokens) {
+        return null;
     }
 
     /**
