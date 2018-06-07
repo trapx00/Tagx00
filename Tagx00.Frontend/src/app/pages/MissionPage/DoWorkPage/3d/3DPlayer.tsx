@@ -50,14 +50,14 @@ export class ThreeDimensionPlayer extends React.Component<Props, any> {
 
     // init renderer
     this.renderer = new THREE.WebGLRenderer({antialias: true});
-    this.renderer.setSize(1000, 500);
+    this.renderer.setSize(500,500);
     //告诉渲染器需要阴影效果
     this.renderer.setClearColor(0xffffff);
     this.containerRef.current.appendChild(this.renderer.domElement);
 
 
     // init camera
-    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
 
     this.camera.position.set(0, 40, 50);
 
@@ -120,7 +120,7 @@ export class ThreeDimensionPlayer extends React.Component<Props, any> {
 
     //是否自动旋转
 
-    this.controls.autoRotate = true;
+    this.controls.autoRotate = false;
 
     //设置相机距离原点的最远距离
 
@@ -170,13 +170,13 @@ export class ThreeDimensionPlayer extends React.Component<Props, any> {
   onWindowResize = () => {
 
 
-    this.camera.aspect = window.innerWidth / window.innerHeight;
-
-    this.camera.updateProjectionMatrix();
-
-    this.renderModel();
-
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    // this.camera.aspect = window.innerWidth / window.innerHeight;
+    //
+    // this.camera.updateProjectionMatrix();
+    //
+    // this.renderModel();
+    //
+    // this.renderer.setSize(window.innerWidth, window.innerHeight);
 
 
   };
