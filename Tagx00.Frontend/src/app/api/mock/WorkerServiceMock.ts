@@ -12,6 +12,7 @@ import { TextInstanceDetail } from "../../models/instance/text/TextInstanceDetai
 import { AudioInstance } from "../../models/instance/audio/AudioInstance";
 import { AudioInstanceDetail } from "../../models/instance/audio/AudioInstanceDetail";
 import { VideoInstanceDetail } from "../../models/instance/video/VideoInstanceDetail";
+import { ThreeDimensionInstanceDetail } from "../../models/instance/3d/3dInstanceDetail";
 
 const textInstance = {
     textResults: [],
@@ -81,6 +82,23 @@ const videoInstance = {
   }
 } as VideoInstanceDetail;
 
+const threeDimensionInstance = {
+  resultList: [],
+  missionType: MissionType.THREE_DIMENSION,
+  instance: {
+    instanceId: 1 + "",
+    workerUsername: "123",
+    title: `Title`,
+    description: `Description `,
+    missionId: "1",
+    acceptDate: new Date(),
+    submitDate: null,
+    isSubmitted: false,
+    completedJobsCount: 0,
+    missionInstanceState: MissionInstanceState.IN_PROGRESS,
+  }
+} as ThreeDimensionInstanceDetail;
+
 
 @Injectable
 export class WorkerServiceMock extends WorkerService {
@@ -110,7 +128,7 @@ export class WorkerServiceMock extends WorkerService {
 
 
     return {
-      detail: imgInstance
+      detail: threeDimensionInstance
     };
 
 

@@ -11,6 +11,7 @@ import { MissionDetail } from "../../../models/mission/MissionDetail";
 import { TextWorkPage } from "./text/TextWorkPage";
 import { AudioWorkPage } from "./audiovideo/audio/AudioWorkPage";
 import { VideoWorkPage } from "./audiovideo/video/VideoWorkPage";
+import { ThreeDimensionWorkPage } from "./3d/3DWorkPage";
 
 interface Props {
   instanceDetail: InstanceDetail;
@@ -47,7 +48,9 @@ export class DoWorkPage extends React.Component<Props, any> {
       case MissionType.AUDIO:
         return <AudioWorkPage {...props as any}/>;
       case MissionType.VIDEO:
-        return <VideoWorkPage {...props as any}/>
+        return <VideoWorkPage {...props as any}/>;
+      case MissionType.THREE_DIMENSION:
+        return <ThreeDimensionWorkPage {...props as any}/>;
     }
     return null;
   }

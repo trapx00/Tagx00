@@ -13,6 +13,7 @@ import {
 import { HttpMethod } from "../utils";
 import { AudioMissionDetail, AudioMissionType } from "../../models/mission/audio/AudioMission";
 import { VideoMissionDetail, VideoMissionType } from "../../models/mission/video/VideoMission";
+import { ThreeDimensionMissionDetail } from "../../models/mission/3d/3dMission";
 
 export const imgs = [
   "https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/0E/00/ChMkJlnJ4TOIAyeVAJqtjV-XTiAAAgzDAE7v40Amq2l708.jpg",
@@ -159,11 +160,39 @@ const videoMission = {
   ],
 } as VideoMissionDetail;
 
+
+const threeDimensionMission = {
+  publicItem: {
+    missionId: "1",
+    title: "Mission " + "1",
+    description: "Description " + "1",
+    topics: ["scenes"],
+    allowCustomTag: false,
+    missionType: MissionType.THREE_DIMENSION,
+    tags: ["1","2"],
+    start: new Date(),
+    end: new Date(),
+    coverUrl: "https://desk-fd.zol-img.com.cn/t_s960x600c5/g3/M0A/0F/09/Cg-4WFRplp2IYqiNACQ0TQPPChQAARbPQEM84oAJDRl464.jpg",
+    jobCount: 10,
+    requesterUsername: "123",
+    minimalWorkerLevel: 2,
+    level: 1,
+    credits: 100
+  },
+  missionState: MissionState.ACTIVE,
+  models: [
+    {
+      mtlUrl: "http://oos-bj2.ctyunapi.cn/njutjenvironment/DeadTree.mtl?Signature=LsfeA5i/2Zg5j7skHlVEPzh7uSU%3D&AWSAccessKeyId=c4582dec5d0809103126&Expires=10168380929",
+      objUrl: "http://oos-bj2.ctyunapi.cn/njutjenvironment/DeadTree.obj?Signature=DUKjeFf0uFQK7QxfFs3csXnlA2E%3D&AWSAccessKeyId=c4582dec5d0809103126&Expires=10168380901"
+    }
+  ],
+} as ThreeDimensionMissionDetail;
+
 @Injectable
 export class MissionServiceMock extends MissionService {
 
   async getAMission(missionId: string): Promise<MissionDetail> {
-    return imageMission;
+    return threeDimensionMission;
 
   }
 

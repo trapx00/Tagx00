@@ -172,6 +172,19 @@
             "WHOLE": {"name": "整体"},
             "PART": { "name": "局部"}
           }
+        },
+        "THREE_DIMENSION": {
+          "name":"3D任务",
+          "type": "3D任务类型",
+          "allowCustomTag": {
+            "prompt": "允许自定义标签",
+            "true": "是",
+            "false": "否"
+          },
+          "tags": "预设标签",
+          "types": {
+            "WHOLE": {"name": "整体"}
+          }
         }
       },
       "finish": {
