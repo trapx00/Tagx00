@@ -163,7 +163,7 @@ const videoMission = {
 export class MissionServiceMock extends MissionService {
 
   async getAMission(missionId: string): Promise<MissionDetail> {
-    return videoMission;
+    return imageMission;
 
   }
 

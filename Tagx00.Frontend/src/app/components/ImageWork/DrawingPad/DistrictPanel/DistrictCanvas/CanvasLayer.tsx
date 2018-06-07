@@ -45,6 +45,7 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
   };
 
   onMouseDown = (e) => {
+    // preventTouchScroll(e);
     const position = getCursorPosition(this.canvas,e,this.props.getScale());
     if (this.props.session.canContinueDrawing) {
       this.colorStartPoint(position);
@@ -58,6 +59,7 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
   }
 
   onMouseMove = (e) => {
+    // preventTouchScroll(e);
     if (this.props.session.step === Step.DrawingBoundary) {
       const position = getCursorPosition(this.canvas,e,this.props.getScale());
       if (this.outOfCanvas(position)) {
@@ -77,6 +79,7 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
   };
 
   onMouseUp = (e) => {
+    // preventTouchScroll(e);
     const position = getCursorPosition(this.canvas,e,this.props.getScale());
     if (this.props.session.step === Step.DrawingBoundary) {
 
@@ -98,7 +101,6 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
       this.drawer = new DistrictDrawer(this.canvasContext);
       this.props.session.init(this.canvasContext);
       this.props.session.saveImageData();
-
       this.forceUpdate();
     }
 
@@ -115,6 +117,9 @@ export class CanvasLayer extends React.Component<CanvasProps, {}> {
         onMouseDown={this.onMouseDown}
         onMouseMove={this.onMouseMove}
         onMouseUp={this.onMouseUp}
+        onTouchStart={this.onMouseDown}
+        onTouchMove={this.onMouseMove}
+        onTouchEnd={this.onMouseUp}
       >
       </canvas>;
   }

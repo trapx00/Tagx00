@@ -110,7 +110,7 @@ export class WorkerServiceMock extends WorkerService {
 
 
     return {
-      detail: videoInstance
+      detail: imgInstance
     };
 
 

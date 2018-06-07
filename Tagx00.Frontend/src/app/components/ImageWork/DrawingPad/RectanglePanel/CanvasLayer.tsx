@@ -43,11 +43,11 @@ export class CanvasLayer extends React.Component<Props, {}> {
   canvasContext: CanvasRenderingContext2D;
 
   onMouseDown = (e) => {
+    // preventTouchScroll(e);
     const position = getCursorPosition(this.canvas, e, this.props.getScale());
     this.session = new RectDrawingSession(this.canvasContext);
     this.session.saveImageData();
     this.session.start = position;
-
   };
 
   outOfCanvas(point: Point) {
@@ -55,6 +55,7 @@ export class CanvasLayer extends React.Component<Props, {}> {
   }
 
   onMouseMove = (e) => {
+    // preventTouchScroll(e);
     if (this.session) {
       const position = getCursorPosition(this.canvas, e, this.props.getScale());
       if (this.outOfCanvas(position)) {
@@ -76,6 +77,7 @@ export class CanvasLayer extends React.Component<Props, {}> {
   }
 
   onMouseUp = (e) => {
+    // preventTouchScroll(e);
     if (this.session) {
       this.onMouseMove(e);
       this.props.onRectangleComplete(this.session.rectangle);
@@ -104,6 +106,9 @@ export class CanvasLayer extends React.Component<Props, {}> {
       onMouseDown={this.onMouseDown}
       onMouseMove={this.onMouseMove}
       onMouseUp={this.onMouseUp}
+      onTouchStart={this.onMouseDown}
+      onTouchMove={this.onMouseMove}
+      onTouchEnd={this.onMouseUp}
     >
     </canvas>;
   }

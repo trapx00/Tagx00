@@ -2,7 +2,7 @@ import { DistrictNotation } from "./Districts";
 import React from "react"
 import { DistrictDrawer } from "./DistrictCanvas/DistrictDrawer";
 import { observer } from "mobx-react";
-import { getCursorPosition } from "../utils/getCursorPosition";
+import { disableTouchScroll, getCursorPosition } from "../utils/getCursorPosition";
 
 interface ExistingDistrictsLayerProps {
   districts: DistrictNotation[];
@@ -66,6 +66,8 @@ export class ExistingDistrictsLayer extends React.Component<ExistingDistrictsLay
                    width={this.props.width}
                    height={this.props.height}
                    onMouseDown={this.onMouseDown}
+                   onTouchMove={disableTouchScroll}
+                   onTouchStart={this.onMouseDown}
     >
 
     </canvas>;
