@@ -68,7 +68,7 @@ export class ThreeDimensionWholeWorkPage extends React.Component<Props, ThreeDim
     const { job } = notation;
     return <ThreeDimensionWorkPageLayout>
       <>
-        <ThreeDimensionPlayer url={this.props.notation.url}/>
+        <ThreeDimensionPlayer token={this.props.notation.token}/>
       </>
       <>
         <ThreeDimensionMissionTipCard audioMissionType={job.type}

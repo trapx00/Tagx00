@@ -6,7 +6,6 @@ import { WorkPageController } from "../WorkPageController";
 import { ThreeDimensionInstanceDetail } from "../../../../models/instance/3d/3dInstanceDetail";
 import { ThreeDimensionNotation } from "./shared";
 import { MissionType } from "../../../../models/mission/Mission";
-import { modelUrlEquals, ThreeDimensionModelUrl } from "../../../../models/mission/3d/3dModelUrl";
 
 
 export type Known3DJob = ThreeDimensionWholeJob;
@@ -22,7 +21,7 @@ function judgeJobComplete(job: Known3DJob) {
 export class ThreeDimensionWorkPageController extends WorkPageController<ThreeDimensionMissionDetail,
   ThreeDimensionInstanceDetail, ThreeDimensionJob, ThreeDimensionNotation> {
 
-  models: ThreeDimensionModelUrl[];
+  tokens: string[];
 
   currentInstanceDetail(): ThreeDimensionInstanceDetail {
     const {instance} = this.initialDetail;
@@ -32,7 +31,7 @@ export class ThreeDimensionWorkPageController extends WorkPageController<ThreeDi
         workResultId: index+"",
         instanceId: instance.instanceId,
         job: x.job,
-        url: x.url,
+        token: x.token,
         isDone: judgeJobComplete(x.job as any)
       })),
       instance: instance
@@ -41,12 +40,12 @@ export class ThreeDimensionWorkPageController extends WorkPageController<ThreeDi
 
   constructor(missionDetail: ThreeDimensionMissionDetail, instanceDetail: ThreeDimensionInstanceDetail) {
     super(missionDetail, instanceDetail);
-    this.models = missionDetail.models;
+    this.tokens = missionDetail.tokens;
 
-    for (const url of this.models) {
+    for (const token of this.tokens) {
         const result = instanceDetail.resultList
           && instanceDetail.resultList.find(x =>
-            modelUrlEquals(x.url,url)
+            x.token == token
             && x.job
             && x.job.type === ThreeDimensionMissionType.WHOLE);
         if (result) { //existing job, push in
@@ -54,7 +53,7 @@ export class ThreeDimensionWorkPageController extends WorkPageController<ThreeDi
           // this.workIndex++; // existing job, resume progress
         } else {
           this.currentNotations.push({
-            url: url,
+            token: token,
             job: {type: ThreeDimensionMissionType.WHOLE}
           });
         }

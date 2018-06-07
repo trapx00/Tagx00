@@ -3,11 +3,13 @@ import * as THREE from 'three';
 import Orbitcontrols from 'three-orbitcontrols';
 import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader'
 import Stats from 'stats-js';
-import { ThreeDimensionModelUrl } from "../../../../models/mission/3d/3dModelUrl";
+import { ThreeDimensionModel } from "../../../../models/mission/3d/3dModel";
+import { Inject } from "react.di";
+import { MissionService } from "../../../../api/MissionService";
 
 
 interface Props {
-  url: ThreeDimensionModelUrl;
+  token: string;
 }
 
 export class ThreeDimensionPlayer extends React.Component<Props, any> {
@@ -19,40 +21,36 @@ export class ThreeDimensionPlayer extends React.Component<Props, any> {
   light;
   controls;
 
+  @Inject missionService: MissionService;
+
   containerRef = React.createRef<HTMLDivElement>();
 
 
   initModel() {
 
     const mtlLoader = new MTLLoader();
-
+    const objLoader = new OBJLoader();
     //加载mtl文件
 
-    mtlLoader.load(this.props.url.mtlUrl, (material) => {
+    this.missionService.getModelByToken(this.props.token).then(res => {
 
-      const objLoader = new OBJLoader();
+      const mtl = mtlLoader.parse(res.mtl);
+      objLoader.setMaterials(mtl);
 
-      //设置当前加载的纹理
-
-      objLoader.setMaterials(material);
-
-      objLoader.load(this.props.url.objUrl, (object) => {
-
-        object.position.y = 0;
-        object.rotation.y = 0.5;
-        object.scale.set(0.05, 0.05, 0.05);
-        this.scene.add(object);
-
-      })
-
+      const object = objLoader.parse(res.obj);
+      object.position.y = 0;
+      object.rotation.y = 0.5;
+      object.scale.set(0.05, 0.05, 0.05);
+      this.scene.add(object);
     });
+
   }
 
   componentDidMount() {
 
     // init renderer
     this.renderer = new THREE.WebGLRenderer({antialias: true});
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(1000, 500);
     //告诉渲染器需要阴影效果
     this.renderer.setClearColor(0xffffff);
     this.containerRef.current.appendChild(this.renderer.domElement);
