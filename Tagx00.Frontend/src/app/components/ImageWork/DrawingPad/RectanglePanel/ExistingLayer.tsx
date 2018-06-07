@@ -2,7 +2,7 @@ import React from "react";
 import { RectangleDrawer } from "./RectangleDrawer";
 import { RectangleNotation } from "./RectangleNotation";
 import { Point } from "../../../../models/instance/image/Shapes";
-import { disableTouchScroll, getCursorPosition } from "../utils/getCursorPosition";
+import { getCursorPosition } from "../utils/getCursorPosition";
 
 interface Props {
   rectangles: RectangleNotation[];
@@ -67,7 +67,6 @@ export class ExistingLayer extends React.Component<Props, any> {
       width={this.props.width}
       height={this.props.height}
       onTouchStart={this.onMouseDown}
-      onTouchMove={disableTouchScroll}
       onMouseDown={this.onMouseDown}
       />;
   }

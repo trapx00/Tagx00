@@ -55,7 +55,6 @@ export class CanvasLayer extends React.Component<Props, {}> {
   }
 
   onMouseMove = (e) => {
-    // preventTouchScroll(e);
     if (this.session) {
       const position = getCursorPosition(this.canvas, e, this.props.getScale());
       if (this.outOfCanvas(position)) {
@@ -77,7 +76,6 @@ export class CanvasLayer extends React.Component<Props, {}> {
   }
 
   onMouseUp = (e) => {
-    // preventTouchScroll(e);
     if (this.session) {
       this.onMouseMove(e);
       this.props.onRectangleComplete(this.session.rectangle);
@@ -90,7 +88,6 @@ export class CanvasLayer extends React.Component<Props, {}> {
     this.canvas = ref;
     if (ref) {
       this.canvasContext = this.canvas.getContext("2d");
-      // this.session = new RectDrawingSession(this.canvasContext);
       this.drawer = new RectangleDrawer(this.canvasContext);
     }
 
@@ -99,7 +96,7 @@ export class CanvasLayer extends React.Component<Props, {}> {
   render() {
 
     return <canvas
-      style={{position: "absolute"}}
+      style={{position: "absolute", touchAction: "None"}}
       ref={this.ref}
       width={this.props.width}
       height={this.props.height}

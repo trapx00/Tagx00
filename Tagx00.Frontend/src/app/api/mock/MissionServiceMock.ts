@@ -70,7 +70,7 @@ const imageMission = {
     missionType: MissionType.IMAGE,
     imageMissionTypes: [
       ImageMissionType.DISTRICT,
-      // ImageMissionType.PART,
+      ImageMissionType.PART,
       // ImageMissionType.WHOLE
     ],
     start: new Date(),

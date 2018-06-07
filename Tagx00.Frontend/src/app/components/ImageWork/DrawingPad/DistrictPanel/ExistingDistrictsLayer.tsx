@@ -2,7 +2,7 @@ import { DistrictNotation } from "./Districts";
 import React from "react"
 import { DistrictDrawer } from "./DistrictCanvas/DistrictDrawer";
 import { observer } from "mobx-react";
-import { disableTouchScroll, getCursorPosition } from "../utils/getCursorPosition";
+import { getCursorPosition } from "../utils/getCursorPosition";
 
 interface ExistingDistrictsLayerProps {
   districts: DistrictNotation[];
@@ -54,7 +54,6 @@ export class ExistingDistrictsLayer extends React.Component<ExistingDistrictsLay
   onMouseDown = (e) => {
     const point = getCursorPosition(this.canvas,e, this.props.getScale());
     const clickedDistrict = this.props.districts.find(x=> x.district.isInside(point));
-    console.log(clickedDistrict);
     if (clickedDistrict) {
       this.props.onDistrictSelected(clickedDistrict);
     }
@@ -66,7 +65,7 @@ export class ExistingDistrictsLayer extends React.Component<ExistingDistrictsLay
                    width={this.props.width}
                    height={this.props.height}
                    onMouseDown={this.onMouseDown}
-                   onTouchMove={disableTouchScroll}
+                   // onTouchMove={preventTouchScroll}
                    onTouchStart={this.onMouseDown}
     >
 

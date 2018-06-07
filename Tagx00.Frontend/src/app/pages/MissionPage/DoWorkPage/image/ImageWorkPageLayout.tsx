@@ -2,6 +2,8 @@ import React, { ReactNode } from 'react';
 import styled from "styled-components";
 import { WorkPageLayout } from "../WorkPageLayout";
 
+const MAX_WIDTH = 1000;
+
 interface Props {
   children: ReactNode[];
   imageWidth: number;
@@ -17,10 +19,11 @@ interface PictureContainerProps {
 
 const PictureContainer = styled.div`
     overflow: hidden;
-    margin-right: 8px;
-    margin-bottom: 8px;
+    //margin-left: auto;
+    //margin-right: 4px
     width: ${(props: PictureContainerProps) => props.width};
     height: ${(props: PictureContainerProps) => props.height};
+    
 `;
 
 interface PictureProps {
@@ -33,13 +36,15 @@ const Picture = styled.div`
   transform: scale(1);
   width: ${(props: PictureProps) => props.width};
   height: ${(props: PictureProps) => props.height};
+      margin-left: auto;
+    margin-right: auto;
 `;
 
 
 export class ImageWorkPageLayout extends React.Component<Props, {}> {
 
-  pictureContainerRef = React.createRef() as any;
-  pictureRef = React.createRef() as any;
+  pictureContainerRef = React.createRef<HTMLDivElement>();
+  pictureRef = React.createRef<HTMLDivElement>();
   scale: number = 1;
 
   onResize = () => {
@@ -48,23 +53,28 @@ export class ImageWorkPageLayout extends React.Component<Props, {}> {
 
   adjustPictureSize = () => {
     const width = this.pictureContainerRef.current.clientWidth;
-    const newScale = width / this.props.imageWidth;
+    let newScale = width / this.props.imageWidth;
     if (newScale != this.scale) {
+
+
+      const imageWidth = newScale * this.props.imageWidth;
+      if (imageWidth > MAX_WIDTH){
+        newScale = MAX_WIDTH / this.props.imageWidth;
+      }
+
+      console.log(newScale);
+
       this.scale = newScale;
-      this.appendScale();
+      const height = this.scale * this.props.imageHeight;
+      this.pictureRef.current.style.transform = `scale(${this.scale})`;
+      this.pictureRef.current.style.width = `${imageWidth}px`;
+      this.pictureRef.current.style.height = `${height}px`;
+      // this.pictureContainerRef.current.style.width = `${imageWidth}px`;
+      this.pictureContainerRef.current.style.height = `${height}px`;
+
       this.props.setScale(newScale);
     }
   };
-
-  appendScale() {
-    const width = this.scale * this.props.imageWidth;
-    const height = this.scale * this.props.imageHeight;
-    this.pictureRef.current.style.transform = `scale(${this.scale})`;
-    // this.pictureRef.current.style.width = `${width}px`;
-    // this.pictureRef.current.style.height = `${height}px`;
-    // this.pictureContainerRef.current.style.width = `${width}px`;
-    this.pictureContainerRef.current.style.height = `${height}px`;
-  }
 
   componentDidUpdate() {
     this.adjustPictureSize();
@@ -75,7 +85,7 @@ export class ImageWorkPageLayout extends React.Component<Props, {}> {
   }
 
   componentWillUnmount() {
-    window.onresize = null;
+    window.onresize = undefined;
   }
 
   render() {

@@ -10,7 +10,7 @@ export interface NavItemProps {
 
 @Injectable
 export class NavStore {
-  @observable navMenuShown: boolean = true;
+  @observable navMenuShown: boolean = false;
 
   @observable currentSubNavs: NavItemProps[] = [];
 
