@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 public class ImageInstance extends Instance {
+
     @Column(name = "imageResults")
     @ElementCollection(targetClass = ImageResult.class)
     private List<ImageResult> imageResults;

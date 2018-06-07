@@ -29,7 +29,7 @@ public class DataCollectorServiceImpl implements DataCollectorService {
     public void collectData() {
         List<ImageInstance> imageInstanceList = imageInstanceDao.findAll();
         try {
-            File file = new File("/Users/apple/Documents/workspace/java/SE3/Tagx00.MachineLearning/data/proval/train.txt");
+            File file = new File("/Users/liangnan/Documents/train.txt");
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)));
             for (ImageInstance imageInstance : imageInstanceList) {
                 ImageInstance imageInstanceWithResults = getImageInstance(imageInstance.getInstanceId());

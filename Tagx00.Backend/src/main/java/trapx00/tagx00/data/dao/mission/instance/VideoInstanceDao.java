@@ -7,7 +7,7 @@ import trapx00.tagx00.entity.mission.instance.VideoInstance;
 
 import java.util.ArrayList;
 
-public interface VideoInstanceDao extends JpaRepository<VideoInstance, String> {
+public interface VideoInstanceDao extends JpaRepository<VideoInstance, String>{
     ArrayList<VideoInstance> findVideoInstancesByMissionId(String missionId);
 
     ArrayList<VideoInstance> findVideoInstancesByWorkerUsername(String workerUsername);

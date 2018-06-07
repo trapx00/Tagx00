@@ -2,20 +2,13 @@ package trapx00.tagx00.data.mission;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import trapx00.tagx00.data.dao.mission.ImageMissionDao;
-import trapx00.tagx00.data.dao.mission.MissionDao;
-import trapx00.tagx00.data.dao.mission.TextMissionDao;
-import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
-import trapx00.tagx00.data.dao.mission.instance.TextInstanceDao;
+import trapx00.tagx00.data.dao.mission.*;
+import trapx00.tagx00.data.dao.mission.instance.*;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
-import trapx00.tagx00.entity.mission.ImageMission;
-import trapx00.tagx00.entity.mission.Mission;
-import trapx00.tagx00.entity.mission.TextMission;
-import trapx00.tagx00.entity.mission.instance.ImageInstance;
-import trapx00.tagx00.entity.mission.instance.Instance;
-import trapx00.tagx00.entity.mission.instance.TextInstance;
-import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
-import trapx00.tagx00.entity.mission.instance.workresult.TextResult;
+import trapx00.tagx00.entity.ThreeDimensionMission;
+import trapx00.tagx00.entity.mission.*;
+import trapx00.tagx00.entity.mission.instance.*;
+import trapx00.tagx00.entity.mission.instance.workresult.*;
 import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -23,6 +16,7 @@ import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.PathUtil;
+import trapx00.tagx00.vo.mission.audio.AudioInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
@@ -30,6 +24,7 @@ import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceDetailVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceVo;
+import trapx00.tagx00.vo.mission.video.VideoInstanceDetailVo;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -44,15 +39,29 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     private final ImageMissionDao imageMissionDao;
     private final TextInstanceDao textInstanceDao;
     private final TextMissionDao textMissionDao;
+    private final AudioMissionDao audioMissionDao;
+    private final AudioInstanceDao audioInstanceDao;
+    private final VideoMissionDao videoMissionDao;
+    private final VideoInstanceDao videoInstanceDao;
+    private final ThreeDimensionInstanceDao threeDimensionInstanceDao;
+    private final ThreeDimensionMissionDao threeDimensionMissionDao;
 
     @Autowired
     public RequesterMissionDataServiceImpl(MissionDao missionDao, ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao,
-                                           TextMissionDao textMissionDao, TextInstanceDao textInstanceDao) {
+                                           TextMissionDao textMissionDao, TextInstanceDao textInstanceDao,AudioMissionDao audioMissionDao,AudioInstanceDao audioInstanceDao,VideoMissionDao videoMissionDao,
+                                           VideoInstanceDao videoInstanceDao,ThreeDimensionInstanceDao threeDimensionInstanceDao,
+                                           ThreeDimensionMissionDao threeDimensionMissionDao) {
         this.missionDao = missionDao;
         this.imageInstanceDao = imageInstanceDao;
         this.imageMissionDao = imageMissionDao;
         this.textInstanceDao = textInstanceDao;
         this.textMissionDao = textMissionDao;
+        this.audioInstanceDao = audioInstanceDao;
+        this.audioMissionDao = audioMissionDao;
+        this.videoInstanceDao = videoInstanceDao;
+        this.videoMissionDao = videoMissionDao;
+        this.threeDimensionInstanceDao = threeDimensionInstanceDao;
+        this.threeDimensionMissionDao = threeDimensionMissionDao;
     }
 
     /**
@@ -71,6 +80,21 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 break;
             case TEXT:
                 if ((result = textMissionDao.save((TextMission) mission)) == null) {
+                    throw new SystemException();
+                }
+                break;
+            case AUDIO:
+                if ((result = audioMissionDao.save((AudioMission) mission)) == null) {
+                    throw new SystemException();
+                }
+                break;
+            case VIDEO:
+                if ((result = videoMissionDao.save((VideoMission) mission)) == null) {
+                    throw new SystemException();
+                }
+                break;
+            case THREE_DIMENSION:
+                if ((result = threeDimensionMissionDao.save((ThreeDimensionMission) mission)) == null) {
                     throw new SystemException();
                 }
                 break;
@@ -103,6 +127,25 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 out.writeObject(((TextMission) mission).getTextMissionSettings());
                 out.close();
                 fileOut.close();
+                break;
+            case THREE_DIMENSION:
+                mission.setMissionId(getNextId(threeDimensionMissionDao.findAll(), MissionType.THREE_DIMENSION));
+                if ((result = threeDimensionMissionDao.save((ThreeDimensionMission) mission)) == null) {
+                    throw new SystemException();
+                }
+                break;
+            case VIDEO:
+                mission.setMissionId(getNextId(videoMissionDao.findAll(), MissionType.VIDEO));
+                if ((result = videoMissionDao.save((VideoMission) mission)) == null) {
+                    throw new SystemException();
+                }
+                break;
+
+            case AUDIO:
+                mission.setMissionId(getNextId(audioMissionDao.findAll(), MissionType.AUDIO));
+                if ((result = audioMissionDao.save((AudioMission) mission)) == null) {
+                    throw new SystemException();
+                }
                 break;
         }
         return result.getMissionId();
@@ -146,6 +189,37 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                     }
                     return generateTextInstanceDetailVo(textInstance, textResultSize);
                 }
+            case AUDIO:
+                AudioInstance audioInstance = audioInstanceDao.findAudioInstanceByInstanceId(instanceId);
+                if (audioInstance == null)
+                    return null;
+                else {
+                    int audioResultSize = 0;
+                    List<AudioResult> audioResults = audioInstance.getAudioResults();
+                    for (AudioResult audioResult : audioResults) {
+                        if (audioResult.isDone()) {
+                            audioResultSize++;
+                        }
+                    }
+                    return generateAudioInstanceDetailVo(audioInstance, audioResultSize);
+                }
+            case VIDEO:
+                VideoInstance videoInstance = videoInstanceDao.findVideoInstanceByInstanceId(instanceId);
+                if (videoInstance == null)
+                    return null;
+                else {
+                    int videoResultSize = 0;
+                    List<VideoResult> videoResults = videoInstance.getVideoResults();
+                    for (VideoResult videoResult : videoResults) {
+                        if (videoResult.isDone()) {
+                            videoResultSize++;
+                        }
+                    }
+                    return generateVideoInstanceDetailVo(videoInstance, videoResultSize);
+                }
+            case THREE_DIMENSION:
+
+
         }
         return null;
     }
@@ -186,6 +260,12 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                     }
                     instanceVos[i] = generateTextInstanceVo(textInstance, textResultSize);
                 }
+                break;
+            case THREE_DIMENSION:
+                break;
+            case VIDEO:
+                break;
+            case AUDIO:
                 break;
         }
         return instanceVos;
@@ -324,6 +404,16 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     private ImageInstanceDetailVo generateImageInstanceDetailVo(ImageInstance imageInstance, int completedCounts) {
         InstanceVo instanceVo = new InstanceVo(imageInstance.getInstanceId(), imageInstance.getExpRatio(), imageInstance.getExp(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), imageInstance.getMissionId(), imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts);
         return new ImageInstanceDetailVo(imageInstance.getMissionType(), instanceVo, imageInstance.getImageResults());
+    }
+
+    private AudioInstanceDetailVo generateAudioInstanceDetailVo(AudioInstance audioInstance, int completedCounts) {
+        InstanceVo instanceVo = new InstanceVo(audioInstance.getInstanceId(), audioInstance.getExpRatio(), audioInstance.getExp(), audioInstance.getCredits(), audioInstance.getComment(), audioInstance.getWorkerUsername(), audioInstance.getMissionInstanceState(), audioInstance.getMissionId(), audioInstance.getAcceptDate(), audioInstance.getSubmitDate(), audioInstance.isSubmitted(), completedCounts);
+        return new AudioInstanceDetailVo(audioInstance.getMissionType(), instanceVo, audioInstance.getAudioResults());
+    }
+
+    private VideoInstanceDetailVo generateVideoInstanceDetailVo(VideoInstance audioInstance, int completedCounts) {
+        InstanceVo instanceVo = new InstanceVo(audioInstance.getInstanceId(), audioInstance.getExpRatio(), audioInstance.getExp(), audioInstance.getCredits(), audioInstance.getComment(), audioInstance.getWorkerUsername(), audioInstance.getMissionInstanceState(), audioInstance.getMissionId(), audioInstance.getAcceptDate(), audioInstance.getSubmitDate(), audioInstance.isSubmitted(), completedCounts);
+        return new VideoInstanceDetailVo(audioInstance.getMissionType(), instanceVo, audioInstance.getVideoResults());
     }
 
     private ImageInstanceVo generateImageInstanceVo(ImageInstance imageInstance, int completedCounts) {
