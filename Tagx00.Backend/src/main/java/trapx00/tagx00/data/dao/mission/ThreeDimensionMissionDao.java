@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public interface ThreeDimensionMissionDao extends JpaRepository<ThreeDimensionMission, String> {
 
-    ThreeDimensionMissionDao findTHreeDimensionMissionByMissionId(String missionId);
+    ThreeDimensionMission findTHreeDimensionMissionByMissionId(String missionId);
 
-    ArrayList<ThreeDimensionMissionDao> findThreeDimensionMissionsByRequesterUsername(String requesterUsername);
+    ArrayList<ThreeDimensionMission> findThreeDimensionMissionsByRequesterUsername(String requesterUsername);
 }

@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Encoder;
-import trapx00.tagx00.data.dao.mission.ImageMissionDao;
-import trapx00.tagx00.data.dao.mission.TextMissionDao;
-import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
-import trapx00.tagx00.data.dao.mission.instance.TextInstanceDao;
+import trapx00.tagx00.data.dao.mission.*;
+import trapx00.tagx00.data.dao.mission.instance.*;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
 import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.TextMission;
@@ -49,14 +47,29 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     private final ImageMissionDao imageMissionDao;
     private final TextInstanceDao textInstanceDao;
     private final TextMissionDao textMissionDao;
-
+    private final AudioMissionDao audioMissionDao;
+    private final AudioInstanceDao audioInstanceDao;
+    private final VideoMissionDao videoMissionDao;
+    private final VideoInstanceDao videoInstanceDao;
+    private final ThreeDimensionInstanceDao threeDimensionInstanceDao;
+    private final ThreeDimensionMissionDao threeDimensionMissionDao;
     @Autowired
     public WorkerMissionDataServiceImpl(ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao,
-                                        TextMissionDao textMissionDao, TextInstanceDao textInstanceDao) {
+                                        TextMissionDao textMissionDao, TextInstanceDao textInstanceDao
+            ,AudioMissionDao audioMissionDao,AudioInstanceDao audioInstanceDao,VideoMissionDao videoMissionDao,
+                                        VideoInstanceDao videoInstanceDao,ThreeDimensionInstanceDao threeDimensionInstanceDao,
+                                        ThreeDimensionMissionDao threeDimensionMissionDao) {
         this.imageInstanceDao = imageInstanceDao;
         this.imageMissionDao = imageMissionDao;
         this.textInstanceDao = textInstanceDao;
         this.textMissionDao = textMissionDao;
+        this.audioInstanceDao = audioInstanceDao;
+        this.audioMissionDao = audioMissionDao;
+        this.videoInstanceDao = videoInstanceDao;
+        this.videoMissionDao = videoMissionDao;
+        this.threeDimensionInstanceDao = threeDimensionInstanceDao;
+        this.threeDimensionMissionDao = threeDimensionMissionDao;
+
     }
 
     /**
@@ -80,6 +93,12 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 TextInstanceDetailVo textInstanceDetailVo = (TextInstanceDetailVo) instanceDetailVo;
                 TextInstance textInstance = generateTextInstance(instanceVo, textInstanceDetailVo);
                 result = saveTextInstance(textInstance);
+                break;
+            case THREE_DIMENSION:
+                break;
+            case VIDEO:
+            case AUDIO:
+                
         }
         if (result == null)
             throw new SystemException();

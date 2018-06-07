@@ -17,6 +17,7 @@ import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.PathUtil;
 import trapx00.tagx00.vo.mission.audio.AudioInstanceDetailVo;
+import trapx00.tagx00.vo.mission.audio.AudioInstanceVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageInstanceVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
@@ -25,6 +26,7 @@ import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceDetailVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceVo;
 import trapx00.tagx00.vo.mission.video.VideoInstanceDetailVo;
+import trapx00.tagx00.vo.mission.video.VideoInstanceVo;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -264,8 +266,36 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
             case THREE_DIMENSION:
                 break;
             case VIDEO:
+                instances.addAll(videoInstanceDao.findVideoInstancesByMissionId(missionId));
+                instanceVos = new InstanceVo[instances.size()];
+                for (int i = 0; i < instanceVos.length; i++) {
+                    Instance instanceVo = instances.get(i);
+                    int videoResultSize = 0;
+                    VideoInstance videoInstance = (VideoInstance) instanceVo;
+                    List<VideoResult> videoResults = videoInstance.getVideoResults();
+                    for (VideoResult videoResult : videoResults) {
+                        if (videoResult.isDone()) {
+                            videoResultSize++;
+                        }
+                    }
+                    instanceVos[i] = generateVideoInstanceVo(videoInstance, videoResultSize);
+                }
                 break;
             case AUDIO:
+                instances.addAll(audioInstanceDao.findAudioInstancesByMissionId(missionId));
+                instanceVos = new InstanceVo[instances.size()];
+                for (int i = 0; i < instanceVos.length; i++) {
+                    Instance instanceVo = instances.get(i);
+                    int audioResultSize = 0;
+                    AudioInstance audioInstance = (AudioInstance) instanceVo;
+                    List<AudioResult> audioResults = audioInstance.getAudioResults();
+                    for (AudioResult videoResult : audioResults) {
+                        if (videoResult.isDone()) {
+                            audioResultSize++;
+                        }
+                    }
+                    instanceVos[i] = generateAudioInstanceVo(audioInstance, audioResultSize);
+                }
                 break;
         }
         return instanceVos;
@@ -298,6 +328,24 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                     textResultSize++;
             }
             result.add(generateTextInstanceVo(textInstance, textResultSize));
+        }
+        for (AudioInstance audioInstance : audioInstanceDao.findAll()) {
+            int audioResultSize = 0;
+            List<AudioResult> audioResults = audioInstance.getAudioResults();
+            for (AudioResult textResult : audioResults) {
+                if (textResult.isDone())
+                    audioResultSize++;
+            }
+            result.add(generateAudioInstanceVo(audioInstance, audioResultSize));
+        }
+        for (VideoInstance videoInstance : videoInstanceDao.findAll()) {
+            int videoResultSize = 0;
+            List<VideoResult> videoResults = videoInstance.getVideoResults();
+            for (VideoResult textResult : videoResults) {
+                if (textResult.isDone())
+                    videoResultSize++;
+            }
+            result.add(generateVideoInstanceVo(videoInstance, videoResultSize));
         }
         return result.toArray(new InstanceVo[result.size()]);
     }
@@ -343,6 +391,16 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
             case TEXT:
                 mission = getMissionByMissionId(missionId);
                 break;
+            case AUDIO:
+                mission=audioMissionDao.findAudioMissionByMissionId(missionId);
+                break;
+            case VIDEO:
+                mission=videoMissionDao.findVideoMissionByMissionId(missionId);
+                break;
+            case THREE_DIMENSION:
+                mission=threeDimensionMissionDao.findTHreeDimensionMissionByMissionId(missionId);
+                break;
+
         }
         mission.setCredits(mission.getCredits() + credits);
         saveMission(mission);
@@ -358,16 +416,32 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
     public void updateInstance(String instanceId, MissionFinalizeVo missionFinalizeVo, MissionType missionType) throws SystemException {
         Instance instance = null;
         Mission mission = null;
+        String missionId;
         switch (missionType) {
             case IMAGE:
                 instance = imageInstanceDao.findImageInstanceByInstanceId(instanceId);
-                String missionId = instance.getMissionId();
+                missionId = instance.getMissionId();
                 mission = imageMissionDao.findImageMissionByMissionId(missionId);
                 break;
             case TEXT:
                 instance = textInstanceDao.findTextInstanceByInstanceId(instanceId);
-                String missionId1 = instance.getMissionId();
-                mission = textMissionDao.findTextMissionByMissionId(missionId1);
+                missionId = instance.getMissionId();
+                mission = textMissionDao.findTextMissionByMissionId(missionId);
+                break;
+            case THREE_DIMENSION:
+                instance = threeDimensionInstanceDao.findThreeDimensionInstanceByInstanceId(instanceId);
+                missionId = instance.getMissionId();
+                mission = threeDimensionMissionDao.findTHreeDimensionMissionByMissionId(missionId);
+                break;
+            case VIDEO:
+                instance = videoInstanceDao.findVideoInstanceByInstanceId(instanceId);
+                missionId = instance.getMissionId();
+                mission = videoMissionDao.findVideoMissionByMissionId(missionId);
+                break;
+            case AUDIO:
+                instance = audioInstanceDao.findAudioInstanceByInstanceId(instanceId);
+                missionId = instance.getMissionId();
+                mission = audioMissionDao.findAudioMissionByMissionId(missionId);
                 break;
         }
         instance.setMissionInstanceState(MissionInstanceState.FINALIZED);
@@ -386,6 +460,22 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                     throw new SystemException();
                 }
                 break;
+            case AUDIO:
+                if (audioInstanceDao.save((AudioInstance) instance) == null) {
+                    throw new SystemException();
+                }
+                break;
+            case VIDEO:
+                if (videoInstanceDao.save((VideoInstance) instance) == null) {
+                    throw new SystemException();
+                }
+                break;
+            case THREE_DIMENSION:
+                if (threeDimensionInstanceDao.save((ThreeDimensionInstance) instance) == null) {
+                    throw new SystemException();
+                }
+                break;
+
         }
     }
 
@@ -430,6 +520,18 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
 
     private TextInstanceVo generateTextInstanceVo(Instance instance, int completedCounts) {
         return new TextInstanceVo(instance.getInstanceId(), instance.getExpRatio(), instance.getExp(), instance.getCredits(), instance.getComment(), instance.getWorkerUsername(), instance.getMissionInstanceState(),
+                instance.getMissionId(), instance.getAcceptDate(), instance.getSubmitDate(),
+                instance.isSubmitted(), completedCounts);
+    }
+
+    private VideoInstanceVo generateVideoInstanceVo(Instance instance, int completedCounts) {
+        return new VideoInstanceVo(instance.getInstanceId(), instance.getExpRatio(), instance.getExp(), instance.getCredits(), instance.getComment(), instance.getWorkerUsername(), instance.getMissionInstanceState(),
+                instance.getMissionId(), instance.getAcceptDate(), instance.getSubmitDate(),
+                instance.isSubmitted(), completedCounts);
+    }
+
+    private AudioInstanceVo generateAudioInstanceVo(Instance instance, int completedCounts) {
+        return new AudioInstanceVo(instance.getInstanceId(), instance.getExpRatio(), instance.getExp(), instance.getCredits(), instance.getComment(), instance.getWorkerUsername(), instance.getMissionInstanceState(),
                 instance.getMissionId(), instance.getAcceptDate(), instance.getSubmitDate(),
                 instance.isSubmitted(), completedCounts);
     }

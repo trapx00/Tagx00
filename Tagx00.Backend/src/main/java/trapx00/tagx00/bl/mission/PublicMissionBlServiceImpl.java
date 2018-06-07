@@ -5,9 +5,11 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.dataservice.upload.TextDataService;
+import trapx00.tagx00.dataservice.upload.ThreeDimensionDataService;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.TextNotExistException;
+import trapx00.tagx00.exception.viewexception.ThreeDimensionNotExistException;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
 import trapx00.tagx00.response.mission.TextGetResponse;
@@ -27,11 +29,14 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
 
     private final PublicMissionDataService publicMissionDataService;
     private final TextDataService textDataService;
+    private final ThreeDimensionDataService threeDimensionDataService;
 
     @Autowired
-    public PublicMissionBlServiceImpl(PublicMissionDataService publicMissionDataService, TextDataService textDataService) {
+    public PublicMissionBlServiceImpl(PublicMissionDataService publicMissionDataService, TextDataService textDataService,
+                                      ThreeDimensionDataService threeDimensionDataService) {
         this.publicMissionDataService = publicMissionDataService;
         this.textDataService = textDataService;
+        this.threeDimensionDataService=threeDimensionDataService;
     }
 
     @Override
@@ -67,8 +72,8 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
      * @return
      */
     @Override
-    public ThreeModelGetResponse get3d(String tokens) {
-        return null;
+    public ThreeModelGetResponse get3d(String tokens)throws ThreeDimensionNotExistException, SystemException {
+        return new ThreeModelGetResponse(threeDimensionDataService.get3d(tokens));
     }
 
     /**
