@@ -74,7 +74,7 @@ export class RequesterService {
     return res.response;
   }
 
-  async uploadThreeDeminsionFile(missionId: string, formData: FormData, order: number, isCover: boolean, token: string): Promise<ThreeDimensionModelUrl> {
+  async uploadThreeDimensionFile(missionId: string, formData: FormData, order: number, isCover: boolean, token: string): Promise<ThreeDimensionModelUrl> {
     const res = await this.http.sendFile(
       formData,
       `/upload/mission/3d/${missionId}`,

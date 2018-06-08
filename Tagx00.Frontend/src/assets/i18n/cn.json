@@ -305,7 +305,7 @@
           "videos": "视频文件",
           "requireVideos": "请上传至少一份视频文件"
         },
-        "ThreeDimension": {
+        "THREE_DIMENSION": {
           "title": "3D任务属性",
           "types": {
             "name": "3D任务类型",

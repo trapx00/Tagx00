@@ -14,7 +14,7 @@ import { LocaleStore } from "../../../../../stores/LocaleStore";
 import { RequesterService } from "../../../../../api/RequesterService";
 import { VideoMissionType } from "../../../../../models/mission/video/VideoMission";
 import { TagSelector } from "../../../../../components/TagSelector";
-import { VideoUploadPanel } from "../VideoUploadPanel";
+import { VideoUploadPanel } from "./VideoUploadPanel";
 
 const CheckboxGroup = Checkbox.Group;
 const {RangePicker} = DatePicker;

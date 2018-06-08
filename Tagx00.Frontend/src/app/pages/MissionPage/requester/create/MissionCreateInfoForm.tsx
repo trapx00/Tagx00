@@ -6,7 +6,7 @@ import { Button, Col, DatePicker, Form, Input, Modal, Row, Progress } from "antd
 import moment from 'moment';
 import { FormItem } from "../../../../components/Form/FormItem";
 import { TopicSelector } from "./image/TopicSelector";
-import { ImageUploadPanel } from "./ImageUploadPanel";
+import { ImageUploadPanel } from "./image/ImageUploadPanel";
 import { CreditInput } from "../../../../components/Pay/CreditInput";
 import { MissionCreateInfo } from "./MissionCreateInfo";
 import { observer } from "mobx-react";

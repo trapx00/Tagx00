@@ -14,7 +14,7 @@ import { AudioMissionType } from "../../../../../models/mission/audio/AudioMissi
 import { Checkbox, DatePicker } from "antd";
 import { FormItem } from "../../../../../components/Form/FormItem";
 import { TagSelector } from "../../../../../components/TagSelector";
-import { AudioUploadPanel } from "../AudioUploadPanel";
+import { AudioUploadPanel } from "./AudioUploadPanel";
 
 
 const CheckboxGroup = Checkbox.Group;

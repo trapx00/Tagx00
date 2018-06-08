@@ -5,8 +5,12 @@ import { MissionType } from "../../../../../models/mission/Mission";
 import { MissionCreateInfo } from "../MissionCreateInfo";
 import { ThreeDimensionMissionProperties } from "../../../../../models/mission/3d/3dMissionProperties";
 
+export interface ThreeDimensionModel {
+  mtl: UploadFile,
+  obj: UploadFile
+}
 export class ThreeDimensionMissionCreateInfo extends MissionCreateInfo {
-  @observable threeDimensions: UploadFile[] = [];
+  @observable threeDimensions: ThreeDimensionModel[] = [];
 
   @observable allowCustomTag: boolean = true;
   @observable tags: string[] = [];
@@ -27,12 +31,16 @@ export class ThreeDimensionMissionCreateInfo extends MissionCreateInfo {
   }
 
 
-  @computed get threeDsValid() {
+  @computed get threeDimensionsValid() {
     return !this.createAttempted || this.threeDimensions.length > 0;
   }
 
+  @computed get mulMatchObjValid() {
+    return ;
+  }
+
   valid() {
-    return super.valid() && this.allowedTagsValid && this.threeDsValid;
+    return super.valid() && this.allowedTagsValid && this.threeDimensionsValid;
   }
 
 }

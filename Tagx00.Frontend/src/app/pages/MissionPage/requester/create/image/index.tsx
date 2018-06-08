@@ -4,7 +4,7 @@ import { action, observable, runInAction, toJS } from "mobx";
 import { ImageMissionCreateInfo } from "./ImageMissionCreateInfo";
 import { Checkbox, DatePicker, Modal, Button } from 'antd';
 import { ImageMissionType } from "../../../../../models/mission/image/ImageMission";
-import { ImageUploadPanel } from "../ImageUploadPanel";
+import { ImageUploadPanel } from "./ImageUploadPanel";
 import { RequesterService } from "../../../../../api/RequesterService";
 import { Inject } from "react.di";
 import { LocaleStore } from "../../../../../stores/LocaleStore";
