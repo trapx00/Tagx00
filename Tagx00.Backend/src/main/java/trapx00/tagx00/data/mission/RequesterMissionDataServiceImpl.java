@@ -25,6 +25,8 @@ import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceDetailVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceVo;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionInstanceDetailVo;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionInstanceVo;
 import trapx00.tagx00.vo.mission.video.VideoInstanceDetailVo;
 import trapx00.tagx00.vo.mission.video.VideoInstanceVo;
 
@@ -220,6 +222,19 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                     return generateVideoInstanceDetailVo(videoInstance, videoResultSize);
                 }
             case THREE_DIMENSION:
+                ThreeDimensionInstance threeDimensionInstance = threeDimensionInstanceDao.findThreeDimensionInstanceByInstanceId(instanceId);
+                if (threeDimensionInstance == null)
+                    return null;
+                else {
+                    int threeDimensionResultSize = 0;
+                    List<ThreeDimensionResult> threeDimensionResults = threeDimensionInstance.getThreeDimensionResults();
+                    for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
+                        if (threeDimensionResult.isDone()) {
+                            threeDimensionResultSize++;
+                        }
+                    }
+                    return generateThreeDimensionInstanceDetailVo(threeDimensionInstance, threeDimensionResultSize);
+                }
 
 
         }
@@ -264,6 +279,20 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 }
                 break;
             case THREE_DIMENSION:
+                instances.addAll(threeDimensionInstanceDao.findThreeDimensionInstancesByWorkerUsername(missionId));
+                instanceVos = new InstanceVo[instances.size()];
+                for (int i = 0; i < instanceVos.length; i++) {
+                    Instance instanceVo = instances.get(i);
+                    int threeDiemensionResultSize = 0;
+                    ThreeDimensionInstance threeDimensionInstance = (ThreeDimensionInstance) instanceVo;
+                    List<ThreeDimensionResult> threeDimensionResults = threeDimensionInstance.getThreeDimensionResults();
+                    for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
+                        if (threeDimensionResult.isDone()) {
+                            threeDiemensionResultSize++;
+                        }
+                    }
+                    instanceVos[i] = generateThreeDimensionInstanceVo(threeDimensionInstance, threeDiemensionResultSize);
+                }
                 break;
             case VIDEO:
                 instances.addAll(videoInstanceDao.findVideoInstancesByMissionId(missionId));
@@ -346,6 +375,16 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                     videoResultSize++;
             }
             result.add(generateVideoInstanceVo(videoInstance, videoResultSize));
+        }
+
+        for (ThreeDimensionInstance threeDimensionInstance : threeDimensionInstanceDao.findAll()) {
+            int threeDimensionResultSize = 0;
+            List<ThreeDimensionResult> threeDimensionResults = threeDimensionInstance.getThreeDimensionResults();
+            for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
+                if (threeDimensionResult.isDone())
+                    threeDimensionResultSize++;
+            }
+            result.add(generateThreeDimensionInstanceVo(threeDimensionInstance, threeDimensionResultSize));
         }
         return result.toArray(new InstanceVo[result.size()]);
     }
@@ -506,6 +545,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         return new VideoInstanceDetailVo(audioInstance.getMissionType(), instanceVo, audioInstance.getVideoResults());
     }
 
+    private ThreeDimensionInstanceDetailVo generateThreeDimensionInstanceDetailVo(ThreeDimensionInstance audioInstance, int completedCounts) {
+        InstanceVo instanceVo = new InstanceVo(audioInstance.getInstanceId(), audioInstance.getExpRatio(), audioInstance.getExp(), audioInstance.getCredits(), audioInstance.getComment(), audioInstance.getWorkerUsername(), audioInstance.getMissionInstanceState(), audioInstance.getMissionId(), audioInstance.getAcceptDate(), audioInstance.getSubmitDate(), audioInstance.isSubmitted(), completedCounts);
+        return new ThreeDimensionInstanceDetailVo(audioInstance.getMissionType(), instanceVo, audioInstance.getThreeDimensionResults());
+    }
+
     private ImageInstanceVo generateImageInstanceVo(ImageInstance imageInstance, int completedCounts) {
         return new ImageInstanceVo(imageInstance.getInstanceId(), imageInstance.getExpRatio(), imageInstance.getExp(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getWorkerUsername(),
                 imageInstance.getMissionInstanceState(), imageInstance.getMissionId(),
@@ -520,6 +564,12 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
 
     private TextInstanceVo generateTextInstanceVo(Instance instance, int completedCounts) {
         return new TextInstanceVo(instance.getInstanceId(), instance.getExpRatio(), instance.getExp(), instance.getCredits(), instance.getComment(), instance.getWorkerUsername(), instance.getMissionInstanceState(),
+                instance.getMissionId(), instance.getAcceptDate(), instance.getSubmitDate(),
+                instance.isSubmitted(), completedCounts);
+    }
+
+    private ThreeDimensionInstanceVo generateThreeDimensionInstanceVo(Instance instance, int completedCounts) {
+        return new ThreeDimensionInstanceVo(instance.getInstanceId(), instance.getExpRatio(), instance.getExp(), instance.getCredits(), instance.getComment(), instance.getWorkerUsername(), instance.getMissionInstanceState(),
                 instance.getMissionId(), instance.getAcceptDate(), instance.getSubmitDate(),
                 instance.isSubmitted(), completedCounts);
     }

@@ -6,6 +6,7 @@ import trapx00.tagx00.data.dao.mission.*;
 import trapx00.tagx00.data.dao.mission.instance.*;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
+import trapx00.tagx00.entity.ThreeDimensionMission;
 import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
@@ -19,6 +20,8 @@ import trapx00.tagx00.vo.mission.image.ImageMissionDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageMissionPublicItemVo;
 import trapx00.tagx00.vo.mission.text.TextMissionDetailVo;
 import trapx00.tagx00.vo.mission.text.TextMissionPublicItemVo;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionDetailVo;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionPublicItemVo;
 import trapx00.tagx00.vo.mission.video.VideoMissionDetailVo;
 import trapx00.tagx00.vo.mission.video.VideoMissionPublicItemVo;
 
@@ -95,6 +98,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                     result[i]=generateVideoMissionPublicItemVo((VideoMission)missions[i]);
                     break;
                 case THREE_DIMENSION:
+                    result[i]=generateThreeMissionPublicItemVo((ThreeDimensionMission) missions[i]);
                     break;
             }
         }
@@ -171,6 +175,19 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                 }
                 break;
             case THREE_DIMENSION:
+                ThreeDimensionMission threeDimensionMission = threeDimensionMissionDao.findTHreeDimensionMissionByMissionId(missionId);
+                if (threeDimensionMission == null)
+                    return null;
+                if (threeDimensionMission.getMissionType().equals(MissionType.THREE_DIMENSION)) {
+                    missionDetailVo = new ThreeDimensionMissionDetailVo(new ThreeDimensionMissionPublicItemVo(
+                            missionId, threeDimensionMission.getTitle(), threeDimensionMission.getDescription(), threeDimensionMission.getTopics(), missionType,
+                            threeDimensionMission.getStart(), threeDimensionMission.getEnd(), threeDimensionMission.getCoverUrl(),
+                            threeDimensionMission.getLevel(), threeDimensionMission.getCredits(), threeDimensionMission.getMinimalWorkerLevel(),
+                            threeDimensionMission.getThreeDimensionModelUrls().size() , threeDimensionMission.getRequesterUsername(),
+                            threeDimensionMission.isAllowCustomTag(), threeDimensionMission.getAllowedTags()
+                    ),
+                            threeDimensionMission.getMissionState(), threeDimensionMission.getRequesterUsername(), MissionType.THREE_DIMENSION, threeDimensionMission.getThreeDimensionModelUrls());
+                }
                 break;
             case VIDEO:
                 VideoMission videoMission = videoMissionDao.findVideoMissionByMissionId(missionId);
@@ -274,6 +291,16 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                 videoMission.getStart(), videoMission.getEnd(), videoMission.getCoverUrl(),
                 videoMission.getLevel(), videoMission.getCredits(), videoMission.getMinimalWorkerLevel(),
                 videoMission.getVideoUrls().size() * videoMission.getVideoMissionTypes().size(), videoMission.getRequesterUsername(),
+                videoMission.isAllowCustomTag(), videoMission.getAllowedTags());
+    }
+
+    private ThreeDimensionMissionPublicItemVo generateThreeMissionPublicItemVo(ThreeDimensionMission videoMission) {
+        return new ThreeDimensionMissionPublicItemVo(
+                videoMission.getMissionId(), videoMission.getTitle(), videoMission.getDescription(),
+                videoMission.getTopics(), videoMission.getMissionType(),
+                videoMission.getStart(), videoMission.getEnd(), videoMission.getCoverUrl(),
+                videoMission.getLevel(), videoMission.getCredits(), videoMission.getMinimalWorkerLevel(),
+                videoMission.getThreeDimensionModelUrls().size() , videoMission.getRequesterUsername(),
                 videoMission.isAllowCustomTag(), videoMission.getAllowedTags());
     }
 

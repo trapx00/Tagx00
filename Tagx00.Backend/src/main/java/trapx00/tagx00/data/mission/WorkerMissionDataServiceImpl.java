@@ -9,15 +9,13 @@ import sun.misc.BASE64Encoder;
 import trapx00.tagx00.data.dao.mission.*;
 import trapx00.tagx00.data.dao.mission.instance.*;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
+import trapx00.tagx00.entity.ThreeDimensionMission;
 import trapx00.tagx00.entity.mission.AudioMission;
 import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.TextMission;
 import trapx00.tagx00.entity.mission.VideoMission;
 import trapx00.tagx00.entity.mission.instance.*;
-import trapx00.tagx00.entity.mission.instance.workresult.AudioResult;
-import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
-import trapx00.tagx00.entity.mission.instance.workresult.TextResult;
-import trapx00.tagx00.entity.mission.instance.workresult.VideoResult;
+import trapx00.tagx00.entity.mission.instance.workresult.*;
 import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
@@ -33,6 +31,8 @@ import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceDetailVo;
 import trapx00.tagx00.vo.mission.text.TextInstanceVo;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionInstanceDetailVo;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionInstanceVo;
 import trapx00.tagx00.vo.mission.video.VideoInstanceDetailVo;
 import trapx00.tagx00.vo.mission.video.VideoInstanceVo;
 
@@ -101,6 +101,9 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 result = saveTextInstance(textInstance);
                 break;
             case THREE_DIMENSION:
+                ThreeDimensionInstanceDetailVo threeDimensionInstanceDetailVo = (ThreeDimensionInstanceDetailVo) instanceDetailVo;
+                ThreeDimensionInstance threeDimensionInstance = generateThreeDimensionInstance(instanceVo, threeDimensionInstanceDetailVo);
+                result = saveThreeDimensionInstance(threeDimensionInstance);
                 break;
             case VIDEO:
                 VideoInstanceDetailVo videoInstanceDetailVo = (VideoInstanceDetailVo) instanceDetailVo;
@@ -149,15 +152,19 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 AudioInstanceDetailVo audioInstanceDetailVo = (AudioInstanceDetailVo) instanceDetailVo;
                 AudioInstance audioInstance = generateAudioInstance(instanceVo, audioInstanceDetailVo);
                 audioInstance.setInstanceId(getNextId(audioInstanceDao.findAll(), MissionType.AUDIO));
-                result = audioInstanceDao.save(audioInstance);
+                result = saveAudioInstance(audioInstance);
                 break;
             case VIDEO:
                 VideoInstanceDetailVo videoInstanceDetailVo = (VideoInstanceDetailVo) instanceDetailVo;
                 VideoInstance videoInstance = generateVideoInstance(instanceVo, videoInstanceDetailVo);
                 videoInstance.setInstanceId(getNextId(videoInstanceDao.findAll(), MissionType.VIDEO));
-                result = videoInstanceDao.save(videoInstance);
+                result = saveVideoInstance(videoInstance);
                 break;
             case THREE_DIMENSION:
+                ThreeDimensionInstanceDetailVo threeDimensionInstanceDetailVo = (ThreeDimensionInstanceDetailVo) instanceDetailVo;
+                ThreeDimensionInstance threeDimensionInstance = generateThreeDimensionInstance(instanceVo, threeDimensionInstanceDetailVo);
+                threeDimensionInstance.setInstanceId(getNextId(threeDimensionInstanceDao.findAll(), MissionType.THREE_DIMENSION));
+                result = saveThreeDimensionInstance(threeDimensionInstance);
                 break;
         }
         if (result == null)
@@ -184,7 +191,11 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 textInstance.setMissionInstanceState(MissionInstanceState.ABANDONED);
                 saveTextInstance(textInstance);
                 break;
-            case THREE_DIMENSION:break;
+            case THREE_DIMENSION:
+                ThreeDimensionInstance threeDimensionInstance = threeDimensionInstanceDao.findThreeDimensionInstanceByInstanceId(instanceId);
+                threeDimensionInstance.setMissionInstanceState(MissionInstanceState.ABANDONED);
+                saveThreeDimensionInstance(threeDimensionInstance);
+                break;
             case VIDEO:
                 VideoInstance videoInstance = videoInstanceDao.findVideoInstanceByInstanceId(instanceId);
                 videoInstance.setMissionInstanceState(MissionInstanceState.ABANDONED);
@@ -258,6 +269,13 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                     instanceVos[i] = generateVideoInstanceVo(instance, instanceResultIdsSize);
                     break;
                 case THREE_DIMENSION:
+                    List<ThreeDimensionResult> threeDimensionResults = ((ThreeDimensionInstance) instance).getThreeDimensionResults();
+                    for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
+                        if (threeDimensionResult.isDone()) {
+                            instanceResultIdsSize++;
+                        }
+                    }
+                    instanceVos[i] = generateThreeDimensionInstanceVo(instance, instanceResultIdsSize);
                     break;
             }
 
@@ -306,6 +324,14 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         }
                         return generateTextInstanceDetailVo(textInstance, instanceResultIdsSize);
                     case THREE_DIMENSION:
+                        ThreeDimensionInstance threeDimensionInstance = getThreeDimensionInstance(instance1.getInstanceId());
+                        List<ThreeDimensionResult> threeDimensionResults = threeDimensionInstance.getThreeDimensionResults();
+                        for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
+                            if (threeDimensionResult.isDone()) {
+                                instanceResultIdsSize++;
+                            }
+                        }
+                        return generateThreeDimensionInstanceDetailVo(threeDimensionInstance, instanceResultIdsSize);
                     case VIDEO:
                         VideoInstance videoInstance = getVideoInstance(instance1.getInstanceId());
                         List<VideoResult> videoResults = videoInstance.getVideoResults();
@@ -425,6 +451,16 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 textResults, videoMission);
     }
 
+    private ThreeDimensionInstance generateThreeDimensionInstance(InstanceVo instanceVo, ThreeDimensionInstanceDetailVo instanceDetailVo) {
+        ThreeDimensionMission threeDimensionMission = threeDimensionMissionDao.findTHreeDimensionMissionByMissionId(instanceVo.getMissionId());
+        List<ThreeDimensionResult> threeDimensionResults = instanceDetailVo.getResultList() == null ? new ArrayList<>() : instanceDetailVo.getResultList();
+        return new ThreeDimensionInstance(instanceVo.getInstanceId(), instanceVo.getWorkerUsername(), instanceVo.getMissionInstanceState(),
+                MissionType.THREE_DIMENSION, instanceVo.getAcceptDate(), instanceVo.getSubmitDate(),
+                instanceVo.isSubmitted(), instanceVo.getMissionId(), instanceVo.getExp(),
+                instanceVo.getExpRatio(), instanceVo.getCredits(), instanceVo.getComment(),
+                threeDimensionResults, threeDimensionMission);
+    }
+
     private AudioInstance generateAudioInstance(InstanceVo instanceVo, AudioInstanceDetailVo instanceDetailVo) {
         AudioMission audioMission = audioMissionDao.findAudioMissionByMissionId(instanceVo.getMissionId());
         List<AudioResult> audioResults = instanceDetailVo.getResultList() == null ? new ArrayList<>() : instanceDetailVo.getResultList();
@@ -456,7 +492,11 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 instance.getMissionId(), instance.getAcceptDate(), instance.getSubmitDate(),
                 instance.isSubmitted(), completedCounts);
     }
-
+    private ThreeDimensionInstanceVo generateThreeDimensionInstanceVo(Instance instance, int completedCounts) {
+        return new ThreeDimensionInstanceVo(instance.getInstanceId(), instance.getExpRatio(), instance.getExp(), instance.getCredits(), instance.getComment(), instance.getWorkerUsername(), instance.getMissionInstanceState(),
+                instance.getMissionId(), instance.getAcceptDate(), instance.getSubmitDate(),
+                instance.isSubmitted(), completedCounts);
+    }
     private ImageInstanceDetailVo generateImageInstanceDetailVo(ImageInstance imageInstance, int completedCounts) {
         InstanceVo instanceVo = new InstanceVo(imageInstance.getInstanceId(), imageInstance.getExpRatio(), imageInstance.getExp(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), imageInstance.getMissionId(), imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts);
         return new ImageInstanceDetailVo(imageInstance.getMissionType(), instanceVo, imageInstance.getImageResults());
@@ -469,7 +509,10 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         InstanceVo instanceVo = new InstanceVo(imageInstance.getInstanceId(), imageInstance.getExpRatio(), imageInstance.getExp(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), imageInstance.getMissionId(), imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts);
         return new AudioInstanceDetailVo(imageInstance.getMissionType(), instanceVo, imageInstance.getAudioResults());
     }
-
+    private ThreeDimensionInstanceDetailVo generateThreeDimensionInstanceDetailVo(ThreeDimensionInstance audioInstance, int completedCounts) {
+        InstanceVo instanceVo = new InstanceVo(audioInstance.getInstanceId(), audioInstance.getExpRatio(), audioInstance.getExp(), audioInstance.getCredits(), audioInstance.getComment(), audioInstance.getWorkerUsername(), audioInstance.getMissionInstanceState(), audioInstance.getMissionId(), audioInstance.getAcceptDate(), audioInstance.getSubmitDate(), audioInstance.isSubmitted(), completedCounts);
+        return new ThreeDimensionInstanceDetailVo(audioInstance.getMissionType(), instanceVo, audioInstance.getThreeDimensionResults());
+    }
     private TextInstanceDetailVo generateTextInstanceDetailVo(TextInstance textinstance, int completedCounts) {
         InstanceVo instanceVo = new InstanceVo(textinstance.getInstanceId(), textinstance.getExpRatio(), textinstance.getExp(), textinstance.getCredits(), textinstance.getComment(), textinstance.getWorkerUsername(), textinstance.getMissionInstanceState(), textinstance.getMissionId(), textinstance.getAcceptDate(), textinstance.getSubmitDate(), textinstance.isSubmitted(), completedCounts);
         return new TextInstanceDetailVo(textinstance.getMissionType(), instanceVo, textinstance.getTextResults());
@@ -489,6 +532,36 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         FileOutputStream fileOut = new FileOutputStream(PathUtil.getSerPath() + "text_instance" + "_" + textInstance.getInstanceId());
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         out.writeObject(textInstance.getTextResults());
+        out.close();
+        fileOut.close();
+        return result;
+    }
+
+    private ThreeDimensionInstance saveThreeDimensionInstance(ThreeDimensionInstance threeDimensionInstance) throws IOException {
+        ThreeDimensionInstance result = threeDimensionInstanceDao.save(threeDimensionInstance);
+        FileOutputStream fileOut = new FileOutputStream(PathUtil.getSerPath() + "threeDimension_instance" + "_" + threeDimensionInstance.getInstanceId());
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(threeDimensionInstance.getThreeDimensionResults());
+        out.close();
+        fileOut.close();
+        return result;
+    }
+
+    private AudioInstance saveAudioInstance(AudioInstance audioInstance) throws IOException {
+        AudioInstance result = audioInstanceDao.save(audioInstance);
+        FileOutputStream fileOut = new FileOutputStream(PathUtil.getSerPath() + "audio_instance" + "_" + audioInstance.getInstanceId());
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(audioInstance.getAudioResults());
+        out.close();
+        fileOut.close();
+        return result;
+    }
+
+    private VideoInstance saveVideoInstance(VideoInstance videoInstance) throws IOException {
+        VideoInstance result = videoInstanceDao.save(videoInstance);
+        FileOutputStream fileOut = new FileOutputStream(PathUtil.getSerPath() + "video_instance" + "_" + videoInstance.getInstanceId());
+        ObjectOutputStream out = new ObjectOutputStream(fileOut);
+        out.writeObject(videoInstance.getVideoResults());
         out.close();
         fileOut.close();
         return result;
@@ -545,6 +618,17 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         fileIn.close();
         audioInstance.setAudioResults(audioResults);
         return audioInstance;
+    }
+
+    private ThreeDimensionInstance getThreeDimensionInstance(String instanceId) throws IOException, ClassNotFoundException {
+        ThreeDimensionInstance threeDimensionInstance = threeDimensionInstanceDao.findThreeDimensionInstanceByInstanceId(instanceId);
+        FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "threeDimension_instance" + "_" + instanceId);
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+        List<ThreeDimensionResult> threeDimensionResults = (List<ThreeDimensionResult>) in.readObject();
+        in.close();
+        fileIn.close();
+        threeDimensionInstance.setThreeDimensionResults(threeDimensionResults);
+        return threeDimensionInstance;
     }
 
 }

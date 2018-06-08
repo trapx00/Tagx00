@@ -4,6 +4,9 @@ import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.publicdatas.mission.threedimension.ThreeDimensionJob;
 import trapx00.tagx00.publicdatas.mission.threedimension.ThreeDimensionModelUrl;
 
+import javax.persistence.Entity;
+
+@Entity
 public class ThreeDimensionResult extends WorkResult {
 
     private String token;
