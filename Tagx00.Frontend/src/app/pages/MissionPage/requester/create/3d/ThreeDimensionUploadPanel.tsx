@@ -30,25 +30,31 @@ export class ThreeDimensionUploadPanel extends React.Component<ThreeDimensionUpl
       },
       beforeUpload: (_, fileList) => {
         const validFiles = fileList.filter(this.props.valid);
-        const nameList = fileList.map(x=>x.name.split('.')[0]);
-        let modelIndex = 0;
+        console.log(fileList);
+
+        const newArray= [];
+
+        fileList = fileList.filter(x=>
+          x.name.split('.').length>1 && (x.name.split('.')[1] == "mtl"||x.name.split('.')[1]=="obj")
+        );
+        const nameList = fileList.map(x=>x.name.split('.')[0])
+
         for(let i=0; i<fileList.length - 1; i++) {
-           for(let j=i; j<fileList.length; j++) {
+           for(let j=i+1; j<fileList.length; j++) {
              if(nameList[i] == nameList[j]) {
-               this.props.fileList[modelIndex][0] = fileList[i];
-               this.props.fileList[modelIndex][1] = fileList[j];
-               modelIndex++;
+               newArray.push({
+                 mtl: fileList[i],
+                 obj: fileList[j]
+               })
                break;
              }
-
            }
-
         }
 
-        this.props.onFileListChange(this.props.fileList);
+        this.props.onFileListChange(newArray);
         return false;
       },
-      fileList: this.props.fileList.map(x => x.mtl),
+      fileList: this.props.fileList.map(x => ({...x.mtl, name: x.mtl.name.split(".")[0]})),
       multiple: this.props.multiple,
       accept: this.props.accept,
       listType: this.props.listType,
