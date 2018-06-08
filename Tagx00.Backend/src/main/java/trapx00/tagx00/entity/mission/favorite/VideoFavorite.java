@@ -11,16 +11,16 @@ import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity
-public class VideoFavortie extends Favorite
+public class VideoFavorite extends Favorite
 {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_missionId")
     private VideoMission videoMission;
 
-    public VideoFavortie() {
+    public VideoFavorite() {
     }
 
-    public VideoFavortie(String favoriteId, String workerUsername, MissionType missionType, Date acceptDate, VideoMission videoMission) {
+    public VideoFavorite(String favoriteId, String workerUsername, MissionType missionType, Date acceptDate, VideoMission videoMission) {
         super(favoriteId, workerUsername, missionType, acceptDate);
         this.videoMission = videoMission;
     }

@@ -1,12 +1,9 @@
 package trapx00.tagx00.entity.mission;
 
-import trapx00.tagx00.entity.mission.favorite.AudioFavortie;
-import trapx00.tagx00.entity.mission.favorite.VideoFavortie;
-import trapx00.tagx00.entity.mission.instance.AudioInstance;
+import trapx00.tagx00.entity.mission.favorite.VideoFavorite;
 import trapx00.tagx00.entity.mission.instance.VideoInstance;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
-import trapx00.tagx00.vo.mission.audio.AudioMissionType;
 import trapx00.tagx00.vo.mission.video.VideoMissionType;
 
 import javax.persistence.*;
@@ -29,12 +26,12 @@ public class VideoMission extends Mission {
     @OneToMany(mappedBy = "videoMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<VideoInstance> videoInstances;
     @OneToMany(mappedBy = "videoMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<VideoFavortie> videoFavorties;
+    private List<VideoFavorite> videoFavorties;
 
     public VideoMission() {
     }
 
-    public VideoMission(String missionId, String title, String description, List<String> topics, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> browserUsers, boolean allowCustomTag, List<String> allowedTags, List<String> videoUrls, List<VideoMissionType> videoMissionTypes, List<VideoInstance> videoInstances, List<VideoFavortie> videoFavorties) {
+    public VideoMission(String missionId, String title, String description, List<String> topics, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> browserUsers, boolean allowCustomTag, List<String> allowedTags, List<String> videoUrls, List<VideoMissionType> videoMissionTypes, List<VideoInstance> videoInstances, List<VideoFavorite> videoFavorties) {
         super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
         this.allowCustomTag = allowCustomTag;
         this.allowedTags = allowedTags;
@@ -84,11 +81,11 @@ public class VideoMission extends Mission {
         this.videoInstances = videoInstances;
     }
 
-    public List<VideoFavortie> getVideoFavorties() {
+    public List<VideoFavorite> getVideoFavorties() {
         return videoFavorties;
     }
 
-    public void setVideoFavorties(List<VideoFavortie> videoFavorties) {
+    public void setVideoFavorties(List<VideoFavorite> videoFavorties) {
         this.videoFavorties = videoFavorties;
     }
 }

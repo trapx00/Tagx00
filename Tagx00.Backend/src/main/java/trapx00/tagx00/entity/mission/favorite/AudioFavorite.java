@@ -11,15 +11,15 @@ import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity
-public class AudioFavortie extends Favorite{
+public class AudioFavorite extends Favorite{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_missionId")
     private AudioMission audioMission;
 
-    public AudioFavortie() {
+    public AudioFavorite() {
     }
 
-    public AudioFavortie(String favoriteId, String workerUsername, MissionType missionType, Date acceptDate, AudioMission audioMission) {
+    public AudioFavorite(String favoriteId, String workerUsername, MissionType missionType, Date acceptDate, AudioMission audioMission) {
         super(favoriteId, workerUsername, missionType, acceptDate);
         this.audioMission = audioMission;
     }

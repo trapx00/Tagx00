@@ -1,12 +1,10 @@
 package trapx00.tagx00.entity.mission;
 
-import trapx00.tagx00.entity.mission.favorite.AudioFavortie;
+import trapx00.tagx00.entity.mission.favorite.AudioFavorite;
 import trapx00.tagx00.entity.mission.instance.AudioInstance;
-import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.audio.AudioMissionType;
-import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -28,12 +26,12 @@ public class AudioMission extends Mission {
     @OneToMany(mappedBy = "audioMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<AudioInstance> audioInstances;
     @OneToMany(mappedBy = "audioMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<AudioFavortie> audioFavorties;
+    private List<AudioFavorite> audioFavorties;
 
     public AudioMission() {
     }
 
-    public AudioMission(String missionId, String title, String description, List<String> topics, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> browserUsers, boolean allowCustomTag, List<String> audioUrls, List<String> allowedTags, List<AudioMissionType> audioMissionTypes, List<AudioInstance> audioInstances, List<AudioFavortie> audioFavorties) {
+    public AudioMission(String missionId, String title, String description, List<String> topics, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> browserUsers, boolean allowCustomTag, List<String> audioUrls, List<String> allowedTags, List<AudioMissionType> audioMissionTypes, List<AudioInstance> audioInstances, List<AudioFavorite> audioFavorties) {
         super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
         this.allowCustomTag = allowCustomTag;
         this.audioUrls = audioUrls;
@@ -83,11 +81,11 @@ public class AudioMission extends Mission {
         this.audioInstances = audioInstances;
     }
 
-    public List<AudioFavortie> getAudioFavorties() {
+    public List<AudioFavorite> getAudioFavorties() {
         return audioFavorties;
     }
 
-    public void setAudioFavorties(List<AudioFavortie> audioFavorties) {
+    public void setAudioFavorties(List<AudioFavorite> audioFavorties) {
         this.audioFavorties = audioFavorties;
     }
 }
