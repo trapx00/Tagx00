@@ -60,7 +60,6 @@ def calculate_confidence():
                 hit_confidence.append(train_data[i][j][0])
     sorted(hit_confidence)
     dismiss_value = hit_confidence[np.math.floor(dismiss_percent * total_train)]
-    print(dismiss_value)
     return dismiss_value
 
 
