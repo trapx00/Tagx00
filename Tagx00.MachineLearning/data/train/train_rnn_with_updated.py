@@ -10,6 +10,7 @@ batch_size = 10
 n_size = 3
 last_index = 0
 dismiss_value = 0.4
+dismiss_percent = 0.05
 
 n_hidden_units = 128
 train_data = []
@@ -49,6 +50,18 @@ with open("../proval/test.txt", "r") as file:
                 tag.append([0, 0])
         sorted(tag, reverse=True)
         test_data.append(tag)
+
+
+def calculate_confidence():
+    hit_confidence = []
+    for i in range(total_train):
+        for j in range(n_size):
+            if train_data[i][j][1] == 1:
+                hit_confidence.append(train_data[i][j][0])
+    sorted(hit_confidence)
+    dismiss_value = hit_confidence[np.math.floor(dismiss_percent * total_train)]
+    print(dismiss_value)
+    return dismiss_value
 
 
 def add_layer(inputs, in_size, out_size, activation_function=None):
@@ -231,14 +244,14 @@ sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 total_batch = int(total_train / batch_size)
 
+dismiss_value = calculate_confidence()
 compute_origin_accuracy()
 for epoch in range(training_epochs):
     for i in range(total_batch):
         batch_xs, batch_ys = next_train_batch(last_index)
         last_index = next_index(last_index)
         _, c, pred = sess.run([optimizer, cost, y_pred], feed_dict={X: batch_xs, Y: batch_ys, keep_prob: 0.7})
+        dismiss_value = calculate_confidence()
         if epoch % 10 == 9:
             print("accuracy")
             accuracy = compute_accuracy()
-            if accuracy >= 0.6:
-                draw_plt_test()
