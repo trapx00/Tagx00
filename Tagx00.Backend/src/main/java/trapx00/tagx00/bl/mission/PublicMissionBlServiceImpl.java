@@ -123,14 +123,8 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
         ArrayList<MissionPublicItemVo> result = new ArrayList<>();
         for (MissionPublicItemVo missionPublicItemVo : missionPublicItemVos) {
-            switch (missionPublicItemVo.getMissionType()) {
-                case TEXT:
-                    search(searchTarget, result, missionPublicItemVo);
-                    break;
-                case IMAGE:
-                    search(searchTarget, result, missionPublicItemVo);
-                    break;
-            }
+            search(searchTarget, result, missionPublicItemVo);
+
         }
         ArrayList<MissionPublicItemVo> pArrayList = new ArrayList<>();
         if (result.size() >= endIndex) {
