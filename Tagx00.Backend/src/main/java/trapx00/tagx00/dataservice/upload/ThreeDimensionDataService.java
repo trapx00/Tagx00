@@ -9,10 +9,10 @@ public interface ThreeDimensionDataService {
      * save the 3d
      *
      * @param token the token of the text
-     * @param text  the content of the text
+     * @param bytes  the content of the text
      * @return the token of the uploaded text
      */
-    String upload3d(String token, String text) throws SystemException;
+    String upload3d(String token, byte[] bytes) throws SystemException;
 
     /**
      * get 3d by its token

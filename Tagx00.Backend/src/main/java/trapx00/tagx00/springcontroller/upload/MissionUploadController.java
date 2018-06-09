@@ -146,7 +146,15 @@ public class MissionUploadController {
         @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
     public ResponseEntity<Response> upload3D(@PathVariable("missionId") String missionId, @RequestParam("file") MultipartFile file, @RequestParam("order") int order) {
-        return null;
+        try {
+            return new ResponseEntity<>(missionUploadBlService.uploadThreeDimension(missionId, file,order), HttpStatus.CREATED);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (MissionIdDoesNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
     }
 
 

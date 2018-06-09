@@ -11,6 +11,7 @@ import trapx00.tagx00.entity.ThreeDimensionMission;
 import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.publicdatas.mission.threedimension.ThreeDimensionModelUrl;
 import trapx00.tagx00.response.upload.*;
 import trapx00.tagx00.util.Converter;
 import trapx00.tagx00.util.MissionUtil;
@@ -34,7 +35,8 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
     private final RequesterMissionDataService requesterMissionDataService;
     private final WorkerMissionBlService workerMissionBlService;
     private final static String TEMP_PATH = PathUtil.getTmpPath();
-
+    private static int tag=0;
+    private static ThreeDimensionModelUrl threeDimensionModelUrl=new ThreeDimensionModelUrl();
     @Autowired
     public MissionUploadBlServiceImpl(ImageDataService imageDataService, TextDataService textDataService,
                                       RequesterMissionDataService requesterMissionDataService, WorkerMissionBlService workerMissionBlService
@@ -225,70 +227,23 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
      * @return the urls of the 3ds
      */
     @Override
-    public UploadMissionThreeDimensionResponse uploadThreeDimension(String missionId, MultipartFile multipartFile,int order,int mtlOrObj) throws SystemException, MissionIdDoesNotExistException {
-        //保存到临时文件
+    public UploadMissionThreeDimensionResponse uploadThreeDimension(String missionId, MultipartFile multipartFile,int order) throws SystemException, MissionIdDoesNotExistException {
+        //1.obj, 1.mtl, 2.obj, 2.mtl……的顺序上传。同一个模型的两个文件名字相同，order相同
         try {
+            //非压缩
             ThreeDimensionMission threeDimensionMission = (ThreeDimensionMission) requesterMissionDataService.getMissionByMissionId(missionId);
-            List<String> textUrls = new ArrayList<>();
-            File file = new File(TEMP_PATH + "/threeDimension");
-            FileImageOutputStream fileWriter = new FileImageOutputStream(file);
-            fileWriter.write(multipartFile.getBytes());
-            fileWriter.close();
-
-            String descDir = TEMP_PATH + "/threeDimensionZip";
-            File pathFile = new File(descDir);
-            if (!pathFile.exists()) {
-                pathFile.mkdirs();
-            } else {
-                pathFile.delete();
-                pathFile.mkdirs();
+            String url = threeDimensionDataService.upload3d(generateVideoKey(missionId, order), multipartFile.getBytes());
+            if(tag==0)
+                threeDimensionModelUrl.setMtlUrl(url);
+            else if(tag==1){
+                threeDimensionModelUrl.setObjUrl(url);
+                List<ThreeDimensionModelUrl>temp=threeDimensionMission.getThreeDimensionModelUrls();
+                temp.add(threeDimensionModelUrl);
+                threeDimensionMission.setThreeDimensionModelUrls(temp);
             }
-            ZipFile zip = new ZipFile(file);
-            int index = 0;
-            for (Enumeration entries = zip.entries(); entries.hasMoreElements(); ) {
-                ZipEntry entry = (ZipEntry) entries.nextElement();
-                String zipEntryName = entry.getName();
-                InputStream in = zip.getInputStream(entry);
-                String outPath = (descDir + "/" + zipEntryName).replaceAll("\\*", "/");
-
-                //判断路径是否存在,不存在则创建文件路径
-                file = new File(outPath.substring(0, outPath.lastIndexOf('/')));
-                if (!file.exists()) {
-                    file.mkdirs();
-                }
-                //判断文件全路径是否为文件夹,如果是上面已经上传,不需要解压
-                if (new File(outPath).isDirectory()) {
-                    continue;
-                }
-                //输出文件路径信息
-                System.out.println(outPath);
-
-                OutputStream out = new FileOutputStream(outPath);
-                byte[] buf1 = new byte[1024];
-                int len;
-                while ((len = in.read(buf1)) > 0) {
-                    out.write(buf1, 0, len);
-                }
-                in.close();
-                out.close();
-
-                StringBuilder result = new StringBuilder();
-                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(outPath), "GBK"));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    result.append(line);
-                }
-                br.close();
-                String url = threeDimensionDataService.upload3d(generateTextKey(missionId, index), new String(result));
-                textUrls.add(url);
-
-                index++;
-            }
-            if(mtlOrObj==1)
-                threeDimensionMission.getThreeDimensionModelUrls().set();
-            requesterMissionDataService.updateMission(textMission);
-            System.out.println("******************解压完毕********************");
+            requesterMissionDataService.updateMission(threeDimensionMission);
             return new UploadMissionThreeDimensionResponse("success");
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new SystemException();
