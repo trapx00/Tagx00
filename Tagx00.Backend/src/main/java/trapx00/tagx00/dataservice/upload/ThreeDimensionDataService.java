@@ -6,16 +6,16 @@ import trapx00.tagx00.response.mission.ThreeModel;
 
 public interface ThreeDimensionDataService {
     /**
-     * save the text
+     * save the 3d
      *
      * @param token the token of the text
      * @param text  the content of the text
      * @return the token of the uploaded text
      */
-    String uploadText(String token, String text) throws SystemException;
+    String upload3d(String token, String text) throws SystemException;
 
     /**
-     * get text by its token
+     * get 3d by its token
      *
      * @param token
      * @return
@@ -23,10 +23,10 @@ public interface ThreeDimensionDataService {
     ThreeModel get3d(String token) throws ThreeDimensionNotExistException, SystemException;
 
     /**
-     * delete the text
+     * delete the 3d
      *
      * @param token the token of the text
      */
-    void deleteText(String token);
+    void delete3d(String token);
 }
 

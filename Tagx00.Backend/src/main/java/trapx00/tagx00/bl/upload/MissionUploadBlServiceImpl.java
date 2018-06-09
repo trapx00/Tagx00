@@ -13,8 +13,7 @@ import trapx00.tagx00.entity.mission.MissionAsset;
 import trapx00.tagx00.entity.mission.TextMission;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
-import trapx00.tagx00.response.upload.UploadMissionImageResponse;
-import trapx00.tagx00.response.upload.UploadMissionTextResponse;
+import trapx00.tagx00.response.upload.*;
 import trapx00.tagx00.util.Converter;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.PathUtil;
@@ -166,6 +165,42 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
             e.printStackTrace();
             throw new SystemException();
         }
+    }
+
+    /**
+     * Upload the video of the mission
+     *
+     * @param missionId
+     * @param multipartFile
+     * @return the urls of the videos
+     */
+    @Override
+    public UploadMissionVideoResponse uploadVideo(String missionId, MultipartFile multipartFile) throws SystemException, MissionIdDoesNotExistException {
+        return null;
+    }
+
+    /**
+     * Upload the audio of the mission
+     *
+     * @param missionId
+     * @param multipartFile
+     * @return the urls of the audios
+     */
+    @Override
+    public UploadMissionAudioResponse uploadAudio(String missionId, MultipartFile multipartFile) throws SystemException, MissionIdDoesNotExistException {
+        return null;
+    }
+
+    /**
+     * Upload the 3d of the mission
+     *
+     * @param missionId
+     * @param multipartFile
+     * @return the urls of the 3ds
+     */
+    @Override
+    public UploadMissionThreeDimensionResponse uploadThreeDimension(String missionId, MultipartFile multipartFile) throws SystemException, MissionIdDoesNotExistException {
+        return null;
     }
 
     private String generateImageKey(String missionId, int order, boolean isCover) {

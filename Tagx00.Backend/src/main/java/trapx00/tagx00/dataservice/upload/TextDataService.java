@@ -5,7 +5,7 @@ import trapx00.tagx00.exception.viewexception.TextNotExistException;
 
 public interface TextDataService {
     /**
-     * save the 3d
+     * save the text
      *
      * @param token the token of the text
      * @param text  the content of the text
@@ -14,7 +14,7 @@ public interface TextDataService {
     String uploadText(String token, String text) throws SystemException;
 
     /**
-     * get 3d by its token
+     * get text by its token
      *
      * @param token
      * @return
@@ -22,9 +22,9 @@ public interface TextDataService {
     String getText(String token) throws TextNotExistException, SystemException;
 
     /**
-     * delete the 3d
+     * delete the text
      *
      * @param token the token of the text
      */
-    void deleteThreeDimension(String token);
+    void deleteText(String token);
 }
