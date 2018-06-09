@@ -1,10 +1,10 @@
 import React from "react";
 import { Card } from 'antd';
-import { TagDescriptionTuple, TagTuple } from "../../../models/instance/TagTuple";
 import { AddableInputGroup } from "../AddableInputGroup";
 import { TagPanel } from "./TagPanel";
-import { LocaleMessage, Localize } from "../../../internationalization/components";
-import { TagConfTuple } from "../../../models/mission/MissionAsset";
+import { TagDescriptionTuple, TagTuple } from "../../../../models/instance/TagTuple";
+import { TagConfTuple } from "../../../../models/mission/MissionAsset";
+import { LocaleMessage, Localize } from "../../../../internationalization/components";
 
 
 interface Props {

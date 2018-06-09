@@ -4,11 +4,11 @@ import { ThreeDimensionWholeJob } from "../../../../models/instance/3d/job/3dWho
 import { ThreeDimensionNotation, ThreeDimensionWorkPageProps, ThreeDimensionWorkPageState } from "./shared";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
 import { toJS } from "mobx";
-import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
 import { ThreeDimensionWorkPageLayout } from "./ThreeDimensionWorkPageLayout";
-import { ProgressController } from "../../../../components/ImageWork/ProgressController";
+import { ProgressController } from "../../../../components/Mission/WorkPageSuite/ProgressController";
 import { ThreeDimensionMissionTipCard } from "../../../../components/Mission/MissionTipCard/ThreeDimensionMissionTipCard";
-import { ThreeDimensionPlayer } from "./3DPlayer";
+import { ThreeDimensionPlayer } from "../../../../components/Mission/3DPlayer";
+import { TagDescriptionTuplePanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel";
 
 function initializeNotation(notation: ThreeDimensionNotation<ThreeDimensionWholeJob>) {
   if (!(notation.job && notation.job.tuple)) {

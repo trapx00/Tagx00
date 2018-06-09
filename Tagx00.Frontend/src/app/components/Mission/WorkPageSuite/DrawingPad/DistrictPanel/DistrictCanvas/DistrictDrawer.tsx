@@ -1,5 +1,5 @@
 import { Boundary, District } from "../Districts";
-import { Point } from "../../../../../models/instance/image/Shapes";
+import { Point } from "../../../../../../models/instance/image/Shapes";
 
 export class DistrictDrawer {
   context: CanvasRenderingContext2D;

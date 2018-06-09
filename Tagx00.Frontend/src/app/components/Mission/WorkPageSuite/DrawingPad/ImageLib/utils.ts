@@ -1,4 +1,5 @@
-import { Line } from "../../../../models/instance/image/Shapes";
+import { Line } from "../../../../../models/instance/image/Shapes";
+
 
 export function lineCross(line1: Line, line2: Line): boolean {
 //线段ab的法线N1

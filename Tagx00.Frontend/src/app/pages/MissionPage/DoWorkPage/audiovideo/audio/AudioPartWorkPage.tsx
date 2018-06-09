@@ -7,13 +7,13 @@ import { toJS } from "mobx";
 import { TagDescriptionTuple, TagTuple } from "../../../../../models/instance/TagTuple";
 import { PartJobTuple } from "../../../../../models/instance/image/job/PartJob";
 import { WorkPageLayout } from "../../WorkPageLayout";
-import { AudioPlayer } from "./AudioPlayer";
+import { AudioPlayer } from "../../../../../components/Mission/AudioPlayer";
 import { MediaTupleList } from "../MediaTupleList";
 import immer from "immer";
 import { AudioMissionTipCard } from "../../../../../components/Mission/MissionTipCard/AudioMissionTipCard";
-import { TagDescriptionTuplePanel } from "../../../../../components/ImageWork/TagDescriptionPanel";
-import { ProgressController } from "../../../../../components/ImageWork/ProgressController";
+import { ProgressController } from "../../../../../components/Mission/WorkPageSuite/ProgressController";
 import { AudioWorkPageLayout } from "./AudioWorkPageLayout";
+import { TagDescriptionTuplePanel } from "../../../../../components/Mission/WorkPageSuite/TagDescriptionPanel";
 
 function initializeNotation(notation: AudioNotation<AudioPartJob>) {
   if (!(notation.job && notation.job.tupleList)) {

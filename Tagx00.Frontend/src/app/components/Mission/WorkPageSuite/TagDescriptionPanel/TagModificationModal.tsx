@@ -1,13 +1,13 @@
 import React from 'react';
-import { TagTuple } from "../../../models/instance/TagTuple";
 import { Button, Input, Modal } from 'antd';
 import { AddableInputGroup } from "../AddableInputGroup";
 import { observer } from "mobx-react";
 import { action, computed, observable } from "mobx";
-import { LocaleMessage, Localize } from "../../../internationalization/components";
-import { FormItem } from "../../Form/FormItem";
-import { ClickableTag } from "../../ClickableTag";
-import { TagConfTuple } from "../../../models/mission/MissionAsset";
+import { TagConfTuple } from "../../../../models/mission/MissionAsset";
+import { TagTuple } from "../../../../models/instance/TagTuple";
+import { LocaleMessage, Localize } from "../../../../internationalization/components";
+import { ClickableTag } from "../../../ClickableTag";
+import { FormItem } from "../../../Form/FormItem";
 interface Props {
   tagTuple: TagTuple;
   onRemove: (tagTuple: TagTuple) => void;

@@ -193,7 +193,7 @@ const threeDimensionMission = {
 export class MissionServiceMock extends MissionService {
 
   async getAMission(missionId: string): Promise<MissionDetail> {
-    return threeDimensionMission;
+    return audioMission;
 
   }
 

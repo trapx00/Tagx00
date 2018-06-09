@@ -1,12 +1,12 @@
 import { observer } from "mobx-react";
-import { TagTuple } from "../../../models/instance/TagTuple";
 import React from "react";
 import { action, computed, observable } from "mobx";
 import { Card, Icon, Tag, Tooltip } from 'antd';
 import { panelStyle } from "./index";
 import { TagModificationModal } from "./TagModificationModal";
-import { LocaleMessage } from "../../../internationalization/components";
-import { TagConfTuple } from "../../../models/mission/MissionAsset";
+import { TagConfTuple } from "../../../../models/mission/MissionAsset";
+import { TagTuple } from "../../../../models/instance/TagTuple";
+import { LocaleMessage } from "../../../../internationalization/components";
 
 
 const AnyTag = Tag as any;

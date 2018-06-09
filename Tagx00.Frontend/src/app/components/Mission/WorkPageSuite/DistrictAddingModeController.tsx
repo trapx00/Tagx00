@@ -3,7 +3,7 @@ import { DistrictDrawingSession, Step } from "./DrawingPad/DistrictPanel/Distric
 import { District } from "./DrawingPad/DistrictPanel/Districts";
 import { Button, Card } from 'antd';
 import { observer } from "mobx-react";
-import { LocaleMessage } from "../../internationalization/components";
+import { LocaleMessage } from "../../../internationalization/components";
 
 interface Props {
   session: DistrictDrawingSession;

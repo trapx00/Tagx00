@@ -3,8 +3,8 @@ import React from "react";
 import { Rectangle } from "./Rectangle";
 import { RectangleNotation } from "./RectangleNotation";
 import { RectangleCanvasContainer } from "./RectangleCanvasContainer";
-import { PartJobTuple } from "../../../../models/instance/image/job/PartJob";
-import { pointEquals } from "../../../../models/instance/image/Shapes";
+import { PartJobTuple } from "../../../../../models/instance/image/job/PartJob";
+import { pointEquals } from "../../../../../models/instance/image/Shapes";
 
 interface Props {
   imageUrl: string;

@@ -10,14 +10,7 @@ import { MissionType } from "../../../../models/mission/Mission";
 
 export type Known3DJob = ThreeDimensionWholeJob;
 
-function judgeJobComplete(job: Known3DJob) {
-  if (!job) return false;
-  switch (job.type) {
-    case ThreeDimensionMissionType.WHOLE:
-      return !!job.tuple && ( arrayContainsElement(job.tuple.tagTuples) || arrayContainsElement(job.tuple.descriptions));
-  }
-  return false;
-}
+
 export class ThreeDimensionWorkPageController extends WorkPageController<ThreeDimensionMissionDetail,
   ThreeDimensionInstanceDetail, ThreeDimensionJob, ThreeDimensionNotation> {
 
@@ -32,10 +25,19 @@ export class ThreeDimensionWorkPageController extends WorkPageController<ThreeDi
         instanceId: instance.instanceId,
         job: x.job,
         token: x.token,
-        isDone: judgeJobComplete(x.job as any)
+        isDone: this.judgeJobComplete(x.job as any)
       })),
       instance: instance
     }
+  }
+
+  judgeJobComplete(job: Known3DJob) {
+    if (!job) return false;
+    switch (job.type) {
+      case ThreeDimensionMissionType.WHOLE:
+        return !!job.tuple && ( arrayContainsElement(job.tuple.tagTuples) || arrayContainsElement(job.tuple.descriptions));
+    }
+    return false;
   }
 
   constructor(missionDetail: ThreeDimensionMissionDetail, instanceDetail: ThreeDimensionInstanceDetail) {
@@ -58,6 +60,8 @@ export class ThreeDimensionWorkPageController extends WorkPageController<ThreeDi
           });
         }
     }
+
+    this.toFirstNotComplete();
   }
 
 }

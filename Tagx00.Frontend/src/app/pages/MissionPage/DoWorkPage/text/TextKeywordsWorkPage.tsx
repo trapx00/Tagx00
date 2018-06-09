@@ -7,12 +7,11 @@ import { ImageMissionType } from "../../../../models/mission/image/ImageMission"
 import { TextMissionKeywordsSetting, TextMissionType } from "../../../../models/mission/text/TextMissionProperties";
 import { WorkPageLayout } from "../WorkPageLayout";
 import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
-import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
-import { ProgressController } from "../../../../components/ImageWork/ProgressController";
-import { TagPanel } from "../../../../components/ImageWork/TagDescriptionPanel/TagPanel";
+import { ProgressController } from "../../../../components/Mission/WorkPageSuite/ProgressController";
 import { MissionType } from "../../../../models/mission/Mission";
 import { TextReader } from "./TextReader";
 import { TextMissionTipCard } from "../../../../components/Mission/MissionTipCard/TextMissionTipCard";
+import { TagPanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel/TagPanel";
 
 interface Props extends TextWorkPageProps<TextKeywordsJob, TextMissionKeywordsSetting>{
 

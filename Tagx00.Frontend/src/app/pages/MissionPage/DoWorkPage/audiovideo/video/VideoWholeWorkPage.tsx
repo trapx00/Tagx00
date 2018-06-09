@@ -6,11 +6,11 @@ import { VideoMissionType } from "../../../../../models/mission/video/VideoMissi
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../../../models/instance/TagTuple";
 import { WorkPageLayout } from "../../WorkPageLayout";
-import { VideoPlayer } from "./VideoPlayer";
+import { VideoPlayer } from "../../../../../components/Mission/VideoPlayer";
 import { VideoMissionTipCard } from "../../../../../components/Mission/MissionTipCard/VideoMissionTipCard";
-import { TagDescriptionTuplePanel } from "../../../../../components/ImageWork/TagDescriptionPanel";
-import { ProgressController } from "../../../../../components/ImageWork/ProgressController";
+import { ProgressController } from "../../../../../components/Mission/WorkPageSuite/ProgressController";
 import { VideoWorkPageLayout } from "./VideoWorkPageLayout";
+import { TagDescriptionTuplePanel } from "../../../../../components/Mission/WorkPageSuite/TagDescriptionPanel";
 
 function initializeNotation(notation: VideoNotation<VideoWholeJob>) {
   if (!(notation.job && notation.job.tuple)) {

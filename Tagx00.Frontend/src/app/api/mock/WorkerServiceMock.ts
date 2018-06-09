@@ -128,7 +128,7 @@ export class WorkerServiceMock extends WorkerService {
 
 
     return {
-      detail: threeDimensionInstance
+      detail: audioInstance
     };
 
 

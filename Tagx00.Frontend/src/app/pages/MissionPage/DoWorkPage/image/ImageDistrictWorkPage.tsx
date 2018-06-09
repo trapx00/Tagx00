@@ -2,18 +2,18 @@ import React from "react";
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
 import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
-import { ProgressController } from "../../../../components/ImageWork/ProgressController";
-import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
+import { ProgressController } from "../../../../components/Mission/WorkPageSuite/ProgressController";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import { DistrictJob, DistrictTagDescriptionTuple } from "../../../../models/instance/image/job/DistrictJob";
-import { DistrictPanel } from "../../../../components/ImageWork/DrawingPad/DistrictPanel";
-import { DistrictAddingModeController } from "../../../../components/ImageWork/DistrictAddingModeController";
-import { DistrictDrawingSession } from "../../../../components/ImageWork/DrawingPad/DistrictPanel/DistrictCanvas/DistrictDrawingSession";
-import { District } from "../../../../components/ImageWork/DrawingPad/DistrictPanel/Districts";
 import { ImageNotation, ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
 import { MissionType } from "../../../../models/mission/Mission";
 import { ImageMissionTipCard } from "../../../../components/Mission/MissionTipCard/ImageMissionTipCard";
+import { District } from "../../../../components/Mission/WorkPageSuite/DrawingPad/DistrictPanel/Districts";
+import { DistrictDrawingSession } from "../../../../components/Mission/WorkPageSuite/DrawingPad/DistrictPanel/DistrictCanvas/DistrictDrawingSession";
+import { DistrictAddingModeController } from "../../../../components/Mission/WorkPageSuite/DistrictAddingModeController";
+import { DistrictPanel } from "../../../../components/Mission/WorkPageSuite/DrawingPad/DistrictPanel";
+import { TagDescriptionTuplePanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel";
 
 function initializeNotation(notation: ImageNotation<DistrictJob>) {
   if (!(notation.job && notation.job.tuples)) {

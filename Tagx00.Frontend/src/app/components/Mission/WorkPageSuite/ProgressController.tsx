@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Card, Icon } from 'antd';
-import { LocaleMessage } from "../../internationalization/components";
+import { LocaleMessage } from "../../../internationalization/components";
 
 
 interface Props {
@@ -9,6 +9,7 @@ interface Props {
   previousAvailable: boolean;
   readonlyMode: boolean;
   saveProgress: () => void;
+  toFirstIncomplete: () => void;
   saving: boolean;
 }
 
@@ -25,9 +26,13 @@ export class ProgressController extends React.Component<Props, {}> {
             <Icon type="save"/><LocaleMessage id={prefix + "save"}/>
           </Button>
         }
+        <Button onClick={this.props.toFirstIncomplete}>
+          <LocaleMessage id={prefix+"toFirstIncomplete"}/><Icon type="edit" />
+        </Button>
         <Button onClick={this.props.goNext}>
           <LocaleMessage id={prefix+"forward"}/><Icon type="right" />
         </Button>
+
       </Button.Group>
     </Card>;
   }

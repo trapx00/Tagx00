@@ -13,18 +13,7 @@ export interface ImageNotation<T extends ImageJob = ImageJob> extends Notation<T
   imageAsset: MissionAsset;
 }
 
-function judgeJobComplete(job: KnownImageJob) {
-  if (!job) return false;
-  switch (job.type) {
-    case ImageMissionType.DISTRICT:
-      return arrayContainsElement(job.tuples);
-    case ImageMissionType.PART:
-      return arrayContainsElement(job.tuples);
-    case ImageMissionType.WHOLE:
-      return !!job.tuple && ( arrayContainsElement(job.tuple.tagTuples) || arrayContainsElement(job.tuple.descriptions));
-  }
-  return false;
-}
+
 
 export class ImageWorkPageController extends WorkPageController<ImageMissionDetail, ImageInstanceDetail,ImageJob, ImageNotation> {
   imageAssets: MissionAsset[];
@@ -40,10 +29,23 @@ export class ImageWorkPageController extends WorkPageController<ImageMissionDeta
         instanceId: instance.instanceId,
         imageJob: x.job,
         url: x.imageAsset.url,
-        isDone: judgeJobComplete(x.job as any)
+        isDone: this.judgeJobComplete(x.job as any)
       })),
       instance: instance
     }
+  }
+
+  judgeJobComplete(job: KnownImageJob) {
+    if (!job) return false;
+    switch (job.type) {
+      case ImageMissionType.DISTRICT:
+        return arrayContainsElement(job.tuples);
+      case ImageMissionType.PART:
+        return arrayContainsElement(job.tuples);
+      case ImageMissionType.WHOLE:
+        return !!job.tuple && ( arrayContainsElement(job.tuple.tagTuples) || arrayContainsElement(job.tuple.descriptions));
+    }
+    return false;
   }
 
   get types() {
@@ -72,6 +74,8 @@ export class ImageWorkPageController extends WorkPageController<ImageMissionDeta
         }
       }
     }
+
+    this.toFirstNotComplete();
   }
 
 

@@ -14,16 +14,7 @@ import { arrayContainsElement } from "../../../../../../utils/Array";
 
 export type KnownVideoJob = VideoPartJob | VideoWholeJob;
 
-function judgeJobComplete(job: KnownVideoJob) {
-  if (!job) return false;
-  switch (job.type) {
-    case VideoMissionType.PART:
-      return arrayContainsElement(job.tupleList);
-    case VideoMissionType.WHOLE:
-      return !!job.tuple && ( arrayContainsElement(job.tuple.tagTuples) || arrayContainsElement(job.tuple.descriptions));
-  }
-  return false;
-}
+
 export class VideoWorkPageController extends WorkPageController<VideoMissionDetail, VideoInstanceDetail, VideoJob, VideoNotation> {
 
   videoUrls: string[];
@@ -37,10 +28,21 @@ export class VideoWorkPageController extends WorkPageController<VideoMissionDeta
         instanceId: instance.instanceId,
         job: x.job,
         videoUrl: x.videoUrl,
-        isDone: judgeJobComplete(x.job as any)
+        isDone: this.judgeJobComplete(x.job as any)
       })),
       instance: instance
     }
+  }
+
+  judgeJobComplete(job: KnownVideoJob) {
+    if (!job) return false;
+    switch (job.type) {
+      case VideoMissionType.PART:
+        return arrayContainsElement(job.tupleList);
+      case VideoMissionType.WHOLE:
+        return !!job.tuple && ( arrayContainsElement(job.tuple.tagTuples) || arrayContainsElement(job.tuple.descriptions));
+    }
+    return false;
   }
 
   constructor(missionDetail: VideoMissionDetail, instanceDetail: VideoInstanceDetail) {
@@ -63,6 +65,8 @@ export class VideoWorkPageController extends WorkPageController<VideoMissionDeta
         }
       }
     }
+
+    this.toFirstNotComplete();
   }
 
 }

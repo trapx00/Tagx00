@@ -2,7 +2,7 @@ import React from "react"
 import { Rectangle } from "./Rectangle";
 import { DrawingSession } from "../utils/DrawingSession";
 import { RectangleDrawer } from "./RectangleDrawer";
-import { Point } from "../../../../models/instance/image/Shapes";
+import { Point } from "../../../../../models/instance/image/Shapes";
 import { getCursorPosition } from "../utils/getCursorPosition";
 
 interface Props {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Icon, Spin } from 'antd';
 import WaveSurfer from 'wavesurfer.js';
-import { Loading } from "../../../../../components/Common/Loading";
 
 
 interface Props {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Boundary, District, DistrictNotation } from "./Districts";
 import { DistrictCanvasContainer } from "./DistrictCanvasContainer";
-import { Boundary as BI, DistrictTagDescriptionTuple } from "../../../../models/instance/image/job/DistrictJob";
+import { Boundary as BI, DistrictTagDescriptionTuple } from "../../../../../models/instance/image/job/DistrictJob";
 import { DistrictDrawingSession } from "./DistrictCanvas/DistrictDrawingSession";
 
 interface DistrictTagPanelProps {

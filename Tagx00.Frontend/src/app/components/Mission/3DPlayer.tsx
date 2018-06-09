@@ -3,9 +3,9 @@ import * as THREE from 'three';
 import Orbitcontrols from 'three-orbitcontrols';
 import { MTLLoader, OBJLoader } from 'three-obj-mtl-loader'
 import Stats from 'stats-js';
-import { ThreeDimensionModel } from "../../../../models/mission/3d/3dModel";
+import { ThreeDimensionModel } from "../../models/mission/3d/3dModel";
 import { Inject } from "react.di";
-import { MissionService } from "../../../../api/MissionService";
+import { MissionService } from "../../api/MissionService";
 
 
 interface Props {

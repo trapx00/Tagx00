@@ -1,7 +1,7 @@
 import { Notation } from "../utils/Notation";
 import { observable } from "mobx";
 import { lineCross } from "../ImageLib/utils";
-import { Line, Point } from "../../../../models/instance/image/Shapes";
+import { Line, Point } from "../../../../../models/instance/image/Shapes";
 
 
 export class Boundary {

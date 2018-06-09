@@ -91,6 +91,7 @@
       "progressController": {
         "save": "保存进度",
         "backward": "前一张",
+        "toFirstIncomplete": "去未完成的第一张",
         "forward": "后一张"
       },
       "tagDescriptionTuplePanel": {
@@ -265,6 +266,43 @@
           "name": "提取主题词",
           "keywords": "预设主题词"
         }
+      },
+      "AUDIO": {
+        "name": "音频任务",
+        "sampleTitle": "音频示例",
+        "audioMissionTypes": "音频任务类型",
+        "types": {
+          "WHOLE": "整体",
+          "PART": "局部"
+        },
+        "allowCustomTag": {
+          "true": "允许自定义标签",
+          "false": "不允许自定义标签"
+        },
+        "tags": "可用标签示例"
+      },
+      "VIDEO": {
+        "name": "视频任务",
+        "sampleTitle": "视频示例",
+        "audioMissionTypes": "视频任务类型",
+        "types": {
+          "WHOLE": "整体",
+          "PART": "局部"
+        },
+        "allowCustomTag": {
+          "true": "允许自定义标签",
+          "false": "不允许自定义标签"
+        },
+        "tags": "可用标签示例"
+      },
+      "THREE_DIMENSION": {
+        "name": "3D任务",
+        "sampleTitle": "3D任务示例",
+        "allowCustomTag": {
+          "true": "允许自定义标签",
+          "false": "不允许自定义标签"
+        },
+        "tags": "可用标签示例"
       }
     },
     "createMission": {

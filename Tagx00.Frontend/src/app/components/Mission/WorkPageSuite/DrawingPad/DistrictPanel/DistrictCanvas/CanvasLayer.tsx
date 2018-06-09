@@ -2,8 +2,8 @@ import React from "react";
 import { observer } from "mobx-react";
 import { DistrictDrawingSession, Step } from "./DistrictDrawingSession";
 import { DistrictDrawer } from "./DistrictDrawer";
-import { Line, Point } from "../../../../../models/instance/image/Shapes";
 import { getCursorPosition } from "../../utils/getCursorPosition";
+import { Line, Point } from "../../../../../../models/instance/image/Shapes";
 
 interface CanvasProps {
   width: number;

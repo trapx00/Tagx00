@@ -2,16 +2,14 @@ import React from "react";
 import { PartJob, PartJobTuple } from "../../../../models/instance/image/job/PartJob";
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
-import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
-import { ProgressController } from "../../../../components/ImageWork/ProgressController";
-import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel/index";
-import { RectanglePanel } from "../../../../components/ImageWork/DrawingPad/RectanglePanel/index";
+import { ProgressController } from "../../../../components/Mission/WorkPageSuite/ProgressController";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
-import { PartAddingModeController } from "../../../../components/ImageWork/Part/PartAddingModeController/index";
 import { ImageNotation, ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
-import { MissionType } from "../../../../models/mission/Mission";
 import { ImageMissionTipCard } from "../../../../components/Mission/MissionTipCard/ImageMissionTipCard";
+import { RectanglePanel } from "../../../../components/Mission/WorkPageSuite/DrawingPad/RectanglePanel";
+import { PartAddingModeController } from "../../../../components/Mission/WorkPageSuite/Part/PartAddingModeController";
+import { TagDescriptionTuplePanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel";
 
 
 function initializeNotation(notation: ImageNotation<PartJob>) {
