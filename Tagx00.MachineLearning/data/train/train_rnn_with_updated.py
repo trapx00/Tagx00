@@ -112,7 +112,7 @@ def save_models():
 
 def compute_accuracy():
     batch_xs, batch_ys = next_test_batch()
-    pred = sess.run(y_pred, feed_dict={X: batch_xs, Y: batch_ys, keep_prob: 1})
+    pred = sess.run(y_pred, feed_dict={X: batch_xs, Y: batch_ys, scale: 1, keep_prob: 1})
     accuracy = 0
     for i in range(batch_size):
         is_reject = True
@@ -227,6 +227,8 @@ keep_prob = tf.placeholder(tf.float32)
 # biases = tf.Variable(tf.zeros([batch_size, n_size]) + 0.1)
 
 X = tf.placeholder(tf.float32, [None, n_size])
+scale = tf.placeholder(tf.float32)
+X = X + tf.multiply(scale, tf.random_normal([batch_size, n_size]))
 Y = tf.placeholder(tf.float32, [None, n_size])
 
 hidden = add_layer(X, n_size, 128, activation_function=tf.nn.relu)
@@ -236,7 +238,7 @@ y_pred = add_layer(hidden, 128, n_size, activation_function=tf.nn.softmax)
 # cost = tf.reduce_mean(tf.square(y_pred - Y))
 # cost = -tf.reduce_mean(tf.multiply(y_pred, Y))
 # cost = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(y_pred), reduction_indices=[1]))
-cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=y_pred, labels=Y))
+cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=y_pred, labels=Y))
 
 optimizer = tf.train.AdamOptimizer(learning_rate).minimize(cost)
 sess = tf.Session()
@@ -249,7 +251,8 @@ for epoch in range(training_epochs):
     for i in range(total_batch):
         batch_xs, batch_ys = next_train_batch(last_index)
         last_index = next_index(last_index)
-        _, c, pred = sess.run([optimizer, cost, y_pred], feed_dict={X: batch_xs, Y: batch_ys, keep_prob: 0.7})
+        _, c, pred = sess.run([optimizer, cost, y_pred],
+                              feed_dict={X: batch_xs, Y: batch_ys, scale: 1, keep_prob: 0.7})
         dismiss_value = calculate_confidence()
         if epoch % 10 == 9:
             print("accuracy")
