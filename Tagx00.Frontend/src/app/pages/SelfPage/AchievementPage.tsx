@@ -1,7 +1,7 @@
 import React from "react";
 
 
-export class AchievementPage extends React.Component<any, any> {
+export default class AchievementPage extends React.Component<any, any> {
   render() {
     return "Achievement"
   }

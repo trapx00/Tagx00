@@ -1,16 +1,15 @@
 import React from "react";
-import { ImageNotation } from "../../../../stores/ImageWorkStore";
 import { PartJob, PartJobTuple } from "../../../../models/instance/image/job/PartJob";
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
-import { MissionTipCard } from "../../../../components/ImageWork/MissionTipCard";
-import { ProgressController } from "../../../../components/ImageWork/ProgressController";
-import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel/index";
-import { RectanglePanel } from "../../../../components/ImageWork/DrawingPad/RectanglePanel/index";
+import { ProgressController } from "../../../../components/Mission/WorkPageSuite/ProgressController";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
-import { PartAddingModeController } from "../../../../components/ImageWork/Part/PartAddingModeController/index";
-import { ImageWorkPageLayout } from "./Layout";
-import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
+import { ImageNotation, ImageWorkPageProps, ImageWorkPageStates } from "./shared";
+import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
+import { ImageMissionTipCard } from "../../../../components/Mission/MissionTipCard/ImageMissionTipCard";
+import { RectanglePanel } from "../../../../components/Mission/WorkPageSuite/DrawingPad/RectanglePanel";
+import { PartAddingModeController } from "../../../../components/Mission/WorkPageSuite/Part/PartAddingModeController";
+import { TagDescriptionTuplePanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel";
 
 
 function initializeNotation(notation: ImageNotation<PartJob>) {
@@ -119,13 +118,13 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
   };
 
   render() {
-    const {imageUrl, job} = this.props.notation;
+    const {imageAsset, job} = this.props.notation;
 
     const {missionDetail, controllerProps, readonlyMode} = this.props;
     const selectedTuple = this.selectedTuple;
-    return <ImageWorkPageLayout imageUrl={imageUrl} imageHeight={this.state.height} imageWidth={this.state.width} setScale={this.setScale}>
+    return <ImageWorkPageLayout imageUrl={imageAsset.url} imageHeight={this.state.height} imageWidth={this.state.width} setScale={this.setScale}>
         <>
-          <RectanglePanel imageUrl={imageUrl}
+          <RectanglePanel imageUrl={imageAsset.url}
                           tuples={this.state.notation.job.tuples}
                           onDrawComplete={this.onTupleCreated}
                           addingMode={this.state.addingMode}
@@ -136,10 +135,10 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
           />
         </>
         <>
-          <MissionTipCard jobType={job.type}
-                          tags={missionDetail.publicItem.allowedTags}
-                          allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                          title={missionDetail.publicItem.title}
+          <ImageMissionTipCard imageMissionType={job.type}
+                               tagConfTuples={imageAsset.tagConfTuple}
+                               allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                               title={missionDetail.publicItem.title}
           />
           {readonlyMode ? null
             :
@@ -151,10 +150,12 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
             ? <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
                                         readonlyMode={readonlyMode}
                                         onChange={this.onTupleChanged}
-                                        allowedTags={missionDetail.publicItem.allowCustomTag ? null : missionDetail.publicItem.allowedTags}
+                                        allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                                        tagConfTuples={imageAsset.tagConfTuple}
             />
             : null}
-
+        </>
+      <>
           <ProgressController {...this.props.controllerProps}
                               goNext={this.goNext}
                               readonlyMode={this.props.readonlyMode}

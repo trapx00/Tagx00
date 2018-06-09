@@ -2,15 +2,20 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Layout } from "antd";
 import TweenOne from 'rc-tween-one';
-import QueueAnim from 'rc-queue-anim';
 import { Inject } from "react.di";
 import { BrowserStore } from "../../stores/BrowserStore";
 import { SvgImg } from "../../components/Common/SvgImg";
 import { SearchBar } from "./SearchBar";
 import { BrowserMissionList } from "./BrowserMissionList";
-import { action } from "mobx";
+import styled from "styled-components";
 
 const {Content} = Layout;
+
+const Container = styled.div`
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 @observer
 export class BrowserAnimatedContent extends React.Component<any, any> {
@@ -24,7 +29,8 @@ export class BrowserAnimatedContent extends React.Component<any, any> {
     const logoAnimation = [
       {scale: 0}
     ];
-    return <div>{!this.browserStore.isStop ? (
+    return <Container >
+      {!this.browserStore.isStop ? (
       <div>
         <TweenOne animation={logoAnimation}
                   paused={this.browserStore.paused}
@@ -62,6 +68,6 @@ export class BrowserAnimatedContent extends React.Component<any, any> {
           <BrowserMissionList/>
         </Content>
       </TweenOne>
-    </div>)}</div>
+    </div>)}</Container>
   }
 }

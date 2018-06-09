@@ -1,158 +1,45 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { ImageMissionDetail, ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import { ImageInstanceDetail } from "../../../../models/instance/image/ImageInstanceDetail";
-import { ImageNotation, ImageWorkStore } from "../../../../stores/ImageWorkStore";
+import { ImageWorkPageController } from "./ImageWorkPageController";
 import { observer } from "mobx-react";
 import { ImagePartWorkPage } from "./ImagePartWorkPage";
 import { ImageDistrictWorkPage } from "./ImageDistrictWorkPage";
 import { ImageWholeWorkPage } from "./ImageWholeWorkPage";
-import { message, Progress } from 'antd';
-import { CompleteModal } from "../../../../components/ImageWork/CompleteModal";
+import { RootWorkPageProps, WorkPage, WorkPageProps } from "../WorkPage";
 import { ImageJob } from "../../../../models/instance/image/job/ImageJob";
-import { action, observable, runInAction } from "mobx";
-import { WorkerService } from "../../../../api/WorkerService";
-import { Inject, Module } from "react.di";
-import { DistrictJob } from "../../../../models/instance/image/job/DistrictJob";
-import { LocaleStore } from "../../../../stores/LocaleStore";
+import { ImageNotation } from "./shared";
 
-interface Props {
-  instanceDetail: ImageInstanceDetail;
-  missionDetail: ImageMissionDetail;
-  token: string;
-  jumpBack: () => void;
-  readonlyMode: boolean;
+interface Props extends RootWorkPageProps<ImageMissionDetail, ImageInstanceDetail>{
+
 }
 
 const ID_PREFIX = "drawingPad.common.";
 
 
-@Module({
-  providers: [
-    {provide: ImageWorkStore, useClass: ImageWorkStore, noSingleton: true}
-  ]
-})
-@observer
-export class ImageWorkPage extends React.Component<Props, {}> {
+export class ImageWorkPage extends React.Component<Props> {
 
-  @Inject store: ImageWorkStore;
-  @Inject localeStore: LocaleStore;
+  controller: ImageWorkPageController = new ImageWorkPageController(this.props.missionDetail, this.props.instanceDetail);
 
-  @observable finishModalShown = true;
+  chooseWorkPage = (context: WorkPageProps<ImageMissionDetail, ImageJob, ImageNotation>) => {
 
-  @action saveWork = async (notation: ImageNotation) => {
-    this.store.saveWork(notation);
-    await this.store.saveProgress(this.props.token);
-    message.success(this.localeStore.get(ID_PREFIX + "finish.workSaved"));
-  };
-
-  goNext = (notation: ImageNotation) => {
-    this.store.saveWork(notation);
-    this.store.nextWork();
-  };
-
-  goPrevious = () => {
-    this.store.previousWork();
-  };
-
-  componentDidMount() {
-    const {instanceDetail, missionDetail} = this.props;
-    this.store.initialize(missionDetail, instanceDetail);
-    this.forceUpdate();
-  }
-
-  @action componentDidUpdate() {
-    if (this.store.finished) {
-      if (this.props.readonlyMode) {
-        message.info(this.localeStore.get(ID_PREFIX + "finish.readonlyComplete"));
-        this.store.workIndex--;
-        return;
-      } else {
-        this.finishModalShown = true;
-      }
-    }
-  }
-
-  submit = async () => {
-
-    const result = await this.store.submit(
-      this.props.token
-    );
-    if (result) {
-      console.log("success");
-      this.props.jumpBack();
-    } else {
-      console.log("failure");
-    }
-  };
-
-  @action cancelFinishModal = () => {
-    this.store.workIndex--;
-    this.finishModalShown = false;
-  };
-
-  saveProgress = async () => {
-    const result = await this.store.saveProgress(this.props.token);
-    if (result) {
-      console.log("success");
-      this.props.jumpBack();
-    } else {
-      console.log("failure");
-    }
-  };
-
-
-  chooseWorkPage() {
-    const currentWork: ImageNotation = this.store.currentWork;
-
-    if (this.store.finished) {
-      if (this.props.readonlyMode) {
-        return <div/>;
-      } else {
-        return <CompleteModal shown={this.finishModalShown}
-                              submit={this.submit}
-                              saveProgress={this.saveProgress}
-                              goBack={this.cancelFinishModal}
-
-        />;
-      }
-
-    }
-
-    const params = {
-      notation: currentWork as any,
-      submit: this.saveWork,
-      missionDetail: this.props.missionDetail,
-      goNext: this.goNext,
-      controllerProps: {
-        goPrevious: this.goPrevious,
-        previousAvailable: this.store.workIndex != 0,
-        saving: this.store.saving
-      },
-      readonlyMode: this.props.readonlyMode
-    };
-
+    const currentWork = context.notation;
     switch (currentWork.job.type) {
       case ImageMissionType.PART:
-        return <ImagePartWorkPage {...params}/>;
+        return <ImagePartWorkPage {...context as any}/>;
       case ImageMissionType.DISTRICT:
-        return <ImageDistrictWorkPage {...params}/>;
+        return <ImageDistrictWorkPage {...context as any}/>;
       case ImageMissionType.WHOLE:
-        return <ImageWholeWorkPage  {...params}/>;
+        return <ImageWholeWorkPage  {...context as any}/>;
     }
-  }
+  };
 
   render() {
 
-    const {instanceDetail, missionDetail} = this.props;
-
-    return <div style={{overflow: "hidden"}}>
-      {this.store.initialized ? this.chooseWorkPage() : null}
-      <div>
-        <Progress percent={this.store.progress / this.store.totalCount * 100}
-                  status="active"
-                  format={percent => `${this.store.progress}/${this.store.totalCount}`}
-        />
-      </div>
-    </div>;
+    return <WorkPage controller={this.controller}
+                     chooseWorkPage={this.chooseWorkPage}
+                     jumpBack={this.props.jumpBack}
+                     readonlyMode={this.props.readonlyMode}
+    />;
   }
 }

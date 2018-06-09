@@ -9,14 +9,24 @@ public class UserLoginResponse extends Response {
     private String token;
     private Collection<JwtRole> jwtRoles;
     private String email;
+    private String avatarUrl;
 
     public UserLoginResponse() {
     }
 
-    public UserLoginResponse(String token, Collection<JwtRole> jwtRoles, String email) {
+    public UserLoginResponse(String token, Collection<JwtRole> jwtRoles, String email, String avatarUrl) {
         this.token = token;
         this.jwtRoles = jwtRoles;
         this.email = email;
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public String getToken() {

@@ -8,11 +8,16 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.entity.account.Role;
-import trapx00.tagx00.exception.viewexception.NotMissionException;
+import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
+import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.exception.viewexception.TextNotExistException;
+import trapx00.tagx00.exception.viewexception.ThreeDimensionNotExistException;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
+import trapx00.tagx00.response.mission.TextGetResponse;
+import trapx00.tagx00.response.mission.ThreeModelGetResponse;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 @RestController
@@ -60,11 +65,66 @@ public class PublicMissionController {
     public ResponseEntity<Response> getOneMission(@PathVariable(name = "missionId") String missionId) {
         try {
             return new ResponseEntity<>(publicMissionBlService.getOneMissionDetail(missionId), HttpStatus.OK);
-        } catch (NotMissionException e) {
+        } catch (MissionIdDoesNotExistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
 
     }
 
+    //    @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
+    @Authorization(value = "工人、发布者、管理员")
+    @ApiOperation(value = "获得文本", notes = "通过base64后的url获得文本")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "string", paramType = "path"),
+            @ApiImplicitParam(name = "textToken", value = "base64后的url", required = true, dataType = "string", paramType = "path")
+    })
+    @RequestMapping(value = "/mission/text", method = RequestMethod.GET)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success", response = TextGetResponse.class),
+            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
+            @ApiResponse(code = 403, message = "Not requester or not the author of the mission", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
+    })
+    @ResponseBody
+    public ResponseEntity<Response> getText(@RequestParam(name = "token") String token) {
+        try {
+            return new ResponseEntity<>(publicMissionBlService.getText(token), HttpStatus.OK);
+        } catch (TextNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @Authorization(value = "工人、发布者、管理员")
+    @ApiOperation(value = "获得obj和mtl文件", notes = "通过base64后的两个url获得文本,以;分隔")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "string", paramType = "path"),
+            @ApiImplicitParam(name = "3dToken", value = "base64后的url", required = true, dataType = "string", paramType = "path")
+    })
+    @RequestMapping(value = "/mission/3dmodel", method = RequestMethod.GET)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success", response = ThreeModelGetResponse.class),
+            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
+            @ApiResponse(code = 403, message = "Not requester or not the author of the mission", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "mission not found", response = WrongResponse.class)
+    })
+    @ResponseBody
+    public ResponseEntity<Response> get3d(@RequestParam(name = "token") String tokens) {
+        try {
+            return new ResponseEntity<>(publicMissionBlService.get3d(tokens), HttpStatus.OK);
+        } catch (ThreeDimensionNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
 }

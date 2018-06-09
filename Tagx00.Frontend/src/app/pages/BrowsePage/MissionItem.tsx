@@ -4,10 +4,10 @@ import { Inject } from "react.di";
 import { WorkerService } from "../../api/WorkerService";
 import { UserStore } from "../../stores/UserStore";
 import { Link } from 'react-router-dom';
-import { MissionPublicItem } from "../../models/mission/Mission";
 import { LocaleDate, LocaleMessage } from "../../internationalization/components";
 import { RouterStore } from "../../stores/RouterStore";
 import styled from "styled-components";
+import { MissionPublicItem } from "../../models/mission/MissionPublicItem";
 
 interface Props {
   item: MissionPublicItem;
@@ -27,11 +27,16 @@ const Row = styled.div`
   align-items: center;
 `;
 
-const ImgContainer = styled.div`
+const Img = styled.img`
   margin-right: 16px;
+  width: 30%;
+  @media (max-width: 500px) {
+    width: 40%;
+  }
 `;
 
 const MetaContainer = styled.div`
+  min-width: 300px;
 `;
 
 
@@ -50,11 +55,8 @@ export class MissionItem extends React.PureComponent<Props, {}> {
   render() {
     const {item} = this.props;
     const toLink = `/mission?missionId=${this.props.item.missionId}`;
-    return <Row>
-        <ImgContainer>
-          <img width={272} alt="logo"
-             src={item.coverUrl}/>
-        </ImgContainer>
+    return <Row style={{marginBottom: "8px"}}>
+          <Img alt="logo" src={item.coverUrl}/>
       <MetaContainer>
         <List.Item
           actions={[

@@ -1,45 +1,32 @@
 import React from "react";
 import { AsyncRouteConfig, RedirectRouteConfig, RouteType } from "../../router/RouteConfig";
-import { asyncAction } from "mobx-utils";
 
 export const dashboardPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: true,
   path: "/self/dashboard",
-  render: async (props) => {
-    const Page = (await import("./dashboard/index")).DashboardPage;
-    return <Page/>;
-  },
+  component: import("./dashboard")
 };
 
 export const achievementPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: true,
   path: "/self/achievement",
-  render: async (props) => {
-    const Page = (await import("./AchievementPage")).AchievementPage;
-    return <Page/>;
-  },
+  component: import("./AchievementPage")
 };
 
-export const personalInfoPage: AsyncRouteConfig = {
-  type: RouteType.Async,
-  exact: true,
-  path: "/self/personalInfo",
-  render: async (props) => {
-    const Page = (await import("./personalInfo/index")).PersonalInfoPage;
-    return <Page/>;
-  },
-};
+// export const personalInfoPage: AsyncRouteConfig = {
+//   type: RouteType.Async,
+//   exact: true,
+//   path: "/self/personalInfo",
+//   component: import()
+// };
 
 export const manageTopicsPage: AsyncRouteConfig = {
   type: RouteType.Async,
   exact: true,
   path: "/self/topics",
-  render: async (props) => {
-    const Page = (await import("./topic/TopicsManagementPage")).TopicsManagementPage;
-    return <Page/>;
-  },
+  component: import("./topic/TopicsManagementPage")
 };
 
 export const selfRedirect: RedirectRouteConfig = {
@@ -53,6 +40,6 @@ export default [
   selfRedirect,
   dashboardPage,
   achievementPage,
-  personalInfoPage,
+  // personalInfoPage,
   manageTopicsPage,
 ]

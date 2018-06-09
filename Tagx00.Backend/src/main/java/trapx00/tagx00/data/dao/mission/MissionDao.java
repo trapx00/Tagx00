@@ -1,14 +1,11 @@
 package trapx00.tagx00.data.dao.mission;
 
-import java.util.ArrayList;
+import org.springframework.data.jpa.repository.JpaRepository;
+import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 
-public interface MissionDao<T> {
+import java.util.List;
 
-    T saveMission(T mission);
-
-    T findMissionByMissionId(int missionId);
-
-    ArrayList<T> findMissionByRequesterUsername(String requesterUsername);
-
-    ArrayList<T> findAll();
+public interface MissionDao extends JpaRepository<Mission, String> {
+    List<Mission> findMissionsByMissionType(MissionType missionType);
 }

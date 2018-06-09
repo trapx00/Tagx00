@@ -1,10 +1,9 @@
 import React from "react"
-import { Icon, Button } from "antd";
+import { Button, Icon } from "antd";
 import { Link } from 'react-router-dom';
 import { Localize } from "../../internationalization/components";
 import { Inject } from "react.di";
 import { RouterStore } from "../../stores/RouterStore";
-import { LocaleStore } from "../../stores/LocaleStore";
 import { RegisterStore } from "./RegisterStore";
 
 export class RegisterSuccessShower extends React.Component<any, any> {

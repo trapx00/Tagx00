@@ -37,7 +37,7 @@ public class AdminInfoBlServiceImpl implements AdminInfoBlService {
         User[] users = userDataService.findAllUsers();
         ArrayList<User> userResult = new ArrayList<>();
         for (User user : users) {
-            if (!user.getRoles().contains(Role.ADMIN)) {
+            if (!(user.getRole() == Role.ADMIN)) {
                 userResult.add(user);
             }
         }

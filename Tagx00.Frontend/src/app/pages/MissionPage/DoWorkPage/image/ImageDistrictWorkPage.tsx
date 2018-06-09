@@ -1,18 +1,19 @@
 import React from "react";
-import { ImageNotation } from "../../../../stores/ImageWorkStore";
 import { toJS } from "mobx";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
-import { MissionTipCard } from "../../../../components/ImageWork/MissionTipCard";
-import { ProgressController } from "../../../../components/ImageWork/ProgressController";
-import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
+import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
+import { ProgressController } from "../../../../components/Mission/WorkPageSuite/ProgressController";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import { DistrictJob, DistrictTagDescriptionTuple } from "../../../../models/instance/image/job/DistrictJob";
-import { DistrictPanel } from "../../../../components/ImageWork/DrawingPad/DistrictPanel";
-import { DistrictAddingModeController } from "../../../../components/ImageWork/DistrictAddingModeController";
-import { DistrictDrawingSession } from "../../../../components/ImageWork/DrawingPad/DistrictPanel/DistrictCanvas/DistrictDrawingSession";
-import { District } from "../../../../components/ImageWork/DrawingPad/DistrictPanel/Districts";
-import { ImageWorkPageLayout } from "./Layout";
-import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
+import { ImageNotation, ImageWorkPageProps, ImageWorkPageStates } from "./shared";
+import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
+import { MissionType } from "../../../../models/mission/Mission";
+import { ImageMissionTipCard } from "../../../../components/Mission/MissionTipCard/ImageMissionTipCard";
+import { District } from "../../../../components/Mission/WorkPageSuite/DrawingPad/DistrictPanel/Districts";
+import { DistrictDrawingSession } from "../../../../components/Mission/WorkPageSuite/DrawingPad/DistrictPanel/DistrictCanvas/DistrictDrawingSession";
+import { DistrictAddingModeController } from "../../../../components/Mission/WorkPageSuite/DistrictAddingModeController";
+import { DistrictPanel } from "../../../../components/Mission/WorkPageSuite/DrawingPad/DistrictPanel";
+import { TagDescriptionTuplePanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel";
 
 function initializeNotation(notation: ImageNotation<DistrictJob>) {
   if (!(notation.job && notation.job.tuples)) {
@@ -133,7 +134,7 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
   };
 
   render() {
-    const {imageUrl, job} = this.props.notation;
+    const {imageAsset, job} = this.props.notation;
 
     const {missionDetail, readonlyMode} = this.props;
 
@@ -146,9 +147,9 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
 
 
 
-    return <ImageWorkPageLayout imageUrl={imageUrl} imageWidth={this.state.width} imageHeight={this.state.height} setScale={this.setScale}>
+    return <ImageWorkPageLayout imageUrl={imageAsset.url} imageWidth={this.state.width} imageHeight={this.state.height} setScale={this.setScale}>
           <>
-            <DistrictPanel imageUrl={imageUrl}
+            <DistrictPanel imageUrl={imageAsset.url}
                            tuples={this.state.notation.job.tuples}
                            addingMode={this.state.addingMode}
                            session={session}
@@ -159,10 +160,10 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
             />
         </>
         <>
-          <MissionTipCard jobType={job.type}
-                          tags={missionDetail.publicItem.allowedTags}
-                          allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                          title={missionDetail.publicItem.title}
+          <ImageMissionTipCard imageMissionType={job.type}
+                               tagConfTuples={imageAsset.tagConfTuple}
+                               allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                               title={missionDetail.publicItem.title}
           />
           {readonlyMode ? null
             : <DistrictAddingModeController session={session} start={this.startAdding}
@@ -176,10 +177,12 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
             ? <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
                                         readonlyMode={readonlyMode}
                                         onChange={this.onTupleChanged}
-                                        allowedTags={missionDetail.publicItem.allowCustomTag ? null : missionDetail.publicItem.allowedTags}
+                                        allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                                        tagConfTuples={imageAsset.tagConfTuple}
             />
             : null}
-
+</>
+      <>
           <ProgressController {...this.props.controllerProps}
                               goNext={this.goNext}
                               readonlyMode={readonlyMode}

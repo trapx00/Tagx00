@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.exception.viewexception.*;
@@ -13,6 +14,7 @@ import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.WrongResponse;
+import trapx00.tagx00.response.mission.ImageIdentificationResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.util.MissionUtil;
@@ -109,6 +111,25 @@ public class WorkerMissionController {
     }
 
     @Authorization(value = "工人")
+    @ApiOperation(value = "工人识别图片内容", notes = "工人识别图片内容")
+    @RequestMapping(value = "/mission/worker/image/identify", method = RequestMethod.POST)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Progress saved.", response = ImageIdentificationResponse.class),
+            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
+            @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
+    })
+    @ResponseBody
+    public ResponseEntity<Response> identifyImage(@RequestParam("file") MultipartFile multipartFile) {
+        try {
+            return new ResponseEntity<>(workerMissionBlService.identifyImage(multipartFile), HttpStatus.OK);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Authorization(value = "工人")
     @ApiOperation(value = "工人提交任务", notes = "工人用当前的进度提交任务,如果是空的就是接受任务")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "dataType", value = "任务类型", required = true, dataType = "MissionType"),
@@ -161,6 +182,9 @@ public class WorkerMissionController {
         } catch (InstanceNotExistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 }

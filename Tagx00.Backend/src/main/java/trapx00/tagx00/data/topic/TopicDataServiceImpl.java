@@ -60,7 +60,7 @@ public class TopicDataServiceImpl implements TopicDataService {
     @Override
     public void deleteTopics(ArrayList<Integer> topics) {
         for (int topicId : topics) {
-            topicDao.delete(topicId);
+            topicDao.deleteById(topicId);
         }
     }
 }

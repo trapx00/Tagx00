@@ -18,8 +18,6 @@ import trapx00.tagx00.response.user.UserRegisterConfirmationResponse;
 import trapx00.tagx00.response.user.UserRegisterResponse;
 import trapx00.tagx00.vo.user.UserSaveVo;
 
-import java.util.ArrayList;
-
 @RestController
 public class UserController {
     private final UserBlService userBlService;
@@ -75,9 +73,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<Response> register(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email, @RequestParam("role") Role role) {
         try {
-            ArrayList<Role> roles = new ArrayList<>();
-            roles.add(role);
-            return new ResponseEntity<>(userBlService.signUp(new UserSaveVo(username, password, email, roles)), HttpStatus.CREATED);
+            return new ResponseEntity<>(userBlService.signUp(new UserSaveVo(username, password, email, role)), HttpStatus.CREATED);
         } catch (UserAlreadyExistsException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.CONFLICT);

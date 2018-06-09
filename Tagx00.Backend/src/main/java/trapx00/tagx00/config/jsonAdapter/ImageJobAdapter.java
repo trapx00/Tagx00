@@ -7,7 +7,7 @@ import trapx00.tagx00.vo.mission.image.ImageMissionType;
 
 import java.lang.reflect.Type;
 
-public class ImageJobAdapter implements JsonDeserializer<ImageJob> {
+public class ImageJobAdapter implements JsonDeserializer<ImageJob>, JsonSerializer<ImageJob> {
 
     @Override
     public ImageJob deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -15,5 +15,11 @@ public class ImageJobAdapter implements JsonDeserializer<ImageJob> {
                 ImageMissionType.valueOf(
                         json.getAsJsonObject().get("type").getAsString()
                 ).clazz);
+    }
+
+    @Override
+    public JsonElement serialize(ImageJob src, Type typeOfSrc, JsonSerializationContext context) {
+//        return new JsonPrimitive(GsonFactory.get().toJson(src, src.getType().getJobClass()));
+        return new Gson().toJsonTree(src);
     }
 }

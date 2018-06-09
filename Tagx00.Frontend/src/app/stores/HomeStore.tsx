@@ -1,5 +1,5 @@
 import { Injectable } from "react.di";
-import { action, computed, observable } from "mobx";
+import { observable } from "mobx";
 
 @Injectable
 export class HomeStore {

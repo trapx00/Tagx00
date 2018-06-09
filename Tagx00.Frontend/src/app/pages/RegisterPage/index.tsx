@@ -27,7 +27,7 @@ const FormContainer = styled.div`
 })
 
 @observer
-export class RegisterPage extends React.Component<any, any> {
+export default class RegisterPage extends React.Component<any, any> {
   @Inject registerStore: RegisterStore;
 
   render() {

@@ -3,13 +3,13 @@ import TweenOne from 'rc-tween-one';
 import OverPack from 'rc-scroll-anim/lib/ScrollOverPack';
 import QueueAnim from 'rc-queue-anim';
 import { LocaleMessage } from "../../internationalization/components";
-import { SvgImg } from "../Common/SvgImg";
 import { Link } from 'react-router-dom';
 import { observer } from "mobx-react";
 import { LocaleStore } from "../../stores/LocaleStore";
 import { Inject } from "react.di";
 import styled from "styled-components";
-import img from '../../../assets/logo.png';
+import img from '../../../assets/svg/.png';
+import { SvgImg } from "../Common/SvgImg";
 
 export interface FooterProps {
   isMobile?: boolean;
@@ -110,8 +110,7 @@ export class Footer extends React.Component<FooterProps, any> {
       <QueueAnim type="bottom" component="ul" key="ul" leaveReverse id={`${props.id}-ul`}>
         <li key="logo" id={`${props.id}-logo`}>
           <LogoContainer>
-            <img src={img}/>
-            <span>Tag x00</span>
+            <SvgImg filePath={"tag_x00_logo_landscape_with_texts.svg"} height={50} width={170}/>
           </LogoContainer>
           <p><LocaleMessage id={ID_PREFIX + "productDescription"}/></p>
         </li>

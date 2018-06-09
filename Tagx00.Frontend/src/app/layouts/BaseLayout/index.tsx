@@ -7,26 +7,19 @@ import { CONTENT_SIDE_PADDING, UiStore } from "../../stores/UiStore";
 import { MainHeader } from "../../components/Nav/MainHeader";
 import { observer } from "mobx-react";
 import { NavStore } from "../../stores/NavStore";
+import { PageWideLoadingBar } from "../../components/PageWideLoadingBar";
+import { LoadingBarContainer } from "./LoadingBarContainer";
+import { action } from "mobx";
 
 const {Header, Content, Sider} = Layout;
 
-@observer
 export class BaseLayout extends React.Component<{}, {}> {
 
-  @Inject uiStore: UiStore;
-  @Inject navStore: NavStore;
 
   render() {
-    return <Layout className="layout">
-      {this.navStore.navMenuShown
-      &&
-
-      <Sider
-        trigger={null}
-      >
-        <MainNav/>
-      </Sider>
-      }
+    return <Layout style={{position :"relative"}}>
+      <LoadingBarContainer/>
+      <MainNav/>
       <Layout>
         <MainHeader/>
         <Content style={{padding: `${CONTENT_SIDE_PADDING}px ${CONTENT_SIDE_PADDING}px`}}>

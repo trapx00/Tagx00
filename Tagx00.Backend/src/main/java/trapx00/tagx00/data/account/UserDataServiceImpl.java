@@ -15,8 +15,10 @@ import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.exception.viewexception.InvalidEmailAddressesException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserDoesNotExistException;
+import trapx00.tagx00.util.MD5Util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserDataServiceImpl implements UserDataService {
@@ -91,7 +93,7 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public void deleteUser(String username) {
-        userDao.delete(username);
+        userDao.deleteById(username);
     }
 
     /**
@@ -152,7 +154,7 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public void deleteTempUserByUsername(String tempUsername) {
-        tempUserDao.delete(tempUsername);
+        tempUserDao.deleteById(tempUsername);
     }
 
     /**
@@ -185,7 +187,18 @@ public class UserDataServiceImpl implements UserDataService {
      */
     @Override
     public User[] findAllUsers() {
-        ArrayList<User> userArrayList = userDao.findAll();
+        List<User> userArrayList = userDao.findAll();
         return userArrayList.toArray(new User[userArrayList.size()]);
+    }
+
+    /**
+     * get the avatar url of user
+     *
+     * @param email
+     * @return avatar url
+     */
+    @Override
+    public String getUserAvatarUrl(String email) {
+        return "https://www.gravatar.com/avatar/" + MD5Util.md5Hex(email) + "?s=200";
     }
 }
