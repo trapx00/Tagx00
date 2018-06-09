@@ -7,7 +7,7 @@ import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
 import java.lang.reflect.Type;
 
-public class MissionPropertiesAdapter implements JsonDeserializer<MissionProperties> {
+public class MissionPropertiesAdapter implements JsonDeserializer<MissionProperties>, JsonSerializer<MissionProperties> {
     /**
      * Gson invokes this call-back method during deserialization when it encounters a field of the
      * specified type.
@@ -27,5 +27,11 @@ public class MissionPropertiesAdapter implements JsonDeserializer<MissionPropert
     public MissionProperties deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         return GsonFactory.get().fromJson(json,
                 MissionType.valueOf(json.getAsJsonObject().get("type").getAsString()).propertiesClass);
+    }
+
+    @Override
+    public JsonElement serialize(MissionProperties src, Type typeOfSrc, JsonSerializationContext context) {
+//        return new JsonPrimitive(GsonFactory.get().toJson(src, src.getType().getPropertiesClass()));
+        return new Gson().toJsonTree(src);
     }
 }

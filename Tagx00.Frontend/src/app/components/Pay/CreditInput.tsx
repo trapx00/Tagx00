@@ -1,7 +1,6 @@
 import React from 'react';
 import { Inject } from "react.di";
 import { PayService } from "../../api/PayService";
-import { action } from "mobx";
 import { Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { FormItemProps } from "antd/lib/form/FormItem";
@@ -58,7 +57,7 @@ export class CreditInput extends React.Component<Props, State> {
   componentDidMount() {
     if (this.state.availableCredits == -1) {
       const func = this.props.getRemainingCredits ||
-        (async () => (await this.payService.getCredits(this.userStore.token)).credits);
+        (async () => (await this.payService.getCredits()).credits);
       func().then(credits => {
         this.setState({
           availableCredits: credits,

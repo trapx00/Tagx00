@@ -3,22 +3,21 @@ package trapx00.tagx00.vo.user;
 import trapx00.tagx00.entity.account.Role;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class UserSaveVo implements Serializable {
     private String username;
     private String password;
     private String email;
-    private List<Role> roles;
+    private Role role;
 
     public UserSaveVo() {
     }
 
-    public UserSaveVo(String username, String password, String email, List<Role> roles) {
+    public UserSaveVo(String username, String password, String email, Role role) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.roles = roles;
+        this.role = role;
     }
 
     public String getUsername() {
@@ -45,11 +44,11 @@ public class UserSaveVo implements Serializable {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

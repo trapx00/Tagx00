@@ -21,7 +21,7 @@ interface State {
     HomeStore
   ]
 })
-export class HomePage extends React.Component<any, State> {
+export default class HomePage extends React.Component<any, State> {
   constructor(props) {
     super(props);
     this.state = {

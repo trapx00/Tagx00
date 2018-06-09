@@ -1,9 +1,9 @@
 package trapx00.tagx00.entity.account;
 
-import trapx00.tagx00.entity.Entity;
-import trapx00.tagx00.entity.annotation.Column;
+import javax.persistence.Embeddable;
 
-public class Role extends Entity {
+@Embeddable
+public class Role {
     public final static String WORKER_NAME = "ROLE_WORKER";
     public final static String REQUESTER_NAME = "ROLE_REQUESTER";
     public final static String ADMIN_NAME = "ROLE_ADMIN";
@@ -11,8 +11,6 @@ public class Role extends Entity {
     public final static Role REQUESTER = new Role(REQUESTER_NAME);
     public final static Role ADMIN = new Role(ADMIN_NAME);
 
-
-    @Column(name = "name")
     private String name;
 
     public Role() {

@@ -1,5 +1,6 @@
 package trapx00.tagx00.dataservice.mission;
 
+import net.sf.json.JSONArray;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -7,7 +8,16 @@ import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
+import java.io.IOException;
+
 public interface WorkerMissionDataService {
+
+    /**
+     * update the progress of the instance.
+     *
+     * @param instanceVo
+     */
+    String updateInstanceDetailVo(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, IOException;
 
     /**
      * save the progress of the instance.
@@ -16,7 +26,7 @@ public interface WorkerMissionDataService {
      *
      * @param instanceVo
      */
-    int saveInstanceDetailVo(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
+    String saveInstanceDetailVo(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, IOException;
 
     /**
      * save the instance
@@ -24,7 +34,7 @@ public interface WorkerMissionDataService {
      * @param instanceId
      * @param missionType
      */
-    int abortInstance(int instanceId, MissionType missionType);
+    int abortInstance(String instanceId, MissionType missionType) throws IOException;
 
 
     /**
@@ -43,7 +53,7 @@ public interface WorkerMissionDataService {
      * @param missionType
      * @return the instance matching username and missionId
      */
-    InstanceDetailVo getInstanceDetailVoByUsernameAndMissionId(String workerUsername, int missionId, MissionType missionType);
+    InstanceDetailVo getInstanceDetailVoByUsernameAndMissionId(String workerUsername, String missionId, MissionType missionType) throws IOException, ClassNotFoundException;
 
     /**
      * get the information of  instance by username and missionId
@@ -53,15 +63,23 @@ public interface WorkerMissionDataService {
      * @param missionType
      * @return the instance matching username and missionId
      */
-    Instance getInstanceByUsernameAndMissionId(String workerUsername, int missionId, MissionType missionType);
+    Instance getInstanceByUsernameAndMissionId(String workerUsername, String missionId, MissionType missionType);
 
     /**
-     * delte the mission of a worker
+     * delete the mission of a worker
      *
      * @param missionId
      * @param username
      * @param missionType
      * @return
      */
-    boolean deleteInstanceByMissionIdAndUsername(int missionId, String username, MissionType missionType);
+    boolean deleteInstanceByMissionIdAndUsername(String missionId, String username, MissionType missionType) throws IOException, ClassNotFoundException;
+
+    /**
+     * identify the image
+     *
+     * @param bytes
+     * @return
+     */
+    JSONArray identifyImage(byte[] bytes) throws SystemException;
 }

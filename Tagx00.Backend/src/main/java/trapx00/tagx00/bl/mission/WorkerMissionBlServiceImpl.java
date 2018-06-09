@@ -1,13 +1,17 @@
 package trapx00.tagx00.bl.mission;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.*;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.response.SuccessResponse;
+import trapx00.tagx00.response.mission.ImageIdentificationResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.util.MissionUtil;
@@ -16,8 +20,11 @@ import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
@@ -66,9 +73,14 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return whether the abortion is successful
      */
     @Override
-    public SuccessResponse abort(String missionId, String workerUsername) {
-        Instance instance = workerMissionDataService.getInstanceByUsernameAndMissionId(workerUsername, MissionUtil.getId(missionId), MissionUtil.getType(missionId));
-        workerMissionDataService.abortInstance(instance.getInstanceId(), instance.getMissionType());
+    public SuccessResponse abort(String missionId, String workerUsername) throws SystemException {
+        Instance instance = workerMissionDataService.getInstanceByUsernameAndMissionId(workerUsername, missionId, MissionUtil.getType(missionId));
+        try {
+            workerMissionDataService.abortInstance(instance.getInstanceId(), instance.getMissionType());
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
         return new SuccessResponse("Success Delete");
     }
 
@@ -80,8 +92,14 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return MissionQueryDetailResponse the detail of the mission
      */
     @Override
-    public InstanceDetailResponse getInstanceInformation(String missionId, String workerUsername) throws InstanceNotExistException {
-        InstanceDetailVo instanceDetailVo = workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(workerUsername, MissionUtil.getId(missionId), MissionUtil.getType(missionId));
+    public InstanceDetailResponse getInstanceInformation(String missionId, String workerUsername) throws InstanceNotExistException, SystemException {
+        InstanceDetailVo instanceDetailVo;
+        try {
+            instanceDetailVo = workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(workerUsername, missionId, MissionUtil.getType(missionId));
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
         if (instanceDetailVo == null)
             throw new InstanceNotExistException();
         InstanceDetailResponse instanceDetailResponse = new InstanceDetailResponse(instanceDetailVo);
@@ -97,7 +115,12 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse saveProgress(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException, UnmatchedUsernameAndMissionId {
-        workerMissionDataService.saveInstanceDetailVo(instanceVo);
+        try {
+            workerMissionDataService.updateInstanceDetailVo(instanceVo);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
         return new SuccessResponse("Success Save");
     }
 
@@ -109,14 +132,52 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      */
     @Override
     public SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException {
-        if (workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(UserInfoUtil.getUsername(), MissionUtil.getId(instanceVo.getInstance().getMissionId()), instanceVo.getMissionType()) == null)
-            workerMissionDataService.saveInstanceDetailVo(instanceVo);
-        else {
-            instanceVo.getInstance().setSubmitted(true);
-            instanceVo.getInstance().setSubmitDate(new Date());
-            instanceVo.getInstance().setMissionInstanceState(MissionInstanceState.SUBMITTED);
-            workerMissionDataService.saveInstanceDetailVo(instanceVo);
+        try {
+            if (workerMissionDataService.getInstanceDetailVoByUsernameAndMissionId(UserInfoUtil.getUsername(), instanceVo.getInstance().getMissionId(), instanceVo.getMissionType()) == null) {
+                try {
+                    workerMissionDataService.saveInstanceDetailVo(instanceVo);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new SystemException();
+                }
+            } else {
+                instanceVo.getInstance().setSubmitted(true);
+                instanceVo.getInstance().setSubmitDate(new Date());
+                instanceVo.getInstance().setMissionInstanceState(MissionInstanceState.SUBMITTED);
+                try {
+                    workerMissionDataService.updateInstanceDetailVo(instanceVo);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new SystemException();
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new SystemException();
         }
         return new SuccessResponse("Success Save");
+    }
+
+    /**
+     * identify the image's type
+     *
+     * @param multipartFile
+     * @return
+     */
+    @Override
+    public ImageIdentificationResponse identifyImage(MultipartFile multipartFile) throws SystemException {
+        try {
+            JSONArray imageInfo = workerMissionDataService.identifyImage(multipartFile.getBytes());
+            Map<String, Double> resultMap = new HashMap<>();
+            for (int i = 0; i < imageInfo.size(); i++) {
+                JSONObject jsonObject = (JSONObject) imageInfo.get(i);
+                resultMap.put((String) jsonObject.get("value"), (Double) jsonObject.get("confidence"));
+            }
+            ImageIdentificationResponse imageIdentificationResponse = new ImageIdentificationResponse(resultMap);
+            return imageIdentificationResponse;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
     }
 }

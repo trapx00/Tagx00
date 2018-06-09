@@ -1,8 +1,6 @@
 import React from 'react';
-import { Modal, Button, Form, Input } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 import { LocaleMessage, Localize } from "../../../../internationalization/components";
-import { FinalizeForm } from "./FinalizeForm";
-import { FormItem } from "../../../../components/Form/FormItem";
 
 export interface FinalizeInfo {
   exp: number;

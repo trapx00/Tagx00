@@ -7,13 +7,16 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
 import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
+import trapx00.tagx00.dataservice.topic.TopicDataService;
+import trapx00.tagx00.entity.ThreeDimensionMission;
 import trapx00.tagx00.entity.account.User;
-import trapx00.tagx00.entity.mission.ImageMission;
-import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.mlservice.PythonService;
 import trapx00.tagx00.publicdatas.mission.MissionState;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.response.mission.MissionCreateResponse;
@@ -28,7 +31,13 @@ import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
+import trapx00.tagx00.vo.mission.text.TextMissionProperties;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionProperties;
+import trapx00.tagx00.vo.mission.video.VideoMissionProperties;
+import trapx00.tagx00.vo.mission.audio.AudioMissionProperties;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionType;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -39,16 +48,18 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     private final UserDataService userDataService;
     private final UserDetailsService userDetailsService;
     private final JwtService jwtService;
-
+    private final PythonService pythonService;
+    private final TopicDataService topicDataService;
 
     @Autowired
     public RequesterMissionBlServiceImpl(RequesterMissionDataService requesterMissionDataService,
-                                         UserDataService userDataService, @Qualifier("jwtUserDetailsServiceImpl") UserDetailsService userDetailsService, JwtService jwtService) {
+                                         UserDataService userDataService, @Qualifier("jwtUserDetailsServiceImpl") UserDetailsService userDetailsService, JwtService jwtService, PythonService pythonService, TopicDataService topicDataService) {
         this.requesterMissionDataService = requesterMissionDataService;
         this.userDataService = userDataService;
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
-
+        this.pythonService = pythonService;
+        this.topicDataService = topicDataService;
     }
 
     /**
@@ -59,14 +70,28 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public MissionCreateResponse createMission(MissionCreateVo mission) throws SystemException {
+//        KeysVo keysVo = pythonService.extractKey(mission.getDescription());
+//        for (String topic : keysVo.getKeys()) {
+//            if (!topicDataService.isTopicExists(topic)) {
+//                topicDataService.addTopic(topic);
+//            }
+//        }
         String username = UserInfoUtil.getUsername();
-        int missionId = requesterMissionDataService.saveMission(generateMission(mission));
+//        mission.setTopics(keysVo.getKeys());
+
+        String missionId;
+        try {
+            missionId = requesterMissionDataService.saveMission(generateMission(mission));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
         User user = userDataService.getUserByUsername(username);
         user.setCredits(user.getCredits() - mission.getCredits());
         userDataService.saveUser(user);
         JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
         String token = jwtService.generateToken(jwtUser, EXPIRATION);
-        return new MissionCreateResponse(MissionUtil.addTypeToId(missionId, mission.getMissionType()), token);
+        return new MissionCreateResponse(missionId, token);
     }
     /**
      *
@@ -83,7 +108,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
         if (missionId.length() == 0) {
             return queryAllInstances();
         }
-        InstanceVo[] instance = requesterMissionDataService.getInstancesByMissionId(MissionUtil.getId(missionId), MissionUtil.getType(missionId));
+        InstanceVo[] instance = requesterMissionDataService.getInstancesByMissionId(missionId, MissionUtil.getType(missionId));
         InstanceResponse instanceResponse = new InstanceResponse(Arrays.asList(instance));
         return instanceResponse;
     }
@@ -102,7 +127,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      */
     @Override
     public InstanceDetailResponse queryInstance(String instanceId) throws InstanceNotExistException {
-        InstanceDetailVo instanceVo = requesterMissionDataService.getInstanceByInstanceId(MissionUtil.getId(instanceId), MissionUtil.getType(instanceId));
+        InstanceDetailVo instanceVo = requesterMissionDataService.getInstanceByInstanceId(instanceId, MissionUtil.getType(instanceId));
         if (instanceVo == null)
             throw new InstanceNotExistException();
         InstanceDetailResponse instanceDetailResponse = new InstanceDetailResponse(instanceVo);
@@ -117,13 +142,18 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return MissionChargeResponse
      */
     @Override
-    public MissionChargeResponse chargeMission(String missionId, int credits) throws SystemException {
-        requesterMissionDataService.updateMission(MissionUtil.getId(missionId), credits, MissionUtil.getType(missionId));
-        User user = userDataService.getUserByUsername(UserInfoUtil.getUsername());
-        user.setCredits(user.getCredits() - credits);
-        userDataService.saveUser(user);
-        Mission mission = requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId), MissionUtil.getType(missionId));
-        return new MissionChargeResponse(mission.getCredits());
+    public MissionChargeResponse chargeMission(String missionId, int credits) throws SystemException, MissionIdDoesNotExistException {
+        try {
+            requesterMissionDataService.updateMission(missionId, credits, MissionUtil.getType(missionId));
+            User user = userDataService.getUserByUsername(UserInfoUtil.getUsername());
+            user.setCredits(user.getCredits() - credits);
+            userDataService.saveUser(user);
+            Mission mission = requesterMissionDataService.getMissionByMissionId(missionId);
+            return new MissionChargeResponse(mission.getCredits());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
     }
 
     /**
@@ -133,13 +163,14 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return MissionRequestQueryResponse
      */
     @Override
-    public MissionRequestQueryResponse queryMissionCredits(String missionId) throws MissionIdDoesNotExistException {
-        Mission result = null;
-        if ((result = requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId),
-                MissionUtil.getType(missionId))) == null)
-            throw new MissionIdDoesNotExistException();
-        else
+    public MissionRequestQueryResponse queryMissionCredits(String missionId) throws MissionIdDoesNotExistException, SystemException {
+        try {
+            Mission result = requesterMissionDataService.getMissionByMissionId(missionId);
             return new MissionRequestQueryResponse(result.getCredits());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
     }
 
 
@@ -151,27 +182,84 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
      * @return InstanceDetailResponse
      */
     @Override
-    public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws SystemException {
-        requesterMissionDataService.updateInstance(MissionUtil.getId(instanceId), missionFinalizeVo, MissionUtil.getType(instanceId));
-        InstanceDetailVo instanceDetailVo = requesterMissionDataService.getInstanceByInstanceId(MissionUtil.getId(instanceId), MissionUtil.getType(instanceId));
-        String missionId = instanceDetailVo.getInstance().getMissionId();
-        Mission mission = requesterMissionDataService.getMissionByMissionId(MissionUtil.getId(missionId), MissionUtil.getType(missionId));
-        User user = userDataService.getUserByUsername(instanceDetailVo.getInstance().getWorkerUsername());
-        user.setCredits(user.getCredits() + missionFinalizeVo.getCredits());
-        user.setExp(user.getExp() + missionFinalizeVo.getExpRatio() * mission.getLevel() * 20);
+    public InstanceDetailResponse finalize(String instanceId, MissionFinalizeVo missionFinalizeVo) throws SystemException, MissionIdDoesNotExistException {
+        try {
+            requesterMissionDataService.updateInstance(instanceId, missionFinalizeVo, MissionUtil.getType(instanceId));
+            InstanceDetailVo instanceDetailVo = requesterMissionDataService.getInstanceByInstanceId(instanceId, MissionUtil.getType(instanceId));
+            String missionId = instanceDetailVo.getInstance().getMissionId();
+            Mission mission = requesterMissionDataService.getMissionByMissionId(missionId);
+            User user = userDataService.getUserByUsername(instanceDetailVo.getInstance().getWorkerUsername());
+            user.setCredits(user.getCredits() + missionFinalizeVo.getCredits());
+            user.setExp(user.getExp() + missionFinalizeVo.getExpRatio() * mission.getLevel() * 20);
 
-        userDataService.saveUser(user);
+            userDataService.saveUser(user);
 
-        requesterMissionDataService.updateMission(mission.getMissionId(), -missionFinalizeVo.getCredits(), mission.getMissionType());
+            requesterMissionDataService.updateMission(mission.getMissionId(), -missionFinalizeVo.getCredits(), mission.getMissionType());
 
-        return new InstanceDetailResponse(
-                requesterMissionDataService.getInstanceByInstanceId(MissionUtil.getId(instanceId), MissionUtil.getType(instanceId)));
+            return new InstanceDetailResponse(
+                    requesterMissionDataService.getInstanceByInstanceId(instanceId, MissionUtil.getType(instanceId)));
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new SystemException();
+        }
     }
 
     private Mission generateMission(MissionCreateVo missionCreateVo) {
-        switch (missionCreateVo.getMissionType()) {
+        switch (missionCreateVo.getProperties().getType()) {
             case IMAGE:
-                return new ImageMission(0, missionCreateVo.getTitle(), missionCreateVo.getDescription(), missionCreateVo.getTopics(), missionCreateVo.isAllowCustomTag(), missionCreateVo.getAllowedTags(), missionCreateVo.getMissionType(), MissionState.PENDING, missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<String>(), ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes());
+                return new ImageMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
+                        missionCreateVo.getTopics(), MissionType.IMAGE,
+                        MissionState.PENDING,
+                        missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
+                        missionCreateVo.getLevel(),
+                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
+                        ((ImageMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
+                        new ArrayList<>(((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags().keySet()),
+                        new ArrayList<>(),
+                        ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(),
+                        new ArrayList<>(),new ArrayList<>());
+            case TEXT:
+                return new TextMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
+                        missionCreateVo.getTopics(), missionCreateVo.getProperties().getType(), MissionState.PENDING,
+                        missionCreateVo.getStart(), missionCreateVo.getEnd(),
+                        "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(),
+                        missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(), ((TextMissionProperties) missionCreateVo.getProperties()).getSettings(), new ArrayList<>(), new ArrayList<>()
+                );
+            case THREE_DIMENSION:
+                return new ThreeDimensionMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
+                        missionCreateVo.getTopics(), MissionType.THREE_DIMENSION,
+                        MissionState.PENDING,
+                        missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
+                        missionCreateVo.getLevel(),
+                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
+                        ((ThreeDimensionMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
+                        new ArrayList<>(), ((ThreeDimensionMissionProperties) missionCreateVo.getProperties()).getTags(),
+                        new ArrayList<>(),new ArrayList<>());
+            case VIDEO:
+                return new VideoMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
+                        missionCreateVo.getTopics(), MissionType.VIDEO,
+                        MissionState.PENDING,
+                        missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
+                        missionCreateVo.getLevel(),
+                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
+                        ((VideoMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
+                        ((VideoMissionProperties) missionCreateVo.getProperties()).getTags(),
+                        new ArrayList<>(),
+                        ((VideoMissionProperties) missionCreateVo.getProperties()).getVideoMissionTypes(),
+                        new ArrayList<>(),new ArrayList<>());
+            case AUDIO:
+                return new AudioMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
+                        missionCreateVo.getTopics(), MissionType.AUDIO,
+                        MissionState.PENDING,
+                        missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
+                        missionCreateVo.getLevel(),
+                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
+                        ((AudioMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
+                        ((AudioMissionProperties) missionCreateVo.getProperties()).getAllowedTags(),
+                        new ArrayList<>(),
+                        ((AudioMissionProperties) missionCreateVo.getProperties()).getAudioMissionTypes(),
+                        new ArrayList<>(),new ArrayList<>());
+
         }
         return null;
     }

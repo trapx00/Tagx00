@@ -2,10 +2,8 @@ import React from 'react';
 import { MissionCardPane } from "./MissionCardPane";
 import { WorkerService } from "../../../api/WorkerService";
 import { Inject } from "react.di";
-import { UserStore } from "../../../stores/UserStore";
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { Loading } from "../../../components/Common/Loading";
-import { waitForMs } from "../../../../utils/Wait";
 
 interface Props {
 
@@ -16,9 +14,8 @@ interface State {
 }
 
 
-export class WorkerMissionPanel extends React.Component<Props, State> {
+export default class WorkerMissionPanel extends React.Component<Props, State> {
   @Inject workerService: WorkerService;
-  @Inject userStore: UserStore;
 
   state = {
     key: 0
@@ -30,7 +27,7 @@ export class WorkerMissionPanel extends React.Component<Props, State> {
 
 
   renderList = async () => {
-    const instances = await this.workerService.getAllInstances(this.userStore.token);
+    const instances = await this.workerService.getAllInstances();
     return <MissionCardPane items={instances} refresh={this.refresh} />;
 
   };

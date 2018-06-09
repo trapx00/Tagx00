@@ -1,15 +1,11 @@
 import React from 'react';
 import { Inject } from "react.di";
-import { UserStore } from "../../../../stores/UserStore";
 import { RequesterService } from "../../../../api/RequesterService";
-import { action, runInAction } from "mobx";
 import { Button, Modal } from 'antd';
 import { MissionFinalizeParameters } from "../../../../models/instance/MissionFinalizeParameters";
 import { LocaleMessage } from "../../../../internationalization/components";
 import { FinalizeForm } from "./FinalizeForm";
 import { PayService } from "../../../../api/PayService";
-import { InstanceDetailResponse } from "../../../../models/response/mission/InstanceDetailResponse";
-import { Loading } from "../../../../components/Common/Loading";
 
 interface Props {
   instanceId: string;
@@ -30,7 +26,6 @@ export class FinalizeModal extends React.Component<Props, State> {
   parameters: MissionFinalizeParameters = new MissionFinalizeParameters();
 
   @Inject requesterService: RequesterService;
-  @Inject userStore: UserStore;
   @Inject payService: PayService;
 
   state = {
@@ -39,7 +34,7 @@ export class FinalizeModal extends React.Component<Props, State> {
 
 
   getAvailableCredits = async () => {
-    return (await this.requesterService.getRemainingCreditsForAMission(this.props.missionId, this.userStore.token)).remainingCredits;
+    return (await this.requesterService.getRemainingCreditsForAMission(this.props.missionId)).remainingCredits;
   };
 
   submit = async () => {
@@ -47,7 +42,7 @@ export class FinalizeModal extends React.Component<Props, State> {
       return;
     }
     this.setState({submitting: true});
-    const res = await this.requesterService.finalize(this.props.instanceId, this.parameters.value, this.userStore.token);
+    const res = await this.requesterService.finalize(this.props.instanceId, this.parameters.value);
     this.setState({submitting: false});
     Modal.success({
       title: "成功",

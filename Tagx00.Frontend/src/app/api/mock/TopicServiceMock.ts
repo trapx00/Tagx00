@@ -21,14 +21,14 @@ export class TopicServiceMock extends TopicService {
     }
   }
 
-  async deleteTopics(topicDelete:TopicDelete, token: string): Promise<Response> {
+  async deleteTopics(topicDelete:TopicDelete): Promise<Response> {
     return {
       infoCode: 10000,
       description: "success"
     };
   }
 
-  async addTopics(topicSave:TopicSave, token: string): Promise<Response> {
+  async addTopics(topicSave:TopicSave): Promise<Response> {
     return {
       infoCode: 10000,
       description: "success"

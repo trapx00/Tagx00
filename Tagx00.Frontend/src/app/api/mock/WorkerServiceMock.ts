@@ -5,18 +5,21 @@ import { ImageInstanceDetail } from "../../models/instance/image/ImageInstanceDe
 import { InstanceDetail } from "../../models/instance/InstanceDetail";
 import { Response } from "../../models/response/Response";
 import { WorkerService } from "../WorkerService";
-import {WorkerInfo} from "../../models/userInfo/WorkerInfo";
+import { WorkerInfo } from "../../models/userInfo/WorkerInfo";
 import { MissionType } from "../../models/mission/Mission";
 import { InstanceDetailResponse } from "../../models/response/mission/InstanceDetailResponse";
+import { TextInstanceDetail } from "../../models/instance/text/TextInstanceDetail";
+
+
 
 @Injectable
 export class WorkerServiceMock extends WorkerService {
 
-  async getAllInstances(token: string): Promise<Instance[]> {
+  async getAllInstances(): Promise<Instance[]> {
     //mock
     return [1, 2, 3, 4, 5].map(x =>
       ({
-        instanceId: x+"",
+        instanceId: x + "",
         workerUsername: "123",
         title: `Title${x}`,
         description: `Description `.repeat(x),
@@ -33,18 +36,12 @@ export class WorkerServiceMock extends WorkerService {
 
   }
 
-  async getInstanceDetail(missionId: string, token: string): Promise<InstanceDetailResponse> {
+  async getInstanceDetail(missionId: string): Promise<InstanceDetailResponse> {
 
-    if (Math.random()<0.5) {
-      throw {
-        statusCode: 404
-      }
-    }
 
-    // mock
     return {
       detail: {
-        imageResults: [],
+        textResults: [],
         instance: {
           instanceId: 1 + "",
           workerUsername: "123",
@@ -57,41 +54,62 @@ export class WorkerServiceMock extends WorkerService {
           completedJobsCount: 0,
           missionInstanceState: MissionInstanceState.IN_PROGRESS,
         },
-        missionType: MissionType.IMAGE,
-      } as ImageInstanceDetail
-    };
+        missionType: MissionType.TEXT
+      } as TextInstanceDetail
+    }
+
+    // mock
+    // return {
+    //   detail: {
+    //     imageResults: [],
+    //     instance: {
+    //       instanceId: 1 + "",
+    //       workerUsername: "123",
+    //       title: `Title`,
+    //       description: `Description `,
+    //       missionId: missionId,
+    //       acceptDate: new Date(),
+    //       submitDate: null,
+    //       isSubmitted: false,
+    //       completedJobsCount: 0,
+    //       missionInstanceState: MissionInstanceState.IN_PROGRESS,
+    //     },
+    //     missionType: MissionType.IMAGE,
+    //   } as ImageInstanceDetail
+    // };
   }
 
-  async saveProgress(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
+  async saveProgress(missionId: string, detail: InstanceDetail): Promise<boolean> {
     return true;
   }
 
-  async submit(missionId: string, detail: InstanceDetail, token: string): Promise<boolean> {
+  async submit(missionId: string, detail: InstanceDetail): Promise<boolean> {
     return true;
   }
 
-  async acceptMission(missionId: string, token: string): Promise<Response> {
+  async acceptMission(missionId: string): Promise<Response> {
     return {
       infoCode: 10000,
       description: "success"
     };
   }
 
-  async getWorkerInfo(username: string, token: string): Promise<WorkerInfo> {
-      return {
-          username: "worker",
-          email: "1@1.com",
-          credits: 23,
-          exp: 150,
-          level: 1,
-          completedMissionCount: 7,
-          acceptedMissionCount: 12,
-          inProgressMissionCount: 3,
-          abandonedMissionCount: 2,
-      } as WorkerInfo
+  async getWorkerInfo(username: string): Promise<WorkerInfo> {
+    return {
+      username: "worker",
+      email: "1@1.com",
+      credits: 23,
+      exp: 150,
+      level: 1,
+      completedMissionCount: 30,
+      acceptedMissionCount: 130,
+      inProgressMissionCount: 30,
+      abandonedMissionCount: 10,
+      finalizedMissionCount: 60,
+    } as WorkerInfo
   }
 
-  async abandonMission(missionId: string, token: string): Promise<Response> {
+  async abandonMission(missionId: string): Promise<Response> {
     return {
       infoCode: 10000,
       description: "success"

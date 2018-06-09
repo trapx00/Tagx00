@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from 'antd';
 import { observer } from "mobx-react";
 import { UiStore } from "../../../stores/UiStore";
-import { Localize } from "../../../internationalization/components/index";
+import { Localize } from "../../../internationalization/components";
 import { Inject } from "react.di";
 
 interface Props  {

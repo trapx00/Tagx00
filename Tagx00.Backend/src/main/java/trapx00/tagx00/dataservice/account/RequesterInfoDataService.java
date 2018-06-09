@@ -20,5 +20,5 @@ public interface RequesterInfoDataService {
      * @param missionId
      * @return
      */
-    Instance[] getInstancesByMissionId(int missionId, MissionType missionType);
+    Instance[] getInstancesByMissionId(String missionId, MissionType missionType);
 }

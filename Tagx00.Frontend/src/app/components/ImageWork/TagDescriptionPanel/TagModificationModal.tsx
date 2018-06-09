@@ -1,26 +1,32 @@
 import React from 'react';
 import { TagTuple } from "../../../models/instance/TagTuple";
-import { Button, Input, Modal, Tag } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import { AddableInputGroup } from "../AddableInputGroup";
 import { observer } from "mobx-react";
 import { action, computed, observable } from "mobx";
 import { LocaleMessage, Localize } from "../../../internationalization/components";
 import { FormItem } from "../../Form/FormItem";
 import { ClickableTag } from "../../ClickableTag";
-
+import { TagConfTuple } from "../../../models/mission/MissionAsset";
 interface Props {
   tagTuple: TagTuple;
   onRemove: (tagTuple: TagTuple) => void;
   onComplete: (tagTuple: TagTuple) => void;
   onCancel: () => void;
   readonly: boolean;
-  allowedTags?: string[];
+  tagConfTuples?: TagConfTuple[];
+  allowCustomTag?: boolean;
 }
 
 const ID_PREFIX = "drawingPad.common.tagDescriptionTuplePanel.";
 
 @observer
 export class TagModificationModal extends React.Component<Props, {}> {
+
+  static defaultProps = {
+    allowCustomTag: true,
+    tags: []
+  };
 
   @observable tuple: TagTuple = {...this.props.tagTuple};
 
@@ -79,12 +85,20 @@ export class TagModificationModal extends React.Component<Props, {}> {
       footer={footer}
     >
       <h3><LocaleMessage id={ID_PREFIX + "tagName"}/></h3>
-      {!this.props.readonly && this.props.allowedTags &&
-      <div>
+      {!this.props.readonly && <div>
+        {!this.props.allowCustomTag &&
         <LocaleMessage id={ID_PREFIX + "tagLimited"}/>
-        <div>{this.props.allowedTags.map(x => <ClickableTag key={x} onClick={() => this.onTagClick(x)}>{x}</ClickableTag>)}</div>
-      </div>
         }
+        <div>
+        {this.props.tagConfTuples.map(x =>
+          <ClickableTag key={x.tag}
+                        color={this.tuple.tag === x.tag ? "blue" : undefined}
+                        onClick={() => this.onTagClick(x.tag)}>{x.tag}({x.confidence})</ClickableTag>)}
+        </div>
+      </div>
+      }
+
+
       <Localize replacements={{
         placeholder: ID_PREFIX + "tagName",
         messageOnInvalid: ID_PREFIX + "tagNameInvalid"
@@ -95,7 +109,7 @@ export class TagModificationModal extends React.Component<Props, {}> {
 
           <Input placeholder={props.placeholder}
                  value={this.tuple.tag}
-                 disabled={!!this.props.allowedTags}
+                 disabled={!this.props.allowCustomTag}
                  onChange={this.onTagNameChange}
           />
 

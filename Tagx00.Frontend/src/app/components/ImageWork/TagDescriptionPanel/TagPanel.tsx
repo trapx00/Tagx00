@@ -6,6 +6,7 @@ import { Card, Icon, Tag, Tooltip } from 'antd';
 import { panelStyle } from "./index";
 import { TagModificationModal } from "./TagModificationModal";
 import { LocaleMessage } from "../../../internationalization/components";
+import { TagConfTuple } from "../../../models/mission/MissionAsset";
 
 
 const AnyTag = Tag as any;
@@ -14,13 +15,19 @@ interface Props {
   tagTuples: TagTuple[];
   onChange: (tags: TagTuple[]) => void;
   readonly: boolean;
-  allowedTags?: string[];
+  tagConfTuples: TagConfTuple[];
+  allowCustomTag?: boolean;
 }
 
 const ID_PREFIX = "drawingPad.common.tagDescriptionTuplePanel.";
 
 @observer
 export class TagPanel extends React.Component<Props, {}> {
+
+  static defaultProps = {
+    allowCustomTag: true,
+    tags: []
+  };
 
   @observable selectedIndex: number = -1;
 
@@ -94,7 +101,8 @@ export class TagPanel extends React.Component<Props, {}> {
                                 onComplete={this.onTagChangeComplete}
                                 onCancel={this.onTagChangeCancelled}
                                 readonly={this.props.readonly}
-                                allowedTags={this.props.allowedTags}
+                                tagConfTuples={this.props.tagConfTuples}
+                                allowCustomTag={this.props.allowCustomTag}
         />
         : null
       }

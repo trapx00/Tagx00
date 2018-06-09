@@ -23,7 +23,6 @@ export class NetworkResponse<T = any> {
       isNetworkError: statusCode === NetworkErrorCode,
       isServerError: statusCode >= 500
     };
-    console.log(this);
   }
 }
 
@@ -33,7 +32,8 @@ export interface FetchInfo {
   method?: HttpMethod;
   queryParams?: any;
   body?: any;
-  token?: string;
+  headers?: {[s: string]: string};
+  mode?: RequestMode;
 }
 
 declare var APIROOTURL: string;
@@ -41,15 +41,18 @@ declare var APIROOTURL: string;
 @Injectable
 export class HttpService {
 
+  token: string  = "";
+
   async sendFile<T = any>(files: FormData,
                           url: string,
+                          token: string,
                           queryParams?: any,
                           headers?: {[s: string]: string}): Promise<NetworkResponse<T>> {
     const actualUrl = urlJoin(APIROOTURL, url);
     try {
       const res = await fetch(appendQueryString(actualUrl, queryParams), {
         method: HttpMethod.POST,
-        headers: headers,
+        headers: {Authorization: "Bearer "+token, ...headers},
         body: files
       });
       const json = await res.json();
@@ -59,32 +62,45 @@ export class HttpService {
     }
   }
 
-  async fetch<T = any>(fetchInfo: FetchInfo = {}): Promise<NetworkResponse<T>> {
-
-
-    const authHeader = fetchInfo.token
-      ? {"Authorization": `Bearer ${fetchInfo.token}`}
-      : {};
+  async fetchRaw(fetchInfo: FetchInfo = {}): Promise<Response> {
     const body = fetchInfo.body
-      ? {body: JSON.stringify(fetchInfo.body)}
-      : {};
+      ? {body: fetchInfo.body}
+      : null;
 
-    const url = urlJoin(APIROOTURL, fetchInfo.path);
+    const mode = fetchInfo.mode
+    ? { mode: fetchInfo.mode}
+    : {};
 
-    try {
-      const res = await fetch(appendQueryString(url, fetchInfo.queryParams), {
+    return await fetch(appendQueryString(fetchInfo.path, fetchInfo.queryParams), {
         method: fetchInfo.method || HttpMethod.GET,
-        headers: {
-          'Content-Type': 'application/json',
-          ...authHeader
-        },
+        headers: fetchInfo.headers,
+        ...mode,
         ...body
       });
-      const json = await res.json();
-      return new NetworkResponse(res.status, json);
+  }
+
+  async fetch<T = any>(fetchInfo: FetchInfo = {}): Promise<NetworkResponse<T>> {
+    const authHeader = this.token
+      ? {"Authorization": `Bearer ${this.token}`}
+      : {};
+    try {
+      const response = await this.fetchRaw({
+        ...fetchInfo,
+        body: JSON.stringify(fetchInfo.body),
+        path: urlJoin(APIROOTURL, fetchInfo.path),
+        headers: {
+          ...authHeader,
+          'Content-Type': 'application/json',
+          ...fetchInfo.headers,
+        }
+      });
+      return new NetworkResponse(response.status, (await response.json()));
     } catch (e) {
       return new NetworkResponse(NetworkErrorCode, null, e);
     }
+
+
+
 
   }
 }

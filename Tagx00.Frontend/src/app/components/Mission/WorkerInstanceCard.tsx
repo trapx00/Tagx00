@@ -14,6 +14,7 @@ import { InstanceStateIndicator } from "./InstanceStateIndicator";
 import { LocaleMessage } from "../../internationalization/components";
 import { WorkerService } from "../../api/WorkerService";
 import { FinalizeInfo } from "../../pages/MissionPage/requester/finalize/FinalizeInfoModal";
+import { MissionDetail } from "../../models/mission/MissionDetail";
 
 const {Meta} = Card;
 
@@ -40,7 +41,7 @@ export class WorkerInstanceCard extends React.PureComponent<Props, any> {
 
   abandonMission = async () => {
     const missionId = this.props.instance.missionId;
-    await this.workerService.abandonMission(missionId, this.userStore.token);
+    await this.workerService.abandonMission(missionId);
     this.props.refresh();
   };
 
@@ -83,8 +84,6 @@ export class WorkerInstanceCard extends React.PureComponent<Props, any> {
       case MissionInstanceState.SUBMITTED:
         break;
       case MissionInstanceState.ABANDONED:
-        buttons.push(<CardAction key={"continue"} iconType={"edit"} onClick={this.goToDoMission}
-                                 hoverTextId={ID_PREFIX + "cardActions.continue"}/>);
         break;
       case MissionInstanceState.FINALIZED:
         console.log("finalized");
@@ -103,7 +102,7 @@ export class WorkerInstanceCard extends React.PureComponent<Props, any> {
 
   renderCard = async () => {
     const {instance} = this.props;
-    const mission: ImageMissionDetail = await this.missionService.getAMission(instance.missionId, this.userStore.token);
+    const mission: MissionDetail = await this.missionService.getAMission(instance.missionId);
     const {publicItem} = mission;
     return <Card
       style={{width: 300}}

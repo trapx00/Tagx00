@@ -1,11 +1,12 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { ImageMissionDetail } from "../../../models/mission/image/ImageMission";
 import { Gallery } from "../../../components/Gallery";
-import { LocaleDate, LocaleMessage } from "../../../internationalization/components";
-import { Tag, Input, Icon } from 'antd';
-import styled from "styled-components";
+import { LocaleMessage } from "../../../internationalization/components";
+import { Tag } from 'antd';
 import { MissionDetailBasePanel } from "./MissionDetailBasePanel";
 import { Item } from "./common";
+import { flatten, takeAtMost } from "../../../../utils/Array";
+
 const ID_PREFIX = "missions.missionDetail.IMAGE.";
 
 interface Props {
@@ -20,12 +21,22 @@ export class ImageMissionDetailPage extends React.Component<Props, State> {
   render() {
 
     const {detail} = this.props;
+
+    // get some tags
+    const tags = flatten(detail.missionAssets.map(x => Object.keys(x.tagConfTuple)));
+
+
     return <MissionDetailBasePanel publicItem={detail.publicItem}
-                                   picPanel={<Gallery images={[detail.publicItem.coverUrl, ...detail.imageUrls]}/>}
-                                   extraInfo={
-                                     <Item promptTextId={"IMAGE.imageMissionTypes"}>
-                                       {detail.imageMissionTypes.map(x => <Tag key={x}><LocaleMessage
-                                         id={ID_PREFIX + "types." + x}/></Tag>)}
-                                     </Item>}/>
+                                   picPanel={<Gallery images={[detail.publicItem.coverUrl, ...detail.missionAssets.map(x=> x.url)]}/>}
+    >
+      <Item promptTextId={"IMAGE.tags"}>
+        {takeAtMost(tags, 5).map(x => <Tag key={x}>{x}</Tag>)}
+        <LocaleMessage id={ID_PREFIX + "allowCustomTag." + detail.publicItem.allowCustomTag}/>
+      </Item>
+      <Item promptTextId={"IMAGE.imageMissionTypes"}>
+        {detail.publicItem.imageMissionTypes.map(x => <Tag key={x}><LocaleMessage
+          id={ID_PREFIX + "types." + x}/></Tag>)}
+      </Item>
+    </MissionDetailBasePanel>
   }
 }

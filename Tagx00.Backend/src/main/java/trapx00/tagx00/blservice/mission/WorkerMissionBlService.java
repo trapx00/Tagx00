@@ -1,7 +1,9 @@
 package trapx00.tagx00.blservice.mission;
 
+import org.springframework.web.multipart.MultipartFile;
 import trapx00.tagx00.exception.viewexception.*;
 import trapx00.tagx00.response.SuccessResponse;
+import trapx00.tagx00.response.mission.ImageIdentificationResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
@@ -24,7 +26,7 @@ public interface WorkerMissionBlService {
      * @param workerUsername
      * @return whether the abortion is successful
      */
-    SuccessResponse abort(String missionId, String workerUsername);
+    SuccessResponse abort(String missionId, String workerUsername) throws SystemException;
 
     /**
      * get the infomation of the instance of workers
@@ -33,7 +35,7 @@ public interface WorkerMissionBlService {
      * @param workerUsername
      * @return MissionQueryDetailResponse the detail of the mission
      */
-    InstanceDetailResponse getInstanceInformation(String missionId, String workerUsername) throws InstanceNotExistException;
+    InstanceDetailResponse getInstanceInformation(String missionId, String workerUsername) throws InstanceNotExistException, SystemException;
 
     /**
      * save the progress of the instance
@@ -50,4 +52,12 @@ public interface WorkerMissionBlService {
      * @return whether to save and submit successful or not
      */
     SuccessResponse submit(InstanceDetailVo instanceVo) throws SystemException, MissionAlreadyAcceptedException;
+
+    /**
+     * identify the image's type
+     *
+     * @param multipartFile
+     * @return
+     */
+    ImageIdentificationResponse identifyImage(MultipartFile multipartFile) throws SystemException;
 }

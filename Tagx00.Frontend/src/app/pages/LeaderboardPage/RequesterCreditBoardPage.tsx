@@ -1,19 +1,21 @@
 import React from "react";
 import { Table } from "antd";
 import { Inject } from "react.di";
-import { RequesterService } from "../../api/RequesterService";
 import { UserStore } from "../../stores/UserStore";
 import { DefinitionItem } from "../../components/DefinitionItem";
 import { LocaleMessage } from "../../internationalization/components";
-import { AsyncComponent, ObserverAsyncComponent } from "../../router/AsyncComponent";
+import { AsyncComponent } from "../../router/AsyncComponent";
 import { UserRole } from "../../models/user/User";
 import { LeaderboardService } from "../../api/LeaderboardService";
 import { Loading } from "../../components/Common/Loading";
-import { MajorTitle, MinorTitle } from "./common";
+import { MajorTitle, MAX_TOP_LIST_LENGTH, MinorTitle } from "./common";
 import { observer } from "mobx-react";
+import { LeaderboardLineChart } from "./lineChart/LeaderboardLineChart";
+import { range } from "../../../utils/Range";
+import { max } from "moment";
 
 @observer
-export class RequesterCreditBoardPage extends React.Component<{}, {}> {
+export default class RequesterCreditBoardPage extends React.Component<{}, {}> {
   @Inject leaderboardService: LeaderboardService;
   @Inject userStore: UserStore;
 
@@ -40,15 +42,20 @@ export class RequesterCreditBoardPage extends React.Component<{}, {}> {
       title: '排名',
       dataIndex: 'order',
     }];
-    return (
-      <div>
+
+    const tops = range(0,Math.min(MAX_TOP_LIST_LENGTH, requesterCreditBoard.users.length)).map(i => ({username: requesterCreditBoard.users[i].username, value: requesterCreditBoard.users[i].credits}));
+    return <div>
+        <MinorTitle>
+          巅峰榜单
+        </MinorTitle>
+        <LeaderboardLineChart data={tops}/>
         <MinorTitle>
           <LocaleMessage id={"leaderboard.rankListBoard"}/>
         </MinorTitle>
         <Table rowKey={"order"} dataSource={requesterCreditBoard.users} columns={columns}
                pagination={requesterCreditBoard.pagingInfo}/>
       </div>
-    );
+
   };
 
   render() {

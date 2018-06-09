@@ -1,8 +1,9 @@
 import { HttpService } from "./HttpService";
-import { MissionPublicItem } from "../models/mission/Mission";
 import { ImageMissionDetail } from "../models/mission/image/ImageMission";
 import { HttpMethod } from "./utils";
 import { Inject, Injectable } from "react.di";
+import { MissionPublicItem } from "../models/mission/MissionPublicItem";
+import { MissionDetail } from "../models/mission/MissionDetail";
 
 
 @Injectable
@@ -21,10 +22,18 @@ export class MissionService {
 
   }
 
-  async getAMission(missionId: number | string, token: string): Promise<ImageMissionDetail> {
+  async getTextByToken(textToken: string): Promise<string> {
+    const res = await this.http.fetch({
+      path: `/mission/text`,
+      queryParams: { token: textToken },
+      method: HttpMethod.GET,
+    });
+    return res.response.text;
+  }
+
+  async getAMission(missionId: string): Promise<MissionDetail> {
     const res = await this.http.fetch({
       path: `/mission/${missionId}`,
-      token: token
     });
 
     if (res.ok) {

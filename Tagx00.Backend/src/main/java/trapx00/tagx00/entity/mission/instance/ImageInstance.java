@@ -1,20 +1,23 @@
 package trapx00.tagx00.entity.mission.instance;
 
-import trapx00.tagx00.entity.annotation.Column;
-import trapx00.tagx00.entity.annotation.JsonSerialize;
-import trapx00.tagx00.entity.annotation.Table;
+import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Table(name = "imageInstance")
+@Entity
 public class ImageInstance extends Instance {
-    @JsonSerialize
+
     @Column(name = "imageResults")
+    @ElementCollection(targetClass = ImageResult.class)
     private List<ImageResult> imageResults;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "mission_missionId")
+    private ImageMission imageMission;
 
     public ImageInstance() {
     }
@@ -23,11 +26,10 @@ public class ImageInstance extends Instance {
         this.imageResults = imageResults;
     }
 
-    public ImageInstance(int instanceId, String workerUsername, MissionInstanceState missionInstanceState,
-                         MissionType missionType, Date acceptDate, Date submitDate, boolean submitted,
-                         int missionId, double exp, double expRatio, int credits, String comment, List<ImageResult> imageResults) {
+    public ImageInstance(String instanceId, String workerUsername, MissionInstanceState missionInstanceState, MissionType missionType, Date acceptDate, Date submitDate, boolean submitted, String missionId, double exp, double expRatio, int credits, String comment, List<ImageResult> imageResults, ImageMission imageMission) {
         super(instanceId, workerUsername, missionInstanceState, missionType, acceptDate, submitDate, submitted, missionId, exp, expRatio, credits, comment);
         this.imageResults = imageResults;
+        this.imageMission = imageMission;
     }
 
     public List<ImageResult> getImageResults() {
@@ -36,5 +38,13 @@ public class ImageInstance extends Instance {
 
     public void setImageResults(List<ImageResult> imageResults) {
         this.imageResults = imageResults;
+    }
+
+    public ImageMission getImageMission() {
+        return imageMission;
+    }
+
+    public void setImageMission(ImageMission imageMission) {
+        this.imageMission = imageMission;
     }
 }
