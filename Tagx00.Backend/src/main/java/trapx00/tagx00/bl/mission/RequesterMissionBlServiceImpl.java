@@ -8,7 +8,7 @@ import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
 import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.dataservice.topic.TopicDataService;
-import trapx00.tagx00.entity.ThreeDimensionMission;
+import trapx00.tagx00.entity.mission.ThreeDimensionMission;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
@@ -35,7 +35,6 @@ import trapx00.tagx00.vo.mission.text.TextMissionProperties;
 import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionProperties;
 import trapx00.tagx00.vo.mission.video.VideoMissionProperties;
 import trapx00.tagx00.vo.mission.audio.AudioMissionProperties;
-import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionType;
 
 import java.io.IOException;
 import java.util.ArrayList;

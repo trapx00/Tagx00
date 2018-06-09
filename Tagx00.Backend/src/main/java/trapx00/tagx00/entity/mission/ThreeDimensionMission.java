@@ -1,15 +1,12 @@
-package trapx00.tagx00.entity;
+package trapx00.tagx00.entity.mission;
 
-import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.entity.mission.favorite.ThreeDimensionFavorite;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.publicdatas.mission.threedimension.ThreeDimensionModelUrl;
-import trapx00.tagx00.vo.mission.audio.AudioMissionType;
 import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionType;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

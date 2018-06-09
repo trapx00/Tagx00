@@ -6,7 +6,7 @@ import trapx00.tagx00.data.dao.mission.*;
 import trapx00.tagx00.data.dao.mission.instance.*;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
-import trapx00.tagx00.entity.ThreeDimensionMission;
+import trapx00.tagx00.entity.mission.ThreeDimensionMission;
 import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;

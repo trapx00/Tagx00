@@ -1,8 +1,6 @@
 package trapx00.tagx00.entity.mission.instance;
 
-import trapx00.tagx00.entity.ThreeDimensionMission;
-import trapx00.tagx00.entity.mission.ImageMission;
-import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
+import trapx00.tagx00.entity.mission.ThreeDimensionMission;
 import trapx00.tagx00.entity.mission.instance.workresult.ThreeDimensionResult;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;

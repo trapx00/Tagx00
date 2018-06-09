@@ -7,7 +7,7 @@ import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.blservice.upload.MissionUploadBlService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.dataservice.upload.*;
-import trapx00.tagx00.entity.ThreeDimensionMission;
+import trapx00.tagx00.entity.mission.ThreeDimensionMission;
 import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
