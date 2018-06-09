@@ -34,7 +34,7 @@ public interface MissionUploadBlService {
      * @param multipartFile
      * @return the urls of the videos
      */
-    UploadMissionVideoResponse uploadVideo(String missionId, MultipartFile multipartFile) throws SystemException, MissionIdDoesNotExistException;
+    UploadMissionVideoResponse uploadVideo(String missionId, MultipartFile multipartFile, int order) throws SystemException, MissionIdDoesNotExistException;
 
     /**
      * Upload the audio of the mission
@@ -43,7 +43,7 @@ public interface MissionUploadBlService {
      * @param multipartFile
      * @return the urls of the audios
      */
-    UploadMissionAudioResponse uploadAudio(String missionId, MultipartFile multipartFile) throws SystemException, MissionIdDoesNotExistException;
+    UploadMissionAudioResponse uploadAudio(String missionId, MultipartFile multipartFile, int order) throws SystemException, MissionIdDoesNotExistException;
 
     /**
      * Upload the 3d of the mission
@@ -52,7 +52,7 @@ public interface MissionUploadBlService {
      * @param multipartFile
      * @return the urls of the 3ds
      */
-    UploadMissionThreeDimensionResponse uploadThreeDimension(String missionId, MultipartFile multipartFile) throws SystemException, MissionIdDoesNotExistException;
+    UploadMissionThreeDimensionResponse uploadThreeDimension(String missionId, MultipartFile multipartFile, int order,int mtlOrobj) throws SystemException, MissionIdDoesNotExistException;
 
 
 

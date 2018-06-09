@@ -95,7 +95,14 @@ public class MissionUploadController {
         @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
     public ResponseEntity<Response> uploadAudio(@PathVariable("missionId") String missionId, @RequestParam("file") MultipartFile file, @RequestParam("order") int order) {
-        return null;
+        try {
+            return new ResponseEntity<>(missionUploadBlService.uploadAudio(missionId, file, order), HttpStatus.CREATED);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionIdDoesNotExistException e) {
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @Authorization(value = "发布者")
@@ -113,7 +120,14 @@ public class MissionUploadController {
         @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
     public ResponseEntity<Response> uploadVideo(@PathVariable("missionId") String missionId, @RequestParam("file") MultipartFile file, @RequestParam("order") int order) {
-        return null;
+        try {
+            return new ResponseEntity<>(missionUploadBlService.uploadAudio(missionId, file, order), HttpStatus.CREATED);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionIdDoesNotExistException e) {
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @Authorization(value = "发布者")
