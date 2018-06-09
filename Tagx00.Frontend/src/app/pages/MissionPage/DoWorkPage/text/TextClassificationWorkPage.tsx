@@ -2,19 +2,16 @@ import React from 'react';
 import { TextClassificationJob } from "../../../../models/instance/text/job/TextClassificationJob";
 import { TextNotation, TextWorkPageProps, TextWorkPageState } from "./shared";
 import {
-  TextMissionClassificationSetting, TextMissionKeywordsSetting,
+  TextMissionClassificationSetting,
   TextMissionType
 } from "../../../../models/mission/text/TextMissionProperties";
 import { TagTuple } from "../../../../models/instance/TagTuple";
-import { MissionType } from "../../../../models/mission/Mission";
 import { toJS } from "mobx";
 import { WorkPageLayout } from "../WorkPageLayout";
-import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
-import { TagPanel } from "../../../../components/ImageWork/TagDescriptionPanel/TagPanel";
-import { ProgressController } from "../../../../components/ImageWork/ProgressController";
+import { ProgressController } from "../../../../components/Mission/WorkPageSuite/ProgressController";
 import { TextReader } from "./TextReader";
 import { TextMissionTipCard } from "../../../../components/Mission/MissionTipCard/TextMissionTipCard";
-import { TextKeywordsJob } from "../../../../models/instance/text/job/TextKeywordsJob";
+import { TagPanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel/TagPanel";
 
 interface Props extends TextWorkPageProps<TextClassificationJob, TextMissionClassificationSetting>{
 
@@ -86,6 +83,8 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
                   allowCustomTag={false}
                   tagConfTuples={this.props.notation.setting.classes.map(x=>({tag: x, confidence: 1}))}
         />
+      </>
+      <>
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}

@@ -99,7 +99,7 @@ export class MissionCreateInfoForm extends React.Component<Props, {}> {
   render() {
     const locale: any = new Proxy({}, {
       get: (target, key) => {
-        return this.localeStore.get(`${ID_PREFIX}fields.${key}`) as string;
+        return this.localeStore.get(`${ID_PREFIX}fields.${key as string}`) as string;
       }
     });
     return <Row gutter={16}>

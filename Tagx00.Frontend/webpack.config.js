@@ -133,7 +133,7 @@ module.exports = {
       {test: /\.html$/, use: 'html-loader'},
       {test: /\.png$/, use: 'url-loader?limit=10000'},
       {test: /\.jpg$/, use: 'file-loader'},
-      {test: /\.md$/, use: 'raw-loader'},
+      {test: /\.(md|txt)$/, use: 'raw-loader'},
     ]
   },
   devtool: isProduction ? false : 'cheap-module-eval-source-map',

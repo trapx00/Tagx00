@@ -12,18 +12,9 @@ import { AudioPartJob } from "../../../../../models/instance/audio/job/AudioPart
 import { AudioWholeJob } from "../../../../../models/instance/audio/job/AudioWholeJob";
 import { arrayContainsElement } from "../../../../../../utils/Array";
 
-type KnownAudioJob = AudioPartJob | AudioWholeJob;
+export type KnownAudioJob = AudioPartJob | AudioWholeJob;
 
-function judgeJobComplete(job: KnownAudioJob) {
-  if (!job) return false;
-  switch (job.type) {
-    case AudioMissionType.PART:
-      return arrayContainsElement(job.tupleList);
-    case AudioMissionType.WHOLE:
-      return !!job.tuple && ( arrayContainsElement(job.tuple.tagTuples) || arrayContainsElement(job.tuple.descriptions));
-  }
-  return false;
-}
+
 export class AudioWorkPageController extends WorkPageController<AudioMissionDetail, AudioInstanceDetail, AudioJob, AudioNotation> {
 
   audioUrls: string[];
@@ -37,10 +28,21 @@ export class AudioWorkPageController extends WorkPageController<AudioMissionDeta
         instanceId: instance.instanceId,
         job: x.job,
         audioUrl: x.audioUrl,
-        isDone: judgeJobComplete(x.job as any)
+        isDone: this.judgeJobComplete(x.job as any)
       })),
       instance: instance
     }
+  }
+
+  judgeJobComplete(job: KnownAudioJob) {
+    if (!job) return false;
+    switch (job.type) {
+      case AudioMissionType.PART:
+        return arrayContainsElement(job.tupleList);
+      case AudioMissionType.WHOLE:
+        return !!job.tuple && ( arrayContainsElement(job.tuple.tagTuples) || arrayContainsElement(job.tuple.descriptions));
+    }
+    return false;
   }
 
   constructor(missionDetail: AudioMissionDetail, instanceDetail: AudioInstanceDetail) {
@@ -63,6 +65,8 @@ export class AudioWorkPageController extends WorkPageController<AudioMissionDeta
         }
       }
     }
+
+    this.toFirstNotComplete();
   }
 
 }

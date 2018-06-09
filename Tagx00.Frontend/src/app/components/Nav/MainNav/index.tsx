@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, Menu } from 'antd';
+import { Icon, Menu, Layout } from 'antd';
 import { Link } from "react-router-dom";
 import { observer } from "mobx-react";
 import { Inject } from "react.di";
@@ -9,12 +9,14 @@ import { NavItemProps, NavStore } from "../../../stores/NavStore";
 import { navRoutes, NOT_LOGIN_FLAG, submenuMap } from "./SubMenus";
 import { LocaleMessage } from "../../../internationalization/components";
 import { UserStore } from "../../../stores/UserStore";
-import { computed } from "mobx";
+import { action, computed } from "mobx";
 import { SvgImg } from "../../Common/SvgImg";
 import styled from "styled-components";
 import { flatten } from "../../../../utils/Array";
+import { SiderProps } from "antd/es/layout";
 
 const {SubMenu} = Menu;
+const {Sider} = Layout;
 
 // import pages will result in circular dependency and I can't figure out why
 // hard-code is the only option :(
@@ -30,10 +32,31 @@ const CenterDiv = styled.div`
 function LogoItem(props: {}) {
   return <Link to={"/"}>
     <CenterDiv>
-    <SvgImg width={120} height={35} filePath={"tag_x00_logo_landscape_with_texts.svg"}/>
+      <SvgImg width={120} height={35} filePath={"tag_x00_logo_landscape_with_texts.svg"}/>
     </CenterDiv>
   </Link>;
 }
+
+interface MySiderProps {
+  shown: boolean;
+}
+
+const MySider = styled(Sider) `
+    display: ${(props: MySiderProps) => props.shown ? "initial" : "none"};
+    position: absolute;
+    z-index: 5;
+    height: 100%;
+    
+    @media (min-width: 700px) {
+      position: relative;
+      height: initial;
+    }
+    
+    .ant-layout-sider-trigger {
+      bottom: initial !important;
+    }
+`;
+
 
 @observer
 export class MainNav extends React.Component<{}, {}> {
@@ -52,7 +75,7 @@ export class MainNav extends React.Component<{}, {}> {
       .filter(x => x.match(this.routerStore.path))
       .map(x => x.path);
 
-    const selectedSubMenus= Object.keys(this.currentSubMenuMap).map(x => this.currentSubMenuMap[x])
+    const selectedSubMenus = Object.keys(this.currentSubMenuMap).map(x => this.currentSubMenuMap[x])
       .map(x => x.filter(y => y.match(this.routerStore.path)).map(x => x.path));
 
     return [...selected, ...flatten(selectedSubMenus)];
@@ -62,8 +85,15 @@ export class MainNav extends React.Component<{}, {}> {
     this.routerStore.jumpTo(path);
   };
 
+  @action onCollapse = () => {
+    this.navStore.navMenuShown = false;
+  };
+
   render() {
-    return <div>
+    return <MySider collapsed={false}
+                  collapsible={true}
+                  onCollapse={this.onCollapse}
+                  shown={this.navStore.navMenuShown}>
       <LogoItem/>
       <Menu
         theme="dark"
@@ -101,39 +131,6 @@ export class MainNav extends React.Component<{}, {}> {
             }
           )}
       </Menu>
-    </div>
-
-    // return <Row>
-    //   <LogoDiv>
-    //     <Link to={"/browse"}>
-    //     <SvgImgContainer>
-    //       <SvgImg filePath={"tag_x00_mini_logo.svg"} width={180} height={30}/>
-    //     </SvgImgContainer>
-    //     </Link>
-    //     <MobileNavContainer>
-    //       <NavbarUserIndicator/>
-    //       <LanguageSelector/>
-    //     <DropdownContainer innerRef={this.dropdownContainerRef}>
-    //       <Popover getPopupContainer={() => this.dropdownContainerRef.current} trigger={"click"} placement={"bottomRight"} content={
-    //         <NavbarMenu dropdownMode={true}/>
-    //       }>
-    //         <Icon type="menu-fold"/>
-    //       </Popover>
-    //     </DropdownContainer>
-    //     </MobileNavContainer>
-    //   </LogoDiv>
-    //   <RightDiv>
-    //     <NavItem>
-    //       <LanguageSelector/>
-    //     </NavItem>
-    //     <NavItem>
-    //       <NavbarUserIndicator/>
-    //     </NavItem>
-    //     <NavItem>
-    //       <NavbarMenu dropdownMode={false}/>
-    //     </NavItem>
-    //     <NavbarModals/>
-    //   </RightDiv>
-    // </Row>;
+    </MySider>
   }
 }
