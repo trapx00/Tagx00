@@ -1,6 +1,7 @@
 package trapx00.tagx00.entity.mission;
 
 import trapx00.tagx00.entity.mission.favorite.ThreeDimensionFavorite;
+import trapx00.tagx00.entity.mission.instance.ThreeDimensionInstance;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionType;
@@ -11,9 +12,9 @@ import java.util.List;
 
 @Entity
 public class ThreeDimensionMission extends Mission {
-    @Column(name = "threeDimensionCustomTag")
+    @Column(name = "allowCustomTag")
     private boolean allowCustomTag;
-    @Column(name = "threeDimensionTokens")
+    @Column(name = "tokens")
     @ElementCollection(targetClass = String.class)
     private List<String> tokens;
     @Column(name = "allowedTag")
@@ -22,8 +23,8 @@ public class ThreeDimensionMission extends Mission {
     @Column(name = "threeDimensionMissionType")
     private ThreeDimensionMissionType threeDimensionMissionTypes;
     @OneToMany(mappedBy = "threeDimensionMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<ThreeDimensionMission> threeDimensionMissions;
-    @OneToMany(mappedBy = "audioMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    private List<ThreeDimensionInstance> threeDimensionInstances;
+    @OneToMany(mappedBy = "threeDimensionMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<ThreeDimensionFavorite> threeDimensionFavorites;
 
     public ThreeDimensionMission() {
@@ -35,13 +36,13 @@ public class ThreeDimensionMission extends Mission {
                                  int level, int credits, int minimalWorkerLevel, List<java.lang.String> browserUsers,
                                  boolean allowCustomTag, List<String> tokens,
                                  List<java.lang.String> allowedTags,
-                                 List<ThreeDimensionMission> threeDimensionMissions, List<ThreeDimensionFavorite> threeDimensionFavorites) {
+                                 List<ThreeDimensionInstance> threeDimensionInstances, List<ThreeDimensionFavorite> threeDimensionFavorites) {
         super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
         this.allowCustomTag = allowCustomTag;
         this.tokens = tokens;
         this.allowedTags = allowedTags;
         this.threeDimensionMissionTypes =ThreeDimensionMissionType.WHOLE;
-        this.threeDimensionMissions = threeDimensionMissions;
+        this.threeDimensionInstances = threeDimensionInstances;
         this.threeDimensionFavorites = threeDimensionFavorites;
     }
 
@@ -79,12 +80,12 @@ public class ThreeDimensionMission extends Mission {
         this.threeDimensionMissionTypes = threeDimensionMissionTypes;
     }
 
-    public List<ThreeDimensionMission> getThreeDimensionMissions() {
-        return threeDimensionMissions;
+    public List<ThreeDimensionInstance> getThreeDimensionInstances() {
+        return threeDimensionInstances;
     }
 
-    public void setThreeDimensionMissions(List<ThreeDimensionMission> threeDimensionMissions) {
-        this.threeDimensionMissions = threeDimensionMissions;
+    public void setThreeDimensionInstances(List<ThreeDimensionInstance> threeDimensionInstances) {
+        this.threeDimensionInstances = threeDimensionInstances;
     }
 
     public List<ThreeDimensionFavorite> getThreeDimensionFavorites() {
