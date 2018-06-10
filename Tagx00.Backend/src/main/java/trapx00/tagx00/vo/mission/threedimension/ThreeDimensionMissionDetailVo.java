@@ -2,7 +2,6 @@ package trapx00.tagx00.vo.mission.threedimension;
 
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
-import trapx00.tagx00.publicdatas.mission.threedimension.ThreeDimensionModelUrl;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 
@@ -10,18 +9,18 @@ import java.util.List;
 
 public class ThreeDimensionMissionDetailVo extends MissionDetailVo {
 
-    private List<ThreeDimensionModelUrl> modelUrls;
+    private List<String> tokens;
 
-    public List<ThreeDimensionModelUrl> getModelUrls() {
-        return modelUrls;
+    public List<String> getTokens() {
+        return tokens;
     }
 
-    public void setModelUrls(List<ThreeDimensionModelUrl> modelUrls) {
-        this.modelUrls = modelUrls;
+    public void setTokens(List<String> tokens) {
+        this.tokens = tokens;
     }
 
-    public ThreeDimensionMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, String requesterUsername, MissionType missionType, List<ThreeDimensionModelUrl> modelUrls) {
+    public ThreeDimensionMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, java.lang.String requesterUsername, MissionType missionType, List<String> tokens) {
         super(publicItem, missionState, requesterUsername, missionType);
-        this.modelUrls = modelUrls;
+        this.tokens = tokens;
     }
 }

@@ -3,7 +3,6 @@ package trapx00.tagx00.entity.mission;
 import trapx00.tagx00.entity.mission.favorite.ThreeDimensionFavorite;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
-import trapx00.tagx00.publicdatas.mission.threedimension.ThreeDimensionModelUrl;
 import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionType;
 
 import javax.persistence.*;
@@ -14,12 +13,12 @@ import java.util.List;
 public class ThreeDimensionMission extends Mission {
     @Column(name = "threeDimensionCustomTag")
     private boolean allowCustomTag;
-    @Column(name = "threeDimensionModelUrl")
-    @ElementCollection(targetClass = ThreeDimensionModelUrl.class)
-    private List<ThreeDimensionModelUrl> threeDimensionModelUrls;
-    @Column(name = "allowedTag")
+    @Column(name = "threeDimensionTokens")
     @ElementCollection(targetClass = String.class)
-    private List<String> allowedTags;
+    private List<String> tokens;
+    @Column(name = "allowedTag")
+    @ElementCollection(targetClass = java.lang.String.class)
+    private List<java.lang.String> allowedTags;
     @Column(name = "threeDimensionMissionType")
     private ThreeDimensionMissionType threeDimensionMissionTypes;
     @OneToMany(mappedBy = "threeDimensionMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
@@ -30,16 +29,16 @@ public class ThreeDimensionMission extends Mission {
     public ThreeDimensionMission() {
     }
 
-    public ThreeDimensionMission(String missionId, String title, String description, List<String> topics,
+    public ThreeDimensionMission(java.lang.String missionId, java.lang.String title, java.lang.String description, List<java.lang.String> topics,
                                  MissionType missionType, MissionState missionState,
-                                 Date start, Date end, String coverUrl, String requesterUsername,
-                                 int level, int credits, int minimalWorkerLevel, List<String> browserUsers,
-                                 boolean allowCustomTag, List<ThreeDimensionModelUrl> threeDimensionModelUrls,
-                                 List<String> allowedTags,
+                                 Date start, Date end, java.lang.String coverUrl, java.lang.String requesterUsername,
+                                 int level, int credits, int minimalWorkerLevel, List<java.lang.String> browserUsers,
+                                 boolean allowCustomTag, List<String> tokens,
+                                 List<java.lang.String> allowedTags,
                                  List<ThreeDimensionMission> threeDimensionMissions, List<ThreeDimensionFavorite> threeDimensionFavorites) {
         super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
         this.allowCustomTag = allowCustomTag;
-        this.threeDimensionModelUrls = threeDimensionModelUrls;
+        this.tokens = tokens;
         this.allowedTags = allowedTags;
         this.threeDimensionMissionTypes =ThreeDimensionMissionType.WHOLE;
         this.threeDimensionMissions = threeDimensionMissions;
@@ -55,19 +54,19 @@ public class ThreeDimensionMission extends Mission {
         this.allowCustomTag = allowCustomTag;
     }
 
-    public List<ThreeDimensionModelUrl> getThreeDimensionModelUrls() {
-        return threeDimensionModelUrls;
+    public List<String> getTokens() {
+        return tokens;
     }
 
-    public void setThreeDimensionModelUrls(List<ThreeDimensionModelUrl> threeDimensionModelUrls) {
-        this.threeDimensionModelUrls = threeDimensionModelUrls;
+    public void setTokens(List<String> tokens) {
+        this.tokens = tokens;
     }
 
-    public List<String> getAllowedTags() {
+    public List<java.lang.String> getAllowedTags() {
         return allowedTags;
     }
 
-    public void setAllowedTags(List<String> allowedTags) {
+    public void setAllowedTags(List<java.lang.String> allowedTags) {
         this.allowedTags = allowedTags;
     }
 

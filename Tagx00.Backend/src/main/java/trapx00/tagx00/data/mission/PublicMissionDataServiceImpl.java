@@ -183,10 +183,10 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                             missionId, threeDimensionMission.getTitle(), threeDimensionMission.getDescription(), threeDimensionMission.getTopics(), missionType,
                             threeDimensionMission.getStart(), threeDimensionMission.getEnd(), threeDimensionMission.getCoverUrl(),
                             threeDimensionMission.getLevel(), threeDimensionMission.getCredits(), threeDimensionMission.getMinimalWorkerLevel(),
-                            threeDimensionMission.getThreeDimensionModelUrls().size() , threeDimensionMission.getRequesterUsername(),
+                            threeDimensionMission.getTokens().size() , threeDimensionMission.getRequesterUsername(),
                             threeDimensionMission.isAllowCustomTag(), threeDimensionMission.getAllowedTags()
                     ),
-                            threeDimensionMission.getMissionState(), threeDimensionMission.getRequesterUsername(), MissionType.THREE_DIMENSION, threeDimensionMission.getThreeDimensionModelUrls());
+                            threeDimensionMission.getMissionState(), threeDimensionMission.getRequesterUsername(), MissionType.THREE_DIMENSION, threeDimensionMission.getTokens());
                 }
                 break;
             case VIDEO:
@@ -300,7 +300,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                 videoMission.getTopics(), videoMission.getMissionType(),
                 videoMission.getStart(), videoMission.getEnd(), videoMission.getCoverUrl(),
                 videoMission.getLevel(), videoMission.getCredits(), videoMission.getMinimalWorkerLevel(),
-                videoMission.getThreeDimensionModelUrls().size() , videoMission.getRequesterUsername(),
+                videoMission.getTokens().size() , videoMission.getRequesterUsername(),
                 videoMission.isAllowCustomTag(), videoMission.getAllowedTags());
     }
 

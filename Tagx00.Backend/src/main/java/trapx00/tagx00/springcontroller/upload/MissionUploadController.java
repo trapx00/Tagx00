@@ -145,9 +145,12 @@ public class MissionUploadController {
         @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
         @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
-    public ResponseEntity<Response> upload3D(@PathVariable("missionId") String missionId, @RequestParam("file") MultipartFile file, @RequestParam("order") int order) {
+    public ResponseEntity<Response> upload3D(@PathVariable("missionId") String missionId,
+                                             @RequestParam("obj") MultipartFile objFile,
+                                             @RequestParam("mtl") MultipartFile mtlFile,
+                                             @RequestParam("order") int order) {
         try {
-            return new ResponseEntity<>(missionUploadBlService.uploadThreeDimension(missionId, file,order), HttpStatus.CREATED);
+            return new ResponseEntity<>(missionUploadBlService.uploadThreeDimension(missionId,mtlFile ,objFile,order), HttpStatus.CREATED);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -17,9 +17,7 @@ import java.util.Optional;
 
 public class ThreeDimensionDataServiceImpl implements ThreeDimensionDataService {
     private final ThreeDimensionTokenDao threeDimensionTokenDao;
-    private static int tag=0;
-    private static SerialBlob mtl;
-    private static SerialBlob obj;
+
 
     @Autowired
     public ThreeDimensionDataServiceImpl(ThreeDimensionTokenDao threeDimensionTokenDao) {
@@ -30,21 +28,16 @@ public class ThreeDimensionDataServiceImpl implements ThreeDimensionDataService 
      * save the 3d
      *
      * @param token the token of the 3d
-     * @param bytes  the content of the 3d
+     * @param
      * @return the token of the uploaded 3d
      */
     @Override
-    public String upload3d(String token, byte[] bytes) throws SystemException {
+    public String upload3d(String token, byte[] obj,byte[]mtl) throws SystemException {
         try {
-            if(tag==0){
-                mtl=new SerialBlob(bytes);
-                tag++;
-            }
-            else if(tag==1){
-                obj=new SerialBlob(bytes);
-                tag--;
-                threeDimensionTokenDao.save(new ThreeDimensionToken(token, mtl,obj));
-            }
+
+            SerialBlob mtlBlob=new SerialBlob(mtl);
+            SerialBlob objBlob=new SerialBlob(obj);;
+                threeDimensionTokenDao.save(new ThreeDimensionToken(token, mtlBlob,objBlob));
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SystemException();
