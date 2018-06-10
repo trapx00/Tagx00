@@ -11,6 +11,9 @@ import { MissionFinalizeVo } from "../models/instance/MissionFinalizeParameters"
 import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
 import { MissionRequestQueryResponse } from "../models/response/mission/MissionRequestQueryResponse";
 import { MissionChargeResponse } from "../models/response/mission/MissionChargeResponse";
+import { AudioUploadResponse } from "../models/mission/audio/AudioUploadResponse";
+import { VideoUploadResponse } from "../models/mission/video/VideoUploadResponse";
+import { ThreeDimensionModelUrl } from "../models/mission/3d/3dModelUrl";
 
 @Injectable
 export class RequesterService {
@@ -47,6 +50,39 @@ export class RequesterService {
       token
     );
 
+  }
+
+  async uploadAudioFile(missionId: string, formData: FormData, order: number, isCover: boolean, token: string): Promise<AudioUploadResponse> {
+    const res = await this.http.sendFile(
+      formData,
+      `/upload/mission/audio/${missionId}`,
+      token,
+      {order, isCover},
+    );
+    console.log(res.response);
+    return res.response;
+  }
+
+  async uploadVideoFile(missionId: string, formData: FormData, order: number, isCover: boolean, token: string): Promise<VideoUploadResponse> {
+    const res = await this.http.sendFile(
+      formData,
+      `/upload/mission/video/${missionId}`,
+      token,
+      {order, isCover},
+    );
+    console.log(res.response);
+    return res.response;
+  }
+
+  async uploadThreeDimensionFile(missionId: string, formData: FormData, order: number, isCover: boolean, token: string): Promise<ThreeDimensionModelUrl> {
+    const res = await this.http.sendFile(
+      formData,
+      `/upload/mission/3d/${missionId}`,
+      token,
+      {order, isCover},
+    );
+    console.log(res.response);
+    return res.response;
   }
 
   async getAllMissionsBySelf(username: string): Promise<MissionPublicResponse> {

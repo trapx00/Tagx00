@@ -314,7 +314,10 @@
       },
       "menu": {
         "IMAGE": "图片",
-        "TEXT": "文本"
+        "TEXT": "文本",
+        "AUDIO": "音频",
+        "VIDEO": "视频",
+        "THREE_DIMENSION": "3D"
       },
       "uploadStage": {
         "0": "上传信息",
@@ -376,14 +379,56 @@
           "requireTask": "请选择至少一种任务",
           "zip": {
             "selectFile": "选择文件",
-            "prompt": "请讲所有文本文件处理成TXT文件，并打包成ZIP文件，再上传。",
+            "prompt": "请将所有文本文件处理成TXT文件，并打包成ZIP文件，再上传。",
             "upload": "上传",
             "requireZip": "请上传压缩包"
           }
         },
+        "AUDIO": {
+          "title": "音频任务属性",
+          "types": {
+            "name": "音频任务类型",
+            "WHOLE":"整体",
+            "PART": "局部"
+          },
+          "selectFile": "选择文件",
+          "tags": "标签",
+          "allowCustomTag": "允许工人自定义标签",
+          "requireTags": "当不允许工人自定义标签时，请添加至少一个可用标签",
+          "requireTypes": "请选择至少一种任务",
+          "audios": "音频文件",
+          "requireAudios": "请上传至少一份音频文件"
+        },
+        "VIDEO": {
+          "title": "视频任务属性",
+          "types": {
+            "name": "视频任务类型",
+            "WHOLE":"整体",
+            "PART": "局部"
+          },
+          "selectFile": "选择文件",
+          "tags": "标签",
+          "allowCustomTag": "允许工人自定义标签",
+          "requireTags": "当不允许工人自定义标签时，请添加至少一个可用标签",
+          "requireTypes": "请选择至少一种任务",
+          "videos": "视频文件",
+          "requireVideos": "请上传至少一份视频文件"
+        },
+        "THREE_DIMENSION": {
+          "title": "3D任务属性",
+          "types": {
+            "name": "3D任务类型",
+            "WHOLE":"整体"
+          },
+          "selectFile": "选择文件",
+          "tags": "标签",
+          "allowCustomTag": "允许工人自定义标签",
+          "requireTags": "当不允许工人自定义标签时，请添加至少一个可用标签",
+          "threeDimensions": "3D文件",
+          "requireThreeDimensions": "请上传至少一份3D文件"
+        },
         "submit": "提交"
       }
-
 
     },
     "worker": {

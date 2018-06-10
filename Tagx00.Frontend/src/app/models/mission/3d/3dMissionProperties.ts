@@ -1,6 +1,6 @@
 import { MissionProperties } from "../MissionProperties";
 
 export interface ThreeDimensionMissionProperties extends MissionProperties {
-  allowCustomTag: string[];
+  allowCustomTag: boolean;
   tags: string[];
 }

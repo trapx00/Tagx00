@@ -1,6 +1,6 @@
 import React from 'react';
 import { UploadFile } from "antd/lib/upload/interface";
-import { UploadPanel, UploadPanelProps } from "./UploadPanel";
+import { UploadPanel, UploadPanelProps } from "../UploadPanel";
 
 type Props = Exclude<UploadPanelProps, "valid" | "listType" | "accept">;
 

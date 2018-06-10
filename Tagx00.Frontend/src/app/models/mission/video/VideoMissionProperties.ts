@@ -3,7 +3,7 @@ import { AudioMissionType } from "../audio/AudioMission";
 import { VideoMissionType } from "./VideoMission";
 
 export interface VideoMissionProperties extends MissionProperties {
-  allowCustomTag: string[];
+  allowCustomTag: boolean;
   tags: string[];
   videoMissionTypes: VideoMissionType[];
 }
