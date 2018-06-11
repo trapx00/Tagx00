@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import trapx00.tagx00.dataservice.upload.VideoDataService;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.TextNotExistException;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.Date;
 
+@Service
 public class VideoDataServiceImpl implements VideoDataService {
     private final static String TEMP_PATH = PathUtil.getTmpPath();
     private static final long EXPIRATION = Long.MAX_VALUE;

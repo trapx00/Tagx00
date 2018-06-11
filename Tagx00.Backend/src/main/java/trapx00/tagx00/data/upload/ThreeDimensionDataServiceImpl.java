@@ -1,6 +1,7 @@
 package trapx00.tagx00.data.upload;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.mission.ThreeDimensionTokenDao;
 import trapx00.tagx00.dataservice.upload.ThreeDimensionDataService;
 import trapx00.tagx00.entity.mission.TextToken;
@@ -15,6 +16,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Optional;
 
+@Service
 public class ThreeDimensionDataServiceImpl implements ThreeDimensionDataService {
     private final ThreeDimensionTokenDao threeDimensionTokenDao;
 

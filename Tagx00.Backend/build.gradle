@@ -3,7 +3,7 @@ version '1.0'
 
 buildscript {
     ext {
-        springBootVersion = '2.0.0.M4'
+        springBootVersion = '2.0.2.RELEASE'
     }
     repositories {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
@@ -11,7 +11,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.RELEASE'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE'
     }
 
 }

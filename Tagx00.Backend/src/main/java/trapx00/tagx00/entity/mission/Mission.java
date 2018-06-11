@@ -9,8 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Table(name = "mission")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Mission implements Serializable {
     @Id
     private String missionId;
