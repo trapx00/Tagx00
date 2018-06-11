@@ -1,6 +1,5 @@
 package trapx00.tagx00.entity.mission;
 
-import trapx00.tagx00.entity.mission.favorite.ImageFavorite;
 import trapx00.tagx00.entity.mission.instance.ImageInstance;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
@@ -25,8 +24,6 @@ public class ImageMission extends Mission {
     private List<ImageMissionType> imageMissionTypes;
     @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<ImageInstance> imageInstances;
-    @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<ImageFavorite> imageFavorites;
 
     public ImageMission() {
     }
@@ -40,14 +37,13 @@ public class ImageMission extends Mission {
                         int minimalWorkerLevel, List<String> browserUsers,
                         boolean allowCustomTag, List<String> allowedTags,
                         List<MissionAsset> missionAssets, List<ImageMissionType> imageMissionTypes,
-                        List<ImageInstance> imageInstances, List<ImageFavorite> imageFavorites) {
+                        List<ImageInstance> imageInstances) {
         super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
         this.allowCustomTag = allowCustomTag;
         this.allowedTags = allowedTags;
         this.missionAssets = missionAssets;
         this.imageMissionTypes = imageMissionTypes;
         this.imageInstances = imageInstances;
-        this.imageFavorites = imageFavorites;
     }
 
     public List<String> getAllowedTags() {
@@ -90,11 +86,4 @@ public class ImageMission extends Mission {
         this.imageInstances = imageInstances;
     }
 
-    public List<ImageFavorite> getImageFavorites() {
-        return imageFavorites;
-    }
-
-    public void setImageFavorites(List<ImageFavorite> imageFavorites) {
-        this.imageFavorites = imageFavorites;
-    }
 }

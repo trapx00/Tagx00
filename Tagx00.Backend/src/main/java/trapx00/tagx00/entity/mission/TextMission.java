@@ -1,7 +1,6 @@
 package trapx00.tagx00.entity.mission;
 
 
-import trapx00.tagx00.entity.mission.favorite.TextFavorite;
 import trapx00.tagx00.entity.mission.instance.TextInstance;
 import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 import trapx00.tagx00.publicdatas.mission.MissionState;
@@ -21,18 +20,15 @@ public class TextMission extends Mission {
     private List<TextMissionSetting> textMissionSettings;
     @OneToMany(mappedBy = "textMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<TextInstance> textInstances;
-    @OneToMany(mappedBy = "textMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<TextFavorite> textFavorites;
 
     public TextMission() {
     }
 
-    public TextMission(String missionId, String title, String description, List<String> topics, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> browserUsers, List<String> textUrls, List<TextMissionSetting> textMissionSettings, List<TextInstance> textInstances, List<TextFavorite> textFavorites) {
+    public TextMission(String missionId, String title, String description, List<String> topics, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> browserUsers, List<String> textUrls, List<TextMissionSetting> textMissionSettings, List<TextInstance> textInstances) {
         super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
         this.textUrls = textUrls;
         this.textMissionSettings = textMissionSettings;
         this.textInstances = textInstances;
-        this.textFavorites = textFavorites;
     }
 
     public List<String> getTextUrls() {
@@ -57,13 +53,5 @@ public class TextMission extends Mission {
 
     public void setTextInstances(List<TextInstance> textInstances) {
         this.textInstances = textInstances;
-    }
-
-    public List<TextFavorite> getTextFavorites() {
-        return textFavorites;
-    }
-
-    public void setTextFavorites(List<TextFavorite> textFavorites) {
-        this.textFavorites = textFavorites;
     }
 }

@@ -18,11 +18,6 @@ public class TextResult extends WorkResult {
         this.url = url;
     }
 
-    public TextResult(boolean isDone, TextJob textJob, String url) {
-        super(isDone);
-        this.textJob = textJob;
-    }
-
     public TextJob getTextJob() {
         return textJob;
     }

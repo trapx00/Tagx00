@@ -1,6 +1,5 @@
 package trapx00.tagx00.entity.mission;
 
-import trapx00.tagx00.entity.mission.favorite.ThreeDimensionFavorite;
 import trapx00.tagx00.entity.mission.instance.ThreeDimensionInstance;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
@@ -24,8 +23,6 @@ public class ThreeDimensionMission extends Mission {
     private ThreeDimensionMissionType threeDimensionMissionTypes;
     @OneToMany(mappedBy = "threeDimensionMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<ThreeDimensionInstance> threeDimensionInstances;
-    @OneToMany(mappedBy = "threeDimensionMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<ThreeDimensionFavorite> threeDimensionFavorites;
 
     public ThreeDimensionMission() {
     }
@@ -36,14 +33,13 @@ public class ThreeDimensionMission extends Mission {
                                  int level, int credits, int minimalWorkerLevel, List<java.lang.String> browserUsers,
                                  boolean allowCustomTag, List<String> tokens,
                                  List<java.lang.String> allowedTags,
-                                 List<ThreeDimensionInstance> threeDimensionInstances, List<ThreeDimensionFavorite> threeDimensionFavorites) {
+                                 List<ThreeDimensionInstance> threeDimensionInstances) {
         super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
         this.allowCustomTag = allowCustomTag;
         this.tokens = tokens;
         this.allowedTags = allowedTags;
-        this.threeDimensionMissionTypes =ThreeDimensionMissionType.WHOLE;
+        this.threeDimensionMissionTypes = ThreeDimensionMissionType.WHOLE;
         this.threeDimensionInstances = threeDimensionInstances;
-        this.threeDimensionFavorites = threeDimensionFavorites;
     }
 
 
@@ -88,11 +84,4 @@ public class ThreeDimensionMission extends Mission {
         this.threeDimensionInstances = threeDimensionInstances;
     }
 
-    public List<ThreeDimensionFavorite> getThreeDimensionFavorites() {
-        return threeDimensionFavorites;
-    }
-
-    public void setThreeDimensionFavorites(List<ThreeDimensionFavorite> threeDimensionFavorites) {
-        this.threeDimensionFavorites = threeDimensionFavorites;
-    }
 }

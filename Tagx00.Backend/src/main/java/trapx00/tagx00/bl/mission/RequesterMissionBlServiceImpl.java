@@ -8,7 +8,6 @@ import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
 import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.dataservice.topic.TopicDataService;
-import trapx00.tagx00.entity.mission.ThreeDimensionMission;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
@@ -26,6 +25,7 @@ import trapx00.tagx00.security.jwt.JwtService;
 import trapx00.tagx00.security.jwt.JwtUser;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
+import trapx00.tagx00.vo.mission.audio.AudioMissionProperties;
 import trapx00.tagx00.vo.mission.image.ImageMissionProperties;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
@@ -34,7 +34,6 @@ import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 import trapx00.tagx00.vo.mission.text.TextMissionProperties;
 import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionProperties;
 import trapx00.tagx00.vo.mission.video.VideoMissionProperties;
-import trapx00.tagx00.vo.mission.audio.AudioMissionProperties;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -216,13 +215,13 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         new ArrayList<>(((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags().keySet()),
                         new ArrayList<>(),
                         ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(),
-                        new ArrayList<>(),new ArrayList<>());
+                        new ArrayList<>());
             case TEXT:
                 return new TextMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
                         missionCreateVo.getTopics(), missionCreateVo.getProperties().getType(), MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(),
                         "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(),
-                        missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(), ((TextMissionProperties) missionCreateVo.getProperties()).getSettings(), new ArrayList<>(), new ArrayList<>()
+                        missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(), ((TextMissionProperties) missionCreateVo.getProperties()).getSettings(), new ArrayList<>()
                 );
             case THREE_DIMENSION:
                 return new ThreeDimensionMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
@@ -233,7 +232,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
                         ((ThreeDimensionMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
                         new ArrayList<>(), ((ThreeDimensionMissionProperties) missionCreateVo.getProperties()).getTags(),
-                        new ArrayList<>(),new ArrayList<>());
+                        new ArrayList<>());
             case VIDEO:
                 return new VideoMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
                         missionCreateVo.getTopics(), MissionType.VIDEO,
@@ -245,7 +244,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         ((VideoMissionProperties) missionCreateVo.getProperties()).getTags(),
                         new ArrayList<>(),
                         ((VideoMissionProperties) missionCreateVo.getProperties()).getVideoMissionTypes(),
-                        new ArrayList<>(),new ArrayList<>());
+                        new ArrayList<>());
             case AUDIO:
                 return new AudioMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
                         missionCreateVo.getTopics(), MissionType.AUDIO,
@@ -257,7 +256,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         ((AudioMissionProperties) missionCreateVo.getProperties()).getAllowedTags(),
                         new ArrayList<>(),
                         ((AudioMissionProperties) missionCreateVo.getProperties()).getAudioMissionTypes(),
-                        new ArrayList<>(),new ArrayList<>());
+                        new ArrayList<>());
 
         }
         return null;

@@ -24,15 +24,11 @@ public class WorkResult implements Serializable {
         this.workResultId = workResultId;
     }
 
-    public WorkResult(boolean isDone) {
-        this.isDone = isDone;
-    }
-
     public boolean isDone() {
         return isDone;
     }
 
-    public void setDone(boolean done) {
-        isDone = done;
+    public void setIsDone(boolean isDone) {
+        this.isDone = isDone;
     }
 }
