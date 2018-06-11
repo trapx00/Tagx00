@@ -1,8 +1,6 @@
 package trapx00.tagx00.entity.mission.instance;
 
-import trapx00.tagx00.entity.mission.AudioMission;
 import trapx00.tagx00.entity.mission.VideoMission;
-import trapx00.tagx00.entity.mission.instance.workresult.AudioResult;
 import trapx00.tagx00.entity.mission.instance.workresult.VideoResult;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;

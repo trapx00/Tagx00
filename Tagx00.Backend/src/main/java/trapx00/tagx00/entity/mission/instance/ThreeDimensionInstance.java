@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class ThreeDimensionInstance extends  Instance {
+public class ThreeDimensionInstance extends Instance {
     @Column(name = "threeDimensionResults")
     @ElementCollection(targetClass = ThreeDimensionResult.class)
     private List<ThreeDimensionResult> threeDimensionResults;

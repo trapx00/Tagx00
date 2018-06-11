@@ -28,29 +28,13 @@ public class ImageMission extends Mission {
     public ImageMission() {
     }
 
-
-    public ImageMission(String missionId, String title,
-                        String description, List<String> topics,
-                        MissionType missionType, MissionState missionState,
-                        Date start, Date end, String coverUrl,
-                        String requesterUsername, int level, int credits,
-                        int minimalWorkerLevel, boolean allowCustomTag, List<String> allowedTags,
-                        List<MissionAsset> missionAssets, List<ImageMissionType> imageMissionTypes,
-                        List<ImageInstance> imageInstances) {
-        super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
+    public ImageMission(String missionId, String title, String description, List<String> topics, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, boolean allowCustomTag, List<String> allowedTags, List<MissionAsset> missionAssets, List<ImageMissionType> imageMissionTypes, List<ImageInstance> imageInstances) {
+        super(missionId, title, description, topics, MissionType.IMAGE, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
         this.allowCustomTag = allowCustomTag;
         this.allowedTags = allowedTags;
         this.missionAssets = missionAssets;
         this.imageMissionTypes = imageMissionTypes;
         this.imageInstances = imageInstances;
-    }
-
-    public List<String> getAllowedTags() {
-        return allowedTags;
-    }
-
-    public void setAllowedTags(List<String> allowedTags) {
-        this.allowedTags = allowedTags;
     }
 
     public boolean isAllowCustomTag() {
@@ -59,6 +43,14 @@ public class ImageMission extends Mission {
 
     public void setAllowCustomTag(boolean allowCustomTag) {
         this.allowCustomTag = allowCustomTag;
+    }
+
+    public List<String> getAllowedTags() {
+        return allowedTags;
+    }
+
+    public void setAllowedTags(List<String> allowedTags) {
+        this.allowedTags = allowedTags;
     }
 
     public List<MissionAsset> getMissionAssets() {

@@ -28,21 +28,13 @@ public class VideoMission extends Mission {
     public VideoMission() {
     }
 
-    public VideoMission(String missionId, String title, String description, List<String> topics, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, boolean allowCustomTag, List<String> allowedTags, List<String> videoUrls, List<VideoMissionType> videoMissionTypes, List<VideoInstance> videoInstances) {
-        super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
+    public VideoMission(String missionId, String title, String description, List<String> topics, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, boolean allowCustomTag, List<String> allowedTags, List<String> videoUrls, List<VideoMissionType> videoMissionTypes, List<VideoInstance> videoInstances) {
+        super(missionId, title, description, topics, MissionType.VIDEO, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
         this.allowCustomTag = allowCustomTag;
         this.allowedTags = allowedTags;
         this.videoUrls = videoUrls;
         this.videoMissionTypes = videoMissionTypes;
         this.videoInstances = videoInstances;
-    }
-
-    public List<String> getAllowedTags() {
-        return allowedTags;
-    }
-
-    public void setAllowedTags(List<String> allowedTags) {
-        this.allowedTags = allowedTags;
     }
 
     public boolean isAllowCustomTag() {
@@ -51,6 +43,14 @@ public class VideoMission extends Mission {
 
     public void setAllowCustomTag(boolean allowCustomTag) {
         this.allowCustomTag = allowCustomTag;
+    }
+
+    public List<String> getAllowedTags() {
+        return allowedTags;
+    }
+
+    public void setAllowedTags(List<String> allowedTags) {
+        this.allowedTags = allowedTags;
     }
 
     public List<String> getVideoUrls() {

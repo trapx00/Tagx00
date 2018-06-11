@@ -11,8 +11,7 @@ public enum AudioMissionType implements Serializable {
     WHOLE(AudioWholeJob.class),
     PART(AudioPartJob.class);
 
-
-    private Class<? extends AudioJob> jobClass;
+    private final Class<? extends AudioJob> jobClass;
 
     AudioMissionType(Class<? extends AudioJob> jobClass) {
         this.jobClass = jobClass;
@@ -20,6 +19,6 @@ public enum AudioMissionType implements Serializable {
 
     public Class<? extends AudioJob> getJobClass() {
         return jobClass;
-
     }
+
 }

@@ -15,7 +15,6 @@ import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.mlservice.PythonService;
 import trapx00.tagx00.publicdatas.mission.MissionState;
-import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.response.mission.MissionCreateResponse;
@@ -33,6 +32,7 @@ import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 import trapx00.tagx00.vo.mission.text.TextMissionProperties;
 import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionProperties;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionType;
 import trapx00.tagx00.vo.mission.video.VideoMissionProperties;
 
 import java.io.IOException;
@@ -204,7 +204,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
         switch (missionCreateVo.getProperties().getType()) {
             case IMAGE:
                 return new ImageMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
-                        missionCreateVo.getTopics(), MissionType.IMAGE,
+                        missionCreateVo.getTopics(),
                         MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
                         missionCreateVo.getLevel(),
@@ -216,24 +216,24 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         new ArrayList<>());
             case TEXT:
                 return new TextMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
-                        missionCreateVo.getTopics(), missionCreateVo.getProperties().getType(), MissionState.PENDING,
+                        missionCreateVo.getTopics(), MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(),
                         "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(),
                         missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), ((TextMissionProperties) missionCreateVo.getProperties()).getSettings(), new ArrayList<>()
                 );
             case THREE_DIMENSION:
                 return new ThreeDimensionMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
-                        missionCreateVo.getTopics(), MissionType.THREE_DIMENSION,
+                        missionCreateVo.getTopics(),
                         MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
                         missionCreateVo.getLevel(),
                         missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(),
-                        ((ThreeDimensionMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
-                        new ArrayList<>(), ((ThreeDimensionMissionProperties) missionCreateVo.getProperties()).getTags(),
+                        ((ThreeDimensionMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(), ((ThreeDimensionMissionProperties) missionCreateVo.getProperties()).getTags(),
+                        new ArrayList<>(), ThreeDimensionMissionType.WHOLE,
                         new ArrayList<>());
             case VIDEO:
                 return new VideoMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
-                        missionCreateVo.getTopics(), MissionType.VIDEO,
+                        missionCreateVo.getTopics(),
                         MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
                         missionCreateVo.getLevel(),
@@ -245,7 +245,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         new ArrayList<>());
             case AUDIO:
                 return new AudioMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
-                        missionCreateVo.getTopics(), MissionType.AUDIO,
+                        missionCreateVo.getTopics(),
                         MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
                         missionCreateVo.getLevel(),

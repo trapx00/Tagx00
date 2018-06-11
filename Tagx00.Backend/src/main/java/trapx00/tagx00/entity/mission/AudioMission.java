@@ -13,12 +13,12 @@ import java.util.List;
 public class AudioMission extends Mission {
     @Column(name = "allowCustomTag")
     private boolean allowCustomTag;
-    @Column(name = "audioUrls")
-    @ElementCollection(targetClass = String.class)
-    private List<String> audioUrls;
     @Column(name = "allowedTag")
     @ElementCollection(targetClass = String.class)
     private List<String> allowedTags;
+    @Column(name = "audioUrls")
+    @ElementCollection(targetClass = String.class)
+    private List<String> audioUrls;
     @Column(name = "audioMissionType")
     @ElementCollection(targetClass = AudioMissionType.class)
     private List<AudioMissionType> audioMissionTypes;
@@ -28,11 +28,11 @@ public class AudioMission extends Mission {
     public AudioMission() {
     }
 
-    public AudioMission(String missionId, String title, String description, List<String> topics, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, boolean allowCustomTag, List<String> audioUrls, List<String> allowedTags, List<AudioMissionType> audioMissionTypes, List<AudioInstance> audioInstances) {
-        super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
+    public AudioMission(String missionId, String title, String description, List<String> topics, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, boolean allowCustomTag, List<String> allowedTags, List<String> audioUrls, List<AudioMissionType> audioMissionTypes, List<AudioInstance> audioInstances) {
+        super(missionId, title, description, topics, MissionType.AUDIO, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
         this.allowCustomTag = allowCustomTag;
-        this.audioUrls = audioUrls;
         this.allowedTags = allowedTags;
+        this.audioUrls = audioUrls;
         this.audioMissionTypes = audioMissionTypes;
         this.audioInstances = audioInstances;
     }
