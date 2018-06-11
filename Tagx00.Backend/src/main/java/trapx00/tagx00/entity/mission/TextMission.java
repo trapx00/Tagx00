@@ -24,8 +24,8 @@ public class TextMission extends Mission {
     public TextMission() {
     }
 
-    public TextMission(String missionId, String title, String description, List<String> topics, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> browserUsers, List<String> textUrls, List<TextMissionSetting> textMissionSettings, List<TextInstance> textInstances) {
-        super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
+    public TextMission(String missionId, String title, String description, List<String> topics, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> textUrls, List<TextMissionSetting> textMissionSettings, List<TextInstance> textInstances) {
+        super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
         this.textUrls = textUrls;
         this.textMissionSettings = textMissionSettings;
         this.textInstances = textInstances;

@@ -30,11 +30,11 @@ public class ThreeDimensionMission extends Mission {
     public ThreeDimensionMission(java.lang.String missionId, java.lang.String title, java.lang.String description, List<java.lang.String> topics,
                                  MissionType missionType, MissionState missionState,
                                  Date start, Date end, java.lang.String coverUrl, java.lang.String requesterUsername,
-                                 int level, int credits, int minimalWorkerLevel, List<java.lang.String> browserUsers,
+                                 int level, int credits, int minimalWorkerLevel,
                                  boolean allowCustomTag, List<String> tokens,
                                  List<java.lang.String> allowedTags,
                                  List<ThreeDimensionInstance> threeDimensionInstances) {
-        super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
+        super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
         this.allowCustomTag = allowCustomTag;
         this.tokens = tokens;
         this.allowedTags = allowedTags;

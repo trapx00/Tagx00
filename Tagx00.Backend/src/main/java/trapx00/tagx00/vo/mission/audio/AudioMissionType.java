@@ -7,7 +7,7 @@ import trapx00.tagx00.publicdatas.mission.audio.whole.AudioWholeJob;
 import java.io.Serializable;
 
 
-public enum AudioMissionType implements Serializable{
+public enum AudioMissionType implements Serializable {
     WHOLE(AudioWholeJob.class),
     PART(AudioPartJob.class);
 

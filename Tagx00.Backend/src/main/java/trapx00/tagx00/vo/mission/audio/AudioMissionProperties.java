@@ -5,7 +5,7 @@ import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
 import java.util.List;
 
-public class AudioMissionProperties  extends MissionProperties {
+public class AudioMissionProperties extends MissionProperties {
 
 
     public AudioMissionProperties(MissionType type, boolean allowCustomTag, List<String> allowedTags, List<AudioMissionType> audioMissionTypes) {

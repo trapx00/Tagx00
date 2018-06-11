@@ -107,14 +107,12 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
             return queryAllInstances();
         }
         InstanceVo[] instance = requesterMissionDataService.getInstancesByMissionId(missionId, MissionUtil.getType(missionId));
-        InstanceResponse instanceResponse = new InstanceResponse(Arrays.asList(instance));
-        return instanceResponse;
+        return new InstanceResponse(Arrays.asList(instance));
     }
 
     private InstanceResponse queryAllInstances() {
         InstanceVo[] instance = requesterMissionDataService.getAllInstances();
-        InstanceResponse instanceResponse = new InstanceResponse(Arrays.asList(instance));
-        return instanceResponse;
+        return new InstanceResponse(Arrays.asList(instance));
     }
 
     /**
@@ -210,7 +208,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
                         missionCreateVo.getLevel(),
-                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
+                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(),
                         ((ImageMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
                         new ArrayList<>(((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags().keySet()),
                         new ArrayList<>(),
@@ -221,7 +219,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         missionCreateVo.getTopics(), missionCreateVo.getProperties().getType(), MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(),
                         "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(),
-                        missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(), ((TextMissionProperties) missionCreateVo.getProperties()).getSettings(), new ArrayList<>()
+                        missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), ((TextMissionProperties) missionCreateVo.getProperties()).getSettings(), new ArrayList<>()
                 );
             case THREE_DIMENSION:
                 return new ThreeDimensionMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
@@ -229,7 +227,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
                         missionCreateVo.getLevel(),
-                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
+                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(),
                         ((ThreeDimensionMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
                         new ArrayList<>(), ((ThreeDimensionMissionProperties) missionCreateVo.getProperties()).getTags(),
                         new ArrayList<>());
@@ -239,7 +237,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
                         missionCreateVo.getLevel(),
-                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
+                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(),
                         ((VideoMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
                         ((VideoMissionProperties) missionCreateVo.getProperties()).getTags(),
                         new ArrayList<>(),
@@ -251,7 +249,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
                         missionCreateVo.getLevel(),
-                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
+                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(),
                         ((AudioMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
                         ((AudioMissionProperties) missionCreateVo.getProperties()).getAllowedTags(),
                         new ArrayList<>(),

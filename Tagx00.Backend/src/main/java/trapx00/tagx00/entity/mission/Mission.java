@@ -23,8 +23,10 @@ public class Mission implements Serializable {
     @Column(name = "topics")
     private List<String> topics;
     @Column(name = "missionType")
+    @Enumerated(EnumType.STRING)
     private MissionType missionType;
     @Column(name = "missionState")
+    @Enumerated(EnumType.STRING)
     private MissionState missionState;
     @Column(name = "start")
     private Date start;
@@ -40,15 +42,11 @@ public class Mission implements Serializable {
     private int credits;
     @Column(name = "minimalWorkerLevel")
     private int minimalWorkerLevel;
-    @Column(name = "browserUsers")
-    @ElementCollection(fetch = FetchType.LAZY,
-            targetClass = String.class)
-    private List<String> browserUsers;
 
     public Mission() {
     }
 
-    public Mission(String missionId, String title, String description, List<String> topics, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> browserUsers) {
+    public Mission(String missionId, String title, String description, List<String> topics, MissionType missionType, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel) {
         this.missionId = missionId;
         this.title = title;
         this.description = description;
@@ -62,7 +60,6 @@ public class Mission implements Serializable {
         this.level = level;
         this.credits = credits;
         this.minimalWorkerLevel = minimalWorkerLevel;
-        this.browserUsers = browserUsers;
     }
 
     public String getMissionId() {
@@ -167,13 +164,5 @@ public class Mission implements Serializable {
 
     public void setMinimalWorkerLevel(int minimalWorkerLevel) {
         this.minimalWorkerLevel = minimalWorkerLevel;
-    }
-
-    public List<String> getBrowserUsers() {
-        return browserUsers;
-    }
-
-    public void setBrowserUsers(List<String> browserUsers) {
-        this.browserUsers = browserUsers;
     }
 }

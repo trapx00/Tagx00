@@ -235,7 +235,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 case IMAGE:
                     List<ImageResult> imageResults = ((ImageInstance) instance).getImageResults();
                     for (ImageResult imageResult : imageResults) {
-                        if (imageResult.isDone()) {
+                        if (imageResult.getIsDone()) {
                             instanceResultIdsSize++;
                         }
                     }
@@ -244,7 +244,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 case TEXT:
                     List<TextResult> textResults = ((TextInstance) instance).getTextResults();
                     for (TextResult textResult : textResults) {
-                        if (textResult.isDone()) {
+                        if (textResult.getIsDone()) {
                             instanceResultIdsSize++;
                         }
                     }
@@ -253,7 +253,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 case AUDIO:
                     List<AudioResult> audioResults = ((AudioInstance) instance).getAudioResults();
                     for (AudioResult audioResult : audioResults) {
-                        if (audioResult.isDone()) {
+                        if (audioResult.getIsDone()) {
                             instanceResultIdsSize++;
                         }
                     }
@@ -262,7 +262,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 case VIDEO:
                     List<VideoResult> videoResults = ((VideoInstance) instance).getVideoResults();
                     for (VideoResult videoResult : videoResults) {
-                        if (videoResult.isDone()) {
+                        if (videoResult.getIsDone()) {
                             instanceResultIdsSize++;
                         }
                     }
@@ -271,7 +271,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 case THREE_DIMENSION:
                     List<ThreeDimensionResult> threeDimensionResults = ((ThreeDimensionInstance) instance).getThreeDimensionResults();
                     for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
-                        if (threeDimensionResult.isDone()) {
+                        if (threeDimensionResult.getIsDone()) {
                             instanceResultIdsSize++;
                         }
                     }
@@ -310,7 +310,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         ImageInstance imageInstance = getImageInstance(instance1.getInstanceId());
                         List<ImageResult> imageResults = imageInstance.getImageResults();
                         for (ImageResult imageResult : imageResults) {
-                            if (imageResult.isDone()) {
+                            if (imageResult.getIsDone()) {
                                 instanceResultIdsSize++;
                             }
                         }
@@ -319,7 +319,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         TextInstance textInstance = getTextInstance(instance1.getInstanceId());
                         List<TextResult> textResults = textInstance.getTextResults();
                         for (TextResult textResult : textResults) {
-                            if (textResult.isDone())
+                            if (textResult.getIsDone())
                                 instanceResultIdsSize++;
                         }
                         return generateTextInstanceDetailVo(textInstance, instanceResultIdsSize);
@@ -327,7 +327,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         ThreeDimensionInstance threeDimensionInstance = getThreeDimensionInstance(instance1.getInstanceId());
                         List<ThreeDimensionResult> threeDimensionResults = threeDimensionInstance.getThreeDimensionResults();
                         for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
-                            if (threeDimensionResult.isDone()) {
+                            if (threeDimensionResult.getIsDone()) {
                                 instanceResultIdsSize++;
                             }
                         }
@@ -336,7 +336,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         VideoInstance videoInstance = getVideoInstance(instance1.getInstanceId());
                         List<VideoResult> videoResults = videoInstance.getVideoResults();
                         for (VideoResult videoResult : videoResults) {
-                            if (videoResult.isDone())
+                            if (videoResult.getIsDone())
                                 instanceResultIdsSize++;
                         }
                         return generateVideoInstanceDetailVo(videoInstance, instanceResultIdsSize);
@@ -344,7 +344,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         AudioInstance audioInstance = getAudioInstance(instance1.getInstanceId());
                         List<AudioResult> audioResults = audioInstance.getAudioResults();
                         for (AudioResult audioResult : audioResults) {
-                            if (audioResult.isDone())
+                            if (audioResult.getIsDone())
                                 instanceResultIdsSize++;
                         }
                         return generateAudioInstanceDetailVo(audioInstance, instanceResultIdsSize);

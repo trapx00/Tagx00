@@ -26,7 +26,6 @@ public class TextResult extends WorkResult {
         this.textJob = textJob;
     }
 
-
     public String getUrl() {
         return url;
     }

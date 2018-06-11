@@ -34,11 +34,10 @@ public class ImageMission extends Mission {
                         MissionType missionType, MissionState missionState,
                         Date start, Date end, String coverUrl,
                         String requesterUsername, int level, int credits,
-                        int minimalWorkerLevel, List<String> browserUsers,
-                        boolean allowCustomTag, List<String> allowedTags,
+                        int minimalWorkerLevel, boolean allowCustomTag, List<String> allowedTags,
                         List<MissionAsset> missionAssets, List<ImageMissionType> imageMissionTypes,
                         List<ImageInstance> imageInstances) {
-        super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
+        super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
         this.allowCustomTag = allowCustomTag;
         this.allowedTags = allowedTags;
         this.missionAssets = missionAssets;

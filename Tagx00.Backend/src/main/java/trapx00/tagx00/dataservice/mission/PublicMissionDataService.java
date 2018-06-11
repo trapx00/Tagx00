@@ -41,12 +41,4 @@ public interface PublicMissionDataService {
      * @return Instance
      */
     Instance[] getInstances();
-
-    /**
-     * add the browsing username to the mission
-     *
-     * @param missionId
-     * @param username
-     */
-    void addBrowserUserToMission(String missionId, String username) throws MissionIdDoesNotExistException;
 }
