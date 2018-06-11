@@ -7,7 +7,6 @@ import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.blservice.upload.MissionUploadBlService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.dataservice.upload.*;
-import trapx00.tagx00.entity.mission.ThreeDimensionMission;
 import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -38,14 +37,14 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
     @Autowired
     public MissionUploadBlServiceImpl(ImageDataService imageDataService, TextDataService textDataService,
                                       RequesterMissionDataService requesterMissionDataService, WorkerMissionBlService workerMissionBlService
-    ,VideoDataService videoDataService,AudioDataService audioDataService,ThreeDimensionDataService threeDimensionDataService) {
+            , VideoDataService videoDataService, AudioDataService audioDataService, ThreeDimensionDataService threeDimensionDataService) {
         this.imageDataService = imageDataService;
         this.textDataService = textDataService;
         this.requesterMissionDataService = requesterMissionDataService;
         this.workerMissionBlService = workerMissionBlService;
-        this.videoDataService=videoDataService;
-        this.audioDataService=audioDataService;
-        this.threeDimensionDataService=threeDimensionDataService;
+        this.videoDataService = videoDataService;
+        this.audioDataService = audioDataService;
+        this.threeDimensionDataService = threeDimensionDataService;
     }
 
     /**
@@ -207,7 +206,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
         try {
             //非压缩
             AudioMission audioMission = (AudioMission) requesterMissionDataService.getMissionByMissionId(missionId);
-            java.lang.String url = audioDataService.uploadAudio(generateVideoKey(missionId, order), multipartFile.getBytes());
+            java.lang.String url = audioDataService.uploadAudio(generateAudioKey(missionId, order), multipartFile.getBytes());
             requesterMissionDataService.updateMission(audioMission);
             return new UploadMissionAudioResponse(url);
 
@@ -225,13 +224,13 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
      * @return the urls of the 3ds
      */
     @Override
-    public UploadMissionThreeDimensionResponse uploadThreeDimension(java.lang.String missionId, MultipartFile mtl,MultipartFile obj, int order) throws SystemException, MissionIdDoesNotExistException {
+    public UploadMissionThreeDimensionResponse uploadThreeDimension(java.lang.String missionId, MultipartFile mtl, MultipartFile obj, int order) throws SystemException, MissionIdDoesNotExistException {
         //1.obj, 1.mtl, 2.obj, 2.mtl……的顺序上传。同一个模型的两个文件名字相同，order相同
         try {
             //非压缩
             ThreeDimensionMission threeDimensionMission = (ThreeDimensionMission) requesterMissionDataService.getMissionByMissionId(missionId);
-            String token = threeDimensionDataService.upload3d(generateVideoKey(missionId, order), mtl.getBytes(),obj.getBytes());
-            List<String> tokentemp=threeDimensionMission.getTokens();
+            String token = threeDimensionDataService.upload3d(generateThreeDimensionKey(missionId, order), mtl.getBytes(), obj.getBytes());
+            List<String> tokentemp = threeDimensionMission.getTokens();
             tokentemp.add(token);
             threeDimensionMission.setTokens(tokentemp);
             requesterMissionDataService.updateMission(threeDimensionMission);
@@ -254,12 +253,15 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
     private java.lang.String generateTextKey(java.lang.String missionId, int order) {
         return "text_" + missionId + "_" + order;
     }
+
     private java.lang.String generateVideoKey(java.lang.String missionId, int order) {
         return "video_" + missionId + "_" + order;
     }
+
     private java.lang.String generateAudioKey(java.lang.String missionId, int order) {
         return "audio_" + missionId + "_" + order;
     }
+
     private java.lang.String generateThreeDimensionKey(java.lang.String missionId, int order) {
         return "threeDimension_" + missionId + "_" + order;
     }

@@ -588,9 +588,9 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
 
     private <T extends Mission> String getNextId(List<T> missions, MissionType missionType) {
         int result = 0;
-        Optional<T> maxId = missions.stream().max((x1, x2) -> (MissionUtil.getId(x1.getMissionId()) - MissionUtil.getId(x2.getMissionId())));
-        if (maxId.isPresent()) {
-            result = MissionUtil.getId(maxId.get().getMissionId()) + 1;
+        Optional<T> latestMission = missions.stream().max((x1, x2) -> (MissionUtil.getId(x1.getMissionId()) - MissionUtil.getId(x2.getMissionId())));
+        if (latestMission.isPresent()) {
+            result = MissionUtil.getId(latestMission.get().getMissionId()) + 1;
         }
         return MissionUtil.addTypeToId(result, missionType);
     }

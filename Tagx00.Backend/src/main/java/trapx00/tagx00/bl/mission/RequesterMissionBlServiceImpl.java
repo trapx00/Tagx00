@@ -251,7 +251,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         missionCreateVo.getLevel(),
                         missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(),
                         ((AudioMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
-                        ((AudioMissionProperties) missionCreateVo.getProperties()).getAllowedTags(),
+                        ((AudioMissionProperties) missionCreateVo.getProperties()).getTags(),
                         new ArrayList<>(),
                         ((AudioMissionProperties) missionCreateVo.getProperties()).getAudioMissionTypes(),
                         new ArrayList<>());
