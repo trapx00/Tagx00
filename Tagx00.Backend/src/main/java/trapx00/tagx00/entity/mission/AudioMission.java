@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "audioMission")
 public class AudioMission extends Mission {
     @Column(name = "allowCustomTag")
     private boolean allowCustomTag;

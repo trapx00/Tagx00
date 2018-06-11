@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "textMission")
 public class TextMission extends Mission {
     @Column(name = "textUrls")
     @ElementCollection(targetClass = String.class)

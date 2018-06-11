@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "threeDimensionMission")
 public class ThreeDimensionMission extends Mission {
     @Column(name = "allowCustomTag")
     private boolean allowCustomTag;

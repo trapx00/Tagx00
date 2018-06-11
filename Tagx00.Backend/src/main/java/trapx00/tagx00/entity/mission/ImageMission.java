@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "imageMission")
 public class ImageMission extends Mission {
     @Column(name = "allowCustomTag")
     private boolean allowCustomTag;
