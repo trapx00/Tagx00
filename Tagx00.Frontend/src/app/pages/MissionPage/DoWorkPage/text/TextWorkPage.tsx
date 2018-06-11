@@ -6,7 +6,7 @@ import { TextMissionDetail } from "../../../../models/mission/text/TextMissionDe
 import { Inject } from "react.di";
 import { WorkerService } from "../../../../api/WorkerService";
 import { TextWorkPageController } from "./TextWorkPageController";
-import { WorkPage, WorkPageProps } from "../WorkPage";
+import { RootWorkPageProps, WorkPage, WorkPageProps } from "../WorkPage";
 import { TextJob } from "../../../../models/instance/text/job/TextJob";
 import {
   TextMissionClassificationSetting,
@@ -17,12 +17,8 @@ import { TextKeywordsWorkPage } from "./TextKeywordsWorkPage";
 import { TextClassificationWorkPage } from "./TextClassificationWorkPage";
 import { TextNotation } from "./shared";
 
-interface Props {
-  instanceDetail: TextInstanceDetail;
-  missionDetail: TextMissionDetail;
-  readonlyMode: boolean;
+interface Props extends RootWorkPageProps<TextMissionDetail, TextInstanceDetail>{
 
-  jumpBack(): void;
 }
 
 export class TextWorkPage extends React.Component<Props, {}> {

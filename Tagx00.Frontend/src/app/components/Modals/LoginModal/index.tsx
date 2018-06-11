@@ -10,6 +10,7 @@ import { Inject, Module } from "react.di";
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import { LocaleStore } from "../../../stores/LocaleStore";
+import Hotkeys from 'react-hot-keys';
 
 interface Props  {
 
@@ -76,7 +77,11 @@ export class LoginModal extends React.Component<Props, any> {
 
     return <Localize replacements={props}>
         {props =>
-          <Modal visible={this.uiStore.loginModalShown}
+          <Hotkeys
+          keyName={"enter"}
+          onKeyDown={this.onOk}
+          >
+            <Modal visible={this.uiStore.loginModalShown}
                  title={props.title}
                  onCancel={this.onCancel}
                  onOk={this.onOk}
@@ -96,6 +101,7 @@ export class LoginModal extends React.Component<Props, any> {
           >
             <LoginForm fields={this.controller.fields}/>
           </Modal>
+          </Hotkeys>
         }
       </Localize>;
   }

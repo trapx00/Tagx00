@@ -3,6 +3,7 @@ package trapx00.tagx00.blservice.mission;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.TextNotExistException;
+import trapx00.tagx00.exception.viewexception.ThreeDimensionNotExistException;
 import trapx00.tagx00.response.mission.MissionDetailResponse;
 import trapx00.tagx00.response.mission.MissionPublicResponse;
 import trapx00.tagx00.response.mission.TextGetResponse;
@@ -40,5 +41,5 @@ public interface PublicMissionBlService {
      * @param tokens
      * @return
      */
-    ThreeModelGetResponse get3d(String tokens);
+    ThreeModelGetResponse get3d(String tokens)throws ThreeDimensionNotExistException, SystemException;
 }

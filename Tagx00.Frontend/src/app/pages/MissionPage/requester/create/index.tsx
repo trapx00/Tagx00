@@ -34,6 +34,9 @@ export default class MissionCreatePage extends React.Component<Props, {}> {
       <Switch>
         <AsyncRoute exact path={"/mission/requester/create/IMAGE"} component={import("./image")}/>
         <AsyncRoute exact path={"/mission/requester/create/TEXT"} component={import("./text")}/>
+        <AsyncRoute exact path={'/mission/requester/create/AUDIO'} component={import("./audio")}/>
+        <AsyncRoute exact path={'/mission/requester/create/THREE_DIMENSION'} component={import("./3d")}/>
+        <AsyncRoute exact path={'/mission/requester/create/VIDEO'} component={import("./video")}/>
         <Redirect to={"/mission/requester/create/IMAGE"}/>
       </Switch>
     </div>

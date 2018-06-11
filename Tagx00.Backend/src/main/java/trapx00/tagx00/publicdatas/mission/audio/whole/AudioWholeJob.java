@@ -9,6 +9,20 @@ public class AudioWholeJob extends AudioJob {
     private TagDescriptionTuple tuple;
 
     public AudioWholeJob() {
+
+    }
+
+    public AudioWholeJob(TagDescriptionTuple tuple) {
         super(AudioMissionType.WHOLE);
+        this.tuple = tuple;
+    }
+
+    public TagDescriptionTuple getTuple() {
+        return tuple;
+    }
+
+    public void setTuple(TagDescriptionTuple tuple) {
+        this.tuple = tuple;
+
     }
 }

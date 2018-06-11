@@ -79,6 +79,7 @@ public class MissionUploadController {
     }
 
     @Authorization(value = "发布者")
+
     @ApiOperation(value = "发布者上传本次任务音频文件", notes = "发布者上传本次任务的音频文件，传输时限为10min。存在本地，不要发到云端。")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "multipartFile", value = "音频文件", required = true, dataType = "MultipartFile"),
@@ -94,7 +95,14 @@ public class MissionUploadController {
         @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
     public ResponseEntity<Response> uploadAudio(@PathVariable("missionId") String missionId, @RequestParam("file") MultipartFile file, @RequestParam("order") int order) {
-        return null;
+        try {
+            return new ResponseEntity<>(missionUploadBlService.uploadAudio(missionId, file, order), HttpStatus.CREATED);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionIdDoesNotExistException e) {
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @Authorization(value = "发布者")
@@ -112,7 +120,14 @@ public class MissionUploadController {
         @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
     public ResponseEntity<Response> uploadVideo(@PathVariable("missionId") String missionId, @RequestParam("file") MultipartFile file, @RequestParam("order") int order) {
-        return null;
+        try {
+            return new ResponseEntity<>(missionUploadBlService.uploadAudio(missionId, file, order), HttpStatus.CREATED);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionIdDoesNotExistException e) {
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @Authorization(value = "发布者")
@@ -130,8 +145,20 @@ public class MissionUploadController {
         @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
         @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
-    public ResponseEntity<Response> upload3D(@PathVariable("missionId") String missionId, @RequestParam("file") MultipartFile file, @RequestParam("order") int order) {
-        return null;
+    public ResponseEntity<Response> upload3D(@PathVariable("missionId") String missionId,
+                                             @RequestParam("obj") MultipartFile objFile,
+                                             @RequestParam("mtl") MultipartFile mtlFile,
+                                             @RequestParam("order") int order) {
+        try {
+            return new ResponseEntity<>(missionUploadBlService.uploadThreeDimension(missionId,mtlFile ,objFile,order), HttpStatus.CREATED);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (MissionIdDoesNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
     }
+
 
 }

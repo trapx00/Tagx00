@@ -16,17 +16,6 @@ import { TextNotation } from "./shared";
 type KnownTextJob = TextKeywordsJob | TextClassificationJob;
 
 
-function judgeJobComplete(job: KnownTextJob) {
-  if (!job) return false;
-  switch (job.type) {
-    case TextMissionType.CLASSIFICATION:
-      return arrayContainsElement(job.tagTuples);
-    case TextMissionType.KEYWORDS:
-      return arrayContainsElement(job.tagTuples);
-  }
-  return false;
-}
-
 export class TextWorkPageController extends WorkPageController<TextMissionDetail, TextInstanceDetail, TextJob, TextNotation<TextJob, TextMissionSetting>> {
 
   textTokens: string[] = [];
@@ -41,10 +30,21 @@ export class TextWorkPageController extends WorkPageController<TextMissionDetail
         workResultId: index+"",
         textJob: x.job,
         url: x.textToken,
-        isDone: judgeJobComplete(x.job as any)
+        isDone: this.judgeJobComplete(x.job as any)
       }) as TextResult),
       instance: instance
     }
+  }
+
+  judgeJobComplete(job: KnownTextJob) {
+    if (!job) return false;
+    switch (job.type) {
+      case TextMissionType.CLASSIFICATION:
+        return arrayContainsElement(job.tagTuples);
+      case TextMissionType.KEYWORDS:
+        return arrayContainsElement(job.tagTuples);
+    }
+    return false;
   }
 
   constructor(missionDetail: TextMissionDetail, instanceDetail: TextInstanceDetail) {
@@ -74,6 +74,8 @@ export class TextWorkPageController extends WorkPageController<TextMissionDetail
         }
       }
     }
+
+    this.toFirstNotComplete();
   }
 
 

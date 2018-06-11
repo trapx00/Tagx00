@@ -8,10 +8,9 @@ import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
 import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.dataservice.topic.TopicDataService;
+import trapx00.tagx00.entity.mission.ThreeDimensionMission;
 import trapx00.tagx00.entity.account.User;
-import trapx00.tagx00.entity.mission.ImageMission;
-import trapx00.tagx00.entity.mission.Mission;
-import trapx00.tagx00.entity.mission.TextMission;
+import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.exception.viewexception.InstanceNotExistException;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -33,6 +32,9 @@ import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 import trapx00.tagx00.vo.mission.text.TextMissionProperties;
+import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionProperties;
+import trapx00.tagx00.vo.mission.video.VideoMissionProperties;
+import trapx00.tagx00.vo.mission.audio.AudioMissionProperties;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -210,9 +212,11 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
                         missionCreateVo.getLevel(),
                         missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
-                        ((ImageMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(), ((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags(), new ArrayList<>(),
+                        ((ImageMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
+                        new ArrayList<>(((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags().keySet()),
+                        new ArrayList<>(),
                         ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(),
-                        new ArrayList<>(), new ArrayList<>());
+                        new ArrayList<>(),new ArrayList<>());
             case TEXT:
                 return new TextMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
                         missionCreateVo.getTopics(), missionCreateVo.getProperties().getType(), MissionState.PENDING,
@@ -220,6 +224,41 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(),
                         missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), new ArrayList<>(), ((TextMissionProperties) missionCreateVo.getProperties()).getSettings(), new ArrayList<>(), new ArrayList<>()
                 );
+            case THREE_DIMENSION:
+                return new ThreeDimensionMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
+                        missionCreateVo.getTopics(), MissionType.THREE_DIMENSION,
+                        MissionState.PENDING,
+                        missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
+                        missionCreateVo.getLevel(),
+                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
+                        ((ThreeDimensionMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
+                        new ArrayList<>(), ((ThreeDimensionMissionProperties) missionCreateVo.getProperties()).getTags(),
+                        new ArrayList<>(),new ArrayList<>());
+            case VIDEO:
+                return new VideoMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
+                        missionCreateVo.getTopics(), MissionType.VIDEO,
+                        MissionState.PENDING,
+                        missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
+                        missionCreateVo.getLevel(),
+                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
+                        ((VideoMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
+                        ((VideoMissionProperties) missionCreateVo.getProperties()).getTags(),
+                        new ArrayList<>(),
+                        ((VideoMissionProperties) missionCreateVo.getProperties()).getVideoMissionTypes(),
+                        new ArrayList<>(),new ArrayList<>());
+            case AUDIO:
+                return new AudioMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),
+                        missionCreateVo.getTopics(), MissionType.AUDIO,
+                        MissionState.PENDING,
+                        missionCreateVo.getStart(), missionCreateVo.getEnd(), "", UserInfoUtil.getUsername(),
+                        missionCreateVo.getLevel(),
+                        missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(),
+                        ((AudioMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
+                        ((AudioMissionProperties) missionCreateVo.getProperties()).getAllowedTags(),
+                        new ArrayList<>(),
+                        ((AudioMissionProperties) missionCreateVo.getProperties()).getAudioMissionTypes(),
+                        new ArrayList<>(),new ArrayList<>());
+
         }
         return null;
     }

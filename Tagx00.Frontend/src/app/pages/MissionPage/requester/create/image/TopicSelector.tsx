@@ -44,11 +44,6 @@ export class TopicSelector extends React.Component<Props, State> {
 
   render() {
 
-    const locale: any = new Proxy({}, {
-      get: (target, key) => {
-        return this.localeStore.get(`${ID_PREFIX}fields.${key}`) as string;
-      }
-    });
     if (this.state.loading) {
       return <Loading/>;
     }
@@ -59,7 +54,7 @@ export class TopicSelector extends React.Component<Props, State> {
                    selectedTags={this.props.selected}
                    availableTags={this.state.availableTags}
                    allowCustomTag={false}
-                   placeholder={locale.topics}
+                   placeholder={this.localeStore.get(`${ID_PREFIX}fields.topics`) as string}
 
       />
     </div>;

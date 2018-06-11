@@ -33,6 +33,7 @@ public enum MissionType {
     THREE_DIMENSION("THREE_DIMENSION", ThreeDimensionMissionProperties.class,
         ThreeDimensionInstanceDetailVo.class, ThreeDimensionMissionDetailVo.class, ThreeDimensionMissionPublicItemVo.class);
 
+
     public final Class<? extends MissionProperties> propertiesClass;
     public final Class<? extends InstanceDetailVo> instanceDetailVoClass;
     public final Class<? extends MissionDetailVo> missionDetailVoClass;

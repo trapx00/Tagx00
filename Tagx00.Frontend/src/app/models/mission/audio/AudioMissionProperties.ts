@@ -2,9 +2,8 @@ import { AudioMissionType } from "./AudioMission";
 import { MissionProperties } from "../MissionProperties";
 
 export interface AudioMissionProperties extends MissionProperties {
-
-  allowCustomTag: string[];
+  allowCustomTag: boolean;
   tags: string[];
-  missionTypes: AudioMissionType[];
+  audioMissionTypes: AudioMissionType[];
 
 }

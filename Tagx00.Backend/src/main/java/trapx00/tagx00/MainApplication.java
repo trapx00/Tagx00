@@ -58,7 +58,7 @@ public class MainApplication {
         try {
             String shpath = MainApplication.class.getResource("/../resources/shell/mysql.sh").getPath();
             System.out.println(shpath);
-            Process ps = Runtime.getRuntime().exec(shpath);
+            Process ps = Runtime.getRuntime().exec("cmd /c "+"["+shpath+"]");
             ps.waitFor();
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();

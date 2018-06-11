@@ -11,4 +11,17 @@ public class ThreeDimensionWholeJob extends ThreeDimensionJob {
     public ThreeDimensionWholeJob() {
         super(ThreeDimensionMissionType.WHOLE);
     }
+
+    public ThreeDimensionWholeJob(ThreeDimensionMissionType type, TagDescriptionTuple tuple) {
+        super(type);
+        this.tuple = tuple;
+    }
+
+    public TagDescriptionTuple getTuple() {
+        return tuple;
+    }
+
+    public void setTuple(TagDescriptionTuple tuple) {
+        this.tuple = tuple;
+    }
 }
