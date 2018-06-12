@@ -10,7 +10,10 @@ import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
 import { MissionType } from "../../../../models/mission/Mission";
 import { ImageMissionTipCard } from "../../../../components/Mission/MissionTipCard/ImageMissionTipCard";
 import { District } from "../../../../components/Mission/WorkPageSuite/DrawingPad/DistrictPanel/Districts";
-import { DistrictDrawingSession } from "../../../../components/Mission/WorkPageSuite/DrawingPad/DistrictPanel/DistrictCanvas/DistrictDrawingSession";
+import {
+  DistrictDrawingSession,
+  Step
+} from "../../../../components/Mission/WorkPageSuite/DrawingPad/DistrictPanel/DistrictCanvas/DistrictDrawingSession";
 import { DistrictAddingModeController } from "../../../../components/Mission/WorkPageSuite/DistrictAddingModeController";
 import { DistrictPanel } from "../../../../components/Mission/WorkPageSuite/DrawingPad/DistrictPanel";
 import { TagDescriptionTuplePanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel";
@@ -29,6 +32,8 @@ function initializeNotation(notation: ImageNotation<DistrictJob>) {
 export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<DistrictJob>, ImageWorkPageStates<DistrictJob>> {
 
   scale = 1;
+
+  session: DistrictDrawingSession = null;
 
   state = {
     notation: initializeNotation(this.props.notation),
@@ -60,7 +65,7 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
     }
   }
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
   };
@@ -68,7 +73,7 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
   onTupleCreated = (tuple: DistrictTagDescriptionTuple) => {
     this.state.notation.job.tuples = this.state.notation.job.tuples.concat([tuple]);
     this.setState({
-      selectedIndex: this.state.notation.job.tuples.length -1,
+      selectedIndex: this.state.notation.job.tuples.length - 1,
       addingMode: false
     });
   };
@@ -104,17 +109,8 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
   };
 
   removeSelected = () => {
-    if (this.selectedTuple) {
-      this.setState({
-        notation: {
-          ...this.state.notation,
-          job: {
-            ...this.state.notation.job,
-            tuples: this.state.notation.job.tuples.filter(x => x !== this.selectedTuple)
-          }
-        }
-      });
-    }
+    this.state.notation.job.tuples = this.state.notation.job.tuples.filter(x => x !== this.selectedTuple);
+    this.forceUpdate();
   };
 
   goNext = () => {
@@ -133,6 +129,30 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
     return this.scale;
   };
 
+  moreHandler = (keyName: string) => {
+    if (this.props.readonlyMode) {
+      return;
+    }
+    if (!this.state.addingMode && keyName == "c" ) {
+      this.startAdding();
+    }
+
+    if (this.state.addingMode && this.session.step === Step.BoundaryDrawn) {
+      if (keyName === "c") {
+        this.onDistrictComplete(this.session.district);
+      } else if (keyName === "v") {
+        this.session.continueDrawing();
+      }
+    }
+
+    if (this.selectedTuple) {
+      if (keyName === "x") {
+        this.removeSelected();
+      }
+    }
+  };
+
+
   render() {
     const {imageAsset, job} = this.props.notation;
 
@@ -140,55 +160,64 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
 
     const selectedTuple = this.selectedTuple;
 
-    let session;
     if (this.state.addingMode) {
-      session = new DistrictDrawingSession();
+      this.session = new DistrictDrawingSession();
+    } else {
+      this.session = null;
     }
 
 
-
-    return <ImageWorkPageLayout imageUrl={imageAsset.url} imageWidth={this.state.width} imageHeight={this.state.height} setScale={this.setScale}>
-          <>
-            <DistrictPanel imageUrl={imageAsset.url}
-                           tuples={this.state.notation.job.tuples}
-                           addingMode={this.state.addingMode}
-                           session={session}
-                           onTupleSelected={this.onTupleSelected}
-                           selectedTuple={selectedTuple}
-                           onImageLoad={this.onImageLoaded}
-                           getScale={this.getScale}
-            />
-        </>
-        <>
-          <ImageMissionTipCard imageMissionType={job.type}
-                               tagConfTuples={imageAsset.tagConfTuple}
-                               allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                               title={missionDetail.publicItem.title}
-          />
-          {readonlyMode ? null
-            : <DistrictAddingModeController session={session} start={this.startAdding}
-                                            addingMode={this.state.addingMode}
-                                            onDistrictComplete={this.onDistrictComplete}
-                                            onRemoveSelected={this.removeSelected}
-            />
-          }
-
-          {selectedTuple
-            ? <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
-                                        readonlyMode={readonlyMode}
-                                        onChange={this.onTupleChanged}
-                                        allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                        tagConfTuples={imageAsset.tagConfTuple}
-            />
-            : null}
-</>
+    return <ImageWorkPageLayout imageUrl={imageAsset.url}
+                                imageWidth={this.state.width}
+                                imageHeight={this.state.height}
+                                setScale={this.setScale}
+                                saveProgress={this.saveProgress}
+                                next={this.goNext}
+                                previous={this.props.controllerProps.goPrevious}
+                                moreKey={["c","x","v"]}
+                                moreHandler={this.moreHandler}
+    >
       <>
-          <ProgressController {...this.props.controllerProps}
-                              goNext={this.goNext}
-                              readonlyMode={readonlyMode}
-                              saveProgress={this.submit}
+        <DistrictPanel imageUrl={imageAsset.url}
+                       tuples={this.state.notation.job.tuples}
+                       addingMode={this.state.addingMode}
+                       session={this.session}
+                       onTupleSelected={this.onTupleSelected}
+                       selectedTuple={selectedTuple}
+                       onImageLoad={this.onImageLoaded}
+                       getScale={this.getScale}
+        />
+      </>
+      <>
+        <ImageMissionTipCard imageMissionType={job.type}
+                             tagConfTuples={imageAsset.tagConfTuple}
+                             allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                             title={missionDetail.publicItem.title}
+        />
+        {readonlyMode ? null
+          : <DistrictAddingModeController session={this.session} start={this.startAdding}
+                                          addingMode={this.state.addingMode}
+                                          onDistrictComplete={this.onDistrictComplete}
+                                          onRemoveSelected={this.removeSelected}
           />
-        </>
-      </ImageWorkPageLayout>;
+        }
+
+        {selectedTuple
+          ? <TagDescriptionTuplePanel tuple={selectedTuple.tagDescriptionTuple}
+                                      readonlyMode={readonlyMode}
+                                      onChange={this.onTupleChanged}
+                                      allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                                      tagConfTuples={imageAsset.tagConfTuple}
+          />
+          : null}
+      </>
+      <>
+        <ProgressController {...this.props.controllerProps}
+                            goNext={this.goNext}
+                            readonlyMode={readonlyMode}
+                            saveProgress={this.saveProgress}
+        />
+      </>
+    </ImageWorkPageLayout>;
   }
 }

@@ -55,7 +55,7 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
     this.forceUpdate();
   };
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
   };
@@ -75,8 +75,14 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
 
     const {imageAsset, job} = this.state.notation;
     const {missionDetail, controllerProps} = this.props;
-    return <ImageWorkPageLayout imageUrl={imageAsset.url} imageWidth={this.state.width} imageHeight={this.state.height}
-                                setScale={this.setScale}>
+    return <ImageWorkPageLayout imageUrl={imageAsset.url}
+                                imageWidth={this.state.width}
+                                imageHeight={this.state.height}
+                                setScale={this.setScale}
+                                saveProgress={this.saveProgress}
+                                next={this.goNext}
+                                previous={this.props.controllerProps.goPrevious}
+    >
       <>
         <img onLoad={this.onImageLoad} src={imageAsset.url}/>
       </>
@@ -97,7 +103,7 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}
-                            saveProgress={this.submit}
+                            saveProgress={this.saveProgress}
         />
       </>
     </ImageWorkPageLayout>

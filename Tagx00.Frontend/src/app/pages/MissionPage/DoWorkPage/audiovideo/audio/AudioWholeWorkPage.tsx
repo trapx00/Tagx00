@@ -40,6 +40,8 @@ export class AudioWholeWorkPage extends React.Component<Props, AudioWorkPageStat
 
   };
 
+  player: AudioPlayer;
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.notation !== prevState.notation) {
       return {
@@ -50,6 +52,15 @@ export class AudioWholeWorkPage extends React.Component<Props, AudioWorkPageStat
     }
   }
 
+  setPlayer=  (player: AudioPlayer) => {
+    this.player = player;
+  };
+
+
+  playOrPause = () => {
+    this.player.playOrPause();
+  };
+
   goNext = () => {
     this.props.goNext(this.state.notation);
   };
@@ -59,7 +70,7 @@ export class AudioWholeWorkPage extends React.Component<Props, AudioWorkPageStat
     this.forceUpdate();
   };
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
   };
@@ -68,9 +79,16 @@ export class AudioWholeWorkPage extends React.Component<Props, AudioWorkPageStat
     const { missionDetail } = this.props;
     const { notation } = this.state;
     const { job } = notation;
-    return <AudioWorkPageLayout>
+    return <AudioWorkPageLayout
+      saveProgress={this.saveProgress}
+      previous={this.props.controllerProps.goPrevious}
+      next={this.goNext}
+      playOrPause={this.playOrPause}
+    >
       <>
-        <AudioPlayer url={this.props.notation.audioUrl}/>
+        <AudioPlayer url={this.props.notation.audioUrl}
+                     setRef={this.setPlayer}
+        />
       </>
       <>
         <AudioMissionTipCard audioMissionType={job.type}
@@ -89,7 +107,7 @@ export class AudioWholeWorkPage extends React.Component<Props, AudioWorkPageStat
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}
-                            saveProgress={this.submit}
+                            saveProgress={this.saveProgress}
         />
       </>
     </AudioWorkPageLayout>
