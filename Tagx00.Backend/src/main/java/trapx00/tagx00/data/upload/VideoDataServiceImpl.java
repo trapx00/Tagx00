@@ -4,7 +4,6 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.dataservice.upload.VideoDataService;
@@ -13,8 +12,6 @@ import trapx00.tagx00.util.PathUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.net.URL;
-import java.util.Date;
 
 @Service
 public class VideoDataServiceImpl implements VideoDataService {
@@ -40,17 +37,18 @@ public class VideoDataServiceImpl implements VideoDataService {
     @Override
     public String uploadVideo(String key, byte[] bytes) throws SystemException {
         try {
-            String fileLocation = new File("static\\video").getAbsolutePath() + "\\" + key;
+            File dir = new File(PathUtil.getStaticPath() + "video");
+            System.out.println(dir.getAbsolutePath());
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            String fileLocation = dir.getAbsolutePath() + "/" + key;
             FileOutputStream fos = new FileOutputStream(fileLocation);
             fos.write(bytes);
             fos.close();
 
-            //生成共享地址
-            GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                    new GeneratePresignedUrlRequest(bucketName, key);
-            generatePresignedUrlRequest.setExpiration(new Date(EXPIRATION));
-            URL url = oos.generatePresignedUrl(generatePresignedUrlRequest);
-            return url.toURI().toString();
+            String url = PathUtil.getResourceUrl(key);
+            return url;
         } catch (Exception e) {
             e.printStackTrace();
             throw new SystemException();

@@ -40,6 +40,10 @@ public class PathUtil {
         }
     }
 
+    public static String getStaticPath() {
+        return ResourceUtil.getFilePathUnderRootDirOfJarFileOrClassDir("static/");
+    }
+
     public static String getDatabasePath() {
         return ResourceUtil.getFilePathUnderRootDirOfJarFileOrClassDir("/data/");
     }
