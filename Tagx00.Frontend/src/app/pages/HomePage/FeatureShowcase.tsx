@@ -25,8 +25,8 @@ const ItemContainer = styled.div`
    justify-content: center;
    flex-wrap: wrap;
    
-   padding-top: 48px;
-   padding-bottom: 48px;
+   padding-top: 64px;
+   padding-bottom: 64px;
    
   & > * {
     flex-grow: 1;

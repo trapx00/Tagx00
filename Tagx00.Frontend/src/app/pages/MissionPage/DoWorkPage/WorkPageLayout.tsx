@@ -1,8 +1,17 @@
 import React, { ReactNode } from 'react';
 import styled from "styled-components";
+import Hotkeys from 'react-hot-keys';
 
-interface Props {
-  children: ReactNode;
+export interface LayoutShortcutProps {
+  next(): void;
+
+  previous(): void;
+
+  saveProgress(): void;
+
+  moreKey?: string[];
+
+  moreHandler?(keyName: string): void;
 }
 
 
@@ -36,17 +45,60 @@ const NavigatorContainer = styled.div`
   
 `;
 
-export function WorkPageLayout(props: Props) {
-  return <OuterContainer>
-    <WorkPanel>
-      {props.children[0]}
-    </WorkPanel>
-    <ControllerContainer>
-      {props.children[1]}
-    </ControllerContainer>
-    <NavigatorContainer>
-      {props.children[2]}
-    </NavigatorContainer>
-  </OuterContainer>;
+
+export class WorkPageLayout extends React.Component<LayoutShortcutProps> {
+
+
+  static defaultProps = {
+    moreKey: []
+  };
+
+  keymap = {
+    "a": this.props.previous,
+    "d": this.props.next,
+    "ctrl+s": this.props.saveProgress
+  };
+
+  onKeyDown = (keyName, e) => {
+    e.preventDefault();
+  };
+
+  onKeyUp = (keyName, e) => {
+
+    console.log(`${keyName} stroke`);
+    const f = this.keymap[keyName];
+    if (!f) {
+      if (this.props.moreHandler) {
+
+        this.props.moreHandler(keyName);
+      }
+    } else {
+      f();
+    }
+  };
+
+
+  render() {
+    return <Hotkeys
+      keyName={[...this.props.moreKey, ...Object.keys(this.keymap)].join(",")}
+      onKeyDown={this.onKeyDown}
+      onKeyUp={this.onKeyUp}
+    >
+      <OuterContainer>
+
+        <WorkPanel>
+          {this.props.children[0]}
+        </WorkPanel>
+        <ControllerContainer>
+          {this.props.children[1]}
+        </ControllerContainer>
+        <NavigatorContainer>
+          {this.props.children[2]}
+        </NavigatorContainer>
+
+      </OuterContainer>
+    </Hotkeys>
+
+  }
 }
 

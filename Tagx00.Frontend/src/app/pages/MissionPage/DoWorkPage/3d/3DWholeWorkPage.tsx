@@ -57,7 +57,7 @@ export class ThreeDimensionWholeWorkPage extends React.Component<Props, ThreeDim
     this.forceUpdate();
   };
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
   };
@@ -66,7 +66,12 @@ export class ThreeDimensionWholeWorkPage extends React.Component<Props, ThreeDim
     const { missionDetail } = this.props;
     const { notation } = this.state;
     const { job } = notation;
-    return <ThreeDimensionWorkPageLayout>
+    return <ThreeDimensionWorkPageLayout
+      next={this.goNext}
+      previous={this.props.controllerProps.goPrevious}
+      saveProgress={this.saveProgress}
+
+    >
       <>
         <ThreeDimensionPlayer token={this.props.notation.token}/>
       </>
@@ -87,7 +92,7 @@ export class ThreeDimensionWholeWorkPage extends React.Component<Props, ThreeDim
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}
-                            saveProgress={this.submit}
+                            saveProgress={this.saveProgress}
         />
       </>
     </ThreeDimensionWorkPageLayout>

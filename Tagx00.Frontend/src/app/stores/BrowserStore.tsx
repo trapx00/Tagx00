@@ -11,23 +11,13 @@ import { MissionPublicItem } from "../models/mission/MissionPublicItem";
 @Injectable
 export class BrowserStore {
 
-  @observable moveHeight: number = -document.body.clientHeight * 0.3;
-  @observable paused: boolean = true;
-  @observable reverse: boolean = true;
-  @observable listData: MissionPublicItem[] = null;
+  @observable listData: MissionPublicItem[] = [];
   @observable topics: Topic[] = [];
-  @observable isStop: boolean = false;
+  @observable loading: boolean = false;
 
 
   constructor(@Inject private topicService: TopicService, @Inject private missionService: MissionService) {
   }
-
-  @action public startBrowsing = async () => {
-    this.reverse = false;
-    this.paused = false;
-    await waitForMs(450);
-    runInAction(() => this.isStop = true);
-  };
 
   async fetchAllTopics() {
     const topics = await this.topicService.getAllTopics();
@@ -36,15 +26,12 @@ export class BrowserStore {
     })
   }
 
-  @computed get isBrowsing(): boolean {
-    return !this.paused;
-  }
-
-  @action public search = async (props) => {
-    const items = await this.missionService.getMissions(props);
-    console.log(items);
+  @action public search = async (search: string) => {
+    this.loading = true;
+    const items = await this.missionService.getMissions(search);
     runInAction(() => {
       this.listData = items;
+      this.loading = false;
     });
   };
 }

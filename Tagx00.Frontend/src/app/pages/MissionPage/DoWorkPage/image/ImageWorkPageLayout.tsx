@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react';
 import styled from "styled-components";
-import { WorkPageLayout } from "../WorkPageLayout";
+import { LayoutShortcutProps, WorkPageLayout } from "../WorkPageLayout";
 
 const MAX_WIDTH = 1000;
 
-interface Props {
+interface Props extends LayoutShortcutProps {
   children: ReactNode[];
   imageWidth: number;
   imageHeight: number;
@@ -91,7 +91,13 @@ export class ImageWorkPageLayout extends React.Component<Props, {}> {
   render() {
 
 
-    return <WorkPageLayout>
+    return <WorkPageLayout
+      previous={this.props.previous}
+      next={this.props.next}
+      saveProgress={this.props.saveProgress}
+      moreKey={this.props.moreKey}
+      moreHandler={this.props.moreHandler}
+    >
       <PictureContainer innerRef={this.pictureContainerRef}
                         width={this.props.imageWidth}
                         height={this.props.imageHeight}>

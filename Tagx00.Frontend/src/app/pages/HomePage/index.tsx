@@ -1,28 +1,25 @@
 import React from 'react';
-import { enquireScreen } from 'enquire-js';
-
-import { HomePageContent } from './HomePageContent';
-import { Inject, Module } from "react.di";
-import { HomeStore } from "../../stores/HomeStore";
+import { Inject } from "react.di";
 import { Footer } from "../../components/Footer";
-import { TopNav } from "../../components/Nav/TopNav";
 import styled from "styled-components";
 import { Layout } from 'antd';
 import { UiStore } from "../../stores/UiStore";
 import { LanguageSelector } from "../../components/LanguageSelector";
 import { LogoItem } from "../../components/Nav/LogoItem";
-import { SvgImg } from "../../components/Common/SvgImg";
 import { ProductShowcase } from "./ProductShowcase";
 import { RouterStore } from "../../stores/RouterStore";
 import { FunctionShowcase } from "./FunctionShowcase";
 import { FeatureShowcase } from "./FeatureShowcase";
 
+import QueueAnim from 'rc-queue-anim';
+// import { enquireScreen } from 'enquire-js';
+
 const AntdHeader = Layout.Header;
 
-let isMobile;
-enquireScreen((b) => {
-  isMobile = b;
-});
+// let isMobile;
+// enquireScreen((b) => {
+//   isMobile = b;
+// });
 
 interface State {
   isMobile: boolean;
@@ -101,19 +98,18 @@ export default class HomePage extends React.Component<{}, {}> {
     // </div>
 
     return <Page>
-      <Header padding={16}>
-        <HeaderContainer>
-          <div>
-            <LogoItem textColor={"black"}/>
-          </div>
-        </HeaderContainer>
-        <LanguageSelector/>
-      </Header>
-      <ProductShowcase to={this.to}/>
-      <FunctionShowcase/>
-      <FeatureShowcase/>
-      <Footer/>
-
+        <Header padding={16}>
+          <HeaderContainer>
+            <div>
+              <LogoItem textColor={"black"}/>
+            </div>
+          </HeaderContainer>
+          <LanguageSelector/>
+        </Header>
+        <ProductShowcase to={this.to}/>
+        <FunctionShowcase key={"3"}/>
+        <FeatureShowcase key={"4"}/>
+        <Footer/>
     </Page>
   }
 }

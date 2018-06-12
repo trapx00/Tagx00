@@ -9,42 +9,32 @@ import { AsyncComponent } from "../../router/AsyncComponent";
 import { Loading } from "../../components/Common/Loading";
 
 const Search = Input.Search;
-
-const smallerDiv = {
-  display: 'inline',
-};
-
 interface Props {
   // contentRef: React.RefObject<any>;
 }
 
-const centerAndPadding = {
-  margin: '2%',
-};
 
+interface State {
+  searchValue: string;
+}
 
 @observer
-export class SearchBar extends React.Component<Props, any> {
+export class SearchBar extends React.Component<Props, State> {
 
   @Inject browserStore: BrowserStore;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchValue: "",
-      open: false
-    };
+  state = {
+    searchValue: "",
   };
 
-  handleClick = async (e) => {
+  handleClick = async (tag: string) => {
     this.setState({
-      searchValue: e.target.innerHTML
+      searchValue: tag
     });
     await this.handleSearch();
   };
 
   handleSearch = async () => {
-    this.browserStore.startBrowsing();
     await this.browserStore.search(this.state.searchValue);
   };
 
@@ -58,7 +48,7 @@ export class SearchBar extends React.Component<Props, any> {
     await this.browserStore.fetchAllTopics();
     return this.browserStore.topics.map(
       (item) => {
-        return <ClickableTag onClick={this.handleClick} color="geekblue" value={item.value}
+        return <ClickableTag onClick={() => this.handleClick(item.value)} color="geekblue" value={item.value}
                              key={item.topicId}/>
       }
     );
@@ -72,10 +62,7 @@ export class SearchBar extends React.Component<Props, any> {
       }}>{
         (props) => {
           return (
-            <div style={{
-              padding: '10%',
-              margin: '5%'
-            }}>
+            <div>
               <Search
                 size="large"
                 placeholder={props.searchPlaceholder}
@@ -85,7 +72,7 @@ export class SearchBar extends React.Component<Props, any> {
                 value={this.state.searchValue}
                 onChange={this.setSearchValue}
               />
-              <div style={centerAndPadding}>
+              <div>
                 <Tag color="#108ee9">{props.searchAll}</Tag>
                 <AsyncComponent render={this.renderTopics} componentWhenLoading={<Loading/>}/>
               </div>

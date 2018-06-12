@@ -7,12 +7,14 @@ import { AudioJob } from "../../../../../models/instance/audio/job/AudioJob";
 import { AudioNotation } from "./shared";
 import { AudioPartWorkPage } from "./AudioPartWorkPage";
 import { AudioWholeWorkPage } from "./AudioWholeWorkPage";
+import { observer } from "mobx-react";
 
 
 interface Props extends RootWorkPageProps<AudioMissionDetail, AudioInstanceDetail> {
 
 }
 
+@observer
 export class AudioWorkPage extends React.Component<Props, {}> {
 
   controller = new AudioWorkPageController(this.props.missionDetail, this.props.instanceDetail);
