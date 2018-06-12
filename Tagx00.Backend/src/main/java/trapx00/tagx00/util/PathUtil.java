@@ -41,7 +41,7 @@ public class PathUtil {
     }
 
     public static String getStaticPath() {
-        return ResourceUtil.getFilePathUnderRootDirOfJarFileOrClassDir("static/");
+        return new File("static/").getAbsolutePath() + "/";
     }
 
     public static String getDatabasePath() {
