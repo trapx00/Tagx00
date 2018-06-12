@@ -6,7 +6,6 @@ import trapx00.tagx00.vo.mission.video.VideoMissionType;
 import java.util.List;
 
 
-
 public class VideoPartJob extends VideoJob {
 
     private List<VideoPartTuple> tupleList;

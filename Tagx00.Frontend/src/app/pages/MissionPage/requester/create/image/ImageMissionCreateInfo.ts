@@ -21,7 +21,7 @@ export class ImageMissionCreateInfo extends MissionCreateInfo {
         type: MissionType.IMAGE,
         imageMissionTypes: this.imageMissionTypes,
         allowCustomTag: this.allowCustomTag,
-        allowedTags: this.allowedTags,
+        allowedTags: this.allowedTags.reduce((prev, curr) => ({...prev, [curr]: 1}), {}),
       } as ImageMissionProperties
     }
   }

@@ -1,6 +1,5 @@
 package trapx00.tagx00.vo.mission.requester;
 
-import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 
 import java.io.Serializable;

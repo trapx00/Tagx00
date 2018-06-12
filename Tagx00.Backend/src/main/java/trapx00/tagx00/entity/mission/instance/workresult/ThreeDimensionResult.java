@@ -3,11 +3,9 @@ package trapx00.tagx00.entity.mission.instance.workresult;
 import trapx00.tagx00.publicdatas.mission.threedimension.ThreeDimensionJob;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 
 @Embeddable
 public class ThreeDimensionResult extends WorkResult {
-
     private String token;
     private ThreeDimensionJob job;
 

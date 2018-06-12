@@ -59,3 +59,4 @@ aliyun:
   akId: LTAIfeJPa5mmsKhL
   akSecret: Dfz3Tj7Tyuojl84vSBHX7E9eluivj5
   imageHostUrl: https://dtplus-cn-shanghai.data.aliyuncs.com/image/tag
+debug: true

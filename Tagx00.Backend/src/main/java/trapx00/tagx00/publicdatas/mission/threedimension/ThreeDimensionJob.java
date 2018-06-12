@@ -10,4 +10,12 @@ public class ThreeDimensionJob implements Serializable {
     public ThreeDimensionJob(ThreeDimensionMissionType type) {
         this.type = type;
     }
+
+    public ThreeDimensionMissionType getType() {
+        return type;
+    }
+
+    public void setType(ThreeDimensionMissionType type) {
+        this.type = type;
+    }
 }

@@ -11,6 +11,9 @@ import java.util.List;
 public class VideoInstanceDetailVo extends InstanceDetailVo {
     private List<VideoResult> resultList;
 
+    public VideoInstanceDetailVo() {
+    }
+
     public VideoInstanceDetailVo(MissionType missionType, InstanceVo instance, List<VideoResult> resultList) {
         super(missionType, instance);
         this.resultList = resultList;

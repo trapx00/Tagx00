@@ -17,9 +17,11 @@ public class Instance {
     private String workerUsername;
 
     @Column(name = "missionInstanceState")
+    @Enumerated(EnumType.STRING)
     private MissionInstanceState missionInstanceState;
 
     @Column(name = "MissionType")
+    @Enumerated(EnumType.STRING)
     private MissionType missionType;
 
     @Column(name = "acceptDate")

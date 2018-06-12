@@ -11,6 +11,7 @@ public class MissionAsset {
     @Id
     @Column(name = "url")
     private String url;
+    @Column(name = "tagConfTuple")
     @ElementCollection(targetClass = TagConfTuple.class)
     private List<TagConfTuple> tagConfTuple;
 

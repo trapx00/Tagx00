@@ -9,7 +9,6 @@ import java.util.List;
 
 @Embeddable
 public class TextMissionKeywordsSettings extends TextMissionSetting {
-
     @Column(name = "keywords")
     @ElementCollection(targetClass = String.class)
     private List<String> keywords;

@@ -19,6 +19,9 @@ public class ThreeDimensionMissionDetailVo extends MissionDetailVo {
         this.tokens = tokens;
     }
 
+    public ThreeDimensionMissionDetailVo() {
+    }
+
     public ThreeDimensionMissionDetailVo(MissionPublicItemVo publicItem, MissionState missionState, java.lang.String requesterUsername, MissionType missionType, List<String> tokens) {
         super(publicItem, missionState, requesterUsername, missionType);
         this.tokens = tokens;

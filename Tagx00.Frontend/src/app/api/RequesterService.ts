@@ -13,7 +13,6 @@ import { MissionRequestQueryResponse } from "../models/response/mission/MissionR
 import { MissionChargeResponse } from "../models/response/mission/MissionChargeResponse";
 import { AudioUploadResponse } from "../models/mission/audio/AudioUploadResponse";
 import { VideoUploadResponse } from "../models/mission/video/VideoUploadResponse";
-import { ThreeDimensionModelUrl } from "../models/mission/3d/3dModelUrl";
 
 @Injectable
 export class RequesterService {
