@@ -42,12 +42,12 @@ public class VideoDataServiceImpl implements VideoDataService {
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            String fileLocation = dir.getAbsolutePath() + "/" + key;
+            String fileLocation = dir.getAbsolutePath() + "/video/" + key;
             FileOutputStream fos = new FileOutputStream(fileLocation);
             fos.write(bytes);
             fos.close();
 
-            String url = PathUtil.getResourceUrl(key);
+            String url = PathUtil.getResourceUrl("video/" + key);
             return url;
         } catch (Exception e) {
             e.printStackTrace();

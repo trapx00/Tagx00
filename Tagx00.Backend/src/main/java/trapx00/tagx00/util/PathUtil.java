@@ -59,6 +59,6 @@ public class PathUtil {
     }
 
     public static String getResourceUrl(String filePath) {
-        return "http://localhost:8080/" + filePath;
+        return "http://localhost:8080/static/" + filePath;
     }
 }

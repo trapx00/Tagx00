@@ -9,11 +9,7 @@ import sun.misc.BASE64Encoder;
 import trapx00.tagx00.data.dao.mission.*;
 import trapx00.tagx00.data.dao.mission.instance.*;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
-import trapx00.tagx00.entity.mission.ThreeDimensionMission;
-import trapx00.tagx00.entity.mission.AudioMission;
-import trapx00.tagx00.entity.mission.ImageMission;
-import trapx00.tagx00.entity.mission.TextMission;
-import trapx00.tagx00.entity.mission.VideoMission;
+import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.entity.mission.instance.*;
 import trapx00.tagx00.entity.mission.instance.workresult.*;
 import trapx00.tagx00.exception.viewexception.MissionAlreadyAcceptedException;
@@ -59,11 +55,12 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     private final VideoInstanceDao videoInstanceDao;
     private final ThreeDimensionInstanceDao threeDimensionInstanceDao;
     private final ThreeDimensionMissionDao threeDimensionMissionDao;
+
     @Autowired
     public WorkerMissionDataServiceImpl(ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao,
                                         TextMissionDao textMissionDao, TextInstanceDao textInstanceDao
-            ,AudioMissionDao audioMissionDao,AudioInstanceDao audioInstanceDao,VideoMissionDao videoMissionDao,
-                                        VideoInstanceDao videoInstanceDao,ThreeDimensionInstanceDao threeDimensionInstanceDao,
+            , AudioMissionDao audioMissionDao, AudioInstanceDao audioInstanceDao, VideoMissionDao videoMissionDao,
+                                        VideoInstanceDao videoInstanceDao, ThreeDimensionInstanceDao threeDimensionInstanceDao,
                                         ThreeDimensionMissionDao threeDimensionMissionDao) {
         this.imageInstanceDao = imageInstanceDao;
         this.imageMissionDao = imageMissionDao;
@@ -298,8 +295,8 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         //获得每个种类的instance列表
         ArrayList<Instance> instances = new ArrayList<>(imageInstanceDao.findImageInstancesByWorkerUsername(workerUsername));
         instances.addAll(textInstanceDao.findTextInstancesByWorkerUsername(workerUsername));
-        instances.addAll(videoInstanceDao.findVideoInstancesByMissionId(workerUsername));
-        instances.addAll(audioInstanceDao.findAudioInstancesByMissionId(workerUsername));
+        instances.addAll(videoInstanceDao.findVideoInstancesByWorkerUsername(workerUsername));
+        instances.addAll(audioInstanceDao.findAudioInstancesByWorkerUsername(workerUsername));
         instances.addAll(threeDimensionInstanceDao.findThreeDimensionInstancesByWorkerUsername(workerUsername));
 
         for (Instance instance1 : instances) {
@@ -482,37 +479,45 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 instance.getMissionId(), instance.getAcceptDate(), instance.getSubmitDate(),
                 instance.isSubmitted(), completedCounts);
     }
+
     private VideoInstanceVo generateVideoInstanceVo(Instance instance, int completedCounts) {
         return new VideoInstanceVo(instance.getInstanceId(), instance.getExpRatio(), instance.getExp(), instance.getCredits(), instance.getComment(), instance.getWorkerUsername(), instance.getMissionInstanceState(),
                 instance.getMissionId(), instance.getAcceptDate(), instance.getSubmitDate(),
                 instance.isSubmitted(), completedCounts);
     }
+
     private TextInstanceVo generateTextInstanceVo(Instance instance, int completedCounts) {
         return new TextInstanceVo(instance.getInstanceId(), instance.getExpRatio(), instance.getExp(), instance.getCredits(), instance.getComment(), instance.getWorkerUsername(), instance.getMissionInstanceState(),
                 instance.getMissionId(), instance.getAcceptDate(), instance.getSubmitDate(),
                 instance.isSubmitted(), completedCounts);
     }
+
     private ThreeDimensionInstanceVo generateThreeDimensionInstanceVo(Instance instance, int completedCounts) {
         return new ThreeDimensionInstanceVo(instance.getInstanceId(), instance.getExpRatio(), instance.getExp(), instance.getCredits(), instance.getComment(), instance.getWorkerUsername(), instance.getMissionInstanceState(),
                 instance.getMissionId(), instance.getAcceptDate(), instance.getSubmitDate(),
                 instance.isSubmitted(), completedCounts);
     }
+
     private ImageInstanceDetailVo generateImageInstanceDetailVo(ImageInstance imageInstance, int completedCounts) {
         InstanceVo instanceVo = new InstanceVo(imageInstance.getInstanceId(), imageInstance.getExpRatio(), imageInstance.getExp(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), imageInstance.getMissionId(), imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts);
         return new ImageInstanceDetailVo(imageInstance.getMissionType(), instanceVo, imageInstance.getImageResults());
     }
+
     private VideoInstanceDetailVo generateVideoInstanceDetailVo(VideoInstance imageInstance, int completedCounts) {
         InstanceVo instanceVo = new InstanceVo(imageInstance.getInstanceId(), imageInstance.getExpRatio(), imageInstance.getExp(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), imageInstance.getMissionId(), imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts);
         return new VideoInstanceDetailVo(imageInstance.getMissionType(), instanceVo, imageInstance.getVideoResults());
     }
+
     private AudioInstanceDetailVo generateAudioInstanceDetailVo(AudioInstance imageInstance, int completedCounts) {
         InstanceVo instanceVo = new InstanceVo(imageInstance.getInstanceId(), imageInstance.getExpRatio(), imageInstance.getExp(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), imageInstance.getMissionId(), imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), completedCounts);
         return new AudioInstanceDetailVo(imageInstance.getMissionType(), instanceVo, imageInstance.getAudioResults());
     }
+
     private ThreeDimensionInstanceDetailVo generateThreeDimensionInstanceDetailVo(ThreeDimensionInstance audioInstance, int completedCounts) {
         InstanceVo instanceVo = new InstanceVo(audioInstance.getInstanceId(), audioInstance.getExpRatio(), audioInstance.getExp(), audioInstance.getCredits(), audioInstance.getComment(), audioInstance.getWorkerUsername(), audioInstance.getMissionInstanceState(), audioInstance.getMissionId(), audioInstance.getAcceptDate(), audioInstance.getSubmitDate(), audioInstance.isSubmitted(), completedCounts);
         return new ThreeDimensionInstanceDetailVo(audioInstance.getMissionType(), instanceVo, audioInstance.getThreeDimensionResults());
     }
+
     private TextInstanceDetailVo generateTextInstanceDetailVo(TextInstance textinstance, int completedCounts) {
         InstanceVo instanceVo = new InstanceVo(textinstance.getInstanceId(), textinstance.getExpRatio(), textinstance.getExp(), textinstance.getCredits(), textinstance.getComment(), textinstance.getWorkerUsername(), textinstance.getMissionInstanceState(), textinstance.getMissionId(), textinstance.getAcceptDate(), textinstance.getSubmitDate(), textinstance.isSubmitted(), completedCounts);
         return new TextInstanceDetailVo(textinstance.getMissionType(), instanceVo, textinstance.getTextResults());
@@ -520,9 +525,9 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
 
     private <T extends Instance> String getNextId(List<T> instances, MissionType missionType) {
         int result = 0;
-        Optional<T> maxId = instances.stream().max((x1, x2) -> (MissionUtil.getId(x1.getMissionId()) - MissionUtil.getId(x2.getMissionId())));
-        if (maxId.isPresent()) {
-            result = MissionUtil.getId(maxId.get().getInstanceId()) + 1;
+        Optional<T> latestInstance = instances.stream().max((x1, x2) -> (MissionUtil.getId(x1.getMissionId()) - MissionUtil.getId(x2.getMissionId())));
+        if (latestInstance.isPresent()) {
+            result = MissionUtil.getId(latestInstance.get().getInstanceId()) + 1;
         }
         return MissionUtil.addTypeToId(result, missionType);
     }
@@ -609,6 +614,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         videoInstance.setVideoResults(videoResults);
         return videoInstance;
     }
+
     private AudioInstance getAudioInstance(String instanceId) throws IOException, ClassNotFoundException {
         AudioInstance audioInstance = audioInstanceDao.findAudioInstanceByInstanceId(instanceId);
         FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "audio_instance" + "_" + instanceId);

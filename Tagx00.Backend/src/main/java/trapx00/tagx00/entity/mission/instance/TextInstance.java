@@ -11,6 +11,8 @@ import java.util.List;
 
 @Entity
 public class TextInstance extends Instance {
+    @Column(name = "textResults")
+    @ElementCollection(targetClass = TextResult.class)
     @Transient
     private List<TextResult> textResults;
     @ManyToOne(fetch = FetchType.EAGER)
