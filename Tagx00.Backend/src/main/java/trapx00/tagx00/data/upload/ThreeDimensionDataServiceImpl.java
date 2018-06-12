@@ -32,9 +32,8 @@ public class ThreeDimensionDataServiceImpl implements ThreeDimensionDataService 
      * @return the token of the uploaded 3d
      */
     @Override
-    public String upload3d(String token, byte[] obj, byte[] mtl) throws SystemException {
+    public String upload3d(String token, byte[] mtl, byte[] obj) throws SystemException {
         try {
-
             SerialBlob mtlBlob = new SerialBlob(mtl);
             SerialBlob objBlob = new SerialBlob(obj);
             threeDimensionTokenDao.save(new ThreeDimensionToken(token, mtlBlob, objBlob));

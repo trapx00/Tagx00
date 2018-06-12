@@ -53,4 +53,8 @@ public class PathUtil {
         userDao.save(new User("888", "$2a$10$EQezV9FHSbCgagwHb6K8g.o.TmwFjh4wMLSUU.8f7PhSLpBpivhO.", "445073309@qq.com", Role.REQUESTER, 0, 0));
         userDao.save(new User("123", "$2a$10$EQezV9FHSbCgagwHb6K8g.o.TmwFjh4wMLSUU.8f7PhSLpBpivhO.", "445073309@qq.com", Role.WORKER, 0, 0));
     }
+
+    public static String getResourceUrl(String filePath) {
+        return "http://localhost:8080/" + filePath;
+    }
 }

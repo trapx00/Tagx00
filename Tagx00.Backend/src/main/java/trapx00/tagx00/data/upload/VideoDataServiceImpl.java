@@ -9,11 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.dataservice.upload.VideoDataService;
 import trapx00.tagx00.exception.viewexception.SystemException;
-import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.util.PathUtil;
 
-import javax.imageio.stream.FileImageOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.net.URL;
 import java.util.Date;
 
@@ -30,6 +29,7 @@ public class VideoDataServiceImpl implements VideoDataService {
     private String endPoint;
     @Value("${oos.bucketName}")
     private String bucketName;
+
     /**
      * upload the video to the oos cloud
      *
@@ -40,17 +40,10 @@ public class VideoDataServiceImpl implements VideoDataService {
     @Override
     public String uploadVideo(String key, byte[] bytes) throws SystemException {
         try {
-            //保存到临时文件
-            File file = new File(TEMP_PATH + "/video");
-            FileImageOutputStream fileWriter = new FileImageOutputStream(file);
-            fileWriter.write(bytes);
-            fileWriter.close();
-
-            //上传文件
-            AWSCredentials credentials = new BasicAWSCredentials(accessKey, secretKey);
-            AmazonS3 oos = new AmazonS3Client(credentials);
-            oos.setEndpoint(endPoint);
-            oos.putObject(bucketName, key, file);
+            String fileLocation = new File("static\\video").getAbsolutePath() + "\\" + key;
+            FileOutputStream fos = new FileOutputStream(fileLocation);
+            fos.write(bytes);
+            fos.close();
 
             //生成共享地址
             GeneratePresignedUrlRequest generatePresignedUrlRequest =
@@ -59,6 +52,7 @@ public class VideoDataServiceImpl implements VideoDataService {
             URL url = oos.generatePresignedUrl(generatePresignedUrlRequest);
             return url.toURI().toString();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new SystemException();
         }
     }

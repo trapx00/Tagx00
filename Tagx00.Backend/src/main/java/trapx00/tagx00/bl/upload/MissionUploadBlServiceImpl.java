@@ -253,7 +253,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
      * @return the urls of the 3ds
      */
     @Override
-    public UploadMissionThreeDimensionResponse uploadThreeDimension(java.lang.String missionId, MultipartFile mtl, MultipartFile obj, int order) throws SystemException, MissionIdDoesNotExistException {
+    public UploadMissionThreeDimensionResponse uploadThreeDimension(String missionId, MultipartFile mtl, MultipartFile obj, int order) throws SystemException, MissionIdDoesNotExistException {
         //1.obj, 1.mtl, 2.obj, 2.mtl……的顺序上传。同一个模型的两个文件名字相同，order相同
         try {
             //非压缩
