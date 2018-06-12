@@ -208,10 +208,12 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
         try {
             //非压缩
             VideoMission videoMission = (VideoMission) requesterMissionDataService.getMissionByMissionId(missionId);
-            java.lang.String url = videoDataService.uploadVideo(generateVideoKey(missionId, order), multipartFile.getBytes());
+            String url = videoDataService.uploadVideo(generateVideoKey(missionId, order), multipartFile.getBytes());
+            List<String> urls = videoMission.getVideoUrls();
+            urls.add(url);
+            videoMission.setVideoUrls(urls);
             requesterMissionDataService.updateMission(videoMission);
             return new UploadMissionVideoResponse(url);
-
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new SystemException();
@@ -230,7 +232,10 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
         try {
             //非压缩
             AudioMission audioMission = (AudioMission) requesterMissionDataService.getMissionByMissionId(missionId);
-            java.lang.String url = audioDataService.uploadAudio(generateAudioKey(missionId, order), multipartFile.getBytes());
+            String url = audioDataService.uploadAudio(generateAudioKey(missionId, order), multipartFile.getBytes());
+            List<String> urls = audioMission.getAudioUrls();
+            urls.add(url);
+            audioMission.setAudioUrls(urls);
             requesterMissionDataService.updateMission(audioMission);
             return new UploadMissionAudioResponse(url);
 
