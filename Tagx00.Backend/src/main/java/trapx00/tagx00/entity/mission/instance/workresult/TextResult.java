@@ -18,11 +18,6 @@ public class TextResult extends WorkResult {
         this.url = url;
     }
 
-    public TextResult(boolean isDone, TextJob textJob, String url) {
-        super(isDone);
-        this.textJob = textJob;
-    }
-
     public TextJob getTextJob() {
         return textJob;
     }
@@ -30,7 +25,6 @@ public class TextResult extends WorkResult {
     public void setTextJob(TextJob textJob) {
         this.textJob = textJob;
     }
-
 
     public String getUrl() {
         return url;

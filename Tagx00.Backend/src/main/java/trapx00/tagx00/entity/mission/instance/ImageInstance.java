@@ -14,6 +14,7 @@ public class ImageInstance extends Instance {
 
     @Column(name = "imageResults")
     @ElementCollection(targetClass = ImageResult.class)
+    @Lob
     private List<ImageResult> imageResults;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_missionId")

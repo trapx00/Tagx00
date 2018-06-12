@@ -2,26 +2,51 @@ import React, { ReactNode } from 'react';
 import styled from "styled-components";
 
 interface Props {
-  children: ReactNode[];
+  children: ReactNode;
 }
 
-const Container = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-`;
-const Controller = styled.div`
-    flex: 1 0 auto;
-    min-width: 100px;
+
+const WorkPanel = styled.div`
+  width: 100%;
+
 `;
 
+const ControllerContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  & > * {
+  flex-grow: 1;
+  margin: 0 4px 0 4px;
+  }
+  
+  @media (max-width: 1200px) {
+    display: block;
+  }
+    margin: 8px 0 0 0;
+`;
+
+const OuterContainer = styled.div`
+  
+ 
+`;
+
+
+const NavigatorContainer = styled.div`
+  
+`;
 
 export function WorkPageLayout(props: Props) {
-
-    return <Container>
+  return <OuterContainer>
+    <WorkPanel>
       {props.children[0]}
-      <Controller>
-        {props.children[1]}
-      </Controller>
-    </Container>;
-
+    </WorkPanel>
+    <ControllerContainer>
+      {props.children[1]}
+    </ControllerContainer>
+    <NavigatorContainer>
+      {props.children[2]}
+    </NavigatorContainer>
+  </OuterContainer>;
 }
+

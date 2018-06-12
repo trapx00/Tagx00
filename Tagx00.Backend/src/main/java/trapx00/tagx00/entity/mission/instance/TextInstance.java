@@ -15,6 +15,7 @@ import java.util.List;
 public class TextInstance extends Instance {
     @Column(name = "textResults")
     @ElementCollection(targetClass = TextResult.class)
+    @Lob
     private List<TextResult> textResults;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_missionId")

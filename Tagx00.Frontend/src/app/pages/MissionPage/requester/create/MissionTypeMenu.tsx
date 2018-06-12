@@ -24,6 +24,21 @@ const tabs = [
     key: MissionType.TEXT,
     icon: "file-text",
     textId: ID_PREFIX + "TEXT",
+  },
+  {
+    key: MissionType.AUDIO,
+    icon: "environment-o",
+    textId: ID_PREFIX + "AUDIO",
+  },
+  {
+    key: MissionType.VIDEO,
+    icon: "video-camera",
+    textId: ID_PREFIX + "VIDEO",
+  },
+  {
+    key: MissionType.THREE_DIMENSION,
+    icon: "eye-o",
+    textId: ID_PREFIX + "THREE_DIMENSION",
   }
 ];
 

@@ -44,6 +44,19 @@ export abstract class WorkPageController<M extends MissionDetail, I extends Inst
 
   }
 
+  abstract judgeJobComplete(job: J): boolean;
+
+  @action toFirstNotComplete() {
+
+    const index = this.currentNotations.findIndex(x => !this.judgeJobComplete(x.job));
+
+    if (index === -1) {
+      this.workIndex = this.currentNotations.length-1;
+    } else {
+      this.workIndex = index;
+    }
+  }
+
   @action nextWork() {
     this.workIndex++;
   }

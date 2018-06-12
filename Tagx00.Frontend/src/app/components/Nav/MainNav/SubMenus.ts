@@ -39,7 +39,7 @@ export type UserConfig = {
   [K in keyof typeof navRoutes]: NavItemProps[]
 }
 
-export const NOT_LOGIN_FLAG = Symbol("NotLogin");
+export const NOT_LOGIN_FLAG = "NotLogin";
 
 const leaderboardSubmenus = [
   {

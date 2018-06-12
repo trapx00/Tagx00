@@ -4,8 +4,7 @@ import trapx00.tagx00.vo.mission.text.TextMissionType;
 
 import java.io.Serializable;
 
-public class TextJob implements Serializable
-{
+public class TextJob implements Serializable {
     private TextMissionType type;
 
     public TextMissionType getType() {

@@ -2,14 +2,12 @@ import React from "react";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
 import { WholeJob } from "../../../../models/instance/image/job/WholeJob";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
-import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
-import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
-import { ProgressController } from "../../../../components/ImageWork/ProgressController";
+import { ProgressController } from "../../../../components/Mission/WorkPageSuite/ProgressController";
 import { toJS } from "mobx";
 import { ImageNotation, ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
-import { MissionType } from "../../../../models/mission/Mission";
 import { ImageMissionTipCard } from "../../../../components/Mission/MissionTipCard/ImageMissionTipCard";
+import { TagDescriptionTuplePanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel";
 
 function initializeNotation(notation: ImageNotation<WholeJob>) {
   if (!(notation.job && notation.job.tuple)) {
@@ -75,9 +73,10 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
 
   render() {
 
-    const { imageAsset, job } = this.state.notation;
-    const { missionDetail, controllerProps } = this.props;
-    return <ImageWorkPageLayout imageUrl={imageAsset.url} imageWidth={this.state.width} imageHeight={this.state.height} setScale={this.setScale}>
+    const {imageAsset, job} = this.state.notation;
+    const {missionDetail, controllerProps} = this.props;
+    return <ImageWorkPageLayout imageUrl={imageAsset.url} imageWidth={this.state.width} imageHeight={this.state.height}
+                                setScale={this.setScale}>
       <>
         <img onLoad={this.onImageLoad} src={imageAsset.url}/>
       </>
@@ -87,17 +86,19 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
                              allowCustomTag={missionDetail.publicItem.allowCustomTag}
                              title={missionDetail.publicItem.title}
         />
-          <TagDescriptionTuplePanel tuple={job.tuple}
-                                    onChange={this.onTupleChange}
-                                    readonlyMode={this.props.readonlyMode}
-                                    allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                    tagConfTuples={imageAsset.tagConfTuple}
-          />
-          <ProgressController {...this.props.controllerProps}
-            goNext={this.goNext}
-            readonlyMode={this.props.readonlyMode}
-            saveProgress={this.submit}
-          />
+        <TagDescriptionTuplePanel tuple={job.tuple}
+                                  onChange={this.onTupleChange}
+                                  readonlyMode={this.props.readonlyMode}
+                                  allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                                  tagConfTuples={imageAsset.tagConfTuple}
+        />
+      </>
+      <>
+        <ProgressController {...this.props.controllerProps}
+                            goNext={this.goNext}
+                            readonlyMode={this.props.readonlyMode}
+                            saveProgress={this.submit}
+        />
       </>
     </ImageWorkPageLayout>
   }

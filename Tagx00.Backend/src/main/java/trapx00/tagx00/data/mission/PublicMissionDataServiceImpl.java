@@ -6,7 +6,6 @@ import trapx00.tagx00.data.dao.mission.*;
 import trapx00.tagx00.data.dao.mission.instance.*;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
-import trapx00.tagx00.entity.ThreeDimensionMission;
 import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
@@ -27,8 +26,6 @@ import trapx00.tagx00.vo.mission.video.VideoMissionPublicItemVo;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,8 +46,8 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
 
     @Autowired
     public PublicMissionDataServiceImpl(MissionDao missionDao, ImageMissionDao imageMissionDao, ImageInstanceDao imageInstanceDao, TextMissionDao textMissionDao, TextInstanceDao textInstanceDao, RequesterMissionDataService requesterMissionDataService
-    ,AudioMissionDao audioMissionDao,AudioInstanceDao audioInstanceDao,VideoMissionDao videoMissionDao,
-                                        VideoInstanceDao videoInstanceDao,ThreeDimensionInstanceDao threeDimensionInstanceDao,
+            , AudioMissionDao audioMissionDao, AudioInstanceDao audioInstanceDao, VideoMissionDao videoMissionDao,
+                                        VideoInstanceDao videoInstanceDao, ThreeDimensionInstanceDao threeDimensionInstanceDao,
                                         ThreeDimensionMissionDao threeDimensionMissionDao) {
         this.missionDao = missionDao;
         this.imageInstanceDao = imageInstanceDao;
@@ -58,12 +55,12 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
         this.textInstanceDao = textInstanceDao;
         this.textMissionDao = textMissionDao;
         this.requesterMissionDataService = requesterMissionDataService;
-        this.audioInstanceDao=audioInstanceDao;
-        this.audioMissionDao=audioMissionDao;
-        this.videoInstanceDao=videoInstanceDao;
-        this.videoMissionDao=videoMissionDao;
-        this.threeDimensionInstanceDao=threeDimensionInstanceDao;
-        this.threeDimensionMissionDao=threeDimensionMissionDao;
+        this.audioInstanceDao = audioInstanceDao;
+        this.audioMissionDao = audioMissionDao;
+        this.videoInstanceDao = videoInstanceDao;
+        this.videoMissionDao = videoMissionDao;
+        this.threeDimensionInstanceDao = threeDimensionInstanceDao;
+        this.threeDimensionMissionDao = threeDimensionMissionDao;
     }
 
     /**
@@ -92,13 +89,13 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                     result[i] = generateTextMissionPublicItemVo((TextMission) missions[i]);
                     break;
                 case AUDIO:
-                    result[i]=generateAudioMissionPublicItemVo((AudioMission)missions[i]);
+                    result[i] = generateAudioMissionPublicItemVo((AudioMission) missions[i]);
                     break;
                 case VIDEO:
-                    result[i]=generateVideoMissionPublicItemVo((VideoMission)missions[i]);
+                    result[i] = generateVideoMissionPublicItemVo((VideoMission) missions[i]);
                     break;
                 case THREE_DIMENSION:
-                    result[i]=generateThreeMissionPublicItemVo((ThreeDimensionMission) missions[i]);
+                    result[i] = generateThreeMissionPublicItemVo((ThreeDimensionMission) missions[i]);
                     break;
             }
         }
@@ -183,10 +180,10 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                             missionId, threeDimensionMission.getTitle(), threeDimensionMission.getDescription(), threeDimensionMission.getTopics(), missionType,
                             threeDimensionMission.getStart(), threeDimensionMission.getEnd(), threeDimensionMission.getCoverUrl(),
                             threeDimensionMission.getLevel(), threeDimensionMission.getCredits(), threeDimensionMission.getMinimalWorkerLevel(),
-                            threeDimensionMission.getThreeDimensionModelUrls().size() , threeDimensionMission.getRequesterUsername(),
+                            threeDimensionMission.getTokens().size(), threeDimensionMission.getRequesterUsername(),
                             threeDimensionMission.isAllowCustomTag(), threeDimensionMission.getAllowedTags()
                     ),
-                            threeDimensionMission.getMissionState(), threeDimensionMission.getRequesterUsername(), MissionType.THREE_DIMENSION, threeDimensionMission.getThreeDimensionModelUrls());
+                            threeDimensionMission.getMissionState(), threeDimensionMission.getRequesterUsername(), MissionType.THREE_DIMENSION, threeDimensionMission.getTokens());
                 }
                 break;
             case VIDEO:
@@ -201,7 +198,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                             videoMission.getVideoUrls().size() * videoMission.getVideoMissionTypes().size(), videoMission.getRequesterUsername(),
                             videoMission.isAllowCustomTag(), videoMission.getAllowedTags()
                     ),
-                            videoMission.getMissionState(), videoMission.getRequesterUsername(), MissionType.VIDEO, videoMission.getVideoUrls(),videoMission.getVideoMissionTypes());
+                            videoMission.getMissionState(), videoMission.getRequesterUsername(), MissionType.VIDEO, videoMission.getVideoUrls(), videoMission.getVideoMissionTypes());
                 }
                 break;
             case AUDIO:
@@ -216,7 +213,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                             audioMission.getAudioUrls().size() * audioMission.getAudioMissionTypes().size(), audioMission.getRequesterUsername(),
                             audioMission.isAllowCustomTag(), audioMission.getAllowedTags()
                     ),
-                            audioMission.getMissionState(), audioMission.getRequesterUsername(), MissionType.AUDIO, audioMission.getAudioUrls(),audioMission.getAudioMissionTypes());
+                            audioMission.getMissionState(), audioMission.getRequesterUsername(), MissionType.AUDIO, audioMission.getAudioUrls(), audioMission.getAudioMissionTypes());
                 }
                 break;
         }
@@ -242,27 +239,6 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
         return instanceArrayList.toArray(new Instance[instanceArrayList.size()]);
     }
 
-    /**
-     * add the browsing username to the mission
-     *
-     * @param missionId
-     * @param username
-     */
-    @Override
-    public void addBrowserUserToMission(String missionId, String username) throws MissionIdDoesNotExistException {
-        Optional<Mission> optionalMission = missionDao.findById(missionId);
-        if (optionalMission.isPresent()) {
-            Mission mission = optionalMission.get();
-            List<String> browserUserList = mission.getBrowserUsers();
-            if (!browserUserList.contains(username)) {
-                browserUserList.add(username);
-            }
-            mission.setBrowserUsers(browserUserList);
-            missionDao.save(mission);
-        } else {
-            throw new MissionIdDoesNotExistException();
-        }
-    }
 
     private ImageMissionPublicItemVo generateImageMissionPublicItemVo(ImageMission imageMission) {
         return new ImageMissionPublicItemVo(
@@ -300,7 +276,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                 videoMission.getTopics(), videoMission.getMissionType(),
                 videoMission.getStart(), videoMission.getEnd(), videoMission.getCoverUrl(),
                 videoMission.getLevel(), videoMission.getCredits(), videoMission.getMinimalWorkerLevel(),
-                videoMission.getThreeDimensionModelUrls().size() , videoMission.getRequesterUsername(),
+                videoMission.getTokens().size(), videoMission.getRequesterUsername(),
                 videoMission.isAllowCustomTag(), videoMission.getAllowedTags());
     }
 

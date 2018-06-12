@@ -4,7 +4,7 @@ import { action, observable, runInAction, toJS } from "mobx";
 import { ImageMissionCreateInfo } from "./ImageMissionCreateInfo";
 import { Checkbox, DatePicker, Modal, Button } from 'antd';
 import { ImageMissionType } from "../../../../../models/mission/image/ImageMission";
-import { ImageUploadPanel } from "../ImageUploadPanel";
+import { ImageUploadPanel } from "./ImageUploadPanel";
 import { RequesterService } from "../../../../../api/RequesterService";
 import { Inject } from "react.di";
 import { LocaleStore } from "../../../../../stores/LocaleStore";
@@ -135,7 +135,7 @@ export default class ImageMissionCreateInfoForm extends React.Component<Props, {
   render() {
     const locale: any = new Proxy({}, {
       get: (target, key) => {
-        return this.localeStore.get(`${ID_PREFIX}fields.IMAGE.${key}`) as string;
+        return this.localeStore.get(`${ID_PREFIX}fields.IMAGE.${key as string}`) as string;
       }
     });
     return <MissionCreateInfoForm info={this.info}

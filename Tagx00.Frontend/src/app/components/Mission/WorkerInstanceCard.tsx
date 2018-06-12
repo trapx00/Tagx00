@@ -96,6 +96,8 @@ export class WorkerInstanceCard extends React.PureComponent<Props, any> {
     buttons.push(<CardAction key={"search"} iconType={"search"} onClick={this.goDetail}
                              hoverTextId={ID_PREFIX + "cardActions.seeMore"}/>);
 
+
+
     return buttons;
 
   };

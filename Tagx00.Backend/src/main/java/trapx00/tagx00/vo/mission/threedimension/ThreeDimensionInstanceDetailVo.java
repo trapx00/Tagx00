@@ -7,8 +7,11 @@ import trapx00.tagx00.vo.mission.instance.InstanceVo;
 
 import java.util.List;
 
-public class  ThreeDimensionInstanceDetailVo extends InstanceDetailVo {
+public class ThreeDimensionInstanceDetailVo extends InstanceDetailVo {
     private List<ThreeDimensionResult> resultList;
+
+    public ThreeDimensionInstanceDetailVo() {
+    }
 
     public ThreeDimensionInstanceDetailVo(MissionType missionType, InstanceVo instance, List<ThreeDimensionResult> resultList) {
         super(missionType, instance);
