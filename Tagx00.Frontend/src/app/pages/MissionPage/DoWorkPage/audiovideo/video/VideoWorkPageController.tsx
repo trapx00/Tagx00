@@ -50,7 +50,7 @@ export class VideoWorkPageController extends WorkPageController<VideoMissionDeta
     this.videoUrls = missionDetail.videoUrls;
 
     for (const url of this.videoUrls) {
-      for (const type of missionDetail.publicItem.videoMissionTypes) {
+      for (const type of missionDetail.videoMissionTypes) {
 
         const result = instanceDetail.resultList
           && instanceDetail.resultList.find(x => x.videoUrl === url && x.job && x.job.type === type);

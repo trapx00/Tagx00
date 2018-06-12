@@ -10,5 +10,4 @@ export enum AudioMissionType {
 export interface AudioMissionDetail extends MissionDetail<AudioMissionPublicItem> {
   audioUrls: string[];
   audioMissionTypes: AudioMissionType[];
-
 }

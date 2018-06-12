@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 public class VideoMissionPublicItemVo extends MissionPublicItemVo {
-    private List<VideoMissionType> videoMissionTypes;
     private boolean allowCustomTag;
     private List<String> tags;
 
@@ -20,17 +19,8 @@ public class VideoMissionPublicItemVo extends MissionPublicItemVo {
                                     int minimalWorkerLevel, int jobCount, String requesterUsername,
                                     boolean allowCustomTag, List<String> tags) {
         super(missionId, title, description, topics, missionType, start, end, coverUrl, level, credits, minimalWorkerLevel, jobCount, requesterUsername);
-        this.videoMissionTypes = videoMissionTypes;
         this.allowCustomTag = allowCustomTag;
         this.tags = tags;
-    }
-
-    public List<VideoMissionType> getVideoMissionTypes() {
-        return videoMissionTypes;
-    }
-
-    public void setVideoMissionTypes(List<VideoMissionType> videoMissionTypes) {
-        this.videoMissionTypes = videoMissionTypes;
     }
 
     public boolean isAllowCustomTag() {
