@@ -87,6 +87,30 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                     imageMission.setMissionAssets(missionAssets);
                     requesterMissionDataService.updateMission(imageMission);
                     return new UploadMissionImageResponse(url);
+                case THREE_DIMENSION:
+                    ThreeDimensionMission threeDimensionMission = (ThreeDimensionMission) requesterMissionDataService.getMissionByMissionId(missionId);
+                    java.lang.String url1 = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
+                    if (isCover) {
+                        threeDimensionMission.setCoverUrl(url1);
+                    }
+                    requesterMissionDataService.updateMission(threeDimensionMission);
+                    return new UploadMissionImageResponse(url1);
+                case VIDEO:
+                    VideoMission videoMission = (VideoMission) requesterMissionDataService.getMissionByMissionId(missionId);
+                    java.lang.String url2 = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
+                    if (isCover) {
+                        videoMission.setCoverUrl(url2);
+                    }
+                    requesterMissionDataService.updateMission(videoMission);
+                    return new UploadMissionImageResponse(url2);
+                case AUDIO:
+                    AudioMission audioMission = (AudioMission) requesterMissionDataService.getMissionByMissionId(missionId);
+                    java.lang.String url3 = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
+                    if (isCover) {
+                        audioMission.setCoverUrl(url3);
+                    }
+                    requesterMissionDataService.updateMission(audioMission);
+                    return new UploadMissionImageResponse(url3);
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
