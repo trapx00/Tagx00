@@ -3,7 +3,22 @@
     "loading": "加载中"
   },
   "home": {
-    "enter": "开始体验"
+    "enter": "开始体验",
+    "productDescription": "一个数据标注系统",
+    "function": {
+      "title": "标注工作",
+      "IMAGE": "图片",
+      "TEXT":"文本",
+      "AUDIO": "音频",
+      "VIDEO": "视频",
+      "THREE_DIMENSION": "3D"
+    },
+    "feature": {
+      "title": "系统特性",
+      "responsiveness": "响应式设计",
+      "shortcut": "快捷键",
+      "tagRecommendation": "智能标注推荐"
+    }
   },
   "footer": {
     "productDescription": "一个数据标注系统",

@@ -17,7 +17,7 @@ const ControllerContainer = styled.div`
   justify-content: center;
   & > * {
   flex-grow: 1;
-  margin: 0 4px 0 4px;
+  padding: 0 4px 0 4px;
   }
   
   @media (max-width: 1200px) {
