@@ -1,9 +1,7 @@
 package trapx00.tagx00.entity.mission.instance;
 
 import trapx00.tagx00.entity.mission.AudioMission;
-import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.instance.workresult.AudioResult;
-import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
@@ -13,9 +11,7 @@ import java.util.List;
 
 @Entity
 public class AudioInstance extends Instance {
-    @Column(name = "audioResults")
-    @ElementCollection(targetClass = AudioResult.class)
-    @Lob
+    @Transient
     private List<AudioResult> audioResults;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_missionId")
