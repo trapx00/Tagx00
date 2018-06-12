@@ -50,7 +50,8 @@ export class DistrictPanel extends React.Component<DistrictTagPanelProps, {}> {
       new DistrictNotation(
         new District(
           x.boundaries.map(
-            boundaryInterfaceToBoundaryClass))));
+            boundaryInterfaceToBoundaryClass
+          ))));
 
     const selectedNotation = this.props.selectedTuple ?
       notations.find(x => boundariesTheSame(this.props.selectedTuple.boundaries, x.district.boundaries))

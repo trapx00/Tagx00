@@ -56,7 +56,7 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
     this.forceUpdate();
   };
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
   };
@@ -67,7 +67,12 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
     const { job } = this.state.notation;
     const { missionDetail, controllerProps } = this.props;
     // console.log(this.props.setting.classes);
-    return <WorkPageLayout >
+    return <WorkPageLayout
+      next={this.goNext}
+      previous={this.props.controllerProps.goPrevious}
+      saveProgress={this.saveProgress}
+
+    >
       <>
         <TextReader textToken={this.state.notation.textToken}/>
       </>
@@ -88,7 +93,7 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}
-                            saveProgress={this.submit}
+                            saveProgress={this.saveProgress}
         />
       </>
     </WorkPageLayout>

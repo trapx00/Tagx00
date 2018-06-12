@@ -57,7 +57,7 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
     this.forceUpdate();
   };
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
   };
@@ -66,7 +66,11 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
 
     const { job } = this.state.notation;
     const { missionDetail, controllerProps } = this.props;
-    return <WorkPageLayout >
+    return <WorkPageLayout
+      next={this.goNext}
+      previous={this.props.controllerProps.goPrevious}
+      saveProgress={this.saveProgress}
+    >
       <>
        <TextReader textToken={this.state.notation.textToken}/>
       </>
@@ -87,7 +91,7 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
         <ProgressController {...controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}
-                            saveProgress={this.submit}
+                            saveProgress={this.saveProgress}
         />
       </>
     </WorkPageLayout>

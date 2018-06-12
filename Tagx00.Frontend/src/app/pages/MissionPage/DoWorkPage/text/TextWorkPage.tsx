@@ -16,11 +16,13 @@ import {
 import { TextKeywordsWorkPage } from "./TextKeywordsWorkPage";
 import { TextClassificationWorkPage } from "./TextClassificationWorkPage";
 import { TextNotation } from "./shared";
+import { observer } from "mobx-react";
 
 interface Props extends RootWorkPageProps<TextMissionDetail, TextInstanceDetail>{
 
 }
 
+@observer
 export class TextWorkPage extends React.Component<Props, {}> {
 
   @Inject controller: TextWorkPageController = new TextWorkPageController(this.props.missionDetail, this.props.instanceDetail);

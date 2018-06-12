@@ -40,6 +40,8 @@ export class VideoWholeWorkPage extends React.Component<Props, VideoWorkPageStat
 
   };
 
+  videoRef: VideoPlayer;
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.notation !== prevState.notation) {
       return {
@@ -59,18 +61,33 @@ export class VideoWholeWorkPage extends React.Component<Props, VideoWorkPageStat
     this.forceUpdate();
   };
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
+  };
+
+  playOrPause = () => {
+    this.videoRef.playOrPause();
+  };
+
+  setRef = (ref) => {
+    this.videoRef = ref;
   };
 
   render() {
     const { missionDetail } = this.props;
     const { notation } = this.state;
     const { job } = notation;
-    return <VideoWorkPageLayout>
+    return <VideoWorkPageLayout
+      saveProgress={this.saveProgress}
+      previous={this.props.controllerProps.goPrevious}
+      next={this.goNext}
+      playOrPause={this.playOrPause}
+    >
       <>
-        <VideoPlayer url={this.props.notation.videoUrl}/>
+        <VideoPlayer url={this.props.notation.videoUrl}
+        setRef={this.setRef}
+        />
       </>
       <>
         <VideoMissionTipCard videoMissionType={job.type}
@@ -89,7 +106,7 @@ export class VideoWholeWorkPage extends React.Component<Props, VideoWorkPageStat
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}
-                            saveProgress={this.submit}
+                            saveProgress={this.saveProgress}
         />
       </>
     </VideoWorkPageLayout>
