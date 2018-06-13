@@ -13,6 +13,7 @@ import { AudioInstance } from "../../models/instance/audio/AudioInstance";
 import { AudioInstanceDetail } from "../../models/instance/audio/AudioInstanceDetail";
 import { VideoInstanceDetail } from "../../models/instance/video/VideoInstanceDetail";
 import { ThreeDimensionInstanceDetail } from "../../models/instance/3d/3dInstanceDetail";
+import { HttpMethod } from "../utils";
 
 const textInstance = {
     textResults: [],
@@ -165,6 +166,10 @@ export class WorkerServiceMock extends WorkerService {
       infoCode: 10000,
       description: "success"
     };
+  }
+
+  async segmentWord(content: string): Promise<string[]> {
+    return ["我","是","古鲁特","！"];
   }
 
   async getWorkerInfo(username: string): Promise<WorkerInfo> {

@@ -68,6 +68,20 @@ export class WorkerService {
 
   }
 
+  async segmentWord(content: string): Promise<string[]> {
+    const res = await this.http.fetch({
+      path: "/mission/worker/wordSegment",
+      body: { content: content },
+      method: HttpMethod.POST,
+    });
+
+    if (res.ok) {
+      return res.response.results;
+    } else {
+      throw res.error;
+    }
+  }
+
   async getWorkerInfo(username: string): Promise<WorkerInfo> {
     const res = await this.http.fetch({
       path: `/account/worker/${username}`,
