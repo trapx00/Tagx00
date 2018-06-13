@@ -66,7 +66,7 @@ export class VideoWorkPageController extends WorkPageController<VideoMissionDeta
       }
     }
 
-    this.toFirstNotComplete();
+    // this.toFirstNotComplete();
   }
 
 }

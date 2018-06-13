@@ -66,7 +66,7 @@ export class AudioWorkPageController extends WorkPageController<AudioMissionDeta
       }
     }
 
-    this.toFirstNotComplete();
+    // this.toFirstNotComplete();
   }
 
 }

@@ -75,7 +75,7 @@ export class ImageWorkPageController extends WorkPageController<ImageMissionDeta
       }
     }
 
-    this.toFirstNotComplete();
+    // this.toFirstNotComplete();
   }
 
 
