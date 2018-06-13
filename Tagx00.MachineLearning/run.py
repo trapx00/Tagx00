@@ -22,6 +22,13 @@ def extractKeyWord():
     return jsonify({'keys': result})
 
 
+@app.route('/separateSentence', methods=['POST'])
+def separateSentence():
+    data = json.loads(request.data.decode('utf-8'))
+    result = pickup.separate(data)
+    return jsonify({'words': result})
+
+
 @app.route('/getRecommendTag', methods=['POST'])
 def getRecommendTag():
     data = json.loads(request.data.decode('utf-8'))

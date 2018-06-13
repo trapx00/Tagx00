@@ -20,6 +20,7 @@ import trapx00.tagx00.util.PathUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.ml.KeysVo;
 import trapx00.tagx00.vo.ml.RecommendTagsVo;
+import trapx00.tagx00.vo.ml.WordsVo;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class PythonServiceImpl implements PythonService {
     private String mlAddress;
     @Value("${ml.apiExtractKey}")
     private String apiExtractKey;
+    @Value("${ml.apiSeparateSentence}")
+    private String apiSeparateSentence;
     @Value("${ml.apiGetRecommend}")
     private String apiGetRecommend;
     @Value("${ml.apiTrainRecommend}")
@@ -95,6 +98,21 @@ public class PythonServiceImpl implements PythonService {
         HttpEntity<List<DataObject>> entity = new HttpEntity<>(dataObjects, headers);
         String url = mlAddress + apiTrainRecommend;
         restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+    }
+
+    @Override
+    public List<String> separateSentence(String content) throws SystemException {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(content, headers);
+        String url = mlAddress + apiSeparateSentence;
+        ResponseEntity<WordsVo> wordsVoResponseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, WordsVo.class);
+
+        if (wordsVoResponseEntity.getStatusCode() == HttpStatus.OK) {
+            return wordsVoResponseEntity.getBody().getWords();
+        } else {
+            throw new SystemException();
+        }
     }
 
     private ImageInstance getImageInstance(String instanceId) throws IOException, ClassNotFoundException {

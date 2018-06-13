@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
+import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
+import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.entity.mission.MissionAsset;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.*;
 import trapx00.tagx00.mlservice.PythonService;
@@ -16,6 +19,7 @@ import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.mission.ImageIdentificationResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
+import trapx00.tagx00.response.mission.WordSegmentationResponse;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
@@ -32,11 +36,13 @@ import java.util.Map;
 @Service
 public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
     private final WorkerMissionDataService workerMissionDataService;
+    private final RequesterMissionDataService requesterMissionDataService;
     private final PythonService pythonService;
 
     @Autowired
-    public WorkerMissionBlServiceImpl(WorkerMissionDataService workerMissionDataService, PythonService pythonService) {
+    public WorkerMissionBlServiceImpl(WorkerMissionDataService workerMissionDataService, RequesterMissionDataService requesterMissionDataService, PythonService pythonService) {
         this.workerMissionDataService = workerMissionDataService;
+        this.requesterMissionDataService = requesterMissionDataService;
         this.pythonService = pythonService;
     }
 
@@ -187,5 +193,19 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
             e.printStackTrace();
             throw new SystemException();
         }
+    }
+
+    /**
+     * segment word
+     *
+     * @param token
+     * @param missionId
+     * @return
+     */
+    @Override
+    public WordSegmentationResponse segmentWords(String missionId, String token) throws MissionIdDoesNotExistException, IOException, ClassNotFoundException {
+        Mission mission = requesterMissionDataService.getMissionByMissionId(missionId);
+        for(MissionAsset)
+        return pythonService.separateSentence();
     }
 }

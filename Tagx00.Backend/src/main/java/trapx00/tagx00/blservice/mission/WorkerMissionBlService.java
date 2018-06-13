@@ -6,6 +6,7 @@ import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.mission.ImageIdentificationResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
+import trapx00.tagx00.response.mission.WordSegmentationResponse;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
@@ -60,4 +61,13 @@ public interface WorkerMissionBlService {
      * @return
      */
     ImageIdentificationResponse identifyImage(MultipartFile multipartFile) throws SystemException;
+
+    /**
+     * segment word
+     *
+     * @param token
+     * @param missionId
+     * @return
+     */
+    WordSegmentationResponse segmentWords(int missionId, String token);
 }

@@ -134,13 +134,18 @@ public class WorkerMissionController {
     @ApiOperation(value = "工人文本分词", notes = "工人文本分词")
     @RequestMapping(value = "/mission/worker/wordSegment", method = RequestMethod.GET)
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Returns segmented words.", response = WordSegmentationResponse.class),
-        @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
-        @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
+            @ApiResponse(code = 201, message = "Returns segmented words.", response = WordSegmentationResponse.class),
+            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
+            @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
     })
     @ResponseBody
-    public ResponseEntity<Response> segmentWords(@RequestParam("token") String token) {
-        return null;
+    public ResponseEntity<Response> segmentWords(@RequestParam("missionId") String missionId, @RequestParam("token") String token) {
+        try {
+            return new ResponseEntity<>(workerMissionBlService.segmentWords(missionId, token), HttpStatus.OK);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
