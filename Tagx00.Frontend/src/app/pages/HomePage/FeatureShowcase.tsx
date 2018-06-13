@@ -55,11 +55,13 @@ function FeatureItem(props: { icon: string, id: string }) {
 
 export function FeatureShowcase(props: {}) {
   return <Container>
-    <Header><LocaleMessage id={ID_PREFIX + "feature.title"}/></Header>
-    <ItemContainer>
+    <QueueAnim delay={300} className="queue-simple">
+    <Header key={"1"}><LocaleMessage id={ID_PREFIX + "feature.title"}/></Header>
+    <ItemContainer key={"2"}>
       <FeatureItem id={"responsiveness"} icon={"appstore"}/>
       <FeatureItem id={"shortcut"} icon={"smile"}/>
       <FeatureItem id={"tagRecommendation"} icon={"tags"}/>
     </ItemContainer>
+    </QueueAnim>
   </Container>
 }

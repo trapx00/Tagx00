@@ -105,12 +105,12 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
             case VIDEO:
                 VideoInstanceDetailVo videoInstanceDetailVo = (VideoInstanceDetailVo) instanceDetailVo;
                 VideoInstance videoInstance = generateVideoInstance(instanceVo, videoInstanceDetailVo);
-                result = videoInstanceDao.save(videoInstance);
+                result = saveVideoInstance(videoInstance);
                 break;
             case AUDIO:
                 AudioInstanceDetailVo audioInstanceDetailVo = (AudioInstanceDetailVo) instanceDetailVo;
                 AudioInstance audioInstance = generateAudioInstance(instanceVo, audioInstanceDetailVo);
-                result = audioInstanceDao.save(audioInstance);
+                result = saveAudioInstance(audioInstance);
                 break;
 
         }
@@ -220,17 +220,18 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         //获得每个种类的instance列表
         ArrayList<Instance> instances = new ArrayList<>(imageInstanceDao.findImageInstancesByWorkerUsername(workerUsername));
         instances.addAll(textInstanceDao.findTextInstancesByWorkerUsername(workerUsername));
-        instances.addAll(videoInstanceDao.findVideoInstancesByMissionId(workerUsername));
-        instances.addAll(audioInstanceDao.findAudioInstancesByMissionId(workerUsername));
+        instances.addAll(videoInstanceDao.findVideoInstancesByWorkerUsername(workerUsername));
+        instances.addAll(audioInstanceDao.findAudioInstancesByWorkerUsername(workerUsername));
         instances.addAll(threeDimensionInstanceDao.findThreeDimensionInstancesByWorkerUsername(workerUsername));
 
         InstanceVo[] instanceVos = new InstanceVo[instances.size()];
+        try {
         for (int i = 0; i < instances.size(); i++) {
             Instance instance = instances.get(i);
             int instanceResultIdsSize = 0;
             switch (instance.getMissionType()) {
                 case IMAGE:
-                    List<ImageResult> imageResults = ((ImageInstance) instance).getImageResults();
+                    List<ImageResult> imageResults = getImageInstance(instance.getInstanceId()).getImageResults();
                     for (ImageResult imageResult : imageResults) {
                         if (imageResult.isDone()) {
                             instanceResultIdsSize++;
@@ -239,7 +240,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                     instanceVos[i] = generateImageInstanceVo(instance, instanceResultIdsSize);
                     break;
                 case TEXT:
-                    List<TextResult> textResults = ((TextInstance) instance).getTextResults();
+                    List<TextResult> textResults = getTextInstance(instance.getInstanceId()).getTextResults();
                     for (TextResult textResult : textResults) {
                         if (textResult.isDone()) {
                             instanceResultIdsSize++;
@@ -248,7 +249,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                     instanceVos[i] = generateTextInstanceVo(instance, instanceResultIdsSize);
                     break;
                 case AUDIO:
-                    List<AudioResult> audioResults = ((AudioInstance) instance).getAudioResults();
+                    List<AudioResult> audioResults = getAudioInstance(instance.getInstanceId()).getAudioResults();
                     for (AudioResult audioResult : audioResults) {
                         if (audioResult.isDone()) {
                             instanceResultIdsSize++;
@@ -257,7 +258,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                     instanceVos[i] = generateAudioInstanceVo(instance, instanceResultIdsSize);
                     break;
                 case VIDEO:
-                    List<VideoResult> videoResults = ((VideoInstance) instance).getVideoResults();
+                    List<VideoResult> videoResults = getVideoInstance(instance.getInstanceId()).getVideoResults();
                     for (VideoResult videoResult : videoResults) {
                         if (videoResult.isDone()) {
                             instanceResultIdsSize++;
@@ -266,7 +267,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                     instanceVos[i] = generateVideoInstanceVo(instance, instanceResultIdsSize);
                     break;
                 case THREE_DIMENSION:
-                    List<ThreeDimensionResult> threeDimensionResults = ((ThreeDimensionInstance) instance).getThreeDimensionResults();
+                    List<ThreeDimensionResult> threeDimensionResults = getThreeDimensionInstance(instance.getInstanceId()).getThreeDimensionResults();
                     for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
                         if (threeDimensionResult.isDone()) {
                             instanceResultIdsSize++;
@@ -276,6 +277,9 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                     break;
             }
 
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return instanceVos;
 

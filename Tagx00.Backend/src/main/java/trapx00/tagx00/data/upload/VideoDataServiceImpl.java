@@ -42,7 +42,7 @@ public class VideoDataServiceImpl implements VideoDataService {
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            String fileLocation = dir.getAbsolutePath() + "/video/" + key;
+            String fileLocation = dir.getAbsolutePath() + "/" + key;
             FileOutputStream fos = new FileOutputStream(fileLocation);
             fos.write(bytes);
             fos.close();

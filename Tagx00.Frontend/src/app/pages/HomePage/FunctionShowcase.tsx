@@ -52,8 +52,9 @@ function TagMissionItem(props: { icon: string, type: MissionType }) {
 
 export function FunctionShowcase(props: {}) {
   return <Container>
-    <Header><LocaleMessage id={ID_PREFIX + "function.title"}/></Header>
-    <ItemContainer>
+    <QueueAnim delay={300} className="queue-simple">
+    <Header key={"1"}><LocaleMessage id={ID_PREFIX + "function.title"}/></Header>
+    <ItemContainer key={"2"}>
 
       <TagMissionItem type={MissionType.IMAGE} icon={"picture"}/>
       <TagMissionItem type={MissionType.TEXT} icon={"file-text"}/>
@@ -61,5 +62,6 @@ export function FunctionShowcase(props: {}) {
       <TagMissionItem type={MissionType.VIDEO} icon={"video-camera"}/>
       <TagMissionItem type={MissionType.THREE_DIMENSION} icon={"user"}/>
     </ItemContainer>
+    </QueueAnim>
   </Container>
 }

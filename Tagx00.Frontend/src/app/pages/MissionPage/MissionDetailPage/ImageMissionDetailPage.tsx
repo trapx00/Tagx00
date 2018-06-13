@@ -23,14 +23,15 @@ export class ImageMissionDetailPage extends React.Component<Props, State> {
     const {detail} = this.props;
 
     // get some tags
-    const tags = flatten(detail.missionAssets.map(x => Object.keys(x.tagConfTuple)));
+    const tags = flatten(detail.missionAssets.map(x => x.tagConfTuple));
+    console.log(tags);
 
 
     return <MissionDetailBasePanel publicItem={detail.publicItem}
                                    picPanel={<Gallery images={[detail.publicItem.coverUrl, ...detail.missionAssets.map(x=> x.url)]}/>}
     >
       <Item promptTextId={"IMAGE.tags"}>
-        {takeAtMost(tags, 5).map(x => <Tag key={x}>{x}</Tag>)}
+        {takeAtMost(tags, 5).map(x => <Tag key={x.tag}>{x.tag}</Tag>)}
         <LocaleMessage id={ID_PREFIX + "allowCustomTag." + detail.publicItem.allowCustomTag}/>
       </Item>
       <Item promptTextId={"IMAGE.imageMissionTypes"}>
