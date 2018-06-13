@@ -175,13 +175,13 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                 out.close();
 
                 StringBuilder result = new StringBuilder();
-                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(outPath), "GBK"));
-                java.lang.String line;
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(outPath), "UTF-8"));
+                String line;
                 while ((line = br.readLine()) != null) {
                     result.append(line);
                 }
                 br.close();
-                java.lang.String url = textDataService.uploadText(generateTextKey(missionId, index), new java.lang.String(result));
+                String url = textDataService.uploadText(generateTextKey(missionId, index), new String(result));
                 textUrls.add(url);
 
                 index++;
