@@ -68,11 +68,10 @@ export class WorkerService {
 
   }
 
-  async segmentWord(content: string): Promise<string[]> {
+  async segmentWord(token: string): Promise<string[]> {
     const res = await this.http.fetch({
       path: "/mission/worker/wordSegment",
-      body: { content: content },
-      method: HttpMethod.POST,
+      queryParams: { token: token}
     });
 
     if (res.ok) {
