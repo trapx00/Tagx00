@@ -9,13 +9,16 @@ import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.*;
+import trapx00.tagx00.mlservice.PythonService;
 import trapx00.tagx00.publicdatas.instance.MissionInstanceState;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.mission.ImageIdentificationResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
+import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
@@ -29,10 +32,12 @@ import java.util.Map;
 @Service
 public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
     private final WorkerMissionDataService workerMissionDataService;
+    private final PythonService pythonService;
 
     @Autowired
-    public WorkerMissionBlServiceImpl(WorkerMissionDataService workerMissionDataService) {
+    public WorkerMissionBlServiceImpl(WorkerMissionDataService workerMissionDataService, PythonService pythonService) {
         this.workerMissionDataService = workerMissionDataService;
+        this.pythonService = pythonService;
     }
 
     /**
@@ -146,6 +151,9 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
                 instanceVo.getInstance().setMissionInstanceState(MissionInstanceState.SUBMITTED);
                 try {
                     workerMissionDataService.updateInstanceDetailVo(instanceVo);
+                    if (instanceVo.getMissionType() == MissionType.IMAGE) {
+                        pythonService.trainRecommend((ImageInstanceDetailVo) instanceVo);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                     throw new SystemException();

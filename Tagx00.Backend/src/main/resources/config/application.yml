@@ -61,6 +61,8 @@ spring:
 ml:
   address: http://localhost:8888
   apiExtractKey: /extractKeyWord
+  apiGetRecommend: /getRecommendTag
+  apiTrainRecommend: /trainRecommend
 aliyun:
   akId: LTAIfeJPa5mmsKhL
   akSecret: Dfz3Tj7Tyuojl84vSBHX7E9eluivj5
