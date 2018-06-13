@@ -68,6 +68,19 @@ export class WorkerService {
 
   }
 
+  async segmentWord(token: string): Promise<string[]> {
+    const res = await this.http.fetch({
+      path: "/mission/worker/wordSegment",
+      queryParams: { token: token}
+    });
+
+    if (res.ok) {
+      return res.response.results;
+    } else {
+      throw res.error;
+    }
+  }
+
   async getWorkerInfo(username: string): Promise<WorkerInfo> {
     const res = await this.http.fetch({
       path: `/account/worker/${username}`,
