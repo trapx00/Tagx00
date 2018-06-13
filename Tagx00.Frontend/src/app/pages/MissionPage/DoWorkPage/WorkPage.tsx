@@ -9,9 +9,18 @@ import { action, observable } from "mobx";
 import { message, Progress } from 'antd';
 import { InstanceDetail } from "../../../models/instance/InstanceDetail";
 import { MissionDetail } from "../../../models/mission/MissionDetail";
-import { CompleteModal } from "../../../components/ImageWork/CompleteModal";
 import { observer } from "mobx-react";
 import { ImageJob } from "../../../models/instance/image/job/ImageJob";
+import { CompleteModal } from "../../../components/Mission/WorkPageSuite/CompleteModal";
+import { LayoutShortcutProps } from "./WorkPageLayout";
+
+
+export interface RootWorkPageProps<M extends MissionDetail, I extends InstanceDetail> {
+  missionDetail: M;
+  instanceDetail: I;
+  jumpBack(): void;
+  readonlyMode: boolean;
+}
 
 export interface WorkPageProps<M extends MissionDetail, J, N extends Notation<J>> {
   notation: N;
@@ -22,6 +31,7 @@ export interface WorkPageProps<M extends MissionDetail, J, N extends Notation<J>
     goPrevious(): void;
     previousAvailable: boolean;
     saving: boolean;
+    toFirstIncomplete() : void;
   },
   readonlyMode: boolean;
 }
@@ -100,6 +110,10 @@ export class WorkPage<M extends MissionDetail, I extends InstanceDetail, J, N ex
   };
 
 
+  toFirstIncomplete = () => {
+    this.props.controller.toFirstNotComplete();
+  };
+
   chooseWorkPage() {
 
     if (this.props.controller.finished) {
@@ -123,7 +137,8 @@ export class WorkPage<M extends MissionDetail, I extends InstanceDetail, J, N ex
       controllerProps: {
         goPrevious: this.goPrevious,
         previousAvailable: this.props.controller.workIndex != 0,
-        saving: this.saving
+        saving: this.saving,
+        toFirstIncomplete: this.toFirstIncomplete
       },
       readonlyMode: this.props.readonlyMode
     };

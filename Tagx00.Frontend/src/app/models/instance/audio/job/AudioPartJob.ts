@@ -11,6 +11,6 @@ export interface AudioPartTuple {
 
 
 export interface AudioPartJob extends AudioJob {
-  tuple: AudioPartTuple;
+  tupleList: AudioPartTuple[];
   type: AudioMissionType.PART;
 }

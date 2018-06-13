@@ -3,7 +3,22 @@
     "loading": "加载中"
   },
   "home": {
-    "enter": "开始体验"
+    "enter": "开始体验",
+    "productDescription": "一个数据标注系统",
+    "function": {
+      "title": "标注工作",
+      "IMAGE": "图片",
+      "TEXT":"文本",
+      "AUDIO": "音频",
+      "VIDEO": "视频",
+      "THREE_DIMENSION": "3D"
+    },
+    "feature": {
+      "title": "系统特性",
+      "responsiveness": "响应式设计",
+      "shortcut": "快捷键",
+      "tagRecommendation": "智能标注推荐"
+    }
   },
   "footer": {
     "productDescription": "一个数据标注系统",
@@ -60,11 +75,39 @@
     }
   },
   "drawingPad": {
+    "media": {
+      "audioPlayer": {
+        "play": "播放",
+        "pause":"暂停",
+        "mute": "静音",
+        "unmute": "取消静音"
+      },
+      "videoPlayer": {
+        "play": "播放",
+        "pause":"暂停",
+        "mute": "静音",
+        "unmute": "取消静音"
+      },
+      "tupleSelector":{
+        "list": {
+          "title": "已有片段列表",
+          "setStart": "设置开始时间",
+          "setEnd": "设置结束时间",
+          "play": "播放这个片段",
+          "add": "增加一个片段",
+          "remove": "删除这个片段",
+          "select": "选择这个片段",
+          "selected": "当前选择项",
+          "range": "从 {start}秒 到 {end}秒"
+        }
+      }
+    },
     "common": {
       "progressController": {
-        "save": "保存进度",
-        "backward": "前一张",
-        "forward": "后一张"
+        "save": "保存进度 (Ctrl+S)",
+        "backward": "前一张 (a)",
+        "toFirstIncomplete": "去未完成的第一张",
+        "forward": "后一张 (d)"
       },
       "tagDescriptionTuplePanel": {
         "tags" : "标签",
@@ -81,6 +124,7 @@
         "remove": "移除",
         "cancel": "取消"
       },
+
       "missionTipCard": {
         "missionTitle": "任务标题",
         "title": "任务目标",
@@ -95,11 +139,14 @@
           },
           "tags": "预设标签",
           "types": {
-            "WHOLE": "整体",
-            "PART": "局部",
-            "DISTRICT": "区域"
+            "WHOLE": {"name": "整体"},
+            "PART": { "name": "局部"},
+            "DISTRICT": {
+              "name": "区域"
+            }
           }
         },
+
         "TEXT": {
           "name": "文本任务",
           "type": "文本任务类型",
@@ -113,8 +160,48 @@
               "keywords": "主题词"
             }
           }
+        },
+        "AUDIO": {
+          "name":"音频任务",
+          "type": "音频任务类型",
+          "allowCustomTag": {
+            "prompt": "允许自定义标签",
+            "true": "是",
+            "false": "否"
+          },
+          "tags": "预设标签",
+          "types": {
+            "WHOLE": {"name": "整体"},
+            "PART": { "name": "局部"}
+          }
+        },
+        "VIDEO": {
+          "name":"视频任务",
+          "type": "视频任务类型",
+          "allowCustomTag": {
+            "prompt": "允许自定义标签",
+            "true": "是",
+            "false": "否"
+          },
+          "tags": "预设标签",
+          "types": {
+            "WHOLE": {"name": "整体"},
+            "PART": { "name": "局部"}
+          }
+        },
+        "THREE_DIMENSION": {
+          "name":"3D任务",
+          "type": "3D任务类型",
+          "allowCustomTag": {
+            "prompt": "允许自定义标签",
+            "true": "是",
+            "false": "否"
+          },
+          "tags": "预设标签",
+          "types": {
+            "WHOLE": {"name": "整体"}
+          }
         }
-
       },
       "finish": {
         "editingComplete": "祝贺！您已经完成了这次任务的所有工作。您现在可以选择保存进度或者提交现在的进度。（一旦您选择了提交，您将无法再更改您的进度。）",
@@ -131,22 +218,22 @@
         "readyToDraw": "按下并按住鼠标，画出一个封闭区域",
         "drawingBoundary": "按住鼠标并滑动，画出一个封闭区域",
         "boundaryDown": "您已经画出了封闭区域。您可以 {continueDrawing} 或者 {confirm}。",
-        "continueDrawing": "继续画更多的封闭区域",
-        "confirm": "确认",
+        "continueDrawing": "继续画更多的封闭区域 (v)",
+        "confirm": "确认(c)",
         "error": {
           "errorTip": "错误提示",
           "cross": "边界不能交叉",
-          "outOfBound": "鼠标不能移除画框",
+          "outOfBound": "鼠标不能移出画框",
           "notEndsAtStartingPoint": "终点应该与出发点重合",
           "": ""
         }
       },
-      "add": "增加一个区域",
-      "removeSelected": "移除当前选中的区域"
+      "add": "增加一个区域 (c)",
+      "removeSelected": "移除当前选中的区域 (x)"
     },
     "rectangle": {
-      "add": "增加一个区域",
-      "removeSelected": "移除当前选中的区域"
+      "add": "增加一个区域 (c)",
+      "removeSelected": "移除当前选中的区域 (x)"
     }
   },
   "missions": {
@@ -181,7 +268,7 @@
           "true": "允许自定义标签",
           "false": "不允许自定义标签"
         },
-        "tags": "设置标签"
+        "tags": "可用标签示例"
       },
       "TEXT": {
         "name":"文本任务",
@@ -194,6 +281,43 @@
           "name": "提取主题词",
           "keywords": "预设主题词"
         }
+      },
+      "AUDIO": {
+        "name": "音频任务",
+        "sampleTitle": "音频示例",
+        "audioMissionTypes": "音频任务类型",
+        "types": {
+          "WHOLE": "整体",
+          "PART": "局部"
+        },
+        "allowCustomTag": {
+          "true": "允许自定义标签",
+          "false": "不允许自定义标签"
+        },
+        "tags": "可用标签示例"
+      },
+      "VIDEO": {
+        "name": "视频任务",
+        "sampleTitle": "视频示例",
+        "videoMissionTypes": "视频任务类型",
+        "types": {
+          "WHOLE": "整体",
+          "PART": "局部"
+        },
+        "allowCustomTag": {
+          "true": "允许自定义标签",
+          "false": "不允许自定义标签"
+        },
+        "tags": "可用标签示例"
+      },
+      "THREE_DIMENSION": {
+        "name": "3D任务",
+        "sampleTitle": "3D任务示例",
+        "allowCustomTag": {
+          "true": "允许自定义标签",
+          "false": "不允许自定义标签"
+        },
+        "tags": "可用标签示例"
       }
     },
     "createMission": {
@@ -459,7 +583,10 @@
     "seeDetail": "查看详细信息",
     "missionType": {
       "IMAGE": "图片",
-      "TEXT":"文本"
+      "TEXT":"文本",
+      "AUDIO": "音频",
+      "VIDEO": "视频",
+      "THREE_DIMENSION": "3D"
     },
     "dateFormat": "YYYY/MM/DD HH:mm:ss"
   },

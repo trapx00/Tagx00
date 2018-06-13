@@ -10,9 +10,6 @@ import { UserStore } from "../../stores/UserStore";
 import { MissionItem } from "./MissionItem";
 import { LocaleStore } from "../../stores/LocaleStore";
 
-const centerDivider = {
-  marginTop: '-10%',
-};
 
 const ID_PREFIX = "browserMissionList.";
 
@@ -24,30 +21,30 @@ export class BrowserMissionList extends React.Component<any, {}> {
   @Inject workerService: WorkerService;
   @Inject localeStore: LocaleStore;
 
+
   render() {
-    if (this.browserStore.isBrowsing) {
-      if (!this.browserStore.listData) {
-        return <div style={{textAlign: 'center', marginTop: '-10%'}}><Spin size="large"/></div>;
-      }
-      else {
-        return <QueueAnim type={['right', 'left']} leaveReverse>
-          {this.browserStore.listData ? (
-            <div><Divider style={centerDivider}><LocaleMessage id={ID_PREFIX + "dividerText"}/></Divider>
-              <List
-                itemLayout="vertical"
-                size="large"
-                pagination={false}
-                dataSource={this.browserStore.listData}
-                renderItem={item => <MissionItem key={item.missionId} item={item}/>}
-              />
-              <div style={{textAlign: 'center'}}>
-                <Pagination defaultCurrent={1} total={1}/>
-              </div>
-            </div>) : (
-            <div style={{textAlign: 'center', marginTop: '-10%'}}><Spin size="large"/></div>)}</QueueAnim>
-      }
-    } else {
-      return null;
+    if (this.browserStore.loading) {
+      return <Spin size="large"/>;
+    }
+    else {
+      return <QueueAnim type={['right', 'left']} leaveReverse>
+          <div>
+            <Divider>
+              <LocaleMessage id={ID_PREFIX + "dividerText"}/>
+            </Divider>
+            <List
+              itemLayout="vertical"
+              size="large"
+              pagination={false}
+              dataSource={this.browserStore.listData}
+              renderItem={item => <MissionItem key={item.missionId} item={item}/>}
+            />
+            <div style={{textAlign: 'center'}}>
+              <Pagination defaultCurrent={1} total={1}/>
+            </div>
+          </div>
+      </QueueAnim>
     }
   }
+
 }

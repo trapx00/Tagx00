@@ -1,6 +1,5 @@
 package trapx00.tagx00.entity.mission;
 
-import trapx00.tagx00.entity.mission.favorite.ImageFavorite;
 import trapx00.tagx00.entity.mission.instance.ImageInstance;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
@@ -11,54 +10,32 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "imageMission")
 public class ImageMission extends Mission {
     @Column(name = "allowCustomTag")
     private boolean allowCustomTag;
-    @ElementCollection(fetch = FetchType.LAZY,
-            targetClass = String.class)
-    @Column(name = "allowedTags")
-    private List<String> allowedTags;
-    @Column(name = "imageUrls")
+    @Column(name = "allowedTag")
     @ElementCollection(targetClass = String.class)
-    private List<String> imageUrls;
+    private List<String> allowedTags;
+    @Column(name = "missionAssets")
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private List<MissionAsset> missionAssets;
     @Column(name = "imageMissionType")
     @ElementCollection(targetClass = ImageMissionType.class)
     private List<ImageMissionType> imageMissionTypes;
     @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<ImageInstance> imageInstances;
-    @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<ImageFavorite> imageFavorites;
 
     public ImageMission() {
     }
 
-    public ImageMission(boolean allowCustomTag, List<String> allowedTags, List<String> imageUrls, List<ImageMissionType> imageMissionTypes, List<ImageInstance> imageInstances, List<ImageFavorite> imageFavorites) {
+    public ImageMission(String missionId, String title, String description, List<String> topics, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, boolean allowCustomTag, List<String> allowedTags, List<MissionAsset> missionAssets, List<ImageMissionType> imageMissionTypes, List<ImageInstance> imageInstances) {
+        super(missionId, title, description, topics, MissionType.IMAGE, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
         this.allowCustomTag = allowCustomTag;
         this.allowedTags = allowedTags;
-        this.imageUrls = imageUrls;
+        this.missionAssets = missionAssets;
         this.imageMissionTypes = imageMissionTypes;
         this.imageInstances = imageInstances;
-        this.imageFavorites = imageFavorites;
-    }
-
-    public ImageMission(String missionId, String title,
-                        String description, List<String> topics,
-                        boolean allowCustomTag,
-                        List<String> allowedTags,
-                        MissionType missionType, MissionState missionState,
-                        Date start, Date end, String coverUrl,
-                        String requesterUsername, int level, int credits,
-                        int minimalWorkerLevel,
-                        List<String> browserUsers,
-                        List<String> imageUrls, List<ImageMissionType> imageMissionTypes,
-                        List<ImageInstance> imageInstances, List<ImageFavorite> imageFavorites) {
-        super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
-        this.allowCustomTag = allowCustomTag;
-        this.allowedTags = allowedTags;
-        this.imageUrls = imageUrls;
-        this.imageMissionTypes = imageMissionTypes;
-        this.imageInstances = imageInstances;
-        this.imageFavorites = imageFavorites;
     }
 
     public boolean isAllowCustomTag() {
@@ -77,12 +54,12 @@ public class ImageMission extends Mission {
         this.allowedTags = allowedTags;
     }
 
-    public List<String> getImageUrls() {
-        return imageUrls;
+    public List<MissionAsset> getMissionAssets() {
+        return missionAssets;
     }
 
-    public void setImageUrls(List<String> imageUrls) {
-        this.imageUrls = imageUrls;
+    public void setMissionAssets(List<MissionAsset> missionAssets) {
+        this.missionAssets = missionAssets;
     }
 
     public List<ImageMissionType> getImageMissionTypes() {
@@ -101,11 +78,4 @@ public class ImageMission extends Mission {
         this.imageInstances = imageInstances;
     }
 
-    public List<ImageFavorite> getImageFavorites() {
-        return imageFavorites;
-    }
-
-    public void setImageFavorites(List<ImageFavorite> imageFavorites) {
-        this.imageFavorites = imageFavorites;
-    }
 }

@@ -6,31 +6,17 @@ import { ImageResult } from "../../../../models/instance/image/ImageResult";
 import { Injectable } from "react.di";
 import { MissionType } from "../../../../models/mission/Mission";
 import { Notation, WorkPageController } from "../WorkPageController";
+import { MissionAsset } from "../../../../models/mission/MissionAsset";
+import { arrayContainsElement } from "../../../../../utils/Array";
 
 export interface ImageNotation<T extends ImageJob = ImageJob> extends Notation<T> {
-  imageUrl: string;
+  imageAsset: MissionAsset;
 }
 
-function any<T>(array: T[]) {
-  return !!array && array.length > 0;
-}
 
-function judgeJobComplete(job: KnownImageJob) {
-  if (!job) return false;
-  switch (job.type) {
-    case ImageMissionType.DISTRICT:
-      return any(job.tuples);
-    case ImageMissionType.PART:
-      return any(job.tuples);
-    case ImageMissionType.WHOLE:
-      return !!job.tuple && ( any(job.tuple.tagTuples) || any(job.tuple.descriptions));
-  }
-  return false;
-}
 
-@Injectable
 export class ImageWorkPageController extends WorkPageController<ImageMissionDetail, ImageInstanceDetail,ImageJob, ImageNotation> {
-  imageUrls: string[];
+  imageAssets: MissionAsset[];
 
   @observable saving: boolean = false;
 
@@ -42,45 +28,54 @@ export class ImageWorkPageController extends WorkPageController<ImageMissionDeta
         workResultId: index+"",
         instanceId: instance.instanceId,
         imageJob: x.job,
-        url: x.imageUrl,
-        isDone: judgeJobComplete(x.job as any)
+        url: x.imageAsset.url,
+        isDone: this.judgeJobComplete(x.job as any)
       })),
       instance: instance
     }
   }
 
+  judgeJobComplete(job: KnownImageJob) {
+    if (!job) return false;
+    switch (job.type) {
+      case ImageMissionType.DISTRICT:
+        return arrayContainsElement(job.tuples);
+      case ImageMissionType.PART:
+        return arrayContainsElement(job.tuples);
+      case ImageMissionType.WHOLE:
+        return !!job.tuple && ( arrayContainsElement(job.tuple.tagTuples) || arrayContainsElement(job.tuple.descriptions));
+    }
+    return false;
+  }
+
   get types() {
-    return this.missionDetail.imageMissionTypes;
+    return this.missionDetail.publicItem.imageMissionTypes;
   }
 
   constructor(missionDetail: ImageMissionDetail, instanceDetail: ImageInstanceDetail) {
     super(missionDetail, instanceDetail);
-    this.imageUrls = missionDetail.imageUrls;
+    this.imageAssets = missionDetail.missionAssets;
 
+    for (const asset of this.imageAssets) {
+      for (const type of missionDetail.publicItem.imageMissionTypes) {
 
-    for (const url of this.imageUrls) {
-      for (const type of missionDetail.imageMissionTypes) {
-        let result: ImageResult;
-        //confirm if results exists
-        if (instanceDetail.imageResults) {
-          result = instanceDetail.imageResults.find(x => x.url === url && x.imageJob && x.imageJob.type === type);
-        } else {
-          result = null;
-        }
+        const result: ImageResult = instanceDetail.imageResults && instanceDetail.imageResults.find(x => x.url === asset.url && x.imageJob && x.imageJob.type === type);
         if (result) { //existing job, push in
           this.currentNotations.push({
-            imageUrl: url,
+            imageAsset: asset,
             job: result.imageJob,
           });
           // this.workIndex++; // existing job, resume progress
         } else {
           this.currentNotations.push({
-            imageUrl: url,
+            imageAsset: asset,
             job: {type: type}
           });
         }
       }
     }
+
+    // this.toFirstNotComplete();
   }
 
 

@@ -4,7 +4,6 @@ import { configure } from "mobx";
 import { App } from "./pages/root";
 
 import '../assets/less/antMotion_style.less';
-
 // enable MobX strict mode
 configure({enforceActions: true});
 

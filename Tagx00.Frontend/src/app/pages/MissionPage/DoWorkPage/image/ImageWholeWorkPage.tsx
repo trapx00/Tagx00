@@ -1,16 +1,13 @@
 import React from "react";
 import { ImageMissionType } from "../../../../models/mission/image/ImageMission";
-import { ImageNotation } from "./ImageWorkPageController";
 import { WholeJob } from "../../../../models/instance/image/job/WholeJob";
 import { TagDescriptionTuple } from "../../../../models/instance/TagTuple";
-import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
-import { TagDescriptionTuplePanel } from "../../../../components/ImageWork/TagDescriptionPanel";
-import { ProgressController } from "../../../../components/ImageWork/ProgressController";
+import { ProgressController } from "../../../../components/Mission/WorkPageSuite/ProgressController";
 import { toJS } from "mobx";
-import { ImageWorkPageProps, ImageWorkPageStates } from "./shared";
+import { ImageNotation, ImageWorkPageProps, ImageWorkPageStates } from "./shared";
 import { ImageWorkPageLayout } from "./ImageWorkPageLayout";
-import { MissionType } from "../../../../models/mission/Mission";
 import { ImageMissionTipCard } from "../../../../components/Mission/MissionTipCard/ImageMissionTipCard";
+import { TagDescriptionTuplePanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel";
 
 function initializeNotation(notation: ImageNotation<WholeJob>) {
   if (!(notation.job && notation.job.tuple)) {
@@ -58,7 +55,7 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
     this.forceUpdate();
   };
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
   };
@@ -76,29 +73,38 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
 
   render() {
 
-    const { imageUrl, job } = this.state.notation;
-    const { missionDetail, controllerProps } = this.props;
-    return <ImageWorkPageLayout imageUrl={imageUrl} imageWidth={this.state.width} imageHeight={this.state.height} setScale={this.setScale}>
+    const {imageAsset, job} = this.state.notation;
+    const {missionDetail, controllerProps} = this.props;
+    return <ImageWorkPageLayout imageUrl={imageAsset.url}
+                                imageWidth={this.state.width}
+                                imageHeight={this.state.height}
+                                setScale={this.setScale}
+                                saveProgress={this.saveProgress}
+                                next={this.goNext}
+                                previous={this.props.controllerProps.goPrevious}
+    >
       <>
-        <img onLoad={this.onImageLoad} src={imageUrl}/>
+        <img onLoad={this.onImageLoad} src={imageAsset.url}/>
       </>
       <>
         <ImageMissionTipCard imageMissionType={job.type}
-                             tags={missionDetail.publicItem.allowedTags}
+                             tagConfTuples={imageAsset.tagConfTuple}
                              allowCustomTag={missionDetail.publicItem.allowCustomTag}
                              title={missionDetail.publicItem.title}
         />
-          <TagDescriptionTuplePanel tuple={job.tuple}
-                                    onChange={this.onTupleChange}
-                                    readonlyMode={this.props.readonlyMode}
-                                    allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                    tags={missionDetail.publicItem.allowedTags}
-          />
-          <ProgressController {...this.props.controllerProps}
-            goNext={this.goNext}
-            readonlyMode={this.props.readonlyMode}
-            saveProgress={this.submit}
-          />
+        <TagDescriptionTuplePanel tuple={job.tuple}
+                                  onChange={this.onTupleChange}
+                                  readonlyMode={this.props.readonlyMode}
+                                  allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                                  tagConfTuples={imageAsset.tagConfTuple}
+        />
+      </>
+      <>
+        <ProgressController {...this.props.controllerProps}
+                            goNext={this.goNext}
+                            readonlyMode={this.props.readonlyMode}
+                            saveProgress={this.saveProgress}
+        />
       </>
     </ImageWorkPageLayout>
   }

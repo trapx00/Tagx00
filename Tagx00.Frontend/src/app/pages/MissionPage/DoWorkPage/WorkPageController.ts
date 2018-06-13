@@ -1,6 +1,5 @@
 import { MissionDetail } from "../../../models/mission/MissionDetail";
 import { InstanceDetail } from "../../../models/instance/InstanceDetail";
-import { TextNotation } from "./text/TextWorkPageController";
 import { action, computed, observable, runInAction, toJS } from "mobx";
 import { WorkerService } from "../../../api/WorkerService";
 
@@ -43,6 +42,19 @@ export abstract class WorkPageController<M extends MissionDetail, I extends Inst
       return this.currentNotations[this.workIndex];
     }
 
+  }
+
+  abstract judgeJobComplete(job: J): boolean;
+
+  @action toFirstNotComplete() {
+
+    const index = this.currentNotations.findIndex(x => !this.judgeJobComplete(x.job));
+
+    if (index === -1) {
+      this.workIndex = this.currentNotations.length-1;
+    } else {
+      this.workIndex = index;
+    }
   }
 
   @action nextWork() {

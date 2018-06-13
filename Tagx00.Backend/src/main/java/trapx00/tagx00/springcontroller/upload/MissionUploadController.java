@@ -79,59 +79,86 @@ public class MissionUploadController {
     }
 
     @Authorization(value = "发布者")
+
     @ApiOperation(value = "发布者上传本次任务音频文件", notes = "发布者上传本次任务的音频文件，传输时限为10min。存在本地，不要发到云端。")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "multipartFile", value = "音频文件", required = true, dataType = "MultipartFile"),
-        @ApiImplicitParam(name = "order", value = "音频文件顺序", required = true, dataType = "int"),
-        @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "multipartFile", value = "音频文件", required = true, dataType = "MultipartFile"),
+            @ApiImplicitParam(name = "order", value = "音频文件顺序", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
     })
     @RequestMapping(value = "/upload/mission/audio/{missionId}", method = RequestMethod.POST)
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Audio uploaded", response = UploadMissionAudioResponse.class),
+            @ApiResponse(code = 201, message = "Audio uploaded", response = UploadMissionAudioResponse.class),
 
-        @ApiResponse(code = 403, message = "Upload session timed out", response = WrongResponse.class),
-        @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
-        @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
+            @ApiResponse(code = 403, message = "Upload session timed out", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
+            @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
-    public ResponseEntity<Response> uploadAudio(@PathVariable("missionId") String missionId, @RequestParam("file") MultipartFile file, @RequestParam("order") int order) {
-        return null;
+    public ResponseEntity<Response> uploadAudio(@PathVariable("missionId") String missionId, @RequestParam("files[]") MultipartFile file, @RequestParam("order") int order) {
+        try {
+            return new ResponseEntity<>(missionUploadBlService.uploadAudio(missionId, file, order), HttpStatus.CREATED);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionIdDoesNotExistException e) {
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @Authorization(value = "发布者")
     @ApiOperation(value = "发布者上传本次任务视频文件", notes = "发布者上传本次任务的视频文件，传输时限为10min。存在本地，不要发到云端。")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "multipartFile", value = "视频文件", required = true, dataType = "MultipartFile"),
-        @ApiImplicitParam(name = "order", value = "视频文件顺序", required = true, dataType = "int"),
-        @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "multipartFile", value = "视频文件", required = true, dataType = "MultipartFile"),
+            @ApiImplicitParam(name = "order", value = "视频文件顺序", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
     })
     @RequestMapping(value = "/upload/mission/video/{missionId}", method = RequestMethod.POST)
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Video uploaded", response = UploadMissionVideoResponse.class),
-        @ApiResponse(code = 403, message = "Upload session timed out", response = WrongResponse.class),
-        @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
-        @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
+            @ApiResponse(code = 201, message = "Video uploaded", response = UploadMissionVideoResponse.class),
+            @ApiResponse(code = 403, message = "Upload session timed out", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
+            @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
-    public ResponseEntity<Response> uploadVideo(@PathVariable("missionId") String missionId, @RequestParam("file") MultipartFile file, @RequestParam("order") int order) {
-        return null;
+    public ResponseEntity<Response> uploadVideo(@PathVariable("missionId") String missionId, @RequestParam("files[]") MultipartFile file, @RequestParam("order") int order) {
+        try {
+            return new ResponseEntity<>(missionUploadBlService.uploadVideo(missionId, file, order), HttpStatus.CREATED);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
+        } catch (MissionIdDoesNotExistException e) {
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @Authorization(value = "发布者")
     @ApiOperation(value = "发布者上传本次3D任务骨架和贴图文件", notes = "发布者上传本次任务的3D任务骨架（.obj）和贴图文件(.mtl)，传输时限为10min。" +
-        "前端将会按照1个obj文件1个mtl文件的顺序来发送，同一个模型的文件名相同，按照order和文件名和扩展名区分文件。存在本地，不要发到云端。")
+            "前端将会按照1个obj文件1个mtl文件的顺序来发送，同一个模型的文件名相同，按照order和文件名和扩展名区分文件。存在本地，不要发到云端。")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "multipartFile", value = "视频文件", required = true, dataType = "MultipartFile"),
-        @ApiImplicitParam(name = "order", value = "视频文件顺序", required = true, dataType = "int"),
-        @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
+            @ApiImplicitParam(name = "multipartFile", value = "视频文件", required = true, dataType = "MultipartFile"),
+            @ApiImplicitParam(name = "order", value = "视频文件顺序", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "missionId", value = "任务ID", required = true, dataType = "int", paramType = "path")
     })
     @RequestMapping(value = "/upload/mission/3d/{missionId}", method = RequestMethod.POST)
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "3D mission upload uploaded", response = UploadMissionThreeDimensionResponse.class),
-        @ApiResponse(code = 403, message = "Upload session timed out", response = WrongResponse.class),
-        @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
-        @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
+            @ApiResponse(code = 201, message = "3D mission upload uploaded", response = UploadMissionThreeDimensionResponse.class),
+            @ApiResponse(code = 403, message = "Upload session timed out", response = WrongResponse.class),
+            @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
+            @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
-    public ResponseEntity<Response> upload3D(@PathVariable("missionId") String missionId, @RequestParam("file") MultipartFile file, @RequestParam("order") int order) {
-        return null;
+    public ResponseEntity<Response> upload3D(@PathVariable("missionId") String missionId,
+                                             @RequestParam("mtl") MultipartFile mtlFile,
+                                             @RequestParam("obj") MultipartFile objFile,
+                                             @RequestParam("order") int order) {
+        try {
+            return new ResponseEntity<>(missionUploadBlService.uploadThreeDimension(missionId, mtlFile, objFile, order), HttpStatus.CREATED);
+        } catch (SystemException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (MissionIdDoesNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
     }
+
 
 }

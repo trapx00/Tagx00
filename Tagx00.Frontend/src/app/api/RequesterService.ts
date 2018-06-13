@@ -13,7 +13,6 @@ import { MissionRequestQueryResponse } from "../models/response/mission/MissionR
 import { MissionChargeResponse } from "../models/response/mission/MissionChargeResponse";
 import { AudioUploadResponse } from "../models/mission/audio/AudioUploadResponse";
 import { VideoUploadResponse } from "../models/mission/video/VideoUploadResponse";
-import { ThreeDimensionModelUrl } from "../models/mission/3d/3dModelUrl";
 
 @Injectable
 export class RequesterService {
@@ -74,7 +73,7 @@ export class RequesterService {
     return res.response;
   }
 
-  async uploadThreeDimensionFile(missionId: string, formData: FormData, order: number, isCover: boolean, token: string): Promise<ThreeDimensionModelUrl> {
+  async uploadThreeDimensionFile(missionId: string, formData: FormData, order: number, isCover: boolean, token: string): Promise<string> {
     const res = await this.http.sendFile(
       formData,
       `/upload/mission/3d/${missionId}`,

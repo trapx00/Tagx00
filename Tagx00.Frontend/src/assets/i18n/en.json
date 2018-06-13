@@ -2,6 +2,24 @@
   "common": {
     "loading": "Loading..."
   },
+  "home": {
+    "enter": "Start",
+    "productDescription": "A data tagging system",
+    "function": {
+      "title": "Tag Mission",
+      "IMAGE": "Image",
+      "TEXT":"Text",
+      "AUDIO": "Audio",
+      "VIDEO": "Video",
+      "THREE_DIMENSION": "3D"
+    },
+    "feature": {
+      "title": "Features",
+      "responsiveness": "Responsiveness",
+      "shortcut": "Keyboard Shortcuts",
+      "tagRecommendation": "Tag Recommendation"
+    }
+  },
   "navbar": {
     "home": "Home",
     "browse": "Browse",

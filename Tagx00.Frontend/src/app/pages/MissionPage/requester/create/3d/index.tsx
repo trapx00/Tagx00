@@ -76,14 +76,15 @@ export default class ThreeDimensionMissionCreateInfoForm extends React.Component
       const coverFormData = new FormData();
       coverFormData.append("files[]", this.info.coverImage as any);
 
-      const coverUrl = await this.requesterService.uploadThreeDimensionFile(id, coverFormData, 1, true, token);
+      const coverUrl = await this.requesterService.uploadImageFile(id, coverFormData, 1, true, token);
     }
 
     this.setStage(UploadStage.Attachments);
 
     for (let i = 0; i < this.info.threeDimensions.length; i++) {
       const threeDimensionFormData = new FormData();
-      threeDimensionFormData.append("files[]", this.info.threeDimensions[i] as any);
+      threeDimensionFormData.append("mtl", this.info.threeDimensions[i].mtl as any);
+      threeDimensionFormData.append("obj", this.info.threeDimensions[i].obj as any);
       const img = await this.requesterService.uploadThreeDimensionFile(id, threeDimensionFormData, i + 2, false, token);
       console.log(img);
     }
@@ -96,7 +97,7 @@ export default class ThreeDimensionMissionCreateInfoForm extends React.Component
   render() {
     const locale: any = new Proxy({}, {
       get: (target, key) => {
-        return this.localeStore.get(`${ID_PREFIX}fields.THREE_DIMENSION.${key}`) as string;
+        return this.localeStore.get(`${ID_PREFIX}fields.THREE_DIMENSION.${key as string}`) as string;
       }
     });
     return <MissionCreateInfoForm info={this.info}

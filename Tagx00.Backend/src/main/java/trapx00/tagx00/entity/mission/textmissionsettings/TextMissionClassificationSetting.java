@@ -9,7 +9,6 @@ import java.util.List;
 
 @Embeddable
 public class TextMissionClassificationSetting extends TextMissionSetting {
-
     @Column(name = "classes")
     @ElementCollection(targetClass = String.class)
     private List<String> classes;

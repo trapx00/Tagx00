@@ -5,8 +5,8 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import trapx00.tagx00.data.dao.mission.ImageMissionDao;
-import trapx00.tagx00.entity.mission.ImageMission;
+import trapx00.tagx00.data.dao.mission.MissionDao;
+import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 
 import java.util.Date;
@@ -15,7 +15,7 @@ import java.util.Date;
 @Component
 public class MissionStateAspect {
     @Autowired
-    private ImageMissionDao imageMissionDao;
+    private MissionDao missionDao;
 
     @Pointcut("execution(public * trapx00.tagx00.data.mission.*.*(..))")
     public void missionAccess() {
@@ -27,11 +27,11 @@ public class MissionStateAspect {
     }
 
     private void updateAllMissionState() {
-        for (ImageMission imageMission : imageMissionDao.findAll()) {
-            MissionState missionState = getMissionState(imageMission.getStart(), imageMission.getEnd());
-            if (missionState != imageMission.getMissionState()) {
-                imageMission.setMissionState(missionState);
-                imageMissionDao.save(imageMission);
+        for (Mission mission : missionDao.findAll()) {
+            MissionState missionState = getMissionState(mission.getStart(), mission.getEnd());
+            if (missionState != mission.getMissionState()) {
+                mission.setMissionState(missionState);
+                missionDao.save(mission);
             }
         }
     }

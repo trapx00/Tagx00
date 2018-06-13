@@ -31,7 +31,8 @@ public enum MissionType {
     AUDIO("AUDIO", AudioMissionProperties.class, AudioInstanceDetailVo.class, AudioMissionDetailVo.class, AudioMissionPublicItemVo.class),
     VIDEO("VIDEO", VideoMissionProperties.class, VideoInstanceDetailVo.class, VideoMissionDetailVo.class, VideoMissionPublicItemVo.class),
     THREE_DIMENSION("THREE_DIMENSION", ThreeDimensionMissionProperties.class,
-        ThreeDimensionInstanceDetailVo.class, ThreeDimensionMissionDetailVo.class, ThreeDimensionMissionPublicItemVo.class);
+            ThreeDimensionInstanceDetailVo.class, ThreeDimensionMissionDetailVo.class, ThreeDimensionMissionPublicItemVo.class);
+
 
     public final Class<? extends MissionProperties> propertiesClass;
     public final Class<? extends InstanceDetailVo> instanceDetailVoClass;
@@ -45,5 +46,25 @@ public enum MissionType {
         this.instanceDetailVoClass = instanceDetailVoClass;
         this.missionDetailVoClass = missionDetailVoClass;
         this.missionPublicItemVoClass = missionPublicItemVoClass;
+    }
+
+    public Class<? extends MissionProperties> getPropertiesClass() {
+        return propertiesClass;
+    }
+
+    public Class<? extends InstanceDetailVo> getInstanceDetailVoClass() {
+        return instanceDetailVoClass;
+    }
+
+    public Class<? extends MissionDetailVo> getMissionDetailVoClass() {
+        return missionDetailVoClass;
+    }
+
+    public Class<? extends MissionPublicItemVo> getMissionPublicItemVoClass() {
+        return missionPublicItemVoClass;
+    }
+
+    public String getName() {
+        return name;
     }
 }

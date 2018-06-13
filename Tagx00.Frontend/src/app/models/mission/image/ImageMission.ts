@@ -1,5 +1,6 @@
 import { MissionDetail } from "../MissionDetail";
 import { ImageMissionPublicItem } from "./ImageMissionPublicItem";
+import { MissionAsset } from "../MissionAsset";
 
 
 export enum ImageMissionType {
@@ -9,6 +10,6 @@ export enum ImageMissionType {
 }
 
 export interface ImageMissionDetail extends MissionDetail<ImageMissionPublicItem> {
-  imageUrls: string[];
-  imageMissionTypes: ImageMissionType[];
+  missionAssets: MissionAsset[];
+  requesterTags: string[];
 }

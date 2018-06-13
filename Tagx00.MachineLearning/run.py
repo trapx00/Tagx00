@@ -21,5 +21,12 @@ def extractKeyWord():
     return jsonify({'keys': result})
 
 
+@app.route('/getRecommendTag', methods=['POST'])
+def getRecommendTag():
+    data = json.loads(request.data.decode('utf-8'))
+    result = pickup.pickup(data['content'])
+    return jsonify({'keys': result})
+
+
 if __name__ == '__main__':
     app.run(port=8888)

@@ -5,8 +5,8 @@ import { TextInstanceDetail } from "../../../../models/instance/text/TextInstanc
 import { TextMissionDetail } from "../../../../models/mission/text/TextMissionDetail";
 import { Inject } from "react.di";
 import { WorkerService } from "../../../../api/WorkerService";
-import { TextNotation, TextWorkPageController } from "./TextWorkPageController";
-import { WorkPage, WorkPageProps } from "../WorkPage";
+import { TextWorkPageController } from "./TextWorkPageController";
+import { RootWorkPageProps, WorkPage, WorkPageProps } from "../WorkPage";
 import { TextJob } from "../../../../models/instance/text/job/TextJob";
 import {
   TextMissionClassificationSetting,
@@ -15,15 +15,14 @@ import {
 } from "../../../../models/mission/text/TextMissionProperties";
 import { TextKeywordsWorkPage } from "./TextKeywordsWorkPage";
 import { TextClassificationWorkPage } from "./TextClassificationWorkPage";
+import { TextNotation } from "./shared";
+import { observer } from "mobx-react";
 
-interface Props {
-  instanceDetail: TextInstanceDetail;
-  missionDetail: TextMissionDetail;
-  readonlyMode: boolean;
+interface Props extends RootWorkPageProps<TextMissionDetail, TextInstanceDetail>{
 
-  jumpBack(): void;
 }
 
+@observer
 export class TextWorkPage extends React.Component<Props, {}> {
 
   @Inject controller: TextWorkPageController = new TextWorkPageController(this.props.missionDetail, this.props.instanceDetail);

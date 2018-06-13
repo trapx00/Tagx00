@@ -8,4 +8,30 @@ import javax.persistence.Embeddable;
 public class AudioResult extends WorkResult {
     private String audioUrl;
     private AudioJob job;
+
+    public AudioResult() {
+
+    }
+
+    public AudioResult(String workResultId, boolean isDone, String audioUrl, AudioJob job) {
+        super(workResultId, isDone);
+        this.audioUrl = audioUrl;
+        this.job = job;
+    }
+
+    public String getAudioUrl() {
+        return audioUrl;
+    }
+
+    public void setAudioUrl(String audioUrl) {
+        this.audioUrl = audioUrl;
+    }
+
+    public AudioJob getJob() {
+        return job;
+    }
+
+    public void setJob(AudioJob job) {
+        this.job = job;
+    }
 }

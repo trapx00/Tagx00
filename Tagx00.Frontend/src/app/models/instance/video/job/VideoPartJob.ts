@@ -1,5 +1,6 @@
 import { VideoJob } from "./VideoJob";
 import { TagDescriptionTuple } from "../../TagTuple";
+import { VideoMissionType } from "../../../mission/video/VideoMission";
 
 export interface VideoPartTuple {
   startOffset: number;
@@ -8,5 +9,6 @@ export interface VideoPartTuple {
 }
 
 export interface VideoPartJob extends VideoJob {
-  tuple: VideoPartTuple;
+  type: VideoMissionType.PART;
+  tupleList: VideoPartTuple[];
 }

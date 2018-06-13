@@ -17,8 +17,8 @@ const ID_PREFIX = "browserMissionList.";
 
 function processTags(topics: string[], missionType: string) {
   return [
-    <Tag color="#108ee9"><LocaleMessage id={`${ID_PREFIX}missionType.${missionType}`}/></Tag>,
-    ...topics.map(x => <Tag color="geekblue">{x}</Tag>)
+    <Tag key={"_type"} color="#108ee9"><LocaleMessage id={`${ID_PREFIX}missionType.${missionType}`}/></Tag>,
+    ...topics.map(x => <Tag key={x} color="geekblue">{x}</Tag>)
   ];
 }
 
@@ -27,11 +27,16 @@ const Row = styled.div`
   align-items: center;
 `;
 
-const ImgContainer = styled.div`
+const Img = styled.img`
   margin-right: 16px;
+  width: 30%;
+  @media (max-width: 500px) {
+    width: 40%;
+  }
 `;
 
 const MetaContainer = styled.div`
+  min-width: 300px;
 `;
 
 
@@ -50,15 +55,12 @@ export class MissionItem extends React.PureComponent<Props, {}> {
   render() {
     const {item} = this.props;
     const toLink = `/mission?missionId=${this.props.item.missionId}`;
-    return <Row>
-        <ImgContainer>
-          <img width={272} alt="logo"
-             src={item.coverUrl}/>
-        </ImgContainer>
+    return <Row style={{marginBottom: "8px"}}>
+          <Img alt="logo" src={item.coverUrl}/>
       <MetaContainer>
         <List.Item
           actions={[
-            <Button type="primary" icon="info" onClick={this.jumpToDetail}>
+            <Button key={"seeDetail"} type="primary" icon="info" onClick={this.jumpToDetail}>
               <LocaleMessage id={ID_PREFIX + "seeDetail"}/>
             </Button>
           ]}

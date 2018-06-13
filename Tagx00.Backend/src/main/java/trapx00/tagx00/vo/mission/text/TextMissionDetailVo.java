@@ -10,6 +10,11 @@ import java.util.List;
 
 public class TextMissionDetailVo extends MissionDetailVo {
 
+
+    {
+        System.out.println(123);
+    }
+
     private List<String> tokens;
 
     private List<TextMissionSetting> settings;

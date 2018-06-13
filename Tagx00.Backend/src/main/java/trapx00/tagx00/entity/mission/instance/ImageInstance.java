@@ -11,8 +11,8 @@ import java.util.List;
 
 @Entity
 public class ImageInstance extends Instance {
-    @Column(name = "imageResults")
-    @ElementCollection(targetClass = ImageResult.class)
+
+    @Transient
     private List<ImageResult> imageResults;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_missionId")
@@ -37,5 +37,13 @@ public class ImageInstance extends Instance {
 
     public void setImageResults(List<ImageResult> imageResults) {
         this.imageResults = imageResults;
+    }
+
+    public ImageMission getImageMission() {
+        return imageMission;
+    }
+
+    public void setImageMission(ImageMission imageMission) {
+        this.imageMission = imageMission;
     }
 }

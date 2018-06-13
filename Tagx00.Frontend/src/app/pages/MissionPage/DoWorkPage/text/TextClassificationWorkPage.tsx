@@ -1,21 +1,17 @@
 import React from 'react';
 import { TextClassificationJob } from "../../../../models/instance/text/job/TextClassificationJob";
-import { TextNotation } from "./TextWorkPageController";
-import { TextWorkPageProps, TextWorkPageState } from "./shared";
+import { TextNotation, TextWorkPageProps, TextWorkPageState } from "./shared";
 import {
-  TextMissionClassificationSetting, TextMissionKeywordsSetting,
+  TextMissionClassificationSetting,
   TextMissionType
 } from "../../../../models/mission/text/TextMissionProperties";
 import { TagTuple } from "../../../../models/instance/TagTuple";
-import { MissionType } from "../../../../models/mission/Mission";
 import { toJS } from "mobx";
 import { WorkPageLayout } from "../WorkPageLayout";
-import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
-import { TagPanel } from "../../../../components/ImageWork/TagDescriptionPanel/TagPanel";
-import { ProgressController } from "../../../../components/ImageWork/ProgressController";
+import { ProgressController } from "../../../../components/Mission/WorkPageSuite/ProgressController";
 import { TextReader } from "./TextReader";
 import { TextMissionTipCard } from "../../../../components/Mission/MissionTipCard/TextMissionTipCard";
-import { TextKeywordsJob } from "../../../../models/instance/text/job/TextKeywordsJob";
+import { TagPanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel/TagPanel";
 
 interface Props extends TextWorkPageProps<TextClassificationJob, TextMissionClassificationSetting>{
 
@@ -60,7 +56,7 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
     this.forceUpdate();
   };
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
   };
@@ -71,7 +67,12 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
     const { job } = this.state.notation;
     const { missionDetail, controllerProps } = this.props;
     // console.log(this.props.setting.classes);
-    return <WorkPageLayout >
+    return <WorkPageLayout
+      next={this.goNext}
+      previous={this.props.controllerProps.goPrevious}
+      saveProgress={this.saveProgress}
+
+    >
       <>
         <TextReader textToken={this.state.notation.textToken}/>
       </>
@@ -85,12 +86,14 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
                   onChange={this.onTagChange}
                   readonly={this.props.readonlyMode}
                   allowCustomTag={false}
-                  tags={this.props.notation.setting.classes}
+                  tagConfTuples={this.props.notation.setting.classes.map(x=>({tag: x, confidence: 1}))}
         />
+      </>
+      <>
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}
-                            saveProgress={this.submit}
+                            saveProgress={this.saveProgress}
         />
       </>
     </WorkPageLayout>
