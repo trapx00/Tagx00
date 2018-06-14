@@ -1,0 +1,4 @@
+jieba
+tensorflow
+numpy
+flask

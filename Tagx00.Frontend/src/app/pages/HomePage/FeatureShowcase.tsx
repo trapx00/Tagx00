@@ -25,8 +25,8 @@ const ItemContainer = styled(QueueAnim)`
    justify-content: center;
    flex-wrap: wrap;
    
-   padding-top: 64px;
-   padding-bottom: 64px;
+   padding-top: 96px;
+   padding-bottom: 96px;
    
   & > * {
     flex-grow: 1;

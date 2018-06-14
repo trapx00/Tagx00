@@ -190,16 +190,16 @@ class Tag:
         print(accuracy)
 
     def save_models(self):
-        self.saver.save(self.sess, "/data/trainmodels/model.ckpt")
+        self.saver.save(self.sess, "./data/trainmodels/model.ckpt")
 
     def load_models(self):
         self.saver.restore(self.sess,
-                           "/Users/apple/Documents/workspace/java/SE3/Tagx00.MachineLearning/data/trainmodels/model.ckpt")
+                           "./data/trainmodels/model.ckpt")
 
     @staticmethod
     def load_train_data():
         train_data = []
-        with open("/Users/apple/Documents/workspace/java/SE3/Tagx00.MachineLearning/data/proval/train.txt",
+        with open("./data/proval/train.txt",
                   "r") as file:
             all_data = file.readlines()
             for j in range(all_data.__len__()):
@@ -222,7 +222,7 @@ class Tag:
     @staticmethod
     def load_test_data():
         test_data = []
-        with open("/Users/apple/Documents/workspace/java/SE3/Tagx00.MachineLearning/data/proval/test.txt", "r") as file:
+        with open("./data/proval/test.txt", "r") as file:
             all_data = file.readlines()
             for j in range(all_data.__len__()):
                 data = json.loads(all_data[j].replace('\n', ""))
