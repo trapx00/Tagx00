@@ -11,6 +11,7 @@ import java.util.List;
 public class ImageMissionDetailVo extends MissionDetailVo {
 
     private List<MissionAsset> missionAssets;
+    private List<String> requesterTags;
 
     public ImageMissionDetailVo() {
     }

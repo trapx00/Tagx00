@@ -14,6 +14,7 @@ import { SvgImg } from "../../Common/SvgImg";
 import styled from "styled-components";
 import { flatten } from "../../../../utils/Array";
 import { SiderProps } from "antd/es/layout";
+import { LogoItem } from "../LogoItem";
 
 const {SubMenu} = Menu;
 const {Sider} = Layout;
@@ -21,21 +22,6 @@ const {Sider} = Layout;
 // import pages will result in circular dependency and I can't figure out why
 // hard-code is the only option :(
 
-const CenterDiv = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 12px;
-  height: 60px;
-  
-`;
-
-function LogoItem(props: {}) {
-  return <Link to={"/"}>
-    <CenterDiv>
-      <SvgImg width={120} height={35} filePath={"tag_x00_logo_landscape_with_texts.svg"}/>
-    </CenterDiv>
-  </Link>;
-}
 
 interface MySiderProps {
   shown: boolean;

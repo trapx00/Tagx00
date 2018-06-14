@@ -75,7 +75,7 @@ export class TextWorkPageController extends WorkPageController<TextMissionDetail
       }
     }
 
-    this.toFirstNotComplete();
+    // this.toFirstNotComplete();
   }
 
 

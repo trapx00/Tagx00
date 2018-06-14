@@ -25,31 +25,32 @@ export class ThreeDimensionUploadPanel extends React.Component<ThreeDimensionUpl
     const props: UploadProps = {
       action: '//jsonplaceholder.typicode.com/posts/',
       onRemove: (file) => {
-        const newList = this.props.fileList.filter(x => x[0] !== file);
+        const newList = this.props.fileList.filter(x => x.mtl.name.split(".")[0] !== file.name);
         this.props.onFileListChange(newList);
       },
       beforeUpload: (_, fileList) => {
-        const validFiles = fileList.filter(this.props.valid);
-        console.log(fileList);
+        const newArray= [...this.props.fileList];
 
-        const newArray= [];
-
-        fileList = fileList.filter(x=>
-          x.name.split('.').length>1 && (x.name.split('.')[1] == "mtl"||x.name.split('.')[1]=="obj")
-        );
-        const nameList = fileList.map(x=>x.name.split('.')[0])
+        fileList = fileList.filter(x=> {
+          const ext = x.name.split(".")[1];
+          return ext === "mtl" || ext === "obj";
+        });
 
         for(let i=0; i<fileList.length - 1; i++) {
            for(let j=i+1; j<fileList.length; j++) {
-             if(nameList[i] == nameList[j]) {
+             const filename1 = fileList[i].name.split(".");
+             const filename2 = fileList[j].name.split(".");
+             if(filename1[0] === filename2[0]) {
                newArray.push({
-                 mtl: fileList[i],
-                 obj: fileList[j]
-               })
+                 mtl: filename1[1] === "mtl" ? fileList[i] : fileList[j],
+                 obj: filename1[1] === "obj" ? fileList[i] : fileList[j]
+               });
                break;
              }
            }
         }
+
+        console.log(newArray);
 
         this.props.onFileListChange(newArray);
         return false;

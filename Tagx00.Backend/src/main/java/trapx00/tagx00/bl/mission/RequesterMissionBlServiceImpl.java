@@ -38,6 +38,7 @@ import trapx00.tagx00.vo.mission.video.VideoMissionProperties;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 @Service
 public class RequesterMissionBlServiceImpl implements RequesterMissionBlService {
@@ -211,7 +212,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(),
                         ((ImageMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
                         new ArrayList<>(((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags().keySet()),
-                        new ArrayList<>(),
+                        new HashSet<>(),
                         ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(),
                         new ArrayList<>());
             case TEXT:
@@ -219,7 +220,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         missionCreateVo.getTopics(), MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(),
                         "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(),
-                        missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), ((TextMissionProperties) missionCreateVo.getProperties()).getSettings(), new ArrayList<>()
+                        missionCreateVo.getMinimalWorkerLevel(), new HashSet<>(), ((TextMissionProperties) missionCreateVo.getProperties()).getSettings(), new ArrayList<>()
                 );
             case THREE_DIMENSION:
                 return new ThreeDimensionMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),

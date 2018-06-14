@@ -1,14 +1,19 @@
 import React, { ReactNode } from 'react';
-import { WorkPageLayout } from "../WorkPageLayout";
+import { LayoutShortcutProps, WorkPageLayout } from "../WorkPageLayout";
 import styled from "styled-components";
 
-interface Props {
+interface Props extends LayoutShortcutProps {
   children: ReactNode;
 }
 
 
 export function ThreeDimensionWorkPageLayout(props: Props) {
-  return <WorkPageLayout>
+  return <WorkPageLayout
+    next={props.next}
+    previous={props.previous}
+    saveProgress={props.saveProgress}
+
+  >
     {props.children[0]}
     {props.children[1]}
     {props.children[2]}

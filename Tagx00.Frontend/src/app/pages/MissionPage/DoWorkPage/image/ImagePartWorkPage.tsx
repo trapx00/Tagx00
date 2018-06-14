@@ -54,7 +54,7 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
     }
   }
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
   };
@@ -86,19 +86,8 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
   };
 
   removeSelected = () => {
-    if (this.state.selectedIndex >= 0) {
-      if (this.selectedTuple) {
-        this.setState({
-          notation: {
-            ...this.state.notation,
-            job: {
-              ...this.state.notation.job,
-              tuples: this.state.notation.job.tuples.filter(x => x !== this.selectedTuple)
-            }
-          }
-        });
-      }
-    }
+    this.state.notation.job.tuples = this.state.notation.job.tuples.filter(x => x !== this.selectedTuple);
+    this.forceUpdate();
   };
 
   getScale = () => {
@@ -117,12 +106,37 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
     this.scale = scale;
   };
 
+  moreHandler = (keyName: string) => {
+    if (this.props.readonlyMode) {
+      return;
+    }
+    if (!this.state.addingMode && keyName == "c" ) {
+      this.startAdding();
+    }
+
+    if (this.selectedTuple) {
+      if (keyName === "x") {
+        this.removeSelected();
+      }
+    }
+  };
+
+
   render() {
     const {imageAsset, job} = this.props.notation;
 
     const {missionDetail, controllerProps, readonlyMode} = this.props;
     const selectedTuple = this.selectedTuple;
-    return <ImageWorkPageLayout imageUrl={imageAsset.url} imageHeight={this.state.height} imageWidth={this.state.width} setScale={this.setScale}>
+    return <ImageWorkPageLayout imageUrl={imageAsset.url}
+                                imageHeight={this.state.height}
+                                imageWidth={this.state.width}
+                                setScale={this.setScale}
+                                saveProgress={this.saveProgress}
+                                next={this.goNext}
+                                previous={this.props.controllerProps.goPrevious}
+                                moreKey={["c","x"]}
+                                moreHandler={this.moreHandler}
+    >
         <>
           <RectanglePanel imageUrl={imageAsset.url}
                           tuples={this.state.notation.job.tuples}
@@ -159,7 +173,7 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
           <ProgressController {...this.props.controllerProps}
                               goNext={this.goNext}
                               readonlyMode={this.props.readonlyMode}
-                              saveProgress={this.submit}
+                              saveProgress={this.saveProgress}
           />
         </>
       </ImageWorkPageLayout>;

@@ -57,18 +57,42 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
     this.forceUpdate();
   };
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
+  };
+
+  onTagClicked = (word: string) => {
+    const tuples = this.state.notation.job.tagTuples;
+    if (!tuples.find(x => x.tag === word)){
+      this.state.notation.job.tagTuples.push({
+        tag: word,
+        descriptions: []
+      });
+      this.forceUpdate();
+    }else {
+      // remove the tag
+      this.state.notation.job.tagTuples = this.state.notation.job.tagTuples.filter(x => x.tag !== word);
+      this.forceUpdate();
+    }
   };
 
   render() {
 
     const { job } = this.state.notation;
     const { missionDetail, controllerProps } = this.props;
-    return <WorkPageLayout >
+    return <WorkPageLayout
+      next={this.goNext}
+      previous={this.props.controllerProps.goPrevious}
+      saveProgress={this.saveProgress}
+    >
       <>
-       <TextReader textToken={this.state.notation.textToken}/>
+       <TextReader textToken={this.state.notation.textToken}
+                   missionId={missionDetail.publicItem.missionId}
+                   addTag={this.onTagClicked}
+                   selectedTags={this.state.notation.job.tagTuples.map(x => x.tag)}
+
+       />
       </>
       <>
         <TextMissionTipCard
@@ -87,7 +111,7 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
         <ProgressController {...controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}
-                            saveProgress={this.submit}
+                            saveProgress={this.saveProgress}
         />
       </>
     </WorkPageLayout>

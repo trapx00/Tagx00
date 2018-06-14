@@ -97,7 +97,7 @@ export default class ThreeDimensionMissionCreateInfoForm extends React.Component
   render() {
     const locale: any = new Proxy({}, {
       get: (target, key) => {
-        return this.localeStore.get(`${ID_PREFIX}fields.THREE_DIMENSION.${key}`) as string;
+        return this.localeStore.get(`${ID_PREFIX}fields.THREE_DIMENSION.${key as string}`) as string;
       }
     });
     return <MissionCreateInfoForm info={this.info}

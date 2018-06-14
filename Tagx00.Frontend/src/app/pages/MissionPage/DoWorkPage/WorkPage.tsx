@@ -12,6 +12,7 @@ import { MissionDetail } from "../../../models/mission/MissionDetail";
 import { observer } from "mobx-react";
 import { ImageJob } from "../../../models/instance/image/job/ImageJob";
 import { CompleteModal } from "../../../components/Mission/WorkPageSuite/CompleteModal";
+import { LayoutShortcutProps } from "./WorkPageLayout";
 
 
 export interface RootWorkPageProps<M extends MissionDetail, I extends InstanceDetail> {

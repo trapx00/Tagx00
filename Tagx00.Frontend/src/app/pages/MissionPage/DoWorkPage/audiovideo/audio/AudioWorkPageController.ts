@@ -50,7 +50,7 @@ export class AudioWorkPageController extends WorkPageController<AudioMissionDeta
     this.audioUrls = missionDetail.audioUrls;
 
     for (const url of this.audioUrls) {
-      for (const type of missionDetail.publicItem.audioMissionTypes) {
+      for (const type of missionDetail.audioMissionTypes) {
 
         const result = instanceDetail.resultList
           && instanceDetail.resultList.find(x => x.audioUrl === url && x.job && x.job.type === type);
@@ -66,7 +66,7 @@ export class AudioWorkPageController extends WorkPageController<AudioMissionDeta
       }
     }
 
-    this.toFirstNotComplete();
+    // this.toFirstNotComplete();
   }
 
 }

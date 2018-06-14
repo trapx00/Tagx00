@@ -61,7 +61,7 @@ export class ThreeDimensionWorkPageController extends WorkPageController<ThreeDi
         }
     }
 
-    this.toFirstNotComplete();
+    // this.toFirstNotComplete();
   }
 
 }

@@ -68,6 +68,7 @@ export class WorkerService {
 
   }
 
+
   async getWorkerInfo(username: string): Promise<WorkerInfo> {
     const res = await this.http.fetch({
       path: `/account/worker/${username}`,

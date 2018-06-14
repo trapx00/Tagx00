@@ -6,6 +6,5 @@ import { VideoMissionType } from "./VideoMission";
 export interface VideoMissionPublicItem extends MissionPublicItem {
   allowCustomTag: boolean;
   tags: string[];
-  videoMissionTypes: VideoMissionType[];
   missionType: MissionType.VIDEO;
 }

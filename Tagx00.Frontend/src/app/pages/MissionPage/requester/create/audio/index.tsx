@@ -79,7 +79,7 @@ export default class AudioMissionCreateInfoForm extends React.Component<Props, {
       const coverFormData = new FormData();
       coverFormData.append("files[]", this.info.coverImage as any);
 
-      const coverUrl = await this.requesterService.uploadAudioFile(id, coverFormData, 1, true, token);
+      const coverUrl = await this.requesterService.uploadImageFile(id, coverFormData, 1, true, token);
     }
 
     this.setStage(UploadStage.Attachments);
@@ -99,7 +99,7 @@ export default class AudioMissionCreateInfoForm extends React.Component<Props, {
   render() {
     const locale: any = new Proxy({}, {
       get: (target, key) => {
-        return this.localeStore.get(`${ID_PREFIX}fields.AUDIO.${key}`) as string;
+        return this.localeStore.get(`${ID_PREFIX}fields.AUDIO.${key as string}`) as string;
       }
     });
     return <MissionCreateInfoForm info={this.info}

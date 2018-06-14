@@ -8,6 +8,7 @@ import trapx00.tagx00.vo.mission.image.ImageMissionType;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "imageMission")
@@ -18,8 +19,8 @@ public class ImageMission extends Mission {
     @ElementCollection(targetClass = String.class)
     private List<String> allowedTags;
     @Column(name = "missionAssets")
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private List<MissionAsset> missionAssets;
+    @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    private Set<MissionAsset> missionAssets;
     @Column(name = "imageMissionType")
     @ElementCollection(targetClass = ImageMissionType.class)
     private List<ImageMissionType> imageMissionTypes;
@@ -29,7 +30,7 @@ public class ImageMission extends Mission {
     public ImageMission() {
     }
 
-    public ImageMission(String missionId, String title, String description, List<String> topics, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, boolean allowCustomTag, List<String> allowedTags, List<MissionAsset> missionAssets, List<ImageMissionType> imageMissionTypes, List<ImageInstance> imageInstances) {
+    public ImageMission(String missionId, String title, String description, List<String> topics, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, boolean allowCustomTag, List<String> allowedTags, Set<MissionAsset> missionAssets, List<ImageMissionType> imageMissionTypes, List<ImageInstance> imageInstances) {
         super(missionId, title, description, topics, MissionType.IMAGE, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
         this.allowCustomTag = allowCustomTag;
         this.allowedTags = allowedTags;
@@ -54,11 +55,11 @@ public class ImageMission extends Mission {
         this.allowedTags = allowedTags;
     }
 
-    public List<MissionAsset> getMissionAssets() {
+    public Set<MissionAsset> getMissionAssets() {
         return missionAssets;
     }
 
-    public void setMissionAssets(List<MissionAsset> missionAssets) {
+    public void setMissionAssets(Set<MissionAsset> missionAssets) {
         this.missionAssets = missionAssets;
     }
 

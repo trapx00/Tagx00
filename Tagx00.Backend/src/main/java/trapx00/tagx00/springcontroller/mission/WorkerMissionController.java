@@ -17,12 +17,14 @@ import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.ImageIdentificationResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
+import trapx00.tagx00.response.mission.WordSegmentationResponse;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
+import java.io.IOException;
 import java.util.Date;
 
 @PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "')")
@@ -128,6 +130,28 @@ public class WorkerMissionController {
             return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Authorization(value = "工人")
+    @ApiOperation(value = "工人文本分词", notes = "工人文本分词")
+    @RequestMapping(value = "/mission/worker/wordSegment", method = RequestMethod.GET)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Returns segmented words.", response = WordSegmentationResponse.class),
+            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
+            @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
+    })
+    @ResponseBody
+    public ResponseEntity<Response> segmentWords(@RequestParam("missionId") String missionId, @RequestParam("token") String token) {
+        try {
+            return new ResponseEntity<>(workerMissionBlService.segmentWords(missionId, token), HttpStatus.OK);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new WrongResponse(10001, "system error"), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (MissionIdDoesNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @Authorization(value = "工人")
     @ApiOperation(value = "工人提交任务", notes = "工人用当前的进度提交任务,如果是空的就是接受任务")

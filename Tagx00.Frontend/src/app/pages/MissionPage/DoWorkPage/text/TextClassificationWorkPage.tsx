@@ -12,6 +12,9 @@ import { ProgressController } from "../../../../components/Mission/WorkPageSuite
 import { TextReader } from "./TextReader";
 import { TextMissionTipCard } from "../../../../components/Mission/MissionTipCard/TextMissionTipCard";
 import { TagPanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel/TagPanel";
+import { message } from 'antd';
+import { Inject } from "react.di";
+import { LocaleStore } from "../../../../stores/LocaleStore";
 
 interface Props extends TextWorkPageProps<TextClassificationJob, TextMissionClassificationSetting>{
 
@@ -30,6 +33,9 @@ function initializeNotation(notation: TextNotation<TextClassificationJob, TextMi
 
 
 export class TextClassificationWorkPage extends React.Component<Props, TextWorkPageState<TextClassificationJob, TextMissionClassificationSetting>> {
+
+  @Inject localeStore: LocaleStore;
+
   state = {
     notation: initializeNotation(this.props.notation),
     selectedIndex: -1,
@@ -56,9 +62,32 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
     this.forceUpdate();
   };
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
+  };
+
+  onTagClicked = (word: string) => {
+    const tuples = this.state.notation.job.tagTuples;
+    if (!tuples.find(x => x.tag === word)){
+      // not allow custom tag
+      if (this.state.notation.setting.classes.indexOf(word) >=0) {
+        this.state.notation.job.tagTuples.push({
+          tag: word,
+          descriptions: []
+        });
+        this.forceUpdate();
+      } else {
+        message.warning(
+          this.localeStore.get("drawingPad.textReader.notAllowed")
+        );
+      }
+
+    } else {
+      // remove the tag
+      this.state.notation.job.tagTuples = this.state.notation.job.tagTuples.filter(x => x.tag !== word);
+      this.forceUpdate();
+    }
   };
 
 
@@ -67,9 +96,18 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
     const { job } = this.state.notation;
     const { missionDetail, controllerProps } = this.props;
     // console.log(this.props.setting.classes);
-    return <WorkPageLayout >
+    return <WorkPageLayout
+      next={this.goNext}
+      previous={this.props.controllerProps.goPrevious}
+      saveProgress={this.saveProgress}
+
+    >
       <>
-        <TextReader textToken={this.state.notation.textToken}/>
+        <TextReader textToken={this.state.notation.textToken}
+                    missionId={missionDetail.publicItem.missionId}
+                    addTag={this.onTagClicked}
+                    selectedTags={this.state.notation.job.tagTuples.map(x => x.tag)}
+        />
       </>
       <>
         <TextMissionTipCard
@@ -88,7 +126,7 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}
-                            saveProgress={this.submit}
+                            saveProgress={this.saveProgress}
         />
       </>
     </WorkPageLayout>

@@ -11,9 +11,7 @@ import java.util.List;
 
 @Entity
 public class VideoInstance extends Instance {
-    @Column(name = "videoResults")
-    @Lob
-    @ElementCollection(targetClass = VideoResult.class)
+    @Transient
     private List<VideoResult> videoResults;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_missionId")

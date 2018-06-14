@@ -12,6 +12,7 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.UnsupportedEncodingException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,12 +29,13 @@ public class TextDataServiceImpl implements TextDataService {
      *
      * @param token the token of the text
      * @param text  the content of the text
+     * @param words
      * @return the token of the uploaded text
      */
     @Override
-    public String uploadText(String token, String text) throws SystemException {
+    public String uploadText(String token, String text, List<String> words) throws SystemException {
         try {
-            textTokenDao.save(new TextToken(token, new SerialBlob(text.getBytes("GBK"))));
+            textTokenDao.save(new TextToken(token, new SerialBlob(text.getBytes("GBK")), words));
         } catch (SQLException | UnsupportedEncodingException e) {
             e.printStackTrace();
             throw new SystemException();

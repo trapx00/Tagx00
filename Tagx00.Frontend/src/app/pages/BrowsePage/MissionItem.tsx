@@ -17,8 +17,8 @@ const ID_PREFIX = "browserMissionList.";
 
 function processTags(topics: string[], missionType: string) {
   return [
-    <Tag color="#108ee9"><LocaleMessage id={`${ID_PREFIX}missionType.${missionType}`}/></Tag>,
-    ...topics.map(x => <Tag color="geekblue">{x}</Tag>)
+    <Tag key={"_type"} color="#108ee9"><LocaleMessage id={`${ID_PREFIX}missionType.${missionType}`}/></Tag>,
+    ...topics.map(x => <Tag key={x} color="geekblue">{x}</Tag>)
   ];
 }
 
@@ -60,7 +60,7 @@ export class MissionItem extends React.PureComponent<Props, {}> {
       <MetaContainer>
         <List.Item
           actions={[
-            <Button type="primary" icon="info" onClick={this.jumpToDetail}>
+            <Button key={"seeDetail"} type="primary" icon="info" onClick={this.jumpToDetail}>
               <LocaleMessage id={ID_PREFIX + "seeDetail"}/>
             </Button>
           ]}

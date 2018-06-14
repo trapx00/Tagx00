@@ -7,12 +7,14 @@ import { VideoJob } from "../../../../../models/instance/video/job/VideoJob";
 import { VideoNotation } from "./shared";
 import { VideoPartWorkPage } from "./VideoPartWorkPage";
 import { VideoWholeWorkPage } from "./VideoWholeWorkPage";
+import { observer } from "mobx-react";
 
 
 interface Props extends RootWorkPageProps<VideoMissionDetail, VideoInstanceDetail> {
 
 }
 
+@observer
 export class VideoWorkPage extends React.Component<Props, {}> {
 
   controller = new VideoWorkPageController(this.props.missionDetail, this.props.instanceDetail);
