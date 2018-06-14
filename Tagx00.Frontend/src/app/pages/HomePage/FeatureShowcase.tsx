@@ -16,7 +16,7 @@ const Header = styled.h1`
   text-align: center;
 `;
 
-const ItemContainer = styled.div`
+const ItemContainer = styled(QueueAnim)`
   display: flex;
   max-width: 1000px;
   margin-right: auto;
@@ -47,21 +47,22 @@ const ItemContainer = styled.div`
  */
 
 function FeatureItem(props: { icon: string, id: string }) {
-  return <div>
+  return <li>
     <div><Icon type={props.icon}/></div>
     <div><LocaleMessage id={ID_PREFIX + "feature." + props.id}/></div>
-  </div>
+  </li>
 }
 
 export function FeatureShowcase(props: {}) {
   return <Container>
-    <QueueAnim delay={300} className="queue-simple">
-    <Header key={"1"}><LocaleMessage id={ID_PREFIX + "feature.title"}/></Header>
-    <ItemContainer key={"2"}>
-      <FeatureItem id={"responsiveness"} icon={"appstore"}/>
-      <FeatureItem id={"shortcut"} icon={"smile"}/>
-      <FeatureItem id={"tagRecommendation"} icon={"tags"}/>
+    <Header><LocaleMessage id={ID_PREFIX + "feature.title"}/></Header>
+    <ItemContainer type="bottom" component="ul" key="ul" interval={0}>
+
+      <FeatureItem key={"responsiveness"} id={"responsiveness"} icon={"appstore"}/>
+      <FeatureItem key={"shortcut"} id={"shortcut"} icon={"smile"}/>
+      <FeatureItem key={"tagRecommendation"} id={"tagRecommendation"} icon={"tags"}/>
+      <FeatureItem key={"i18n"} id={"i18n"} icon={"global"}/>
+
     </ItemContainer>
-    </QueueAnim>
   </Container>
 }

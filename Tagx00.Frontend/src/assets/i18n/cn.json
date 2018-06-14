@@ -17,7 +17,8 @@
       "title": "系统特性",
       "responsiveness": "响应式设计",
       "shortcut": "快捷键",
-      "tagRecommendation": "智能标注推荐"
+      "tagRecommendation": "智能标注推荐",
+      "i18n": "多语言"
     }
   },
   "footer": {
@@ -101,6 +102,11 @@
           "range": "从 {start}秒 到 {end}秒"
         }
       }
+    },
+    "textReader": {
+      "raw": "原文",
+      "segmented": "分词结果",
+      "notAllowed": "主题分类不支持自定义标签。"
     },
     "common": {
       "progressController": {

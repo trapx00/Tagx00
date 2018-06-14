@@ -18,6 +18,7 @@ import { ThreeDimensionModel } from "../../models/mission/3d/3dModel";
 
 import mtl from './3dmodel/mtl.txt';
 import obj from './3dmodel/obj.txt';
+import { flatten } from "../../../utils/Array";
 
 export const imgs = [
   "https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/0E/00/ChMkJlnJ4TOIAyeVAJqtjV-XTiAAAgzDAE7v40Amq2l708.jpg",
@@ -193,7 +194,7 @@ const threeDimensionMission = {
 export class MissionServiceMock extends MissionService {
 
   async getAMission(missionId: string): Promise<MissionDetail> {
-    return imageMission;
+    return textMission;
 
   }
 
@@ -233,6 +234,11 @@ export class MissionServiceMock extends MissionService {
       })
     );
 
+  }
+
+  async segmentWord(token: string,missionId: string): Promise<string[]> {
+    const base = ["我","是","古鲁特","！"];
+    return flatten([...new Array(100).keys()].map(x => base));
   }
 
 }
