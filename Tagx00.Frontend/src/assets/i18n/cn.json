@@ -2,6 +2,9 @@
   "common": {
     "loading": "加载中"
   },
+  "admin": {
+
+  },
   "home": {
     "enter": "开始体验",
     "productDescription": "一个数据标注系统",
@@ -505,6 +508,7 @@
         "search": {
           "placeholder": "任务ID"
         },
+        "missionIdNotFound": "任务ID不存在。",
         "instanceStateDiagram": {
           "total": "总实例数",
           "FINALIZED": "已结束实例",
