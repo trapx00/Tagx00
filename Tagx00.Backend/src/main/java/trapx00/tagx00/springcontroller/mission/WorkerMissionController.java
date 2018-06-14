@@ -24,6 +24,7 @@ import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
+import java.io.IOException;
 import java.util.Date;
 
 @PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "')")
@@ -142,9 +143,12 @@ public class WorkerMissionController {
     public ResponseEntity<Response> segmentWords(@RequestParam("missionId") String missionId, @RequestParam("token") String token) {
         try {
             return new ResponseEntity<>(workerMissionBlService.segmentWords(missionId, token), HttpStatus.OK);
-        } catch (SystemException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new WrongResponse(10001, "system error"), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (MissionIdDoesNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
         }
     }
 

@@ -10,6 +10,8 @@ import trapx00.tagx00.response.mission.WordSegmentationResponse;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
+import java.io.IOException;
+
 public interface WorkerMissionBlService {
     /**
      * query to get all instances of workers
@@ -65,9 +67,9 @@ public interface WorkerMissionBlService {
     /**
      * segment word
      *
-     * @param token
      * @param missionId
+     * @param token
      * @return
      */
-    WordSegmentationResponse segmentWords(int missionId, String token);
+    WordSegmentationResponse segmentWords(String missionId, String token) throws MissionIdDoesNotExistException, IOException, ClassNotFoundException;
 }

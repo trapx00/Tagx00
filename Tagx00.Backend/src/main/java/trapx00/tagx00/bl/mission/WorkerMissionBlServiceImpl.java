@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
+import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.entity.mission.MissionAsset;
 import trapx00.tagx00.entity.mission.instance.Instance;
@@ -28,10 +29,7 @@ import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
@@ -205,7 +203,12 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
     @Override
     public WordSegmentationResponse segmentWords(String missionId, String token) throws MissionIdDoesNotExistException, IOException, ClassNotFoundException {
         Mission mission = requesterMissionDataService.getMissionByMissionId(missionId);
-        for(MissionAsset)
-        return pythonService.separateSentence();
+        List<String> words = new ArrayList<>();
+        for (MissionAsset missionAsset : ((ImageMission) mission).getMissionAssets()) {
+            if (missionAsset.getUrl().equals(token)) {
+                words = missionAsset.getTagConfTuple().stream().collect(ArrayList::new, (list, tagConfTuple) -> list.add(tagConfTuple.getTag()), ArrayList::addAll);
+            }
+        }
+        return new WordSegmentationResponse(words);
     }
 }
