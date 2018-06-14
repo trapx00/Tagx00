@@ -14,6 +14,9 @@ public class MissionAsset {
     @Column(name = "tagConfTuple")
     @ElementCollection(targetClass = TagConfTuple.class)
     private List<TagConfTuple> tagConfTuple;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "mission_missionId")
+    private ImageMission imageMission;
 
     public MissionAsset() {
     }

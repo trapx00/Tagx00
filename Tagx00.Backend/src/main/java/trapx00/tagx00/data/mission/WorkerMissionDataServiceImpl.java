@@ -37,6 +37,7 @@ import trapx00.tagx00.vo.ml.RecommendTagsVo;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -611,7 +612,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         imageInstance.setImageResults(imageResults);
 
         ImageMission imageMission = imageInstance.getImageMission();
-        List<MissionAsset> missionAssets = imageMission.getMissionAssets();
+        List<MissionAsset> missionAssets = new ArrayList(imageMission.getMissionAssets());
         List<RecommendTagItem> recommendTagItems = new ArrayList<>();
         for (int i = 0; i < missionAssets.size(); i++) {
             recommendTagItems.add(new RecommendTagItem(missionAssets.get(i).getTagConfTuple()));
@@ -623,7 +624,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
             missionAsset.setTagConfTuple(resultRecommendTagItemList.get(i).getTagConfTuples());
             missionAssets.set(i, missionAsset);
         }
-        imageMission.setMissionAssets(missionAssets);
+        imageMission.setMissionAssets(new HashSet<>(missionAssets));
         imageInstance.setImageMission(imageMission);
         return imageInstance;
     }
