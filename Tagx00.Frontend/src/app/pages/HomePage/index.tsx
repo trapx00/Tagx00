@@ -107,8 +107,8 @@ export default class HomePage extends React.Component<{}, {}> {
           <LanguageSelector/>
         </Header>
         <ProductShowcase to={this.to}/>
-        <FunctionShowcase key={"3"}/>
-        <FeatureShowcase key={"4"}/>
+        <FunctionShowcase />
+        <FeatureShowcase/>
         <Footer/>
     </Page>
   }

@@ -62,6 +62,21 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
     this.props.submit(this.state.notation);
   };
 
+  onTagClicked = (word: string) => {
+    const tuples = this.state.notation.job.tagTuples;
+    if (!tuples.find(x => x.tag === word)){
+      this.state.notation.job.tagTuples.push({
+        tag: word,
+        descriptions: []
+      });
+      this.forceUpdate();
+    }else {
+      // remove the tag
+      this.state.notation.job.tagTuples = this.state.notation.job.tagTuples.filter(x => x.tag !== word);
+      this.forceUpdate();
+    }
+  };
+
   render() {
 
     const { job } = this.state.notation;
@@ -72,7 +87,12 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
       saveProgress={this.saveProgress}
     >
       <>
-       <TextReader textToken={this.state.notation.textToken}/>
+       <TextReader textToken={this.state.notation.textToken}
+                   missionId={missionDetail.publicItem.missionId}
+                   addTag={this.onTagClicked}
+                   selectedTags={this.state.notation.job.tagTuples.map(x => x.tag)}
+
+       />
       </>
       <>
         <TextMissionTipCard
