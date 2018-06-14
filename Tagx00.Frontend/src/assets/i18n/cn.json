@@ -505,6 +505,13 @@
         "search": {
           "placeholder": "任务ID"
         },
+        "instanceStateDiagram": {
+          "total": "总实例数",
+          "FINALIZED": "已结束实例",
+          "IN_PROGRESS": "正在进行中实例",
+          "SUBMITTED": "已提交实例",
+          "ABANDONED":"已放弃实例"
+        },
         "table": {
           "dateFormat": "YYYY/MM/DD HH:mm:SS",
           "instanceId": "实例ID",

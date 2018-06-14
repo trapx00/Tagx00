@@ -12,6 +12,7 @@ import styled from "styled-components";
 import { MissionInstanceState } from "../../../models/instance/MissionInstanceState";
 import { FinalizeModal } from "./finalize/FinalizeModal";
 import { FinalizeInfo, FinalizeInfoModal } from "./finalize/FinalizeInfoModal";
+import { InstanceStateDiagram } from "./InstanceStateDiagram";
 
 const {Search} = Input;
 
@@ -172,6 +173,7 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
       }
     ].map(x => ({...x, key: x.dataIndex, title: <LocaleMessage id={TABLE_TITLE_ID_PREFIX + x.title}/>}));
 
+
     return <Container>
       <h1><LocaleMessage id={ID_PREFIX + "title"}/></h1>
       <Localize replacements={placements.search}>
@@ -185,6 +187,11 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
       <Table rowKey={"instanceId"} columns={columns}
              dataSource={this.state.data}
              loading={this.state.loading}/>
+
+      { !this.state.loading &&
+        <InstanceStateDiagram instances={this.state.data}/>
+      }
+
       { this.state.finalizeModalState.shown
       && <FinalizeModal {...this.state.finalizeModalState} close={this.closeFinalizeModal} refresh={this.refresh}/>
       }

@@ -26,11 +26,10 @@ export class InstanceCyclePieChart extends React.Component<Props,{}>{
     const cols = {
       percent: {
         formatter: val => {
-          val = (val.toFixed(4) * 100) + '%';
-          return val;
+          return val * this.props.totalInstanceCount;
         }
       }
-    }
+    };
 
     const Chart = BizChart as any;
     const Axis = BizAxis as any;
