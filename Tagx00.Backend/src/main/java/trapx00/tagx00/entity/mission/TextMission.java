@@ -13,9 +13,9 @@ import java.util.List;
 @Entity
 @Table(name = "textMission")
 public class TextMission extends Mission {
-    @Column(name = "textUrls")
-    @ElementCollection(targetClass = String.class)
-    private List<String> textUrls;
+    @Column(name = "missionAssets")
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private List<MissionAsset> missionAssets;
     @Column(name = "textMissionSettings")
     @ElementCollection(targetClass = TextMissionSetting.class)
     private List<TextMissionSetting> textMissionSettings;
@@ -25,19 +25,19 @@ public class TextMission extends Mission {
     public TextMission() {
     }
 
-    public TextMission(String missionId, String title, String description, List<String> topics, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<String> textUrls, List<TextMissionSetting> textMissionSettings, List<TextInstance> textInstances) {
+    public TextMission(String missionId, String title, String description, List<String> topics, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, List<MissionAsset> missionAssets, List<TextMissionSetting> textMissionSettings, List<TextInstance> textInstances) {
         super(missionId, title, description, topics, MissionType.TEXT, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
-        this.textUrls = textUrls;
+        this.missionAssets = missionAssets;
         this.textMissionSettings = textMissionSettings;
         this.textInstances = textInstances;
     }
 
-    public List<String> getTextUrls() {
-        return textUrls;
+    public List<MissionAsset> getMissionAssets() {
+        return missionAssets;
     }
 
-    public void setTextUrls(List<String> textUrls) {
-        this.textUrls = textUrls;
+    public void setMissionAssets(List<MissionAsset> missionAssets) {
+        this.missionAssets = missionAssets;
     }
 
     public List<TextMissionSetting> getTextMissionSettings() {

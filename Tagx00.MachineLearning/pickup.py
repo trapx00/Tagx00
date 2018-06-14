@@ -9,5 +9,11 @@ class Pickup:
                                allowPOS=['ns', 'n', 'vn', 'v', 'nr', 'x'])
         return words
 
+    def separate(self, content):
+        result = []
+        for s in jieba.cut(content):
+            result.append(s)
+        return result
+
 
 pickup = Pickup()

@@ -50,7 +50,11 @@ public class DataCollectorServiceImpl implements DataCollectorService {
     }
 
     private ImageInstance getImageInstance(String instanceId) throws IOException, ClassNotFoundException {
-        ImageInstance imageInstance = imageInstanceDao.findImageInstanceByInstanceId(instanceId);
+        return getImageInstance(instanceId, imageInstanceDao.findImageInstanceByInstanceId(instanceId));
+    }
+
+    private static ImageInstance getImageInstance(String instanceId, ImageInstance imageInstanceByInstanceId) throws IOException, ClassNotFoundException {
+        ImageInstance imageInstance = imageInstanceByInstanceId;
         FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "image_instance" + "_" + instanceId);
         ObjectInputStream in = new ObjectInputStream(fileIn);
         List<ImageResult> imageResults = (List<ImageResult>) in.readObject();
