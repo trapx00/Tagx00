@@ -38,26 +38,26 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
 
     @Override
     public MissionDetailResponse getOneMissionDetail(String missionId) throws MissionIdDoesNotExistException, SystemException {
-        MissionDetailVo missionDetailVos;
+        MissionDetailVo missionDetailVo;
         try {
-            missionDetailVos = publicMissionDataService.getOneMissionDetail(missionId, MissionUtil.getType(missionId));
+            missionDetailVo = publicMissionDataService.getOneMissionDetail(missionId, MissionUtil.getType(missionId));
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new SystemException();
         }
-        return new MissionDetailResponse(missionDetailVos);
+        return new MissionDetailResponse(missionDetailVo);
     }
 
     @Override
-    public MissionStateResponse getNumofMissionState(String missionId) throws SystemException, MissionIdDoesNotExistException {
-        Instance[] instances=publicMissionDataService.getInstances();
-        int in_progress=0;
-        int submitted=0;
-        int finalized=0;
-        int abandoned=0;
-        for(Instance instance:instances){
-            if(instance.getMissionId().equals(missionId)){
-                switch (instance.getMissionInstanceState()){
+    public MissionStateResponse getNumOfMissionState(String missionId) {
+        Instance[] instances = publicMissionDataService.getInstances();
+        int in_progress = 0;
+        int submitted = 0;
+        int finalized = 0;
+        int abandoned = 0;
+        for (Instance instance : instances) {
+            if (instance.getMissionId().equals(missionId)) {
+                switch (instance.getMissionInstanceState()) {
                     case IN_PROGRESS:
                         in_progress++;
                         break;
@@ -74,8 +74,7 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
                 }
             }
         }
-        return new MissionStateResponse(in_progress,submitted,finalized,abandoned);
-
+        return new MissionStateResponse(in_progress, submitted, finalized, abandoned);
 
 
     }
@@ -102,7 +101,6 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
     public ThreeModelGetResponse get3d(String tokens) throws ThreeDimensionNotExistException, SystemException {
         return new ThreeModelGetResponse(threeDimensionDataService.get3d(tokens));
     }
-
 
 
     /**

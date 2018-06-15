@@ -22,7 +22,7 @@ public class ThreeDimensionMission extends Mission {
     private List<String> tokens;
     @Column(name = "threeDimensionMissionType")
     private ThreeDimensionMissionType threeDimensionMissionTypes;
-    @OneToMany(mappedBy = "threeDimensionMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "threeDimensionMission", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<ThreeDimensionInstance> threeDimensionInstances;
 
     public ThreeDimensionMission() {

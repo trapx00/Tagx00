@@ -89,7 +89,7 @@ const imageMission = {
     credits: 100
   },
   missionState: MissionState.ACTIVE,
-  missionAssets: imgs.map(x => ({url: x, tagConfTuple:
+  missionAssetVos: imgs.map(x => ({url: x, tagConfTuple:
       [
         {tag: "1", confidence: 1},
         {tag: "2", confidence: 0.4},

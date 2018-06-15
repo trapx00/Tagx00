@@ -91,7 +91,7 @@ public class PublicMissionController {
 //    @ResponseBody
 //    public ResponseEntity<Response> getMissionStateSituation(@PathVariable(name = "missionId") String missionId) {
 //        try {
-//            return new ResponseEntity<>(publicMissionBlService.getNumofMissionState(missionId), HttpStatus.OK);
+//            return new ResponseEntity<>(publicMissionBlService.getNumOfMissionState(missionId), HttpStatus.OK);
 //        } catch (MissionIdDoesNotExistException e) {
 //            e.printStackTrace();
 //            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);

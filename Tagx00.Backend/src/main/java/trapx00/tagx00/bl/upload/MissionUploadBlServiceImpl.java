@@ -82,12 +82,12 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                     } else {
                         Map<java.lang.String, Double> tagConfTuple = new HashMap<>();
                         if (imageMission.isAllowCustomTag()) {
-                            Map<java.lang.String, Double> apiTagConfTuple = workerMissionBlService.identifyImage(multipartFile).getObjects();
+                            Map<String, Double> apiTagConfTuple = workerMissionBlService.identifyImage(multipartFile).getObjects();
                             apiTagConfTuple.forEach((key, value) -> {
                                 tagConfTuple.put(key, value * 0.01);
                             });
                         }
-                        missionAssets.add(new MissionAsset(url, Converter.MapToTagConfTupleList(tagConfTuple)));
+                        missionAssets.add(new MissionAsset(url, Converter.MapToTagConfTupleList(tagConfTuple), imageMission));
                     }
                     imageMission.setMissionAssets(new HashSet<>(missionAssets));
                     requesterMissionDataService.updateMission(imageMission);
@@ -187,8 +187,8 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                 }
                 br.close();
                 List<String> words = pythonService.separateSentence(new String(result));
-                String url = textDataService.uploadText(generateTextKey(missionId, index), new String(result), words);
-                textTokens.add(new TextToken(url, new SerialBlob(new String(result).getBytes("GBK")), words));
+                String url = generateTextKey(missionId, index);
+                textTokens.add(new TextToken(url, new SerialBlob(new String(result).getBytes("GBK")), words, textMission));
 
                 index++;
             }

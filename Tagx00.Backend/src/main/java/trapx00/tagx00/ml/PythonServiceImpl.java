@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
 import trapx00.tagx00.datacollect.DataObject;
@@ -14,6 +15,7 @@ import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.mlservice.PythonService;
 import trapx00.tagx00.parameters.ExtractKeyParameter;
+import trapx00.tagx00.parameters.SegmentWordParameter;
 import trapx00.tagx00.publicdatas.mission.TagTuple;
 import trapx00.tagx00.publicdatas.mission.image.whole.ImageWholeJob;
 import trapx00.tagx00.util.PathUtil;
@@ -82,7 +84,7 @@ public class PythonServiceImpl implements PythonService {
 
     @Override
     public void trainRecommend(ImageInstanceDetailVo imageInstanceDetailVo) throws IOException, ClassNotFoundException {
-        RestTemplate restTemplate = new RestTemplate();
+        AsyncRestTemplate restTemplate = new AsyncRestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -104,7 +106,7 @@ public class PythonServiceImpl implements PythonService {
     public List<String> separateSentence(String content) throws SystemException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> entity = new HttpEntity<>(content, headers);
+        HttpEntity<SegmentWordParameter> entity = new HttpEntity<>(new SegmentWordParameter(content), headers);
         String url = mlAddress + apiSeparateSentence;
         ResponseEntity<WordsVo> wordsVoResponseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, WordsVo.class);
 

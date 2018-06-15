@@ -8,9 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 import trapx00.tagx00.blservice.mission.WorkerMissionBlService;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
 import trapx00.tagx00.dataservice.mission.WorkerMissionDataService;
-import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
-import trapx00.tagx00.entity.mission.MissionAsset;
+import trapx00.tagx00.entity.mission.TextMission;
+import trapx00.tagx00.entity.mission.TextToken;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.*;
 import trapx00.tagx00.mlservice.PythonService;
@@ -111,8 +111,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
         }
         if (instanceDetailVo == null)
             throw new InstanceNotExistException();
-        InstanceDetailResponse instanceDetailResponse = new InstanceDetailResponse(instanceDetailVo);
-        return instanceDetailResponse;
+        return new InstanceDetailResponse(instanceDetailVo);
     }
 
 
@@ -185,8 +184,7 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
                 JSONObject jsonObject = (JSONObject) imageInfo.get(i);
                 resultMap.put((String) jsonObject.get("value"), (Double) jsonObject.get("confidence"));
             }
-            ImageIdentificationResponse imageIdentificationResponse = new ImageIdentificationResponse(resultMap);
-            return imageIdentificationResponse;
+            return new ImageIdentificationResponse(resultMap);
         } catch (IOException e) {
             e.printStackTrace();
             throw new SystemException();
@@ -204,9 +202,9 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
     public WordSegmentationResponse segmentWords(String missionId, String token) throws MissionIdDoesNotExistException, IOException, ClassNotFoundException {
         Mission mission = requesterMissionDataService.getMissionByMissionId(missionId);
         List<String> words = new ArrayList<>();
-        for (MissionAsset missionAsset : ((ImageMission) mission).getMissionAssets()) {
-            if (missionAsset.getUrl().equals(token)) {
-                words = missionAsset.getTagConfTuple().stream().collect(ArrayList::new, (list, tagConfTuple) -> list.add(tagConfTuple.getTag()), ArrayList::addAll);
+        for (TextToken textToken : ((TextMission) mission).getTextTokens()) {
+            if (textToken.getToken().equals(token)) {
+                words = textToken.getSegmentedSentence().stream().collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
             }
         }
         return new WordSegmentationResponse(words);

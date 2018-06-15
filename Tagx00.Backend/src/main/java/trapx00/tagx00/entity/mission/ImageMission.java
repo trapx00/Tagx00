@@ -19,12 +19,12 @@ public class ImageMission extends Mission {
     @ElementCollection(targetClass = String.class)
     private List<String> allowedTags;
     @Column(name = "missionAssets")
-    @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private Set<MissionAsset> missionAssets;
     @Column(name = "imageMissionType")
     @ElementCollection(targetClass = ImageMissionType.class)
     private List<ImageMissionType> imageMissionTypes;
-    @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<ImageInstance> imageInstances;
 
     public ImageMission() {
