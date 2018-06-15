@@ -3,7 +3,9 @@ package trapx00.tagx00.publicdatas.mission.video.part;
 
 import trapx00.tagx00.publicdatas.mission.TagDescriptionTuple;
 
-public class VideoPartTuple {
+import java.io.Serializable;
+
+public class VideoPartTuple implements Serializable {
     private double startOffset;
     private double endOffset;
     private TagDescriptionTuple tuple;

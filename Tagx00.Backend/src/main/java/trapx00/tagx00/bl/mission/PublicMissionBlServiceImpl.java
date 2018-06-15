@@ -6,14 +6,12 @@ import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.dataservice.upload.TextDataService;
 import trapx00.tagx00.dataservice.upload.ThreeDimensionDataService;
+import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.exception.viewexception.ThreeDimensionNotExistException;
-import trapx00.tagx00.response.mission.MissionDetailResponse;
-import trapx00.tagx00.response.mission.MissionPublicResponse;
-import trapx00.tagx00.response.mission.TextGetResponse;
-import trapx00.tagx00.response.mission.ThreeModelGetResponse;
+import trapx00.tagx00.response.mission.*;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
@@ -50,6 +48,38 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         return new MissionDetailResponse(missionDetailVos);
     }
 
+    @Override
+    public MissionStateResponse getNumofMissionState(String missionId) throws SystemException, MissionIdDoesNotExistException {
+        Instance[] instances=publicMissionDataService.getInstances();
+        int in_progress=0;
+        int submitted=0;
+        int finalized=0;
+        int abandoned=0;
+        for(Instance instance:instances){
+            if(instance.getMissionId().equals(missionId)){
+                switch (instance.getMissionInstanceState()){
+                    case IN_PROGRESS:
+                        in_progress++;
+                        break;
+                    case FINALIZED:
+                        finalized++;
+                        break;
+                    case SUBMITTED:
+                        finalized++;
+                        break;
+                    case ABANDONED:
+                        abandoned++;
+                        break;
+
+                }
+            }
+        }
+        return new MissionStateResponse(in_progress,submitted,finalized,abandoned);
+
+
+
+    }
+
     /**
      * w
      * get text by text token
@@ -72,6 +102,8 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
     public ThreeModelGetResponse get3d(String tokens) throws ThreeDimensionNotExistException, SystemException {
         return new ThreeModelGetResponse(threeDimensionDataService.get3d(tokens));
     }
+
+
 
     /**
      * get All missions

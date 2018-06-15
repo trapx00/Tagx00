@@ -2,6 +2,9 @@
   "common": {
     "loading": "加载中"
   },
+  "admin": {
+
+  },
   "home": {
     "enter": "开始体验",
     "productDescription": "一个数据标注系统",
@@ -504,6 +507,14 @@
         "title": "实例",
         "search": {
           "placeholder": "任务ID"
+        },
+        "missionIdNotFound": "任务ID不存在。",
+        "instanceStateDiagram": {
+          "total": "总实例数",
+          "FINALIZED": "已结束实例",
+          "IN_PROGRESS": "正在进行中实例",
+          "SUBMITTED": "已提交实例",
+          "ABANDONED":"已放弃实例"
         },
         "table": {
           "dateFormat": "YYYY/MM/DD HH:mm:SS",
