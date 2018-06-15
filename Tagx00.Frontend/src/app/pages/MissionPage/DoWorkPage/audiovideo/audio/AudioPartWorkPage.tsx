@@ -146,6 +146,7 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
         />
         <MediaTupleList tuples={this.state.notation.job.tupleList}
                         selected={this.state.selected}
+                        readonly={this.props.readonlyMode}
                         onAdd={this.onAddTuple}
                         onSelect={this.onSelect}
                         onRemove={this.onRemoveTuple}

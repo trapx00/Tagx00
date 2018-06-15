@@ -156,6 +156,7 @@ export class VideoPartWorkPage extends React.Component<Props, State> {
                         onPlay={this.onPlay}
                         onSetStartTime={this.setStartTime}
                         onSetEndTime={this.setEndTime}
+                        readonly={this.props.readonlyMode}
         />
         {this.state.selected &&
         <TagDescriptionTuplePanel tuple={this.state.selected.tuple}

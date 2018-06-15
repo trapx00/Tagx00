@@ -9,6 +9,7 @@ type MediaPartTuple = AudioPartTuple | VideoPartTuple;
 interface Props {
   tuples: MediaPartTuple[];
   selected: MediaPartTuple;
+  readonly: boolean;
 
   onAdd?(): void;
 
@@ -50,6 +51,17 @@ export class MediaTupleList extends React.Component<Props, {}> {
     this.props.onAdd && this.props.onAdd();
   };
 
+  onSetStart = (item: MediaPartTuple) => {
+    if (!this.props.readonly) {
+      this.props.onSetStartTime(item);
+    }
+  };
+
+  onSetEnd = (item: MediaPartTuple) => {
+    if (!this.props.readonly) {
+      this.props.onSetEndTime(item);
+    }
+  };
 
   renderItem = (item: MediaPartTuple) => {
     return <List.Item actions={[
@@ -67,20 +79,21 @@ export class MediaTupleList extends React.Component<Props, {}> {
           <Icon type={"play-circle"}/>
         </Tooltip>
       </a>,
+      this.props.readonly ? null :
       <a onClick={() => this.onRemove(item)}>
         <Tooltip title={<LocaleMessage id={ID_PREFIX + "remove"}/>}>
           <Icon type={"delete"}/>
         </Tooltip>
       </a>,
-    ]}>
+    ].filter(x => !!x)}>
       <div>
         <LocaleMessage id={ID_PREFIX+"range"} replacements={{
-          start:         <Button onClick={() => this.props.onSetStartTime(item)}>
+          start:         <Button onClick={() => this.onSetStart(item)}>
             <Tooltip title={<LocaleMessage id={ID_PREFIX + "setStart"}/>}>
               {item.startOffset.toFixed(2)}
             </Tooltip>
           </Button>,
-          end:         <Button onClick={() => this.props.onSetEndTime(item)}>
+          end:         <Button onClick={() => this.onSetEnd(item)}>
             <Tooltip title={<LocaleMessage id={ID_PREFIX + "setEnd"}/>}>
               {item.endOffset.toFixed(2)}
             </Tooltip>
@@ -98,7 +111,7 @@ export class MediaTupleList extends React.Component<Props, {}> {
         <LocaleMessage id={ID_PREFIX+"title"}/>
         }
     >
-      <Button type={"primary"} onClick={this.onAdd}><LocaleMessage id={ID_PREFIX+"add"}/></Button>
+      { !this.props.readonly && <Button type={"primary"} onClick={this.onAdd}><LocaleMessage id={ID_PREFIX+"add"}/></Button>}
       <List itemLayout={"horizontal"}
             dataSource={this.props.tuples}
             renderItem={this.renderItem}
