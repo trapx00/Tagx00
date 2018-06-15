@@ -40,6 +40,8 @@ const Picture = styled.div`
     margin-right: auto;
 `;
 
+const MAX_SCALE = 1.5;
+
 
 export class ImageWorkPageLayout extends React.Component<Props, {}> {
 
@@ -60,6 +62,10 @@ export class ImageWorkPageLayout extends React.Component<Props, {}> {
       const imageWidth = newScale * this.props.imageWidth;
       if (imageWidth > MAX_WIDTH){
         newScale = MAX_WIDTH / this.props.imageWidth;
+      }
+
+      if (newScale > MAX_SCALE) {
+        newScale = MAX_SCALE;
       }
 
       console.log(newScale);

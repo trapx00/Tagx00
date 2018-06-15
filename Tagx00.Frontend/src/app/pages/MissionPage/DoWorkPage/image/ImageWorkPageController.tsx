@@ -8,6 +8,7 @@ import { MissionType } from "../../../../models/mission/Mission";
 import { Notation, WorkPageController } from "../WorkPageController";
 import { MissionAsset } from "../../../../models/mission/MissionAsset";
 import { arrayContainsElement } from "../../../../../utils/Array";
+import { sortTuple } from "./shared";
 
 export interface ImageNotation<T extends ImageJob = ImageJob> extends Notation<T> {
   imageAsset: MissionAsset;
@@ -60,6 +61,10 @@ export class ImageWorkPageController extends WorkPageController<ImageMissionDeta
       for (const type of missionDetail.publicItem.imageMissionTypes) {
 
         const result: ImageResult = instanceDetail.imageResults && instanceDetail.imageResults.find(x => x.url === asset.url && x.imageJob && x.imageJob.type === type);
+
+        // sort tuples
+        sortTuple(asset.tagConfTuple);
+
         if (result) { //existing job, push in
           this.currentNotations.push({
             imageAsset: asset,

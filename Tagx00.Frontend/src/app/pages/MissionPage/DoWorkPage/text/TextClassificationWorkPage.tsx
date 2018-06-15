@@ -119,7 +119,7 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
                   onChange={this.onTagChange}
                   readonly={this.props.readonlyMode}
                   allowCustomTag={false}
-                  tagConfTuples={this.props.notation.setting.classes.map(x=>({tag: x, confidence: 1}))}
+                  tags={this.state.notation.setting.classes}
         />
       </>
       <>

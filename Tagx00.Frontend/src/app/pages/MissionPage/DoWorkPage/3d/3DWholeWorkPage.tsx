@@ -77,15 +77,15 @@ export class ThreeDimensionWholeWorkPage extends React.Component<Props, ThreeDim
       </>
       <>
         <ThreeDimensionMissionTipCard audioMissionType={job.type}
-                             tagConfTuples={missionDetail.publicItem.tags.map(x => ({tag: x, confidence: 1}))}
-                             allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                             title={missionDetail.publicItem.title}
+                                      tags={missionDetail.publicItem.tags}
+                                      allowCustomTag={missionDetail.publicItem.allowCustomTag}
+                                      title={missionDetail.publicItem.title}
         />
         <TagDescriptionTuplePanel tuple={job.tuple}
                                   onChange={this.onTupleChange}
                                   readonlyMode={this.props.readonlyMode}
                                   allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                  tagConfTuples={missionDetail.publicItem.tags.map(x => ({tag: x, confidence: 1}))}
+                                  tags={missionDetail.publicItem.tags}
         />
         <>
         </>

@@ -92,7 +92,7 @@ export class AudioWholeWorkPage extends React.Component<Props, AudioWorkPageStat
       </>
       <>
         <AudioMissionTipCard audioMissionType={job.type}
-                             tagConfTuples={missionDetail.publicItem.tags.map(x => ({tag: x, confidence: 1}))}
+                             tags={missionDetail.publicItem.tags}
                              allowCustomTag={missionDetail.publicItem.allowCustomTag}
                              title={missionDetail.publicItem.title}
         />
@@ -100,7 +100,7 @@ export class AudioWholeWorkPage extends React.Component<Props, AudioWorkPageStat
                                   onChange={this.onTupleChange}
                                   readonlyMode={this.props.readonlyMode}
                                   allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                  tagConfTuples={missionDetail.publicItem.tags.map(x => ({tag: x, confidence: 1}))}
+                                  tags={missionDetail.publicItem.tags}
         />
         <>
           </>

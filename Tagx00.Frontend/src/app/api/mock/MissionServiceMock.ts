@@ -19,6 +19,7 @@ import { ThreeDimensionModel } from "../../models/mission/3d/3dModel";
 import mtl from './3dmodel/mtl.txt';
 import obj from './3dmodel/obj.txt';
 import { flatten } from "../../../utils/Array";
+import text = G2.Styles.text;
 
 export const imgs = [
   "https://desk-fd.zol-img.com.cn/t_s960x600c5/g5/M00/0E/00/ChMkJlnJ4TOIAyeVAJqtjV-XTiAAAgzDAE7v40Amq2l708.jpg",
@@ -72,7 +73,7 @@ const imageMission = {
     title: "Mission " + "1",
     description: "Description " + "1",
     topics: ["scenes"],
-    allowCustomTag: false,
+    allowCustomTag: true,
     missionType: MissionType.IMAGE,
     imageMissionTypes: [
       ImageMissionType.DISTRICT,
@@ -94,7 +95,8 @@ const imageMission = {
         {tag: "1", confidence: 1},
         {tag: "2", confidence: 0.4},
         {tag: "3", confidence: 0.8}
-      ]}))
+      ]})),
+  requesterTags: ["r1","r2"]
 } as ImageMissionDetail;
 
 
@@ -194,7 +196,7 @@ const threeDimensionMission = {
 export class MissionServiceMock extends MissionService {
 
   async getAMission(missionId: string): Promise<MissionDetail> {
-    return textMission;
+    return imageMission;
 
   }
 

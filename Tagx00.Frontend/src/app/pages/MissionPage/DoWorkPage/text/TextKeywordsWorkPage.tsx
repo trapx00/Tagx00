@@ -103,7 +103,7 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
                   onChange={this.onTagChange}
                   readonly={this.props.readonlyMode}
                   allowCustomTag={true}
-                  tagConfTuples={this.props.notation.setting.keywords.map(x => ({tag: x, confidence: 1}))}
+                  tags={this.props.notation.setting.keywords}
         />
 
       </>

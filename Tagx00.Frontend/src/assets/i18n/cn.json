@@ -116,6 +116,9 @@
         "save": "保存进度 (Ctrl+S)",
         "backward": "前一张 (a)",
         "toFirstIncomplete": "去未完成的第一张",
+        "submit": "提交任务",
+        "confirmTitle": "确认提交任务？",
+        "confirmDescription": "提交任务后不能继续做任务！",
         "forward": "后一张 (d)"
       },
       "tagDescriptionTuplePanel": {
@@ -129,6 +132,8 @@
         "tagNameInvalid": "请输入标签名。",
         "tagLimited": "任务不可自定义标签。请从以下标签中选择一个",
         "tagInformation": "标签信息",
+        "aiTags": "智能推荐",
+        "predefinedTags": "预设标签",
         "ok": "确定",
         "remove": "移除",
         "cancel": "取消"
@@ -147,6 +152,8 @@
             "false": "否"
           },
           "tags": "预设标签",
+          "requesterTags": "发起者标签",
+          "aiTags": "智能推荐的标签",
           "types": {
             "WHOLE": {"name": "整体"},
             "PART": { "name": "局部"},
