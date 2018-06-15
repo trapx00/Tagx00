@@ -20,6 +20,7 @@ import trapx00.tagx00.publicdatas.mission.TagTuple;
 import trapx00.tagx00.publicdatas.mission.image.whole.ImageWholeJob;
 import trapx00.tagx00.util.PathUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
+import trapx00.tagx00.vo.mission.image.ImageMissionType;
 import trapx00.tagx00.vo.ml.KeysVo;
 import trapx00.tagx00.vo.ml.RecommendTagsVo;
 import trapx00.tagx00.vo.ml.WordsVo;
@@ -92,10 +93,12 @@ public class PythonServiceImpl implements PythonService {
         ImageInstance imageInstanceWithResults = getImageInstance(imageInstanceDetailVo.getInstance().getInstanceId());
         List<MissionAsset> missionAssets = new ArrayList<>(imageInstanceWithResults.getImageMission().getMissionAssets());
         for (int i = 0; i < missionAssets.size(); i++) {
-            List<TagTuple> tagTuples = ((ImageWholeJob) imageInstanceWithResults.getImageResults().get(i).getImageJob()).getTuple().getTagTuples();
-            List<String> tags = tagTuples.stream().collect(ArrayList::new, (list, tagTuple) -> list.add(tagTuple.getTag()), ArrayList::addAll);
-            DataObject dataObject = new DataObject(missionAssets.get(i).getUrl(), tags, missionAssets.get(i).getTagConfTuple());
-            dataObjects.add(dataObject);
+            if (imageInstanceWithResults.getImageResults().get(i).getImageJob().getType() == ImageMissionType.WHOLE) {
+                List<TagTuple> tagTuples = ((ImageWholeJob) imageInstanceWithResults.getImageResults().get(i).getImageJob()).getTuple().getTagTuples();
+                List<String> tags = tagTuples.stream().collect(ArrayList::new, (list, tagTuple) -> list.add(tagTuple.getTag()), ArrayList::addAll);
+                DataObject dataObject = new DataObject(missionAssets.get(i).getUrl(), tags, missionAssets.get(i).getTagConfTuple());
+                dataObjects.add(dataObject);
+            }
         }
         HttpEntity<List<DataObject>> entity = new HttpEntity<>(dataObjects, headers);
         String url = mlAddress + apiTrainRecommend;

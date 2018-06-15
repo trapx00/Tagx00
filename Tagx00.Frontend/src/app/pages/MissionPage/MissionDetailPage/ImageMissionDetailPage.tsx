@@ -29,7 +29,7 @@ export class ImageMissionDetailPage extends React.Component<Props, State> {
 
     return <MissionDetailBasePanel publicItem={detail.publicItem}
                                    picPanel={<Gallery
-                                     images={[detail.publicItem.coverUrl, ...detail.missionAssetVos.map(x => x.url)]}/>}
+                              A       images={[detail.publicItem.coverUrl, ...detail.missionAssetVos.map(x => x.url)]}/>}
     >
       <Item promptTextId={"IMAGE.tags"}>
         {takeAtMost(tags, 5).map(x => <Tag key={x.tag}>{x.tag}</Tag>)}
