@@ -26,6 +26,7 @@ import trapx00.tagx00.vo.mission.video.VideoMissionPublicItemVo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -144,7 +145,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                             imageMission.getMissionAssets().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(),
                             imageMission.isAllowCustomTag(), imageMission.getImageMissionTypes()
                     ),
-                            imageMission.getMissionState(), imageMission.getRequesterUsername(), MissionType.IMAGE, imageMission.getMissionAssets(), imageMission.getImageMissionTypes());
+                            imageMission.getMissionState(), imageMission.getRequesterUsername(), MissionType.IMAGE, new ArrayList<>(imageMission.getMissionAssets()), imageMission.getImageMissionTypes());
                 }
                 break;
             case TEXT:
@@ -152,6 +153,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                 if (textMission == null)
                     return null;
                 if (textMission.getMissionType().equals(MissionType.TEXT)) {
+                    List<String> textUrls = textMission.getTextTokens().stream().collect(ArrayList::new, (list, textToken) -> list.add(textToken.getToken()), ArrayList::addAll);
                     missionDetailVo = new TextMissionDetailVo(new TextMissionPublicItemVo(
                             missionId,
                             textMission.getTitle(),
@@ -160,14 +162,14 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                             textMission.getStart(), textMission.getEnd(),
                             textMission.getCoverUrl(), textMission.getLevel(), textMission.getCredits(),
                             textMission.getMinimalWorkerLevel(),
-                            textMission.getTextUrls().size() * textMission.getTextMissionSettings().size(),
+                            textMission.getTextTokens().size() * textMission.getTextMissionSettings().size(),
                             textMission.getRequesterUsername(),
                             textMission.getTextMissionSettings().stream().map(TextMissionSetting::getTextMissionType).collect(Collectors.toList())
 //                        textMission.getTextMissionSettings().stream().collect(ArrayList::new, (list, textMissionSetting) -> list.add(textMissionSetting.getTextMissionType()), ArrayList::addAll)
                     ), textMission.getMissionState(),
                             textMission.getRequesterUsername(),
                             MissionType.TEXT,
-                            textMission.getTextUrls(),
+                            textUrls,
                             new ArrayList<>(textMission.getTextMissionSettings()));
                 }
                 break;
@@ -255,7 +257,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                 textMission.getMissionId(), textMission.getTitle(),
                 textMission.getDescription(), textMission.getTopics(), textMission.getMissionType(),
                 textMission.getStart(), textMission.getEnd(), textMission.getCoverUrl(), textMission.getLevel(), textMission.getCredits(),
-                textMission.getMinimalWorkerLevel(), textMission.getTextUrls().size() * textMission.getTextMissionSettings().size(),
+                textMission.getMinimalWorkerLevel(), textMission.getTextTokens().size() * textMission.getTextMissionSettings().size(),
                 textMission.getRequesterUsername(), textMission.getTextMissionSettings().stream().collect(ArrayList::new, (list, textMissionSetting) -> list.add(textMissionSetting.getTextMissionType()), ArrayList::addAll)
         );
     }

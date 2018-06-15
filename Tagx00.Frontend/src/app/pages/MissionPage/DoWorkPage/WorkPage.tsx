@@ -32,6 +32,9 @@ export interface WorkPageProps<M extends MissionDetail, J, N extends Notation<J>
     previousAvailable: boolean;
     saving: boolean;
     toFirstIncomplete() : void;
+    submit() :void;
+    canGoPrevious: boolean;
+    canGoNext: boolean;
   },
   readonlyMode: boolean;
 }
@@ -58,7 +61,6 @@ export class WorkPage<M extends MissionDetail, I extends InstanceDetail, J, N ex
   @Inject localeStore: LocaleStore;
   @Inject workerService: WorkerService;
 
-  @observable finishModalShown = true;
   @observable saving: boolean = false;
 
   @action saveWork = async (notation: N) => {
@@ -76,17 +78,6 @@ export class WorkPage<M extends MissionDetail, I extends InstanceDetail, J, N ex
     this.props.controller.previousWork();
   };
 
-  @action componentDidUpdate() {
-    if (this.props.controller.finished) {
-      if (this.props.readonlyMode) {
-        message.info(this.localeStore.get(ID_PREFIX + "finish.readonlyComplete"));
-        this.props.controller.workIndex--;
-        return;
-      } else {
-        this.finishModalShown = true;
-      }
-    }
-  }
 
   submit = async () => {
 
@@ -97,11 +88,6 @@ export class WorkPage<M extends MissionDetail, I extends InstanceDetail, J, N ex
     } else {
       console.log("failure");
     }
-  };
-
-  @action cancelFinishModal = () => {
-    this.props.controller.workIndex--;
-    this.finishModalShown = false;
   };
 
   saveProgress = async () => {
@@ -116,19 +102,6 @@ export class WorkPage<M extends MissionDetail, I extends InstanceDetail, J, N ex
 
   chooseWorkPage() {
 
-    if (this.props.controller.finished) {
-      if (this.props.readonlyMode) {
-        return <div/>;
-      } else {
-        return <CompleteModal shown={this.finishModalShown}
-                              submit={this.submit}
-                              saveProgress={this.saveProgress}
-                              goBack={this.cancelFinishModal}
-
-        />;
-      }
-
-    }
     const params: WorkPageProps<M,J,N> = {
       notation: this.props.controller.currentWork,
       submit: this.saveWork,
@@ -138,7 +111,10 @@ export class WorkPage<M extends MissionDetail, I extends InstanceDetail, J, N ex
         goPrevious: this.goPrevious,
         previousAvailable: this.props.controller.workIndex != 0,
         saving: this.saving,
-        toFirstIncomplete: this.toFirstIncomplete
+        toFirstIncomplete: this.toFirstIncomplete,
+        submit: this.submit,
+        canGoNext: this.props.controller.canGoNext,
+        canGoPrevious: this.props.controller.canGoPrevious
       },
       readonlyMode: this.props.readonlyMode
     };

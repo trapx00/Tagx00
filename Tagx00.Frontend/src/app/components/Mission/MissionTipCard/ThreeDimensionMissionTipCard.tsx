@@ -11,7 +11,7 @@ interface Props {
   title: string;
   audioMissionType: ThreeDimensionMissionType;
   allowCustomTag: boolean;
-  tagConfTuples: TagConfTuple[];
+  tags: string[];
 }
 
 const ID_PREFIX = "drawingPad.common.missionTipCard.THREE_DIMENSION.";
@@ -25,8 +25,8 @@ export function ThreeDimensionMissionTipCard(props: Props){
       <LocaleMessage id={`${ID_PREFIX}allowCustomTag.${props.allowCustomTag}`}/>
     </DefinitionItem>
     <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "tags"}/>}>
-      {props.tagConfTuples.map(x => {
-        return <Tag key={x.tag} color={"blue"}>{x.tag}({x.confidence})</Tag>
+      {props.tags.map(x => {
+        return <Tag key={x} color={"blue"}>{x}</Tag>
       })}
     </DefinitionItem>
   </MissionTipCard>;

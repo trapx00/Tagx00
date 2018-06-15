@@ -4,10 +4,7 @@ import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.exception.viewexception.ThreeDimensionNotExistException;
-import trapx00.tagx00.response.mission.MissionDetailResponse;
-import trapx00.tagx00.response.mission.MissionPublicResponse;
-import trapx00.tagx00.response.mission.TextGetResponse;
-import trapx00.tagx00.response.mission.ThreeModelGetResponse;
+import trapx00.tagx00.response.mission.*;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 public interface PublicMissionBlService {
@@ -42,4 +39,6 @@ public interface PublicMissionBlService {
      * @return
      */
     ThreeModelGetResponse get3d(String tokens)throws ThreeDimensionNotExistException, SystemException;
+
+    MissionStateResponse getNumofMissionState(String missionId) throws SystemException,MissionIdDoesNotExistException;
 }

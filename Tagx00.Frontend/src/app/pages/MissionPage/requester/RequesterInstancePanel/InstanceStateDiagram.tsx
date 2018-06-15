@@ -1,21 +1,30 @@
 import React from 'react';
 import { Axis as BizAxis, Axis, Chart as BizChart, Coord, Geom, Guide, Label, Legend, Tooltip } from 'bizCharts';
+import { Instance } from "../../../../models/instance/Instance";
 import { DataView } from '@antv/data-set';
+import { Inject } from "react.di";
+import { LocaleStore } from "../../../../stores/LocaleStore";
+import { MissionInstanceState } from "../../../../models/instance/MissionInstanceState";
+
 
 interface Props {
-  activeInstanceCount:number;
-  pendingInstanceCount:number;
-  endedInstanceCount:number;
-  totalInstanceCount:number;
+  instances: Instance[];
 }
 
-export class InstanceCyclePieChart extends React.Component<Props,{}>{
+const ID_PREFIX = "missions.requester.instancePanel.instanceStateDiagram.";
+
+export class InstanceStateDiagram extends React.Component<Props, {}> {
+
+  @Inject localeStore: LocaleStore;
+
   render() {
-    const data = [
-      { item: '正在进行实例数', count: this.props.activeInstanceCount/this.props.totalInstanceCount },
-      { item: '已提交实例数', count: this.props.pendingInstanceCount/this.props.totalInstanceCount },
-      { item: '已结束实例数', count: this.props.endedInstanceCount/this.props.totalInstanceCount },
-    ];
+    const { instances } = this.props;
+
+    const data = Object.keys(MissionInstanceState).map(x => ({
+      item: this.localeStore.get(ID_PREFIX+x),
+      count: instances.filter(i => i.missionInstanceState === MissionInstanceState[x]).length / this.props.instances.length
+    }));
+
     const dv = new DataView();
     dv.source(data).transform({
       type: 'percent',
@@ -26,7 +35,7 @@ export class InstanceCyclePieChart extends React.Component<Props,{}>{
     const cols = {
       percent: {
         formatter: val => {
-          return val * this.props.totalInstanceCount;
+          return val * this.props.instances.length
         }
       }
     };
@@ -45,7 +54,7 @@ export class InstanceCyclePieChart extends React.Component<Props,{}>{
         />
         <Guide >
           <Guide.Html position ={[ '50%', '50%' ]}
-                      html={`<div style="color:#8c8c8c;font-size:1.16em;text-align: center;width: 10em;">总实例数<br><span style="color:#262626;font-size:2.0em">${this.props.totalInstanceCount}</span></div>`}
+                      html={`<div style="color:#8c8c8c;font-size:1.16em;text-align: center;width: 10em;">${this.localeStore.get(ID_PREFIX+"total")}<br><span style="color:#262626;font-size:2.0em">${this.props.instances.length}</span></div>`}
                       alignX='middle' alignY='middle'/>
         </Guide>
         <Geom

@@ -53,7 +53,7 @@ public interface WorkerMissionDataService {
      * @param missionType
      * @return the instance matching username and missionId
      */
-    InstanceDetailVo getInstanceDetailVoByUsernameAndMissionId(String workerUsername, String missionId, MissionType missionType) throws IOException, ClassNotFoundException;
+    InstanceDetailVo getInstanceDetailVoByUsernameAndMissionId(String workerUsername, String missionId, MissionType missionType) throws IOException, ClassNotFoundException, SystemException;
 
     /**
      * get the information of  instance by username and missionId
@@ -73,7 +73,7 @@ public interface WorkerMissionDataService {
      * @param missionType
      * @return
      */
-    boolean deleteInstanceByMissionIdAndUsername(String missionId, String username, MissionType missionType) throws IOException, ClassNotFoundException;
+    boolean deleteInstanceByMissionIdAndUsername(String missionId, String username, MissionType missionType) throws IOException, ClassNotFoundException, SystemException;
 
     /**
      * identify the image

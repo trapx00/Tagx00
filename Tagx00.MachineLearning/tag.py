@@ -2,10 +2,9 @@ import json
 
 import numpy as np
 import tensorflow as tf
-import matplotlib.pyplot as plt
 
 learning_rate = 0.003
-training_epochs = 10000
+training_epochs = 100
 batch_size = 10
 n_size = 3
 dismiss_percent = 0.05
@@ -48,20 +47,37 @@ class Tag:
         self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=self.y_pred, labels=self.Y))
 
         self.optimizer = tf.train.AdamOptimizer(learning_rate).minimize(self.cost)
+
+        self.saver = tf.train.Saver()
         self.sess = tf.Session()
         self.sess.run(tf.global_variables_initializer())
 
-    def recommend(self, data, tags):
+    def recommend(self, data):
+        tags = []
+        confs = []
+        for tag_conf_tuples in data:
+            tag_list = []
+            conf_list = []
+            tag_conf_tuples = tag_conf_tuples["tagConfTuples"]
+            for i in range(n_size):
+                if i < tag_conf_tuples.__len__():
+                    tag_list.append(tag_conf_tuples[i]['tag'])
+                    conf_list.append(tag_conf_tuples[i]['confidence'])
+                else:
+                    tag_list.append("")
+                    conf_list.append(0)
+            tags.append(tag_list)
+            confs.append(conf_list)
+
         self.load_models()
-        batch_xs = data[0]
-        self.calculate_confidence()
-        pred = self.sess.run(self.y_pred,
-                             feed_dict={self.X: batch_xs, self.scale: 1,
-                                        self.keep_prob: 1})
+        pred = self.sess.run(self.y_pred, feed_dict={self.X: confs, self.scale: 1, self.keep_prob: 1})
         result = []
-        for j in range(n_size):
-            if pred[0][j] > self.dismiss_value:
-                result.append({tags[j], pred[0][j]})
+        for i in range(pred.__len__()):
+            result_tuple = []
+            for j in range(n_size):
+                if pred[i][j] > self.dismiss_value and tags[i][j].__len__() > 0:
+                    result_tuple.append({"tag": tags[i][j], "confidence": pred[i][j]})
+            result.append({"tagConfTuples": result_tuple})
         return result
 
     def calculate_confidence(self):
@@ -141,7 +157,7 @@ class Tag:
         self.test_data = self.load_test_data()
         total_train = self.train_data.__len__()
         total_batch = int(total_train / batch_size)
-        self.compute_origin_accuracy()
+        self.load_models()
         for epoch in range(training_epochs):
             for i in range(total_batch):
                 batch_xs, batch_ys = self.next_train_batch(self.last_index)
@@ -174,20 +190,20 @@ class Tag:
         print(accuracy)
 
     def save_models(self):
-        saver = tf.train.Saver()
-        saver.save(self.sess, "data/trainmodels/model.ckpt")
+        self.saver.save(self.sess, "./data/trainmodels/model.ckpt")
 
     def load_models(self):
-        saver = tf.train.Saver()
-        saver.restore(self.sess, "data/trainmodels/model.ckpt")
+        self.saver.restore(self.sess,
+                           "./data/trainmodels/model.ckpt")
 
     @staticmethod
     def load_train_data():
         train_data = []
-        with open("data/proval/train.txt", "r") as file:
+        with open("./data/proval/train.txt",
+                  "r") as file:
             all_data = file.readlines()
             for j in range(all_data.__len__()):
-                data = json.loads(all_data[j].replace('\n', ""))
+                data = json.loads(all_data[j].replace('\n', "").replace('\'', '\"'))
                 tags = data["response"]
                 targets = data["tags"]
                 tag = []
@@ -206,7 +222,7 @@ class Tag:
     @staticmethod
     def load_test_data():
         test_data = []
-        with open("data/proval/test.txt", "r") as file:
+        with open("./data/proval/test.txt", "r") as file:
             all_data = file.readlines()
             for j in range(all_data.__len__()):
                 data = json.loads(all_data[j].replace('\n', ""))
@@ -227,4 +243,3 @@ class Tag:
 
 
 tag = Tag()
-tag.train()

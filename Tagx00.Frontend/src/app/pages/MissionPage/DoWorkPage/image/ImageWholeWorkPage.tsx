@@ -75,6 +75,8 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
 
     const {imageAsset, job} = this.state.notation;
     const {missionDetail, controllerProps} = this.props;
+
+
     return <ImageWorkPageLayout imageUrl={imageAsset.url}
                                 imageWidth={this.state.width}
                                 imageHeight={this.state.height}
@@ -88,19 +90,21 @@ export class ImageWholeWorkPage extends React.Component<ImageWorkPageProps<Whole
       </>
       <>
         <ImageMissionTipCard imageMissionType={job.type}
-                             tagConfTuples={imageAsset.tagConfTuple}
+                             suggestedTags={imageAsset.tagConfTuple}
                              allowCustomTag={missionDetail.publicItem.allowCustomTag}
                              title={missionDetail.publicItem.title}
+                             requesterTags={missionDetail.requesterTags}
         />
         <TagDescriptionTuplePanel tuple={job.tuple}
                                   onChange={this.onTupleChange}
                                   readonlyMode={this.props.readonlyMode}
                                   allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                  tagConfTuples={imageAsset.tagConfTuple}
+                                  suggestedTags={imageAsset.tagConfTuple}
+                                  tags={missionDetail.requesterTags}
         />
       </>
       <>
-        <ProgressController {...this.props.controllerProps}
+        <ProgressController {...controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}
                             saveProgress={this.saveProgress}

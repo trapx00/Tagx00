@@ -7,11 +7,7 @@ interface Props {
   className?: string;
 }
 
-export class SvgImg extends React.Component<Props, {}> {
-
-  render() {
-    const Svg = require(`svg-react-loader?name=Svg!../../../../assets/svg/${this.props.filePath}`);
-    return <Svg className={this.props.className} width={this.props.width} height={this.props.height}/>;
-  }
-
+export function SvgImg(props: Props) {
+  const Svg = require(`svg-react-loader?name=Svg!../../../../assets/svg/${props.filePath}`);
+  return <Svg className={props.className} width={props.width} height={props.height}/>;
 }

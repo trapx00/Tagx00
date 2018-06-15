@@ -24,6 +24,7 @@ import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
+import java.io.IOException;
 import java.util.Date;
 
 @PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "')")
@@ -132,15 +133,23 @@ public class WorkerMissionController {
 
     @Authorization(value = "工人")
     @ApiOperation(value = "工人文本分词", notes = "工人文本分词")
-    @RequestMapping(value = "/mission/worker/wordSegment", method = RequestMethod.POST)
+    @RequestMapping(value = "/mission/worker/wordSegment", method = RequestMethod.GET)
     @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Returns segmented words.", response = WordSegmentationResponse.class),
-        @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
-        @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
+            @ApiResponse(code = 201, message = "Returns segmented words.", response = WordSegmentationResponse.class),
+            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
+            @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
     })
     @ResponseBody
-    public ResponseEntity<Response> segmentWords(@RequestParam("content") String content) {
-        return null;
+    public ResponseEntity<Response> segmentWords(@RequestParam("missionId") String missionId, @RequestParam("token") String token) {
+        try {
+            return new ResponseEntity<>(workerMissionBlService.segmentWords(missionId, token), HttpStatus.OK);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new WrongResponse(10001, "system error"), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (MissionIdDoesNotExistException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
+        }
     }
 
 

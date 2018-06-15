@@ -168,9 +168,7 @@ export class WorkerServiceMock extends WorkerService {
     };
   }
 
-  async segmentWord(content: string): Promise<string[]> {
-    return ["我","是","古鲁特","！"];
-  }
+
 
   async getWorkerInfo(username: string): Promise<WorkerInfo> {
     return {

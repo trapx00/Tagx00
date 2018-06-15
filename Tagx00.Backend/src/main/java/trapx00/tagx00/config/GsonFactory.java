@@ -17,16 +17,16 @@ import trapx00.tagx00.vo.mission.missiontype.MissionProperties;
 public class GsonFactory {
     public static Gson get() {
         return new GsonBuilder()
-            .registerTypeAdapter(MissionProperties.class, new MissionPropertiesAdapter())
-            .registerTypeAdapter(InstanceDetailVo.class, new InstanceDetailAdapter())
-            .registerTypeAdapter(MissionDetailVo.class, new MissionDetailAdapter())
-            .registerTypeAdapter(MissionPublicItemVo.class, new MissionPublicItemAdapter())
-            .registerTypeAdapter(TextMissionSetting.class, new TextMissionSettingAdapter())
-            .registerTypeAdapter(TextJob.class, new TextJobAdapter())
-            .registerTypeAdapter(ImageJob.class, new ImageJobAdapter())
-            .registerTypeAdapter(AudioJob.class, new AudioJobAdapter())
-            .registerTypeAdapter(VideoJob.class, new VideoJobAdapter())
-            .registerTypeAdapter(ThreeDimensionJob.class, new ThreeDimensionJobAdapter())
-            .create();
+                .registerTypeAdapter(MissionProperties.class, new MissionPropertiesAdapter())
+                .registerTypeAdapter(InstanceDetailVo.class, new InstanceDetailAdapter())
+                .registerTypeAdapter(MissionDetailVo.class, new MissionDetailAdapter())
+                .registerTypeAdapter(MissionPublicItemVo.class, new MissionPublicItemAdapter())
+                .registerTypeAdapter(TextMissionSetting.class, new TextMissionSettingAdapter())
+                .registerTypeAdapter(TextJob.class, new TextJobAdapter())
+                .registerTypeAdapter(ImageJob.class, new ImageJobAdapter())
+                .registerTypeAdapter(AudioJob.class, new AudioJobAdapter())
+                .registerTypeAdapter(VideoJob.class, new VideoJobAdapter())
+                .registerTypeAdapter(ThreeDimensionJob.class, new ThreeDimensionJobAdapter())
+                .create();
     }
 }

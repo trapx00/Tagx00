@@ -190,9 +190,10 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
       </>
       <>
         <ImageMissionTipCard imageMissionType={job.type}
-                             tagConfTuples={imageAsset.tagConfTuple}
+                             suggestedTags={imageAsset.tagConfTuple}
                              allowCustomTag={missionDetail.publicItem.allowCustomTag}
                              title={missionDetail.publicItem.title}
+                             requesterTags={missionDetail.requesterTags}
         />
         {readonlyMode ? null
           : <DistrictAddingModeController session={this.session} start={this.startAdding}
@@ -207,7 +208,8 @@ export class ImageDistrictWorkPage extends React.Component<ImageWorkPageProps<Di
                                       readonlyMode={readonlyMode}
                                       onChange={this.onTupleChanged}
                                       allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                      tagConfTuples={imageAsset.tagConfTuple}
+                                      suggestedTags={imageAsset.tagConfTuple}
+                                      tags={missionDetail.requesterTags}
           />
           : null}
       </>

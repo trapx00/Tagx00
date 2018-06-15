@@ -10,13 +10,16 @@ import trapx00.tagx00.dataservice.upload.*;
 import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
+import trapx00.tagx00.mlservice.PythonService;
 import trapx00.tagx00.response.upload.*;
 import trapx00.tagx00.util.Converter;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.PathUtil;
 
 import javax.imageio.stream.FileImageOutputStream;
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.*;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -32,12 +35,13 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
     private final ThreeDimensionDataService threeDimensionDataService;
     private final RequesterMissionDataService requesterMissionDataService;
     private final WorkerMissionBlService workerMissionBlService;
+    private final PythonService pythonService;
     private final static java.lang.String TEMP_PATH = PathUtil.getTmpPath();
 
     @Autowired
     public MissionUploadBlServiceImpl(ImageDataService imageDataService, TextDataService textDataService,
                                       RequesterMissionDataService requesterMissionDataService, WorkerMissionBlService workerMissionBlService
-            , VideoDataService videoDataService, AudioDataService audioDataService, ThreeDimensionDataService threeDimensionDataService) {
+            , VideoDataService videoDataService, AudioDataService audioDataService, ThreeDimensionDataService threeDimensionDataService, PythonService pythonService) {
         this.imageDataService = imageDataService;
         this.textDataService = textDataService;
         this.requesterMissionDataService = requesterMissionDataService;
@@ -45,6 +49,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
         this.videoDataService = videoDataService;
         this.audioDataService = audioDataService;
         this.threeDimensionDataService = threeDimensionDataService;
+        this.pythonService = pythonService;
     }
 
     /**
@@ -71,7 +76,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                 case IMAGE:
                     ImageMission imageMission = (ImageMission) requesterMissionDataService.getMissionByMissionId(missionId);
                     url = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());
-                    List<MissionAsset> missionAssets = imageMission.getMissionAssets();
+                    List<MissionAsset> missionAssets = new ArrayList<>(imageMission.getMissionAssets());
                     if (isCover) {
                         imageMission.setCoverUrl(url);
                     } else {
@@ -84,7 +89,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                         }
                         missionAssets.add(new MissionAsset(url, Converter.MapToTagConfTupleList(tagConfTuple)));
                     }
-                    imageMission.setMissionAssets(missionAssets);
+                    imageMission.setMissionAssets(new HashSet<>(missionAssets));
                     requesterMissionDataService.updateMission(imageMission);
                     return new UploadMissionImageResponse(url);
                 case THREE_DIMENSION:
@@ -131,7 +136,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
         //保存到临时文件
         try {
             TextMission textMission = (TextMission) requesterMissionDataService.getMissionByMissionId(missionId);
-            List<java.lang.String> textUrls = new ArrayList<>();
+            List<TextToken> textTokens = new ArrayList<>();
             File file = new File(TEMP_PATH + "/text");
             FileImageOutputStream fileWriter = new FileImageOutputStream(file);
             fileWriter.write(multipartFile.getBytes());
@@ -181,16 +186,17 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                     result.append(line);
                 }
                 br.close();
-                String url = textDataService.uploadText(generateTextKey(missionId, index), new String(result));
-                textUrls.add(url);
+                List<String> words = pythonService.separateSentence(new String(result));
+                String url = textDataService.uploadText(generateTextKey(missionId, index), new String(result), words);
+                textTokens.add(new TextToken(url, new SerialBlob(new String(result).getBytes("GBK")), words));
 
                 index++;
             }
-            textMission.setTextUrls(textUrls);
+            textMission.setTextTokens(new HashSet<>(textTokens));
             requesterMissionDataService.updateMission(textMission);
             System.out.println("******************解压完毕********************");
             return new UploadMissionTextResponse("success");
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException | SQLException e) {
             e.printStackTrace();
             throw new SystemException();
         }
