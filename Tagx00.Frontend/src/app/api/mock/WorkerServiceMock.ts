@@ -129,7 +129,7 @@ export class WorkerServiceMock extends WorkerService {
 
 
     return {
-      detail: textInstance
+      detail: imgInstance
     };
 
 
