@@ -134,7 +134,7 @@ export class TagModificationModal extends React.Component<Props, {}> {
 
           <Input placeholder={props.placeholder}
                  value={this.tuple.tag}
-                 disabled={!this.props.allowCustomTag}
+                 disabled={this.props.readonly || !this.props.allowCustomTag}
                  onChange={this.onTagNameChange}
           />
 

@@ -21,7 +21,7 @@ const PlayerContainer = styled.div`
 margin-left: auto;
 margin-right: auto;
 max-width: 1000px;
-  max-height: 1000px;
+  //max-height: 1000px;
 `;
 
 export class VideoPlayer extends React.Component<Props, State> {
@@ -92,7 +92,7 @@ export class VideoPlayer extends React.Component<Props, State> {
   render() {
     return<PlayerContainer>
     <Player src={this.props.url}
-                  fluid={true}
+                  // fluid={true}
               ref={this.refCallback}/>
     </PlayerContainer>;
   }

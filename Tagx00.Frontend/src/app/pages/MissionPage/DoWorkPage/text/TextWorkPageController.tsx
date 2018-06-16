@@ -9,6 +9,7 @@ import { TextResult } from "../../../../models/instance/text/TextResult";
 import { Notation, WorkPageController } from "../WorkPageController";
 import { arrayContainsElement } from "../../../../../utils/Array";
 import { TextNotation } from "./shared";
+import { action, observable, toJS } from "mobx";
 
 
 
@@ -16,11 +17,11 @@ import { TextNotation } from "./shared";
 type KnownTextJob = TextKeywordsJob | TextClassificationJob;
 
 
+
+
+
 export class TextWorkPageController extends WorkPageController<TextMissionDetail, TextInstanceDetail, TextJob, TextNotation<TextJob, TextMissionSetting>> {
 
-  textTokens: string[] = [];
-
-  settings: TextMissionSetting[];
 
   currentInstanceDetail(): TextInstanceDetail {
     const {instance} = this.initialDetail;
@@ -36,6 +37,8 @@ export class TextWorkPageController extends WorkPageController<TextMissionDetail
     }
   }
 
+
+
   judgeJobComplete(job: KnownTextJob) {
     if (!job) return false;
     switch (job.type) {
@@ -49,31 +52,31 @@ export class TextWorkPageController extends WorkPageController<TextMissionDetail
 
   constructor(missionDetail: TextMissionDetail, instanceDetail: TextInstanceDetail) {
     super(missionDetail, instanceDetail);
-    this.settings = missionDetail.settings;
-    this.textTokens = missionDetail.tokens;
 
     // initialize jobs
-    for (const url of missionDetail.tokens) {
+    for (const token of missionDetail.tokens) {
       for (const setting of missionDetail.settings) {
         // find if the result is already exists
         const result = instanceDetail.textResults
-          && instanceDetail.textResults.find(x => x.url == url && x.textJob.type == setting.textMissionType);
+          && instanceDetail.textResults.find(x => x.url == token && x.textJob.type == setting.textMissionType);
 
         if (!result){
           this.currentNotations.push({
-            textToken: url,
+            textToken: token,
             setting: setting,
             job: { type: setting.textMissionType }
           });
         } else {
           this.currentNotations.push({
-            textToken: url,
+            textToken: token,
             setting: setting,
             job: result.textJob
           });
         }
       }
     }
+
+    console.log(toJS(this.currentNotations))
 
     // this.toFirstNotComplete();
   }
