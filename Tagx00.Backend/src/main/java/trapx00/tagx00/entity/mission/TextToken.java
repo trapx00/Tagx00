@@ -22,10 +22,11 @@ public class TextToken {
     public TextToken() {
     }
 
-    public TextToken(String token, Blob text, List<String> segmentedSentence) {
+    public TextToken(String token, Blob text, List<String> segmentedSentence, TextMission textMission) {
         this.token = token;
         this.text = text;
         this.segmentedSentence = segmentedSentence;
+        this.textMission = textMission;
     }
 
     public String getToken() {
@@ -50,5 +51,13 @@ public class TextToken {
 
     public void setSegmentedSentence(List<String> segmentedSentence) {
         this.segmentedSentence = segmentedSentence;
+    }
+
+    public TextMission getTextMission() {
+        return textMission;
+    }
+
+    public void setTextMission(TextMission textMission) {
+        this.textMission = textMission;
     }
 }

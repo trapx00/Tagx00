@@ -35,7 +35,7 @@ public class TextDataServiceImpl implements TextDataService {
     @Override
     public String uploadText(String token, String text, List<String> words) throws SystemException {
         try {
-            textTokenDao.save(new TextToken(token, new SerialBlob(text.getBytes("GBK")), words));
+            textTokenDao.save(new TextToken(token, new SerialBlob(text.getBytes("GBK")), words, null));
         } catch (SQLException | UnsupportedEncodingException e) {
             e.printStackTrace();
             throw new SystemException();

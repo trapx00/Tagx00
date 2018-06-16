@@ -31,12 +31,7 @@ export abstract class WorkPageController<M extends MissionDetail, I extends Inst
   }
 
   @computed get currentWork(): N {
-    if (this.workIndex == this.currentNotations.length) {
-      return null;
-    } else {
       return this.currentNotations[this.workIndex];
-    }
-
   }
 
   @computed get canGoNext() {

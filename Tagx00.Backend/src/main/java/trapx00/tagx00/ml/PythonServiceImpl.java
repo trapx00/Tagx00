@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
 import trapx00.tagx00.datacollect.DataObject;
@@ -14,10 +15,12 @@ import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.mlservice.PythonService;
 import trapx00.tagx00.parameters.ExtractKeyParameter;
+import trapx00.tagx00.parameters.SegmentWordParameter;
 import trapx00.tagx00.publicdatas.mission.TagTuple;
 import trapx00.tagx00.publicdatas.mission.image.whole.ImageWholeJob;
 import trapx00.tagx00.util.PathUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
+import trapx00.tagx00.vo.mission.image.ImageMissionType;
 import trapx00.tagx00.vo.ml.KeysVo;
 import trapx00.tagx00.vo.ml.RecommendTagsVo;
 import trapx00.tagx00.vo.ml.WordsVo;
@@ -82,7 +85,7 @@ public class PythonServiceImpl implements PythonService {
 
     @Override
     public void trainRecommend(ImageInstanceDetailVo imageInstanceDetailVo) throws IOException, ClassNotFoundException {
-        RestTemplate restTemplate = new RestTemplate();
+        AsyncRestTemplate restTemplate = new AsyncRestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -90,10 +93,12 @@ public class PythonServiceImpl implements PythonService {
         ImageInstance imageInstanceWithResults = getImageInstance(imageInstanceDetailVo.getInstance().getInstanceId());
         List<MissionAsset> missionAssets = new ArrayList<>(imageInstanceWithResults.getImageMission().getMissionAssets());
         for (int i = 0; i < missionAssets.size(); i++) {
-            List<TagTuple> tagTuples = ((ImageWholeJob) imageInstanceWithResults.getImageResults().get(i).getImageJob()).getTuple().getTagTuples();
-            List<String> tags = tagTuples.stream().collect(ArrayList::new, (list, tagTuple) -> list.add(tagTuple.getTag()), ArrayList::addAll);
-            DataObject dataObject = new DataObject(missionAssets.get(i).getUrl(), tags, missionAssets.get(i).getTagConfTuple());
-            dataObjects.add(dataObject);
+            if (imageInstanceWithResults.getImageResults().get(i).getImageJob().getType() == ImageMissionType.WHOLE) {
+                List<TagTuple> tagTuples = ((ImageWholeJob) imageInstanceWithResults.getImageResults().get(i).getImageJob()).getTuple().getTagTuples();
+                List<String> tags = tagTuples.stream().collect(ArrayList::new, (list, tagTuple) -> list.add(tagTuple.getTag()), ArrayList::addAll);
+                DataObject dataObject = new DataObject(missionAssets.get(i).getUrl(), tags, missionAssets.get(i).getTagConfTuple());
+                dataObjects.add(dataObject);
+            }
         }
         HttpEntity<List<DataObject>> entity = new HttpEntity<>(dataObjects, headers);
         String url = mlAddress + apiTrainRecommend;
@@ -104,7 +109,7 @@ public class PythonServiceImpl implements PythonService {
     public List<String> separateSentence(String content) throws SystemException {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> entity = new HttpEntity<>(content, headers);
+        HttpEntity<SegmentWordParameter> entity = new HttpEntity<>(new SegmentWordParameter(content), headers);
         String url = mlAddress + apiSeparateSentence;
         ResponseEntity<WordsVo> wordsVoResponseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, WordsVo.class);
 

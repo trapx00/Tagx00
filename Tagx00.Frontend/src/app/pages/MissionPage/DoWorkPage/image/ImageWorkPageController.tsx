@@ -19,8 +19,6 @@ export interface ImageNotation<T extends ImageJob = ImageJob> extends Notation<T
 export class ImageWorkPageController extends WorkPageController<ImageMissionDetail, ImageInstanceDetail,ImageJob, ImageNotation> {
   imageAssets: MissionAsset[];
 
-  @observable saving: boolean = false;
-
   currentInstanceDetail(): ImageInstanceDetail {
     const {instance} = this.initialDetail;
     return {
@@ -55,7 +53,7 @@ export class ImageWorkPageController extends WorkPageController<ImageMissionDeta
 
   constructor(missionDetail: ImageMissionDetail, instanceDetail: ImageInstanceDetail) {
     super(missionDetail, instanceDetail);
-    this.imageAssets = missionDetail.missionAssets;
+    this.imageAssets = missionDetail.missionAssetVos;
 
     for (const asset of this.imageAssets) {
       for (const type of missionDetail.publicItem.imageMissionTypes) {

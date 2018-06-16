@@ -12,6 +12,7 @@ import { TextWorkPage } from "./text/TextWorkPage";
 import { AudioWorkPage } from "./audiovideo/audio/AudioWorkPage";
 import { VideoWorkPage } from "./audiovideo/video/VideoWorkPage";
 import { ThreeDimensionWorkPage } from "./3d/3DWorkPage";
+import { MissionInstanceState } from "../../../models/instance/MissionInstanceState";
 
 interface Props {
   instanceDetail: InstanceDetail;
@@ -20,7 +21,7 @@ interface Props {
 }
 
 @observer
-export class DoWorkPage extends React.Component<Props, any> {
+export class DoWorkPage extends React.Component<Props, {}> {
 
   @Inject routerStore: RouterStore;
   @Inject workerService: WorkerService;
@@ -37,7 +38,9 @@ export class DoWorkPage extends React.Component<Props, any> {
       instanceDetail,
       missionDetail,
       jumpBack: this.jumpBack,
-      readonlyMode: this.props.readonly
+      readonlyMode:
+        instanceDetail.instance.missionInstanceState !== MissionInstanceState.IN_PROGRESS ||
+        this.props.readonly
     };
 
     switch (missionDetail.publicItem.missionType) {

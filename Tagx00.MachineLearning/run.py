@@ -6,6 +6,7 @@ from flask import (
     jsonify)
 
 from my_encoder import MyEncoder
+from path_util import PathUtil
 from pickup import pickup
 from tag import tag
 
@@ -25,7 +26,7 @@ def extractKeyWord():
 @app.route('/separateSentence', methods=['POST'])
 def separateSentence():
     data = json.loads(request.data.decode('utf-8'))
-    result = pickup.separate(data)
+    result = pickup.separate(data['content'])
     return jsonify({'words': result})
 
 
@@ -39,7 +40,7 @@ def getRecommendTag():
 @app.route('/trainRecommend', methods=['POST'])
 def trainRecommend():
     data = json.loads(request.data.decode('utf-8'))
-    with open("./data/proval/train.txt", "a+") as file:
+    with open(PathUtil.get_path()+"proval/train.txt", "a+") as file:
         for i in range(data.__len__()):
             file.write('\n')
             file.write(str(data[i]))

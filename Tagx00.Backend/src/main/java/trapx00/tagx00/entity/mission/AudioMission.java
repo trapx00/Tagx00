@@ -23,7 +23,7 @@ public class AudioMission extends Mission {
     @Column(name = "audioMissionType")
     @ElementCollection(targetClass = AudioMissionType.class)
     private List<AudioMissionType> audioMissionTypes;
-    @OneToMany(mappedBy = "audioMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "audioMission", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<AudioInstance> audioInstances;
 
     public AudioMission() {

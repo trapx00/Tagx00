@@ -15,12 +15,12 @@ import java.util.Set;
 @Table(name = "textMission")
 public class TextMission extends Mission {
     @Column(name = "textTokens")
-    @OneToMany(mappedBy = "textMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "textMission", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private Set<TextToken> textTokens;
     @Column(name = "textMissionSettings")
     @ElementCollection(targetClass = TextMissionSetting.class)
     private List<TextMissionSetting> textMissionSettings;
-    @OneToMany(mappedBy = "textMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "textMission", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<TextInstance> textInstances;
 
     public TextMission() {

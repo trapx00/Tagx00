@@ -70,7 +70,7 @@ export class TagPanel extends React.Component<Props, {}> {
   };
 
   render() {
-
+    console.log(this.props.tagTuples);
     return <Card title={<LocaleMessage id={ID_PREFIX + "tags"}/>}>
       {this.props.tagTuples.map(({tag},index) => {
         const isLongTag = tag.length > 20;

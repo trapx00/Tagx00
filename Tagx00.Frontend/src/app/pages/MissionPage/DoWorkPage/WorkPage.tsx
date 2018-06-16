@@ -1,8 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Inject } from "react.di";
 import { WorkerService } from "../../../api/WorkerService";
-import { ImageMissionDetail, ImageMissionType } from "../../../models/mission/image/ImageMission";
-import { ImageNotation } from "./image/ImageWorkPageController";
 import { Notation, WorkPageController } from "./WorkPageController";
 import { LocaleStore } from "../../../stores/LocaleStore";
 import { action, observable } from "mobx";
@@ -10,9 +8,6 @@ import { message, Progress } from 'antd';
 import { InstanceDetail } from "../../../models/instance/InstanceDetail";
 import { MissionDetail } from "../../../models/mission/MissionDetail";
 import { observer } from "mobx-react";
-import { ImageJob } from "../../../models/instance/image/job/ImageJob";
-import { CompleteModal } from "../../../components/Mission/WorkPageSuite/CompleteModal";
-import { LayoutShortcutProps } from "./WorkPageLayout";
 
 
 export interface RootWorkPageProps<M extends MissionDetail, I extends InstanceDetail> {

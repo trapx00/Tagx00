@@ -112,45 +112,7 @@ public class WorkerMissionController {
         }
     }
 
-    @Authorization(value = "工人")
-    @ApiOperation(value = "工人识别图片内容", notes = "工人识别图片内容")
-    @RequestMapping(value = "/mission/worker/image/identify", method = RequestMethod.POST)
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Progress saved.", response = ImageIdentificationResponse.class),
-            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
-            @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
-            @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
-    })
-    @ResponseBody
-    public ResponseEntity<Response> identifyImage(@RequestParam("file") MultipartFile multipartFile) {
-        try {
-            return new ResponseEntity<>(workerMissionBlService.identifyImage(multipartFile), HttpStatus.OK);
-        } catch (SystemException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
-    @Authorization(value = "工人")
-    @ApiOperation(value = "工人文本分词", notes = "工人文本分词")
-    @RequestMapping(value = "/mission/worker/wordSegment", method = RequestMethod.GET)
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Returns segmented words.", response = WordSegmentationResponse.class),
-            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
-            @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
-    })
-    @ResponseBody
-    public ResponseEntity<Response> segmentWords(@RequestParam("missionId") String missionId, @RequestParam("token") String token) {
-        try {
-            return new ResponseEntity<>(workerMissionBlService.segmentWords(missionId, token), HttpStatus.OK);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(new WrongResponse(10001, "system error"), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (MissionIdDoesNotExistException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.NOT_FOUND);
-        }
-    }
 
 
     @Authorization(value = "工人")

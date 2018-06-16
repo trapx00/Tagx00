@@ -40,5 +40,5 @@ public interface PublicMissionBlService {
      */
     ThreeModelGetResponse get3d(String tokens)throws ThreeDimensionNotExistException, SystemException;
 
-    MissionStateResponse getNumofMissionState(String missionId) throws SystemException,MissionIdDoesNotExistException;
+    MissionStateResponse getNumOfMissionState(String missionId) throws SystemException,MissionIdDoesNotExistException;
 }

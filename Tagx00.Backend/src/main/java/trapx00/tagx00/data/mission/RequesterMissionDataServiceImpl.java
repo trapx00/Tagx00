@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import trapx00.tagx00.data.dao.mission.*;
 import trapx00.tagx00.data.dao.mission.instance.*;
 import trapx00.tagx00.dataservice.mission.RequesterMissionDataService;
-import trapx00.tagx00.entity.mission.ThreeDimensionMission;
 import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.entity.mission.instance.*;
 import trapx00.tagx00.entity.mission.instance.workresult.*;
@@ -52,8 +51,8 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
 
     @Autowired
     public RequesterMissionDataServiceImpl(MissionDao missionDao, ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao,
-                                           TextMissionDao textMissionDao, TextInstanceDao textInstanceDao,AudioMissionDao audioMissionDao,AudioInstanceDao audioInstanceDao,VideoMissionDao videoMissionDao,
-                                           VideoInstanceDao videoInstanceDao,ThreeDimensionInstanceDao threeDimensionInstanceDao,
+                                           TextMissionDao textMissionDao, TextInstanceDao textInstanceDao, AudioMissionDao audioMissionDao, AudioInstanceDao audioInstanceDao, VideoMissionDao videoMissionDao,
+                                           VideoInstanceDao videoInstanceDao, ThreeDimensionInstanceDao threeDimensionInstanceDao,
                                            ThreeDimensionMissionDao threeDimensionMissionDao) {
         this.missionDao = missionDao;
         this.imageInstanceDao = imageInstanceDao;
@@ -74,34 +73,10 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @param mission
      */
     @Override
-    public String updateMission(Mission mission) throws SystemException, IOException {
-        Mission result = null;
-        switch (mission.getMissionType()) {
-            case IMAGE:
-                if ((result = imageMissionDao.save((ImageMission) mission)) == null) {
-                    throw new SystemException();
-                }
-                break;
-            case TEXT:
-                if ((result = textMissionDao.save((TextMission) mission)) == null) {
-                    throw new SystemException();
-                }
-                break;
-            case AUDIO:
-                if ((result = audioMissionDao.save((AudioMission) mission)) == null) {
-                    throw new SystemException();
-                }
-                break;
-            case VIDEO:
-                if ((result = videoMissionDao.save((VideoMission) mission)) == null) {
-                    throw new SystemException();
-                }
-                break;
-            case THREE_DIMENSION:
-                if ((result = threeDimensionMissionDao.save((ThreeDimensionMission) mission)) == null) {
-                    throw new SystemException();
-                }
-                break;
+    public String updateMission(Mission mission) throws SystemException {
+        Mission result = missionDao.save(mission);
+        if (result == null) {
+            throw new SystemException();
         }
         return result.getMissionId();
     }
@@ -172,9 +147,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 else {
                     int imageResultSize = 0;
                     List<ImageResult> imageResults = imageInstance.getImageResults();
-                    for (ImageResult imageResult : imageResults) {
-                        if (imageResult.isDone()) {
-                            imageResultSize++;
+                    if (imageResults != null) {
+                        for (ImageResult imageResult : imageResults) {
+                            if (imageResult.isDone()) {
+                                imageResultSize++;
+                            }
                         }
                     }
                     return generateImageInstanceDetailVo(imageInstance, imageResultSize);
@@ -186,9 +163,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 else {
                     int textResultSize = 0;
                     List<TextResult> textResults = textInstance.getTextResults();
-                    for (TextResult textResult : textResults) {
-                        if (textResult.isDone()) {
-                            textResultSize++;
+                    if (textResults != null) {
+                        for (TextResult textResult : textResults) {
+                            if (textResult.isDone()) {
+                                textResultSize++;
+                            }
                         }
                     }
                     return generateTextInstanceDetailVo(textInstance, textResultSize);
@@ -200,9 +179,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 else {
                     int audioResultSize = 0;
                     List<AudioResult> audioResults = audioInstance.getAudioResults();
-                    for (AudioResult audioResult : audioResults) {
-                        if (audioResult.isDone()) {
-                            audioResultSize++;
+                    if (audioResults != null) {
+                        for (AudioResult audioResult : audioResults) {
+                            if (audioResult.isDone()) {
+                                audioResultSize++;
+                            }
                         }
                     }
                     return generateAudioInstanceDetailVo(audioInstance, audioResultSize);
@@ -214,9 +195,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 else {
                     int videoResultSize = 0;
                     List<VideoResult> videoResults = videoInstance.getVideoResults();
-                    for (VideoResult videoResult : videoResults) {
-                        if (videoResult.isDone()) {
-                            videoResultSize++;
+                    if (videoResults != null) {
+                        for (VideoResult videoResult : videoResults) {
+                            if (videoResult.isDone()) {
+                                videoResultSize++;
+                            }
                         }
                     }
                     return generateVideoInstanceDetailVo(videoInstance, videoResultSize);
@@ -228,9 +211,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 else {
                     int threeDimensionResultSize = 0;
                     List<ThreeDimensionResult> threeDimensionResults = threeDimensionInstance.getThreeDimensionResults();
-                    for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
-                        if (threeDimensionResult.isDone()) {
-                            threeDimensionResultSize++;
+                    if (threeDimensionResults != null) {
+                        for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
+                            if (threeDimensionResult.isDone()) {
+                                threeDimensionResultSize++;
+                            }
                         }
                     }
                     return generateThreeDimensionInstanceDetailVo(threeDimensionInstance, threeDimensionResultSize);
@@ -254,9 +239,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                     int imageResultSize = 0;
                     ImageInstance imageInstance = (ImageInstance) instanceVo;
                     List<ImageResult> imageResults = imageInstance.getImageResults();
-                    for (ImageResult imageResult : imageResults) {
-                        if (imageResult.isDone()) {
-                            imageResultSize++;
+                    if (imageResults != null) {
+                        for (ImageResult imageResult : imageResults) {
+                            if (imageResult.isDone()) {
+                                imageResultSize++;
+                            }
                         }
                     }
                     instanceVos[i] = generateImageInstanceVo(imageInstance, imageResultSize);
@@ -270,9 +257,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                     int textResultSize = 0;
                     TextInstance textInstance = (TextInstance) instanceVo;
                     List<TextResult> textResults = textInstance.getTextResults();
-                    for (TextResult textResult : textResults) {
-                        if (textResult.isDone()) {
-                            textResultSize++;
+                    if (textResults != null) {
+                        for (TextResult textResult : textResults) {
+                            if (textResult.isDone()) {
+                                textResultSize++;
+                            }
                         }
                     }
                     instanceVos[i] = generateTextInstanceVo(textInstance, textResultSize);
@@ -283,15 +272,17 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 instanceVos = new InstanceVo[instances.size()];
                 for (int i = 0; i < instanceVos.length; i++) {
                     Instance instanceVo = instances.get(i);
-                    int threeDiemensionResultSize = 0;
+                    int threeDimensionResultSize = 0;
                     ThreeDimensionInstance threeDimensionInstance = (ThreeDimensionInstance) instanceVo;
                     List<ThreeDimensionResult> threeDimensionResults = threeDimensionInstance.getThreeDimensionResults();
-                    for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
-                        if (threeDimensionResult.isDone()) {
-                            threeDiemensionResultSize++;
+                    if (threeDimensionResults != null) {
+                        for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
+                            if (threeDimensionResult.isDone()) {
+                                threeDimensionResultSize++;
+                            }
                         }
                     }
-                    instanceVos[i] = generateThreeDimensionInstanceVo(threeDimensionInstance, threeDiemensionResultSize);
+                    instanceVos[i] = generateThreeDimensionInstanceVo(threeDimensionInstance, threeDimensionResultSize);
                 }
                 break;
             case VIDEO:
@@ -302,9 +293,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                     int videoResultSize = 0;
                     VideoInstance videoInstance = (VideoInstance) instanceVo;
                     List<VideoResult> videoResults = videoInstance.getVideoResults();
-                    for (VideoResult videoResult : videoResults) {
-                        if (videoResult.isDone()) {
-                            videoResultSize++;
+                    if (videoResults != null) {
+                        for (VideoResult videoResult : videoResults) {
+                            if (videoResult.isDone()) {
+                                videoResultSize++;
+                            }
                         }
                     }
                     instanceVos[i] = generateVideoInstanceVo(videoInstance, videoResultSize);
@@ -318,9 +311,11 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                     int audioResultSize = 0;
                     AudioInstance audioInstance = (AudioInstance) instanceVo;
                     List<AudioResult> audioResults = audioInstance.getAudioResults();
-                    for (AudioResult videoResult : audioResults) {
-                        if (videoResult.isDone()) {
-                            audioResultSize++;
+                    if (audioResults != null) {
+                        for (AudioResult videoResult : audioResults) {
+                            if (videoResult.isDone()) {
+                                audioResultSize++;
+                            }
                         }
                     }
                     instanceVos[i] = generateAudioInstanceVo(audioInstance, audioResultSize);
@@ -431,13 +426,13 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
                 mission = getMissionByMissionId(missionId);
                 break;
             case AUDIO:
-                mission=audioMissionDao.findAudioMissionByMissionId(missionId);
+                mission = audioMissionDao.findAudioMissionByMissionId(missionId);
                 break;
             case VIDEO:
-                mission=videoMissionDao.findVideoMissionByMissionId(missionId);
+                mission = videoMissionDao.findVideoMissionByMissionId(missionId);
                 break;
             case THREE_DIMENSION:
-                mission=threeDimensionMissionDao.findTHreeDimensionMissionByMissionId(missionId);
+                mission = threeDimensionMissionDao.findTHreeDimensionMissionByMissionId(missionId);
                 break;
 
         }
@@ -594,6 +589,5 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
         }
         return MissionUtil.addTypeToId(result, missionType);
     }
-
 
 }

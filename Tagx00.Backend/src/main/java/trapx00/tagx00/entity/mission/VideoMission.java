@@ -23,7 +23,7 @@ public class VideoMission extends Mission {
     @Column(name = "videoMissionType")
     @ElementCollection(targetClass = VideoMissionType.class)
     private List<VideoMissionType> videoMissionTypes;
-    @OneToMany(mappedBy = "videoMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "videoMission", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<VideoInstance> videoInstances;
 
     public VideoMission() {
