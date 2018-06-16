@@ -89,6 +89,7 @@
     "leaderboard":"排行榜"
   },
   "leaderboard":{
+    "topBoard":"巅峰榜单",
     "workerCredits":"工人富人榜",
     "requesterCredits":"发起者富人榜",
     "expBoard":"经验排行榜",

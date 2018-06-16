@@ -63,6 +63,7 @@
     "leaderboard":"Board"
   },
   "leaderboard":{
+    "topBoard":"Top Board",
     "workerCredits":"Worker Credits Board",
     "requesterCredits":"Requester Credits Board",
     "expBoard":"Experience Board",
