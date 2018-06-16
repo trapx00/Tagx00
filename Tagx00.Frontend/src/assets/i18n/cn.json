@@ -3,7 +3,33 @@
     "loading": "加载中"
   },
   "admin": {
-
+    "menu": {
+      "dashboard":"平台信息",
+      "missionChart": "任务统计",
+      "instanceChart": "实例统计",
+      "dateChart": "每日实例"
+    },
+    "dashboard": {
+      "name":"平台信息",
+      "userCount":"系统用户数"
+    },
+    "missionChart": {
+      "name": "任务统计",
+      "activeMissionCount":"可接受任务",
+      "pendingMissionCount":"未到期任务",
+      "endedMissionCount":"已结束任务",
+      "总任务数":"总任务"
+    },
+    "instanceChart": {
+      "name": "实例统计",
+      "inProgressInstanceCount":"进行中实例",
+      "submittedInstanceCount":"待评价实例",
+      "finalizeInstanceCount":"已结束实例",
+      "totalInstanceCount":"总实例"
+    },
+    "dateChart": {
+      "name": "每日实例"
+    }
   },
   "home": {
     "enter": "开始体验",
