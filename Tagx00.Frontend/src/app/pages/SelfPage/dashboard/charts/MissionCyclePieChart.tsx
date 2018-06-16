@@ -1,6 +1,8 @@
 import React from 'react';
 import { Axis as BizAxis, Axis, Chart as BizChart, Coord, Geom, Guide, Label, Legend, Tooltip } from 'bizCharts';
 import { DataView } from '@antv/data-set';
+import { Inject } from "react.di";
+import { LocaleStore } from "../../../../stores/LocaleStore";
 
 interface Props {
   activeMissionCount:number;
@@ -9,12 +11,21 @@ interface Props {
   totalMissionCount:number;
 }
 
+const ID_PREFIX = "admin.missionChart.";
+
 export class MissionCyclePieChart extends React.Component<Props,{}>{
+  @Inject localeStore: LocaleStore;
+
   render() {
+    const locale: any = new Proxy({}, {
+      get: (target, key) => {
+        return this.localeStore.get(`${ID_PREFIX}${key as string}`) as string;
+      }
+    });
     const data = [
-      { item: '可接受任务数', count: this.props.activeMissionCount/this.props.totalMissionCount },
-      { item: '未到时间任务数', count: this.props.pendingMissionCount/this.props.totalMissionCount },
-      { item: '结束任务数', count: this.props.endedMissionCount/this.props.totalMissionCount },
+      { item: locale.activeMissionCount, count: this.props.activeMissionCount/this.props.totalMissionCount },
+      { item: locale.pendingMissionCount, count: this.props.pendingMissionCount/this.props.totalMissionCount },
+      { item: locale.endedMissionCount, count: this.props.endedMissionCount/this.props.totalMissionCount },
     ];
     const dv = new DataView();
     dv.source(data).transform({
@@ -26,8 +37,7 @@ export class MissionCyclePieChart extends React.Component<Props,{}>{
     const cols = {
       percent: {
         formatter: val => {
-          val = (val.toFixed(4) * 100) + '%';
-          return val;
+          return val * this.props.totalMissionCount;
         }
       }
     }

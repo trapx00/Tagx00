@@ -2,6 +2,36 @@
   "common": {
     "loading": "Loading..."
   },
+  "admin": {
+    "menu": {
+      "dashboard":"System Info",
+      "missionChart": "MissionChart",
+      "instanceChart": "InstanceChart",
+      "dateChart": "DailyInstance"
+    },
+    "dashboard": {
+      "name":"System Info",
+      "userCount":"Users",
+      "allUser":"In Using Accounts"
+    },
+    "missionChart": {
+      "name": "System Mission Statistics",
+      "activeMissionCount":"Active Missions",
+      "pendingMissionCount":"Pending Missions",
+      "endedMissionCount":"Ended Missions",
+      "totalMissionCount":"Total Missions"
+    },
+    "instanceChart": {
+      "name": "System Instance Statistics",
+      "inProgressInstanceCount":"Active Instances",
+      "submittedInstanceCount":"Submit Instances",
+      "finalizeInstanceCount":"Finished Instances",
+      "totalInstanceCount":"Total Instances"
+    },
+    "dateChart": {
+      "name": "Daily Increasing Instances Statistics"
+    }
+  },
   "home": {
     "enter": "Start",
     "productDescription": "A data tagging system",
@@ -66,6 +96,29 @@
     },
     "achievement": "Achievement",
     "personalInfo": "My info"
+  },
+  "dashboard": {
+    "selfInfo": {
+      "username":"User Name",
+      "email":"Email",
+      "credits":"Credits",
+      "level":"Level",
+      "exp":"Exp"
+    },
+    "worker":{
+      "acceptedMissionCount":"Accepted",
+      "inProgressMissionCount":"In Progress",
+      "completedMissionCount":"Submitted",
+      "abandonedMissionCount":"Abandoned",
+      "finalizedMissionCount":"Finalized"
+    },
+    "requester": {
+      "submittedMissionCount": "Created Missions",
+      "instanceCount":"Manage Instances",
+      "inProgressInstanceCount":"In Progress",
+      "awaitingCommentInstanceCount":"Wait Comment",
+      "finalizedInstanceCount":"Finalized"
+    }
   },
   "drawingPad": {
     "common": {

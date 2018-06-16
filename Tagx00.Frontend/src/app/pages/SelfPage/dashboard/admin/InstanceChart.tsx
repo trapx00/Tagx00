@@ -8,26 +8,20 @@ import { InstanceCyclePieChart } from "../charts/InstanceCyclePieChart";
 import { observer } from "mobx-react";
 import { LocaleStore } from "../../../../stores/LocaleStore";
 
-const ID_PREFIX = "admin.instanceChart";
+const ID_PREFIX = "admin.instanceChart.";
 
 @observer
-export class Instance extends React.Component<{}, {}> {
+export default class InstanceChart extends React.Component<{}, {}> {
   @Inject adminService: AdminService;
   @Inject localeStore: LocaleStore;
 
   renderInfo = async () => {
-    const instanceChart: any = new Proxy({}, {
-      get: (target, key) => {
-        return this.localeStore.get(`${ID_PREFIX}fields.${key as string}`) as string;
-      }
-    });
-
     const info = await this.adminService.getAdminInfo();
     return <div>
-      <DefinitionItem prompt={"正在进行实例数"} children={info.inProgressInstanceCount}/>
-      <DefinitionItem prompt={"已提交实例数"} children={info.submittedInstanceCount}/>
-      <DefinitionItem prompt={"已结束实例数"} children={info.finalizeInstanceCount}/>
-      <DefinitionItem prompt={"总实例数"} children={info.totalInstanceCount}/>
+      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "inProgressInstanceCount"}/>} children={info.inProgressInstanceCount}/>
+      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "submittedInstanceCount"}/>} children={info.submittedInstanceCount}/>
+      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "finalizeInstanceCount"}/>} children={info.finalizeInstanceCount}/>
+      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "totalInstanceCount"}/>} children={info.totalInstanceCount}/>
       <InstanceCyclePieChart activeInstanceCount={info.inProgressInstanceCount}
                              pendingInstanceCount={info.submittedInstanceCount}
                              endedInstanceCount={info.finalizeInstanceCount}
@@ -36,6 +30,10 @@ export class Instance extends React.Component<{}, {}> {
   }
 
   render() {
-    return <AsyncComponent render={this.renderInfo}/>
+    return <div>
+      <h2><LocaleMessage id={ID_PREFIX + "name"}/></h2>
+      <br/>
+      <AsyncComponent render={this.renderInfo}/>
+    </div>
   }
 }

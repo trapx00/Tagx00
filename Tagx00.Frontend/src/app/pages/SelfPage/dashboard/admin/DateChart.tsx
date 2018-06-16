@@ -4,9 +4,12 @@ import React from "react";
 import { AsyncComponent } from "../../../../router/AsyncComponent";
 import { MissionDateChart } from "../charts/InstanceAcceptedWithDateChart";
 import { observer } from "mobx-react";
+import { LocaleMessage } from "../../../../internationalization/components";
+
+const ID_PREFIX = "admin.dateChart.";
 
 @observer
-export class Date extends React.Component<{}, {}> {
+export default class DateChart extends React.Component<{}, {}> {
   @Inject adminService: AdminService;
 
   renderInfo = async () => {
@@ -15,6 +18,10 @@ export class Date extends React.Component<{}, {}> {
   }
 
   render() {
-    return <AsyncComponent render={this.renderInfo}/>
+    return <div>
+      <h2><LocaleMessage id={ID_PREFIX + "name" }/></h2>
+      <br/>
+      <AsyncComponent render={this.renderInfo}/>
+    </div>
   }
 }

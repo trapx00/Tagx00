@@ -1,6 +1,8 @@
 import React from 'react';
 import { Axis as BizAxis, Axis, Chart as BizChart, Coord, Geom, Guide, Label, Legend, Tooltip } from 'bizCharts';
 import { DataView } from '@antv/data-set';
+import { Inject } from "react.di";
+import { LocaleStore } from "../../../../stores/LocaleStore";
 
 interface Props {
   acceptMissionCount:number,
@@ -10,13 +12,22 @@ interface Props {
   finalizedMissionCount:number
 }
 
+const ID_PREFIX = "dashboard.worker.";
+
 export class WorkerMissionCyclePieChart extends React.Component<Props,{}>{
+  @Inject localeStore: LocaleStore;
+
   render() {
+    const locale: any = new Proxy({}, {
+      get: (target, key) => {
+        return this.localeStore.get(`${ID_PREFIX}${key as string}`) as string;
+      }
+    });
     const data = [
-      { item: '正在进行任务数', count: this.props.inProgressMissionCount/this.props.acceptMissionCount },
-      { item: '已提交任务数', count: this.props.completedMissionCount/this.props.acceptMissionCount },
-      { item: '已结束任务数', count: this.props.finalizedMissionCount/this.props.acceptMissionCount },
-      { item: '已放弃任务数', count: this.props.abandonedMissionCount/this.props.acceptMissionCount },
+      { item: locale.inProgressMissionCount, count: this.props.inProgressMissionCount/this.props.acceptMissionCount },
+      { item: locale.completedMissionCount, count: this.props.completedMissionCount/this.props.acceptMissionCount },
+      { item: locale.finalizedMissionCount, count: this.props.finalizedMissionCount/this.props.acceptMissionCount },
+      { item: locale.abandonedMissionCount, count: this.props.abandonedMissionCount/this.props.acceptMissionCount },
     ];
     const dv = new DataView();
     dv.source(data).transform({
@@ -28,8 +39,7 @@ export class WorkerMissionCyclePieChart extends React.Component<Props,{}>{
     const cols = {
       percent: {
         formatter: val => {
-          val = (val.toFixed(3) * 100) + '%';
-          return val;
+          return val * this.props.acceptMissionCount;
         }
       }
     }

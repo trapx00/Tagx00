@@ -11,24 +11,25 @@
     },
     "dashboard": {
       "name":"平台信息",
-      "userCount":"系统用户数"
+      "userCount":"用户数",
+      "allUser":"平台用户总数"
     },
     "missionChart": {
-      "name": "任务统计",
+      "name": "平台任务统计",
       "activeMissionCount":"可接受任务",
       "pendingMissionCount":"未到期任务",
       "endedMissionCount":"已结束任务",
-      "总任务数":"总任务"
+      "totalMissionCount":"总任务"
     },
     "instanceChart": {
-      "name": "实例统计",
+      "name": "平台实例统计",
       "inProgressInstanceCount":"进行中实例",
       "submittedInstanceCount":"待评价实例",
       "finalizeInstanceCount":"已结束实例",
       "totalInstanceCount":"总实例"
     },
     "dateChart": {
-      "name": "每日实例"
+      "name": "每日新增实例统计"
     }
   },
   "home": {
@@ -102,6 +103,29 @@
     "avatar": {
       "gravatar": "头像通过邮箱从gravatar上获得。",
       "whatIsGravatar": "什么是Gravatar？"
+    }
+  },
+  "dashboard": {
+    "selfInfo": {
+      "username":"用户名",
+      "email":"注册邮箱",
+      "credits":"积分",
+      "level":"等级",
+      "exp":"经验"
+    },
+    "worker":{
+      "acceptedMissionCount":"接受任务总数",
+      "inProgressMissionCount":"正在进行任务",
+      "completedMissionCount":"提交待评任务",
+      "abandonedMissionCount":"放弃任务总数",
+      "finalizedMissionCount":"完成任务总数"
+    },
+    "requester": {
+      "submittedMissionCount": "创建任务总数",
+      "instanceCount":"管理实例总数",
+      "inProgressInstanceCount":"正在进行实例",
+      "awaitingCommentInstanceCount":"等待评价实例",
+      "finalizedInstanceCount":"已结束任务数"
     }
   },
   "drawingPad": {

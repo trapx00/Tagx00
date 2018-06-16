@@ -7,7 +7,7 @@ export class AdminServiceMock extends AdminService {
     async getAdminInfo(): Promise<AdminInfo> {
        return {
            userCount: 100,
-           totalMissionCount: 1000,
+           totalMissionCount: 800,
            activeMissionCount:200,
            pendingMissionCount:300,
            endedMissionCount:300,

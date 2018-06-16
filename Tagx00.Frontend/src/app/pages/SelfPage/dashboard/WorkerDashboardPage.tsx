@@ -13,6 +13,8 @@ import { WorkerMissionCyclePieChart } from "./charts/WorkerMissionCyclePieChart"
 import { AvatarContainer } from "./AvatarContainer";
 import { UserProfileLayout } from "./UserProfileLayout";
 
+const ID_PREFIX = "dashboard.";
+
 export class WorkerDashboardPage extends React.Component<{},{}> {
   @Inject userStore: UserStore;
   @Inject workerService: WorkerService;
@@ -22,11 +24,11 @@ export class WorkerDashboardPage extends React.Component<{},{}> {
   workerInfo = async () => {
     const info = await this.workerService.getWorkerInfo(this.userStore.user.username);
     return <div>
-      <DefinitionItem prompt={"已接受任务数"} children={info.acceptedMissionCount}/>
-      <DefinitionItem prompt={"进行中任务数"} children={info.inProgressMissionCount}/>
-      <DefinitionItem prompt={"已提交任务数"} children={info.completedMissionCount}/>
-      <DefinitionItem prompt={"已放弃任务数"} children={info.abandonedMissionCount}/>
-      <DefinitionItem prompt={"已完成任务数"} children={info.finalizedMissionCount}/>
+      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "worker.acceptedMissionCount"}/>} children={info.acceptedMissionCount}/>
+      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "worker.inProgressMissionCount"}/>} children={info.inProgressMissionCount}/>
+      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "worker.completedMissionCount"}/>} children={info.completedMissionCount}/>
+      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "worker.abandonedMissionCount"}/>} children={info.abandonedMissionCount}/>
+      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "worker.finalizedMissionCount"}/>} children={info.finalizedMissionCount}/>
       <WorkerMissionCyclePieChart acceptMissionCount={info.acceptedMissionCount} inProgressMissionCount={info.inProgressMissionCount} completedMissionCount={info.completedMissionCount} abandonedMissionCount={info.abandonedMissionCount} finalizedMissionCount={info.finalizedMissionCount}/>
     </div>
   }
@@ -38,19 +40,19 @@ export class WorkerDashboardPage extends React.Component<{},{}> {
     const percent = (info.exp) * 100 / nextLevelExp;
     return (
       <div>
-        <DefinitionItem prompt={"用户名"}>
+        <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.username"}/>}>
           {info.username}
         </DefinitionItem>
-        <DefinitionItem prompt={"注册邮箱"}>
+        <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.email"}/>}>
           {info.email}
         </DefinitionItem>
-        <DefinitionItem prompt={"等级"}>
+        <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.level"}/>}>
           {info.level}
         </DefinitionItem>
-        <DefinitionItem prompt={"积分"}>
+        <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.credits"}/>}>
           {credits.credits}
         </DefinitionItem>
-        <DefinitionItem prompt={"经验"}
+        <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.exp"}/>}
                         children={
                           <div style={{width: 200}}>
                             <Progress percent={percent} format={() => info.exp + "/" + nextLevelExp}/>
@@ -65,8 +67,6 @@ export class WorkerDashboardPage extends React.Component<{},{}> {
           <UserProfileLayout avatarUrl={this.userStore.user.avatarUrl}>
             <AsyncComponent render={this.registerInfo}/>
           </UserProfileLayout>
-
-
           <br/>
           <br/>
           <h2>

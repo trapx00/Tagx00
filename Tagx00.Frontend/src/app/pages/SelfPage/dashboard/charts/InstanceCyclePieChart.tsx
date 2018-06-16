@@ -1,6 +1,8 @@
 import React from 'react';
 import { Axis as BizAxis, Axis, Chart as BizChart, Coord, Geom, Guide, Label, Legend, Tooltip } from 'bizCharts';
 import { DataView } from '@antv/data-set';
+import { Inject } from "react.di";
+import { LocaleStore } from "../../../../stores/LocaleStore";
 
 interface Props {
   activeInstanceCount:number;
@@ -9,12 +11,20 @@ interface Props {
   totalInstanceCount:number;
 }
 
+const ID_PREFIX = "admin.instanceChart.";
+
 export class InstanceCyclePieChart extends React.Component<Props,{}>{
+  @Inject localeStore: LocaleStore;
   render() {
+    const locale: any = new Proxy({}, {
+      get: (target, key) => {
+        return this.localeStore.get(`${ID_PREFIX}${key as string}`) as string;
+      }
+    });
     const data = [
-      { item: '正在进行实例数', count: this.props.activeInstanceCount/this.props.totalInstanceCount },
-      { item: '已提交实例数', count: this.props.pendingInstanceCount/this.props.totalInstanceCount },
-      { item: '已结束实例数', count: this.props.endedInstanceCount/this.props.totalInstanceCount },
+      { item: locale.inProgressInstanceCount, count: this.props.activeInstanceCount/this.props.totalInstanceCount },
+      { item: locale.submittedInstanceCount, count: this.props.pendingInstanceCount/this.props.totalInstanceCount },
+      { item: locale.finalizeInstanceCount, count: this.props.endedInstanceCount/this.props.totalInstanceCount },
     ];
     const dv = new DataView();
     dv.source(data).transform({

@@ -9,7 +9,7 @@ import { LocaleMessage } from "../../../../internationalization/components";
 interface Props {
 }
 
-const URL = "/account/admin/dashboard/";
+const URL = "/self/dashboard/";
 
 const ID_PREFIX = "admin.menu.";
 
@@ -38,7 +38,7 @@ const tabs = [
 ];
 
 @observer
-export class ChartTypeMenu extends React.Component<Props, {}> {
+export default class ChartTypeMenu extends React.Component<Props, {}> {
 
   @Inject routerStore: RouterStore;
 
@@ -49,6 +49,7 @@ export class ChartTypeMenu extends React.Component<Props, {}> {
   render() {
     const pathArray = this.routerStore.path.split("/");
     const currentTab = pathArray[pathArray.length - 1];
+    console.log(currentTab);
     return <Menu onClick={this.onClick}
                  selectedKeys={[currentTab.toUpperCase()]}
                  mode="horizontal">
