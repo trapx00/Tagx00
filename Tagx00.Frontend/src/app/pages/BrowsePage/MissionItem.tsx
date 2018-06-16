@@ -29,10 +29,7 @@ const Row = styled.div`
 
 const Img = styled.img`
   margin-right: 16px;
-  width: 30%;
-  @media (max-width: 500px) {
-    width: 40%;
-  }
+  width: 200px;
 `;
 
 const MetaContainer = styled.div`
@@ -54,7 +51,6 @@ export class MissionItem extends React.PureComponent<Props, {}> {
 
   render() {
     const {item} = this.props;
-    const toLink = `/mission?missionId=${this.props.item.missionId}`;
     return <Row style={{marginBottom: "8px"}}>
           <Img alt="logo" src={item.coverUrl}/>
       <MetaContainer>

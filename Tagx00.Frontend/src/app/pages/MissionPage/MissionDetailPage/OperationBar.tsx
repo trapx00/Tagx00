@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { LocaleStore } from "../../../stores/LocaleStore";
 import { MissionPublicItem } from "../../../models/mission/MissionPublicItem";
+import { MissionInstanceState } from "../../../models/instance/MissionInstanceState";
 
 
 interface Props {
@@ -42,18 +43,23 @@ export class OperationBar extends React.Component<Props, State> {
     const {missionId, minimalWorkerLevel} = this.props.missionPublicItem;
     try {
       const detail = await this.workerService.getInstanceDetail(missionId);
-      return <p>
+      return <div>
+        <h3><LocaleMessage id={ID_PREFIX+"state."+detail.detail.instance.missionInstanceState}/></h3>
+        <p>
+        {detail.detail.instance.missionInstanceState === MissionInstanceState.IN_PROGRESS &&
         <Link to={`/mission/worker/${missionId}/doWork`}>
           <Button><LocaleMessage id={ID_PREFIX + "continueWorking"}/></Button>
         </Link>
+        }
         <Link to={`/mission/worker/${missionId}`}>
           <Button><LocaleMessage id={ID_PREFIX + "seeResult"}/></Button>
         </Link>
-      </p>
+        </p>
+      </div>
     } catch (e) {
       if (e.statusCode === 404) { // not accepted
         const level = (await this.workerService.getWorkerInfo(this.userStore.user.username)).level;
-        console.log(level);
+
         if (level >= minimalWorkerLevel) {
           return <Button type={"primary"} onClick={this.accept}><LocaleMessage id={ID_PREFIX + "accept"}/></Button>;
         } else {

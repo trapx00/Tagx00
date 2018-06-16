@@ -1,15 +1,15 @@
 import React, { ReactNode } from 'react';
-import { AsyncComponent } from "../../../../router/AsyncComponent";
-import { Loading } from "../../../../components/Common/Loading";
+import { AsyncComponent } from "../../../router/AsyncComponent";
+import { Loading } from "../../Common/Loading/index";
 import { Inject } from "react.di";
-import { HttpService } from "../../../../api/HttpService";
-import { HttpMethod } from "../../../../api/utils";
+import { HttpService } from "../../../api/HttpService";
+import { HttpMethod } from "../../../api/utils";
 import styled from "styled-components";
 import { Tabs, Tag as AntdTag} from 'antd';
-import { MissionService } from "../../../../api/MissionService";
-import { LocaleMessage } from "../../../../internationalization/components";
-import { LoadingBarContainer } from "../../../../layouts/BaseLayout/LoadingBarContainer";
-import { TagMissionContent } from "../../../../components/TagMission";
+import { MissionService } from "../../../api/MissionService";
+import { LocaleMessage } from "../../../internationalization/components/index";
+import { LoadingBarContainer } from "../../../layouts/BaseLayout/LoadingBarContainer";
+import { TagMissionContent } from "../../TagMission/index";
 import QueueAnim from 'rc-queue-anim';
 
 const { TabPane } = Tabs;
@@ -17,7 +17,7 @@ const { TabPane } = Tabs;
 interface Props {
   textToken: string;
   missionId: string;
-  addTag?(tag: string): void;
+  onTagClicked?(tag: string): void;
   selectedTags?: string[];
 }
 
@@ -33,6 +33,7 @@ const Container = styled.div`
 
 interface State {
   loading: boolean;
+  textToken: string;
 }
 
 const TagContainer = styled.div`
@@ -49,6 +50,14 @@ const TagContainer = styled.div`
 interface MyTagProps {
   selected: boolean;
 }
+
+
+interface Cache {
+  text: string;
+  segmented: string[];
+}
+
+const cache: {[s: string]: Cache} = {};
 
 const MyTag = styled.div`
     border-radius: 6px;
@@ -92,19 +101,48 @@ export class SegmentedPane extends React.PureComponent<{ onClick(tag: string): v
 export class TextReader extends React.Component<Props, State> {
 
   state = {
-    loading: true
+    loading: false,
+    textToken: ""
   };
 
   text: string;
   segmented: string[];
 
-  async componentDidMount() {
-    this.text = await this.missionService.getTextByToken(this.props.textToken);
-    this.segmented = await this.missionService.segmentWord(this.props.textToken, this.props.missionId);
+  componentDidMount() {
+    this.load();
+  }
+
+  componentDidUpdate() {
+    if (this.props.textToken !== this.state.textToken) {
+      this.load();
+    }
+  }
+
+
+  async load() {
+
+    this.setState({
+      loading: true,
+      textToken: this.props.textToken
+    });
+
+
+    const cached = cache[this.props.textToken];
+    if (cached) {
+      this.text = cached.text;
+      this.segmented = cached.segmented;
+    } else {
+      this.text = await this.missionService.getTextByToken(this.props.textToken);
+      this.segmented = await this.missionService.segmentWord(this.props.textToken, this.props.missionId);
+      cache[this.props.textToken] = { text: this.text, segmented: this.segmented};
+    }
+
     this.setState({
       loading: false
-    })
+    });
+
   }
+
 
   static defaultProps = {
     selectedTags: []
@@ -113,7 +151,7 @@ export class TextReader extends React.Component<Props, State> {
   @Inject missionService: MissionService;
 
   onTagClick = (tag: string) => {
-    this.props.addTag && this.props.addTag(tag);
+    this.props.onTagClicked && this.props.onTagClicked(tag);
   };
 
   render() {
@@ -126,7 +164,9 @@ export class TextReader extends React.Component<Props, State> {
           {this.text}
         </TabPane>
         <TabPane key={"segmented"} tab={<LocaleMessage id={ID_PREFIX+"segmented"}/>}>
-          <SegmentedPane onClick={this.onTagClick} words={this.segmented} selectedWords={this.props.selectedTags}/>
+          <SegmentedPane onClick={this.onTagClick}
+                         words={this.segmented}
+                         selectedWords={this.props.selectedTags}/>
         </TabPane>
       </Tabs>
     </Container>

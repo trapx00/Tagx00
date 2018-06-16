@@ -137,12 +137,15 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
         try {
             TextMission textMission = (TextMission) requesterMissionDataService.getMissionByMissionId(missionId);
             List<TextToken> textTokens = new ArrayList<>();
-            File file = new File(TEMP_PATH + "/text");
+
+            String id = missionId+"-"+multipartFile.getName();
+
+            File file = new File(TEMP_PATH + "/"+id);
             FileImageOutputStream fileWriter = new FileImageOutputStream(file);
             fileWriter.write(multipartFile.getBytes());
             fileWriter.close();
 
-            java.lang.String descDir = TEMP_PATH + "/textZip";
+            java.lang.String descDir = TEMP_PATH + "/" + id + "zip";
             File pathFile = new File(descDir);
             if (!pathFile.exists()) {
                 pathFile.mkdirs();

@@ -17,17 +17,18 @@ import { TextKeywordsWorkPage } from "./TextKeywordsWorkPage";
 import { TextClassificationWorkPage } from "./TextClassificationWorkPage";
 import { TextNotation } from "./shared";
 import { observer } from "mobx-react";
+import { toJS } from "mobx";
 
 interface Props extends RootWorkPageProps<TextMissionDetail, TextInstanceDetail>{
 
 }
 
-@observer
 export class TextWorkPage extends React.Component<Props, {}> {
 
-  @Inject controller: TextWorkPageController = new TextWorkPageController(this.props.missionDetail, this.props.instanceDetail);
+  controller: TextWorkPageController = new TextWorkPageController(this.props.missionDetail, this.props.instanceDetail);
 
   chooseWorkPage = (context: WorkPageProps<TextMissionDetail, TextJob, TextNotation<TextJob, TextMissionSetting>>) => {
+    console.log(toJS(context));
     switch (context.notation.setting.textMissionType) {
       case TextMissionType.KEYWORDS:
         return <TextKeywordsWorkPage {...context as any}/>;
@@ -38,6 +39,7 @@ export class TextWorkPage extends React.Component<Props, {}> {
   };
 
   render() {
+    console.log("rerender");
     return <WorkPage readonlyMode={this.props.readonlyMode}
                      chooseWorkPage={this.chooseWorkPage}
                      controller={this.controller}

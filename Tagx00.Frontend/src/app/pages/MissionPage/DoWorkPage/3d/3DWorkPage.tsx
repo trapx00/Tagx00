@@ -13,7 +13,6 @@ interface Props extends RootWorkPageProps<ThreeDimensionMissionDetail, ThreeDime
 
 }
 
-@observer
 export class ThreeDimensionWorkPage extends React.Component<Props, {}> {
 
   controller = new ThreeDimensionWorkPageController(this.props.missionDetail, this.props.instanceDetail);

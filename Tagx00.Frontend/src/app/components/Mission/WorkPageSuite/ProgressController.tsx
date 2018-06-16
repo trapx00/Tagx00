@@ -45,7 +45,7 @@ export class ProgressController extends React.Component<Props, {}> {
           </Button>
         </Button.Group>
       <Button.Group size={"large"}>
-        {this.props.readonlyMode ? null :
+        {!this.props.readonlyMode &&
           <Button type="primary" onClick={this.props.saveProgress} loading={this.props.saving}>
             <Icon type="save"/><LocaleMessage id={ID_PREFIX + "save"}/>
           </Button>
@@ -53,9 +53,10 @@ export class ProgressController extends React.Component<Props, {}> {
         <Button onClick={this.props.toFirstIncomplete}>
           <Icon type="edit" /><LocaleMessage id={ID_PREFIX+"toFirstIncomplete"}/>
         </Button>
-        <Button onClick={this.showSubmitConfirm}>
-          <Icon type="check" /><LocaleMessage id={ID_PREFIX+"submit"}/>
+        {!this.props.readonlyMode && <Button onClick={this.showSubmitConfirm}>
+          <Icon type="check"/><LocaleMessage id={ID_PREFIX + "submit"}/>
         </Button>
+        }
 
 
       </Button.Group>

@@ -289,6 +289,7 @@
       "TEXT": {
         "name":"文本任务",
         "types": "文本任务种类",
+        "sampleTitle": "文本示例",
         "CLASSIFICATION": {
           "name": "主题分类",
           "classes":"预设分类"
@@ -486,7 +487,13 @@
         "seeResult": "查看任务进度",
         "continueWorking": "继续做任务",
         "accepted": "接受任务成功",
-        "levelNotEnough": "等级不足以接受任务"
+        "levelNotEnough": "等级不足以接受任务",
+        "state": {
+          "FINALIZED": "您已经做过本任务，并已经获得评价。",
+          "SUBMITTED": "您已经提交本任务，等待评价。",
+          "IN_PROGRESS": "您正在做本任务。",
+          "ABANDONED": "您已经放弃本任务。"
+        }
       }
     },
     "sideMenu": {
