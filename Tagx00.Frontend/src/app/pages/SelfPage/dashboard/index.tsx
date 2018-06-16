@@ -5,6 +5,7 @@ import { WorkerDashboardPage } from "./WorkerDashboardPage";
 import { RequesterDashboardPage } from "./RequesterDashboardPage";
 import { UserRole } from "../../../models/user/User";
 import AdminDashboardPage from "./admin";
+import Default from "./admin/Default";
 
 export default class DashboardPage extends React.Component<{}, {}> {
 
@@ -18,7 +19,7 @@ export default class DashboardPage extends React.Component<{}, {}> {
       case UserRole.ROLE_REQUESTER:
         return <RequesterDashboardPage/>;
       case UserRole.ROLE_ADMIN:
-        return <AdminDashboardPage/>;
+        return <Default/>;
       default:
         return null;
     }

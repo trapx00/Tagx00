@@ -7,6 +7,7 @@ import { AsyncComponent } from "../../../../router/AsyncComponent";
 import { InstanceCyclePieChart } from "../charts/InstanceCyclePieChart";
 import { observer } from "mobx-react";
 import { LocaleStore } from "../../../../stores/LocaleStore";
+import { MinorTitle } from "../../../LeaderboardPage/common";
 
 const ID_PREFIX = "admin.instanceChart.";
 
@@ -31,8 +32,7 @@ export default class InstanceChart extends React.Component<{}, {}> {
 
   render() {
     return <div>
-      <h2><LocaleMessage id={ID_PREFIX + "name"}/></h2>
-      <br/>
+      <MinorTitle><LocaleMessage id={ID_PREFIX + "name"}/></MinorTitle>
       <AsyncComponent render={this.renderInfo}/>
     </div>
   }

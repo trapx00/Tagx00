@@ -46,7 +46,7 @@ export default class RequesterCreditBoardPage extends React.Component<{}, {}> {
     const tops = range(0,Math.min(MAX_TOP_LIST_LENGTH, requesterCreditBoard.users.length)).map(i => ({username: requesterCreditBoard.users[i].username, value: requesterCreditBoard.users[i].credits}));
     return <div>
         <MinorTitle>
-          巅峰榜单
+          <LocaleMessage id={"leaderboard.topBoard"}/>
         </MinorTitle>
         <LeaderboardLineChart data={tops}/>
         <MinorTitle>

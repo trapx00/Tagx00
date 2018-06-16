@@ -7,6 +7,7 @@ import { AsyncComponent } from "../../../../router/AsyncComponent";
 import { observer } from "mobx-react";
 import { LocaleStore } from "../../../../stores/LocaleStore";
 import { LocaleMessage } from "../../../../internationalization/components";
+import { MinorTitle } from "../../../LeaderboardPage/common";
 
 
 const ID_PREFIX = "admin.missionChart.";
@@ -32,8 +33,7 @@ export default class MissionChart extends React.Component<{}, {}> {
 
   render() {
     return <div>
-      <h2><LocaleMessage id={ID_PREFIX + "name"}/></h2>
-      <br/>
+      <MinorTitle><LocaleMessage id={ID_PREFIX + "name"}/></MinorTitle>
       <AsyncComponent render={this.renderInfo}/>
     </div>
   }
