@@ -1,0 +1,755 @@
+{
+  "common": {
+    "loading": "In Last",
+    "missionType": {
+      "IMAGE": "Bildaufgaben",
+      "TEXT": "Text Aufgabe",
+      "AUDIO": "Audio-Task",
+      "VIDEO": "Video Aufgaben",
+      "THREE_DIMENSION": "3D-Task"
+    }
+  },
+  "admin": {
+    "menu": {
+      "dashboard": "Plattforminformationen",
+      "missionChart": "Aufgaben Statistik",
+      "instanceChart": "Instanz-Statistik",
+      "dateChart": "Tägliche Instanz",
+      "user": "Benutzer Statistik",
+      "credits": "Integral Statistik"
+    },
+    "dashboard": {
+      "name": "Plattforminformationen"
+    },
+    "missionChart": {
+      "stateDistribution": "Task Status Statistik",
+      "activeMissionCount": "Akzeptable Aufgaben",
+      "pendingMissionCount": "Aufgabe nicht abgelaufen",
+      "endedMissionCount": "Aufgabe geschlossen",
+      "totalMissionCount": "Zuschläge",
+      "typeDistribution": "Alle Arten von Taskstatus Statistiken",
+      "missionState": {
+        "PENDING": "Nicht gestartet",
+        "ACTIVE": "Eine akzeptable",
+        "ENDED": "Beendet wurde"
+      }
+    },
+    "instanceChart": {
+      "stateDistribution": "Instanzen Status Statistik",
+      "inProgressInstanceCount": "In Progress-Instanz",
+      "submittedInstanceCount": "Zu bewertende Beispiele",
+      "finalizeInstanceCount": "Instanz geschlossen",
+      "abandonedInstanceCount": "Instanz wurde verworfen",
+      "totalInstanceCount": "Instanzen insgesamt",
+      "typeDistribution": "Verschiedene Statusstatistiken der Taskinstanz",
+      "heatMap": "Instanz Annahme/Datum thermischer Versuch",
+      "instanceState": {
+        "IN_PROGRESS": "wird ausgeführt",
+        "SUBMITTED": "eingereicht wurde",
+        "FINALIZED": "Beendet wurde",
+        "ABANDONED": "Aufgegeben hat"
+      }
+    },
+    "creditsChart": {
+      "name": "Integral Verteilung",
+      "total": "Gesamtpunktzahl",
+      "requester": "Der Initiator hat",
+      "worker": "Arbeitnehmer haben",
+      "mission": "Aufgabe nicht zugewiesen",
+      "typeCreditDistribution": "Verschiedene Arten von Aufgaben Integral Verteilungsdiagramm"
+    },
+    "userChart": {
+      "name": "Benutzer Statistik",
+      "total": "Gesamtzahl der Benutzer",
+      "requester": "Initiiert von",
+      "worker": "Arbeitnehmer",
+      "registerDateCountChart": "Registriernummer/Datums Kurve"
+    }
+  },
+  "home": {
+    "enter": "Anfangen zu erleben",
+    "productDescription": "Ein Daten-Tagging-System",
+    "function": {
+      "title": "Beschriftungs Arbeit",
+      "IMAGE": "Bild",
+      "TEXT": "Text",
+      "AUDIO": "Audio",
+      "VIDEO": "Video",
+      "THREE_DIMENSION": "3d"
+    },
+    "feature": {
+      "title": "System Merkmale",
+      "responsiveness": "Response-Type Design",
+      "shortcut": "Tastenkombinationen",
+      "tagRecommendation": "Smart Labeling Empfehlung",
+      "i18n": "Mehrere Sprachen"
+    }
+  },
+  "footer": {
+    "productDescription": "Ein Daten-Tagging-System",
+    "help": {
+      "title": "Hilfe",
+      "about": "Über",
+      "usage": "Hilfe verwenden",
+      "FAQ": "Häufig gestellte Fragen"
+    },
+    "madeByUs": {
+      "title": "Gemacht von Trap x00",
+      "NJUAdmin": "Njuadmin, South Big Data Integration System",
+      "AstronAlice": "Astronalice, Unity 2D/3D Xiao Xiao Le",
+      "Lightx00": "Licht x00, Lampen Fakturierungssystem"
+    },
+    "contact": "Kontaktieren Sie uns",
+    "copyright": "Hergestellt mit ❤. © 2018 Trap x00, alle Rechte vorbehalten."
+  },
+  "frameMenu": {
+    "home": "Startseite",
+    "imageLabel": "Bildlegende",
+    "videoLabel": "Video Anmerkung",
+    "textLabel": "Text Beschriftung",
+    "aboutLabel": "Über uns"
+  },
+  "navbar": {
+    "home": "Startseite",
+    "browse": "Durchsuchen",
+    "mission": "Aufgabe",
+    "tag": "Kennzeichnung",
+    "about": "Über",
+    "login": "Login",
+    "logout": "Abmelden",
+    "welcome": "{username}",
+    "selfCenter": "Persönliches Zentrum",
+    "pay": "Lade Center",
+    "leaderboard": "Liste"
+  },
+  "leaderboard": {
+    "topBoard": "Peak-Liste",
+    "workerCredits": "Die reiche Liste der Arbeiter",
+    "requesterCredits": "Sponsoren Rich List",
+    "expBoard": "Erlebnis Liste",
+    "rankListBoard": "Gesamtliste",
+    "selfRank": "Mein Ranking"
+  },
+  "selfCenter": {
+    "dashboard": "Instrumententafel",
+    "achievement": "Leistung",
+    "personalInfo": "Meine Informationen",
+    "manageTopics": "Themen verwalten",
+    "avatar": {
+      "gravatar": "Der Avatar wird von der Gravatar durch die Mailbox erhalten.",
+      "whatIsGravatar": "Was ist Gravatar?"
+    }
+  },
+  "dashboard": {
+    "selfInfo": {
+      "username": "Benutzername",
+      "email": "Postfach registrieren",
+      "registerDate": "Anmeldezeit",
+      "registerDateFormat": "Jjjj/mm/tt",
+      "credits": "Integraler",
+      "level": "Klasse",
+      "exp": "Erfahrung"
+    },
+    "worker": {
+      "acceptedMissionCount": "Gesamtzahl der angenommenen Aufgaben",
+      "inProgressMissionCount": "Die Aufgabe wird ausgeführt.",
+      "completedMissionCount": "Ausstehende Aufgaben senden",
+      "abandonedMissionCount": "Die Gesamtzahl der Aufgaben Abbrechen",
+      "finalizedMissionCount": "Gesamtzahl der abgeschlossenen Aufgaben"
+    },
+    "requester": {
+      "submittedMissionCount": "Gesamtanzahl der Aufgaben erstellen",
+      "instanceCount": "Gesamtzahl der admin-Instanzen",
+      "inProgressInstanceCount": "Instanz wird ausgeführt",
+      "awaitingCommentInstanceCount": "Warten auf ein Evaluierungs Beispiel",
+      "finalizedInstanceCount": "Anzahl geschlossener Aufgaben"
+    }
+  },
+  "drawingPad": {
+    "media": {
+      "audioPlayer": {
+        "play": "Spielen",
+        "pause": "Timeout",
+        "mute": "Stumm",
+        "unmute": "Stumm schalten"
+      },
+      "videoPlayer": {
+        "play": "Spielen",
+        "pause": "Timeout",
+        "mute": "Stumm",
+        "unmute": "Stumm schalten"
+      },
+      "tupleSelector": {
+        "list": {
+          "title": "Eine vorhandene Fragmentliste",
+          "setStart": "Startzeit festlegen",
+          "setEnd": "Endzeit festlegen",
+          "play": "Dieses Fragment abspielen",
+          "add": "Hinzufügen eines Fragments",
+          "remove": "Dieses Fragment löschen",
+          "select": "Wählen Sie dieses Fragment",
+          "selected": "Die aktuelle Auswahl",
+          "range": "Von {start}Sekunden bis {end}Sekunden"
+        }
+      }
+    },
+    "textReader": {
+      "raw": "Original",
+      "segmented": "Wort Segmentation Ergebnis",
+      "notAllowed": "Benutzerdefinierte Beschriftungen werden für die Themen Klassifizierungen nicht unterstützt."
+    },
+    "common": {
+      "progressController": {
+        "save": "Status speichern (Strg + s)",
+        "backward": "Vorige (a)",
+        "toFirstIncomplete": "Gehe zum unvollendeten ersten",
+        "submit": "Aufgabe einreichen",
+        "confirmTitle": "Submit-Aufgabe bestätigen?",
+        "confirmDescription": "Die Aufgabe nach dem Einreichen der Aufgabe nicht fortsetzen!",
+        "forward": "Die letzte (d)"
+      },
+      "tagDescriptionTuplePanel": {
+        "tags": "Label",
+        "topics": "Thema",
+        "descriptions": "Beschreiben",
+        "addOne": "Beschreibung hinzufügen",
+        "inputPrompt": "Bitte geben Sie eine Beschreibung ein",
+        "newTag": "Neues Label",
+        "tagName": "Beschriftungs Signatur",
+        "tagNameInvalid": "Geben Sie einen Beschriftungsnamen ein.",
+        "tagLimited": "Der Task kann die Bezeichnung nicht anpassen. Bitte wählen Sie eine der folgenden Etiketten",
+        "tagInformation": "Etiketteninformationen",
+        "aiTags": "Smart Empfehlung",
+        "predefinedTags": "Voreingestellte Beschriftungen",
+        "ok": "Bist du sicher",
+        "remove": "Entfernt von",
+        "cancel": "Abbrechen"
+      },
+      "missionTipCard": {
+        "missionTitle": "Aufgabentitel",
+        "title": "Missionsziele",
+        "missionType": "Aufgabentyp",
+        "IMAGE": {
+          "name": "Bildaufgaben",
+          "type": "Bild Aufgabentyp",
+          "allowCustomTag": {
+            "prompt": "Benutzerdefinierte Beschriftungen zulassen",
+            "true": "Ist",
+            "false": "Ob"
+          },
+          "tags": "Voreingestellte Beschriftungen",
+          "requesterTags": "Initiator-Label",
+          "aiTags": "Smart-Empfohlene Labels",
+          "types": {
+            "WHOLE": {
+              "name": "Insgesamt"
+            },
+            "PART": {
+              "name": "Lokalen"
+            },
+            "DISTRICT": {
+              "name": "Regionalen"
+            }
+          }
+        },
+        "TEXT": {
+          "name": "Text Aufgabe",
+          "type": "Text Aufgabentyp",
+          "types": {
+            "CLASSIFICATION": {
+              "name": "Themenkategorien",
+              "classes": "Voreingestellte Kategorien"
+            },
+            "KEYWORDS": {
+              "name": "Extract-Schlüsselwort",
+              "keywords": "ThemenRubriken"
+            }
+          }
+        },
+        "AUDIO": {
+          "name": "Audio-Task",
+          "type": "Audio-Task-Typ",
+          "allowCustomTag": {
+            "prompt": "Benutzerdefinierte Beschriftungen zulassen",
+            "true": "Ist",
+            "false": "Ob"
+          },
+          "tags": "Voreingestellte Beschriftungen",
+          "types": {
+            "WHOLE": {
+              "name": "Insgesamt"
+            },
+            "PART": {
+              "name": "Lokalen"
+            }
+          }
+        },
+        "VIDEO": {
+          "name": "Video Aufgaben",
+          "type": "Video Task-Typ",
+          "allowCustomTag": {
+            "prompt": "Benutzerdefinierte Beschriftungen zulassen",
+            "true": "Ist",
+            "false": "Ob"
+          },
+          "tags": "Voreingestellte Beschriftungen",
+          "types": {
+            "WHOLE": {
+              "name": "Insgesamt"
+            },
+            "PART": {
+              "name": "Lokalen"
+            }
+          }
+        },
+        "THREE_DIMENSION": {
+          "name": "3D-Task",
+          "type": "3D-Task-Typ",
+          "allowCustomTag": {
+            "prompt": "Benutzerdefinierte Beschriftungen zulassen",
+            "true": "Ist",
+            "false": "Ob"
+          },
+          "tags": "Voreingestellte Beschriftungen",
+          "types": {
+            "WHOLE": {
+              "name": "Insgesamt"
+            }
+          }
+        }
+      },
+      "finish": {
+        "editingComplete": "Gratulieren! Sie haben die gesamte Arbeit an dieser Aufgabe abgeschlossen. Sie können nun den Fortschritt speichern oder den aktuellen Fortschritt übermitteln. (sobald Sie die Einreichung ausgewählt haben, können Sie Ihren Fortschritt nicht mehr ändern.) ）",
+        "editingCompleteTitle": "Alle Arbeiten erledigt",
+        "submit": "Senden",
+        "goBack": "Zurück",
+        "saveProgress": "Fortschritt speichern, aber nicht einreichen",
+        "readonlyComplete": "Das ist die letzte.",
+        "workSaved": "Arbeit wurde gespeichert"
+      }
+    },
+    "district": {
+      "prompts": {
+        "readyToDraw": "Halten Sie die Maus gedrückt, um einen geschlossenen Bereich zu zeichnen.",
+        "drawingBoundary": "Halten Sie die Maus und schieben, um einen geschlossenen Bereich zu zeichnen",
+        "boundaryDown": "Sie haben einen geschlossenen Bereich gezeichnet. Sie können{continueDrawing} Oder {confirm}。",
+        "continueDrawing": "Weitere geschlossene Flächen zeichnen (v)",
+        "confirm": "Bestätigen (c)",
+        "error": {
+          "errorTip": "Fehler Tipps",
+          "cross": "Grenzen können nicht überschneiden",
+          "outOfBound": "Maus kann nicht aus dem Bilderrahmen bewegen",
+          "notEndsAtStartingPoint": "Der Endpunkt sollte mit dem Ausgangspunkt übereinstimmen",
+          "": ""
+        }
+      },
+      "add": "Hinzufügen eines Bereichs (c)",
+      "removeSelected": "Entfernen des aktuell ausgewählten Bereichs (x)"
+    },
+    "rectangle": {
+      "add": "Hinzufügen eines Bereichs (c)",
+      "removeSelected": "Entfernen des aktuell ausgewählten Bereichs (x)"
+    }
+  },
+  "missions": {
+    "needLogin": "Bitte loggen Sie sich zuerst ein",
+    "missionDetail": {
+      "missionId": "Aufgaben-ID",
+      "basic": "Grundlegende Informationen",
+      "title": "Aufgaben Details",
+      "description": "Aufgabenbeschreibung",
+      "dateRange": "Startzeit",
+      "dateRangeFormat": "YYYY/MM/DD HH:mm:ss",
+      "dateFormat": "Jjjj/mm/tt hh: mm: SS",
+      "topics": "Thema",
+      "jobCount": "Anzahl der Arbeitsplätze",
+      "cover": "Cover",
+      "minimalWorkerLevel": "Minimaler Worker-Level",
+      "level": "Aufgabenebene",
+      "requesterUsername": "Initiiert von",
+      "missionType": "Aufgabentyp",
+      "credits": "Bonus-Pool",
+      "IMAGE": {
+        "name": "Bildaufgaben",
+        "imageMissionTypes": "Bild Aufgabentyp",
+        "types": {
+          "WHOLE": "Insgesamt",
+          "PART": "Lokalen",
+          "DISTRICT": "Regionalen"
+        },
+        "allowCustomTag": {
+          "true": "Benutzerdefinierte Beschriftungen zulassen",
+          "false": "Benutzerdefinierte Beschriftungen sind nicht zulässig."
+        },
+        "tags": "Beispiele für verfügbare Etiketten"
+      },
+      "TEXT": {
+        "name": "Text Aufgabe",
+        "types": "Text Aufgabentyp",
+        "sampleTitle": "Text Beispiel",
+        "CLASSIFICATION": {
+          "name": "Themenkategorien",
+          "classes": "Voreingestellte Kategorien"
+        },
+        "KEYWORDS": {
+          "name": "Extract-Schlüsselwort",
+          "keywords": "Voreingestellte Schlüsselwörter"
+        }
+      },
+      "AUDIO": {
+        "name": "Audio-Task",
+        "sampleTitle": "Audio-Sample",
+        "audioMissionTypes": "Audio-Task-Typ",
+        "types": {
+          "WHOLE": "Insgesamt",
+          "PART": "Lokalen"
+        },
+        "allowCustomTag": {
+          "true": "Benutzerdefinierte Beschriftungen zulassen",
+          "false": "Benutzerdefinierte Beschriftungen sind nicht zulässig."
+        },
+        "tags": "Beispiele für verfügbare Etiketten"
+      },
+      "VIDEO": {
+        "name": "Video Aufgaben",
+        "sampleTitle": "Video-Beispiel",
+        "videoMissionTypes": "Video Task-Typ",
+        "types": {
+          "WHOLE": "Insgesamt",
+          "PART": "Lokalen"
+        },
+        "allowCustomTag": {
+          "true": "Benutzerdefinierte Beschriftungen zulassen",
+          "false": "Benutzerdefinierte Beschriftungen sind nicht zulässig."
+        },
+        "tags": "Beispiele für verfügbare Etiketten"
+      },
+      "THREE_DIMENSION": {
+        "name": "3D-Task",
+        "sampleTitle": "3D-Aufgabenbeispiel",
+        "allowCustomTag": {
+          "true": "Benutzerdefinierte Beschriftungen zulassen",
+          "false": "Benutzerdefinierte Beschriftungen sind nicht zulässig."
+        },
+        "tags": "Beispiele für verfügbare Etiketten"
+      }
+    },
+    "createMission": {
+      "title": "Erstellen einer Aufgabe",
+      "completeCreation": {
+        "title": "Aufgabenerstellung erfolgreich",
+        "description": "Die Aufgabe wurde erstellt.{to}Aufgaben Details anzeigen",
+        "to": "Klicken Sie hier"
+      },
+      "menu": {
+        "IMAGE": "Bild",
+        "TEXT": "Text",
+        "AUDIO": "Audio",
+        "VIDEO": "Video",
+        "THREE_DIMENSION": "3d"
+      },
+      "uploadStage": {
+        "0": "Informationen hochladen",
+        "1": "Cover-Bild hochladen",
+        "2": "Anlage hochladen"
+      },
+      "fields": {
+        "generalProperties": "Aufgabeneigenschaften",
+        "title": "Aufgabentitel",
+        "requireTitle": "Geben Sie einen Aufgabentitel ein.",
+        "description": "Aufgabenbeschreibung",
+        "requireDescription": "Geben Sie eine Beschreibung der Aufgabe ein.",
+        "topics": "ThemenRubriken",
+        "availableTopics": "Optionales Schlüsselwort",
+        "dateRange": "Zeitraum",
+        "requireDateRange": "Bitte wählen Sie eine Aufgabe gültige Zeitperiode",
+        "cover": "Abdeck Bild",
+        "selectFile": "Datei auswählen",
+        "minimalWorkerLevel": "Niedrigste Ebene der Arbeitnehmer",
+        "requireMinimalWorkerLevel": "Eine Ganzzahl mit dem Noten Intervall einer Arbeitskraft von [1.100]",
+        "missionLevel": "Aufgabenebene",
+        "requireMissionLevel": "Ganzzahl mit Aufgabenebene [1,5]",
+        "credits": "Pre-Payment-Punkte",
+        "creditsError": {
+          "loading": "Verbleibende Punkte laden",
+          "format": "Geben Sie eine nicht negative Ganzzahl ein.",
+          "insufficient": "Unzureichende Punkte, Vorhandene Punkte：{current}. {goPay}",
+          "goPay": "Zum Aufladen",
+          "remaining": "Vorhandene Punkte：{current}"
+        },
+        "IMAGE": {
+          "title": "Bildaufgaben Eigenschaften",
+          "types": {
+            "name": "Bild Aufgabentyp",
+            "DISTRICT": "Regionalen",
+            "WHOLE": "Insgesamt",
+            "PART": "Lokalen"
+          },
+          "selectFile": "Datei auswählen",
+          "tags": "Label",
+          "allowCustomTag": "Anpassen von Beschriftungen durch Mitarbeiter zulassen",
+          "requireTags": "Fügen Sie mindestens eine verfügbare Bezeichnung hinzu, wenn Arbeitskräfte keine Beschriftungen anpassen dürfen.",
+          "requireTypes": "Wählen Sie mindestens eine Aufgabe aus.",
+          "images": "Aufgaben Bild",
+          "requireImages": "Bitte laden Sie mindestens ein Bild hoch"
+        },
+        "TEXT": {
+          "title": "Text Aufgabeneigenschaften",
+          "classification": {
+            "placeholder": "Geben Sie ein Thema ein. Nachdem Sie ein Thema eingegeben haben, klicken Sie auf Enter, um zu bestätigen",
+            "prompt": "Themenkategorien (Arbeitskräfte können nur aus einem vordefinierten Thema auswählen)",
+            "requireClasses": "Bitte füllen Sie mindestens ein vordefiniertes Thema aus"
+          },
+          "keywords": {
+            "placeholder": "Geben Sie ein Stichwort ein. Nachdem Sie ein Thema eingegeben haben, klicken Sie auf Enter, um zu bestätigen",
+            "prompt": "Schlüsselwörter extrahieren (Worker kann Schlüsselwörter anpassen)"
+          },
+          "requireTask": "Wählen Sie mindestens eine Aufgabe aus.",
+          "zip": {
+            "selectFile": "Datei auswählen",
+            "prompt": "Bitte verarbeiten Sie alle Text-Dateien in txt-Datei, und Paket in eine ZIP-Datei, und dann hochladen.",
+            "upload": "Hochladen",
+            "requireZip": "Bitte laden Sie das komprimierte Paket"
+          }
+        },
+        "AUDIO": {
+          "title": "Audio-Task-Eigenschaften",
+          "types": {
+            "name": "Audio-Task-Typ",
+            "WHOLE": "Insgesamt",
+            "PART": "Lokalen"
+          },
+          "selectFile": "Datei auswählen",
+          "tags": "Label",
+          "allowCustomTag": "Anpassen von Beschriftungen durch Mitarbeiter zulassen",
+          "requireTags": "Fügen Sie mindestens eine verfügbare Bezeichnung hinzu, wenn Arbeitskräfte keine Beschriftungen anpassen dürfen.",
+          "requireTypes": "Wählen Sie mindestens eine Aufgabe aus.",
+          "audios": "Audio-Dateien",
+          "requireAudios": "Bitte laden Sie mindestens eine Audiodatei hoch"
+        },
+        "VIDEO": {
+          "title": "Video Task-Eigenschaften",
+          "types": {
+            "name": "Video Task-Typ",
+            "WHOLE": "Insgesamt",
+            "PART": "Lokalen"
+          },
+          "selectFile": "Datei auswählen",
+          "tags": "Label",
+          "allowCustomTag": "Anpassen von Beschriftungen durch Mitarbeiter zulassen",
+          "requireTags": "Fügen Sie mindestens eine verfügbare Bezeichnung hinzu, wenn Arbeitskräfte keine Beschriftungen anpassen dürfen.",
+          "requireTypes": "Wählen Sie mindestens eine Aufgabe aus.",
+          "videos": "Video Dateien",
+          "requireVideos": "Bitte laden Sie mindestens eine Videodatei hoch"
+        },
+        "THREE_DIMENSION": {
+          "title": "3D-Aufgabeneigenschaften",
+          "types": {
+            "name": "3D-Task-Typ",
+            "WHOLE": "Insgesamt"
+          },
+          "selectFile": "Datei auswählen",
+          "tags": "Label",
+          "allowCustomTag": "Anpassen von Beschriftungen durch Mitarbeiter zulassen",
+          "requireTags": "Fügen Sie mindestens eine verfügbare Bezeichnung hinzu, wenn Arbeitskräfte keine Beschriftungen anpassen dürfen.",
+          "threeDimensions": "3D-Datei",
+          "requireThreeDimensions": "Bitte laden Sie mindestens eine Kopie der 3D-Datei"
+        },
+        "submit": "Senden"
+      }
+    },
+    "worker": {
+      "myMissions": {
+        "menuText": "Meine Mission.",
+        "title": "Meine Mission.",
+        "loadingCard": "Task laden",
+        "cardState": {
+          "submitted": "eingereicht wurde",
+          "abandoned": "Aufgegeben hat",
+          "inProgress": "wird ausgeführt",
+          "finalized": "Beendet wurde"
+        },
+        "cardActions": {
+          "continue": "Die Aufgabe fortsetzen",
+          "abandon": "Geben",
+          "seeMore": "Weitere Informationen anzeigen",
+          "seeFinalizeResult": "Ergebnis anzeigen",
+          "abandonConfirm": "Sind Sie sicher, dass Sie diese Aufgabe aufgeben möchten?"
+        }
+      },
+      "detailOperationBar": {
+        "accept": "Nehmen Sie die Mission an.",
+        "seeResult": "Vorgangsfortschritt anzeigen",
+        "continueWorking": "Die Aufgabe fortsetzen",
+        "accepted": "Missionserfolg akzeptieren",
+        "levelNotEnough": "Unzureichender Level zum Annehmen der Aufgabe",
+        "state": {
+          "FINALIZED": "Sie haben diese Aufgabe bereits durchgeführt und ausgewertet.",
+          "SUBMITTED": "Sie haben diese Aufgabe eingereicht und warten auf die Auswertung.",
+          "IN_PROGRESS": "Sie tun diese Aufgabe.",
+          "ABANDONED": "Sie haben diese Aufgabe aufgegeben."
+        }
+      }
+    },
+    "sideMenu": {
+      "mission": "Aufgabe",
+      "instance": "Instanz"
+    },
+    "requester": {
+      "mission": {
+        "title": "Aufgabe",
+        "add": "Neue Aufgaben"
+      },
+      "missionCard": {
+        "missionState": {
+          "PENDING": "Nicht in Kraft",
+          "ACTIVE": "Wirkung",
+          "ENDED": "Ende"
+        },
+        "actions": {
+          "searchInstances": "Alle Instanzen suchen",
+          "info": "Aufgabeninformationen"
+        }
+      },
+      "instancePanel": {
+        "title": "Instanz",
+        "search": {
+          "placeholder": "Aufgaben-ID"
+        },
+        "missionIdNotFound": "Die Vorgangs-ID ist nicht vorhanden.",
+        "instanceStateDiagram": {
+          "total": "Gesamtzahl der Instanzen",
+          "FINALIZED": "Instanz geschlossen",
+          "IN_PROGRESS": "Instanz wird ausgeführt",
+          "SUBMITTED": "Instanz übermittelt",
+          "ABANDONED": "Instanz wurde verworfen"
+        },
+        "table": {
+          "dateFormat": "Jjjj/mm/tt hh: mm: SS",
+          "instanceId": "Instanz-ID",
+          "missionId": "Aufgaben-ID",
+          "workerUsername": "Worker-Benutzer Name",
+          "missionInstanceState": "Zustand der Instanz",
+          "dateRange": "Zeitraum",
+          "inProgress": "wird ausgeführt",
+          "acceptDate": "Zeit akzeptieren",
+          "submitDate": "Einreichungszeit",
+          "action": "Vorgang",
+          "seeResult": "Ergebnisse anzeigen",
+          "finalize": "Ergebnis",
+          "finalizeResult": "Ergebnis anzeigen"
+        },
+        "finalize": {
+          "expRatio": "Erfahrungs Verhältnis",
+          "credits": "Punkte geben",
+          "comment": "Bewertung",
+          "requireExpRatio": "Bitte geben Sie ein gültiges Verhältnis von Erfahrung (0.0, 1.0)",
+          "requireCredits": "Bitte geben Sie eine gültige Anzahl von Punkten ein (nicht negative ganze Zahlen). Vorhandene Punkte: {current}",
+          "submit": "Senden",
+          "default": "Standard wiederherstellen",
+          "back": "Zurück",
+          "title": "Bewertung",
+          "exp": "Tatsächlich gewonnene Erfahrungen",
+          "availableCredits": "Vorhandene Punkte: {current}",
+          "creditsNotSufficient": "Unzureichende Punkte, Vorhandene Punkte: {current}. {goPay}",
+          "goPay": "Zum Aufladen"
+        }
+      }
+    }
+  },
+  "loginModal": {
+    "title": "Login",
+    "username": "Benutzername",
+    "requireUsername": "Bitte geben Sie einen Benutzernamen ein",
+    "password": "Kennwort",
+    "requirePassword": "Bitte geben Sie ein Passwort ein",
+    "login": "Login",
+    "forgetPassword": "Passwort vergessen",
+    "remember": "Mich erinnern",
+    "cancel": "Abbrechen",
+    "register": "Registriert",
+    "error": {
+      "WrongCredential": "Benutzername oder Kennwortfehler",
+      "ServerError": "Server Fehler, bitte versuchen Sie es später erneut",
+      "NetworkError": "Lokales Netzwerkfehler, überprüfen Sie die Netzwerkverbindung"
+    }
+  },
+  "languageSelector": {
+    "loading": "Last in"
+  },
+  "registerForm": {
+    "submit": "Senden",
+    "role": "Rolle",
+    "worker": "Arbeitnehmer",
+    "requester": "Veröffentlicht von",
+    "username": "Benutzername",
+    "requireUsername": "Bitte geben Sie einen Benutzernamen ein",
+    "password": "Kennwort",
+    "requirePassword": "Bitte geben Sie ein Passwort ein",
+    "requireConfirmPassword": "Bitte bestätigen Sie das Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "notEqualPassword": "Die beiden von Ihnen eingegebenen Kennwörter sind nicht identisch",
+    "email": "E-Mail-Adresse",
+    "requireEmail": "Bitte geben Sie Ihre e-Mail-Adresse",
+    "wrongEmailFormat": "Post Fach Adressformat ist nicht korrekt",
+    "passwordForgot": "Kennwort abrufen",
+    "step1": "Füllen Sie die Informationen",
+    "step2": "Bestätigung per e-Mail",
+    "step3": "Registrierung erfolgreich"
+  },
+  "searchBar": {
+    "searchPlaceholder": "Drücken Sie Enter, um zu suchen",
+    "searchAll": "Alle"
+  },
+  "browserMissionList": {
+    "dividerText": "Aufgabenliste",
+    "accept": "Akzeptieren",
+    "missionAccepted": "Die Aufgabe wurde erfolgreich angenommen",
+    "seeDetail": "Weitere Informationen anzeigen",
+    "missionType": {
+      "IMAGE": "Bild",
+      "TEXT": "Text",
+      "AUDIO": "Audio",
+      "VIDEO": "Video",
+      "THREE_DIMENSION": "3d"
+    },
+    "dateFormat": "Jjjj/mm/tt hh: mm: SS"
+  },
+  "pay": {
+    "title": "Aufladen",
+    "payAccount": "Konto aufladen",
+    "payMission": "Aufgaben aufladen",
+    "creditInput": {
+      "loading": "Laden Sie die restlichen Punkte...",
+      "format": "Geben Sie eine nicht negative Ganzzahl ein.",
+      "insufficient": "Unzureichende Punkte, Vorhandene Punkte: {current}. {goPay}",
+      "goPay": "Zum Aufladen",
+      "remaining": "Vorhandene Punkte: {current}",
+      "prompt": "Punkte geben"
+    },
+    "account": {
+      "title": "Konto aufladen",
+      "currentCredits": "Jetzt die Punkte:",
+      "inputCredits": "Bitte geben Sie den Betrag ein, den Sie aufladen möchten:",
+      "submit": "Aufladen",
+      "loading": "In Last",
+      "format": "Eingabe sollte eine Ganzzahl größer als 0 sein",
+      "paymentComplete": "Erfolgreich aufladen"
+    },
+    "mission": {
+      "missionId": "Aufgaben-ID",
+      "title": "Aufgaben aufladen",
+      "check": "Überprüfen und Anzeigen der restlichen Punkte",
+      "needCheck": "{click} Überprüfen Sie die Aufgaben-ID und zeigen Sie die Anzahl der verbleibenden Punkte für die Aufgabe an",
+      "click": "Auf",
+      "inputMissionId": "Geben Sie eine Aufgaben-ID ein.",
+      "currentCredits": "Vorhandene Punkte: {current}",
+      "inputCredits": "Bitte geben Sie den Betrag ein, den Sie aufladen möchten:",
+      "submit": "Aufladen",
+      "loading": "In Last",
+      "missionNotExist": "Aufgabe ist nicht vorhanden",
+      "format": "Eingabe sollte eine Ganzzahl größer als 0 sein",
+      "paymentComplete": "Erfolgreich aufladen"
+    }
+  }
+}
