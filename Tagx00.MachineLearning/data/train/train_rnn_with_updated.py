@@ -279,16 +279,16 @@ total_batch = int(total_train / batch_size)
 
 dismiss_value = calculate_confidence()
 compute_origin_accuracy()
-# draw_plt_origin()
-for epoch in range(training_epochs):
-    for i in range(total_batch):
-        batch_xs, batch_ys = next_train_batch(last_index)
-        last_index = next_index(last_index)
-        _, c, pred = sess.run([optimizer, cost, y_pred],
-                              feed_dict={X: batch_xs, Y: batch_ys, scale: 0.1, keep_prob: 0.7})
-        dismiss_value = calculate_confidence()
-        if epoch % 10 == 9:
-            print("accuracy")
-            accuracy = compute_accuracy()
-            if accuracy > 0.69:
-                draw_plt_test()
+draw_plt_origin()
+# for epoch in range(training_epochs):
+#     for i in range(total_batch):
+#         batch_xs, batch_ys = next_train_batch(last_index)
+#         last_index = next_index(last_index)
+#         _, c, pred = sess.run([optimizer, cost, y_pred],
+#                               feed_dict={X: batch_xs, Y: batch_ys, scale: 0.1, keep_prob: 0.7})
+#         dismiss_value = calculate_confidence()
+#         if epoch % 10 == 9:
+#             print("accuracy")
+#             accuracy = compute_accuracy()
+#             if accuracy > 0.69:
+#                 draw_plt_test()
