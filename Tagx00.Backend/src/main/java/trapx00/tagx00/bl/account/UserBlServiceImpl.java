@@ -102,10 +102,11 @@ public class UserBlServiceImpl implements UserBlService {
     public UserLoginResponse login(String username, String password) throws WrongUsernameOrPasswordException {
         if (userDataService.confirmPassword(username, password)) {
             JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
+            User user = userDataService.getUserByUsername(username);
             String token = jwtService.generateToken(jwtUser, EXPIRATION);
             String email = jwtUser.getEmail();
             Collection<JwtRole> jwtRoles = jwtUser.getAuthorities();
-            return new UserLoginResponse(token, jwtRoles, email, userDataService.getUserAvatarUrl(email));
+            return new UserLoginResponse(token, jwtRoles, email, userDataService.getUserAvatarUrl(email), user.getRegisterDate());
         } else {
             throw new WrongUsernameOrPasswordException();
         }

@@ -1,35 +1,69 @@
 {
   "common": {
-    "loading": "加载中"
+    "loading": "加载中",
+    "missionType": {
+      "IMAGE": "图片任务",
+      "TEXT": "文本任务",
+      "AUDIO": "音频任务",
+      "VIDEO": "视频任务",
+      "THREE_DIMENSION": "3D任务"
+    }
   },
   "admin": {
     "menu": {
       "dashboard":"平台信息",
       "missionChart": "任务统计",
       "instanceChart": "实例统计",
-      "dateChart": "每日实例"
+      "dateChart": "每日实例",
+      "user": "用户统计",
+      "credits": "积分统计"
     },
     "dashboard": {
-      "name":"平台信息",
-      "userCount":"用户数",
-      "allUser":"平台用户总数"
+      "name":"平台信息"
     },
     "missionChart": {
-      "name": "平台任务统计",
+      "stateDistribution": "任务状态统计",
       "activeMissionCount":"可接受任务",
       "pendingMissionCount":"未到期任务",
       "endedMissionCount":"已结束任务",
-      "totalMissionCount":"总任务"
+      "totalMissionCount":"总任务",
+      "typeDistribution": "各类任务状态统计",
+      "missionState": {
+        "PENDING": "未开始",
+        "ACTIVE": "可接受",
+        "ENDED": "已结束"
+      }
     },
     "instanceChart": {
-      "name": "平台实例统计",
+      "stateDistribution": "实例状态统计",
       "inProgressInstanceCount":"进行中实例",
       "submittedInstanceCount":"待评价实例",
       "finalizeInstanceCount":"已结束实例",
-      "totalInstanceCount":"总实例"
+      "abandonedInstanceCount": "已放弃实例",
+      "totalInstanceCount":"总实例",
+      "typeDistribution": "各类任务实例状态统计",
+      "heatMap": "实例接受/日期热力图",
+      "instanceState": {
+        "IN_PROGRESS": "正在进行",
+        "SUBMITTED": "已提交",
+        "FINALIZED": "已结束",
+        "ABANDONED": "已放弃"
+      }
     },
-    "dateChart": {
-      "name": "每日新增实例统计"
+    "creditsChart": {
+      "name": "积分分布",
+      "total": "总积分",
+      "requester": "发起者拥有",
+      "worker": "工人拥有",
+      "mission": "任务尚未分配",
+      "typeCreditDistribution": "各类型任务积分分配图"
+    },
+    "userChart": {
+      "name": "用户统计",
+      "total": "总用户数",
+      "requester": "发起者",
+      "worker": "工人",
+      "registerDateCountChart": "注册人数/日期曲线"
     }
   },
   "home": {
@@ -110,6 +144,8 @@
     "selfInfo": {
       "username":"用户名",
       "email":"注册邮箱",
+      "registerDate": "注册时间",
+      "registerDateFormat": "YYYY/MM/DD",
       "credits":"积分",
       "level":"等级",
       "exp":"经验"

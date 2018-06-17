@@ -4,14 +4,23 @@ import { AdminInfo } from "../models/userInfo/AdminInfo";
 
 @Injectable
 export class AdminService {
+
+  private cache: AdminInfo;
+
     constructor(@Inject private http: HttpService){
     }
 
     async getAdminInfo(): Promise<AdminInfo> {
-      const res = await this.http.fetch({
-        path: "account/admin",
-      });
-      return res.response;
+
+      if (!this.cache) {
+        const res = await this.http.fetch({
+          path: "account/admin",
+        });
+        this.cache = res.response;
+      }
+
+      return this.cache;
+
     }
 
 }

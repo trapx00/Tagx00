@@ -2,7 +2,7 @@ import React from 'react';
 import { UserStore } from "../../../stores/UserStore";
 import { Inject } from "react.di";
 import { WorkerService } from "../../../api/WorkerService";
-import { LocaleMessage } from "../../../internationalization/components";
+import { LocaleDate, LocaleMessage } from "../../../internationalization/components";
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { DefinitionItem } from "../../../components/DefinitionItem";
 import { Col, Row, Progress} from "antd";
@@ -45,6 +45,9 @@ export class WorkerDashboardPage extends React.Component<{},{}> {
         </DefinitionItem>
         <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.email"}/>}>
           {info.email}
+        </DefinitionItem>
+        <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.registerDate"}/>}>
+          <LocaleDate formatId={ID_PREFIX + "selfInfo.registerDateFormat"} input={this.userStore.user.registerDate}/>
         </DefinitionItem>
         <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.level"}/>}>
           {info.level}

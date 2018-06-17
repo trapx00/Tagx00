@@ -3,4 +3,5 @@ export interface LoginResponse {
   jwtRoles: {roleName: string}[];
   email: string;
   avatarUrl: string;
+  registerDate: string;
 }

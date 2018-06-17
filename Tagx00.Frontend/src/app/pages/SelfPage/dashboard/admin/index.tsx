@@ -6,10 +6,12 @@ import { LocaleMessage } from "../../../../internationalization/components";
 import { Redirect, Switch } from "react-router";
 import { AsyncRoute } from "../../../../router/AsyncRoute";
 import ChartTypeMenu from "./ChartTypeMenu";
+import { AdminService } from "../../../../api/AdminService";
 
 interface Props {
 
 }
+
 
 @observer
 export default class AdminDashboardPage extends React.Component<Props, {}> {
@@ -24,11 +26,12 @@ export default class AdminDashboardPage extends React.Component<Props, {}> {
       <ChartTypeMenu/>
       <div style={{marginTop: "16px"}}>
         <Switch>
-          <AsyncRoute exact path={"/self/dashboard/PLAT_INFO"} component={import("./Default")}/>
-          <AsyncRoute exact path={"/self/dashboard/MISSION_CHART"} component={import("./MissionChart")}/>
-          <AsyncRoute exact path={"/self/dashboard/INSTANCE_CHART"} component={import("./InstanceChart")}/>
-          <AsyncRoute exact path={"/self/dashboard/DATE_CHART"} component={import("./DateChart")}/>
-          <Redirect to={"/self/dashboard/PLAT_INFO"}/>
+          {/*<AsyncRoute exact path={"/self/dashboard/platform"} component={import("./PlatformPage")}/>*/}
+          <AsyncRoute exact path={"/self/dashboard/user"} component={import("./UserChartPage")}/>
+          <AsyncRoute exact path={"/self/dashboard/credits"} component={import("./CreditsChartPage")}/>
+          <AsyncRoute exact path={"/self/dashboard/mission"} component={import("./MissionChartPage")}/>
+          <AsyncRoute exact path={"/self/dashboard/instance"} component={import("./InstanceChartPage")}/>
+          <Redirect to={"/self/dashboard/mission"}/>
         </Switch>
       </div>
     </div>;

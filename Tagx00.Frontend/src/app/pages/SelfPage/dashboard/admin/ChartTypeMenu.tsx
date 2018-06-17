@@ -14,27 +14,31 @@ const URL = "/self/dashboard/";
 const ID_PREFIX = "admin.menu.";
 
 const tabs = [
+  // {
+  //   key: "platform",
+  //   icon: "picture",
+  //   textId: ID_PREFIX + "dashboard",
+  // },
   {
-    key: "PLAT_INFO",
-    icon: "picture",
-    textId: ID_PREFIX + "dashboard",
-  },
-  {
-    key: "MISSION_CHART",
+    key: "mission",
     icon: "picture",
     textId: ID_PREFIX + "missionChart",
   },
   {
-    key: "INSTANCE_CHART",
+    key: "instance",
     icon: "file-text",
     textId: ID_PREFIX + "instanceChart",
   },
   {
-    key: "DATE_CHART",
-    icon: "environment-o",
-    textId: ID_PREFIX + "dateChart",
+    key: "user",
+    icon: "user",
+    textId: ID_PREFIX + "user"
+  },
+  {
+    key: "credits",
+    icon: "shopping-cart",
+    textId: ID_PREFIX + "credits"
   }
-
 ];
 
 @observer
@@ -49,9 +53,8 @@ export default class ChartTypeMenu extends React.Component<Props, {}> {
   render() {
     const pathArray = this.routerStore.path.split("/");
     const currentTab = pathArray[pathArray.length - 1];
-    console.log(currentTab);
     return <Menu onClick={this.onClick}
-                 selectedKeys={[currentTab.toUpperCase()]}
+                 selectedKeys={[currentTab]}
                  mode="horizontal">
 
       {tabs.map(x =>

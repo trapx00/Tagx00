@@ -26,6 +26,7 @@ export class TextWorkPageController extends WorkPageController<TextMissionDetail
   currentInstanceDetail(): TextInstanceDetail {
     const {instance} = this.initialDetail;
     return {
+
       missionType: MissionType.TEXT,
       textResults: this.currentNotations.map((x, index) => ({
         workResultId: index+"",

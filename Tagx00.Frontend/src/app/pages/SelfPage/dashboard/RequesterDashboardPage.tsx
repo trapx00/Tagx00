@@ -2,7 +2,7 @@ import React from 'react';
 import { Inject } from "react.di";
 import { UserStore } from "../../../stores/UserStore";
 import { RequesterService } from "../../../api/RequesterService";
-import { LocaleMessage } from "../../../internationalization/components";
+import { LocaleDate, LocaleMessage } from "../../../internationalization/components";
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { DefinitionItem } from "../../../components/DefinitionItem";
 import { Row, Col } from "antd";
@@ -20,17 +20,20 @@ export class RequesterDashboardPage extends React.Component<{},{}> {
 
   requesterInfo = async () => {
     const info = await this.requesterService.getRequesterInfo(this.userStore.user.username);
-    console.log(info);
-    const total = info.finalizedInstanceCount+info.inProgressInstanceCount+info.awaitingCommentInstanceCount;
+
     return <div>
       <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "requester.submittedMissionCount"}/>} children={info.submittedMissionCount}/>
       <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "requester.instanceCount"}/>} children={info.instanceCount}/>
       <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "requester.inProgressInstanceCount"}/>} children={info.inProgressInstanceCount}/>
-      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "requester.awaitingCommentInstanceCount"}/>} children={info.awaitingCommentInstanceCount}/>
+      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "requester.awaitingCommentInstanceCount"}/>} children={info.submittedInstanceCount}/>
       <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "requester.finalizedInstanceCount"}/>} children={info.finalizedInstanceCount}/>
-      <InstanceCyclePieChart activeInstanceCount={info.inProgressInstanceCount} pendingInstanceCount={info.awaitingCommentInstanceCount} endedInstanceCount={info.finalizedInstanceCount} totalInstanceCount={total}/>
+      <InstanceCyclePieChart
+        inProgress={info.inProgressInstanceCount}
+        submitted={info.submittedMissionCount}
+        finalized={info.finalizedInstanceCount}
+        abandoned={info.abandonedInstanceCount}/>
     </div>
-  }
+  };
 
   registerInfo = async () => {
     const info = await this.requesterService.getRequesterInfo(this.userStore.user.username);
@@ -42,9 +45,13 @@ export class RequesterDashboardPage extends React.Component<{},{}> {
       <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.email"}/>}>
         {info.email}
       </DefinitionItem>
+      <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.registerDate"}/>}>
+        <LocaleDate formatId={ID_PREFIX + "selfInfo.registerDateFormat"} input={this.userStore.user.registerDate}/>
+      </DefinitionItem>
       <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.credits"}/>}>
         {credit.credits}
       </DefinitionItem>
+
     </div>
   };
     render() {

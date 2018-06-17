@@ -9,11 +9,22 @@ import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.entity.account.User;
 import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.entity.mission.instance.Instance;
+import trapx00.tagx00.publicdatas.mission.MissionState;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.response.user.AdminInfoResponse;
+import trapx00.tagx00.vo.admin.credit.CreditInfo;
+import trapx00.tagx00.vo.admin.credit.CreditTypeDistribution;
+import trapx00.tagx00.vo.admin.instance.InstanceInfo;
+import trapx00.tagx00.vo.admin.instance.InstanceStateTypeDistribution;
+import trapx00.tagx00.vo.admin.mission.MissionInfo;
+import trapx00.tagx00.vo.admin.mission.MissionStateTypeDistribution;
+import trapx00.tagx00.vo.admin.user.UserInfo;
+import trapx00.tagx00.vo.admin.user.UserRegisterDate;
 import trapx00.tagx00.vo.mission.requester.MissionDateNumVo;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
+
+import static trapx00.tagx00.publicdatas.mission.MissionState.*;
 
 @Service
 public class AdminInfoBlServiceImpl implements AdminInfoBlService {
@@ -34,64 +45,137 @@ public class AdminInfoBlServiceImpl implements AdminInfoBlService {
     @Override
     public AdminInfoResponse getAdminInfo() {
 
+
+        int workerCredits = 0;
+        int requesterCredits = 0;
+        int missionCredits = 0;
+
+        HashMap<MissionType, ArrayList<Integer>> creditData = new HashMap<>();
+        HashMap<MissionType, InstanceStateTypeDistribution> instanceMap = new HashMap<>();
+        HashMap<MissionType, MissionStateTypeDistribution> missionMap = new HashMap<>();
+        for (MissionType type: MissionType.values()) {
+            creditData.put(type, new ArrayList<>());
+            instanceMap.put(type, new InstanceStateTypeDistribution(0,0,0,0));
+            missionMap.put(type, new MissionStateTypeDistribution(0,0,0,0));
+        }
+
+
+        int requesterCount = 0;
+        int workerCount = 0;
+        HashMap<String, Integer> userRegisterMap = new HashMap<>();
+
         User[] users = userDataService.findAllUsers();
-        ArrayList<User> userResult = new ArrayList<>();
         for (User user : users) {
-            if (!(user.getRole() == Role.ADMIN)) {
-                userResult.add(user);
+            if (user.getRole().equals(Role.ADMIN)) {
+                continue;
             }
+            if (user.getRole().equals(Role.REQUESTER)) {
+
+                requesterCount++;
+                requesterCredits += user.getCredits();
+
+            } else if (user.getRole().equals(Role.WORKER)) {
+                workerCount++;
+                workerCredits += user.getCredits();
+            }
+
+            String date = generateDateStr(user.getRegisterDate());
+
+            userRegisterMap.put(date, userRegisterMap.getOrDefault(date, 0)+1);
+
         }
-        users = userResult.toArray(new User[userResult.size()]);
+
+
+        UserInfo userInfo = new UserInfo(requesterCount, workerCount, userRegisterMap);
+
+
         Mission[] missions = publicMissionDataService.getAllMissions();
-        Instance[] instances = publicMissionDataService.getInstances();
-        int userCount = users.length;
-        int totalMissionCount = missions.length;
-        int pendingMissionCount = 0;
-        int activeMissionCount = 0;
-        int endedMissionCount = 0;
-        int totalInstanceCount = instances.length;
-        int inProgressInstanceCount = 0;
-        int submittedInstanceCount = 0;
-        int finalizeInstanceCount = 0;
-        ArrayList<MissionDateNumVo> missionDateNumVos = new ArrayList<>();
-        for (Instance instance : instances) {
-            switch (instance.getMissionInstanceState()) {
-                case IN_PROGRESS:
-                    inProgressInstanceCount++;
-                    break;
-                case SUBMITTED:
-                    submittedInstanceCount++;
-                    break;
-                case FINALIZED:
-                    finalizeInstanceCount++;
-                    break;
-            }
-            boolean isExist = false;
-            for (MissionDateNumVo missionDateNumVo : missionDateNumVos) {
-                if (missionDateNumVo.getDate().equals(generateDateStr(instance.getAcceptDate()))) {
-                    missionDateNumVo.setNum(missionDateNumVo.getNum() + 1);
-                    isExist = true;
-                    break;
-                }
-            }
-            if (!isExist) {
-                missionDateNumVos.add(new MissionDateNumVo(generateDateStr(instance.getAcceptDate()), 1));
-            }
-        }
         for (Mission mission : missions) {
+            missionCredits += mission.getCredits();
+            MissionStateTypeDistribution missionStateTypeDistribution = missionMap.get(mission.getMissionType());
             switch (mission.getMissionState()) {
-                case PENDING:
-                    pendingMissionCount++;
-                    break;
                 case ACTIVE:
-                    activeMissionCount++;
+                    missionStateTypeDistribution.setActive(missionStateTypeDistribution.getActive()+1);
+                    break;
+                case PENDING:
+                    missionStateTypeDistribution.setPending(missionStateTypeDistribution.getPending()+1);
                     break;
                 case ENDED:
-                    endedMissionCount++;
+                    missionStateTypeDistribution.setEnded(missionStateTypeDistribution.getEnded()+1);
+                    break;
+            }
+
+        }
+
+        MissionInfo missionInfo =new MissionInfo(missionMap);
+
+        Instance[] instances = publicMissionDataService.getInstances();
+        HashMap<String, Integer> acceptDateDistribution = new HashMap<>();
+
+        for (Instance instance: instances) {
+            InstanceStateTypeDistribution instanceStateTypeDistribution = instanceMap.get(instance.getMissionType());
+
+            String date = generateDateStr(instance.getAcceptDate());
+
+            acceptDateDistribution.put(
+                date,
+                acceptDateDistribution.getOrDefault(date, 0)+1
+            );
+            switch (instance.getMissionInstanceState()) {
+                case IN_PROGRESS:
+                    instanceStateTypeDistribution.setInProgress(instanceStateTypeDistribution.getInProgress()+1);
+                    break;
+                case ABANDONED:
+                    instanceStateTypeDistribution.setAbandoned(instanceStateTypeDistribution.getAbandoned()+1);
+                    break;
+                case SUBMITTED:
+                    instanceStateTypeDistribution.setSubmitted(instanceStateTypeDistribution.getSubmitted()+1);
+                    break;
+                case FINALIZED:
+                    instanceStateTypeDistribution.setFinalized(instanceStateTypeDistribution.getFinalized()+1);
+                    // add credit
+                    creditData.get(instance.getMissionType()).add(instance.getCredits());
                     break;
             }
         }
-        return new AdminInfoResponse(userCount, totalMissionCount, pendingMissionCount, activeMissionCount, endedMissionCount, totalInstanceCount, inProgressInstanceCount, submittedInstanceCount, finalizeInstanceCount, missionDateNumVos);
+
+
+
+        InstanceInfo instanceInfo = new InstanceInfo(acceptDateDistribution, instanceMap);
+
+        // calculate credit data
+
+        HashMap<MissionType, CreditTypeDistribution> creditMap = new HashMap<>();
+
+        for (MissionType type: MissionType.values()) {
+            ArrayList<Integer> data = creditData.get(type);
+
+            data.sort(Comparator.comparingInt(x -> x));
+
+            int low = data.get(0);
+
+            int q1 = data.get(data.size()/4);
+
+            int median = data.get(data.size()/2);
+
+            int q3 = data.get(data.size()*3/4);
+
+            int high = data.size()-1;
+
+            creditMap.put(type, new CreditTypeDistribution(low,q1,median,q3,high));
+
+        }
+
+        CreditInfo creditInfo = new CreditInfo(requesterCredits, workerCredits, missionCredits, creditMap);
+
+
+
+        return new AdminInfoResponse(
+            missionInfo,
+            instanceInfo,
+            userInfo,
+            creditInfo
+        );
     }
 
     private String generateDateStr(Date date) {
