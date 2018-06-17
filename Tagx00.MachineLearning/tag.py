@@ -246,4 +246,3 @@ class Tag:
 
 
 tag = Tag()
-tag.train()
