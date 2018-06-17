@@ -3,7 +3,8 @@ export interface RequesterInfo {
     email: string;
     submittedMissionCount: number;
     instanceCount: number;
-    awaitingCommentInstanceCount: number;
+    submittedInstanceCount: number;
     inProgressInstanceCount: number;
     finalizedInstanceCount: number;
+    abandonedInstanceCount: number;
 }

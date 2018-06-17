@@ -3,6 +3,7 @@ package trapx00.tagx00.response.user;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.security.jwt.JwtRole;
 
+import java.sql.Date;
 import java.util.Collection;
 
 public class UserLoginResponse extends Response {
@@ -10,15 +11,25 @@ public class UserLoginResponse extends Response {
     private Collection<JwtRole> jwtRoles;
     private String email;
     private String avatarUrl;
+    private Date registerDate;
 
     public UserLoginResponse() {
     }
 
-    public UserLoginResponse(String token, Collection<JwtRole> jwtRoles, String email, String avatarUrl) {
+    public UserLoginResponse(String token, Collection<JwtRole> jwtRoles, String email, String avatarUrl, Date registerDate) {
         this.token = token;
         this.jwtRoles = jwtRoles;
         this.email = email;
         this.avatarUrl = avatarUrl;
+        this.registerDate = registerDate;
+    }
+
+    public Date getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
     }
 
     public String getAvatarUrl() {

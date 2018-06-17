@@ -18,7 +18,8 @@ export class UserServiceMock extends UserService {
         token: "123",
         jwtRoles: [{roleName: UserRole.ROLE_WORKER}],
         email: "1@1.com",
-        avatarUrl: sampleAvatar
+        avatarUrl: sampleAvatar,
+        registerDate: Date.now().toString()
       })
     }
 
@@ -27,14 +28,16 @@ export class UserServiceMock extends UserService {
         token: "123",
         jwtRoles: [{roleName: UserRole.ROLE_ADMIN}],
         email: "1@1.com",
-        avatarUrl: sampleAvatar
+        avatarUrl: sampleAvatar,
+        registerDate: Date.now().toString()
       })
     }
     return new NetworkResponse(200, {
         token: "123",
         jwtRoles: [{roleName: UserRole.ROLE_REQUESTER}],
         email: "1@1.com",
-        avatarUrl: sampleAvatar
+        avatarUrl: sampleAvatar,
+      registerDate: Date.now().toString()
       }
     );
   }
@@ -56,7 +59,8 @@ export class UserServiceMock extends UserService {
         token: "123",
         jwtRoles: [{roleName: UserRole.ROLE_REQUESTER}],
         email: "1@1.com",
-        avatarUrl: sampleAvatar
+        avatarUrl: sampleAvatar,
+      registerDate: Date.now().toString()
       }
     );
   }

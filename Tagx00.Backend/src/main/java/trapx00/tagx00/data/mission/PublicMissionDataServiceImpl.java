@@ -229,7 +229,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
     }
 
     /**
-     * get all InstanceInfo
+     * get all InstanceStateTypeDistribution
      *
      * @return Instance
      */
