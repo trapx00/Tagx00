@@ -6,7 +6,7 @@ import tensorflow as tf
 from path_util import PathUtil
 
 learning_rate = 0.003
-training_epochs = 1000
+training_epochs = 10000
 batch_size = 10
 n_size = 3
 dismiss_percent = 0.05
@@ -61,6 +61,7 @@ class Tag:
             tag_list = []
             conf_list = []
             tag_conf_tuples = tag_conf_tuples["tagConfTuples"]
+            tag_conf_tuples = sorted(tag_conf_tuples, key=lambda x: x["confidence"], reverse=True)
             for i in range(n_size):
                 if i < tag_conf_tuples.__len__():
                     tag_list.append(tag_conf_tuples[i]['tag'])
@@ -76,8 +77,13 @@ class Tag:
         result = []
         for i in range(pred.__len__()):
             result_tuple = []
+            is_reject = True
             for j in range(n_size):
-                if pred[i][j] > self.dismiss_value and tags[i][j].__len__() > 0:
+                if pred[i][j] > self.dismiss_value:
+                    is_reject = False
+                    break
+            if not is_reject:
+                for j in range(n_size):
                     result_tuple.append({"tag": tags[i][j], "confidence": pred[i][j]})
             result.append({"tagConfTuples": result_tuple})
         return result
@@ -195,8 +201,11 @@ class Tag:
         self.saver.save(self.sess, PathUtil.get_path() + "trainmodels/model.ckpt")
 
     def load_models(self):
-        self.saver.restore(self.sess, PathUtil.get_path() +
-                           "trainmodels/model.ckpt")
+        try:
+            self.saver.restore(self.sess, PathUtil.get_path() +
+                               "trainmodels/model.ckpt")
+        except Exception:
+            pass
 
     @staticmethod
     def load_train_data():

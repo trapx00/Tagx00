@@ -37,7 +37,6 @@ import trapx00.tagx00.vo.ml.RecommendTagsVo;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -624,9 +623,12 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
             missionAsset.setTagConfTuple(resultRecommendTagItemList.get(i).getTagConfTuples());
             missionAssets.set(i, missionAsset);
         }
-        imageMission.setMissionAssets(new HashSet<>(missionAssets));
-        imageInstance.setImageMission(imageMission);
-        return imageInstance;
+
+        ImageMission returnImageMission = new ImageMission(imageMission.getMissionId(), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), imageMission.getMissionState(), imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(), imageMission.getRequesterUsername(), imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(), imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), imageMission.getMissionAssets(), imageMission.getImageMissionTypes(), imageMission.getImageInstances());
+        returnImageMission.setMissionAssets(missionAssets);
+        ImageInstance returnImageInstance = new ImageInstance(imageInstance.getInstanceId(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), MissionType.IMAGE, imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), imageMission.getMissionId(), imageInstance.getExp(), imageInstance.getExpRatio(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getImageResults(), imageInstance.getImageMission());
+        returnImageInstance.setImageMission(returnImageMission);
+        return returnImageInstance;
     }
 
     private VideoInstance getVideoInstance(String instanceId) throws IOException, ClassNotFoundException {

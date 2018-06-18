@@ -40,10 +40,11 @@ def getRecommendTag():
 @app.route('/trainRecommend', methods=['POST'])
 def trainRecommend():
     data = json.loads(request.data.decode('utf-8'))
-    with open(PathUtil.get_path()+"proval/train.txt", "a+") as file:
-        for i in range(data.__len__()):
-            file.write('\n')
+    with open(PathUtil.get_path() + "proval/train.txt", "a+") as file:
+        for i in range(data.__len__() - 1):
             file.write(str(data[i]))
+            file.write('\n')
+        file.write(str(data[data.__len__() - 1]))
     tag.train()
     return "success"
 

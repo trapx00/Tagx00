@@ -212,7 +212,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(),
                         ((ImageMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
                         new ArrayList<>(((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags().keySet()),
-                        new HashSet<>(),
+                        new ArrayList<>(),
                         ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(),
                         new ArrayList<>());
             case TEXT:

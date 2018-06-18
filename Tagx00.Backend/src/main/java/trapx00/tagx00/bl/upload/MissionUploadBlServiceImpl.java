@@ -89,7 +89,7 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                         }
                         missionAssets.add(new MissionAsset(url, Converter.MapToTagConfTupleList(tagConfTuple), imageMission));
                     }
-                    imageMission.setMissionAssets(new HashSet<>(missionAssets));
+                    imageMission.setMissionAssets(missionAssets);
                     requesterMissionDataService.updateMission(imageMission);
                     return new UploadMissionImageResponse(url);
                 case THREE_DIMENSION:
@@ -138,9 +138,9 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
             TextMission textMission = (TextMission) requesterMissionDataService.getMissionByMissionId(missionId);
             List<TextToken> textTokens = new ArrayList<>();
 
-            String id = missionId+"-"+multipartFile.getName();
+            String id = missionId + "-" + multipartFile.getName();
 
-            File file = new File(TEMP_PATH + "/"+id);
+            File file = new File(TEMP_PATH + "/" + id);
             FileImageOutputStream fileWriter = new FileImageOutputStream(file);
             fileWriter.write(multipartFile.getBytes());
             fileWriter.close();
