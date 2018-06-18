@@ -83,3 +83,5 @@ deploy/python/data/proval/test.txt
 deploy/python/data/proval/train.txt
 deploy/tagx00_backend.txt
 deploy/python/tagx00_ml.txt
+
+test/**
