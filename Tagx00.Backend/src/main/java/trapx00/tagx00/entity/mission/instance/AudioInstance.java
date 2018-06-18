@@ -15,6 +15,7 @@ import java.util.List;
 public class AudioInstance extends Instance {
     @Column(name = "audioResults")
     @ElementCollection(targetClass = AudioResult.class)
+    @Lob
     private List<AudioResult> audioResults;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_missionId")

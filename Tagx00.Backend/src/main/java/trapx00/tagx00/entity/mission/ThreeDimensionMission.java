@@ -1,9 +1,8 @@
 package trapx00.tagx00.entity.mission;
 
-import trapx00.tagx00.entity.mission.favorite.ThreeDimensionFavorite;
+import trapx00.tagx00.entity.mission.instance.ThreeDimensionInstance;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
-import trapx00.tagx00.publicdatas.mission.threedimension.ThreeDimensionModelUrl;
 import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionMissionType;
 
 import javax.persistence.*;
@@ -11,41 +10,32 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "threeDimensionMission")
 public class ThreeDimensionMission extends Mission {
-    @Column(name = "threeDimensionCustomTag")
+    @Column(name = "allowCustomTag")
     private boolean allowCustomTag;
-    @Column(name = "threeDimensionModelUrl")
-    @ElementCollection(targetClass = ThreeDimensionModelUrl.class)
-    private List<ThreeDimensionModelUrl> threeDimensionModelUrls;
     @Column(name = "allowedTag")
     @ElementCollection(targetClass = String.class)
     private List<String> allowedTags;
+    @Column(name = "tokens")
+    @ElementCollection(targetClass = String.class)
+    private List<String> tokens;
     @Column(name = "threeDimensionMissionType")
     private ThreeDimensionMissionType threeDimensionMissionTypes;
     @OneToMany(mappedBy = "threeDimensionMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<ThreeDimensionMission> threeDimensionMissions;
-    @OneToMany(mappedBy = "audioMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<ThreeDimensionFavorite> threeDimensionFavorites;
+    private List<ThreeDimensionInstance> threeDimensionInstances;
 
     public ThreeDimensionMission() {
     }
 
-    public ThreeDimensionMission(String missionId, String title, String description, List<String> topics,
-                                 MissionType missionType, MissionState missionState,
-                                 Date start, Date end, String coverUrl, String requesterUsername,
-                                 int level, int credits, int minimalWorkerLevel, List<String> browserUsers,
-                                 boolean allowCustomTag, List<ThreeDimensionModelUrl> threeDimensionModelUrls,
-                                 List<String> allowedTags,
-                                 List<ThreeDimensionMission> threeDimensionMissions, List<ThreeDimensionFavorite> threeDimensionFavorites) {
-        super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
+    public ThreeDimensionMission(String missionId, String title, String description, List<String> topics, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, boolean allowCustomTag, List<String> allowedTags, List<String> tokens, ThreeDimensionMissionType threeDimensionMissionTypes, List<ThreeDimensionInstance> threeDimensionInstances) {
+        super(missionId, title, description, topics, MissionType.THREE_DIMENSION, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
         this.allowCustomTag = allowCustomTag;
-        this.threeDimensionModelUrls = threeDimensionModelUrls;
         this.allowedTags = allowedTags;
-        this.threeDimensionMissionTypes =ThreeDimensionMissionType.WHOLE;
-        this.threeDimensionMissions = threeDimensionMissions;
-        this.threeDimensionFavorites = threeDimensionFavorites;
+        this.tokens = tokens;
+        this.threeDimensionMissionTypes = threeDimensionMissionTypes;
+        this.threeDimensionInstances = threeDimensionInstances;
     }
-
 
     public boolean isAllowCustomTag() {
         return allowCustomTag;
@@ -53,14 +43,6 @@ public class ThreeDimensionMission extends Mission {
 
     public void setAllowCustomTag(boolean allowCustomTag) {
         this.allowCustomTag = allowCustomTag;
-    }
-
-    public List<ThreeDimensionModelUrl> getThreeDimensionModelUrls() {
-        return threeDimensionModelUrls;
-    }
-
-    public void setThreeDimensionModelUrls(List<ThreeDimensionModelUrl> threeDimensionModelUrls) {
-        this.threeDimensionModelUrls = threeDimensionModelUrls;
     }
 
     public List<String> getAllowedTags() {
@@ -71,6 +53,13 @@ public class ThreeDimensionMission extends Mission {
         this.allowedTags = allowedTags;
     }
 
+    public List<String> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<String> tokens) {
+        this.tokens = tokens;
+    }
 
     public ThreeDimensionMissionType getThreeDimensionMissionTypes() {
         return threeDimensionMissionTypes;
@@ -80,19 +69,12 @@ public class ThreeDimensionMission extends Mission {
         this.threeDimensionMissionTypes = threeDimensionMissionTypes;
     }
 
-    public List<ThreeDimensionMission> getThreeDimensionMissions() {
-        return threeDimensionMissions;
+    public List<ThreeDimensionInstance> getThreeDimensionInstances() {
+        return threeDimensionInstances;
     }
 
-    public void setThreeDimensionMissions(List<ThreeDimensionMission> threeDimensionMissions) {
-        this.threeDimensionMissions = threeDimensionMissions;
+    public void setThreeDimensionInstances(List<ThreeDimensionInstance> threeDimensionInstances) {
+        this.threeDimensionInstances = threeDimensionInstances;
     }
 
-    public List<ThreeDimensionFavorite> getThreeDimensionFavorites() {
-        return threeDimensionFavorites;
-    }
-
-    public void setThreeDimensionFavorites(List<ThreeDimensionFavorite> threeDimensionFavorites) {
-        this.threeDimensionFavorites = threeDimensionFavorites;
-    }
 }

@@ -10,9 +10,7 @@ public class ThreeDimensionMissionPublicItemVo extends MissionPublicItemVo {
     private boolean allowCustomTag;
     private List<String> tags;
 
-    public ThreeDimensionMissionPublicItemVo(boolean allowCustomTag, List<String> tags) {
-        this.allowCustomTag = allowCustomTag;
-        this.tags = tags;
+    public ThreeDimensionMissionPublicItemVo() {
     }
 
     public boolean isAllowCustomTag() {

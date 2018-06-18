@@ -8,7 +8,6 @@ public class InstanceDetailVo implements Serializable {
     private MissionType missionType;
     private InstanceVo instance;
 
-
     public InstanceDetailVo() {
     }
 

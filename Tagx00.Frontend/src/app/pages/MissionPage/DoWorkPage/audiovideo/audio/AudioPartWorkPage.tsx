@@ -57,7 +57,7 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
     }
   }
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
   };
@@ -105,6 +105,10 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
     }
   };
 
+  playOrPause = () => {
+    this.audioRef.playOrPause();
+  };
+
 
   setStartTime = (tuple: AudioPartTuple) => {
     tuple.startOffset = this.audioRef.currentTime;
@@ -121,7 +125,12 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
     const {missionDetail} = this.props;
     const {notation} = this.state;
     const {job} = notation;
-    return <AudioWorkPageLayout>
+    return <AudioWorkPageLayout
+      saveProgress={this.saveProgress}
+      previous={this.props.controllerProps.goPrevious}
+      next={this.goNext}
+      playOrPause={this.playOrPause}
+    >
       <>
         <AudioPlayer url={this.props.notation.audioUrl}
           // onTimeChanged={this.onAudioProgress}
@@ -157,7 +166,7 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}
-                            saveProgress={this.submit}
+                            saveProgress={this.saveProgress}
         />
       </>
     </AudioWorkPageLayout>

@@ -15,7 +15,6 @@ import trapx00.tagx00.response.mission.MissionPublicResponse;
 import trapx00.tagx00.response.mission.TextGetResponse;
 import trapx00.tagx00.response.mission.ThreeModelGetResponse;
 import trapx00.tagx00.util.MissionUtil;
-import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 import trapx00.tagx00.vo.paging.PagingInfoVo;
@@ -36,7 +35,7 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
                                       ThreeDimensionDataService threeDimensionDataService) {
         this.publicMissionDataService = publicMissionDataService;
         this.textDataService = textDataService;
-        this.threeDimensionDataService=threeDimensionDataService;
+        this.threeDimensionDataService = threeDimensionDataService;
     }
 
     @Override
@@ -48,8 +47,6 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
             e.printStackTrace();
             throw new SystemException();
         }
-
-        publicMissionDataService.addBrowserUserToMission(missionId, UserInfoUtil.getUsername());
         return new MissionDetailResponse(missionDetailVos);
     }
 
@@ -72,7 +69,7 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
      * @return
      */
     @Override
-    public ThreeModelGetResponse get3d(String tokens)throws ThreeDimensionNotExistException, SystemException {
+    public ThreeModelGetResponse get3d(String tokens) throws ThreeDimensionNotExistException, SystemException {
         return new ThreeModelGetResponse(threeDimensionDataService.get3d(tokens));
     }
 

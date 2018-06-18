@@ -57,7 +57,7 @@ export class VideoPartWorkPage extends React.Component<Props, State> {
     }
   }
 
-  submit = () => {
+  saveProgress = () => {
     console.log(toJS(this.state.notation));
     this.props.submit(this.state.notation);
   };
@@ -105,6 +105,9 @@ export class VideoPartWorkPage extends React.Component<Props, State> {
     }
   };
 
+  playOrPause = () => {
+    this.videoRef.playOrPause();
+  };
 
   setStartTime = (tuple: VideoPartTuple) => {
     tuple.startOffset = this.videoRef.currentTime;
@@ -116,16 +119,26 @@ export class VideoPartWorkPage extends React.Component<Props, State> {
     this.forceUpdate();
   };
 
+  setRef = (ref) => {
+    this.videoRef = ref;
+  };
+
   render() {
 
     const {missionDetail} = this.props;
     const {notation} = this.state;
     const {job} = notation;
-    return <VideoWorkPageLayout>
+    return <VideoWorkPageLayout
+      saveProgress={this.saveProgress}
+      previous={this.props.controllerProps.goPrevious}
+      next={this.goNext}
+      playOrPause={this.playOrPause}
+
+    >
       <>
         <VideoPlayer url={this.props.notation.videoUrl}
           // onTimeChanged={this.onVideoProgress}
-                     setRef={ref => this.videoRef = ref}
+                     setRef={this.setRef}
 
         />
       </>
@@ -157,7 +170,7 @@ export class VideoPartWorkPage extends React.Component<Props, State> {
         <ProgressController {...this.props.controllerProps}
                             goNext={this.goNext}
                             readonlyMode={this.props.readonlyMode}
-                            saveProgress={this.submit}
+                            saveProgress={this.saveProgress}
         />
       </>
     </VideoWorkPageLayout>

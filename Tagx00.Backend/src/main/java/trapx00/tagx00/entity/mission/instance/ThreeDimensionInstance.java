@@ -10,9 +10,10 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class ThreeDimensionInstance extends  Instance {
+public class ThreeDimensionInstance extends Instance {
     @Column(name = "threeDimensionResults")
     @ElementCollection(targetClass = ThreeDimensionResult.class)
+    @Lob
     private List<ThreeDimensionResult> threeDimensionResults;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_missionId")

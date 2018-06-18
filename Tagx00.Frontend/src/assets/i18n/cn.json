@@ -3,7 +3,22 @@
     "loading": "加载中"
   },
   "home": {
-    "enter": "开始体验"
+    "enter": "开始体验",
+    "productDescription": "一个数据标注系统",
+    "function": {
+      "title": "标注工作",
+      "IMAGE": "图片",
+      "TEXT":"文本",
+      "AUDIO": "音频",
+      "VIDEO": "视频",
+      "THREE_DIMENSION": "3D"
+    },
+    "feature": {
+      "title": "系统特性",
+      "responsiveness": "响应式设计",
+      "shortcut": "快捷键",
+      "tagRecommendation": "智能标注推荐"
+    }
   },
   "footer": {
     "productDescription": "一个数据标注系统",
@@ -89,10 +104,10 @@
     },
     "common": {
       "progressController": {
-        "save": "保存进度",
-        "backward": "前一张",
+        "save": "保存进度 (Ctrl+S)",
+        "backward": "前一张 (a)",
         "toFirstIncomplete": "去未完成的第一张",
-        "forward": "后一张"
+        "forward": "后一张 (d)"
       },
       "tagDescriptionTuplePanel": {
         "tags" : "标签",
@@ -203,22 +218,22 @@
         "readyToDraw": "按下并按住鼠标，画出一个封闭区域",
         "drawingBoundary": "按住鼠标并滑动，画出一个封闭区域",
         "boundaryDown": "您已经画出了封闭区域。您可以 {continueDrawing} 或者 {confirm}。",
-        "continueDrawing": "继续画更多的封闭区域",
-        "confirm": "确认",
+        "continueDrawing": "继续画更多的封闭区域 (v)",
+        "confirm": "确认(c)",
         "error": {
           "errorTip": "错误提示",
           "cross": "边界不能交叉",
-          "outOfBound": "鼠标不能移除画框",
+          "outOfBound": "鼠标不能移出画框",
           "notEndsAtStartingPoint": "终点应该与出发点重合",
           "": ""
         }
       },
-      "add": "增加一个区域",
-      "removeSelected": "移除当前选中的区域"
+      "add": "增加一个区域 (c)",
+      "removeSelected": "移除当前选中的区域 (x)"
     },
     "rectangle": {
-      "add": "增加一个区域",
-      "removeSelected": "移除当前选中的区域"
+      "add": "增加一个区域 (c)",
+      "removeSelected": "移除当前选中的区域 (x)"
     }
   },
   "missions": {
@@ -314,7 +329,10 @@
       },
       "menu": {
         "IMAGE": "图片",
-        "TEXT": "文本"
+        "TEXT": "文本",
+        "AUDIO": "音频",
+        "VIDEO": "视频",
+        "THREE_DIMENSION": "3D"
       },
       "uploadStage": {
         "0": "上传信息",
@@ -376,14 +394,56 @@
           "requireTask": "请选择至少一种任务",
           "zip": {
             "selectFile": "选择文件",
-            "prompt": "请讲所有文本文件处理成TXT文件，并打包成ZIP文件，再上传。",
+            "prompt": "请将所有文本文件处理成TXT文件，并打包成ZIP文件，再上传。",
             "upload": "上传",
             "requireZip": "请上传压缩包"
           }
         },
+        "AUDIO": {
+          "title": "音频任务属性",
+          "types": {
+            "name": "音频任务类型",
+            "WHOLE":"整体",
+            "PART": "局部"
+          },
+          "selectFile": "选择文件",
+          "tags": "标签",
+          "allowCustomTag": "允许工人自定义标签",
+          "requireTags": "当不允许工人自定义标签时，请添加至少一个可用标签",
+          "requireTypes": "请选择至少一种任务",
+          "audios": "音频文件",
+          "requireAudios": "请上传至少一份音频文件"
+        },
+        "VIDEO": {
+          "title": "视频任务属性",
+          "types": {
+            "name": "视频任务类型",
+            "WHOLE":"整体",
+            "PART": "局部"
+          },
+          "selectFile": "选择文件",
+          "tags": "标签",
+          "allowCustomTag": "允许工人自定义标签",
+          "requireTags": "当不允许工人自定义标签时，请添加至少一个可用标签",
+          "requireTypes": "请选择至少一种任务",
+          "videos": "视频文件",
+          "requireVideos": "请上传至少一份视频文件"
+        },
+        "THREE_DIMENSION": {
+          "title": "3D任务属性",
+          "types": {
+            "name": "3D任务类型",
+            "WHOLE":"整体"
+          },
+          "selectFile": "选择文件",
+          "tags": "标签",
+          "allowCustomTag": "允许工人自定义标签",
+          "requireTags": "当不允许工人自定义标签时，请添加至少一个可用标签",
+          "threeDimensions": "3D文件",
+          "requireThreeDimensions": "请上传至少一份3D文件"
+        },
         "submit": "提交"
       }
-
 
     },
     "worker": {

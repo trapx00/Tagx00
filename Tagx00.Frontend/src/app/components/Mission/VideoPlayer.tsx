@@ -52,6 +52,14 @@ export class VideoPlayer extends React.Component<Props, State> {
 
   }
 
+  playOrPause() {
+    if (this.state.playing) {
+      this.ref.pause();
+    } else {
+      this.ref.play();
+    }
+  }
+
   componentWillUnmount() {
     this.ref.pause();
   }

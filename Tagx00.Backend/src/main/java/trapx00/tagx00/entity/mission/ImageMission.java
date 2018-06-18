@@ -1,6 +1,5 @@
 package trapx00.tagx00.entity.mission;
 
-import trapx00.tagx00.entity.mission.favorite.ImageFavorite;
 import trapx00.tagx00.entity.mission.instance.ImageInstance;
 import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
@@ -11,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "imageMission")
 public class ImageMission extends Mission {
     @Column(name = "allowCustomTag")
     private boolean allowCustomTag;
@@ -25,37 +25,17 @@ public class ImageMission extends Mission {
     private List<ImageMissionType> imageMissionTypes;
     @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<ImageInstance> imageInstances;
-    @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private List<ImageFavorite> imageFavorites;
 
     public ImageMission() {
     }
 
-
-    public ImageMission(String missionId, String title,
-                        String description, List<String> topics,
-                        MissionType missionType, MissionState missionState,
-                        Date start, Date end, String coverUrl,
-                        String requesterUsername, int level, int credits,
-                        int minimalWorkerLevel, List<String> browserUsers,
-                        boolean allowCustomTag, List<String> allowedTags,
-                        List<MissionAsset> missionAssets, List<ImageMissionType> imageMissionTypes,
-                        List<ImageInstance> imageInstances, List<ImageFavorite> imageFavorites) {
-        super(missionId, title, description, topics, missionType, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel, browserUsers);
+    public ImageMission(String missionId, String title, String description, List<String> topics, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, boolean allowCustomTag, List<String> allowedTags, List<MissionAsset> missionAssets, List<ImageMissionType> imageMissionTypes, List<ImageInstance> imageInstances) {
+        super(missionId, title, description, topics, MissionType.IMAGE, missionState, start, end, coverUrl, requesterUsername, level, credits, minimalWorkerLevel);
         this.allowCustomTag = allowCustomTag;
         this.allowedTags = allowedTags;
         this.missionAssets = missionAssets;
         this.imageMissionTypes = imageMissionTypes;
         this.imageInstances = imageInstances;
-        this.imageFavorites = imageFavorites;
-    }
-
-    public List<String> getAllowedTags() {
-        return allowedTags;
-    }
-
-    public void setAllowedTags(List<String> allowedTags) {
-        this.allowedTags = allowedTags;
     }
 
     public boolean isAllowCustomTag() {
@@ -64,6 +44,14 @@ public class ImageMission extends Mission {
 
     public void setAllowCustomTag(boolean allowCustomTag) {
         this.allowCustomTag = allowCustomTag;
+    }
+
+    public List<String> getAllowedTags() {
+        return allowedTags;
+    }
+
+    public void setAllowedTags(List<String> allowedTags) {
+        this.allowedTags = allowedTags;
     }
 
     public List<MissionAsset> getMissionAssets() {
@@ -90,11 +78,4 @@ public class ImageMission extends Mission {
         this.imageInstances = imageInstances;
     }
 
-    public List<ImageFavorite> getImageFavorites() {
-        return imageFavorites;
-    }
-
-    public void setImageFavorites(List<ImageFavorite> imageFavorites) {
-        this.imageFavorites = imageFavorites;
-    }
 }

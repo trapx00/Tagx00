@@ -94,7 +94,7 @@ public class MissionUploadController {
         @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
         @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
-    public ResponseEntity<Response> uploadAudio(@PathVariable("missionId") String missionId, @RequestParam("file") MultipartFile file, @RequestParam("order") int order) {
+    public ResponseEntity<Response> uploadAudio(@PathVariable("missionId") String missionId, @RequestParam("files[]") MultipartFile file, @RequestParam("order") int order) {
         try {
             return new ResponseEntity<>(missionUploadBlService.uploadAudio(missionId, file, order), HttpStatus.CREATED);
         } catch (SystemException e) {
@@ -119,9 +119,9 @@ public class MissionUploadController {
         @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
         @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
-    public ResponseEntity<Response> uploadVideo(@PathVariable("missionId") String missionId, @RequestParam("file") MultipartFile file, @RequestParam("order") int order) {
+    public ResponseEntity<Response> uploadVideo(@PathVariable("missionId") String missionId, @RequestParam("files[]") MultipartFile file, @RequestParam("order") int order) {
         try {
-            return new ResponseEntity<>(missionUploadBlService.uploadAudio(missionId, file, order), HttpStatus.CREATED);
+            return new ResponseEntity<>(missionUploadBlService.uploadVideo(missionId, file, order), HttpStatus.CREATED);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
@@ -145,9 +145,12 @@ public class MissionUploadController {
         @ApiResponse(code = 404, message = "Upload session id not exist", response = WrongResponse.class),
         @ApiResponse(code = 503, message = "Failure", response = WrongResponse.class)
     })
-    public ResponseEntity<Response> upload3D(@PathVariable("missionId") String missionId, @RequestParam("file") MultipartFile file, @RequestParam("order") int order) {
+    public ResponseEntity<Response> upload3D(@PathVariable("missionId") String missionId,
+                                             @RequestParam("obj") MultipartFile objFile,
+                                             @RequestParam("mtl") MultipartFile mtlFile,
+                                             @RequestParam("order") int order) {
         try {
-            return new ResponseEntity<>(missionUploadBlService.uploadThreeDimension(missionId, file,order), HttpStatus.CREATED);
+            return new ResponseEntity<>(missionUploadBlService.uploadThreeDimension(missionId,mtlFile ,objFile,order), HttpStatus.CREATED);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);

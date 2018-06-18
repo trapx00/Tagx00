@@ -2,6 +2,9 @@ package trapx00.tagx00.entity.mission.instance.workresult;
 
 import trapx00.tagx00.publicdatas.mission.video.VideoJob;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class VideoResult extends WorkResult {
     private String videoUrl;
     private VideoJob job;

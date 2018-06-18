@@ -49,10 +49,10 @@ public interface MissionUploadBlService {
      * Upload the 3d of the mission
      *
      * @param missionId
-     * @param multipartFile
+     * @param
      * @return the urls of the 3ds
      */
-    UploadMissionThreeDimensionResponse uploadThreeDimension(String missionId, MultipartFile multipartFile, int order) throws SystemException, MissionIdDoesNotExistException;
+    UploadMissionThreeDimensionResponse uploadThreeDimension(String missionId, MultipartFile mtl,MultipartFile obj, int order) throws SystemException, MissionIdDoesNotExistException;
 
 
 

@@ -6,12 +6,14 @@ import { ThreeDimensionWorkPageController } from "./3DWorkPageController";
 import { ThreeDimensionJob } from "../../../../models/instance/3d/job/3dJob";
 import { ThreeDimensionNotation } from "./shared";
 import { ThreeDimensionWholeWorkPage } from "./3DWholeWorkPage";
+import { observer } from "mobx-react";
 
 
 interface Props extends RootWorkPageProps<ThreeDimensionMissionDetail, ThreeDimensionInstanceDetail> {
 
 }
 
+@observer
 export class ThreeDimensionWorkPage extends React.Component<Props, {}> {
 
   controller = new ThreeDimensionWorkPageController(this.props.missionDetail, this.props.instanceDetail);
