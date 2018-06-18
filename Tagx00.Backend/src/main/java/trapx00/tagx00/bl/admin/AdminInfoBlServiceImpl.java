@@ -165,7 +165,7 @@ public class AdminInfoBlServiceImpl implements AdminInfoBlService {
 
             int q3 = data.get(data.size()*3/4);
 
-            int high = data.size()-1;
+            int high = data.get(data.size()-1);
 
             creditMap.put(type, new CreditTypeDistribution(low,q1,median,q3,high));
 
