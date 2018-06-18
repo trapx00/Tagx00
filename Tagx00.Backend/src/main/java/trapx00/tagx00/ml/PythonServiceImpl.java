@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
@@ -30,6 +31,7 @@ import trapx00.tagx00.vo.ml.WordsVo;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +60,10 @@ public class PythonServiceImpl implements PythonService {
     @Override
     public KeysVo extractKey(String content) throws SystemException {
         RestTemplate restTemplate = new RestTemplate();
+
+
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<ExtractKeyParameter> entity = new HttpEntity<>(new ExtractKeyParameter(content), headers);
         String url = mlAddress + apiExtractKey;
         ResponseEntity<KeysVo> keysVoResponseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, KeysVo.class);
@@ -73,8 +78,9 @@ public class PythonServiceImpl implements PythonService {
     @Override
     public RecommendTagsVo getRecommendTag(RecommendTagsVo recommendTagsVo) throws SystemException {
         RestTemplate restTemplate = new RestTemplate();
+
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<RecommendTagsVo> entity = new HttpEntity<>(recommendTagsVo, headers);
         String url = mlAddress + apiGetRecommend;
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
@@ -91,7 +97,7 @@ public class PythonServiceImpl implements PythonService {
     public void trainRecommend(ImageInstanceDetailVo imageInstanceDetailVo) throws IOException, ClassNotFoundException {
         AsyncRestTemplate restTemplate = new AsyncRestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
         List<DataObject> dataObjects = new ArrayList<>();
         ImageInstance imageInstanceWithResults = getImageInstance(imageInstanceDetailVo.getInstance().getInstanceId());
@@ -113,7 +119,9 @@ public class PythonServiceImpl implements PythonService {
     @Override
     public List<String> separateSentence(String content) throws SystemException {
         RestTemplate restTemplate = new RestTemplate();
+
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<SegmentWordParameter> entity = new HttpEntity<>(new SegmentWordParameter(content), headers);
         String url = mlAddress + apiSeparateSentence;
         ResponseEntity<WordsVo> wordsVoResponseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, WordsVo.class);
