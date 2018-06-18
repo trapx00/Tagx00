@@ -41,10 +41,9 @@ def getRecommendTag():
 def trainRecommend():
     data = json.loads(request.data.decode('utf-8'))
     with open(PathUtil.get_path() + "proval/train.txt", "a+") as file:
-        for i in range(data.__len__() - 1):
-            file.write(str(data[i]))
+        for i in range(data.__len__()):
             file.write('\n')
-        file.write(str(data[data.__len__() - 1]))
+            file.write(str(data[i]))
     tag.train()
     return "success"
 

@@ -6,8 +6,8 @@ import tensorflow as tf
 from path_util import PathUtil
 
 learning_rate = 0.003
-training_epochs = 10000
-batch_size = 10
+training_epochs = 3000
+batch_size = 3
 n_size = 3
 dismiss_percent = 0.05
 
@@ -168,7 +168,10 @@ class Tag:
         self.test_data = self.load_test_data()
         total_train = self.train_data.__len__()
         total_batch = int(total_train / batch_size)
-        self.load_models()
+        try:
+            self.load_models()
+        except Exception:
+            pass
         for epoch in range(training_epochs):
             for i in range(total_batch):
                 batch_xs, batch_ys = self.next_train_batch(self.last_index)
@@ -236,7 +239,7 @@ class Tag:
         with open(PathUtil.get_path() + "proval/test.txt", "r") as file:
             all_data = file.readlines()
             for j in range(all_data.__len__()):
-                data = json.loads(all_data[j].replace('\n', ""))
+                data = json.loads(all_data[j].replace('\n', "").replace('\'', '\"'))
                 tags = data["response"]
                 targets = data["tags"]
                 tag = []
