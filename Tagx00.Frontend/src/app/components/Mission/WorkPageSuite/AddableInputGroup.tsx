@@ -35,6 +35,7 @@ export class AddableInputGroup extends React.PureComponent<Props, any> {
         <Input placeholder={this.props.inputPrompt}
                value={x}
                key={index}
+               disabled={this.props.readonly}
                onChange={(e) => this.onInputChange(e.target.value, index)}
                addonAfter={this.props.readonly ? null : <Icon type="minus-circle-o" onClick={() => this.removeOne(index)}/>}
         />)

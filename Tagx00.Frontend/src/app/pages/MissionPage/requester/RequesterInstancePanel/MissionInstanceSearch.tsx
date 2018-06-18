@@ -35,7 +35,10 @@ export class MissionInstanceSearch extends React.Component<Props, State> {
   };
 
   onSearch = () => {
-    this.props.onSearch(this.state.missionId);
+    // if (this.state.missionId) {
+      this.props.onSearch(this.state.missionId);
+    // }
+
   };
 
   render() {

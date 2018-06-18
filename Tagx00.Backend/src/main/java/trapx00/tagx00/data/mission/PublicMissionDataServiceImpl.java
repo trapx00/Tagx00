@@ -46,11 +46,13 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
     private final ThreeDimensionMissionDao threeDimensionMissionDao;
     private final RequesterMissionDataService requesterMissionDataService;
 
+    private final InstanceService instanceService;
+
     @Autowired
     public PublicMissionDataServiceImpl(MissionDao missionDao, ImageMissionDao imageMissionDao, ImageInstanceDao imageInstanceDao, TextMissionDao textMissionDao, TextInstanceDao textInstanceDao, RequesterMissionDataService requesterMissionDataService
-            , AudioMissionDao audioMissionDao, AudioInstanceDao audioInstanceDao, VideoMissionDao videoMissionDao,
+        , AudioMissionDao audioMissionDao, AudioInstanceDao audioInstanceDao, VideoMissionDao videoMissionDao,
                                         VideoInstanceDao videoInstanceDao, ThreeDimensionInstanceDao threeDimensionInstanceDao,
-                                        ThreeDimensionMissionDao threeDimensionMissionDao) {
+                                        ThreeDimensionMissionDao threeDimensionMissionDao, InstanceService instanceService) {
         this.missionDao = missionDao;
         this.imageInstanceDao = imageInstanceDao;
         this.imageMissionDao = imageMissionDao;
@@ -63,6 +65,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
         this.videoMissionDao = videoMissionDao;
         this.threeDimensionInstanceDao = threeDimensionInstanceDao;
         this.threeDimensionMissionDao = threeDimensionMissionDao;
+        this.instanceService = instanceService;
     }
 
     /**

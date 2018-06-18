@@ -79,6 +79,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
 //        mission.setTopics(keysVo.getKeys());
 
         String missionId;
+
         try {
             missionId = requesterMissionDataService.saveMission(generateMission(mission));
         } catch (IOException e) {

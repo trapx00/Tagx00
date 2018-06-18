@@ -29,7 +29,7 @@ public class PayController {
 
 
     @Authorization(value = "发布者")
-    @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "')")
+    @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "')")
     @ApiOperation(value = "给账号充值", notes = "发布者给账号充值")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "credits", value = "积分", required = true, dataType = "int")
