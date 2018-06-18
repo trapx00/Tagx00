@@ -6,6 +6,7 @@ import { Tag } from 'antd';
 import { MissionDetailBasePanel } from "./MissionDetailBasePanel";
 import { Item } from "./common";
 import { flatten, takeAtMost } from "../../../../utils/Array";
+import { DEFAULT_COVER_URL } from "../../../components/Mission/util";
 
 const ID_PREFIX = "missions.missionDetail.IMAGE.";
 
@@ -29,7 +30,7 @@ export class ImageMissionDetailPage extends React.Component<Props, State> {
 
     return <MissionDetailBasePanel publicItem={detail.publicItem}
                                    picPanel={<Gallery
-                                     images={[detail.publicItem.coverUrl, ...detail.missionAssetVos.map(x => x.url)]}/>}
+                                     images={[detail.publicItem.coverUrl || DEFAULT_COVER_URL, ...detail.missionAssetVos.map(x => x.url)]}/>}
     >
       <Item promptTextId={"IMAGE.tags"}>
         {takeAtMost(tags, 5).map(x => <Tag key={x.tag}>{x.tag}</Tag>)}

@@ -4,9 +4,10 @@ import { parseQueryString } from "../../../router/utils";
 import { UserRole } from "../../../models/user/User";
 import { requireLogin } from "../../hoc/RequireLogin";
 import { AsyncRoute } from "../../../router/AsyncRoute";
+import { MissionPageRoleRedirect } from "../shared";
 
 interface Props {
-
+  currentRole: UserRole;
 }
 
 
@@ -22,10 +23,14 @@ async function renderInstanceSeeResult(props: RouteComponentProps<any>) {
 }
 
 
-@requireLogin(UserRole.ROLE_REQUESTER)
+@requireLogin()
 export default class RequesterMissionPage extends React.Component<Props, {}> {
 
   render() {
+    if (this.props.currentRole !== UserRole.ROLE_REQUESTER) {
+      return <MissionPageRoleRedirect role={this.props.currentRole}/>
+    }
+
     return <Switch>
       <AsyncRoute exact path={"/mission/requester/instance/:instanceId"} render={renderInstanceSeeResult}/>}/>
       <Route render={() =>

@@ -6,8 +6,8 @@ import tensorflow as tf
 from path_util import PathUtil
 
 learning_rate = 0.003
-training_epochs = 1000
-batch_size = 10
+training_epochs = 3000
+batch_size = 3
 n_size = 3
 dismiss_percent = 0.05
 
@@ -61,6 +61,7 @@ class Tag:
             tag_list = []
             conf_list = []
             tag_conf_tuples = tag_conf_tuples["tagConfTuples"]
+            tag_conf_tuples = sorted(tag_conf_tuples, key=lambda x: x["confidence"], reverse=True)
             for i in range(n_size):
                 if i < tag_conf_tuples.__len__():
                     tag_list.append(tag_conf_tuples[i]['tag'])
@@ -71,14 +72,23 @@ class Tag:
             tags.append(tag_list)
             confs.append(conf_list)
 
-        self.load_models()
+        try:
+            self.load_models()
+        except Exception:
+            return data
         pred = self.sess.run(self.y_pred, feed_dict={self.X: confs, self.scale: 1, self.keep_prob: 1})
         result = []
         for i in range(pred.__len__()):
             result_tuple = []
+            is_reject = True
             for j in range(n_size):
-                if pred[i][j] > self.dismiss_value and tags[i][j].__len__() > 0:
-                    result_tuple.append({"tag": tags[i][j], "confidence": pred[i][j]})
+                if pred[i][j] > self.dismiss_value:
+                    is_reject = False
+                    break
+            if not is_reject:
+                for j in range(n_size):
+                    if tags[i][j].__len__() != 0:
+                        result_tuple.append({"tag": tags[i][j], "confidence": format(pred[i][j], '0.2f')})
             result.append({"tagConfTuples": result_tuple})
         return result
 
@@ -159,7 +169,10 @@ class Tag:
         self.test_data = self.load_test_data()
         total_train = self.train_data.__len__()
         total_batch = int(total_train / batch_size)
-        self.load_models()
+        try:
+            self.load_models()
+        except Exception:
+            pass
         for epoch in range(training_epochs):
             for i in range(total_batch):
                 batch_xs, batch_ys = self.next_train_batch(self.last_index)
@@ -195,8 +208,7 @@ class Tag:
         self.saver.save(self.sess, PathUtil.get_path() + "trainmodels/model.ckpt")
 
     def load_models(self):
-        self.saver.restore(self.sess, PathUtil.get_path() +
-                           "trainmodels/model.ckpt")
+        self.saver.restore(self.sess, PathUtil.get_path() + "trainmodels/model.ckpt")
 
     @staticmethod
     def load_train_data():
@@ -228,7 +240,7 @@ class Tag:
         with open(PathUtil.get_path() + "proval/test.txt", "r") as file:
             all_data = file.readlines()
             for j in range(all_data.__len__()):
-                data = json.loads(all_data[j].replace('\n', ""))
+                data = json.loads(all_data[j].replace('\n', "").replace('\'', '\"'))
                 tags = data["response"]
                 targets = data["tags"]
                 tag = []

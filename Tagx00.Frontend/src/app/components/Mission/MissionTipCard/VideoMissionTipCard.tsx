@@ -26,7 +26,7 @@ export function VideoMissionTipCard(props: Props){
     </DefinitionItem>
     <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "tags"}/>}>
       {props.tags.map(x => {
-        return <Tag key={x} color={"blue"}>{x}({x})</Tag>
+        return <Tag key={x} color={"blue"}>{x}</Tag>
       })}
     </DefinitionItem>
   </MissionTipCard>;

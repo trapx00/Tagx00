@@ -6,7 +6,7 @@ import trapx00.tagx00.response.pay.PayQueryResponse;
 import trapx00.tagx00.response.pay.PayResponse;
 import trapx00.tagx00.vo.mission.pay.PayVo;
 
-public interface PayBlSerivce {
+public interface PayBlService {
 
     /**
      * pay for account

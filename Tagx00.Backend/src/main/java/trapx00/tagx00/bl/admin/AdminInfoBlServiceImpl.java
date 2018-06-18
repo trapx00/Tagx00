@@ -150,6 +150,11 @@ public class AdminInfoBlServiceImpl implements AdminInfoBlService {
         for (MissionType type: MissionType.values()) {
             ArrayList<Integer> data = creditData.get(type);
 
+            if (data.size() == 0) {
+                creditMap.put(type, new CreditTypeDistribution(0,0,0,0,0));
+                continue;
+            }
+
             data.sort(Comparator.comparingInt(x -> x));
 
             int low = data.get(0);
@@ -179,6 +184,8 @@ public class AdminInfoBlServiceImpl implements AdminInfoBlService {
     }
 
     private String generateDateStr(Date date) {
-        return date.getYear() + "-" + date.getMonth() + "-" + date.getDay();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);  //use java.util.Date object as arguement
+        return cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH)+1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
     }
 }

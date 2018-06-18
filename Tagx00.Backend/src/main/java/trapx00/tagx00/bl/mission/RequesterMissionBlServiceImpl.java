@@ -79,6 +79,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
 //        mission.setTopics(keysVo.getKeys());
 
         String missionId;
+
         try {
             missionId = requesterMissionDataService.saveMission(generateMission(mission));
         } catch (IOException e) {
@@ -212,7 +213,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         missionCreateVo.getCredits(), missionCreateVo.getMinimalWorkerLevel(),
                         ((ImageMissionProperties) missionCreateVo.getProperties()).isAllowCustomTag(),
                         new ArrayList<>(((ImageMissionProperties) missionCreateVo.getProperties()).getAllowedTags().keySet()),
-                        new HashSet<>(),
+                        new ArrayList<>(),
                         ((ImageMissionProperties) missionCreateVo.getProperties()).getImageMissionTypes(),
                         new ArrayList<>());
             case TEXT:

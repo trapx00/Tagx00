@@ -7,8 +7,10 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
+import trapx00.tagx00.data.dao.mission.ImageMissionDao;
 import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
 import trapx00.tagx00.datacollect.DataObject;
+import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.MissionAsset;
 import trapx00.tagx00.entity.mission.instance.ImageInstance;
 import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
@@ -45,10 +47,12 @@ public class PythonServiceImpl implements PythonService {
     private String apiTrainRecommend;
 
     private final ImageInstanceDao imageInstanceDao;
+    private final ImageMissionDao imageMissionDao;
 
     @Autowired
-    public PythonServiceImpl(ImageInstanceDao imageInstanceDao) {
+    public PythonServiceImpl(ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao) {
         this.imageInstanceDao = imageInstanceDao;
+        this.imageMissionDao = imageMissionDao;
     }
 
     @Override
@@ -91,7 +95,8 @@ public class PythonServiceImpl implements PythonService {
 
         List<DataObject> dataObjects = new ArrayList<>();
         ImageInstance imageInstanceWithResults = getImageInstance(imageInstanceDetailVo.getInstance().getInstanceId());
-        List<MissionAsset> missionAssets = new ArrayList<>(imageInstanceWithResults.getImageMission().getMissionAssets());
+        ImageMission imageMission = imageMissionDao.findImageMissionByMissionId(imageInstanceDetailVo.getInstance().getMissionId());
+        List<MissionAsset> missionAssets = imageMission.getMissionAssets();
         for (int i = 0; i < missionAssets.size(); i++) {
             if (imageInstanceWithResults.getImageResults().get(i).getImageJob().getType() == ImageMissionType.WHOLE) {
                 List<TagTuple> tagTuples = ((ImageWholeJob) imageInstanceWithResults.getImageResults().get(i).getImageJob()).getTuple().getTagTuples();

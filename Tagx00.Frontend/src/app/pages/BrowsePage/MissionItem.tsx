@@ -8,6 +8,7 @@ import { LocaleDate, LocaleMessage } from "../../internationalization/components
 import { RouterStore } from "../../stores/RouterStore";
 import styled from "styled-components";
 import { MissionPublicItem } from "../../models/mission/MissionPublicItem";
+import { DEFAULT_COVER_URL } from "../../components/Mission/util";
 
 interface Props {
   item: MissionPublicItem;
@@ -52,7 +53,7 @@ export class MissionItem extends React.PureComponent<Props, {}> {
   render() {
     const {item} = this.props;
     return <Row style={{marginBottom: "8px"}}>
-          <Img alt="logo" src={item.coverUrl}/>
+          <Img alt="logo" src={item.coverUrl || DEFAULT_COVER_URL}/>
       <MetaContainer>
         <List.Item
           actions={[

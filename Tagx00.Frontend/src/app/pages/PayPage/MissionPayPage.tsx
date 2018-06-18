@@ -9,6 +9,7 @@ import { RequesterService } from "../../api/RequesterService";
 import { LocaleStore } from "../../stores/LocaleStore";
 import { RichFormItem } from "../../components/Form/RichFormItem";
 import { FormItemProps } from "antd/es/form";
+import { CreditInput } from "../../components/Pay/CreditInput";
 
 interface Props {
   missionId: string;
@@ -21,9 +22,10 @@ interface State {
   remainingCredits: number;
   fetchingRemainingCredits: boolean;
   value: string;
+  key: number;
+  inputValid: boolean;
   paying: boolean;
 }
-
 
 const ID_PREFIX = "pay.mission.";
 
@@ -33,7 +35,9 @@ export class MissionPayPage extends React.Component<Props, State> {
   state = {
     missionId: this.props.missionId || "",
     missionIdCheckOutOfDate: true,
-    value: "10",
+    value: "0",
+    inputValid: false,
+    key: 0,
     fetchingRemainingCredits: false,
     remainingCredits: 0, // -1 loading, -2 mission not exist, -3 no input
     paying: false,
@@ -49,8 +53,8 @@ export class MissionPayPage extends React.Component<Props, State> {
     });
   };
 
-  onValueChanged = (e) => {
-    this.setState({value: e.target.value});
+  onValueChanged = (value: number, valid: boolean) => {
+    this.setState({value: value+"", inputValid: valid });
   };
 
   loadCurrentCredits = async () => {
@@ -73,7 +77,7 @@ export class MissionPayPage extends React.Component<Props, State> {
   }
 
   submittable() {
-    return this.payValueValid && this.state.remainingCredits >= 0;
+    return  this.payValueValid && this.state.remainingCredits >= 0;
   }
 
 
@@ -86,10 +90,11 @@ export class MissionPayPage extends React.Component<Props, State> {
     if (this.submittable()) {
 
       const res = await this.requesterService.payMission(this.state.missionId, parseInt(this.state.value));
-      this.setState({remainingCredits: res.remainingCredits, paying: false});
+      this.setState({remainingCredits: res.remainingCredits, paying: false, key: this.state.key+1});
       Modal.success({
         title: this.localeStore.get(ID_PREFIX + "paymentComplete")
       });
+
     } else {
       this.setState({paying: false});
     }
@@ -97,14 +102,7 @@ export class MissionPayPage extends React.Component<Props, State> {
 
 
   get payValueValid() {
-    const {value} = this.state;
-    if (value.indexOf(".") >= 0) {
-      return false;
-    }
-    const parsed = parseInt(value);
-    if (isNaN(parsed)) return false;
-
-    return parsed > 0;
+    return this.state.inputValid;
   }
 
   remainingPrompt = (missionIdStatus: number): FormItemProps => {
@@ -166,11 +164,7 @@ export class MissionPayPage extends React.Component<Props, State> {
                value={this.state.missionId}
                onChange={this.onMissionIdChanged}/>
       </RichFormItem>
-      <FormItem valid={this.payValueValid} messageOnInvalid={<LocaleMessage id={ID_PREFIX + "format"}/>}>
-        <Input addonBefore={<LocaleMessage id={ID_PREFIX + "inputCredits"}/>}
-               value={this.state.value}
-               onChange={this.onValueChanged}/>
-      </FormItem>
+      <CreditInput key={this.state.key} onChanged={this.onValueChanged}/>
       <Button loading={this.state.paying} type={"primary"} onClick={this.onSubmit}>
         <LocaleMessage id={ID_PREFIX + "submit"}/>
       </Button>
