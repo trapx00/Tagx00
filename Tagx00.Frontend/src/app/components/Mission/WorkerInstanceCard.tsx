@@ -15,6 +15,8 @@ import { LocaleMessage } from "../../internationalization/components";
 import { WorkerService } from "../../api/WorkerService";
 import { FinalizeInfo } from "../../pages/MissionPage/requester/finalize/FinalizeInfoModal";
 import { MissionDetail } from "../../models/mission/MissionDetail";
+import styled from "styled-components";
+import { MissionCardCoverImg } from "./MissionCardCoverImg";
 
 const {Meta} = Card;
 
@@ -25,6 +27,8 @@ interface Props {
 }
 
 const ID_PREFIX = "missions.worker.myMissions.";
+
+
 
 export class WorkerInstanceCard extends React.PureComponent<Props, any> {
 
@@ -102,13 +106,15 @@ export class WorkerInstanceCard extends React.PureComponent<Props, any> {
 
   };
 
+
+
   renderCard = async () => {
     const {instance} = this.props;
     const mission: MissionDetail = await this.missionService.getAMission(instance.missionId);
     const {publicItem} = mission;
     return <Card
-      style={{width: 300}}
-      cover={<img alt="example" src={publicItem.coverUrl}/>}
+      style={{width: 250}}
+      cover={<MissionCardCoverImg url={mission.publicItem.coverUrl}/>}
       actions={this.getActions(instance)}>
       <Meta
         title={this.title(publicItem.title)}

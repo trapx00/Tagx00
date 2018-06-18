@@ -61,6 +61,8 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
     }
   }
 
+
+
   closeFinalizeModal = () => {
     this.setState({ finalizeModalState: {shown: false, instanceId: "", readonly: true, missionId: ""}});
   };
@@ -84,6 +86,8 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
   componentDidMount() {
     if (this.props.missionId) {
       this.load(this.props.missionId);
+    } else {
+      this.load("");
     }
   }
 

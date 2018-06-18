@@ -33,7 +33,9 @@ import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionInstanceVo;
 import trapx00.tagx00.vo.mission.video.VideoInstanceDetailVo;
 import trapx00.tagx00.vo.mission.video.VideoInstanceVo;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -58,12 +60,14 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     private final ThreeDimensionMissionDao threeDimensionMissionDao;
     private final PythonService pythonService;
 
+    private final InstanceService instanceService;
+
     @Autowired
     public WorkerMissionDataServiceImpl(ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao,
                                         TextMissionDao textMissionDao, TextInstanceDao textInstanceDao
             , AudioMissionDao audioMissionDao, AudioInstanceDao audioInstanceDao, VideoMissionDao videoMissionDao,
                                         VideoInstanceDao videoInstanceDao, ThreeDimensionInstanceDao threeDimensionInstanceDao,
-                                        ThreeDimensionMissionDao threeDimensionMissionDao, PythonService pythonService) {
+                                        ThreeDimensionMissionDao threeDimensionMissionDao, PythonService pythonService, InstanceService instanceService) {
         this.imageInstanceDao = imageInstanceDao;
         this.imageMissionDao = imageMissionDao;
         this.textInstanceDao = textInstanceDao;
@@ -75,6 +79,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         this.threeDimensionInstanceDao = threeDimensionInstanceDao;
         this.threeDimensionMissionDao = threeDimensionMissionDao;
         this.pythonService = pythonService;
+        this.instanceService = instanceService;
     }
 
     /**
@@ -233,7 +238,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 int instanceResultIdsSize = 0;
                 switch (instance.getMissionType()) {
                     case IMAGE:
-                        List<ImageResult> imageResults = getImageInstance(instance.getInstanceId()).getImageResults();
+                        List<ImageResult> imageResults = instanceService.getImageInstance(instance.getInstanceId()).getImageResults();
                         for (ImageResult imageResult : imageResults) {
                             if (imageResult.isDone()) {
                                 instanceResultIdsSize++;
@@ -242,7 +247,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         instanceVos[i] = generateImageInstanceVo(instance, instanceResultIdsSize);
                         break;
                     case TEXT:
-                        List<TextResult> textResults = getTextInstance(instance.getInstanceId()).getTextResults();
+                        List<TextResult> textResults = instanceService.getTextInstance(instance.getInstanceId()).getTextResults();
                         for (TextResult textResult : textResults) {
                             if (textResult.isDone()) {
                                 instanceResultIdsSize++;
@@ -251,7 +256,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         instanceVos[i] = generateTextInstanceVo(instance, instanceResultIdsSize);
                         break;
                     case AUDIO:
-                        List<AudioResult> audioResults = getAudioInstance(instance.getInstanceId()).getAudioResults();
+                        List<AudioResult> audioResults = instanceService.getAudioInstance(instance.getInstanceId()).getAudioResults();
                         for (AudioResult audioResult : audioResults) {
                             if (audioResult.isDone()) {
                                 instanceResultIdsSize++;
@@ -260,7 +265,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         instanceVos[i] = generateAudioInstanceVo(instance, instanceResultIdsSize);
                         break;
                     case VIDEO:
-                        List<VideoResult> videoResults = getVideoInstance(instance.getInstanceId()).getVideoResults();
+                        List<VideoResult> videoResults = instanceService.getVideoInstance(instance.getInstanceId()).getVideoResults();
                         for (VideoResult videoResult : videoResults) {
                             if (videoResult.isDone()) {
                                 instanceResultIdsSize++;
@@ -269,7 +274,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         instanceVos[i] = generateVideoInstanceVo(instance, instanceResultIdsSize);
                         break;
                     case THREE_DIMENSION:
-                        List<ThreeDimensionResult> threeDimensionResults = getThreeDimensionInstance(instance.getInstanceId()).getThreeDimensionResults();
+                        List<ThreeDimensionResult> threeDimensionResults = instanceService.getThreeDimensionInstance(instance.getInstanceId()).getThreeDimensionResults();
                         for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
                             if (threeDimensionResult.isDone()) {
                                 instanceResultIdsSize++;
@@ -310,7 +315,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                 int instanceResultIdsSize = 0;
                 switch (instance1.getMissionType()) {
                     case IMAGE:
-                        ImageInstance imageInstance = getImageInstance(instance1.getInstanceId());
+                        ImageInstance imageInstance = instanceService.getImageInstance(instance1.getInstanceId());
                         List<ImageResult> imageResults = imageInstance.getImageResults();
                         for (ImageResult imageResult : imageResults) {
                             if (imageResult.isDone()) {
@@ -319,7 +324,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         }
                         return generateImageInstanceDetailVo(imageInstance, instanceResultIdsSize);
                     case TEXT:
-                        TextInstance textInstance = getTextInstance(instance1.getInstanceId());
+                        TextInstance textInstance = instanceService.getTextInstance(instance1.getInstanceId());
                         List<TextResult> textResults = textInstance.getTextResults();
                         for (TextResult textResult : textResults) {
                             if (textResult.isDone())
@@ -327,7 +332,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         }
                         return generateTextInstanceDetailVo(textInstance, instanceResultIdsSize);
                     case THREE_DIMENSION:
-                        ThreeDimensionInstance threeDimensionInstance = getThreeDimensionInstance(instance1.getInstanceId());
+                        ThreeDimensionInstance threeDimensionInstance = instanceService.getThreeDimensionInstance(instance1.getInstanceId());
                         List<ThreeDimensionResult> threeDimensionResults = threeDimensionInstance.getThreeDimensionResults();
                         for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
                             if (threeDimensionResult.isDone()) {
@@ -336,7 +341,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         }
                         return generateThreeDimensionInstanceDetailVo(threeDimensionInstance, instanceResultIdsSize);
                     case VIDEO:
-                        VideoInstance videoInstance = getVideoInstance(instance1.getInstanceId());
+                        VideoInstance videoInstance = instanceService.getVideoInstance(instance1.getInstanceId());
                         List<VideoResult> videoResults = videoInstance.getVideoResults();
                         for (VideoResult videoResult : videoResults) {
                             if (videoResult.isDone())
@@ -344,7 +349,7 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
                         }
                         return generateVideoInstanceDetailVo(videoInstance, instanceResultIdsSize);
                     case AUDIO:
-                        AudioInstance audioInstance = getAudioInstance(instance1.getInstanceId());
+                        AudioInstance audioInstance = instanceService.getAudioInstance(instance1.getInstanceId());
                         List<AudioResult> audioResults = audioInstance.getAudioResults();
                         for (AudioResult audioResult : audioResults) {
                             if (audioResult.isDone())
@@ -586,79 +591,6 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         out.close();
         fileOut.close();
         return result;
-    }
-
-    private TextInstance getTextInstance(String instanceId) throws IOException, ClassNotFoundException {
-        TextInstance textInstance = textInstanceDao.findTextInstanceByInstanceId(instanceId);
-        FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "text_instance" + "_" + instanceId);
-        ObjectInputStream in = new ObjectInputStream(fileIn);
-        List<TextResult> textResults = (List<TextResult>) in.readObject();
-        in.close();
-        fileIn.close();
-        textInstance.setTextResults(textResults);
-        return textInstance;
-    }
-
-    private ImageInstance getImageInstance(String instanceId) throws IOException, ClassNotFoundException, SystemException {
-        ImageInstance imageInstance = imageInstanceDao.findImageInstanceByInstanceId(instanceId);
-        FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "image_instance" + "_" + instanceId);
-        ObjectInputStream in = new ObjectInputStream(fileIn);
-        List<ImageResult> imageResults = (List<ImageResult>) in.readObject();
-        in.close();
-        fileIn.close();
-        imageInstance.setImageResults(imageResults);
-
-//        ImageMission imageMission = imageInstance.getImageMission();
-//        List<MissionAsset> missionAssets = new ArrayList(imageMission.getMissionAssets());
-//        List<RecommendTagItem> recommendTagItems = new ArrayList<>();
-//        for (int i = 0; i < missionAssets.size(); i++) {
-//            recommendTagItems.add(new RecommendTagItem(missionAssets.get(i).getTagConfTuple()));
-//        }
-//        RecommendTagsVo recommendTagsVo = pythonService.getRecommendTag(new RecommendTagsVo(recommendTagItems));
-//        List<RecommendTagItem> resultRecommendTagItemList = recommendTagsVo.getRecommendTagItemList();
-//        for (int i = 0; i < missionAssets.size(); i++) {
-//            MissionAsset missionAsset = missionAssets.get(i);
-//            missionAsset.setTagConfTuple(resultRecommendTagItemList.get(i).getTagConfTuples());
-//            missionAssets.set(i, missionAsset);
-//        }
-//
-//        ImageMission returnImageMission = new ImageMission(imageMission.getMissionId(), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), imageMission.getMissionState(), imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(), imageMission.getRequesterUsername(), imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(), imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), missionAssets, imageMission.getImageMissionTypes(), imageMission.getImageInstances());
-//        ImageInstance returnImageInstance = new ImageInstance(imageInstance.getInstanceId(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), MissionType.IMAGE, imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), imageMission.getMissionId(), imageInstance.getExp(), imageInstance.getExpRatio(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getImageResults(), returnImageMission);
-//        return returnImageInstance;
-        return imageInstance;
-    }
-
-    private VideoInstance getVideoInstance(String instanceId) throws IOException, ClassNotFoundException {
-        VideoInstance videoInstance = videoInstanceDao.findVideoInstanceByInstanceId(instanceId);
-        FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "video_instance" + "_" + instanceId);
-        ObjectInputStream in = new ObjectInputStream(fileIn);
-        List<VideoResult> videoResults = (List<VideoResult>) in.readObject();
-        in.close();
-        fileIn.close();
-        videoInstance.setVideoResults(videoResults);
-        return videoInstance;
-    }
-
-    private AudioInstance getAudioInstance(String instanceId) throws IOException, ClassNotFoundException {
-        AudioInstance audioInstance = audioInstanceDao.findAudioInstanceByInstanceId(instanceId);
-        FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "audio_instance" + "_" + instanceId);
-        ObjectInputStream in = new ObjectInputStream(fileIn);
-        List<AudioResult> audioResults = (List<AudioResult>) in.readObject();
-        in.close();
-        fileIn.close();
-        audioInstance.setAudioResults(audioResults);
-        return audioInstance;
-    }
-
-    private ThreeDimensionInstance getThreeDimensionInstance(String instanceId) throws IOException, ClassNotFoundException {
-        ThreeDimensionInstance threeDimensionInstance = threeDimensionInstanceDao.findThreeDimensionInstanceByInstanceId(instanceId);
-        FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "threeDimension_instance" + "_" + instanceId);
-        ObjectInputStream in = new ObjectInputStream(fileIn);
-        List<ThreeDimensionResult> threeDimensionResults = (List<ThreeDimensionResult>) in.readObject();
-        in.close();
-        fileIn.close();
-        threeDimensionInstance.setThreeDimensionResults(threeDimensionResults);
-        return threeDimensionInstance;
     }
 
 }
