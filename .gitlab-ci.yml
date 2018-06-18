@@ -12,7 +12,7 @@ cache:
 backendBuildJob:
   stage: build
   script:
-    - cd ./Imagex00.Backend/
+    - cd ./Tagx00.Backend/
     - chmod +x gradlew
     - ./gradlew assemble
 
