@@ -72,7 +72,10 @@ class Tag:
             tags.append(tag_list)
             confs.append(conf_list)
 
-        self.load_models()
+        try:
+            self.load_models()
+        except Exception:
+            return data
         pred = self.sess.run(self.y_pred, feed_dict={self.X: confs, self.scale: 1, self.keep_prob: 1})
         result = []
         for i in range(pred.__len__()):
@@ -201,11 +204,7 @@ class Tag:
         self.saver.save(self.sess, PathUtil.get_path() + "trainmodels/model.ckpt")
 
     def load_models(self):
-        try:
-            self.saver.restore(self.sess, PathUtil.get_path() +
-                               "trainmodels/model.ckpt")
-        except Exception:
-            pass
+        self.saver.restore(self.sess, PathUtil.get_path() + "trainmodels/model.ckpt")
 
     @staticmethod
     def load_train_data():
