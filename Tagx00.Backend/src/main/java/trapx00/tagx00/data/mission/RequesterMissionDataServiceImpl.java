@@ -437,7 +437,7 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
 
         }
         mission.setCredits(mission.getCredits() + credits);
-        saveMission(mission);
+        updateMission(mission);
     }
 
     /**

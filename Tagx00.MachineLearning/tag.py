@@ -87,7 +87,8 @@ class Tag:
                     break
             if not is_reject:
                 for j in range(n_size):
-                    result_tuple.append({"tag": tags[i][j], "confidence": pred[i][j]})
+                    if tags[i][j].__len__() != 0:
+                        result_tuple.append({"tag": tags[i][j], "confidence": format(pred[i][j], '0.2f')})
             result.append({"tagConfTuples": result_tuple})
         return result
 
