@@ -11,15 +11,22 @@ import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.exception.viewexception.ThreeDimensionNotExistException;
+import trapx00.tagx00.mlservice.PythonService;
+import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.response.mission.*;
 import trapx00.tagx00.util.MissionUtil;
+import trapx00.tagx00.vo.mission.forpublic.MissionAssetVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
+import trapx00.tagx00.vo.mission.image.ImageMissionDetailVo;
+import trapx00.tagx00.vo.ml.RecommendTagItem;
+import trapx00.tagx00.vo.ml.RecommendTagsVo;
 import trapx00.tagx00.vo.paging.PagingInfoVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PublicMissionBlServiceImpl implements PublicMissionBlService {
@@ -27,13 +34,15 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
     private final PublicMissionDataService publicMissionDataService;
     private final TextDataService textDataService;
     private final ThreeDimensionDataService threeDimensionDataService;
+    private final PythonService pythonService;
 
     @Autowired
     public PublicMissionBlServiceImpl(PublicMissionDataService publicMissionDataService, TextDataService textDataService,
-                                      ThreeDimensionDataService threeDimensionDataService) {
+                                      ThreeDimensionDataService threeDimensionDataService, PythonService pythonService) {
         this.publicMissionDataService = publicMissionDataService;
         this.textDataService = textDataService;
         this.threeDimensionDataService = threeDimensionDataService;
+        this.pythonService = pythonService;
     }
 
     @Override
@@ -41,6 +50,22 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         MissionDetailVo missionDetailVo;
         try {
             missionDetailVo = publicMissionDataService.getOneMissionDetail(missionId, MissionUtil.getType(missionId));
+            if (missionDetailVo.getMissionType() == MissionType.IMAGE) {
+                ImageMissionDetailVo imageMissionPublicItemVo = (ImageMissionDetailVo) missionDetailVo;
+                List<MissionAssetVo> originMissionAssets = imageMissionPublicItemVo.getMissionAssetVos();
+                List<RecommendTagItem> recommendTagItems = new ArrayList<>();
+                for (int i = 0; i < originMissionAssets.size(); i++) {
+                    recommendTagItems.add(new RecommendTagItem(originMissionAssets.get(i).getTagConfTuple()));
+                }
+                RecommendTagsVo recommendTagsVo = pythonService.getRecommendTag(new RecommendTagsVo(recommendTagItems));
+                List<RecommendTagItem> resultRecommendTagItemList = recommendTagsVo.getRecommendTagItemList();
+                for (int i = 0; i < originMissionAssets.size(); i++) {
+                    MissionAssetVo missionAsset = originMissionAssets.get(i);
+                    missionAsset.setTagConfTuple(resultRecommendTagItemList.get(i).getTagConfTuples());
+                    originMissionAssets.set(i, missionAsset);
+                }
+                imageMissionPublicItemVo.setMissionAssetVos(originMissionAssets);
+            }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             throw new SystemException();

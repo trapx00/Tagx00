@@ -32,8 +32,6 @@ import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionInstanceDetailVo;
 import trapx00.tagx00.vo.mission.threedimension.ThreeDimensionInstanceVo;
 import trapx00.tagx00.vo.mission.video.VideoInstanceDetailVo;
 import trapx00.tagx00.vo.mission.video.VideoInstanceVo;
-import trapx00.tagx00.vo.ml.RecommendTagItem;
-import trapx00.tagx00.vo.ml.RecommendTagsVo;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -610,23 +608,24 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         fileIn.close();
         imageInstance.setImageResults(imageResults);
 
-        ImageMission imageMission = imageInstance.getImageMission();
-        List<MissionAsset> missionAssets = new ArrayList(imageMission.getMissionAssets());
-        List<RecommendTagItem> recommendTagItems = new ArrayList<>();
-        for (int i = 0; i < missionAssets.size(); i++) {
-            recommendTagItems.add(new RecommendTagItem(missionAssets.get(i).getTagConfTuple()));
-        }
-        RecommendTagsVo recommendTagsVo = pythonService.getRecommendTag(new RecommendTagsVo(recommendTagItems));
-        List<RecommendTagItem> resultRecommendTagItemList = recommendTagsVo.getRecommendTagItemList();
-        for (int i = 0; i < missionAssets.size(); i++) {
-            MissionAsset missionAsset = missionAssets.get(i);
-            missionAsset.setTagConfTuple(resultRecommendTagItemList.get(i).getTagConfTuples());
-            missionAssets.set(i, missionAsset);
-        }
-
-        ImageMission returnImageMission = new ImageMission(imageMission.getMissionId(), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), imageMission.getMissionState(), imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(), imageMission.getRequesterUsername(), imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(), imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), missionAssets, imageMission.getImageMissionTypes(), imageMission.getImageInstances());
-        ImageInstance returnImageInstance = new ImageInstance(imageInstance.getInstanceId(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), MissionType.IMAGE, imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), imageMission.getMissionId(), imageInstance.getExp(), imageInstance.getExpRatio(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getImageResults(), returnImageMission);
-        return returnImageInstance;
+//        ImageMission imageMission = imageInstance.getImageMission();
+//        List<MissionAsset> missionAssets = new ArrayList(imageMission.getMissionAssets());
+//        List<RecommendTagItem> recommendTagItems = new ArrayList<>();
+//        for (int i = 0; i < missionAssets.size(); i++) {
+//            recommendTagItems.add(new RecommendTagItem(missionAssets.get(i).getTagConfTuple()));
+//        }
+//        RecommendTagsVo recommendTagsVo = pythonService.getRecommendTag(new RecommendTagsVo(recommendTagItems));
+//        List<RecommendTagItem> resultRecommendTagItemList = recommendTagsVo.getRecommendTagItemList();
+//        for (int i = 0; i < missionAssets.size(); i++) {
+//            MissionAsset missionAsset = missionAssets.get(i);
+//            missionAsset.setTagConfTuple(resultRecommendTagItemList.get(i).getTagConfTuples());
+//            missionAssets.set(i, missionAsset);
+//        }
+//
+//        ImageMission returnImageMission = new ImageMission(imageMission.getMissionId(), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), imageMission.getMissionState(), imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(), imageMission.getRequesterUsername(), imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(), imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), missionAssets, imageMission.getImageMissionTypes(), imageMission.getImageInstances());
+//        ImageInstance returnImageInstance = new ImageInstance(imageInstance.getInstanceId(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), MissionType.IMAGE, imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), imageMission.getMissionId(), imageInstance.getExp(), imageInstance.getExpRatio(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getImageResults(), returnImageMission);
+//        return returnImageInstance;
+        return imageInstance;
     }
 
     private VideoInstance getVideoInstance(String instanceId) throws IOException, ClassNotFoundException {
