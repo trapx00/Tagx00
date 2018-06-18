@@ -77,8 +77,6 @@ export class MainNav extends React.Component<{}, {}> {
 
   render() {
     return <MySider collapsed={false}
-                  collapsible={true}
-                  onCollapse={this.onCollapse}
                   shown={this.navStore.navMenuShown}>
       <LogoItem/>
       <Menu
@@ -116,6 +114,12 @@ export class MainNav extends React.Component<{}, {}> {
 
             }
           )}
+        <Menu.Item key={"back"} onClick={this.onCollapse}>
+          <Icon type={"left"}/>
+          <span>
+                      <LocaleMessage id={"navbar.collapse"}/>
+          </span>
+        </Menu.Item>
       </Menu>
     </MySider>
   }

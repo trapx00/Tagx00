@@ -2,6 +2,7 @@ package trapx00.tagx00.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import springfox.documentation.spring.web.json.Json;
 import trapx00.tagx00.config.jsonAdapter.*;
 import trapx00.tagx00.entity.mission.textmissionsettings.TextMissionSetting;
 import trapx00.tagx00.publicdatas.mission.audio.AudioJob;
@@ -27,6 +28,7 @@ public class GsonFactory {
                 .registerTypeAdapter(AudioJob.class, new AudioJobAdapter())
                 .registerTypeAdapter(VideoJob.class, new VideoJobAdapter())
                 .registerTypeAdapter(ThreeDimensionJob.class, new ThreeDimensionJobAdapter())
+                .registerTypeAdapter(Json.class, new SpringfoxJsonToGsonAdapter())
                 .create();
     }
 }

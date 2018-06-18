@@ -7,7 +7,8 @@
       "AUDIO": "Audio task",
       "VIDEO": "Video Tasks",
       "THREE_DIMENSION": "3D Task"
-    }
+    },
+    "needLogin": "Please Login."
   },
   "admin": {
     "menu": {
@@ -120,7 +121,8 @@
     "welcome": "{username}",
     "selfCenter": "Personal Center",
     "pay": "Recharge Center",
-    "leaderboard": "List"
+    "leaderboard": "List",
+    "collapse": "Collapse"
   },
   "leaderboard": {
     "topBoard": "Peak List",

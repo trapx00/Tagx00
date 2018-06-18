@@ -49,4 +49,5 @@ def trainRecommend():
 
 
 if __name__ == '__main__':
+    PathUtil.init_path()
     app.run(port=8888)

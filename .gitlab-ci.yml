@@ -9,12 +9,12 @@ cache:
     - Tagx00.Backend/.gradle/caches/
     - Tagx00.Frontend/node_modules/
 
-# backendBuildJob:
-#   stage: build
-#   script:
-#     - cd ./Imagex00.Backend/
-#     - chmod +x gradlew
-#     - ./gradlew assemble
+backendBuildJob:
+  stage: build
+  script:
+    - cd ./Imagex00.Backend/
+    - chmod +x gradlew
+    - ./gradlew assemble
 
 frontendBuildJob:
   image: node:taobao

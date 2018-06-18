@@ -7,7 +7,8 @@
       "AUDIO": "Аудио задача",
       "VIDEO": "Видео задачи",
       "THREE_DIMENSION": "Трехмерная задача"
-    }
+    },
+    "needLogin": "Пожалуйста, войдите"
   },
   "admin": {
     "menu": {
@@ -120,7 +121,8 @@
     "welcome": "{username}",
     "selfCenter": "Персональный центр",
     "pay": "Центр пополнения",
-    "leaderboard": "Список"
+    "leaderboard": "Список",
+    "collapse": "отзывать"
   },
   "leaderboard": {
     "topBoard": "Пик список",
@@ -340,7 +342,7 @@
           "cross": "Границы не могут пересекаться",
           "outOfBound": "Мышь не может выйти из рамки изображения",
           "notEndsAtStartingPoint": "Конечная точка должна совпадать с начальной точкой",
-          "": "//TODO"
+          "": ""
         }
       },
       "add": "Добавить область (c)",
@@ -359,7 +361,6 @@
       "title": "Сведения о задаче",
       "description": "Описание задачи",
       "dateRange": "Время начала",
-      "dateRangeFormat": "//TODO",
       "dateFormat": "Гггг/мм/дд HH: mm: SS",
       "topics": "Тема",
       "jobCount": "Количество рабочих мест",
@@ -473,9 +474,7 @@
         "creditsError": {
           "loading": "Загрузка оставшихся точек",
           "format": "Введите неотрицательное целое число",
-          "insufficient": "//TODO",
-          "goPay": "Для пополнения",
-          "remaining": "//TODO"
+          "goPay": "Для пополнения"
         },
         "IMAGE": {
           "title": "Свойства задачи рисунка",
@@ -644,14 +643,11 @@
           "credits": "Дать очки",
           "comment": "Оценки",
           "requireExpRatio": "Пожалуйста, введите допустимое соотношение опыта (0.0, 1.0)",
-          "requireCredits": "//TODO",
           "submit": "Отправить",
           "default": "Восстановить по умолчанию",
           "back": "Вернуться",
           "title": "Оценки",
           "exp": "Реальный накопленный опыт",
-          "availableCredits": "//TODO",
-          "creditsNotSufficient": "//TODO",
           "goPay": "Для пополнения"
         }
       }
@@ -722,9 +718,7 @@
     "creditInput": {
       "loading": "Загрузить оставшиеся точки...",
       "format": "Введите неотрицательное целое число",
-      "insufficient": "//TODO",
       "goPay": "Для пополнения",
-      "remaining": "//TODO",
       "prompt": "Дать очки"
     },
     "account": {
@@ -740,10 +734,8 @@
       "missionId": "Идентификатор задачи",
       "title": "Задачи пополнения",
       "check": "Проверка и просмотр оставшихся точек",
-      "needCheck": "//TODO",
       "click": "Нажмите",
       "inputMissionId": "Введите идентификатор задачи",
-      "currentCredits": "//TODO",
       "inputCredits": "Пожалуйста, введите сумму, которую вы хотите перезарядить:",
       "submit": "Пополнения",
       "loading": "В нагрузке",

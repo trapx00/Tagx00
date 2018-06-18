@@ -7,7 +7,8 @@
       "AUDIO": "Tâche audio",
       "VIDEO": "Tâches vidéo",
       "THREE_DIMENSION": "tâche 3D"
-    }
+    },
+    "needLogin": "Veuillez vous connecter."
   },
   "admin": {
     "menu": {
@@ -120,7 +121,8 @@
     "welcome": "{username}",
     "selfCenter": "Centre personnel",
     "pay": "Centre de recharge",
-    "leaderboard": "Liste"
+    "leaderboard": "Liste",
+    "collapse": "Récupérer"
   },
   "leaderboard": {
     "topBoard": "Liste des pics",
@@ -340,7 +342,7 @@
           "cross": "Les limites ne peuvent pas se croiser",
           "outOfBound": "La souris ne peut pas se déplacer hors du cadre de l'image",
           "notEndsAtStartingPoint": "Le point de fin doit coïncider avec le point de départ",
-          "": "//TODO"
+          "": ""
         }
       },
       "add": "Ajouter une zone (c)",
@@ -359,7 +361,6 @@
       "title": "Détails de la tâche",
       "description": "Description de la tâche",
       "dateRange": "Heure de début",
-      "dateRangeFormat": "//TODO",
       "dateFormat": "Aaaa/mm/jj hh: mm: SS",
       "topics": "Thème",
       "jobCount": "Nombre d'emplois",
@@ -473,9 +474,7 @@
         "creditsError": {
           "loading": "Chargez les points restants",
           "format": "Veuillez entrer un entier non négatif",
-          "insufficient": "//TODO",
-          "goPay": "Pour recharger",
-          "remaining": "//TODO"
+          "goPay": "Pour recharger"
         },
         "IMAGE": {
           "title": "Propriétés de tâche d'image",
@@ -644,14 +643,12 @@
           "credits": "Donner des points",
           "comment": "Évaluation",
           "requireExpRatio": "Veuillez entrer un ratio d'expérience valide (0,0, 1,0)",
-          "requireCredits": "//TODO",
+
           "submit": "Envoyer",
           "default": "Restauration par défaut",
           "back": "Retour",
           "title": "Évaluation",
           "exp": "Expérience réelle acquise",
-          "availableCredits": "//TODO",
-          "creditsNotSufficient": "//TODO",
           "goPay": "Pour recharger"
         }
       }
@@ -722,9 +719,7 @@
     "creditInput": {
       "loading": "Chargez les points restants...",
       "format": "Veuillez entrer un entier non négatif",
-      "insufficient": "//TODO",
       "goPay": "Pour recharger",
-      "remaining": "//TODO",
       "prompt": "Donner des points"
     },
     "account": {
@@ -740,10 +735,8 @@
       "missionId": "ID de tâche",
       "title": "Recharger les tâches",
       "check": "Vérifier et afficher les points restants",
-      "needCheck": "//TODO",
       "click": "Cliquez sur",
       "inputMissionId": "Veuillez entrer un ID de tâche",
-      "currentCredits": "//TODO",
       "inputCredits": "Veuillez saisir le montant que vous souhaitez recharger:",
       "submit": "Recharger",
       "loading": "En charge",
