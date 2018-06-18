@@ -25,3 +25,7 @@ export function takeAtMost<T>(array: Array<T>, n: number) {
 export function arrayContainsElement<T>(array: Array<T>) {
   return !!array && array.length >0;
 }
+
+export function arraySum<T>(array: Array<T>, mapper: (e: T)=>number) {
+  return array.map(mapper).reduce((prev, curr)=> prev+curr, 0);
+}

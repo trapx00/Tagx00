@@ -13,6 +13,7 @@ import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.vo.mission.audio.AudioMissionDetailVo;
 import trapx00.tagx00.vo.mission.audio.AudioMissionPublicItemVo;
+import trapx00.tagx00.vo.mission.forpublic.MissionAssetVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 import trapx00.tagx00.vo.mission.image.ImageMissionDetailVo;
@@ -135,8 +136,13 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
         switch (missionType) {
             case IMAGE:
                 ImageMission imageMission = imageMissionDao.findImageMissionByMissionId(missionId);
+                List<MissionAssetVo> missionAssetVos = new ArrayList<>();
+                for (MissionAsset missionAsset : imageMission.getMissionAssets()) {
+                    MissionAssetVo missionAssetVo = new MissionAssetVo(missionAsset.getUrl(), missionAsset.getTagConfTuple());
+                    missionAssetVos.add(missionAssetVo);
+                }
                 if (imageMission == null)
-                    return null;
+                    throw new MissionIdDoesNotExistException();
                 if (imageMission.getMissionType().equals(MissionType.IMAGE)) {
                     missionDetailVo = new ImageMissionDetailVo(new ImageMissionPublicItemVo(
                             missionId, imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), missionType,
@@ -144,14 +150,14 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                             imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(),
                             imageMission.getMissionAssets().size() * imageMission.getImageMissionTypes().size(), imageMission.getRequesterUsername(),
                             imageMission.isAllowCustomTag(), imageMission.getImageMissionTypes()
-                    ),
-                            imageMission.getMissionState(), imageMission.getRequesterUsername(), MissionType.IMAGE, new ArrayList<>(imageMission.getMissionAssets()), imageMission.getImageMissionTypes());
+                    )
+                            , imageMission.getMissionState(), imageMission.getRequesterUsername(), missionAssetVos, imageMission.getAllowedTags());
                 }
                 break;
             case TEXT:
                 TextMission textMission = (TextMission) requesterMissionDataService.getMissionByMissionId(missionId);
                 if (textMission == null)
-                    return null;
+                    throw new MissionIdDoesNotExistException();
                 if (textMission.getMissionType().equals(MissionType.TEXT)) {
                     List<String> textUrls = textMission.getTextTokens().stream().collect(ArrayList::new, (list, textToken) -> list.add(textToken.getToken()), ArrayList::addAll);
                     missionDetailVo = new TextMissionDetailVo(new TextMissionPublicItemVo(
@@ -176,7 +182,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
             case THREE_DIMENSION:
                 ThreeDimensionMission threeDimensionMission = threeDimensionMissionDao.findTHreeDimensionMissionByMissionId(missionId);
                 if (threeDimensionMission == null)
-                    return null;
+                    throw new MissionIdDoesNotExistException();
                 if (threeDimensionMission.getMissionType().equals(MissionType.THREE_DIMENSION)) {
                     missionDetailVo = new ThreeDimensionMissionDetailVo(new ThreeDimensionMissionPublicItemVo(
                             missionId, threeDimensionMission.getTitle(), threeDimensionMission.getDescription(), threeDimensionMission.getTopics(), missionType,
@@ -191,7 +197,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
             case VIDEO:
                 VideoMission videoMission = videoMissionDao.findVideoMissionByMissionId(missionId);
                 if (videoMission == null)
-                    return null;
+                    throw new MissionIdDoesNotExistException();
                 if (videoMission.getMissionType().equals(MissionType.VIDEO)) {
                     missionDetailVo = new VideoMissionDetailVo(new VideoMissionPublicItemVo(
                             missionId, videoMission.getTitle(), videoMission.getDescription(), videoMission.getTopics(), missionType,
@@ -206,7 +212,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
             case AUDIO:
                 AudioMission audioMission = audioMissionDao.findAudioMissionByMissionId(missionId);
                 if (audioMission == null)
-                    return null;
+                    throw new MissionIdDoesNotExistException();
                 if (audioMission.getMissionType().equals(MissionType.AUDIO)) {
                     missionDetailVo = new AudioMissionDetailVo(new AudioMissionPublicItemVo(
                             missionId, audioMission.getTitle(), audioMission.getDescription(), audioMission.getTopics(), missionType,
@@ -223,7 +229,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
     }
 
     /**
-     * get all InstanceInfo
+     * get all InstanceStateTypeDistribution
      *
      * @return Instance
      */

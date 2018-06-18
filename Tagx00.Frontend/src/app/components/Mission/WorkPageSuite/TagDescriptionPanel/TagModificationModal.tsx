@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input, Modal } from 'antd';
+import { Button, Input, Modal, Tag } from 'antd';
 import { AddableInputGroup } from "../AddableInputGroup";
 import { observer } from "mobx-react";
 import { action, computed, observable } from "mobx";
@@ -8,13 +8,18 @@ import { TagTuple } from "../../../../models/instance/TagTuple";
 import { LocaleMessage, Localize } from "../../../../internationalization/components";
 import { ClickableTag } from "../../../ClickableTag";
 import { FormItem } from "../../../Form/FormItem";
+import { SuggestedTag } from "./shared";
+import Hotkeys from 'react-hot-keys';
+
+
 interface Props {
   tagTuple: TagTuple;
   onRemove: (tagTuple: TagTuple) => void;
   onComplete: (tagTuple: TagTuple) => void;
   onCancel: () => void;
   readonly: boolean;
-  tagConfTuples?: TagConfTuple[];
+  suggestedTags?: SuggestedTag[];
+  tags?: string[];
   allowCustomTag?: boolean;
 }
 
@@ -63,6 +68,10 @@ export class TagModificationModal extends React.Component<Props, {}> {
     this.tuple.tag = value;
   };
 
+  onKeyDown = () => {
+    this.onOk();
+  };
+
   render() {
     const footer = [<Button key="back" onClick={this.onCancel}>
       <LocaleMessage id={ID_PREFIX + "cancel"}/>
@@ -77,23 +86,39 @@ export class TagModificationModal extends React.Component<Props, {}> {
         </Button>);
     }
 
-    return <Modal
+    return <Hotkeys keyName={"enter"} onKeyDown={this.onOk}>
+    <Modal
       title={<LocaleMessage id={ID_PREFIX + "tagInformation"}/>}
       visible={true}
       onOk={this.onOk}
       onCancel={this.onCancel}
       footer={footer}
     >
-      <h3><LocaleMessage id={ID_PREFIX + "tagName"}/></h3>
+      <h2><LocaleMessage id={ID_PREFIX + "tagName"}/></h2>
       {!this.props.readonly && <div>
         {!this.props.allowCustomTag &&
         <LocaleMessage id={ID_PREFIX + "tagLimited"}/>
         }
         <div>
-        {this.props.tagConfTuples.map(x =>
-          <ClickableTag key={x.tag}
-                        color={this.tuple.tag === x.tag ? "blue" : undefined}
-                        onClick={() => this.onTagClick(x.tag)}>{x.tag}({x.confidence})</ClickableTag>)}
+          <LocaleMessage id={ID_PREFIX+"predefinedTags"}/>
+        {this.props.tags.map(x =>
+          <Tag key={x} color={this.tuple.tag === x ? "blue" : undefined} onClick={() => this.onTagClick(x)}>{x}</Tag>
+        )
+        }
+          {
+            this.props.allowCustomTag && this.props.suggestedTags &&
+              <div>
+                <LocaleMessage id={ID_PREFIX+"aiTags"}/>
+              {this.props.suggestedTags.map(x =>
+                <Tag key={x.tag}
+                     color={this.tuple.tag === x.tag ? "blue" : undefined}
+                     onClick={() => this.onTagClick(x.tag)}>
+                  {x.tag}({x.confidence})
+                  </Tag>
+              )}
+              </div>
+          }
+
         </div>
       </div>
       }
@@ -109,14 +134,14 @@ export class TagModificationModal extends React.Component<Props, {}> {
 
           <Input placeholder={props.placeholder}
                  value={this.tuple.tag}
-                 disabled={!this.props.allowCustomTag}
+                 disabled={this.props.readonly || !this.props.allowCustomTag}
                  onChange={this.onTagNameChange}
           />
 
         </FormItem>}
 
       </Localize>
-      <h3><LocaleMessage id={ID_PREFIX + "descriptions"}/></h3>
+      <h2><LocaleMessage id={ID_PREFIX + "descriptions"}/></h2>
       <Localize replacements={{placeholder: ID_PREFIX + "addOne"}}>
         {props => <AddableInputGroup items={this.tuple.descriptions}
                                      readonly={this.props.readonly}
@@ -128,5 +153,6 @@ export class TagModificationModal extends React.Component<Props, {}> {
         }
       </Localize>
     </Modal>
+    </Hotkeys>
   }
 }

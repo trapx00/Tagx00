@@ -15,7 +15,7 @@ interface Props extends RootWorkPageProps<ImageMissionDetail, ImageInstanceDetai
 }
 
 const ID_PREFIX = "drawingPad.common.";
-@observer
+
 export class ImageWorkPage extends React.Component<Props> {
 
   controller: ImageWorkPageController = new ImageWorkPageController(this.props.missionDetail, this.props.instanceDetail);

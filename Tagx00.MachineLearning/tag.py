@@ -3,8 +3,10 @@ import json
 import numpy as np
 import tensorflow as tf
 
+from path_util import PathUtil
+
 learning_rate = 0.003
-training_epochs = 100
+training_epochs = 1000
 batch_size = 10
 n_size = 3
 dismiss_percent = 0.05
@@ -190,21 +192,22 @@ class Tag:
         print(accuracy)
 
     def save_models(self):
-        self.saver.save(self.sess, "./data/trainmodels/model.ckpt")
+        self.saver.save(self.sess, PathUtil.get_path() + "trainmodels/model.ckpt")
 
     def load_models(self):
-        self.saver.restore(self.sess,
-                           "./data/trainmodels/model.ckpt")
+        self.saver.restore(self.sess, PathUtil.get_path() +
+                           "trainmodels/model.ckpt")
 
     @staticmethod
     def load_train_data():
         train_data = []
-        with open("./data/proval/train.txt",
+        with open(PathUtil.get_path() + "proval/train.txt",
                   "r") as file:
             all_data = file.readlines()
             for j in range(all_data.__len__()):
                 data = json.loads(all_data[j].replace('\n', "").replace('\'', '\"'))
                 tags = data["response"]
+                tags = sorted(tags, key=lambda x: x["confidence"], reverse=True)
                 targets = data["tags"]
                 tag = []
                 for i in range(n_size):
@@ -222,7 +225,7 @@ class Tag:
     @staticmethod
     def load_test_data():
         test_data = []
-        with open("./data/proval/test.txt", "r") as file:
+        with open(PathUtil.get_path() + "proval/test.txt", "r") as file:
             all_data = file.readlines()
             for j in range(all_data.__len__()):
                 data = json.loads(all_data[j].replace('\n', ""))

@@ -103,7 +103,7 @@ export class MissionCreateInfoForm extends React.Component<Props, {}> {
       }
     });
     return <Row gutter={16}>
-      <Col xs={24} sm={12}>
+      <Col xs={24} md={12}>
         <h3>{locale.generalProperties}</h3>
         <Form className="login-form">
           <FormItem valid={this.props.info.titleValid} messageOnInvalid={locale.requireTitle}>
@@ -157,7 +157,7 @@ export class MissionCreateInfoForm extends React.Component<Props, {}> {
           <CreditInput onChanged={this.onCreditsChanged}/>
         </Form>
       </Col>
-      <Col xs={24} sm={12}>
+      <Col xs={24} md={12}>
         <h3>{this.props.title}</h3>
         {this.props.children}
         <Button type={"primary"} loading={this.props.stage !== UploadStage.NotStarted} onClick={this.submit}>

@@ -144,7 +144,7 @@ export class VideoPartWorkPage extends React.Component<Props, State> {
       </>
       <>
         <VideoMissionTipCard videoMissionType={job.type}
-                             tagConfTuples={missionDetail.publicItem.tags.map(x => ({tag: x, confidence: 1}))}
+                             tags={missionDetail.publicItem.tags}
                              allowCustomTag={missionDetail.publicItem.allowCustomTag}
                              title={missionDetail.publicItem.title}
         />
@@ -156,13 +156,14 @@ export class VideoPartWorkPage extends React.Component<Props, State> {
                         onPlay={this.onPlay}
                         onSetStartTime={this.setStartTime}
                         onSetEndTime={this.setEndTime}
+                        readonly={this.props.readonlyMode}
         />
         {this.state.selected &&
         <TagDescriptionTuplePanel tuple={this.state.selected.tuple}
                                   onChange={this.onTupleChange}
                                   readonlyMode={this.props.readonlyMode}
                                   allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                  tagConfTuples={missionDetail.publicItem.tags.map(x => ({tag: x, confidence: 1}))}
+                                  tags={missionDetail.publicItem.tags}
         />
         }
       </>

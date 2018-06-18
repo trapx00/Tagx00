@@ -71,9 +71,10 @@ export class RequesterServiceMock extends RequesterService {
           email: "1@1.com",
           submittedMissionCount: 10,
           instanceCount: 900,
-          awaitingCommentInstanceCount: 300,
+          submittedInstanceCount: 300,
           inProgressInstanceCount: 300,
           finalizedInstanceCount: 300,
+        abandonedInstanceCount: 200
       } as RequesterInfo;
   };
 

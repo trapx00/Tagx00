@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.sql.Date;
 
 @Entity
 @Table(name = "user")
@@ -22,17 +23,28 @@ public class User {
     private double exp;
     @Column(name = "credits")
     private int credits;
+    @Column(name = "registerDate")
+    private Date registerDate;
 
     public User() {
     }
 
-    public User(String username, String password, String email, Role role, double exp, int credits) {
+    public User(String username, String password, String email, Role role, double exp, int credits, Date registerDate) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
         this.exp = exp;
         this.credits = credits;
+        this.registerDate = registerDate;
+    }
+
+    public Date getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
     }
 
     public String getUsername() {

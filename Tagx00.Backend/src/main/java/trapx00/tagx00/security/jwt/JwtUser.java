@@ -3,6 +3,7 @@ package trapx00.tagx00.security.jwt;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Date;
 import java.util.Collection;
 
 public class JwtUser implements UserDetails {

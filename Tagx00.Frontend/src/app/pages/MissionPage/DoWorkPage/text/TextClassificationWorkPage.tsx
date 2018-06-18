@@ -9,12 +9,13 @@ import { TagTuple } from "../../../../models/instance/TagTuple";
 import { toJS } from "mobx";
 import { WorkPageLayout } from "../WorkPageLayout";
 import { ProgressController } from "../../../../components/Mission/WorkPageSuite/ProgressController";
-import { TextReader } from "./TextReader";
+import { TextReader } from "../../../../components/Mission/WorkPageSuite/TextReader";
 import { TextMissionTipCard } from "../../../../components/Mission/MissionTipCard/TextMissionTipCard";
 import { TagPanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel/TagPanel";
 import { message } from 'antd';
 import { Inject } from "react.di";
 import { LocaleStore } from "../../../../stores/LocaleStore";
+import { observer } from "mobx-react";
 
 interface Props extends TextWorkPageProps<TextClassificationJob, TextMissionClassificationSetting>{
 
@@ -30,7 +31,6 @@ function initializeNotation(notation: TextNotation<TextClassificationJob, TextMi
   }
   return notation;
 }
-
 
 export class TextClassificationWorkPage extends React.Component<Props, TextWorkPageState<TextClassificationJob, TextMissionClassificationSetting>> {
 
@@ -68,11 +68,15 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
   };
 
   onTagClicked = (word: string) => {
+    if (this.props.readonlyMode) {
+      return;
+    }
+
     const tuples = this.state.notation.job.tagTuples;
     if (!tuples.find(x => x.tag === word)){
       // not allow custom tag
       if (this.state.notation.setting.classes.indexOf(word) >=0) {
-        this.state.notation.job.tagTuples.push({
+        this.state.notation.job.tagTuples = this.state.notation.job.tagTuples.concat({
           tag: word,
           descriptions: []
         });
@@ -105,7 +109,7 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
       <>
         <TextReader textToken={this.state.notation.textToken}
                     missionId={missionDetail.publicItem.missionId}
-                    addTag={this.onTagClicked}
+                    onTagClicked={this.onTagClicked}
                     selectedTags={this.state.notation.job.tagTuples.map(x => x.tag)}
         />
       </>
@@ -119,7 +123,7 @@ export class TextClassificationWorkPage extends React.Component<Props, TextWorkP
                   onChange={this.onTagChange}
                   readonly={this.props.readonlyMode}
                   allowCustomTag={false}
-                  tagConfTuples={this.props.notation.setting.classes.map(x=>({tag: x, confidence: 1}))}
+                  tags={this.state.notation.setting.classes}
         />
       </>
       <>

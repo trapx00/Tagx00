@@ -1,5 +1,6 @@
 package trapx00.tagx00.mlservice;
 
+import org.springframework.scheduling.annotation.Async;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.ml.KeysVo;

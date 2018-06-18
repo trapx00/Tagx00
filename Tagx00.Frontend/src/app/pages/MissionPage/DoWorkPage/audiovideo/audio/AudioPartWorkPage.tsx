@@ -140,12 +140,13 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
       </>
       <>
         <AudioMissionTipCard audioMissionType={job.type}
-                             tagConfTuples={missionDetail.publicItem.tags.map(x => ({tag: x, confidence: 1}))}
+                             tags={missionDetail.publicItem.tags}
                              allowCustomTag={missionDetail.publicItem.allowCustomTag}
                              title={missionDetail.publicItem.title}
         />
         <MediaTupleList tuples={this.state.notation.job.tupleList}
                         selected={this.state.selected}
+                        readonly={this.props.readonlyMode}
                         onAdd={this.onAddTuple}
                         onSelect={this.onSelect}
                         onRemove={this.onRemoveTuple}
@@ -158,7 +159,7 @@ export class AudioPartWorkPage extends React.Component<Props, State> {
                                   onChange={this.onTupleChange}
                                   readonlyMode={this.props.readonlyMode}
                                   allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                  tagConfTuples={missionDetail.publicItem.tags.map(x => ({tag: x, confidence: 1}))}
+                                  tags={missionDetail.publicItem.tags}
         />
         }
       </>

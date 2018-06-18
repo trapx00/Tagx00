@@ -7,15 +7,14 @@ import { TagModificationModal } from "./TagModificationModal";
 import { TagConfTuple } from "../../../../models/mission/MissionAsset";
 import { TagTuple } from "../../../../models/instance/TagTuple";
 import { LocaleMessage } from "../../../../internationalization/components";
-
-
-const AnyTag = Tag as any;
+import { SuggestedTag } from "./shared";
 
 interface Props {
   tagTuples: TagTuple[];
   onChange: (tags: TagTuple[]) => void;
   readonly: boolean;
-  tagConfTuples: TagConfTuple[];
+  suggestedTags?: SuggestedTag[];
+  tags: string[];
   allowCustomTag?: boolean;
 }
 
@@ -71,29 +70,29 @@ export class TagPanel extends React.Component<Props, {}> {
   };
 
   render() {
-
+    console.log(this.props.tagTuples);
     return <Card title={<LocaleMessage id={ID_PREFIX + "tags"}/>}>
       {this.props.tagTuples.map(({tag},index) => {
         const isLongTag = tag.length > 20;
 
         const tagElem = (
-          <AnyTag
+          <Tag
             key={index}
             onClick={() => this.selectTag(index)}>
             {isLongTag ? `${tag.slice(0, 20)}...` : tag}
-          </AnyTag>
+          </Tag>
         );
         return isLongTag
           ? <Tooltip title={tag} key={index}>{tagElem}</Tooltip>
           : tagElem;
       })}
       {this.props.readonly ? null
-        : <AnyTag
+        : <Tag
         onClick={this.addNewTag}
         style={{ background: '#fff', borderStyle: 'dashed' }}
       >
         <Icon type="plus" /> <LocaleMessage id={ID_PREFIX + "newTag"}/>
-      </AnyTag>}
+      </Tag>}
 
       {this.selectedTagTuple
         ? <TagModificationModal onRemove={this.onTagRemove}
@@ -101,7 +100,8 @@ export class TagPanel extends React.Component<Props, {}> {
                                 onComplete={this.onTagChangeComplete}
                                 onCancel={this.onTagChangeCancelled}
                                 readonly={this.props.readonly}
-                                tagConfTuples={this.props.tagConfTuples}
+                                suggestedTags={this.props.suggestedTags}
+                                tags={this.props.tags}
                                 allowCustomTag={this.props.allowCustomTag}
         />
         : null
