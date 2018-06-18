@@ -17,12 +17,14 @@ import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.ImageIdentificationResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
+import trapx00.tagx00.response.mission.WordSegmentationResponse;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
+import java.io.IOException;
 import java.util.Date;
 
 @PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "')")
@@ -110,24 +112,8 @@ public class WorkerMissionController {
         }
     }
 
-    @Authorization(value = "工人")
-    @ApiOperation(value = "工人识别图片内容", notes = "工人识别图片内容")
-    @RequestMapping(value = "/mission/worker/image/identify", method = RequestMethod.POST)
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Progress saved.", response = ImageIdentificationResponse.class),
-            @ApiResponse(code = 401, message = "Not login", response = WrongResponse.class),
-            @ApiResponse(code = 403, message = "Not worker", response = WrongResponse.class),
-            @ApiResponse(code = 404, message = "mission id not found or mission isn't accepted", response = WrongResponse.class)
-    })
-    @ResponseBody
-    public ResponseEntity<Response> identifyImage(@RequestParam("file") MultipartFile multipartFile) {
-        try {
-            return new ResponseEntity<>(workerMissionBlService.identifyImage(multipartFile), HttpStatus.OK);
-        } catch (SystemException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e.getResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+
+
 
     @Authorization(value = "工人")
     @ApiOperation(value = "工人提交任务", notes = "工人用当前的进度提交任务,如果是空的就是接受任务")

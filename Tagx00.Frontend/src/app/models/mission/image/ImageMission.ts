@@ -10,5 +10,6 @@ export enum ImageMissionType {
 }
 
 export interface ImageMissionDetail extends MissionDetail<ImageMissionPublicItem> {
-  missionAssets: MissionAsset[];
+  missionAssetVos: MissionAsset[];
+  requesterTags: string[];
 }

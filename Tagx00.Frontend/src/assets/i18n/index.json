@@ -16,6 +16,30 @@
                 "en-US"
             ],
             "definitionFileName": "en"
+        },
+        {
+            "id": "fr",
+            "name": "français",
+            "acceptedLanguages": [
+                "fr"
+            ],
+            "definitionFileName": "fr"
+        },
+        {
+            "id": "ru",
+            "name": "русский язык",
+            "acceptedLanguages": [
+                "ru"
+            ],
+            "definitionFileName": "ru"
+        },
+        {
+            "id": "de",
+            "name": "Deutsch",
+            "acceptedLanguages": [
+                "de"
+            ],
+            "definitionFileName": "de"
         }
     ]
 }

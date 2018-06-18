@@ -13,6 +13,7 @@ import { AudioInstance } from "../../models/instance/audio/AudioInstance";
 import { AudioInstanceDetail } from "../../models/instance/audio/AudioInstanceDetail";
 import { VideoInstanceDetail } from "../../models/instance/video/VideoInstanceDetail";
 import { ThreeDimensionInstanceDetail } from "../../models/instance/3d/3dInstanceDetail";
+import { HttpMethod } from "../utils";
 
 const textInstance = {
     textResults: [],
@@ -166,6 +167,8 @@ export class WorkerServiceMock extends WorkerService {
       description: "success"
     };
   }
+
+
 
   async getWorkerInfo(username: string): Promise<WorkerInfo> {
     return {

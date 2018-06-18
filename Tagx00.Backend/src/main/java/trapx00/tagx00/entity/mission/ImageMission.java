@@ -18,15 +18,19 @@ public class ImageMission extends Mission {
     @ElementCollection(targetClass = String.class)
     private List<String> allowedTags;
     @Column(name = "missionAssets")
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<MissionAsset> missionAssets;
     @Column(name = "imageMissionType")
     @ElementCollection(targetClass = ImageMissionType.class)
     private List<ImageMissionType> imageMissionTypes;
-    @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "imageMission", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<ImageInstance> imageInstances;
 
     public ImageMission() {
+    }
+
+    public ImageMission NewImageMission(ImageMission imageMission) {
+        return new ImageMission(imageMission.getMissionId(), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), imageMission.getMissionState(), imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(), imageMission.getRequesterUsername(), imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(), imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), imageMission.getMissionAssets(), imageMission.getImageMissionTypes(), imageMission.getImageInstances());
     }
 
     public ImageMission(String missionId, String title, String description, List<String> topics, MissionState missionState, Date start, Date end, String coverUrl, String requesterUsername, int level, int credits, int minimalWorkerLevel, boolean allowCustomTag, List<String> allowedTags, List<MissionAsset> missionAssets, List<ImageMissionType> imageMissionTypes, List<ImageInstance> imageInstances) {

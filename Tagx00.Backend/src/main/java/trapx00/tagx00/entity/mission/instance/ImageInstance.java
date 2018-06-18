@@ -12,9 +12,7 @@ import java.util.List;
 @Entity
 public class ImageInstance extends Instance {
 
-    @Column(name = "imageResults")
-    @ElementCollection(targetClass = ImageResult.class)
-    @Lob
+    @Transient
     private List<ImageResult> imageResults;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_missionId")

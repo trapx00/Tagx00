@@ -6,8 +6,11 @@ import trapx00.tagx00.response.SuccessResponse;
 import trapx00.tagx00.response.mission.ImageIdentificationResponse;
 import trapx00.tagx00.response.mission.InstanceDetailResponse;
 import trapx00.tagx00.response.mission.InstanceResponse;
+import trapx00.tagx00.response.mission.WordSegmentationResponse;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
+
+import java.io.IOException;
 
 public interface WorkerMissionBlService {
     /**
@@ -60,4 +63,13 @@ public interface WorkerMissionBlService {
      * @return
      */
     ImageIdentificationResponse identifyImage(MultipartFile multipartFile) throws SystemException;
+
+    /**
+     * segment word
+     *
+     * @param missionId
+     * @param token
+     * @return
+     */
+    WordSegmentationResponse segmentWords(String missionId, String token) throws MissionIdDoesNotExistException, IOException, ClassNotFoundException;
 }

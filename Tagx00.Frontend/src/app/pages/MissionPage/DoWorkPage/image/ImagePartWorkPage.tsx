@@ -150,9 +150,11 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
         </>
         <>
           <ImageMissionTipCard imageMissionType={job.type}
-                               tagConfTuples={imageAsset.tagConfTuple}
+                               suggestedTags={imageAsset.tagConfTuple}
                                allowCustomTag={missionDetail.publicItem.allowCustomTag}
                                title={missionDetail.publicItem.title}
+                               requesterTags={missionDetail.requesterTags}
+
           />
           {readonlyMode ? null
             :
@@ -165,7 +167,8 @@ export class ImagePartWorkPage extends React.Component<ImageWorkPageProps<PartJo
                                         readonlyMode={readonlyMode}
                                         onChange={this.onTupleChanged}
                                         allowCustomTag={missionDetail.publicItem.allowCustomTag}
-                                        tagConfTuples={imageAsset.tagConfTuple}
+                                        suggestedTags={imageAsset.tagConfTuple}
+                                        tags={missionDetail.requesterTags}
             />
             : null}
         </>

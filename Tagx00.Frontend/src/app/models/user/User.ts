@@ -1,3 +1,5 @@
+import * as moment from "moment";
+
 export enum UserRole {
   ROLE_REQUESTER = "ROLE_REQUESTER",
   ROLE_WORKER = "ROLE_WORKER",
@@ -11,10 +13,12 @@ export class User {
   token: string;
   email: string;
   avatarUrl: string;
+  registerDate: moment.Moment;
 
 
   constructor(params: Partial<User>) {
     Object.assign(this, params);
+    this.registerDate = moment(params.registerDate);
   }
 
 }

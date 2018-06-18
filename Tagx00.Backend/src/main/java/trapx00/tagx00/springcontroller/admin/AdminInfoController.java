@@ -38,6 +38,6 @@ public class AdminInfoController {
             @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
     public ResponseEntity<Response> info() {
-        return new ResponseEntity(adminInfoBlService.getAdminInfo(), HttpStatus.OK);
+        return new ResponseEntity<>(adminInfoBlService.getAdminInfo(), HttpStatus.OK);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import trapx00.tagx00.blservice.pay.PayBlSerivce;
+import trapx00.tagx00.blservice.pay.PayBlService;
 import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.UserDoesNotExistException;
@@ -20,16 +20,16 @@ import trapx00.tagx00.vo.mission.pay.PayVo;
 
 @RestController
 public class PayController {
-    private final PayBlSerivce payBlSerivce;
+    private final PayBlService payBlService;
 
     @Autowired
-    public PayController(PayBlSerivce payBlSerivce) {
-        this.payBlSerivce = payBlSerivce;
+    public PayController(PayBlService payBlService) {
+        this.payBlService = payBlService;
     }
 
 
-    @Authorization(value = "发布者")
-    @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "')")
+    @Authorization(value = "发布者、工人")
+    @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "')")
     @ApiOperation(value = "给账号充值", notes = "发布者给账号充值")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "credits", value = "积分", required = true, dataType = "int")
@@ -44,7 +44,7 @@ public class PayController {
     @ResponseBody
     public ResponseEntity<Response> pay(@RequestBody PayVo payVo) {
         try {
-            return new ResponseEntity<>(payBlSerivce.pay(payVo, UserInfoUtil.getUsername()), HttpStatus.OK);
+            return new ResponseEntity<>(payBlService.pay(payVo, UserInfoUtil.getUsername()), HttpStatus.OK);
         } catch (SystemException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.SERVICE_UNAVAILABLE);
@@ -64,7 +64,7 @@ public class PayController {
     @ResponseBody
     public ResponseEntity<Response> queryPay() {
         try {
-            return new ResponseEntity<>(payBlSerivce.queryPay(UserInfoUtil.getUsername()), HttpStatus.OK);
+            return new ResponseEntity<>(payBlService.queryPay(UserInfoUtil.getUsername()), HttpStatus.OK);
         } catch (UserDoesNotExistException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.FORBIDDEN);

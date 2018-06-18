@@ -13,9 +13,9 @@ padding: 48px 8px 48px 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  //max-width: 500px;
-  //margin-left: auto;
-  //margin-right: auto;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
   flex-wrap: wrap;
  
   & > * {

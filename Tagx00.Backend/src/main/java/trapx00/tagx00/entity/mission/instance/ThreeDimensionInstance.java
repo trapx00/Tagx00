@@ -13,7 +13,7 @@ import java.util.List;
 public class ThreeDimensionInstance extends Instance {
     @Column(name = "threeDimensionResults")
     @ElementCollection(targetClass = ThreeDimensionResult.class)
-    @Lob
+    @Transient
     private List<ThreeDimensionResult> threeDimensionResults;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_missionId")

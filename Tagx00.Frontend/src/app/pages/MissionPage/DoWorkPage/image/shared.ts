@@ -1,7 +1,7 @@
 import { ImageMissionDetail } from "../../../../models/mission/image/ImageMission";
 import { ImageJob } from "../../../../models/instance/image/job/ImageJob";
 import { WorkPageProps, WorkPageState } from "../WorkPage";
-import { MissionAsset } from "../../../../models/mission/MissionAsset";
+import { MissionAsset, TagConfTuple } from "../../../../models/mission/MissionAsset";
 import { Notation } from "../WorkPageController";
 
 export interface ImageNotation<T extends ImageJob = ImageJob> extends Notation<T> {
@@ -15,4 +15,9 @@ export interface ImageWorkPageProps<T extends ImageJob> extends WorkPageProps<Im
 export interface ImageWorkPageStates<T extends ImageJob> extends WorkPageState<T, ImageNotation<T>>{
   width: number;
   height: number;
+}
+
+
+export function sortTuple(tuples: TagConfTuple[]) {
+  tuples.sort((x1,x2) => x2.confidence - x1.confidence);
 }

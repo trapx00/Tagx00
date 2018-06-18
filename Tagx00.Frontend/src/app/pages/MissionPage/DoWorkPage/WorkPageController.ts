@@ -22,11 +22,6 @@ export abstract class WorkPageController<M extends MissionDetail, I extends Inst
     this.missionDetail = missionDetail;
     this.initialDetail = instanceDetail;
   }
-
-  @computed get finished() {
-    return this.workIndex === this.jobCount;
-  }
-
   @computed get jobCount() {
     return this.currentNotations.length;
   }
@@ -36,12 +31,15 @@ export abstract class WorkPageController<M extends MissionDetail, I extends Inst
   }
 
   @computed get currentWork(): N {
-    if (this.workIndex == this.currentNotations.length) {
-      return null;
-    } else {
       return this.currentNotations[this.workIndex];
-    }
+  }
 
+  @computed get canGoNext() {
+    return this.workIndex < this.jobCount-1;
+  }
+
+  @computed get canGoPrevious() {
+    return this.workIndex >0;
   }
 
   abstract judgeJobComplete(job: J): boolean;
@@ -58,11 +56,14 @@ export abstract class WorkPageController<M extends MissionDetail, I extends Inst
   }
 
   @action nextWork() {
-    this.workIndex++;
+    if (this.canGoNext) {
+      this.workIndex++;
+    }
+
   }
 
   @action previousWork() {
-    if (this.workIndex>0) {
+    if (this.canGoPrevious) {
       this.workIndex--;
     }
   }

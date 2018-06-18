@@ -33,7 +33,7 @@ public class DataCollectorServiceImpl implements DataCollectorService {
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)));
             for (ImageInstance imageInstance : imageInstanceList) {
                 ImageInstance imageInstanceWithResults = getImageInstance(imageInstance.getInstanceId());
-                List<MissionAsset> missionAssets = imageInstanceWithResults.getImageMission().getMissionAssets();
+                List<MissionAsset> missionAssets = new ArrayList<>(imageInstanceWithResults.getImageMission().getMissionAssets());
                 for (int i = 0; i < missionAssets.size(); i++) {
                     List<TagTuple> tagTuples = ((ImageWholeJob) imageInstanceWithResults.getImageResults().get(i).getImageJob()).getTuple().getTagTuples();
                     List<String> tags = tagTuples.stream().collect(ArrayList::new, (list, tagTuple) -> list.add(tagTuple.getTag()), ArrayList::addAll);
@@ -50,7 +50,11 @@ public class DataCollectorServiceImpl implements DataCollectorService {
     }
 
     private ImageInstance getImageInstance(String instanceId) throws IOException, ClassNotFoundException {
-        ImageInstance imageInstance = imageInstanceDao.findImageInstanceByInstanceId(instanceId);
+        return getImageInstance(instanceId, imageInstanceDao.findImageInstanceByInstanceId(instanceId));
+    }
+
+    private static ImageInstance getImageInstance(String instanceId, ImageInstance imageInstanceByInstanceId) throws IOException, ClassNotFoundException {
+        ImageInstance imageInstance = imageInstanceByInstanceId;
         FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "image_instance" + "_" + instanceId);
         ObjectInputStream in = new ObjectInputStream(fileIn);
         List<ImageResult> imageResults = (List<ImageResult>) in.readObject();

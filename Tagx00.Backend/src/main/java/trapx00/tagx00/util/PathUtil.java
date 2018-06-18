@@ -6,6 +6,9 @@ import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.entity.account.User;
 
 import java.io.File;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.time.Instant;
 
 public class PathUtil {
     public final static String TEMP_FILE_NAME = "Tagx00";
@@ -40,6 +43,10 @@ public class PathUtil {
         }
     }
 
+    public static String getStaticPath() {
+        return new File("static/").getAbsolutePath() + "/";
+    }
+
     public static String getDatabasePath() {
         return ResourceUtil.getFilePathUnderRootDirOfJarFileOrClassDir("/data/");
     }
@@ -49,8 +56,12 @@ public class PathUtil {
     }
 
     public void initDatabase() {
-        userDao.save(new User("999", "$2a$10$EQezV9FHSbCgagwHb6K8g.o.TmwFjh4wMLSUU.8f7PhSLpBpivhO.", "445073309@qq.com", Role.ADMIN, 0, 0));
-        userDao.save(new User("888", "$2a$10$EQezV9FHSbCgagwHb6K8g.o.TmwFjh4wMLSUU.8f7PhSLpBpivhO.", "445073309@qq.com", Role.REQUESTER, 0, 0));
-        userDao.save(new User("123", "$2a$10$EQezV9FHSbCgagwHb6K8g.o.TmwFjh4wMLSUU.8f7PhSLpBpivhO.", "445073309@qq.com", Role.WORKER, 0, 0));
+        userDao.save(new User("999", "$2a$10$EQezV9FHSbCgagwHb6K8g.o.TmwFjh4wMLSUU.8f7PhSLpBpivhO.", "445073309@qq.com", Role.ADMIN, 0, 0, new Date(Instant.now().toEpochMilli())));
+        userDao.save(new User("888", "$2a$10$EQezV9FHSbCgagwHb6K8g.o.TmwFjh4wMLSUU.8f7PhSLpBpivhO.", "445073309@qq.com", Role.REQUESTER, 0, 0, new Date(Instant.now().toEpochMilli())));
+        userDao.save(new User("123", "$2a$10$EQezV9FHSbCgagwHb6K8g.o.TmwFjh4wMLSUU.8f7PhSLpBpivhO.", "445073309@qq.com", Role.WORKER, 0, 0, new Date(Instant.now().toEpochMilli())));
+    }
+
+    public static String getResourceUrl(String filePath) {
+        return "http://localhost:8080/static/" + filePath;
     }
 }

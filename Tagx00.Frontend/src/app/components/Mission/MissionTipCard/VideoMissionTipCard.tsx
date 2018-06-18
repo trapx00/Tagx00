@@ -11,7 +11,7 @@ interface Props {
   title: string;
   videoMissionType: VideoMissionType;
   allowCustomTag: boolean;
-  tagConfTuples: TagConfTuple[];
+  tags: string[];
 }
 
 const ID_PREFIX = "drawingPad.common.missionTipCard.VIDEO.";
@@ -25,8 +25,8 @@ export function VideoMissionTipCard(props: Props){
       <LocaleMessage id={`${ID_PREFIX}allowCustomTag.${props.allowCustomTag}`}/>
     </DefinitionItem>
     <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "tags"}/>}>
-      {props.tagConfTuples.map(x => {
-        return <Tag key={x.tag} color={"blue"}>{x.tag}({x.confidence})</Tag>
+      {props.tags.map(x => {
+        return <Tag key={x} color={"blue"}>{x}</Tag>
       })}
     </DefinitionItem>
   </MissionTipCard>;

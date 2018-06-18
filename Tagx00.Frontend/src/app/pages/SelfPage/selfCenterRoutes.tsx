@@ -3,7 +3,7 @@ import { AsyncRouteConfig, RedirectRouteConfig, RouteType } from "../../router/R
 
 export const dashboardPage: AsyncRouteConfig = {
   type: RouteType.Async,
-  exact: true,
+  exact: false,
   path: "/self/dashboard",
   component: import("./dashboard")
 };

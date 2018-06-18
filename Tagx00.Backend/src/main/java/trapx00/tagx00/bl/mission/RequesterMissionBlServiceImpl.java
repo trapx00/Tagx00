@@ -38,6 +38,7 @@ import trapx00.tagx00.vo.mission.video.VideoMissionProperties;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 @Service
 public class RequesterMissionBlServiceImpl implements RequesterMissionBlService {
@@ -78,6 +79,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
 //        mission.setTopics(keysVo.getKeys());
 
         String missionId;
+
         try {
             missionId = requesterMissionDataService.saveMission(generateMission(mission));
         } catch (IOException e) {
@@ -219,7 +221,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
                         missionCreateVo.getTopics(), MissionState.PENDING,
                         missionCreateVo.getStart(), missionCreateVo.getEnd(),
                         "", UserInfoUtil.getUsername(), missionCreateVo.getLevel(), missionCreateVo.getCredits(),
-                        missionCreateVo.getMinimalWorkerLevel(), new ArrayList<>(), ((TextMissionProperties) missionCreateVo.getProperties()).getSettings(), new ArrayList<>()
+                        missionCreateVo.getMinimalWorkerLevel(), new HashSet<>(), ((TextMissionProperties) missionCreateVo.getProperties()).getSettings(), new ArrayList<>()
                 );
             case THREE_DIMENSION:
                 return new ThreeDimensionMission("", missionCreateVo.getTitle(), missionCreateVo.getDescription(),

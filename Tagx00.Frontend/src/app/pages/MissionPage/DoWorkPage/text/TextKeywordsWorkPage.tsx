@@ -9,7 +9,7 @@ import { WorkPageLayout } from "../WorkPageLayout";
 import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
 import { ProgressController } from "../../../../components/Mission/WorkPageSuite/ProgressController";
 import { MissionType } from "../../../../models/mission/Mission";
-import { TextReader } from "./TextReader";
+import { TextReader } from "../../../../components/Mission/WorkPageSuite/TextReader";
 import { TextMissionTipCard } from "../../../../components/Mission/MissionTipCard/TextMissionTipCard";
 import { TagPanel } from "../../../../components/Mission/WorkPageSuite/TagDescriptionPanel/TagPanel";
 
@@ -47,7 +47,6 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
     }
   }
 
-
   goNext = () => {
     this.props.goNext(this.state.notation);
   };
@@ -62,9 +61,28 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
     this.props.submit(this.state.notation);
   };
 
+  onTagClicked = (word: string) => {
+
+    if (this.props.readonlyMode) {
+      return;
+    }
+
+    const tuples = this.state.notation.job.tagTuples;
+    if (!tuples.find(x => x.tag === word)){
+      this.state.notation.job.tagTuples = this.state.notation.job.tagTuples.concat({
+        tag: word,
+        descriptions: []
+      });
+      this.forceUpdate();
+    }else {
+      // remove the tag
+      this.state.notation.job.tagTuples = this.state.notation.job.tagTuples.filter(x => x.tag !== word);
+      this.forceUpdate();
+    }
+  };
+
   render() {
 
-    const { job } = this.state.notation;
     const { missionDetail, controllerProps } = this.props;
     return <WorkPageLayout
       next={this.goNext}
@@ -72,18 +90,23 @@ export class TextKeywordsWorkPage extends React.Component<Props, TextWorkPageSta
       saveProgress={this.saveProgress}
     >
       <>
-       <TextReader textToken={this.state.notation.textToken}/>
+       <TextReader textToken={this.state.notation.textToken}
+                   missionId={missionDetail.publicItem.missionId}
+                   onTagClicked={this.onTagClicked}
+                   selectedTags={this.state.notation.job.tagTuples.map(x => x.tag)}
+
+       />
       </>
       <>
         <TextMissionTipCard
                         setting={this.props.notation.setting}
                         title={missionDetail.publicItem.title}
         />
-        <TagPanel tagTuples={job.tagTuples}
+        <TagPanel tagTuples={this.state.notation.job.tagTuples}
                   onChange={this.onTagChange}
                   readonly={this.props.readonlyMode}
                   allowCustomTag={true}
-                  tagConfTuples={this.props.notation.setting.keywords.map(x => ({tag: x, confidence: 1}))}
+                  tags={this.props.notation.setting.keywords}
         />
 
       </>

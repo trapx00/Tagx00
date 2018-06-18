@@ -1,6 +1,70 @@
 {
   "common": {
-    "loading": "加载中"
+    "loading": "加载中",
+    "missionType": {
+      "IMAGE": "图片任务",
+      "TEXT": "文本任务",
+      "AUDIO": "音频任务",
+      "VIDEO": "视频任务",
+      "THREE_DIMENSION": "3D任务"
+    }
+  },
+  "admin": {
+    "menu": {
+      "dashboard":"平台信息",
+      "missionChart": "任务统计",
+      "instanceChart": "实例统计",
+      "dateChart": "每日实例",
+      "user": "用户统计",
+      "credits": "积分统计"
+    },
+    "dashboard": {
+      "name":"平台信息"
+    },
+    "missionChart": {
+      "stateDistribution": "任务状态统计",
+      "activeMissionCount":"可接受任务",
+      "pendingMissionCount":"未到期任务",
+      "endedMissionCount":"已结束任务",
+      "totalMissionCount":"总任务",
+      "typeDistribution": "各类任务状态统计",
+      "missionState": {
+        "PENDING": "未开始",
+        "ACTIVE": "可接受",
+        "ENDED": "已结束"
+      }
+    },
+    "instanceChart": {
+      "stateDistribution": "实例状态统计",
+      "inProgressInstanceCount":"进行中实例",
+      "submittedInstanceCount":"待评价实例",
+      "finalizeInstanceCount":"已结束实例",
+      "abandonedInstanceCount": "已放弃实例",
+      "totalInstanceCount":"总实例",
+      "typeDistribution": "各类任务实例状态统计",
+      "heatMap": "实例接受/日期热力图",
+      "instanceState": {
+        "IN_PROGRESS": "正在进行",
+        "SUBMITTED": "已提交",
+        "FINALIZED": "已结束",
+        "ABANDONED": "已放弃"
+      }
+    },
+    "creditsChart": {
+      "name": "积分分布",
+      "total": "总积分",
+      "requester": "发起者拥有",
+      "worker": "工人拥有",
+      "mission": "任务尚未分配",
+      "typeCreditDistribution": "各类型任务积分分配图"
+    },
+    "userChart": {
+      "name": "用户统计",
+      "total": "总用户数",
+      "requester": "发起者",
+      "worker": "工人",
+      "registerDateCountChart": "注册人数/日期曲线"
+    }
   },
   "home": {
     "enter": "开始体验",
@@ -17,7 +81,8 @@
       "title": "系统特性",
       "responsiveness": "响应式设计",
       "shortcut": "快捷键",
-      "tagRecommendation": "智能标注推荐"
+      "tagRecommendation": "智能标注推荐",
+      "i18n": "多语言"
     }
   },
   "footer": {
@@ -58,6 +123,7 @@
     "leaderboard":"排行榜"
   },
   "leaderboard":{
+    "topBoard":"巅峰榜单",
     "workerCredits":"工人富人榜",
     "requesterCredits":"发起者富人榜",
     "expBoard":"经验排行榜",
@@ -72,6 +138,31 @@
     "avatar": {
       "gravatar": "头像通过邮箱从gravatar上获得。",
       "whatIsGravatar": "什么是Gravatar？"
+    }
+  },
+  "dashboard": {
+    "selfInfo": {
+      "username":"用户名",
+      "email":"注册邮箱",
+      "registerDate": "注册时间",
+      "registerDateFormat": "YYYY/MM/DD",
+      "credits":"积分",
+      "level":"等级",
+      "exp":"经验"
+    },
+    "worker":{
+      "acceptedMissionCount":"接受任务总数",
+      "inProgressMissionCount":"正在进行任务",
+      "completedMissionCount":"提交待评任务",
+      "abandonedMissionCount":"放弃任务总数",
+      "finalizedMissionCount":"完成任务总数"
+    },
+    "requester": {
+      "submittedMissionCount": "创建任务总数",
+      "instanceCount":"管理实例总数",
+      "inProgressInstanceCount":"正在进行实例",
+      "awaitingCommentInstanceCount":"等待评价实例",
+      "finalizedInstanceCount":"已结束任务数"
     }
   },
   "drawingPad": {
@@ -102,11 +193,19 @@
         }
       }
     },
+    "textReader": {
+      "raw": "原文",
+      "segmented": "分词结果",
+      "notAllowed": "主题分类不支持自定义标签。"
+    },
     "common": {
       "progressController": {
         "save": "保存进度 (Ctrl+S)",
         "backward": "前一张 (a)",
         "toFirstIncomplete": "去未完成的第一张",
+        "submit": "提交任务",
+        "confirmTitle": "确认提交任务？",
+        "confirmDescription": "提交任务后不能继续做任务！",
         "forward": "后一张 (d)"
       },
       "tagDescriptionTuplePanel": {
@@ -120,6 +219,8 @@
         "tagNameInvalid": "请输入标签名。",
         "tagLimited": "任务不可自定义标签。请从以下标签中选择一个",
         "tagInformation": "标签信息",
+        "aiTags": "智能推荐",
+        "predefinedTags": "预设标签",
         "ok": "确定",
         "remove": "移除",
         "cancel": "取消"
@@ -138,6 +239,8 @@
             "false": "否"
           },
           "tags": "预设标签",
+          "requesterTags": "发起者标签",
+          "aiTags": "智能推荐的标签",
           "types": {
             "WHOLE": {"name": "整体"},
             "PART": { "name": "局部"},
@@ -273,6 +376,7 @@
       "TEXT": {
         "name":"文本任务",
         "types": "文本任务种类",
+        "sampleTitle": "文本示例",
         "CLASSIFICATION": {
           "name": "主题分类",
           "classes":"预设分类"
@@ -299,7 +403,7 @@
       "VIDEO": {
         "name": "视频任务",
         "sampleTitle": "视频示例",
-        "audioMissionTypes": "视频任务类型",
+        "videoMissionTypes": "视频任务类型",
         "types": {
           "WHOLE": "整体",
           "PART": "局部"
@@ -470,7 +574,13 @@
         "seeResult": "查看任务进度",
         "continueWorking": "继续做任务",
         "accepted": "接受任务成功",
-        "levelNotEnough": "等级不足以接受任务"
+        "levelNotEnough": "等级不足以接受任务",
+        "state": {
+          "FINALIZED": "您已经做过本任务，并已经获得评价。",
+          "SUBMITTED": "您已经提交本任务，等待评价。",
+          "IN_PROGRESS": "您正在做本任务。",
+          "ABANDONED": "您已经放弃本任务。"
+        }
       }
     },
     "sideMenu": {
@@ -498,6 +608,14 @@
         "title": "实例",
         "search": {
           "placeholder": "任务ID"
+        },
+        "missionIdNotFound": "任务ID不存在。",
+        "instanceStateDiagram": {
+          "total": "总实例数",
+          "FINALIZED": "已结束实例",
+          "IN_PROGRESS": "正在进行中实例",
+          "SUBMITTED": "已提交实例",
+          "ABANDONED":"已放弃实例"
         },
         "table": {
           "dateFormat": "YYYY/MM/DD HH:mm:SS",
@@ -583,7 +701,10 @@
     "seeDetail": "查看详细信息",
     "missionType": {
       "IMAGE": "图片",
-      "TEXT":"文本"
+      "TEXT":"文本",
+      "AUDIO": "音频",
+      "VIDEO": "视频",
+      "THREE_DIMENSION": "3D"
     },
     "dateFormat": "YYYY/MM/DD HH:mm:ss"
   },

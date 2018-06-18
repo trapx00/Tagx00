@@ -22,7 +22,7 @@ const Header = styled.h1`
   text-align: center;
 `;
 
-const ItemContainer = styled.div`
+const ItemContainer = styled(QueueAnim)`
   display: flex;
   max-width: 1000px;
   margin-right: auto;
@@ -31,8 +31,8 @@ const ItemContainer = styled.div`
    justify-content: center;
    flex-wrap: wrap;
    
-   padding-top: 64px;
-   padding-bottom: 64px;
+   padding-top: 96px;
+   padding-bottom: 96px;
    
   * {
     flex-grow: 1;
@@ -52,14 +52,14 @@ function TagMissionItem(props: { icon: string, type: MissionType }) {
 
 export function FunctionShowcase(props: {}) {
   return <Container>
-    <Header><LocaleMessage id={ID_PREFIX + "function.title"}/></Header>
-    <ItemContainer>
+    <Header key={"1"}><LocaleMessage id={ID_PREFIX + "function.title"}/></Header>
+    <ItemContainer type="bottom" component="ul" key="ul" interval={0}>
 
-      <TagMissionItem type={MissionType.IMAGE} icon={"picture"}/>
-      <TagMissionItem type={MissionType.TEXT} icon={"file-text"}/>
-      <TagMissionItem type={MissionType.AUDIO} icon={"sound"}/>
-      <TagMissionItem type={MissionType.VIDEO} icon={"video-camera"}/>
-      <TagMissionItem type={MissionType.THREE_DIMENSION} icon={"user"}/>
+      <TagMissionItem key={MissionType.IMAGE} type={MissionType.IMAGE} icon={"picture"}/>
+      <TagMissionItem key={MissionType.TEXT} type={MissionType.TEXT} icon={"file-text"}/>
+      <TagMissionItem key={MissionType.AUDIO} type={MissionType.AUDIO} icon={"sound"}/>
+      <TagMissionItem key={MissionType.VIDEO} type={MissionType.VIDEO} icon={"video-camera"}/>
+      <TagMissionItem key={MissionType.THREE_DIMENSION} type={MissionType.THREE_DIMENSION} icon={"user"}/>
     </ItemContainer>
   </Container>
 }

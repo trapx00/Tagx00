@@ -1,10 +1,8 @@
 package trapx00.tagx00.entity.mission;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Blob;
+import java.util.List;
 
 @Entity
 @Table(name = "textToken")
@@ -14,13 +12,21 @@ public class TextToken {
     private String token;
     @Column(name = "text")
     private Blob text;
+    @Column(name = "segmentedSentence")
+    @ElementCollection(targetClass = String.class)
+    private List<String> segmentedSentence;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "mission_missionId")
+    private TextMission textMission;
 
     public TextToken() {
     }
 
-    public TextToken(String token, Blob text) {
+    public TextToken(String token, Blob text, List<String> segmentedSentence, TextMission textMission) {
         this.token = token;
         this.text = text;
+        this.segmentedSentence = segmentedSentence;
+        this.textMission = textMission;
     }
 
     public String getToken() {
@@ -37,5 +43,21 @@ public class TextToken {
 
     public void setText(Blob text) {
         this.text = text;
+    }
+
+    public List<String> getSegmentedSentence() {
+        return segmentedSentence;
+    }
+
+    public void setSegmentedSentence(List<String> segmentedSentence) {
+        this.segmentedSentence = segmentedSentence;
+    }
+
+    public TextMission getTextMission() {
+        return textMission;
+    }
+
+    public void setTextMission(TextMission textMission) {
+        this.textMission = textMission;
     }
 }

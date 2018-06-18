@@ -36,7 +36,7 @@ public interface PublicMissionDataService {
 
 
     /**
-     * get all InstanceInfo
+     * get all InstanceStateTypeDistribution
      *
      * @return Instance
      */

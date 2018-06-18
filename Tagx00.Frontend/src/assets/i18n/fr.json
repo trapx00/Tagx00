@@ -1,0 +1,755 @@
+{
+  "common": {
+    "loading": "En charge",
+    "missionType": {
+      "IMAGE": "Tâches d'image",
+      "TEXT": "Tâche de texte",
+      "AUDIO": "Tâche audio",
+      "VIDEO": "Tâches vidéo",
+      "THREE_DIMENSION": "tâche 3D"
+    }
+  },
+  "admin": {
+    "menu": {
+      "dashboard": "Informations sur la plate-forme",
+      "missionChart": "Statistiques des tâches",
+      "instanceChart": "Statistiques d'instance",
+      "dateChart": "Instance quotidienne",
+      "user": "Statistiques de l'utilisateur",
+      "credits": "Statistiques intégrales"
+    },
+    "dashboard": {
+      "name": "Informations sur la plate-forme"
+    },
+    "missionChart": {
+      "stateDistribution": "Statistiques d'état des tâches",
+      "activeMissionCount": "Tâches acceptables",
+      "pendingMissionCount": "Tâche non expirée",
+      "endedMissionCount": "Tâche fermée",
+      "totalMissionCount": "Excédents",
+      "typeDistribution": "Toutes sortes de statistiques d'état des tâches",
+      "missionState": {
+        "PENDING": "Pas commencé",
+        "ACTIVE": "Un acceptable",
+        "ENDED": "A pris fin"
+      }
+    },
+    "instanceChart": {
+      "stateDistribution": "Statistiques d'état d'instance",
+      "inProgressInstanceCount": "Instance en cours",
+      "submittedInstanceCount": "Exemples à évaluer",
+      "finalizeInstanceCount": "Instance Closed",
+      "abandonedInstanceCount": "L'instance a été écartée",
+      "totalInstanceCount": "Nombre total d'instances",
+      "typeDistribution": "Diverses statistiques d'état d'instance de tâche",
+      "heatMap": "Acceptation d'instance/date de tentative thermique",
+      "instanceState": {
+        "IN_PROGRESS": "est en cours",
+        "SUBMITTED": "a été soumis",
+        "FINALIZED": "A pris fin",
+        "ABANDONED": "A abandonné"
+      }
+    },
+    "creditsChart": {
+      "name": "Distribution intégrale",
+      "total": "Total des points",
+      "requester": "L'initiateur a",
+      "worker": "Travailleurs ont",
+      "mission": "Tâche non affectée",
+      "typeCreditDistribution": "Divers types de diagramme de distribution intégrale des tâches"
+    },
+    "userChart": {
+      "name": "Statistiques de l'utilisateur",
+      "total": "Nombre total d'utilisateurs",
+      "requester": "Initié par",
+      "worker": "Travailleurs",
+      "registerDateCountChart": "Numéro d'enregistrement/courbe de date"
+    }
+  },
+  "home": {
+    "enter": "Commencer à vivre",
+    "productDescription": "SYSTEME de marquage de donnees",
+    "function": {
+      "title": "Travail d'étiquetage",
+      "IMAGE": "Image",
+      "TEXT": "Texte",
+      "AUDIO": "Audio",
+      "VIDEO": "Vidéo",
+      "THREE_DIMENSION": "3D"
+    },
+    "feature": {
+      "title": "Caractéristiques du système",
+      "responsiveness": "Conception de type réponse",
+      "shortcut": "Touches de raccourci",
+      "tagRecommendation": "Recommandation Smart Labeling",
+      "i18n": "Plusieurs langues"
+    }
+  },
+  "footer": {
+    "productDescription": "SYSTEME de marquage de donnees",
+    "help": {
+      "title": "Aide",
+      "about": "Sur",
+      "usage": "Utiliser l'aide",
+      "FAQ": "FAQ"
+    },
+    "madeByUs": {
+      "title": "Fabriqué par Trap X00",
+      "NJUAdmin": "Njuadmin, système Sud Big Data Integration",
+      "AstronAlice": "Astronalice, unité 2D/3D Xiao Xiao le",
+      "Lightx00": "X00 léger, système de facturation de lampe"
+    },
+    "contact": "Contactez-nous",
+    "copyright": "Fabriqué avec ❤. © 2018 Trap X00, tous droits réservés."
+  },
+  "frameMenu": {
+    "home": "Accueil",
+    "imageLabel": "Légende de l'image",
+    "videoLabel": "Annotation vidéo",
+    "textLabel": "Légende du texte",
+    "aboutLabel": "Qui sommes-nous"
+  },
+  "navbar": {
+    "home": "Accueil",
+    "browse": "Parcourir",
+    "mission": "Tâche",
+    "tag": "Marquage",
+    "about": "Sur",
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "welcome": "{username}",
+    "selfCenter": "Centre personnel",
+    "pay": "Centre de recharge",
+    "leaderboard": "Liste"
+  },
+  "leaderboard": {
+    "topBoard": "Liste des pics",
+    "workerCredits": "La riche liste des travailleurs",
+    "requesterCredits": "Liste des sponsors riches",
+    "expBoard": "Liste d'expérience",
+    "rankListBoard": "Liste totale",
+    "selfRank": "Mon classement"
+  },
+  "selfCenter": {
+    "dashboard": "Tableau de bord",
+    "achievement": "Réalisation",
+    "personalInfo": "Mes informations",
+    "manageTopics": "Gérer les rubriques",
+    "avatar": {
+      "gravatar": "L'avatar est obtenu à partir du Gravatar à travers la boîte aux lettres.",
+      "whatIsGravatar": "Qu'est-ce que Gravatar?"
+    }
+  },
+  "dashboard": {
+    "selfInfo": {
+      "username": "Nom d'utilisateur",
+      "email": "Enregistrer une boîte aux lettres",
+      "registerDate": "Temps d'inscription",
+      "registerDateFormat": "Aaaa/mm/jj",
+      "credits": "Intégrale",
+      "level": "Grade",
+      "exp": "Expérience"
+    },
+    "worker": {
+      "acceptedMissionCount": "Nombre total de tâches acceptées",
+      "inProgressMissionCount": "La tâche est en cours",
+      "completedMissionCount": "Soumettre des tâches en attente",
+      "abandonedMissionCount": "Annuler le nombre total de tâches",
+      "finalizedMissionCount": "Nombre total de tâches terminées"
+    },
+    "requester": {
+      "submittedMissionCount": "Créer le nombre total de tâches",
+      "instanceCount": "Nombre total d'instances admin",
+      "inProgressInstanceCount": "Instance en cours",
+      "awaitingCommentInstanceCount": "En attente d'un exemple d'évaluation",
+      "finalizedInstanceCount": "Nombre de tâches fermées"
+    }
+  },
+  "drawingPad": {
+    "media": {
+      "audioPlayer": {
+        "play": "Jouer",
+        "pause": "Time out",
+        "mute": "Mute",
+        "unmute": "Supprimer la sourdine"
+      },
+      "videoPlayer": {
+        "play": "Jouer",
+        "pause": "Time out",
+        "mute": "Mute",
+        "unmute": "Supprimer la sourdine"
+      },
+      "tupleSelector": {
+        "list": {
+          "title": "Une liste de fragments existante",
+          "setStart": "Définir l'heure de début",
+          "setEnd": "Définir l'heure de fin",
+          "play": "Jouer ce fragment",
+          "add": "Ajouter un fragment",
+          "remove": "Supprimer ce fragment",
+          "select": "Sélectionnez ce fragment",
+          "selected": "La sélection actuelle",
+          "range": "De {start}Secondes pour {end}Secondes"
+        }
+      }
+    },
+    "textReader": {
+      "raw": "Langue source",
+      "segmented": "Résultat de segmentation de mot",
+      "notAllowed": "Les étiquettes personnalisées ne sont pas prises en charge pour les classifications de rubriques."
+    },
+    "common": {
+      "progressController": {
+        "save": "Enregistrer la progression (Ctrl + s)",
+        "backward": "Précédent (a)",
+        "toFirstIncomplete": "Aller à la première inachevée",
+        "submit": "Soumettre la tâche",
+        "confirmTitle": "Confirmer soumettre la tâche?",
+        "confirmDescription": "Ne poursuivez pas la tâche après avoir soumis la tâche!",
+        "forward": "Le dernier (d)"
+      },
+      "tagDescriptionTuplePanel": {
+        "tags": "Étiquette",
+        "topics": "Thème",
+        "descriptions": "Décrire",
+        "addOne": "Ajouter une description",
+        "inputPrompt": "Veuillez entrer une description",
+        "newTag": "Nouvelle étiquette",
+        "tagName": "Signature de l'étiquette",
+        "tagNameInvalid": "Veuillez entrer un nom d'étiquette.",
+        "tagLimited": "Tâche ne peut pas personnaliser l'étiquette. Veuillez sélectionner l'une des étiquettes suivantes",
+        "tagInformation": "Informations sur l'étiquette",
+        "aiTags": "Recommandation intelligente",
+        "predefinedTags": "Étiquettes prédéfinies",
+        "ok": "Es-tu sûr",
+        "remove": "Retiré de",
+        "cancel": "Annuler"
+      },
+      "missionTipCard": {
+        "missionTitle": "Titre de la tâche",
+        "title": "Objectifs de la mission",
+        "missionType": "Type de tâche",
+        "IMAGE": {
+          "name": "Tâches d'image",
+          "type": "Type de tâche d'image",
+          "allowCustomTag": {
+            "prompt": "Autoriser les étiquettes personnalisées",
+            "true": "Est",
+            "false": "Si"
+          },
+          "tags": "Étiquettes prédéfinies",
+          "requesterTags": "Étiquette de l'initiateur",
+          "aiTags": "Étiquettes intelligentes recommandées",
+          "types": {
+            "WHOLE": {
+              "name": "Globale"
+            },
+            "PART": {
+              "name": "Local"
+            },
+            "DISTRICT": {
+              "name": "Régional"
+            }
+          }
+        },
+        "TEXT": {
+          "name": "Tâche de texte",
+          "type": "Type de tâche texte",
+          "types": {
+            "CLASSIFICATION": {
+              "name": "Catégories de sujets",
+              "classes": "Catégories prédéfinies"
+            },
+            "KEYWORDS": {
+              "name": "Extraire le mot-clé",
+              "keywords": "Rubriques thématiques"
+            }
+          }
+        },
+        "AUDIO": {
+          "name": "Tâche audio",
+          "type": "Type de tâche audio",
+          "allowCustomTag": {
+            "prompt": "Autoriser les étiquettes personnalisées",
+            "true": "Est",
+            "false": "Si"
+          },
+          "tags": "Étiquettes prédéfinies",
+          "types": {
+            "WHOLE": {
+              "name": "Globale"
+            },
+            "PART": {
+              "name": "Local"
+            }
+          }
+        },
+        "VIDEO": {
+          "name": "Tâches vidéo",
+          "type": "Type de tâche vidéo",
+          "allowCustomTag": {
+            "prompt": "Autoriser les étiquettes personnalisées",
+            "true": "Est",
+            "false": "Si"
+          },
+          "tags": "Étiquettes prédéfinies",
+          "types": {
+            "WHOLE": {
+              "name": "Globale"
+            },
+            "PART": {
+              "name": "Local"
+            }
+          }
+        },
+        "THREE_DIMENSION": {
+          "name": "tâche 3D",
+          "type": "type de tâche 3D",
+          "allowCustomTag": {
+            "prompt": "Autoriser les étiquettes personnalisées",
+            "true": "Est",
+            "false": "Si"
+          },
+          "tags": "Étiquettes prédéfinies",
+          "types": {
+            "WHOLE": {
+              "name": "Globale"
+            }
+          }
+        }
+      },
+      "finish": {
+        "editingComplete": "Féliciter! Vous avez terminé tout le travail sur cette tâche. Vous pouvez maintenant choisir d'enregistrer la progression ou de soumettre votre progression actuelle. (une fois que vous avez sélectionné la soumission, vous ne serez plus en mesure de modifier votre progression.) ）",
+        "editingCompleteTitle": "Tous les travaux effectués",
+        "submit": "Envoyer",
+        "goBack": "Retour",
+        "saveProgress": "Enregistrer les progrès mais ne pas soumettre",
+        "readonlyComplete": "C'est la dernière fois.",
+        "workSaved": "Le travail a été sauvegardé"
+      }
+    },
+    "district": {
+      "prompts": {
+        "readyToDraw": "Maintenez la souris enfoncée pour tracer une zone fermée",
+        "drawingBoundary": "Maintenez la souris et glissez pour dessiner une zone fermée",
+        "boundaryDown": "Vous avez dessiné une zone fermée. Vous pouvez{continueDrawing} Ou {confirm}。",
+        "continueDrawing": "Continuer à dessiner des zones fermées (v)",
+        "confirm": "Confirmer (c)",
+        "error": {
+          "errorTip": "Conseils d'erreur",
+          "cross": "Les limites ne peuvent pas se croiser",
+          "outOfBound": "La souris ne peut pas se déplacer hors du cadre de l'image",
+          "notEndsAtStartingPoint": "Le point de fin doit coïncider avec le point de départ",
+          "": "//TODO"
+        }
+      },
+      "add": "Ajouter une zone (c)",
+      "removeSelected": "Supprimer la zone actuellement sélectionnée (x)"
+    },
+    "rectangle": {
+      "add": "Ajouter une zone (c)",
+      "removeSelected": "Supprimer la zone actuellement sélectionnée (x)"
+    }
+  },
+  "missions": {
+    "needLogin": "Connectez-vous en premier",
+    "missionDetail": {
+      "missionId": "ID de tâche",
+      "basic": "Informations de base",
+      "title": "Détails de la tâche",
+      "description": "Description de la tâche",
+      "dateRange": "Heure de début",
+      "dateRangeFormat": "//TODO",
+      "dateFormat": "Aaaa/mm/jj hh: mm: SS",
+      "topics": "Thème",
+      "jobCount": "Nombre d'emplois",
+      "cover": "Couvrir",
+      "minimalWorkerLevel": "Niveau minimum des travailleurs",
+      "level": "Niveau de tâche",
+      "requesterUsername": "Initié par",
+      "missionType": "Type de tâche",
+      "credits": "Pool de bonus",
+      "IMAGE": {
+        "name": "Tâches d'image",
+        "imageMissionTypes": "Type de tâche d'image",
+        "types": {
+          "WHOLE": "Globale",
+          "PART": "Local",
+          "DISTRICT": "Régional"
+        },
+        "allowCustomTag": {
+          "true": "Autoriser les étiquettes personnalisées",
+          "false": "Les étiquettes personnalisées ne sont pas autorisées"
+        },
+        "tags": "Exemples d'étiquettes disponibles"
+      },
+      "TEXT": {
+        "name": "Tâche de texte",
+        "types": "Type de tâche texte",
+        "sampleTitle": "Exemple de texte",
+        "CLASSIFICATION": {
+          "name": "Catégories de sujets",
+          "classes": "Catégories prédéfinies"
+        },
+        "KEYWORDS": {
+          "name": "Extraire le mot-clé",
+          "keywords": "Mots-clés prédéfinis"
+        }
+      },
+      "AUDIO": {
+        "name": "Tâche audio",
+        "sampleTitle": "Sample audio",
+        "audioMissionTypes": "Type de tâche audio",
+        "types": {
+          "WHOLE": "Globale",
+          "PART": "Local"
+        },
+        "allowCustomTag": {
+          "true": "Autoriser les étiquettes personnalisées",
+          "false": "Les étiquettes personnalisées ne sont pas autorisées"
+        },
+        "tags": "Exemples d'étiquettes disponibles"
+      },
+      "VIDEO": {
+        "name": "Tâches vidéo",
+        "sampleTitle": "Exemple vidéo",
+        "videoMissionTypes": "Type de tâche vidéo",
+        "types": {
+          "WHOLE": "Globale",
+          "PART": "Local"
+        },
+        "allowCustomTag": {
+          "true": "Autoriser les étiquettes personnalisées",
+          "false": "Les étiquettes personnalisées ne sont pas autorisées"
+        },
+        "tags": "Exemples d'étiquettes disponibles"
+      },
+      "THREE_DIMENSION": {
+        "name": "tâche 3D",
+        "sampleTitle": "exemple de tâche 3D",
+        "allowCustomTag": {
+          "true": "Autoriser les étiquettes personnalisées",
+          "false": "Les étiquettes personnalisées ne sont pas autorisées"
+        },
+        "tags": "Exemples d'étiquettes disponibles"
+      }
+    },
+    "createMission": {
+      "title": "Créer une tâche",
+      "completeCreation": {
+        "title": "Création de tâche réussie",
+        "description": "La tâche a été créée.{to}Afficher les détails des tâches",
+        "to": "Cliquez ici"
+      },
+      "menu": {
+        "IMAGE": "Image",
+        "TEXT": "Texte",
+        "AUDIO": "Audio",
+        "VIDEO": "Vidéo",
+        "THREE_DIMENSION": "3D"
+      },
+      "uploadStage": {
+        "0": "Télécharger des informations",
+        "1": "Télécharger l'image de couverture",
+        "2": "Télécharger la pièce jointe"
+      },
+      "fields": {
+        "generalProperties": "Propriétés de la tâche",
+        "title": "Titre de la tâche",
+        "requireTitle": "Veuillez entrer un titre de tâche",
+        "description": "Description de la tâche",
+        "requireDescription": "Veuillez entrer une description de la tâche",
+        "topics": "Rubriques thématiques",
+        "availableTopics": "Mot-clé optionnel",
+        "dateRange": "Période de temps",
+        "requireDateRange": "Veuillez sélectionner une période de temps valide pour la tâche",
+        "cover": "Image de couverture",
+        "selectFile": "Sélectionnez fichier",
+        "minimalWorkerLevel": "Niveau le plus bas des travailleurs",
+        "requireMinimalWorkerLevel": "Un entier avec l'intervalle de classe d'un ouvrier de [1 100]",
+        "missionLevel": "Niveau de tâche",
+        "requireMissionLevel": "Entier avec le niveau de tâche [1,5]",
+        "credits": "Points de pré-paiement",
+        "creditsError": {
+          "loading": "Chargez les points restants",
+          "format": "Veuillez entrer un entier non négatif",
+          "insufficient": "//TODO",
+          "goPay": "Pour recharger",
+          "remaining": "//TODO"
+        },
+        "IMAGE": {
+          "title": "Propriétés de tâche d'image",
+          "types": {
+            "name": "Type de tâche d'image",
+            "DISTRICT": "Régional",
+            "WHOLE": "Globale",
+            "PART": "Local"
+          },
+          "selectFile": "Sélectionnez fichier",
+          "tags": "Étiquette",
+          "allowCustomTag": "Permettre aux travailleurs de personnaliser les étiquettes",
+          "requireTags": "Ajouter au moins une étiquette disponible lorsque les travailleurs ne sont pas autorisés à personnaliser les étiquettes",
+          "requireTypes": "Veuillez sélectionner au moins une tâche",
+          "images": "Image de la tâche",
+          "requireImages": "S'il vous plaît télécharger au moins une image"
+        },
+        "TEXT": {
+          "title": "Propriétés de tâche de texte",
+          "classification": {
+            "placeholder": "Entrez un sujet. Après avoir entré une rubrique, cliquez sur ENTER pour confirmer",
+            "prompt": "Catégories de rubriques (les travailleurs ne peuvent sélectionner qu'un thème prédéfini)",
+            "requireClasses": "Veuillez remplir au moins un thème prédéfini"
+          },
+          "keywords": {
+            "placeholder": "Entrez un mot-clé. Après avoir entré une rubrique, cliquez sur ENTER pour confirmer",
+            "prompt": "Extraire les mots-clés (le travailleur peut personnaliser les mots clés)"
+          },
+          "requireTask": "Veuillez sélectionner au moins une tâche",
+          "zip": {
+            "selectFile": "Sélectionnez fichier",
+            "prompt": "S'il vous plaît traiter tous les fichiers texte dans le fichier txt, et le paquet dans un fichier zip, puis télécharger.",
+            "upload": "Télécharger",
+            "requireZip": "S'il vous plaît télécharger le paquet compressé"
+          }
+        },
+        "AUDIO": {
+          "title": "Propriétés des tâches audio",
+          "types": {
+            "name": "Type de tâche audio",
+            "WHOLE": "Globale",
+            "PART": "Local"
+          },
+          "selectFile": "Sélectionnez fichier",
+          "tags": "Étiquette",
+          "allowCustomTag": "Permettre aux travailleurs de personnaliser les étiquettes",
+          "requireTags": "Ajouter au moins une étiquette disponible lorsque les travailleurs ne sont pas autorisés à personnaliser les étiquettes",
+          "requireTypes": "Veuillez sélectionner au moins une tâche",
+          "audios": "Fichiers audio",
+          "requireAudios": "S'il vous plaît télécharger au moins un fichier audio"
+        },
+        "VIDEO": {
+          "title": "Propriétés de la tâche vidéo",
+          "types": {
+            "name": "Type de tâche vidéo",
+            "WHOLE": "Globale",
+            "PART": "Local"
+          },
+          "selectFile": "Sélectionnez fichier",
+          "tags": "Étiquette",
+          "allowCustomTag": "Permettre aux travailleurs de personnaliser les étiquettes",
+          "requireTags": "Ajouter au moins une étiquette disponible lorsque les travailleurs ne sont pas autorisés à personnaliser les étiquettes",
+          "requireTypes": "Veuillez sélectionner au moins une tâche",
+          "videos": "Fichiers vidéo",
+          "requireVideos": "S'il vous plaît télécharger au moins un fichier vidéo"
+        },
+        "THREE_DIMENSION": {
+          "title": "Propriétés des tâches 3D",
+          "types": {
+            "name": "type de tâche 3D",
+            "WHOLE": "Globale"
+          },
+          "selectFile": "Sélectionnez fichier",
+          "tags": "Étiquette",
+          "allowCustomTag": "Permettre aux travailleurs de personnaliser les étiquettes",
+          "requireTags": "Ajouter au moins une étiquette disponible lorsque les travailleurs ne sont pas autorisés à personnaliser les étiquettes",
+          "threeDimensions": "fichier 3D",
+          "requireThreeDimensions": "S'il vous plaît télécharger au moins une copie de fichier 3D"
+        },
+        "submit": "Envoyer"
+      }
+    },
+    "worker": {
+      "myMissions": {
+        "menuText": "Ma mission.",
+        "title": "Ma mission.",
+        "loadingCard": "Charger la tâche",
+        "cardState": {
+          "submitted": "a été soumis",
+          "abandoned": "A abandonné",
+          "inProgress": "est en cours",
+          "finalized": "A pris fin"
+        },
+        "cardActions": {
+          "continue": "Continuer à faire la tâche",
+          "abandon": "Donner",
+          "seeMore": "Voir plus d'informations",
+          "seeFinalizeResult": "Afficher les résultats du score",
+          "abandonConfirm": "Êtes-vous sûr de vouloir abandonner cette tâche?"
+        }
+      },
+      "detailOperationBar": {
+        "accept": "Acceptez la mission.",
+        "seeResult": "Afficher la progression des tâches",
+        "continueWorking": "Continuer à faire la tâche",
+        "accepted": "Accepter la réussite de la mission",
+        "levelNotEnough": "Niveau insuffisant pour accepter la tâche",
+        "state": {
+          "FINALIZED": "Vous avez déjà effectué cette tâche et avez été évaluée.",
+          "SUBMITTED": "Vous avez soumis cette tâche et attendez l'évaluation.",
+          "IN_PROGRESS": "Vous faites cette tâche.",
+          "ABANDONED": "Vous avez abandonné cette tâche."
+        }
+      }
+    },
+    "sideMenu": {
+      "mission": "Tâche",
+      "instance": "Exemple"
+    },
+    "requester": {
+      "mission": {
+        "title": "Tâche",
+        "add": "Nouvelles tâches"
+      },
+      "missionCard": {
+        "missionState": {
+          "PENDING": "Pas en vigueur",
+          "ACTIVE": "Effet",
+          "ENDED": "Fin"
+        },
+        "actions": {
+          "searchInstances": "Rechercher toutes les instances",
+          "info": "Informations sur les tâches"
+        }
+      },
+      "instancePanel": {
+        "title": "Exemple",
+        "search": {
+          "placeholder": "ID de tâche"
+        },
+        "missionIdNotFound": "L'ID de tâche n'existe pas.",
+        "instanceStateDiagram": {
+          "total": "Nombre total d'instances",
+          "FINALIZED": "Instance Closed",
+          "IN_PROGRESS": "Instance en cours",
+          "SUBMITTED": "Instance soumise",
+          "ABANDONED": "L'instance a été écartée"
+        },
+        "table": {
+          "dateFormat": "Aaaa/mm/jj hh: mm: SS",
+          "instanceId": "ID d'instance",
+          "missionId": "ID de tâche",
+          "workerUsername": "Nom d'utilisateur du travailleur",
+          "missionInstanceState": "État de l'instance",
+          "dateRange": "Période de temps",
+          "inProgress": "est en cours",
+          "acceptDate": "Accepter le temps",
+          "submitDate": "Délai de soumission",
+          "action": "Opération",
+          "seeResult": "Voir les résultats",
+          "finalize": "Score",
+          "finalizeResult": "Afficher les résultats du score"
+        },
+        "finalize": {
+          "expRatio": "Ratio d'expérience",
+          "credits": "Donner des points",
+          "comment": "Évaluation",
+          "requireExpRatio": "Veuillez entrer un ratio d'expérience valide (0,0, 1,0)",
+          "requireCredits": "//TODO",
+          "submit": "Envoyer",
+          "default": "Restauration par défaut",
+          "back": "Retour",
+          "title": "Évaluation",
+          "exp": "Expérience réelle acquise",
+          "availableCredits": "//TODO",
+          "creditsNotSufficient": "//TODO",
+          "goPay": "Pour recharger"
+        }
+      }
+    }
+  },
+  "loginModal": {
+    "title": "Connexion",
+    "username": "Nom d'utilisateur",
+    "requireUsername": "Veuillez entrer un nom d'utilisateur",
+    "password": "Passe",
+    "requirePassword": "Veuillez entrer un mot de passe",
+    "login": "Connexion",
+    "forgetPassword": "Mot de passe oublié",
+    "remember": "Se souvenir de moi",
+    "cancel": "Annuler",
+    "register": "Enregistré",
+    "error": {
+      "WrongCredential": "Erreur de nom d'utilisateur ou de mot de passe",
+      "ServerError": "Erreur de serveur, s'il vous plaît essayer à nouveau plus tard",
+      "NetworkError": "Erreur réseau local, veuillez vérifier la connexion réseau"
+    }
+  },
+  "languageSelector": {
+    "loading": "Charge dans"
+  },
+  "registerForm": {
+    "submit": "Envoyer",
+    "role": "Rôle",
+    "worker": "Travailleurs",
+    "requester": "Publié par",
+    "username": "Nom d'utilisateur",
+    "requireUsername": "Veuillez entrer un nom d'utilisateur",
+    "password": "Passe",
+    "requirePassword": "Veuillez entrer un mot de passe",
+    "requireConfirmPassword": "Veuillez confirmer le mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "notEqualPassword": "Les deux mots de passe que vous avez entrés ne sont pas les mêmes",
+    "email": "Adresse email",
+    "requireEmail": "Veuillez saisir votre adresse e-mail",
+    "wrongEmailFormat": "Le format d'adresse de boîte aux lettres n'est pas correct",
+    "passwordForgot": "Récupérer le mot de passe",
+    "step1": "Remplissez les informations",
+    "step2": "Confirmation par courriel",
+    "step3": "Enregistrement réussi"
+  },
+  "searchBar": {
+    "searchPlaceholder": "Appuyez sur ENTER pour rechercher",
+    "searchAll": "Tous"
+  },
+  "browserMissionList": {
+    "dividerText": "Liste des tâches",
+    "accept": "Accepter",
+    "missionAccepted": "La tâche a été acceptée avec succès",
+    "seeDetail": "Voir plus d'informations",
+    "missionType": {
+      "IMAGE": "Image",
+      "TEXT": "Texte",
+      "AUDIO": "Audio",
+      "VIDEO": "Vidéo",
+      "THREE_DIMENSION": "3D"
+    },
+    "dateFormat": "Aaaa/mm/jj hh: mm: SS"
+  },
+  "pay": {
+    "title": "Recharger",
+    "payAccount": "Compte de recharge",
+    "payMission": "Recharger les tâches",
+    "creditInput": {
+      "loading": "Chargez les points restants...",
+      "format": "Veuillez entrer un entier non négatif",
+      "insufficient": "//TODO",
+      "goPay": "Pour recharger",
+      "remaining": "//TODO",
+      "prompt": "Donner des points"
+    },
+    "account": {
+      "title": "Compte de recharge",
+      "currentCredits": "Maintenant, les points:",
+      "inputCredits": "Veuillez saisir le montant que vous souhaitez recharger:",
+      "submit": "Recharger",
+      "loading": "En charge",
+      "format": "L'entrée doit être un nombre entier supérieur à 0",
+      "paymentComplete": "Recharge réussie"
+    },
+    "mission": {
+      "missionId": "ID de tâche",
+      "title": "Recharger les tâches",
+      "check": "Vérifier et afficher les points restants",
+      "needCheck": "//TODO",
+      "click": "Cliquez sur",
+      "inputMissionId": "Veuillez entrer un ID de tâche",
+      "currentCredits": "//TODO",
+      "inputCredits": "Veuillez saisir le montant que vous souhaitez recharger:",
+      "submit": "Recharger",
+      "loading": "En charge",
+      "missionNotExist": "La tâche n'existe pas",
+      "format": "L'entrée doit être un nombre entier supérieur à 0",
+      "paymentComplete": "Recharge réussie"
+    }
+  }
+}

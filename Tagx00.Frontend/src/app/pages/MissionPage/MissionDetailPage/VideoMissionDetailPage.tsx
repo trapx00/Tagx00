@@ -38,7 +38,7 @@ export class VideoMissionDetailPage extends React.Component<Props, State> {
         <LocaleMessage id={ID_PREFIX + "allowCustomTag." + detail.publicItem.allowCustomTag}/>
       </Item>
       <Item promptTextId={"VIDEO.videoMissionTypes"}>
-        {detail.publicItem.videoMissionTypes.map(x => <Tag key={x}><LocaleMessage
+        {detail.videoMissionTypes.map(x => <Tag key={x}><LocaleMessage
           id={ID_PREFIX + "types." + x}/></Tag>)}
       </Item>
     </MissionDetailBasePanel>

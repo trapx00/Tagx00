@@ -14,7 +14,7 @@ interface Props extends RootWorkPageProps<AudioMissionDetail, AudioInstanceDetai
 
 }
 
-@observer
+
 export class AudioWorkPage extends React.Component<Props, {}> {
 
   controller = new AudioWorkPageController(this.props.missionDetail, this.props.instanceDetail);

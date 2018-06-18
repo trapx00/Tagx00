@@ -14,7 +14,6 @@ interface Props extends RootWorkPageProps<VideoMissionDetail, VideoInstanceDetai
 
 }
 
-@observer
 export class VideoWorkPage extends React.Component<Props, {}> {
 
   controller = new VideoWorkPageController(this.props.missionDetail, this.props.instanceDetail);

@@ -2,7 +2,7 @@ package trapx00.tagx00.bl.pay;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import trapx00.tagx00.blservice.pay.PayBlSerivce;
+import trapx00.tagx00.blservice.pay.PayBlService;
 import trapx00.tagx00.dataservice.account.UserDataService;
 import trapx00.tagx00.dataservice.pay.PayDataService;
 import trapx00.tagx00.entity.account.User;
@@ -13,7 +13,7 @@ import trapx00.tagx00.response.pay.PayResponse;
 import trapx00.tagx00.vo.mission.pay.PayVo;
 
 @Service
-public class PayBlServiceImpl implements PayBlSerivce {
+public class PayBlServiceImpl implements PayBlService {
     private final PayDataService payDataService;
     private final UserDataService userDataService;
 

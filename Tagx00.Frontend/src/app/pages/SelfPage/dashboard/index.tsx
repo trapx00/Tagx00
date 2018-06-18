@@ -3,8 +3,8 @@ import { Inject } from "react.di";
 import { UserStore } from "../../../stores/UserStore";
 import { WorkerDashboardPage } from "./WorkerDashboardPage";
 import { RequesterDashboardPage } from "./RequesterDashboardPage";
-import { AdminDashboardPage } from "./AdminDashboardPage";
 import { UserRole } from "../../../models/user/User";
+import AdminDashboardPage from "./admin";
 
 export default class DashboardPage extends React.Component<{}, {}> {
 

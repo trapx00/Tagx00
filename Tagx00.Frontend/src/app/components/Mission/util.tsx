@@ -29,6 +29,8 @@ interface Props {
   hoverTextId: string;
 }
 
+export const DEFAULT_COVER_URL= "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1529316137448&di=3908339d93277baf2e5486f7732eb326&imgtype=0&src=http%3A%2F%2Fwww.taopic.com%2Fuploads%2Fallimg%2F140421%2F318743-140421213T910.jpg";
+
 
 export class CardAction extends React.Component<Props, {}> {
 

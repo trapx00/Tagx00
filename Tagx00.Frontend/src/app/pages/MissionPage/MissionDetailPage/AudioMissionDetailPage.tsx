@@ -37,7 +37,7 @@ export class AudioMissionDetailPage extends React.Component<Props, State> {
         <LocaleMessage id={ID_PREFIX + "allowCustomTag." + detail.publicItem.allowCustomTag}/>
       </Item>
       <Item promptTextId={"AUDIO.audioMissionTypes"}>
-        {detail.publicItem.audioMissionTypes.map(x => <Tag key={x}><LocaleMessage
+        {detail.audioMissionTypes.map(x => <Tag key={x}><LocaleMessage
           id={ID_PREFIX + "types." + x}/></Tag>)}
       </Item>
     </MissionDetailBasePanel>

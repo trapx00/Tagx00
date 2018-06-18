@@ -54,4 +54,18 @@ export class MissionService {
     return res.response.model;
   }
 
+
+  async segmentWord(token: string, missionId: string): Promise<string[]> {
+    const res = await this.http.fetch({
+      path: "/mission/worker/wordSegment",
+      queryParams: { token: token, missionId: missionId}
+    });
+
+    if (res.ok) {
+      return res.response.results;
+    } else {
+      throw res.error;
+    }
+  }
+
 }

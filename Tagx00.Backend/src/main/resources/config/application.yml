@@ -52,11 +52,19 @@ spring:
             enable: true
             required: true
     jndi-name: mail
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: =
+      max-file-size: 1000Mb
+      max-request-size: 1000Mb
 ml:
   address: http://localhost:8888
   apiExtractKey: /extractKeyWord
+  apiSeparateSentence: /separateSentence
+  apiGetRecommend: /getRecommendTag
+  apiTrainRecommend: /trainRecommend
 aliyun:
   akId: LTAIfeJPa5mmsKhL
   akSecret: Dfz3Tj7Tyuojl84vSBHX7E9eluivj5
   imageHostUrl: https://dtplus-cn-shanghai.data.aliyuncs.com/image/tag
-debug: true

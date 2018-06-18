@@ -7,21 +7,31 @@ public class RequesterInfoVo implements Serializable {
     private String email;
     private int submittedMissionCount;
     private int instanceCount;
-    private int awaitingCommentInstanceCount;
+    private int submittedInstanceCount;
     private int inProgressInstanceCount;
     private int finalizedInstanceCount;
-
+    private int abandonedInstanceCount;
+    
     public RequesterInfoVo() {
     }
 
-    public RequesterInfoVo(String username, String email, int submittedMissionCount, int instanceCount, int awaitingCommentInstanceCount, int inProgressInstanceCount, int finalizedInstanceCount) {
+    public RequesterInfoVo(String username, String email, int submittedMissionCount, int instanceCount, int submittedInstanceCount, int inProgressInstanceCount, int finalizedInstanceCount, int abandonedInstanceCount) {
         this.username = username;
         this.email = email;
         this.submittedMissionCount = submittedMissionCount;
         this.instanceCount = instanceCount;
-        this.awaitingCommentInstanceCount = awaitingCommentInstanceCount;
+        this.submittedInstanceCount = submittedInstanceCount;
         this.inProgressInstanceCount = inProgressInstanceCount;
         this.finalizedInstanceCount = finalizedInstanceCount;
+        this.abandonedInstanceCount = abandonedInstanceCount;
+    }
+
+    public int getAbandonedInstanceCount() {
+        return abandonedInstanceCount;
+    }
+
+    public void setAbandonedInstanceCount(int abandonedInstanceCount) {
+        this.abandonedInstanceCount = abandonedInstanceCount;
     }
 
     public String getUsername() {
@@ -56,12 +66,12 @@ public class RequesterInfoVo implements Serializable {
         this.instanceCount = instanceCount;
     }
 
-    public int getAwaitingCommentInstanceCount() {
-        return awaitingCommentInstanceCount;
+    public int getSubmittedInstanceCount() {
+        return submittedInstanceCount;
     }
 
-    public void setAwaitingCommentInstanceCount(int awaitingCommentInstanceCount) {
-        this.awaitingCommentInstanceCount = awaitingCommentInstanceCount;
+    public void setSubmittedInstanceCount(int submittedInstanceCount) {
+        this.submittedInstanceCount = submittedInstanceCount;
     }
 
     public int getInProgressInstanceCount() {

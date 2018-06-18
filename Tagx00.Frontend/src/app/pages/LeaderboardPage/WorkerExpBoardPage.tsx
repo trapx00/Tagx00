@@ -52,7 +52,7 @@ export default class WorkerExpBoardPage extends React.Component<{}, {}> {
       return (
         <div>
           <MinorTitle>
-            巅峰榜单
+            <LocaleMessage id={"leaderboard.topBoard"}/>
           </MinorTitle>
           <LeaderboardLineChart data={tops}/>
           <MinorTitle>

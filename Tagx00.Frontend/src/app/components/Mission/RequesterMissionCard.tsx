@@ -8,6 +8,7 @@ import { AsyncComponent } from "../../router/AsyncComponent";
 import { MissionStateTag } from "./MissionStateTag";
 import { MissionDetail } from "../../models/mission/MissionDetail";
 import { MissionPublicItem } from "../../models/mission/MissionPublicItem";
+import { MissionCardCoverImg } from "./MissionCardCoverImg";
 
 const {Meta} = Card;
 
@@ -50,17 +51,15 @@ export class RequesterMissionCard extends React.Component<Props, {}> {
   renderCard = async () => {
     this.detail = await this.missionService.getAMission(this.props.mission.missionId);
 
-    return <>
-      <Card
-        style={{width: 300}}
-        cover={<img alt="example" src={this.props.mission.coverUrl}/>}
+    return <Card
+        style={{width: 250}}
+        cover={<MissionCardCoverImg url={this.props.mission.coverUrl}/>}
         actions={getActions(this.detail)}>
         <Meta
           title={<Title mission={this.detail}/>}
           description={truncateText(this.props.mission.description)}
         />
-      </Card>
-    </>;
+      </Card>;
   };
 
   render() {

@@ -19,6 +19,7 @@ with open("../proval/train.txt", "r") as file:
     for j in range(all_data.__len__()):
         data = json.loads(all_data[j].replace('\n', ""))
         tags = data["response"]
+        tags = sorted(tags, key=lambda x: x["confidence"], reverse=True)
         targets = data["tags"]
         tag = []
         for i in range(n_size):
@@ -29,7 +30,6 @@ with open("../proval/train.txt", "r") as file:
                     tag.append([tags[i]["confidence"], 0])
             else:
                 tag.append([0, 0])
-        sorted(tag, reverse=True)
         train_data.append(tag)
 total_train = train_data.__len__()
 test_data = []
@@ -53,13 +53,15 @@ with open("../proval/test.txt", "r") as file:
 
 
 def calculate_confidence():
+    all_x, all_y = all_train_data()
+    pred = sess.run(y_pred, feed_dict={X: all_x, scale: 0.1, keep_prob: 1})
     hit_confidence = []
     for i in range(total_train):
         for j in range(n_size):
-            if train_data[i][j][1] == 1:
-                hit_confidence.append(train_data[i][j][0])
+            if all_y[i][j] == 0:
+                hit_confidence.append(pred[i][j])
     sorted(hit_confidence)
-    dismiss_value = hit_confidence[np.math.floor(dismiss_percent * total_train)]
+    dismiss_value = hit_confidence[np.math.floor((1 - dismiss_percent) * hit_confidence.__len__())]
     return dismiss_value
 
 
@@ -177,7 +179,37 @@ def draw_plt():
     Xs = range(total_train)
     plt.title("compute adoption rate after train")
     plt.xlim(xmax=150, xmin=0)
-    plt.ylim(ymax=1, ymin=0)
+    plt.ylim(ymax=1.2, ymin=0)
+    plt.xlabel("image index")
+    plt.ylabel("adoption rate")
+    plt.plot(Xs, accuracys)
+    plt.show()
+
+
+def draw_plt_origin():
+    batch_xs, batch_ys = next_test_batch()
+    accuracys = np.empty(total_train)
+    for i in range(batch_size):
+        accuracy = 0
+        is_reject = True
+        for j in range(n_size):
+            if batch_xs[i][j] > dismiss_value or batch_ys[i][j] is not 0:
+                is_reject = False
+                break
+        if is_reject:
+            accuracy += 1
+        else:
+            total_confidence = 0
+            for j in range(n_size):
+                total_confidence += batch_xs[i][j]
+            for j in range(n_size):
+                accuracy += (batch_xs[i][j] / total_confidence) * batch_ys[i][j]
+        accuracys[i] = accuracy
+
+    Xs = range(total_train)
+    plt.title("compute adoption rate before train")
+    plt.xlim(xmax=9, xmin=0)
+    plt.ylim(ymax=1.2, ymin=0)
     plt.xlabel("image index")
     plt.ylabel("adoption rate")
     plt.plot(Xs, accuracys)
@@ -187,7 +219,7 @@ def draw_plt():
 def draw_plt_test():
     test_xs, test_ys = next_test_batch()
     pred = sess.run(y_pred, feed_dict={X: test_xs, Y: test_ys, keep_prob: 1})
-    accuracys = np.empty(total_train)
+    accuracys = np.empty(test_xs.__len__())
     for i in range(batch_size):
         accuracy = 0
         is_reject = True
@@ -204,10 +236,10 @@ def draw_plt_test():
             for j in range(n_size):
                 accuracy += (pred[i][j] / total_confidence) * test_ys[i][j]
         accuracys[i] = accuracy
-    Xs = range(total_train)
+    Xs = range(test_xs.__len__())
     plt.title("compute adoption rate after train")
-    plt.xlim(xmax=10, xmin=0)
-    plt.ylim(ymax=1, ymin=0)
+    plt.xlim(xmax=9, xmin=0)
+    plt.ylim(ymax=1.2, ymin=0)
     plt.xlabel("image index")
     plt.ylabel("adoption rate")
     plt.plot(Xs, accuracys)
@@ -247,13 +279,16 @@ total_batch = int(total_train / batch_size)
 
 dismiss_value = calculate_confidence()
 compute_origin_accuracy()
-for epoch in range(training_epochs):
-    for i in range(total_batch):
-        batch_xs, batch_ys = next_train_batch(last_index)
-        last_index = next_index(last_index)
-        _, c, pred = sess.run([optimizer, cost, y_pred],
-                              feed_dict={X: batch_xs, Y: batch_ys, scale: 1, keep_prob: 0.7})
-        dismiss_value = calculate_confidence()
-        if epoch % 10 == 9:
-            print("accuracy")
-            accuracy = compute_accuracy()
+draw_plt_origin()
+# for epoch in range(training_epochs):
+#     for i in range(total_batch):
+#         batch_xs, batch_ys = next_train_batch(last_index)
+#         last_index = next_index(last_index)
+#         _, c, pred = sess.run([optimizer, cost, y_pred],
+#                               feed_dict={X: batch_xs, Y: batch_ys, scale: 0.1, keep_prob: 0.7})
+#         dismiss_value = calculate_confidence()
+#         if epoch % 10 == 9:
+#             print("accuracy")
+#             accuracy = compute_accuracy()
+#             if accuracy > 0.69:
+#                 draw_plt_test()
