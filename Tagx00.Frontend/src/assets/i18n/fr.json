@@ -120,7 +120,8 @@
     "welcome": "{username}",
     "selfCenter": "Centre personnel",
     "pay": "Centre de recharge",
-    "leaderboard": "Liste"
+    "leaderboard": "Liste",
+    "collapse": "Récupérer"
   },
   "leaderboard": {
     "topBoard": "Liste des pics",

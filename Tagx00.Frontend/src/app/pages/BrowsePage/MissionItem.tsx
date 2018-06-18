@@ -31,6 +31,10 @@ const Row = styled.div`
 const Img = styled.img`
   margin-right: 16px;
   width: 200px;
+  
+  @media (max-width: 450px) {
+  width:100px;
+  }
 `;
 
 const MetaContainer = styled.div`
