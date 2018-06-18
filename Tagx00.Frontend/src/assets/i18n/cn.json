@@ -7,7 +7,8 @@
       "AUDIO": "音频任务",
       "VIDEO": "视频任务",
       "THREE_DIMENSION": "3D任务"
-    }
+    },
+    "needLogin": "请登录。"
   },
   "admin": {
     "menu": {

@@ -7,7 +7,8 @@
       "AUDIO": "Audio task",
       "VIDEO": "Video Tasks",
       "THREE_DIMENSION": "3D Task"
-    }
+    },
+    "needLogin": "Please Login."
   },
   "admin": {
     "menu": {

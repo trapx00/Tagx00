@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 import { UserRole } from "../../models/user/User";
 import { Inject } from "react.di";
 import { UserStore } from "../../stores/UserStore";
+import { LocaleMessage } from "../../internationalization/components";
 
 export function requireLogin(...roles: UserRole[]) {
   return function(WrappedComponent): any {
@@ -13,7 +14,7 @@ export function requireLogin(...roles: UserRole[]) {
       render() {
 
         if (!this.userStore.loggedIn) {
-          return "Not login";
+          return <LocaleMessage id={"common.needLogin"}/>
         }
         if (roles.length >0 && roles.indexOf(this.userStore.user.role) == -1) {
           return "Not accessible role. Expected: " + roles
