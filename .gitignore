@@ -84,3 +84,10 @@ deploy/python/data/proval/test.txt
 deploy/python/data/proval/train.txt
 deploy/tagx00_backend.txt
 deploy/python/tagx00_ml.txt
+deploy/data/ser/audio_instance_audio-0
+deploy/data/ser/text_instance_text-0
+deploy/data/ser/text_mission_text-0
+deploy/data/ser/threeDimension_instance_3d-0
+deploy/data/ser/video_instance_video-0
+deploy/static/audio/audio_audio-0_2
+deploy/static/video/video_video-0_2
