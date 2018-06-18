@@ -36,7 +36,7 @@ export default class RegisterPage extends React.Component<any, any> {
         return (<Row type={"flex"} align={"middle"} justify={"center"}>
           <Col sm={24} md={12}>
             <CenterContainer>
-              <SvgImg filePath={"tag_x00_logo.svg"} height={250} width={250}/>
+              <SvgImg filePath={"tag_x00_logo_square.svg"} height={250} width={250}/>
             </CenterContainer>
           </Col>
           <Col sm={24} md={12}>

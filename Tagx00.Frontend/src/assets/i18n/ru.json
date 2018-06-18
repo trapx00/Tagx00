@@ -120,7 +120,8 @@
     "welcome": "{username}",
     "selfCenter": "Персональный центр",
     "pay": "Центр пополнения",
-    "leaderboard": "Список"
+    "leaderboard": "Список",
+    "collapse": "отзывать"
   },
   "leaderboard": {
     "topBoard": "Пик список",

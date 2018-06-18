@@ -120,7 +120,8 @@
     "welcome": "{username}",
     "selfCenter": "个人中心",
     "pay": "充值中心",
-    "leaderboard":"排行榜"
+    "leaderboard":"排行榜",
+    "collapse": "收回"
   },
   "leaderboard":{
     "topBoard":"巅峰榜单",

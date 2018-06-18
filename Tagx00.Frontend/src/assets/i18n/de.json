@@ -120,7 +120,8 @@
     "welcome": "{username}",
     "selfCenter": "Persönliches Zentrum",
     "pay": "Lade Center",
-    "leaderboard": "Liste"
+    "leaderboard": "Liste",
+    "collapse": "Wiederherstellen"
   },
   "leaderboard": {
     "topBoard": "Peak-Liste",

@@ -120,7 +120,8 @@
     "welcome": "{username}",
     "selfCenter": "Personal Center",
     "pay": "Recharge Center",
-    "leaderboard": "List"
+    "leaderboard": "List",
+    "collapse": "Collapse"
   },
   "leaderboard": {
     "topBoard": "Peak List",
