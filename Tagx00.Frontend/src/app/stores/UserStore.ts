@@ -4,6 +4,7 @@ import { UserService } from "../api/UserService";
 import { localStorage } from './UiUtil';
 import { Inject, Injectable } from "react.di";
 import { HttpService } from "../api/HttpService";
+import { RouterStore } from "./RouterStore";
 
 const USER_LOCALSTORAGE_KEY = "user";
 
@@ -29,6 +30,10 @@ export class UserStore {
     this.userService.logout();
     this.clearUser();
   };
+
+  jumpToProfile(username: string, role: UserRole) {
+    this.routerStore.jumpTo(`/self/dashboard?username=${username}&role=${role}`);
+  }
 
 
   @action async login(username: string, password: string) {
@@ -57,7 +62,7 @@ export class UserStore {
     localStorage.removeItem(USER_LOCALSTORAGE_KEY);
   }
 
-  constructor(@Inject private userService: UserService, @Inject private httpService: HttpService) {
+  constructor(@Inject private userService: UserService, @Inject private httpService: HttpService, @Inject private routerStore: RouterStore) {
     const user = localStorage.getItem(USER_LOCALSTORAGE_KEY);
     if (user) {
       try {

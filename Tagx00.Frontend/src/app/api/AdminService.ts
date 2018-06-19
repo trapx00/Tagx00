@@ -1,6 +1,7 @@
 import { Inject, Injectable } from "react.di";
 import { HttpService } from "./HttpService";
-import { AdminInfo } from "../models/userInfo/AdminInfo";
+import { AdminInfo } from "../models/admin/AdminInfo";
+import { UserInfo } from "../models/userInfo/UserInfo";
 
 @Injectable
 export class AdminService {
@@ -16,6 +17,13 @@ export class AdminService {
         });
         return res.response;
 
+    }
+
+    async getUsers(): Promise<UserInfo[]> {
+        const res = await this.http.fetch({
+          path: "account/admin/users"
+        });
+        return res.response.users;
     }
 
 }

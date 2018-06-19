@@ -16,6 +16,8 @@ interface Props {
 }
 
 export class PieChart extends React.Component<Props, {}> {
+
+
   render() {
 
     const total = arraySum(this.props.items, x=> x.count);

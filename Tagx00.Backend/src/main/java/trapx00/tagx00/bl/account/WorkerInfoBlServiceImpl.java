@@ -49,7 +49,7 @@ public class WorkerInfoBlServiceImpl implements WorkerInfoBlService {
                 finalizedMissionCount++;
             }
         }
-        return new WorkerInfoResponse(Converter.userToWorkerInfoVo(user, completedMissionCount, acceptedMissionCount,
+        return new WorkerInfoResponse(Converter.userToWorkerInfoVo(user, userDataService.getUserAvatarUrl(user.getEmail()), completedMissionCount, acceptedMissionCount,
                 inProgressMissionCount, abandonedMissionCount, finalizedMissionCount));
     }
 }

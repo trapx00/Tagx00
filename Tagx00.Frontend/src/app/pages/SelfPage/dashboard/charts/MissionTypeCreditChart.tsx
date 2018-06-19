@@ -6,6 +6,7 @@ interface Props {
   data: {type: string, low: number, q1: number, median: number, q3:number, high: number}[];
 }
 
+
 export class MissionTypeCreditChart extends React.Component<Props, {}> {
 
 
@@ -30,7 +31,8 @@ export class MissionTypeCreditChart extends React.Component<Props, {}> {
 
     const Chart = BizChart as any;
 
-    return <Chart height={800} data={dv} forceFit>
+    return <div>
+      <Chart height={800} data={dv} forceFit>
       <Axis name='type' />
       <Axis name='range' />
       <Tooltip showTitle={false} crosshairs={{type:'rect',style: {fill: '#E4E8F1',fillOpacity: 0.43}}}
@@ -49,6 +51,10 @@ export class MissionTypeCreditChart extends React.Component<Props, {}> {
             style={{stroke: 'rgba(0, 0, 0, 0.45)',fill: '#1890FF',fillOpacity: 0.3}}
       />
 
-    </Chart>;
+    </Chart>
+
+
+
+    </div>
   }
 }

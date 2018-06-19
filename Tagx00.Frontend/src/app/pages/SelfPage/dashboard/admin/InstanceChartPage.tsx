@@ -39,17 +39,17 @@ export default class InstanceChartPage extends React.Component<{}, {}> {
     const data = Object.keys(MissionInstanceState).map(x => {
       const data = {} as any;
       for (const type of Object.keys(MissionType)) {
-        data[this.localeStore.get(`common.missionType.${type}`) as string] = info.typeStateDistribution[type][map[x]];
+        data[this.localeStore.get(`common.missionType.${type}`) as string] = info.typeStateDistribution[type][map[x]].length;
       }
       return { name: this.localeStore.get(ID_PREFIX+"instanceState."+x) as string, data};
     });
 
     return <div>
       <MinorTitle><LocaleMessage id={ID_PREFIX + "stateDistribution"}/></MinorTitle>
-      <InstanceCyclePieChart inProgress={arraySum(values, x=>x.inProgress)}
-                             submitted={arraySum(values, x=>x.submitted)}
-                             finalized={arraySum(values, x=> x.finalized)}
-                             abandoned={arraySum(values, x=>x.abandoned)}/>
+      <InstanceCyclePieChart inProgress={arraySum(values, x=>x.inProgress.length)}
+                             submitted={arraySum(values, x=>x.submitted.length)}
+                             finalized={arraySum(values, x=> x.finalized.length)}
+                             abandoned={arraySum(values, x=>x.abandoned.length)}/>
       <MinorTitle><LocaleMessage id={ID_PREFIX + "typeDistribution"}/></MinorTitle>
       <StackedIntervalChart data={data}/>
       <MinorTitle><LocaleMessage id={ID_PREFIX + "heatMap"}/></MinorTitle>

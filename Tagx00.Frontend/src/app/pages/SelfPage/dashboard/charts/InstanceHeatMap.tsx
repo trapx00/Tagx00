@@ -23,7 +23,7 @@ stroke-width:0.5px;
 `;
 
 interface Props {
-  data: {[date: string]: number};
+  data: {[date: string]: string[]};
 }
 
 export class InstanceHeatMap extends React.Component<Props, {}> {
@@ -41,7 +41,7 @@ export class InstanceHeatMap extends React.Component<Props, {}> {
 
     return <Container>
       <CalendarHeatmap
-        values={Object.keys(this.props.data).map(x => ({date: x, count: this.props.data[x]}))}
+        values={Object.keys(this.props.data).map(x => ({date: x, count: this.props.data[x].length}))}
         classForValue={(value) => {
           if (!value) {
             return 'color-empty';

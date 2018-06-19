@@ -2,48 +2,50 @@ package trapx00.tagx00.vo.admin.instance;
 
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
-public class InstanceStateTypeDistribution {
-    private int inProgress;
-    private int submitted;
-    private int finalized;
-    private int abandoned;
+import java.util.List;
 
-    public InstanceStateTypeDistribution(int inProgress, int submitted, int finalized, int abandoned) {
+public class InstanceStateTypeDistribution {
+    private List<String> inProgress;
+    private List<String> submitted;
+    private List<String> finalized;
+    private List<String> abandoned;
+
+    public InstanceStateTypeDistribution(List<String> inProgress, List<String> submitted, List<String> finalized, List<String> abandoned) {
         this.inProgress = inProgress;
         this.submitted = submitted;
         this.finalized = finalized;
         this.abandoned = abandoned;
     }
 
-    public int getInProgress() {
+    public List<String> getInProgress() {
         return inProgress;
     }
 
-    public void setInProgress(int inProgress) {
+    public void setInProgress(List<String> inProgress) {
         this.inProgress = inProgress;
     }
 
-    public int getSubmitted() {
+    public List<String> getSubmitted() {
         return submitted;
     }
 
-    public void setSubmitted(int submitted) {
+    public void setSubmitted(List<String> submitted) {
         this.submitted = submitted;
     }
 
-    public int getFinalized() {
+    public List<String> getFinalized() {
         return finalized;
     }
 
-    public void setFinalized(int finalized) {
+    public void setFinalized(List<String> finalized) {
         this.finalized = finalized;
     }
 
-    public int getAbandoned() {
+    public List<String> getAbandoned() {
         return abandoned;
     }
 
-    public void setAbandoned(int abandoned) {
+    public void setAbandoned(List<String> abandoned) {
         this.abandoned = abandoned;
     }
 }

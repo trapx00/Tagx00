@@ -6,8 +6,8 @@ import { LocaleStore } from "../../../../stores/LocaleStore";
 import { PieChart } from "./PieChart";
 
 interface Props {
-  inProgress:number;
-  submitted:number;
+  inProgress: number;
+  submitted: number;
   finalized:number;
   abandoned: number;
 }

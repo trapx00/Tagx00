@@ -28,13 +28,17 @@ export default class WorkerCreditBoardPage extends React.Component<{}, {}> {
     </DefinitionItem>
   };
 
+  toProfile(username: string) {
+    this.userStore.jumpToProfile(username, UserRole.ROLE_WORKER);
+  }
+
   renderLeaderboard = async () => {
 
     const workerCreditBoard = await this.leaderboardService.getWorkerCreditBoard(null, null);
     const columns = [{
       title: '用户名',
       dataIndex: 'username',
-      render: text => <a>{text}</a>,
+      render: text => <a onClick={() => this.toProfile(text)}>{text}</a>,
     }, {
       title: '积分',
       dataIndex: 'credits',
@@ -55,7 +59,7 @@ export default class WorkerCreditBoardPage extends React.Component<{}, {}> {
           <LocaleMessage id={"leaderboard.rankListBoard"}/>
         </MinorTitle>
         <br/>
-        <Table rowKey={"order"} dataSource={workerCreditBoard.users} columns={columns} pagination={workerCreditBoard.pagingInfo}/>
+        <Table rowKey={"order"} dataSource={workerCreditBoard.users} columns={columns}/>
       </div>
     );
   };

@@ -12,7 +12,7 @@ import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.user.WorkerInfoResponse;
 
-@PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "')")
+@PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
 @RestController
 public class WorkerInfoController {
     private final WorkerInfoBlService workerInfoBlService;

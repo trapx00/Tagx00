@@ -8,6 +8,11 @@
       "VIDEO": "视频任务",
       "THREE_DIMENSION": "3D任务"
     },
+    "missionState": {
+      "PENDING": "未开始",
+      "ACTIVE": "可接受",
+      "ENDED": "已结束"
+    },
     "needLogin": "请登录。"
   },
   "admin": {
@@ -29,10 +34,13 @@
       "endedMissionCount":"已结束任务",
       "totalMissionCount":"总任务",
       "typeDistribution": "各类任务状态统计",
-      "missionState": {
-        "PENDING": "未开始",
-        "ACTIVE": "可接受",
-        "ENDED": "已结束"
+
+      "modal": {
+        "missionId": "任务ID",
+        "missionType": "任务类型",
+        "missionState": "任务状态",
+        "detail": "任务详细",
+        "action": "操作"
       }
     },
     "instanceChart": {
@@ -64,7 +72,33 @@
       "total": "总用户数",
       "requester": "发起者",
       "worker": "工人",
-      "registerDateCountChart": "注册人数/日期曲线"
+      "registerDateCountChart": "注册人数/日期曲线",
+      "table": {
+        "username": "用户名",
+        "email": "电邮",
+
+        "registerDate": "注册时间",
+        "worker":{
+          "title": "工人",
+          "credits":"积分",
+          "exp": "经验",
+          "level": "等级",
+          "completedMissionCount": "已提交",
+          "acceptedMissionCount": "所有任务",
+          "inProgressMissionCount": "正在进行中",
+          "abandonedMissionCount": "已放弃",
+          "finalizedMissionCount": "已完结"
+        },
+        "requester": {
+          "title": "发起者",
+          "submittedMissionCount": "创建任务数",
+          "instanceCount": "任务实例数",
+          "submittedInstanceCount": "已提交的实例数",
+          "inProgressInstanceCount": "正在进行中的实例数",
+          "finalizedInstanceCount": "已完成的实例数",
+          "abandonedInstanceCount": "已放弃的实例数"
+        }
+      }
     }
   },
   "home": {

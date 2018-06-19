@@ -7,6 +7,8 @@ import { MinorTitle } from "../../../LeaderboardPage/common";
 import { LocaleMessage } from "../../../../internationalization/components";
 import { AsyncComponent } from "../../../../router/AsyncComponent";
 import { UserRegisterChart } from "../charts/UserRegisterChart";
+import { UserPieChart } from "../charts/UserPieChart";
+import { UserTable } from "./UserTable";
 
 interface Props {
 
@@ -23,25 +25,12 @@ export default class UserChartPage extends React.Component<Props, {}> {
   renderContent = async () => {
     const info = (await this.adminService.getAdminInfo()).user;
 
-    const get = (id: string) => this.localeStore.get(ID_PREFIX+id) as string;
-
     return <div>
       <MinorTitle><LocaleMessage id={ID_PREFIX+"name"}/></MinorTitle>
-      <PieChart title={get("total") as string}
-                items={[
-                  {
-                    name: get("requester"),
-                    count: info.requesterCount
-                  },
-                  {
-                    name: get("worker"),
-                    count: info.workerCount
-                  }
-                ]}
-
-      />
+      <UserTable/>
+      <UserPieChart requesters={info.requesters} workers={info.workers}/>
       <MinorTitle><LocaleMessage id={ID_PREFIX+"registerDateCountChart"}/></MinorTitle>
-      <UserRegisterChart data={Object.keys(info.registerDateDistribution).map(x => ({date: x, count: info.registerDateDistribution[x]}))}/>
+      <UserRegisterChart data={Object.keys(info.registerDateDistribution).map(x => ({date: x, count: info.registerDateDistribution[x].length}))}/>
     </div>
   };
 

@@ -21,7 +21,7 @@ import trapx00.tagx00.response.mission.requester.MissionRequestQueryResponse;
 import trapx00.tagx00.vo.mission.requester.MissionCreateVo;
 import trapx00.tagx00.vo.mission.requester.MissionFinalizeVo;
 
-@PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "')")
+@PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
 @RestController
 public class RequesterMissionController {
     private final RequesterMissionBlService requesterMissionBlService;

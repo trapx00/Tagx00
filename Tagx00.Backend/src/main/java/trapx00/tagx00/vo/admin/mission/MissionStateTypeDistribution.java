@@ -2,39 +2,40 @@ package trapx00.tagx00.vo.admin.mission;
 
 import trapx00.tagx00.publicdatas.mission.MissionType;
 
-public class MissionStateTypeDistribution {
-    private int pending;
-    private int active;
-    private int ended;
+import java.util.List;
 
-    public MissionStateTypeDistribution(int pending, int active, int ended, int total) {
+public class MissionStateTypeDistribution {
+    private List<MissionBrief> pending;
+    private List<MissionBrief> active;
+    private List<MissionBrief> ended;
+
+    public MissionStateTypeDistribution(List<MissionBrief> pending, List<MissionBrief> active, List<MissionBrief> ended) {
         this.pending = pending;
         this.active = active;
         this.ended = ended;
     }
 
-    public int getPending() {
+    public List<MissionBrief> getPending() {
         return pending;
     }
 
-    public void setPending(int pending) {
+    public void setPending(List<MissionBrief> pending) {
         this.pending = pending;
     }
 
-    public int getActive() {
+    public List<MissionBrief> getActive() {
         return active;
     }
 
-    public void setActive(int active) {
+    public void setActive(List<MissionBrief> active) {
         this.active = active;
     }
 
-    public int getEnded() {
+    public List<MissionBrief> getEnded() {
         return ended;
     }
 
-    public void setEnded(int ended) {
+    public void setEnded(List<MissionBrief> ended) {
         this.ended = ended;
     }
-
 }

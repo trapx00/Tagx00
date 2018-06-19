@@ -29,7 +29,7 @@ public class PayController {
 
 
     @Authorization(value = "发布者、工人")
-    @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "')")
+    @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
     @ApiOperation(value = "给账号充值", notes = "发布者给账号充值")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "credits", value = "积分", required = true, dataType = "int")
@@ -52,7 +52,7 @@ public class PayController {
     }
 
     @Authorization(value = "发布者或者工人")
-    @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "')")
+    @PreAuthorize(value = "hasRole('" + Role.REQUESTER_NAME + "') or hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
     @ApiOperation(value = "拿到当前用户剩余金额", notes = "拿到当前发起者或者工人的当前剩余积分")
     @RequestMapping(value = "/pay", method = RequestMethod.GET)
     @ApiResponses(value = {
