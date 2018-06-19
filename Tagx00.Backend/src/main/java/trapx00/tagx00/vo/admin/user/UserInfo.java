@@ -9,38 +9,38 @@ import java.util.HashMap;
 import java.util.List;
 
 public class UserInfo {
-    private List<RequesterInfoVo> requesters;
-    private List<WorkerInfoVo> workers;
-    private HashMap<String, List<UserInfoVo>> registerDateDistribution;
+    private List<String> requesters;
+    private List<String> workers;
+    private HashMap<String, List<String>> registerDateDistribution;
 
-    public UserInfo(List<RequesterInfoVo> requesters, List<WorkerInfoVo> workers, HashMap<String, List<UserInfoVo>> registerDateDistribution) {
+    public UserInfo(List<String> requesters, List<String> workers, HashMap<String, List<String>> registerDateDistribution) {
         this.requesters = requesters;
         this.workers = workers;
         this.registerDateDistribution = registerDateDistribution;
     }
 
-    public List<RequesterInfoVo> getRequesters() {
-        return requesters;
-    }
-
-    public void setRequesters(List<RequesterInfoVo> requesters) {
-        this.requesters = requesters;
-    }
-
-    public List<WorkerInfoVo> getWorkers() {
+    public List<String> getWorkers() {
         return workers;
     }
 
-    public void setWorkers(List<WorkerInfoVo> workers) {
+    public void setWorkers(List<String> workers) {
         this.workers = workers;
     }
 
-    public HashMap<String, List<UserInfoVo>> getRegisterDateDistribution() {
+    public HashMap<String, List<String>> getRegisterDateDistribution() {
         return registerDateDistribution;
     }
 
-    public void setRegisterDateDistribution(HashMap<String, List<UserInfoVo>> registerDateDistribution) {
+    public void setRegisterDateDistribution(HashMap<String, List<String>> registerDateDistribution) {
         this.registerDateDistribution = registerDateDistribution;
+    }
+
+    public List<String> getRequesters() {
+        return requesters;
+    }
+
+    public void setRequesters(List<String> requesters) {
+        this.requesters = requesters;
     }
 }
 

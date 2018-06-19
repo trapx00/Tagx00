@@ -68,9 +68,9 @@ public class AdminInfoBlServiceImpl implements AdminInfoBlService {
         }
 
 
-        ArrayList<RequesterInfoVo> requesterInfoVos= new ArrayList<>();
-        ArrayList<WorkerInfoVo> workerInfoVos = new ArrayList<>();
-        HashMap<String, List<UserInfoVo>> userRegisterMap = new HashMap<>();
+        ArrayList<String> requesterInfoVos= new ArrayList<>();
+        ArrayList<String> workerInfoVos = new ArrayList<>();
+        HashMap<String, List<String>> userRegisterMap = new HashMap<>();
 
         User[] users = userDataService.findAllUsers();
         for (User user : users) {
@@ -79,11 +79,11 @@ public class AdminInfoBlServiceImpl implements AdminInfoBlService {
             }
             if (user.getRole().equals(Role.REQUESTER)) {
 
-                requesterInfoVos.add(requesterInfoBlService.getRequesterInfo(user.getUsername()).getInfo());
+                requesterInfoVos.add(user.getUsername());
                 requesterCredits += user.getCredits();
 
             } else if (user.getRole().equals(Role.WORKER)) {
-                workerInfoVos.add(workerInfoBlService.getWorkerInfo(user.getUsername()).getInfo());
+                workerInfoVos.add(user.getUsername());
                 workerCredits += user.getCredits();
             }
 
@@ -91,11 +91,11 @@ public class AdminInfoBlServiceImpl implements AdminInfoBlService {
 
             UserInfoVo vo = new UserInfoVo(user.getUsername(), user.getEmail(), user.getRole().getName(), Converter.generateDateStr(user.getRegisterDate()), userDataService.getUserAvatarUrl(user.getEmail()));
             if (userRegisterMap.containsKey(date)) {
-                List<UserInfoVo> list = userRegisterMap.get(date);
-                list.add(vo);
+                List<String> list = userRegisterMap.get(date);
+                list.add(user.getUsername());
             } else {
-                ArrayList<UserInfoVo> list = new ArrayList<>();
-                list.add(vo);
+                ArrayList<String> list = new ArrayList<>();
+                list.add(user.getUsername());
                 userRegisterMap.put(date, list);
             }
 

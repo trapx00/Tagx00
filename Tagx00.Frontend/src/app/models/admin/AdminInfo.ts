@@ -18,9 +18,9 @@ export interface AdminInfo {
   };
 
   user: {
-    requesters: RequesterInfo[];
-    workers: WorkerInfo[];
-    registerDateDistribution: {[date: string]: UserInfo[]};
+    requesters: string[];
+    workers: string[];
+    registerDateDistribution: {[date: string]: string[]};
   },
 
 
