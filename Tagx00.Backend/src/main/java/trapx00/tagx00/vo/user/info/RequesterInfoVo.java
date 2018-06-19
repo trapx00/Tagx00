@@ -1,23 +1,22 @@
 package trapx00.tagx00.vo.user.info;
 
-import java.io.Serializable;
+import trapx00.tagx00.entity.account.Role;
 
-public class RequesterInfoVo implements Serializable {
-    private String username;
-    private String email;
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.Calendar;
+
+public class RequesterInfoVo extends UserInfoVo {
     private int submittedMissionCount;
     private int instanceCount;
     private int submittedInstanceCount;
     private int inProgressInstanceCount;
     private int finalizedInstanceCount;
     private int abandonedInstanceCount;
-    
-    public RequesterInfoVo() {
-    }
 
-    public RequesterInfoVo(String username, String email, int submittedMissionCount, int instanceCount, int submittedInstanceCount, int inProgressInstanceCount, int finalizedInstanceCount, int abandonedInstanceCount) {
-        this.username = username;
-        this.email = email;
+
+    public RequesterInfoVo(String username, String email, String registerDate, String avatarUrl, int submittedMissionCount, int instanceCount, int submittedInstanceCount, int inProgressInstanceCount, int finalizedInstanceCount, int abandonedInstanceCount) {
+        super(username, email, Role.REQUESTER_NAME, registerDate, avatarUrl);
         this.submittedMissionCount = submittedMissionCount;
         this.instanceCount = instanceCount;
         this.submittedInstanceCount = submittedInstanceCount;
@@ -32,22 +31,6 @@ public class RequesterInfoVo implements Serializable {
 
     public void setAbandonedInstanceCount(int abandonedInstanceCount) {
         this.abandonedInstanceCount = abandonedInstanceCount;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public int getSubmittedMissionCount() {

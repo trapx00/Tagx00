@@ -11,10 +11,7 @@ import trapx00.tagx00.vo.user.info.WorkerInfoVo;
 
 import java.sql.Date;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Converter {
     /**
@@ -44,18 +41,26 @@ public class Converter {
         );
     }
 
-    public static RequesterInfoVo userToRequesterInfoVo(User user, int submittedMissionCount,
+    public static String generateDateStr(java.util.Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);  //use java.util.Date object as arguement
+        return cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH)+1) + "-" + cal.get(Calendar.DAY_OF_MONTH);
+    }
+
+
+    public static RequesterInfoVo userToRequesterInfoVo(User user, String avatarUrl, int submittedMissionCount,
                                                         int instanceCount, int awaitingCommentInstanceCount,
                                                         int inProgressInstanceCount, int finalizedInstanceCount, int abandonedInstanceCount) {
-        return new RequesterInfoVo(user.getUsername(), user.getEmail(), submittedMissionCount,
+        return new RequesterInfoVo(user.getUsername(), user.getEmail(), generateDateStr(user.getRegisterDate()),  avatarUrl,submittedMissionCount,
                 instanceCount, awaitingCommentInstanceCount, inProgressInstanceCount,
                 finalizedInstanceCount, abandonedInstanceCount);
     }
 
-    public static WorkerInfoVo userToWorkerInfoVo(User user, int completedMissionCount, int acceptedMissionCount, int inProgressMissionCount, int abandonedMissionCount, int finalizedMissionCount) {
-        return new WorkerInfoVo(user.getUsername(), user.getEmail(), user.getCredits(), user.getExp(), LevelUtil.calculateLevel(user.getExp()),
+    public static WorkerInfoVo userToWorkerInfoVo(User user,String avatarUrl, int completedMissionCount, int acceptedMissionCount, int inProgressMissionCount, int abandonedMissionCount, int finalizedMissionCount) {
+        return new WorkerInfoVo(user.getUsername(), user.getEmail(), generateDateStr(user.getRegisterDate()), avatarUrl, user.getCredits(), user.getExp(), LevelUtil.calculateLevel(user.getExp()),
                 completedMissionCount, acceptedMissionCount, inProgressMissionCount, abandonedMissionCount, finalizedMissionCount);
     }
+
 
     public static InstanceDetailVo instanceToInstanceDetailResponse(Instance instance) {
         return new InstanceDetailVo();

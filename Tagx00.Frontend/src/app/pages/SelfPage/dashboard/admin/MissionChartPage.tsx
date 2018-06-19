@@ -1,18 +1,17 @@
 import { Inject } from "react.di";
 import { AdminService } from "../../../../api/AdminService";
 import React from "react";
-import { DefinitionItem } from "../../../../components/DefinitionItem/index";
-import { MissionCyclePieChart } from "../charts/MissionCyclePieChart";
+import { MissionCyclePieChart } from "../charts/mission/MissionCyclePieChart";
 import { AsyncComponent } from "../../../../router/AsyncComponent";
 import { observer } from "mobx-react";
 import { LocaleStore } from "../../../../stores/LocaleStore";
 import { LocaleMessage } from "../../../../internationalization/components";
 import { MinorTitle } from "../../../LeaderboardPage/common";
 import { AdminPageLayout } from "./shared";
-import { MissionTipCard } from "../../../../components/Mission/MissionTipCard";
 import { MissionState, MissionType } from "../../../../models/mission/Mission";
-import { arraySum } from "../../../../../utils/Array";
+import { arraySum, flatten } from "../../../../../utils/Array";
 import { StackedIntervalChart } from "../charts/StackedIntervalChart";
+import { MissionTypeStateStackedIntervalChart } from "../charts/mission/MissionTypeStateStackedIntervalChart";
 
 
 const ID_PREFIX = "admin.missionChart.";
@@ -27,6 +26,7 @@ export default class MissionChartPage extends React.Component<{}, {}> {
 
     const values = Object.keys(info.typeStateDistribution).map(x => info.typeStateDistribution[x]);
 
+    console.log(values);
 
     const map = {
       [MissionState.ACTIVE]: "active",
@@ -34,22 +34,14 @@ export default class MissionChartPage extends React.Component<{}, {}> {
       [MissionState.PENDING]: "pending"
     };
 
-    // handle data
-    const data = Object.keys(MissionState).map(x => {
-      const data = {} as any;
-      for (const type of Object.keys(MissionType)) {
-        data[this.localeStore.get(`common.missionType.${type}`) as string] = info.typeStateDistribution[type][map[x]];
-      }
-      return { name: this.localeStore.get(ID_PREFIX+"missionState."+x) as string, data};
-    });
 
     return <div>
       <MinorTitle><LocaleMessage id={ID_PREFIX + "stateDistribution"}/></MinorTitle>
-      <MissionCyclePieChart activeMissionCount={arraySum(values, x=>x.active)}
-                            pendingMissionCount={arraySum(values, x=>x.pending)}
-                            endedMissionCount={arraySum(values, x=>x.ended)}/>
+      <MissionCyclePieChart active={flatten(values.map(x => x.active))}
+                            pending={flatten(values.map(x=>x.pending))}
+                            ended={flatten(values.map( x=>x.ended))}/>
       <MinorTitle><LocaleMessage id={ID_PREFIX + "typeDistribution"}/></MinorTitle>
-      <StackedIntervalChart data={data}/>
+      <MissionTypeStateStackedIntervalChart data={info.typeStateDistribution}/>
     </div>
   };
 

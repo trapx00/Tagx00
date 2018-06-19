@@ -14,6 +14,11 @@ export function flatten<T>(nestedArray: Array<Array<T>>) {
   return nestedArray.reduce((prev, curr) => [...prev, ...curr], []);
 }
 
+
+export function objectValues(object: object) {
+  return Object.keys(object).map(x => object[x]);
+}
+
 export function takeAtMost<T>(array: Array<T>, n: number) {
   if (array.length<=n) {
     return array;

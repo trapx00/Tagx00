@@ -1,27 +1,36 @@
 import React from 'react';
-import { Axis as BizAxis, Axis, Chart as BizChart, Coord, Geom, Guide, Label, Legend, Tooltip } from 'bizCharts';
+import { Axis, Chart as BizChart, Coord, Geom, Guide, Label, Legend, Tooltip } from 'bizCharts';
 import { DataView } from '@antv/data-set';
+import { Axis as BizAxis } from "bizcharts";
 import { arraySum } from "../../../../../utils/Array";
 
-interface PieChartItem {
+interface PieChartItem<T> {
   name: string;
-  count: number;
+  items: T[];
 }
 
-
-
-interface Props {
+interface Props<T> {
   title: string;
-  items: PieChartItem[];
+  items: PieChartItem<T>[];
+  onClick?(item: PieChartItem<T>): void;
 }
 
-export class PieChart extends React.Component<Props, {}> {
+export class ClickablePieChart<T> extends React.Component<Props<T>, {}> {
 
+
+  onClick = (e) => {
+    if (this.props.onClick){
+      const key = e.data._origin.item;
+
+      this.props.onClick(this.props.items.find(x => x.name === key));
+    }
+
+  };
 
   render() {
 
-    const total = arraySum(this.props.items, x=> x.count);
-    const data=  this.props.items.map(x => ({ item: x.name, count: x.count / total}));
+    const total = arraySum(this.props.items, x=> x.items.length);
+    const data=  this.props.items.map(x => ({ item: x.name, count: x.items.length / total}));
 
     const dv = new DataView();
     dv.source(data).transform({
@@ -42,7 +51,7 @@ export class PieChart extends React.Component<Props, {}> {
     const Axis = BizAxis as any;
 
     return <div>
-      <Chart height={600} data={dv} scale={cols} forceFit>
+      <Chart height={600} data={dv} scale={cols} forceFit onIntervalClick={this.onClick} >
         <Coord type={'theta'} radius={0.75} innerRadius={0.6} />
         <Axis name="percent" />
         <Legend position='right' offsetY={-window.innerHeight / 2 + 120} offsetX={-100} />

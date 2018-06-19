@@ -65,7 +65,7 @@ public class RequesterInfoBlServiceImpl implements RequesterInfoBlService {
                 }
             }
         }
-        return new RequesterInfoResponse(Converter.userToRequesterInfoVo(user, submittedMissionCount,
+        return new RequesterInfoResponse(Converter.userToRequesterInfoVo(user, userDataService.getUserAvatarUrl(user.getEmail()) , submittedMissionCount,
                 instanceCount, submittedInstanceCount, inProgressInstanceCount, finalizedInstanceCount,
             abandonedInstanceCount
         ));

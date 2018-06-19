@@ -18,6 +18,7 @@ import trapx00.tagx00.entity.account.Role;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.user.AdminInfoResponse;
+import trapx00.tagx00.response.user.AdminUserResponse;
 
 @PreAuthorize(value = "hasRole('" + Role.ADMIN_NAME + "')")
 @RestController
@@ -40,4 +41,18 @@ public class AdminInfoController {
     public ResponseEntity<Response> info() {
         return new ResponseEntity<>(adminInfoBlService.getAdminInfo(), HttpStatus.OK);
     }
+
+    @Authorization("管理员")
+    @ApiOperation(value = "管理员管理", notes = "管理员获得系统所有用户")
+    @RequestMapping(value = "account/admin/users", method = RequestMethod.GET)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success", response = AdminUserResponse.class),
+        @ApiResponse(code = 401, message = "Unauthorized", response = WrongResponse.class),
+        @ApiResponse(code = 404, message = "not a admin", response = WrongResponse.class),
+        @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
+    @ResponseBody
+    public ResponseEntity<Response> users() {
+        return new ResponseEntity<>(adminInfoBlService.getUsers(), HttpStatus.OK);
+    }
+
 }

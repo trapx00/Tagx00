@@ -12,12 +12,15 @@ import { LeaderboardService } from "../../api/LeaderboardService";
 import { observer } from "mobx-react";
 import { LeaderboardLineChart } from "./lineChart/LeaderboardLineChart";
 import { range } from "../../../utils/Range";
+import { RouterStore } from "../../stores/RouterStore";
 
 @observer
 export default class WorkerExpBoardPage extends React.Component<{}, {}> {
 
   @Inject leaderboardService: LeaderboardService;
   @Inject userStore: UserStore;
+
+  @Inject routerStore: RouterStore;
 
   renderUserRank = async () => {
     const selfRank = await this.leaderboardService.getSpecificWorkerCreditRank(this.userStore.user.username);
@@ -26,13 +29,17 @@ export default class WorkerExpBoardPage extends React.Component<{}, {}> {
     </DefinitionItem>
   };
 
+  toProfile(username: string) {
+    this.userStore.jumpToProfile(username, UserRole.ROLE_WORKER);
+  }
+
   renderLeaderboard = async () => {
     const workerExpBoard = await this.leaderboardService.getWorkerExpBoard(null, null);
     const columns = [{
       title: '用户名',
       dataIndex: 'username',
       key: "username",
-      render: text => <a>{text}</a>,
+      render: text => <a onClick={() => this.toProfile(text)}>{text}</a>,
     }, {
       title: '积分',
       dataIndex: 'exp',
@@ -59,7 +66,7 @@ export default class WorkerExpBoardPage extends React.Component<{}, {}> {
             <LocaleMessage id={"leaderboard.rankListBoard"}/>
           </MinorTitle>
           <br/>
-          <Table rowKey={"order"} dataSource={workerExpBoard.users} columns={columns} pagination={workerExpBoard.pagingInfo}/>
+          <Table rowKey={"order"} dataSource={workerExpBoard.users} columns={columns}/>
 
         </div>
       );

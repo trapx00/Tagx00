@@ -1,10 +1,8 @@
 package trapx00.tagx00.vo.user.info;
 
-import java.io.Serializable;
+import trapx00.tagx00.entity.account.Role;
 
-public class WorkerInfoVo implements Serializable {
-    private String username;
-    private String email;
+public class WorkerInfoVo extends UserInfoVo {
     private int credits;
     private double exp;
     private int level;
@@ -14,12 +12,8 @@ public class WorkerInfoVo implements Serializable {
     private int abandonedMissionCount;
     private int finalizedMissionCount;
 
-    public WorkerInfoVo() {
-    }
-
-    public WorkerInfoVo(String username, String email, int credits, double exp, int level, int completedMissionCount, int acceptedMissionCount, int inProgressMissionCount, int abandonedMissionCount, int finalizedMissionCount) {
-        this.username = username;
-        this.email = email;
+    public WorkerInfoVo(String username, String email, String registerDate,String avatarUrl, int credits, double exp, int level, int completedMissionCount, int acceptedMissionCount, int inProgressMissionCount, int abandonedMissionCount, int finalizedMissionCount) {
+        super(username, email, Role.WORKER_NAME, registerDate, avatarUrl);
         this.credits = credits;
         this.exp = exp;
         this.level = level;
@@ -28,22 +22,6 @@ public class WorkerInfoVo implements Serializable {
         this.inProgressMissionCount = inProgressMissionCount;
         this.abandonedMissionCount = abandonedMissionCount;
         this.finalizedMissionCount = finalizedMissionCount;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public int getCredits() {

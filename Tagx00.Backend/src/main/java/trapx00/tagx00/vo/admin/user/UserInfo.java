@@ -1,40 +1,46 @@
 package trapx00.tagx00.vo.admin.user;
 
+import trapx00.tagx00.vo.user.info.RequesterInfoVo;
+import trapx00.tagx00.vo.user.info.UserInfoVo;
+import trapx00.tagx00.vo.user.info.WorkerInfoVo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class UserInfo {
-    private int requesterCount;
-    private int workerCount;
-    private HashMap<String, Integer> registerDateDistribution;
+    private List<RequesterInfoVo> requesters;
+    private List<WorkerInfoVo> workers;
+    private HashMap<String, List<UserInfoVo>> registerDateDistribution;
 
-    public UserInfo(int requesterCount, int workerCount, HashMap<String, Integer> registerDateDistribution) {
-        this.requesterCount = requesterCount;
-        this.workerCount = workerCount;
+    public UserInfo(List<RequesterInfoVo> requesters, List<WorkerInfoVo> workers, HashMap<String, List<UserInfoVo>> registerDateDistribution) {
+        this.requesters = requesters;
+        this.workers = workers;
         this.registerDateDistribution = registerDateDistribution;
     }
 
-    public int getRequesterCount() {
-        return requesterCount;
+    public List<RequesterInfoVo> getRequesters() {
+        return requesters;
     }
 
-    public void setRequesterCount(int requesterCount) {
-        this.requesterCount = requesterCount;
+    public void setRequesters(List<RequesterInfoVo> requesters) {
+        this.requesters = requesters;
     }
 
-    public int getWorkerCount() {
-        return workerCount;
+    public List<WorkerInfoVo> getWorkers() {
+        return workers;
     }
 
-    public void setWorkerCount(int workerCount) {
-        this.workerCount = workerCount;
+    public void setWorkers(List<WorkerInfoVo> workers) {
+        this.workers = workers;
     }
 
-    public HashMap<String, Integer> getRegisterDateDistribution() {
+    public HashMap<String, List<UserInfoVo>> getRegisterDateDistribution() {
         return registerDateDistribution;
     }
 
-    public void setRegisterDateDistribution(HashMap<String, Integer> registerDateDistribution) {
+    public void setRegisterDateDistribution(HashMap<String, List<UserInfoVo>> registerDateDistribution) {
         this.registerDateDistribution = registerDateDistribution;
     }
 }
+

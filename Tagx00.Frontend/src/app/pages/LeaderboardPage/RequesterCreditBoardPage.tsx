@@ -29,12 +29,16 @@ export default class RequesterCreditBoardPage extends React.Component<{}, {}> {
     </DefinitionItem>
   };
 
+  toProfile(username: string) {
+    this.userStore.jumpToProfile(username, UserRole.ROLE_REQUESTER);
+  }
+
   renderLeaderboard = async () => {
     const requesterCreditBoard = await this.leaderboardService.getRequesterCreditBoard(null, null);
     const columns = [{
       title: '用户名',
       dataIndex: 'username',
-      render: text => <a href="#">{text}</a>,
+      render: text => <a onClick={() => this.toProfile(text)}>{text}</a>,
     }, {
       title: '积分',
       dataIndex: 'credits',
@@ -52,8 +56,7 @@ export default class RequesterCreditBoardPage extends React.Component<{}, {}> {
         <MinorTitle>
           <LocaleMessage id={"leaderboard.rankListBoard"}/>
         </MinorTitle>
-        <Table rowKey={"order"} dataSource={requesterCreditBoard.users} columns={columns}
-               pagination={requesterCreditBoard.pagingInfo}/>
+        <Table rowKey={"order"} dataSource={requesterCreditBoard.users} columns={columns}/>
       </div>
 
   };

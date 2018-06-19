@@ -27,7 +27,7 @@ import trapx00.tagx00.vo.paging.PagingQueryVo;
 import java.io.IOException;
 import java.util.Date;
 
-@PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "')")
+@PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
 @RestController
 public class WorkerMissionController {
     private final WorkerMissionBlService workerMissionBlService;

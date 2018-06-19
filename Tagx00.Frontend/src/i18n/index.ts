@@ -1,4 +1,4 @@
-const source = require("./cn.json");
+const source = require("../assets/i18n/cn.json");
 const filesystem = require("fs");
 
 const pri_translate = require("./translate");

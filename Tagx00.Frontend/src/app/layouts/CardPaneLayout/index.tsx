@@ -26,8 +26,11 @@ export class CardPaneLayout<T> extends React.Component<Props<T>, {}> {
   };
 
   render() {
-    return <Container>
-      {this.props.dataSource.map(x => <Item>{this.props.renderItem(x)}</Item>)}
-    </Container>
+    return <List
+      grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 4, xl: 4, xxl: 6 }}
+      dataSource={this.props.dataSource}
+      renderItem={this.renderItem}
+      pagination={{total: this.props.dataSource.length}}
+    />
   }
 }

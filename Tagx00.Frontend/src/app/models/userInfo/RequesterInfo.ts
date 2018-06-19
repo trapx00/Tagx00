@@ -1,6 +1,7 @@
-export interface RequesterInfo {
-    username: string;
-    email: string;
+import { UserInfo } from "./UserInfo";
+import { UserRole } from "../user/User";
+
+export interface RequesterInfo extends UserInfo{
     submittedMissionCount: number;
     instanceCount: number;
     submittedInstanceCount: number;

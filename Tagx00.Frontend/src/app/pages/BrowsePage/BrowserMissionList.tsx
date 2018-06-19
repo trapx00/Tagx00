@@ -35,7 +35,6 @@ export class BrowserMissionList extends React.Component<any, {}> {
             <List
               itemLayout="vertical"
               size="large"
-              pagination={false}
               dataSource={this.browserStore.listData}
               renderItem={item => <MissionItem key={item.missionId} item={item}/>}
             />
