@@ -186,29 +186,29 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
     public int abortInstance(String instanceId, MissionType missionType) throws IOException {
         switch (missionType) {
             case IMAGE:
-                ImageInstance imageInstance = imageInstanceDao.findImageInstanceByInstanceId(instanceId);
+                ImageInstance imageInstance = instanceService.getImageInstance(instanceId);
                 imageInstance.setMissionInstanceState(MissionInstanceState.ABANDONED);
                 saveImageInstance(imageInstance);
                 break;
             case TEXT:
-                TextInstance textInstance = textInstanceDao.findTextInstanceByInstanceId(instanceId);
+                TextInstance textInstance = instanceService.getTextInstance(instanceId);
                 textInstance.setMissionInstanceState(MissionInstanceState.ABANDONED);
                 saveTextInstance(textInstance);
                 break;
             case THREE_DIMENSION:
-                ThreeDimensionInstance threeDimensionInstance = threeDimensionInstanceDao.findThreeDimensionInstanceByInstanceId(instanceId);
+                ThreeDimensionInstance threeDimensionInstance = instanceService.getThreeDimensionInstance(instanceId);
                 threeDimensionInstance.setMissionInstanceState(MissionInstanceState.ABANDONED);
                 saveThreeDimensionInstance(threeDimensionInstance);
                 break;
             case VIDEO:
-                VideoInstance videoInstance = videoInstanceDao.findVideoInstanceByInstanceId(instanceId);
+                VideoInstance videoInstance = instanceService.getVideoInstance(instanceId);
                 videoInstance.setMissionInstanceState(MissionInstanceState.ABANDONED);
-                videoInstanceDao.save(videoInstance);
+                saveVideoInstance(videoInstance);
                 break;
             case AUDIO:
-                AudioInstance audioInstance = audioInstanceDao.findAudioInstanceByInstanceId(instanceId);
+                AudioInstance audioInstance = instanceService.getAudioInstance(instanceId);
                 audioInstance.setMissionInstanceState(MissionInstanceState.ABANDONED);
-                audioInstanceDao.save(audioInstance);
+                saveAudioInstance(audioInstance);
                 break;
         }
         return 0;

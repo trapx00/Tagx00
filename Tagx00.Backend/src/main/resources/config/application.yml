@@ -18,11 +18,11 @@ oos:
   endPoint: "http://oos-bj2.ctyunapi.cn"
   bucketName: "tagx00"
 email:
-  sender: "zhanglingzhe0820@sina.com"
+  sender: "chencjd123@126.com"
   subject: "Tagx00账号注册邮箱认证"
-  content1: "亲爱的用户： 您好!<br/>
+  content1: "亲爱的用户： 您好!
             您正在注册Tagx00账号，请在验证码输入框中输入："
-  content2: "<br/>以完成注册。"
+  content2: "以完成注册。"
 spring:
   jpa:
     database: mysql
@@ -41,9 +41,9 @@ spring:
     auto: true
     proxy-target-class: false
   mail:
-    host: smtp.sina.com
-    username: zhanglingzhe0820@sina.com
-    password: zhanglingzhe0820
+    host: smtp.126.com
+    username: chencjd123@126.com
+    password: cqwzcjd123
     properties:
       mail:
         smtp:

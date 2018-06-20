@@ -44,7 +44,7 @@ public class PublicMissionController {
             @ApiResponse(code = 200, message = "Success", response = MissionPublicResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> getMissions(@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+    public ResponseEntity<Response> getMissions(@RequestParam(value = "pageSize", defaultValue = "10000") Integer pageSize,
                                                 @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber,
                                                 @RequestParam(value = "searchTarget", defaultValue = "") String searchTarget,
                                                 @RequestParam(value = "requester", defaultValue = "") String requesterUsername) {

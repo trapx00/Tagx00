@@ -194,15 +194,16 @@ public class UserDataServiceImplTest {
                 user = new User(username, password, email, role, exp, credits, sqlDate);
                 userDao.save(user);
 
-                List<ImageMissionType> imageMissionTypes = new ArrayList<>();
-                imageMissionTypes.add(ImageMissionType.WHOLE);
-                imageMissionTypes.add(ImageMissionType.DISTRICT);
-                imageMissionTypes.add(ImageMissionType.PART);
-                ImageMission imageMission = new ImageMission(getNextMissionId(missionDao.findAll(), MissionType.IMAGE), "test", "test", new ArrayList<>(), MissionState.ACTIVE, startDate, endDate, "", username,
-                        1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), imageMissionTypes, new ArrayList<>());
-                missionDao.save(imageMission);
+//                List<ImageMissionType> imageMissionTypes = new ArrayList<>();
+//                imageMissionTypes.add(ImageMissionType.WHOLE);
+//                imageMissionTypes.add(ImageMissionType.DISTRICT);
+//                imageMissionTypes.add(ImageMissionType.PART);
+//
+//                ImageMission imageMission = new ImageMission(getNextMissionId(missionDao.findAll(), MissionType.IMAGE), "test", "test", new ArrayList<>(), MissionState.ACTIVE, startDate, endDate, "", username,
+//                        1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), imageMissionTypes, new ArrayList<>());
+//                missionDao.save(imageMission);
 
-                for (int j = 0; j < 6; j++) {
+                for (int j = 0; j < 3; j++) {
                     int selectSeed = random.nextInt(6);
                     switch (selectSeed) {
                         case 1:
@@ -294,9 +295,9 @@ public class UserDataServiceImplTest {
     }
 
     private void createInstancesForThisWorker(String workerUsername, List<Mission> missions) {
-        // 1/6
+        // 1/2
         for (Mission mission : missions) {
-            if (random.nextInt(6) != 0) {
+            if (random.nextInt(2) != 0) {
                 continue; // no instance for this mission
             }
 
@@ -511,16 +512,17 @@ public class UserDataServiceImplTest {
                 videoMissionTypes.add(VideoMissionType.PART);
         }
         VideoMission videoMission = null;
+        String id = getNextMissionId(missionDao.findAll(), MissionType.VIDEO);
         if (MissionState.PENDING == missionState) {
-            videoMission = new VideoMission(getNextMissionId(missionDao.findAll(), MissionType.VIDEO), "test", "test", new ArrayList<>(), missionState, notEndedDate, notEndedDate, "", username,
+            videoMission = new VideoMission(id, id, "test", new ArrayList<>(), missionState, notEndedDate, notEndedDate, "", username,
                     1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), videoMissionTypes, new ArrayList<>());
         }
         if (MissionState.ENDED == missionState) {
-            videoMission = new VideoMission(getNextMissionId(missionDao.findAll(), MissionType.VIDEO), "test", "test", new ArrayList<>(), missionState, startDate, startDate, "", username,
+            videoMission = new VideoMission(id, id, "test", new ArrayList<>(), missionState, startDate, startDate, "", username,
                     1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), videoMissionTypes, new ArrayList<>());
         }
         if (MissionState.ACTIVE == missionState) {
-            videoMission = new VideoMission(getNextMissionId(missionDao.findAll(), MissionType.VIDEO), "test", "test", new ArrayList<>(), missionState, startDate, notEndedDate, "", username,
+            videoMission = new VideoMission(id, id, "test", new ArrayList<>(), missionState, startDate, notEndedDate, "", username,
                     1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), videoMissionTypes, new ArrayList<>());
         }
         missionDao.save(videoMission);
@@ -541,16 +543,17 @@ public class UserDataServiceImplTest {
                 audioMissionTypes.add(AudioMissionType.PART);
         }
         AudioMission audioMission = null;
+        String id = getNextMissionId(missionDao.findAll(), MissionType.AUDIO);
         if (MissionState.PENDING == missionState) {
-            audioMission = new AudioMission(getNextMissionId(missionDao.findAll(), MissionType.AUDIO), "test", "test", new ArrayList<>(), missionState, notEndedDate, notEndedDate, "", username,
+            audioMission = new AudioMission(id,id, "test", new ArrayList<>(), missionState, notEndedDate, notEndedDate, "", username,
                     1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), audioMissionTypes, new ArrayList<>());
         }
         if (MissionState.ENDED == missionState) {
-            audioMission = new AudioMission(getNextMissionId(missionDao.findAll(), MissionType.AUDIO), "test", "test", new ArrayList<>(), missionState, startDate, startDate, "", username,
+            audioMission = new AudioMission(id,id,  "test", new ArrayList<>(), missionState, startDate, startDate, "", username,
                     1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), audioMissionTypes, new ArrayList<>());
         }
         if (MissionState.ACTIVE == missionState) {
-            audioMission = new AudioMission(getNextMissionId(missionDao.findAll(), MissionType.AUDIO), "test", "test", new ArrayList<>(), missionState, startDate, notEndedDate, "", username,
+            audioMission = new AudioMission(id,id,  "test", new ArrayList<>(), missionState, startDate, notEndedDate, "", username,
                     1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), audioMissionTypes, new ArrayList<>());
         }
         missionDao.save(audioMission);
@@ -560,16 +563,17 @@ public class UserDataServiceImplTest {
         List<ThreeDimensionMissionType> threeDimensionMissionTypes = new ArrayList<>();
         threeDimensionMissionTypes.add(ThreeDimensionMissionType.WHOLE);
         ThreeDimensionMission threeDimensionMission = null;
+        String id = getNextMissionId(missionDao.findAll(), MissionType.THREE_DIMENSION);
         if (MissionState.PENDING == missionState) {
-            threeDimensionMission = new ThreeDimensionMission(getNextMissionId(missionDao.findAll(), MissionType.THREE_DIMENSION), "test", "test", new ArrayList<>(), missionState, notEndedDate, notEndedDate, "", username,
+            threeDimensionMission = new ThreeDimensionMission(id,id, "test", new ArrayList<>(), missionState, notEndedDate, notEndedDate, "", username,
                     1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), ThreeDimensionMissionType.WHOLE, new ArrayList<>());
         }
         if (MissionState.ENDED == missionState) {
-            threeDimensionMission = new ThreeDimensionMission(getNextMissionId(missionDao.findAll(), MissionType.THREE_DIMENSION), "test", "test", new ArrayList<>(), missionState, startDate, startDate, "", username,
+            threeDimensionMission = new ThreeDimensionMission(id,id, "test", new ArrayList<>(), missionState, startDate, startDate, "", username,
                     1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), ThreeDimensionMissionType.WHOLE, new ArrayList<>());
         }
         if (MissionState.ACTIVE == missionState) {
-            threeDimensionMission = new ThreeDimensionMission(getNextMissionId(missionDao.findAll(), MissionType.THREE_DIMENSION), "test", "test", new ArrayList<>(), missionState, startDate, notEndedDate, "", username,
+            threeDimensionMission = new ThreeDimensionMission(id,id, "test", new ArrayList<>(), missionState, startDate, notEndedDate, "", username,
                     1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), ThreeDimensionMissionType.WHOLE, new ArrayList<>());
         }
         missionDao.save(threeDimensionMission);
@@ -590,16 +594,17 @@ public class UserDataServiceImplTest {
                 textMissionTypes.add(TextMissionType.KEYWORDS);
         }
         TextMission textMission = null;
+        String id = getNextMissionId(missionDao.findAll(), MissionType.TEXT);
         if (MissionState.PENDING == missionState) {
-            textMission = new TextMission(getNextMissionId(missionDao.findAll(), MissionType.TEXT), "test", "test", new ArrayList<>(), missionState, notEndedDate, notEndedDate, "", username,
+            textMission = new TextMission(id,id, "test", new ArrayList<>(), missionState, notEndedDate, notEndedDate, "", username,
                     1, random.nextInt(10000), 1, new HashSet<>(), new ArrayList<>(), new ArrayList<>());
         }
         if (MissionState.ENDED == missionState) {
-            textMission = new TextMission(getNextMissionId(missionDao.findAll(), MissionType.TEXT), "test", "test", new ArrayList<>(), missionState, startDate, startDate, "", username,
+            textMission = new TextMission(id,id, "test", new ArrayList<>(), missionState, startDate, startDate, "", username,
                     1, random.nextInt(10000), 1, new HashSet<>(), new ArrayList<>(), new ArrayList<>());
         }
         if (MissionState.ACTIVE == missionState) {
-            textMission = new TextMission(getNextMissionId(missionDao.findAll(), MissionType.TEXT), "test", "test", new ArrayList<>(), missionState, startDate, notEndedDate, "", username,
+            textMission = new TextMission(id,id, "test", new ArrayList<>(), missionState, startDate, notEndedDate, "", username,
                     1, random.nextInt(10000), 1, new HashSet<>(), new ArrayList<>(), new ArrayList<>());
         }
         missionDao.save(textMission);
@@ -625,16 +630,17 @@ public class UserDataServiceImplTest {
                 imageMissionTypes.add(ImageMissionType.DISTRICT);
         }
         ImageMission imageMission = null;
+        String id= getNextMissionId(missionDao.findAll(), MissionType.IMAGE);
         if (MissionState.PENDING == missionState) {
-            imageMission = new ImageMission(getNextMissionId(missionDao.findAll(), MissionType.IMAGE), "test", "test", new ArrayList<>(), missionState, notEndedDate, notEndedDate, "", username,
+            imageMission = new ImageMission(id,id, "test", new ArrayList<>(), missionState, notEndedDate, notEndedDate, "", username,
                     1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), imageMissionTypes, new ArrayList<>());
         }
         if (MissionState.ENDED == missionState) {
-            imageMission = new ImageMission(getNextMissionId(missionDao.findAll(), MissionType.IMAGE), "test", "test", new ArrayList<>(), missionState, startDate, startDate, "", username,
+            imageMission = new ImageMission(id,id, "test", new ArrayList<>(), missionState, startDate, startDate, "", username,
                     1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), imageMissionTypes, new ArrayList<>());
         }
         if (MissionState.ACTIVE == missionState) {
-            imageMission = new ImageMission(getNextMissionId(missionDao.findAll(), MissionType.IMAGE), "test", "test", new ArrayList<>(), missionState, startDate, notEndedDate, "", username,
+            imageMission = new ImageMission(id,id, "test", new ArrayList<>(), missionState, startDate, notEndedDate, "", username,
                     1, random.nextInt(10000), 1, false, new ArrayList<>(), new ArrayList<>(), imageMissionTypes, new ArrayList<>());
         }
         missionDao.save(imageMission);

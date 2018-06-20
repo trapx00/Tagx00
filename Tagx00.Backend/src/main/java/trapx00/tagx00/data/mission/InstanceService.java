@@ -37,7 +37,7 @@ public class InstanceService {
         this.pythonService = pythonService;
     }
 
-    public TextInstance getTextInstance(String instanceId) throws IOException, ClassNotFoundException {
+    public TextInstance getTextInstance(String instanceId)  {
         TextInstance textInstance = textInstanceDao.findTextInstanceByInstanceId(instanceId);
         try {
             FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "text_instance" + "_" + instanceId);
@@ -49,12 +49,14 @@ public class InstanceService {
         } catch (IOException e) {
             System.out.println("Results for " + instanceId + "not found. Returns empty list.");
             textInstance.setTextResults(new ArrayList<>());
+        }catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return textInstance;
 
     }
 
-    public ImageInstance getImageInstance(String instanceId) throws IOException, ClassNotFoundException, SystemException {
+    public ImageInstance getImageInstance(String instanceId)  {
         ImageInstance imageInstance = imageInstanceDao.findImageInstanceByInstanceId(instanceId);
         try {
         FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "image_instance" + "_" + instanceId);
@@ -84,11 +86,13 @@ public class InstanceService {
         } catch (IOException e) {
             System.out.println("Results for " + instanceId + "not found. Returns empty list.");
             imageInstance.setImageResults(new ArrayList<>());
+        }catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return imageInstance;
     }
 
-    public VideoInstance getVideoInstance(String instanceId) throws IOException, ClassNotFoundException {
+    public VideoInstance getVideoInstance(String instanceId)  {
         VideoInstance videoInstance = videoInstanceDao.findVideoInstanceByInstanceId(instanceId);
         try {
         FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "video_instance" + "_" + instanceId);
@@ -100,11 +104,13 @@ public class InstanceService {
         } catch (IOException e) {
             System.out.println("Results for " + instanceId + "not found. Returns empty list.");
             videoInstance.setVideoResults(new ArrayList<>());
+        }catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return videoInstance;
     }
 
-    public AudioInstance getAudioInstance(String instanceId) throws IOException, ClassNotFoundException {
+    public AudioInstance getAudioInstance(String instanceId) {
         AudioInstance audioInstance = audioInstanceDao.findAudioInstanceByInstanceId(instanceId);
         try {
         FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "audio_instance" + "_" + instanceId);
@@ -116,11 +122,13 @@ public class InstanceService {
         } catch (IOException e) {
             System.out.println("Results for " + instanceId + "not found. Returns empty list.");
             audioInstance.setAudioResults(new ArrayList<>());
+        }catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return audioInstance;
     }
 
-    public ThreeDimensionInstance getThreeDimensionInstance(String instanceId) throws IOException, ClassNotFoundException {
+    public ThreeDimensionInstance getThreeDimensionInstance(String instanceId) {
         ThreeDimensionInstance threeDimensionInstance = threeDimensionInstanceDao.findThreeDimensionInstanceByInstanceId(instanceId);
         try {
         FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "threeDimension_instance" + "_" + instanceId);
@@ -132,6 +140,8 @@ public class InstanceService {
         } catch (IOException e) {
             System.out.println("Results for " + instanceId + "not found. Returns empty list.");
             threeDimensionInstance.setThreeDimensionResults(new ArrayList<>());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         return threeDimensionInstance;
     }

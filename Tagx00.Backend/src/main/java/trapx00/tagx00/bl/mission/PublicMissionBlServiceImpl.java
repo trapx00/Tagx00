@@ -179,17 +179,12 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
 
         }
         ArrayList<MissionPublicItemVo> pArrayList = new ArrayList<>();
-        if (result.size() >= endIndex) {
-            for (int i = startIndex; i < endIndex; i++) {
-                pArrayList.add(missionPublicItemVos[i]);
-            }
-        } else {
-            for (int i = startIndex; i < result.size(); i++) {
-                pArrayList.add(missionPublicItemVos[i]);
-            }
+        int end = Math.min(result.size(), endIndex);
+        for (int i = startIndex; i < end; i++) {
+            pArrayList.add(result.get(i));
         }
 
-        int totalCount = missionPublicItemVos.length;
+        int totalCount = result.size();
         int pageNum = (int) Math.ceil(totalCount * 1.0 / pagingQueryVo.getPageSize());
         return new MissionPublicResponse(new PagingInfoVo(totalCount, pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize(), pageNum), pArrayList);
     }

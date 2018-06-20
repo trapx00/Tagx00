@@ -38,7 +38,7 @@ public class CreditWorkerLeaderboardController {
             @ApiResponse(code = 500, message = "Failure", response = WrongResponse.class)})
     @ResponseBody
     public ResponseEntity<Response> creditLeaderboard(
-            @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+            @RequestParam(value = "pageSize", defaultValue = "100000") Integer pageSize,
             @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber
             ) {
         try {

@@ -51,7 +51,7 @@ public class WorkerMissionController {
             @ApiResponse(code = 404, message = "No more instances", response = WrongResponse.class)
     })
     @ResponseBody
-    public ResponseEntity<Response> queryOnesAllMissions(@RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+    public ResponseEntity<Response> queryOnesAllMissions(@RequestParam(value = "pageSize", defaultValue = "10000") Integer pageSize,
                                                          @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber) {
         try {
             return new ResponseEntity<>(workerMissionBlService.queryOnesAllMissions(UserInfoUtil.getUsername(), new PagingQueryVo(pageSize, pageNumber)), HttpStatus.OK);

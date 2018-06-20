@@ -35,12 +35,10 @@ export class BrowserMissionList extends React.Component<any, {}> {
             <List
               itemLayout="vertical"
               size="large"
+              pagination={{total: this.browserStore.listData.length}}
               dataSource={this.browserStore.listData}
               renderItem={item => <MissionItem key={item.missionId} item={item}/>}
             />
-            <div style={{textAlign: 'center'}}>
-              <Pagination defaultCurrent={1} total={1}/>
-            </div>
           </div>
       </QueueAnim>
     }
