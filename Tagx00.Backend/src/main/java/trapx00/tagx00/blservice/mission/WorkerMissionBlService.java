@@ -11,6 +11,7 @@ import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public interface WorkerMissionBlService {
     /**
@@ -20,7 +21,7 @@ public interface WorkerMissionBlService {
      * @param pagingQueryVo
      * @return the list of MissionRequesterQueryItemVo
      */
-    InstanceResponse queryOnesAllMissions(String workerUsername, PagingQueryVo pagingQueryVo) throws MissionDoesNotExistFromUsernameException;
+    InstanceResponse queryOnesAllMissions(String workerUsername, PagingQueryVo pagingQueryVo, ArrayList<String> states) throws MissionDoesNotExistFromUsernameException;
 
     /**
      * workers abort one mission

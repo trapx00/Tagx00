@@ -26,10 +26,13 @@ import trapx00.tagx00.util.UserInfoUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
 import trapx00.tagx00.vo.mission.instance.InstanceVo;
+import trapx00.tagx00.vo.paging.PagingInfoVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
@@ -52,26 +55,29 @@ public class WorkerMissionBlServiceImpl implements WorkerMissionBlService {
      * @return the list of MissionRequesterQueryItemVo
      */
     @Override
-    public InstanceResponse queryOnesAllMissions(String workerUsername, PagingQueryVo pagingQueryVo) throws MissionDoesNotExistFromUsernameException {
-        InstanceVo[] result = workerMissionDataService.getInstanceByWorkerUsername(workerUsername);
+    public InstanceResponse queryOnesAllMissions(String workerUsername, PagingQueryVo pagingQueryVo, ArrayList<String> states) throws MissionDoesNotExistFromUsernameException {
+        Stream<InstanceVo> result = Arrays.stream(workerMissionDataService.getInstanceByWorkerUsername(workerUsername));
         if (result == null)
             throw new MissionDoesNotExistFromUsernameException();
         int startIndex = (pagingQueryVo.getPageNumber() - 1) * pagingQueryVo.getPageSize();
-        int endIndex = startIndex + pagingQueryVo.getPageSize();
 
-        ArrayList<InstanceVo> instanceVoArrayList = new ArrayList<>();
-        if (result.length > startIndex) {
-            if (result.length >= endIndex) {
-                for (int i = startIndex; i < endIndex; i++) {
-                    instanceVoArrayList.add(result[i]);
-                }
-            } else {
-                for (int i = startIndex; i < result.length; i++) {
-                    instanceVoArrayList.add(result[i]);
-                }
-            }
-        }
-        return new InstanceResponse(instanceVoArrayList);
+        List<InstanceVo> filteredResults = result
+            .filter(x -> states == null || states.contains(x.getMissionInstanceState().name()))
+            .collect(Collectors.toList());
+
+        List<InstanceVo> results = filteredResults.stream()
+            .skip(startIndex)
+            .limit(pagingQueryVo.getPageSize())
+            .collect(Collectors.toList());
+
+
+        InstanceResponse instanceResponse = new InstanceResponse(results,
+            new PagingInfoVo(filteredResults.size(),
+                pagingQueryVo.getPageNumber(),
+                pagingQueryVo.getPageSize()
+            )
+        );
+        return instanceResponse;
     }
 
     /**

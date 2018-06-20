@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@SuppressWarnings("unchecked")
 public class InstanceService {
 
 
@@ -25,16 +26,14 @@ public class InstanceService {
     private final AudioInstanceDao audioInstanceDao;
     private final VideoInstanceDao videoInstanceDao;
     private final ThreeDimensionInstanceDao threeDimensionInstanceDao;
-    private final PythonService pythonService;
 
     @Autowired
-    public InstanceService(ImageInstanceDao imageInstanceDao, TextInstanceDao textInstanceDao, AudioInstanceDao audioInstanceDao, VideoInstanceDao videoInstanceDao, ThreeDimensionInstanceDao threeDimensionInstanceDao, PythonService pythonService) {
+    public InstanceService(ImageInstanceDao imageInstanceDao, TextInstanceDao textInstanceDao, AudioInstanceDao audioInstanceDao, VideoInstanceDao videoInstanceDao, ThreeDimensionInstanceDao threeDimensionInstanceDao) {
         this.imageInstanceDao = imageInstanceDao;
         this.textInstanceDao = textInstanceDao;
         this.audioInstanceDao = audioInstanceDao;
         this.videoInstanceDao = videoInstanceDao;
         this.threeDimensionInstanceDao = threeDimensionInstanceDao;
-        this.pythonService = pythonService;
     }
 
     public TextInstance getTextInstance(String instanceId)  {
@@ -58,6 +57,7 @@ public class InstanceService {
 
     public ImageInstance getImageInstance(String instanceId)  {
         ImageInstance imageInstance = imageInstanceDao.findImageInstanceByInstanceId(instanceId);
+        System.out.println(instanceId);
         try {
         FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "image_instance" + "_" + instanceId);
         ObjectInputStream in = new ObjectInputStream(fileIn);

@@ -164,8 +164,7 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
             }
         }
         int totalCount = usernameResult.size();
-        int pageNum = (int) Math.ceil(totalCount * 1.0 / pagingQueryVo.getPageSize());
-        return new MissionPublicResponse(new PagingInfoVo(totalCount, pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize(), pageNum), pArrayList);
+        return new MissionPublicResponse(new PagingInfoVo(totalCount, pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize()), pArrayList);
 
     }
 
@@ -185,8 +184,7 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
         }
 
         int totalCount = result.size();
-        int pageNum = (int) Math.ceil(totalCount * 1.0 / pagingQueryVo.getPageSize());
-        return new MissionPublicResponse(new PagingInfoVo(totalCount, pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize(), pageNum), pArrayList);
+        return new MissionPublicResponse(new PagingInfoVo(totalCount, pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize()), pArrayList);
     }
 
     private void search(String searchTarget, ArrayList<MissionPublicItemVo> result, MissionPublicItemVo missionPublicItemVo) {

@@ -9,6 +9,9 @@ import { UserStore } from "../../../stores/UserStore";
 import { AsyncComponent } from "../../../router/AsyncComponent";
 import { RequesterMissionCard } from "../../../components/Mission/RequesterMissionCard";
 import { CardPaneLayout } from "../../../layouts/CardPaneLayout";
+import { MissionPublicItem } from "../../../models/mission/MissionPublicItem";
+import { DEFAULT_PAGING_INFO, PagingInfo } from "../../../models/PagingInfo";
+import { Loading } from "../../../components/Common/Loading";
 
 interface Props {
 
@@ -18,25 +21,51 @@ const btnAddMissionStyle: CSSProperties = {
   float: "right"
 };
 
-export class RequesterMissionCardList extends React.Component<{},{}>{
+interface State {
+  loading: boolean;
+  data: MissionPublicItem[];
+  paging: PagingInfo;
+}
+
+export class RequesterMissionCardList extends React.Component<{},State>{
 
   @Inject missionService: MissionService;
   @Inject requesterService: RequesterService;
   @Inject userStore: UserStore;
 
-
-  renderList = async () => {
-    const res = await this.requesterService.getAllMissionsBySelf(this.userStore.user.username);
-    return <div><CardPaneLayout dataSource={res.items}
-                           renderItem={x => <RequesterMissionCard mission={x}/>}/>
-    </div>;
+  onPageChange = (page: number, pageSize: number) => {
+    this.load(page, pageSize);
   };
 
+  componentDidMount() {
+    this.load();
+  }
+
+  load(pageNumber =1, pageSize = 2) {
+    this.requesterService.getAllMissionsBySelf(this.userStore.user.username, pageNumber, pageSize).then((res) => {
+      this.setState({
+        loading: false,
+        paging: res.pagingInfoVo,
+        data: res.items
+      })
+    });
+  }
+
+  state = {
+    loading: true,
+    data: [],
+    paging: DEFAULT_PAGING_INFO
+  };
 
   render() {
-    return <div>
-      <AsyncComponent render={this.renderList}/>
-    </div>;
+    if (this.state.loading){
+      return <Loading/>;
+    }
+    return <CardPaneLayout dataSource={this.state.data}
+                          pagination={this.state.paging}
+                          loading={this.state.loading}
+                          onPageChange={this.onPageChange}
+                          renderItem={x => <RequesterMissionCard mission={x}/>}/>
   }
 }
 

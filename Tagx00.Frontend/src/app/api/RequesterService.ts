@@ -84,11 +84,11 @@ export class RequesterService {
     return res.response;
   }
 
-  async getAllMissionsBySelf(username: string): Promise<MissionPublicResponse> {
+  async getAllMissionsBySelf(username: string, pageNumber:number=1, pageSize: number = 10000): Promise<MissionPublicResponse> {
     const res = await this.http.fetch({
       method: HttpMethod.GET,
       path: "/mission",
-      queryParams: {requester: username},
+      queryParams: {requester: username, pageNumber, pageSize},
     });
 
     return res.response;

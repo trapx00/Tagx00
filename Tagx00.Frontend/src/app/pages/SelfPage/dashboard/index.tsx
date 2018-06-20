@@ -1,8 +1,8 @@
 import React from 'react';
 import { Inject } from "react.di";
 import { UserStore } from "../../../stores/UserStore";
-import { WorkerDashboardPage } from "./WorkerDashboardPage";
-import { RequesterDashboardPage } from "./RequesterDashboardPage";
+import { WorkerDashboardPage } from "./worker/WorkerDashboardPage";
+import { RequesterDashboardPage } from "./requester/RequesterDashboardPage";
 import { UserRole } from "../../../models/user/User";
 import AdminDashboardPage from "./admin";
 import { RouteComponentProps } from "react-router";

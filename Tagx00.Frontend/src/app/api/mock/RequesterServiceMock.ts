@@ -14,6 +14,7 @@ import { InstanceResponse } from "../../models/response/mission/InstanceResponse
 import { MissionRequestQueryResponse } from "../../models/response/mission/MissionRequestQueryResponse";
 import { MissionChargeResponse } from "../../models/response/mission/MissionChargeResponse";
 import { range } from "../../../utils/Range";
+import { DEFAULT_PAGING_INFO } from "../../models/PagingInfo";
 
 @Injectable
 export class RequesterServiceMock extends RequesterService {
@@ -96,7 +97,8 @@ export class RequesterServiceMock extends RequesterService {
             ? MissionInstanceState.SUBMITTED
             : MissionInstanceState.IN_PROGRESS,
         })
-      )
+      ),
+      pagingInfo: DEFAULT_PAGING_INFO
     };
   }
 

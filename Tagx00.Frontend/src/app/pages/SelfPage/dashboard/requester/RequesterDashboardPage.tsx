@@ -1,15 +1,15 @@
 import React from 'react';
 import { Inject } from "react.di";
-import { UserStore } from "../../../stores/UserStore";
-import { RequesterService } from "../../../api/RequesterService";
-import { LocaleDate, LocaleMessage } from "../../../internationalization/components";
-import { AsyncComponent } from "../../../router/AsyncComponent";
-import { DefinitionItem } from "../../../components/DefinitionItem";
+import { UserStore } from "../../../../stores/UserStore";
+import { RequesterService } from "../../../../api/RequesterService";
+import { LocaleDate, LocaleMessage } from "../../../../internationalization/components/index";
+import { AsyncComponent } from "../../../../router/AsyncComponent";
+import { DefinitionItem } from "../../../../components/DefinitionItem/index";
 import { Row, Col } from "antd";
-import { PayService } from "../../../api/PayService";
-import { InstanceCyclePieChart } from "./charts/InstanceCyclePieChart";
-import { AvatarContainer } from "./AvatarContainer";
-import { UserProfileLayout } from "./UserProfileLayout";
+import { PayService } from "../../../../api/PayService";
+import { InstanceCyclePieChart } from "../charts/InstanceCyclePieChart";
+import { AvatarContainer } from "../AvatarContainer";
+import { UserProfileLayout } from "../UserProfileLayout";
 
 const ID_PREFIX = "dashboard.";
 

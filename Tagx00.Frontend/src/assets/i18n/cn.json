@@ -13,6 +13,12 @@
       "ACTIVE": "可接受",
       "ENDED": "已结束"
     },
+    "instanceState" :{
+      "IN_PROGRESS": "进行中",
+      "FINALIZED": "已结束",
+      "SUBMITTED": "已提交",
+      "ABANDONED": "已放弃"
+    },
     "needLogin": "请登录。"
   },
   "admin": {

@@ -3,11 +3,14 @@ import { WorkerInstanceCard } from "../../../components/Mission/WorkerInstanceCa
 import { Instance } from "../../../models/instance/Instance";
 import { CardPaneLayout } from "../../../layouts/CardPaneLayout";
 import { FinalizeInfo, FinalizeInfoModal } from "../requester/finalize/FinalizeInfoModal";
+import { PagingInfo } from "../../../models/PagingInfo";
 
 interface Props {
   items: Instance[];
-
+  loading: boolean;
   refresh(): void;
+  paging: PagingInfo;
+  onPageChange(page: number, pageSize: number):void;
 }
 
 interface State {
@@ -38,7 +41,11 @@ export class MissionCardPane extends React.Component<Props, State> {
     return <div>
       <CardPaneLayout
       dataSource={this.props.items}
-      renderItem={this.renderItem}/>
+      renderItem={this.renderItem}
+      pagination={this.props.paging}
+      onPageChange={this.props.onPageChange}
+      loading={this.props.loading}
+      />
       {this.state.info != null &&
       <FinalizeInfoModal close={this.closeFinalizeInfo} info={this.state.info}/>
       }

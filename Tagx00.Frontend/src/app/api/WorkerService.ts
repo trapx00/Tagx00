@@ -7,6 +7,9 @@ import { Inject, Injectable } from "react.di";
 import { WorkerInfo } from "../models/userInfo/WorkerInfo";
 import { InstanceDetailResponse } from "../models/response/mission/InstanceDetailResponse";
 import { MissionType } from "../models/mission/Mission";
+import { MissionInstanceState } from "../models/instance/MissionInstanceState";
+import { arrayContainsElement } from "../../utils/Array";
+import { InstanceResponse } from "../models/response/mission/InstanceResponse";
 
 @Injectable
 export class WorkerService {
@@ -14,12 +17,13 @@ export class WorkerService {
   constructor(@Inject private http: HttpService) {
   }
 
-  async getAllInstances(): Promise<Instance[]> {
+  async getAllInstances(states: MissionInstanceState[] = [], pageNumber: number = 1, pageSize: number = 10000): Promise<InstanceResponse> {
 
     const res = await this.http.fetch({
-      path: "/mission/worker"
+      path: "/mission/worker",
+      queryParams: { state: states, pageNumber, pageSize }
     });
-    return res.response.instances as Instance[];
+    return res.response;
 
   }
 

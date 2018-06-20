@@ -429,17 +429,21 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @return
      */
     @Override
-    public Mission getMissionByMissionId(String missionId) throws MissionIdDoesNotExistException, IOException, ClassNotFoundException {
+    public Mission getMissionByMissionId(String missionId) throws MissionIdDoesNotExistException, ClassNotFoundException {
         Optional<Mission> optionalMission = missionDao.findById(missionId);
         if (optionalMission.isPresent()) {
             Mission mission = optionalMission.get();
             if (mission.getMissionType() == MissionType.TEXT) {
-                FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "text_mission" + "_" + mission.getMissionId());
-                ObjectInputStream in = new ObjectInputStream(fileIn);
-                List<TextMissionSetting> textMissionSettings = (List<TextMissionSetting>) in.readObject();
-                in.close();
-                fileIn.close();
-                ((TextMission) mission).setTextMissionSettings(textMissionSettings);
+                try {
+                    FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "text_mission" + "_" + mission.getMissionId());
+                    ObjectInputStream in = new ObjectInputStream(fileIn);
+                    List<TextMissionSetting> textMissionSettings = (List<TextMissionSetting>) in.readObject();
+                    in.close();
+                    fileIn.close();
+                    ((TextMission) mission).setTextMissionSettings(textMissionSettings);
+                } catch (IOException e) {
+                    ((TextMission) mission).setTextMissionSettings(new ArrayList<>());
+                }
             }
             return mission;
         } else {

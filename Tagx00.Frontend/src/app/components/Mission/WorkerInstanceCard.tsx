@@ -90,7 +90,6 @@ export class WorkerInstanceCard extends React.PureComponent<Props, any> {
       case MissionInstanceState.ABANDONED:
         break;
       case MissionInstanceState.FINALIZED:
-        console.log("finalized");
         buttons.push(<CardAction iconType={"info"} key={"info"}
                                  hoverTextId={ID_PREFIX + "cardActions.seeFinalizeResult"}
                                  onClick={this.showFinalizeInfo}
@@ -118,7 +117,7 @@ export class WorkerInstanceCard extends React.PureComponent<Props, any> {
       actions={this.getActions(instance)}>
       <Meta
         title={this.title(publicItem.title)}
-        description={truncateText(publicItem.description)}
+        description={truncateText(instance.instanceId + " " + publicItem.description)}
       />
     </Card>
   };

@@ -14,6 +14,7 @@ import { AudioInstanceDetail } from "../../models/instance/audio/AudioInstanceDe
 import { VideoInstanceDetail } from "../../models/instance/video/VideoInstanceDetail";
 import { ThreeDimensionInstanceDetail } from "../../models/instance/3d/3dInstanceDetail";
 import { HttpMethod } from "../utils";
+import { InstanceResponse } from "../../models/response/mission/InstanceResponse";
 
 const textInstance = {
     textResults: [],
@@ -104,25 +105,27 @@ const threeDimensionInstance = {
 @Injectable
 export class WorkerServiceMock extends WorkerService {
 
-  async getAllInstances(): Promise<Instance[]> {
+  async getAllInstances(states: MissionInstanceState[]): Promise<InstanceResponse> {
     //mock
-    return [1, 2, 3, 4, 5].map(x =>
-      ({
-        instanceId: x + "",
-        workerUsername: "123",
-        title: `Title${x}`,
-        description: `Description `.repeat(x),
-        missionId: "123",
-        acceptDate: new Date(),
-        submitDate: x % 2 === 0 ? new Date() : null,
-        isSubmitted: x % 2 === 0,
-        completedJobsCount: x * 2,
-        missionInstanceState: x % 2 === 0
-          ? MissionInstanceState.SUBMITTED
-          : MissionInstanceState.IN_PROGRESS,
-      })
-    );
-
+    return {
+      instances: [1, 2, 3, 4, 5].map(x =>
+        ({
+          instanceId: x + "",
+          workerUsername: "123",
+          title: `Title${x}`,
+          description: `Description `.repeat(x),
+          missionId: "123",
+          acceptDate: new Date(),
+          submitDate: x % 2 === 0 ? new Date() : null,
+          isSubmitted: x % 2 === 0,
+          completedJobsCount: x * 2,
+          missionInstanceState: x % 2 === 0
+            ? MissionInstanceState.SUBMITTED
+            : MissionInstanceState.IN_PROGRESS,
+        })
+      ).filter(x => states.length == 0 || states.indexOf(x.missionInstanceState) >= 0),
+      pagingInfo: { totalCount: 5, currentPage: 1, pageSize: 10, totalPage: 1}
+    }
   }
 
   async getInstanceDetail(missionId: string): Promise<InstanceDetailResponse> {

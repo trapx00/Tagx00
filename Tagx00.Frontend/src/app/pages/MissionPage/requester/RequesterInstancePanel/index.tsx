@@ -10,6 +10,7 @@ import { InstanceTable } from "./InstanceTable";
 import { FinalizeInfo, FinalizeInfoModal } from "../finalize/FinalizeInfoModal";
 import { FinalizeModal } from "../finalize/FinalizeModal";
 import { InstanceStateDiagram } from "./InstanceStateDiagram";
+import { MissionInstanceState } from "../../../../models/instance/MissionInstanceState";
 
 interface Props {
   missionId?: string;
@@ -19,6 +20,7 @@ interface Props {
 interface State {
   loading: boolean;
   instances: Instance[];
+  currentFilter: MissionInstanceState[];
 
   finalizeModalState: {shown: boolean, instanceId: string, missionId: string};
   finalizeInfoState: { shown: boolean, info: FinalizeInfo };
@@ -36,6 +38,7 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
   state = {
     loading: false,
     instances: [],
+    currentFilter: [],
     finalizeModalState: { shown: false, instanceId: "", missionId: this.props.missionId || ""},
     finalizeInfoState: { shown: false, info: null }
   };
@@ -50,13 +53,13 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
       const instances = (await this.requesterService.getAllInstancesByMissionId(missionId)).instances;
       this.setState({
         loading: false,
-        instances: instances
+        instances: instances,
       })
     } catch (e) {
       message.error(this.localeStore.get(ID_PREFIX+"missionIdNotFound"));
       this.setState({
         loading: false,
-        instances: []
+        instances: [],
       })
     }
   }
@@ -100,6 +103,14 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
     this.load(missionId);
   };
 
+  filter = (state: MissionInstanceState) => {
+    this.setState({
+      currentFilter: this.state.currentFilter.indexOf(state) >=0
+        ? []
+        : [state]
+    })
+  };
+
 
   render() {
 
@@ -108,15 +119,13 @@ export class RequesterInstancePanel extends React.Component<Props, State> {
                              missionId={this.props.missionId}
                              onMissionIdChange={this.onMissionIdChange}
       />
-      <InstanceTable instances={this.state.instances}
+      <InstanceTable instances={this.state.instances.filter(x => this.state.currentFilter.length ==0 || this.state.currentFilter.indexOf(x.missionInstanceState) >=0)}
                      showFinalizeModal={this.showFinalizeModal}
                      showFinalizeInfoModal={this.showFinalizeInfoModal}
                      loading={this.state.loading}
       />
 
-      {this.state.instances.length >0 &&
-      <InstanceStateDiagram instances={this.state.instances}/>
-      }
+      <InstanceStateDiagram instances={this.state.instances} onClick={this.filter}/>
 
       { this.state.finalizeModalState.shown
       && <FinalizeModal {...this.state.finalizeModalState} close={this.closeFinalizeModal} refresh={this.refresh}/>
