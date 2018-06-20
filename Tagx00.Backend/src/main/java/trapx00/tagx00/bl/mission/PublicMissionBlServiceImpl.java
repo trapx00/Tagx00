@@ -55,7 +55,7 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
                 List<MissionAssetVo> originMissionAssets = imageMissionPublicItemVo.getMissionAssetVos();
                 List<RecommendTagItem> recommendTagItems = new ArrayList<>();
                 for (int i = 0; i < originMissionAssets.size(); i++) {
-                    recommendTagItems.add(new RecommendTagItem(originMissionAssets.get(i).getTagConfTuple()));
+                    recommendTagItems.add(new RecommendTagItem(originMissionAssets.get(i).getUrl(), originMissionAssets.get(i).getTagConfTuple()));
                 }
                 RecommendTagsVo recommendTagsVo = pythonService.getRecommendTag(new RecommendTagsVo(recommendTagItems));
                 List<RecommendTagItem> resultRecommendTagItemList = recommendTagsVo.getRecommendTagItemList();

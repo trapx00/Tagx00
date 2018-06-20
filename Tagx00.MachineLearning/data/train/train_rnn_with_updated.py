@@ -14,7 +14,7 @@ dismiss_percent = 0.05
 
 n_hidden_units = 128
 train_data = []
-with open("../proval/train.txt", "r") as file:
+with open("../proval/train_aliyun.txt", "r") as file:
     all_data = file.readlines()
     for j in range(all_data.__len__()):
         data = json.loads(all_data[j].replace('\n', ""))
@@ -282,7 +282,7 @@ compute_origin_accuracy()
 draw_plt_origin()
 # for epoch in range(training_epochs):
 #     for i in range(total_batch):
-#         batch_xs, batch_ys = next_train_batch(last_index)
+#         batch_xs, batch_ys = next_train_batch_aliyun(last_index)
 #         last_index = next_index(last_index)
 #         _, c, pred = sess.run([optimizer, cost, y_pred],
 #                               feed_dict={X: batch_xs, Y: batch_ys, scale: 0.1, keep_prob: 0.7})

@@ -5,13 +5,23 @@ import trapx00.tagx00.entity.mission.topic.TagConfTuple;
 import java.util.List;
 
 public class RecommendTagItem {
+    private String url;
     private List<TagConfTuple> tagConfTuples;
 
     public RecommendTagItem() {
     }
 
-    public RecommendTagItem(List<TagConfTuple> tagConfTuples) {
+    public RecommendTagItem(String url, List<TagConfTuple> tagConfTuples) {
+        this.url = url;
         this.tagConfTuples = tagConfTuples;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public List<TagConfTuple> getTagConfTuples() {

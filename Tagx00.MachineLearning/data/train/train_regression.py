@@ -12,7 +12,7 @@ dismiss_value = 0.4
 dismiss_percent = 0.05
 
 train_data = []
-with open("../proval/train.txt", "r") as file:
+with open("../proval/train_aliyun.txt", "r") as file:
     all_data = file.readlines()
     for j in range(all_data.__len__()):
         data = json.loads(all_data[j].replace('\n', ""))
