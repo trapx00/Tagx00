@@ -9,9 +9,11 @@ import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.mlservice.PythonService;
 import trapx00.tagx00.util.PathUtil;
 
+import javax.rmi.CORBA.Util;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,17 +39,24 @@ public class InstanceService {
 
     public TextInstance getTextInstance(String instanceId) throws IOException, ClassNotFoundException {
         TextInstance textInstance = textInstanceDao.findTextInstanceByInstanceId(instanceId);
-        FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "text_instance" + "_" + instanceId);
-        ObjectInputStream in = new ObjectInputStream(fileIn);
-        List<TextResult> textResults = (List<TextResult>) in.readObject();
-        in.close();
-        fileIn.close();
-        textInstance.setTextResults(textResults);
+        try {
+            FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "text_instance" + "_" + instanceId);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            List<TextResult> textResults = (List<TextResult>) in.readObject();
+            in.close();
+            fileIn.close();
+            textInstance.setTextResults(textResults);
+        } catch (IOException e) {
+            System.out.println("Results for " + instanceId + "not found. Returns empty list.");
+            textInstance.setTextResults(new ArrayList<>());
+        }
         return textInstance;
+
     }
 
     public ImageInstance getImageInstance(String instanceId) throws IOException, ClassNotFoundException, SystemException {
         ImageInstance imageInstance = imageInstanceDao.findImageInstanceByInstanceId(instanceId);
+        try {
         FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "image_instance" + "_" + instanceId);
         ObjectInputStream in = new ObjectInputStream(fileIn);
         List<ImageResult> imageResults = (List<ImageResult>) in.readObject();
@@ -72,39 +81,58 @@ public class InstanceService {
 //        ImageMission returnImageMission = new ImageMission(imageMission.getMissionId(), imageMission.getTitle(), imageMission.getDescription(), imageMission.getTopics(), imageMission.getMissionState(), imageMission.getStart(), imageMission.getEnd(), imageMission.getCoverUrl(), imageMission.getRequesterUsername(), imageMission.getLevel(), imageMission.getCredits(), imageMission.getMinimalWorkerLevel(), imageMission.isAllowCustomTag(), imageMission.getAllowedTags(), missionAssets, imageMission.getImageMissionTypes(), imageMission.getImageInstances());
 //        ImageInstance returnImageInstance = new ImageInstance(imageInstance.getInstanceId(), imageInstance.getWorkerUsername(), imageInstance.getMissionInstanceState(), MissionType.IMAGE, imageInstance.getAcceptDate(), imageInstance.getSubmitDate(), imageInstance.isSubmitted(), imageMission.getMissionId(), imageInstance.getExp(), imageInstance.getExpRatio(), imageInstance.getCredits(), imageInstance.getComment(), imageInstance.getImageResults(), returnImageMission);
 //        return returnImageInstance;
+        } catch (IOException e) {
+            System.out.println("Results for " + instanceId + "not found. Returns empty list.");
+            imageInstance.setImageResults(new ArrayList<>());
+        }
         return imageInstance;
     }
 
     public VideoInstance getVideoInstance(String instanceId) throws IOException, ClassNotFoundException {
         VideoInstance videoInstance = videoInstanceDao.findVideoInstanceByInstanceId(instanceId);
+        try {
         FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "video_instance" + "_" + instanceId);
         ObjectInputStream in = new ObjectInputStream(fileIn);
         List<VideoResult> videoResults = (List<VideoResult>) in.readObject();
         in.close();
         fileIn.close();
         videoInstance.setVideoResults(videoResults);
+        } catch (IOException e) {
+            System.out.println("Results for " + instanceId + "not found. Returns empty list.");
+            videoInstance.setVideoResults(new ArrayList<>());
+        }
         return videoInstance;
     }
 
     public AudioInstance getAudioInstance(String instanceId) throws IOException, ClassNotFoundException {
         AudioInstance audioInstance = audioInstanceDao.findAudioInstanceByInstanceId(instanceId);
+        try {
         FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "audio_instance" + "_" + instanceId);
         ObjectInputStream in = new ObjectInputStream(fileIn);
         List<AudioResult> audioResults = (List<AudioResult>) in.readObject();
         in.close();
         fileIn.close();
         audioInstance.setAudioResults(audioResults);
+        } catch (IOException e) {
+            System.out.println("Results for " + instanceId + "not found. Returns empty list.");
+            audioInstance.setAudioResults(new ArrayList<>());
+        }
         return audioInstance;
     }
 
     public ThreeDimensionInstance getThreeDimensionInstance(String instanceId) throws IOException, ClassNotFoundException {
         ThreeDimensionInstance threeDimensionInstance = threeDimensionInstanceDao.findThreeDimensionInstanceByInstanceId(instanceId);
+        try {
         FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "threeDimension_instance" + "_" + instanceId);
         ObjectInputStream in = new ObjectInputStream(fileIn);
         List<ThreeDimensionResult> threeDimensionResults = (List<ThreeDimensionResult>) in.readObject();
         in.close();
         fileIn.close();
         threeDimensionInstance.setThreeDimensionResults(threeDimensionResults);
+        } catch (IOException e) {
+            System.out.println("Results for " + instanceId + "not found. Returns empty list.");
+            threeDimensionInstance.setThreeDimensionResults(new ArrayList<>());
+        }
         return threeDimensionInstance;
     }
 }
