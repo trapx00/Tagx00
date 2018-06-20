@@ -21,6 +21,6 @@ export const ID_PREFIX = "missions.missionDetail.";
 export function DefinitionItem(props: { prompt: ReactNode, children: ReactNode }) {
   return <Container>
     <Prompt>{props.prompt}</Prompt>
-    <Content>{props.children}</Content>
+    <Content>{React.Children.count(props.children) ? props.children : <>&emsp;</>}</Content>
   </Container>
 }

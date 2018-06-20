@@ -8,6 +8,7 @@ import { LocaleStore } from "../../../../stores/LocaleStore";
 import { LocaleMessage } from "../../../../internationalization/components";
 import { RouterStore } from "../../../../stores/RouterStore";
 import { UserStore } from "../../../../stores/UserStore";
+import { Loading } from "../../../../components/Common/Loading";
 
 interface Props {
 
@@ -80,6 +81,6 @@ export class UserTable extends React.Component<Props, {}> {
 
   render() {
 
-    return <AsyncComponent render={this.renderTable}/>;
+    return <AsyncComponent render={this.renderTable} componentWhenLoading={<Loading/>}/>;
   }
 }

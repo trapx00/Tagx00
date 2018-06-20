@@ -12,8 +12,8 @@ import { User, UserRole } from "../../../../models/user/User";
 const ID_PREFIX = "admin.userChart.";
 
 interface Props {
-  requesters: RequesterInfo[];
-  workers: WorkerInfo[];
+  requesters: string[];
+  workers: string[];
 }
 
 interface State {
@@ -35,11 +35,11 @@ export class UserPieChart extends React.Component<Props, State> {
   chartData = [
     {
       name: this.get("requester"),
-      items: this.props.requesters as UserInfo[]
+      items: this.props.requesters
     },
     {
       name: this.get("worker"),
-      items: this.props.workers as UserInfo[]
+      items: this.props.workers
     }
   ];
 

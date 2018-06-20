@@ -15,8 +15,16 @@ function createRandomString(time: number){
   return [...Array(time)].map( x =>Math.floor(Math.random()*120)+"");
 }
 
+function createRequester(time: number, registerDate: string = "2018-6-2"): string[] {
+  return [...Array(time)].map( x =>Math.floor(Math.random()*120)+"");
+}
 
-function createRequester(time: number, registerDate: string = "2018-6-2"): RequesterInfo[] {
+function createWorker(time: number, registerDate: string = "2018-6-2"): string[] {
+  return [...Array(time)].map( x =>Math.floor(Math.random()*120)+"");
+}
+
+
+function createRequesterFull(time: number, registerDate: string = "2018-6-2"): RequesterInfo[] {
   return [...Array(time)].map(x => ({
     username: "requester "+x,
     email: "smallda@outlook.com",
@@ -32,7 +40,7 @@ function createRequester(time: number, registerDate: string = "2018-6-2"): Reque
   }))
 }
 
-function createWorker(time: number, registerDate: string = "2018-5-8"): WorkerInfo[] {
+function createWorkerFull(time: number, registerDate: string = "2018-5-8"): WorkerInfo[] {
   return [...Array(time)].map(x => ({
     username: "worker "+x,
     email: "smallda@outlook.com",
@@ -110,6 +118,6 @@ export class AdminServiceMock extends AdminService {
   };
 
   async getUsers(): Promise<UserInfo[]> {
-    return [...createRequester(20), ...createWorker(15)];
+    return [...createRequesterFull(20), ...createWorkerFull(15)];
   }
 }
