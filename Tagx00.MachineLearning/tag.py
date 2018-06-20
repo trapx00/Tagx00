@@ -6,9 +6,9 @@ import tensorflow as tf
 from path_util import PathUtil
 
 learning_rate_aliyun = 0.003
-training_epochs_aliyun = 1000
+training_epochs_aliyun = 100
 learning_rate_baidu = 0.003
-training_epochs_baidu = 1000
+training_epochs_baidu = 100
 learning_rate = 0.003
 training_epochs = 2000
 batch_size = 3
@@ -26,7 +26,8 @@ class Tag:
         self.dismiss_value = 0.4
         self.aliyun_train_data = []
         self.baidu_train_data = []
-        self.test_data = []
+        self.aliyun_test_data = []
+        self.baidu_test_data = []
 
         self.keep_prob = tf.placeholder(tf.float32)
         # weight = tf.Variable(tf.random_normal([n_size, n_size]))
@@ -231,6 +232,31 @@ class Tag:
 
         pred = self.inter_recommend(tags, confs)
 
+        return_tags = []
+        return_confs = []
+        for i in range(tags.__len__()):
+            for j in range(return_tags.__len__()):
+                if tags[i] == return_tags[j]:
+                    return_confs[j] += confs[i]
+                else:
+                    return_tags.append(tags[i])
+                    return_confs.append(confs[i])
+
+        result = []
+        for i in range(pred.__len__()):
+            result_tuple = []
+            is_reject = True
+            for j in range(return_tags.__len__()):
+                if return_confs[i][j] > self.dismiss_value:
+                    is_reject = False
+                    break
+            if not is_reject:
+                for j in range(return_tags.__len__()):
+                    if return_confs[i][j].__len__() != 0:
+                        result_tuple.append(
+                            {"tag": return_tags[i][j], "confidence": format(return_confs[i][j], '0.2f')})
+            result.append({"tagConfTuples": result_tuple})
+
         # for i in range(n_size):
         #     now_tag_length = tags.__len__()
         #     for j in range(now_tag_length):
@@ -249,16 +275,30 @@ class Tag:
         return pred
 
     def calculate_confidence(self):
-        X, Y = self.all_aliyun_train_data()
-        total_train = self.aliyun_train_data.__len__()
-        all_result = self.sess.run(self.y_pred_aliyun,
-                                   feed_dict={self.X_aliyun: X, self.scale: 1,
-                                              self.keep_prob: 1})
+        all_xs_aliyun, all_ys_aliyun = self.all_aliyun_train_data()
+        all_ys_aliyun_pred = self.sess.run([self.y_pred_aliyun],
+                                           feed_dict={self.X_aliyun: all_xs_aliyun,
+                                                      self.Y_aliyun: all_ys_aliyun,
+                                                      self.scale: 0.1,
+                                                      self.keep_prob: 1})
+        all_xs_baidu, all_ys_baidu = self.next_test_batch_baidu()
+        all_ys_baidu_pred = self.sess.run([self.y_pred_baidu],
+                                          feed_dict={self.X_baidu: all_xs_baidu,
+                                                     self.Y_baidu: all_ys_baidu,
+                                                     self.scale: 0.1,
+                                                     self.keep_prob: 1})
+        bacth_xs, batch_ys = self.inter_data(all_ys_aliyun_pred[0], all_ys_aliyun, all_ys_baidu_pred[0],
+                                             all_ys_aliyun)
+        pred = self.sess.run([self.y_pred],
+                             feed_dict={self.X: bacth_xs,
+                                        self.Y: batch_ys,
+                                        self.keep_prob: 1})
+        total_train = all_xs_aliyun.__len__()
         hit_confidence = []
         for i in range(total_train):
             for j in range(n_size):
-                if Y[i][j] == 1:
-                    hit_confidence.append(all_result[i][j])
+                if batch_ys[i][j] == 1:
+                    hit_confidence.append(pred[i][j])
         sorted(hit_confidence)
         self.dismiss_value = hit_confidence[np.math.floor(dismiss_percent * total_train)]
 
@@ -309,13 +349,13 @@ class Tag:
         return (self.last_index_aliyun + batch_size) % total_train
 
     def compute_accuracy(self):
-        batch_xs_aliyun, batch_ys_aliyun = self.next_train_batch_aliyun(self.last_index)
+        batch_xs_aliyun, batch_ys_aliyun = self.next_test_batch_aliyun()
         batch_ys_aliyun_pred = self.sess.run([self.y_pred_aliyun],
                                              feed_dict={self.X_aliyun: batch_xs_aliyun,
                                                         self.Y_aliyun: batch_ys_aliyun,
                                                         self.scale: 0.1,
                                                         self.keep_prob: 1})
-        batch_xs_baidu, batch_ys_baidu = self.next_train_batch_baidu(self.last_index)
+        batch_xs_baidu, batch_ys_baidu = self.next_test_batch_baidu()
         batch_ys_baidu_pred = self.sess.run([self.y_pred_baidu],
                                             feed_dict={self.X_baidu: batch_xs_baidu,
                                                        self.Y_baidu: batch_ys_baidu,
@@ -345,19 +385,29 @@ class Tag:
         accuracy = accuracy / batch_size
         print(accuracy)
 
-    def next_test_batch(self):
+    def next_test_batch_aliyun(self):
         batch_x = np.empty([batch_size, n_size])
         batch_y = np.empty([batch_size, n_size])
         for i in range(n_size):
             for j in range(batch_size):
-                batch_x[j][i] = self.test_data[self.next_index_one(0, j)][i][0]
-                batch_y[j][i] = self.test_data[self.next_index_one(0, j)][i][1]
+                batch_x[j][i] = self.aliyun_test_data[self.next_index_one(0, j)][i][0]
+                batch_y[j][i] = self.aliyun_test_data[self.next_index_one(0, j)][i][1]
+        return batch_x, batch_y
+
+    def next_test_batch_baidu(self):
+        batch_x = np.empty([batch_size, n_size])
+        batch_y = np.empty([batch_size, n_size])
+        for i in range(n_size):
+            for j in range(batch_size):
+                batch_x[j][i] = self.baidu_test_data[self.next_index_one(0, j)][i][0]
+                batch_y[j][i] = self.baidu_test_data[self.next_index_one(0, j)][i][1]
         return batch_x, batch_y
 
     def train(self):
         self.aliyun_train_data = self.load_aliyun_train_data()
         self.baidu_train_data = self.load_baidu_train_data()
-        self.test_data = self.load_test_data()
+        self.aliyun_test_data = self.load_aliyun_test_data()
+        self.baidu_test_data = self.load_baidu_test_data()
         total_train = self.aliyun_train_data.__len__()
         total_batch = int(total_train / batch_size)
         try:
@@ -422,7 +472,7 @@ class Tag:
         return batch_x, batch_y
 
     def compute_origin_accuracy(self):
-        batch_xs, batch_ys = self.next_test_batch()
+        batch_xs, batch_ys = self.next_test_batch_aliyun()
         accuracy = 0
         for i in range(batch_size):
             is_reject = True
@@ -496,13 +546,37 @@ class Tag:
         return baidu_train_data
 
     @staticmethod
-    def load_test_data():
+    def load_aliyun_test_data():
         test_data = []
-        with open(PathUtil.get_path() + "proval/test.txt", "r") as file:
+        with open(PathUtil.get_path() + "proval/test_aliyun.txt", "r") as file:
             all_data = file.readlines()
             for j in range(all_data.__len__()):
                 data = json.loads(all_data[j].replace('\n', "").replace('\'', '\"'))
                 tags = data["response"]
+                tags = sorted(tags, key=lambda x: x["confidence"], reverse=True)
+                targets = data["tags"]
+                tag = []
+                for i in range(n_size):
+                    if i < tags.__len__():
+                        if tags[i]["tag"] in targets:
+                            tag.append([tags[i]["confidence"], 1])
+                        else:
+                            tag.append([tags[i]["confidence"], 0])
+                    else:
+                        tag.append([0, 0])
+                sorted(tag, reverse=True)
+                test_data.append(tag)
+        return test_data
+
+    @staticmethod
+    def load_baidu_test_data():
+        test_data = []
+        with open(PathUtil.get_path() + "proval/test_baidu.txt", "r") as file:
+            all_data = file.readlines()
+            for j in range(all_data.__len__()):
+                data = json.loads(all_data[j].replace('\n', "").replace('\'', '\"'))
+                tags = data["response"]
+                tags = sorted(tags, key=lambda x: x["confidence"], reverse=True)
                 targets = data["tags"]
                 tag = []
                 for i in range(n_size):
@@ -519,3 +593,4 @@ class Tag:
 
 
 tag = Tag()
+tag.train()

@@ -31,7 +31,7 @@ with open("../proval/train_aliyun.txt", "r") as file:
         train_data.append(tag)
 total_train = train_data.__len__()
 test_data = []
-with open("../proval/test.txt", "r") as file:
+with open("../proval/test_aliyun.txt", "r") as file:
     all_data = file.readlines()
     for j in range(all_data.__len__()):
         data = json.loads(all_data[j].replace('\n', ""))
