@@ -52,6 +52,88 @@ public class UserDataServiceImplTest {
     }
 
     @Test
+    public void addSomeWorkers() {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String username = "999";
+        String password = encoder.encode("999");
+        String email = "445073309@qq.com";
+        Role role = Role.WORKER;
+        double exp = 0;
+        int credits = 0;
+        java.sql.Date sqlDate = new java.sql.Date(endDate.getTime());
+
+        exp = 0;
+        credits = random.nextInt(200000);
+        long date = random(startDate.getTime(), endDate.getTime());
+        sqlDate = new java.sql.Date(date);
+        User user = new User(username, password, email, role, exp, credits, sqlDate);
+        userDao.save(user);
+
+        exp = 0;
+        credits = random.nextInt(200000);
+        date = random(startDate.getTime(), endDate.getTime());
+        sqlDate = new java.sql.Date(date);
+        username = "123";
+        password = encoder.encode(username);
+        user = new User(username, password, email, role, exp, credits, sqlDate);
+        userDao.save(user);
+
+        exp = 0;
+        credits = random.nextInt(200000);
+        date = random(startDate.getTime(), endDate.getTime());
+        sqlDate = new java.sql.Date(date);
+        username = "234";
+        password = encoder.encode(username);
+        user = new User(username, password, email, role, exp, credits, sqlDate);
+        userDao.save(user);
+
+        exp = 0;
+        credits = random.nextInt(200000);
+        date = random(startDate.getTime(), endDate.getTime());
+        sqlDate = new java.sql.Date(date);
+        username = "345";
+        password = encoder.encode(username);
+        user = new User(username, password, email, role, exp, credits, sqlDate);
+        userDao.save(user);
+
+        exp = 0;
+        credits = random.nextInt(200000);
+        date = random(startDate.getTime(), endDate.getTime());
+        sqlDate = new java.sql.Date(date);
+        username = "456";
+        password = encoder.encode(username);
+        user = new User(username, password, email, role, exp, credits, sqlDate);
+        userDao.save(user);
+
+        exp = 0;
+        credits = random.nextInt(200000);
+        date = random(startDate.getTime(), endDate.getTime());
+        sqlDate = new java.sql.Date(date);
+        username = "567";
+        password = encoder.encode(username);
+        user = new User(username, password, email, role, exp, credits, sqlDate);
+        userDao.save(user);
+
+        exp = 0;
+        credits = random.nextInt(200000);
+        date = random(startDate.getTime(), endDate.getTime());
+        sqlDate = new java.sql.Date(date);
+        username = "678";
+        password = encoder.encode(username);
+        user = new User(username, password, email, role, exp, credits, sqlDate);
+        userDao.save(user);
+
+        exp = 0;
+        credits = random.nextInt(200000);
+        date = random(startDate.getTime(), endDate.getTime());
+        sqlDate = new java.sql.Date(date);
+        username = "789";
+        password = encoder.encode(username);
+        user = new User(username, password, email, role, exp, credits, sqlDate);
+        userDao.save(user);
+    }
+
+    @Test
     public void addTopics() {
         Topic topic = new Topic("动物");
         topicDao.save(topic);

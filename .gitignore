@@ -87,3 +87,7 @@ deploy/data/ser
 deploy/static
 
 test/**
+Tagx00.MachineLearning/data/trainmodels/checkpoint
+Tagx00.MachineLearning/data/trainmodels/model.ckpt.data-00000-of-00001
+Tagx00.MachineLearning/data/trainmodels/model.ckpt.index
+Tagx00.MachineLearning/data/trainmodels/model.ckpt.meta

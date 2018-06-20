@@ -6,9 +6,9 @@ import tensorflow as tf
 from path_util import PathUtil
 
 learning_rate = 0.003
-training_epochs = 3000
+training_epochs = 2000
 batch_size = 3
-n_size = 3
+n_size = 5
 dismiss_percent = 0.05
 
 n_hidden_units = 128
@@ -40,7 +40,7 @@ class Tag:
         biases_output = tf.Variable(tf.zeros([1, n_size]) + 0.1)
         wx_plus_b_output = tf.matmul(wx_plus_b_input, weights_output) + biases_output
         wx_plus_b_output = tf.nn.dropout(wx_plus_b_output, self.keep_prob)
-        self.y_pred = tf.nn.softmax(wx_plus_b_output)
+        self.y_pred = tf.sigmoid(wx_plus_b_output)
 
         # y_pred = tf.sigmoid(tf.matmul(X, weight) + biases)
         # cost = tf.reduce_mean(tf.square(y_pred - Y))
@@ -136,7 +136,7 @@ class Tag:
     def compute_accuracy(self):
         batch_xs, batch_ys = self.next_test_batch()
         pred = self.sess.run(self.y_pred,
-                             feed_dict={self.X: batch_xs, self.scale: 1, self.keep_prob: 1})
+                             feed_dict={self.X: batch_xs, self.scale: 0.1, self.keep_prob: 1})
         accuracy = 0
         for i in range(batch_size):
             is_reject = True
@@ -178,8 +178,8 @@ class Tag:
                 batch_xs, batch_ys = self.next_train_batch(self.last_index)
                 self.last_index = self.next_index()
                 _, c = self.sess.run([self.optimizer, self.cost],
-                                     feed_dict={self.X: batch_xs, self.Y: batch_ys, self.scale: 1,
-                                                self.keep_prob: 0.7})
+                                     feed_dict={self.X: batch_xs, self.Y: batch_ys, self.scale: 0.1,
+                                                self.keep_prob: 0.5})
                 if epoch % 10 == 9:
                     self.compute_accuracy()
         self.save_models()
