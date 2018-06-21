@@ -35,7 +35,9 @@ public class WorkerInfoBlServiceImpl implements WorkerInfoBlService {
         int inProgressMissionCount = 0;
         int abandonedMissionCount = 0;
         int finalizedMissionCount = 0;
+
         Instance[] instances = workerInfoDataService.getInstanceByWorkerUsername(workerUsername);
+
         int instancesLength = instances == null ? 0 : instances.length;
         int acceptedMissionCount = instancesLength;
         for (int i = 0; i < instancesLength; i++) {

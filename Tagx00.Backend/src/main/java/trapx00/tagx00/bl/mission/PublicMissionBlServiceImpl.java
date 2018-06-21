@@ -6,12 +6,14 @@ import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.dataservice.upload.TextDataService;
 import trapx00.tagx00.dataservice.upload.ThreeDimensionDataService;
+import trapx00.tagx00.entity.mission.Mission;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.exception.viewexception.ThreeDimensionNotExistException;
 import trapx00.tagx00.mlservice.PythonService;
+import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.publicdatas.mission.MissionType;
 import trapx00.tagx00.response.mission.*;
 import trapx00.tagx00.util.MissionUtil;
@@ -25,8 +27,13 @@ import trapx00.tagx00.vo.paging.PagingInfoVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 import java.io.IOException;
+import java.io.StreamCorruptedException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class PublicMissionBlServiceImpl implements PublicMissionBlService {
@@ -134,69 +141,73 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
      * @return the list of MissionPublicItemVo
      */
     @Override
-    public MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo, String searchTarget, String requesterUsername) {
+    public MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo, ArrayList<String> states, String searchTarget, String requesterUsername) {
         if (requesterUsername.length() != 0) {
-            return justSearchByRequesterUsername(pagingQueryVo, requesterUsername);
+            return justSearchByRequesterUsername(pagingQueryVo, requesterUsername, states);
         } else {
-            return fuzzySearch(pagingQueryVo, searchTarget);
+            return fuzzySearch(pagingQueryVo, searchTarget, states);
         }
     }
 
-    private MissionPublicResponse justSearchByRequesterUsername(PagingQueryVo pagingQueryVo, String requesterUsername) {
+    private MissionPublicResponse justSearchByRequesterUsername(PagingQueryVo pagingQueryVo, String requesterUsername, ArrayList<String> states) {
+        Stream<Mission> missions = Arrays.stream(publicMissionDataService.getAllMissions());
+        ArrayList<MissionPublicItemVo> publicItems = new ArrayList<>(Arrays.asList(publicMissionDataService.getMissions()));
+
         int startIndex = (pagingQueryVo.getPageNumber() - 1) * pagingQueryVo.getPageSize();
-        int endIndex = startIndex + pagingQueryVo.getPageSize();
-        MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
-        ArrayList<MissionPublicItemVo> usernameResult = new ArrayList<>();
-        for (MissionPublicItemVo missionPublicItemVo : missionPublicItemVos) {
-            if (requesterUsername.length() == 0 || missionPublicItemVo.getRequesterUsername().equals(requesterUsername)) {
-                usernameResult.add(missionPublicItemVo);
-            }
-        }
 
-        ArrayList<MissionPublicItemVo> pArrayList = new ArrayList<>();
-        if (usernameResult.size() >= endIndex) {
-            for (int i = startIndex; i < endIndex; i++) {
-                pArrayList.add(usernameResult.get(i));
-            }
-        } else {
-            for (int i = startIndex; i < usernameResult.size(); i++) {
-                pArrayList.add(usernameResult.get(i));
-            }
-        }
-        int totalCount = usernameResult.size();
-        int pageNum = (int) Math.ceil(totalCount * 1.0 / pagingQueryVo.getPageSize());
-        return new MissionPublicResponse(new PagingInfoVo(totalCount, pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize(), pageNum), pArrayList);
+        // filter with states
+
+
+        List<Mission> results = missions
+            .filter(x -> x.getRequesterUsername().equals(requesterUsername))
+            .filter(x -> states == null || states.contains(x.getMissionState().name()))
+            .collect(Collectors.toList());
+
+        List<MissionPublicItemVo> paged = results.stream()
+            .skip(startIndex)
+            .limit(pagingQueryVo.getPageSize())
+            .map(x -> publicItems.stream().filter(y -> y.getMissionId().equals(x.getMissionId())).findFirst().get())
+            .collect(Collectors.toList());
+
+
+        return new MissionPublicResponse(
+            new PagingInfoVo(results.size(), pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize()),
+            paged
+        );
 
     }
 
-    private MissionPublicResponse fuzzySearch(PagingQueryVo pagingQueryVo, String searchTarget) {
+    private MissionPublicResponse fuzzySearch(PagingQueryVo pagingQueryVo, String searchTarget, ArrayList<String> states) {
         int startIndex = (pagingQueryVo.getPageNumber() - 1) * pagingQueryVo.getPageSize();
-        int endIndex = startIndex + pagingQueryVo.getPageSize();
-        MissionPublicItemVo[] missionPublicItemVos = publicMissionDataService.getMissions();
-        ArrayList<MissionPublicItemVo> result = new ArrayList<>();
-        for (MissionPublicItemVo missionPublicItemVo : missionPublicItemVos) {
-            search(searchTarget, result, missionPublicItemVo);
+        Stream<MissionPublicItemVo> missions = Arrays.stream(publicMissionDataService.getMissions());
 
-        }
-        ArrayList<MissionPublicItemVo> pArrayList = new ArrayList<>();
-        int end = Math.min(result.size(), endIndex);
-        for (int i = startIndex; i < end; i++) {
-            pArrayList.add(result.get(i));
-        }
 
-        int totalCount = result.size();
-        int pageNum = (int) Math.ceil(totalCount * 1.0 / pagingQueryVo.getPageSize());
-        return new MissionPublicResponse(new PagingInfoVo(totalCount, pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize(), pageNum), pArrayList);
+        List<MissionPublicItemVo> results = missions
+            .filter(x -> states == null || states.contains(x.getMissionType().name()))
+            .filter(x -> search(searchTarget, x))
+            .collect(Collectors.toList());
+
+        List<MissionPublicItemVo> paged = results
+            .stream()
+            .skip(startIndex)
+            .limit(pagingQueryVo.getPageSize())
+            .collect(Collectors.toList());
+
+        return new MissionPublicResponse(
+            new PagingInfoVo(results.size(), pagingQueryVo.getPageNumber(), pagingQueryVo.getPageSize()),
+            paged
+        );
     }
 
-    private void search(String searchTarget, ArrayList<MissionPublicItemVo> result, MissionPublicItemVo missionPublicItemVo) {
+    private boolean search(String searchTarget, MissionPublicItemVo missionPublicItemVo) {
         if (missionPublicItemVo.getTopics().contains(searchTarget)) {
-            result.add(missionPublicItemVo);
+            return true;
         } else if (missionPublicItemVo.getTitle().contains(searchTarget)) {
-            result.add(missionPublicItemVo);
+            return true;
         } else if (missionPublicItemVo.getDescription().contains(searchTarget)) {
-            result.add(missionPublicItemVo);
+            return true;
         }
+        return false;
     }
 
 }

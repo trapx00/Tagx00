@@ -4,9 +4,11 @@ import { UserRole } from "../../../models/user/User";
 import { requireLogin } from "../../hoc/RequireLogin";
 import { AsyncRoute } from "../../../router/AsyncRoute";
 import { MissionPageRoleRedirect } from "../shared";
+import { UserStore } from "../../../stores/UserStore";
+import { Inject } from "react.di";
 
 interface Props {
-  currentRole: UserRole;
+
 }
 
 
@@ -20,13 +22,14 @@ async function renderSeeResult(props) {
   return <Page missionId={props.match.params.missionId}/>;
 }
 
-@requireLogin()
 export default class WorkerMissionPage extends React.Component<Props, {}> {
+
+  @Inject userStore: UserStore;
 
   render() {
 
-    if (this.props.currentRole !== UserRole.ROLE_WORKER) {
-      return <MissionPageRoleRedirect role={this.props.currentRole}/>
+    if (this.userStore.user.role !== UserRole.ROLE_WORKER) {
+      return <MissionPageRoleRedirect role={this.userStore.user.role}/>
     }
 
     return <Switch>
@@ -37,7 +40,8 @@ export default class WorkerMissionPage extends React.Component<Props, {}> {
       <Route render={() =>
         <Switch>
           <AsyncRoute exact path={"/mission/worker"} component={import("./WorkerMissionPanel")}/>
-        </Switch>}/>
+        </Switch>
+      }/>
     </Switch>;
 
 

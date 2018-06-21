@@ -14,6 +14,7 @@ import { InstanceResponse } from "../../models/response/mission/InstanceResponse
 import { MissionRequestQueryResponse } from "../../models/response/mission/MissionRequestQueryResponse";
 import { MissionChargeResponse } from "../../models/response/mission/MissionChargeResponse";
 import { range } from "../../../utils/Range";
+import { DEFAULT_PAGING_INFO } from "../../models/PagingInfo";
 
 @Injectable
 export class RequesterServiceMock extends RequesterService {
@@ -70,12 +71,11 @@ export class RequesterServiceMock extends RequesterService {
       return {
           username: "123",
           email: "1@1.com",
-          submittedMissionCount: 10,
-          instanceCount: 900,
-          submittedInstanceCount: 300,
-          inProgressInstanceCount: 300,
-          finalizedInstanceCount: 300,
-        abandonedInstanceCount: 200
+          pendingMissionCount: 10,
+        activeMissionCount: 20,
+        endedMissionCount: 10,
+        registerDate: "2018-8-20",
+        avatarUrl:""
       } as RequesterInfo;
   };
 
@@ -96,7 +96,8 @@ export class RequesterServiceMock extends RequesterService {
             ? MissionInstanceState.SUBMITTED
             : MissionInstanceState.IN_PROGRESS,
         })
-      )
+      ),
+      pagingInfo: DEFAULT_PAGING_INFO
     };
   }
 

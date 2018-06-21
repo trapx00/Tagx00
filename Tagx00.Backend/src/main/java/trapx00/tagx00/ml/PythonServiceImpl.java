@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.AsyncRestTemplate;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import trapx00.tagx00.data.dao.mission.ImageMissionDao;
 import trapx00.tagx00.data.dao.mission.instance.ImageInstanceDao;
+import trapx00.tagx00.data.mission.InstanceService;
 import trapx00.tagx00.datacollect.DataObject;
 import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.MissionAsset;
@@ -31,7 +33,6 @@ import trapx00.tagx00.vo.ml.WordsVo;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,11 +51,13 @@ public class PythonServiceImpl implements PythonService {
 
     private final ImageInstanceDao imageInstanceDao;
     private final ImageMissionDao imageMissionDao;
+    private final InstanceService instanceService;
 
     @Autowired
-    public PythonServiceImpl(ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao) {
+    public PythonServiceImpl(ImageInstanceDao imageInstanceDao, ImageMissionDao imageMissionDao, InstanceService instanceService) {
         this.imageInstanceDao = imageInstanceDao;
         this.imageMissionDao = imageMissionDao;
+        this.instanceService = instanceService;
     }
 
     @Override
@@ -83,14 +86,19 @@ public class PythonServiceImpl implements PythonService {
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         HttpEntity<RecommendTagsVo> entity = new HttpEntity<>(recommendTagsVo, headers);
         String url = mlAddress + apiGetRecommend;
-        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        try {
+            ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            Gson g = new Gson();
-            return g.fromJson(responseEntity.getBody(), RecommendTagsVo.class);
-        } else {
-            throw new SystemException();
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                Gson g = new Gson();
+                return g.fromJson(responseEntity.getBody(), RecommendTagsVo.class);
+            } else {
+                throw new SystemException();
+            }
+        } catch (HttpServerErrorException e) {
+            return recommendTagsVo;
         }
+
     }
 
     @Override
@@ -100,7 +108,7 @@ public class PythonServiceImpl implements PythonService {
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
         List<DataObject> dataObjects = new ArrayList<>();
-        ImageInstance imageInstanceWithResults = getImageInstance(imageInstanceDetailVo.getInstance().getInstanceId());
+        ImageInstance imageInstanceWithResults = instanceService.getImageInstance(imageInstanceDetailVo.getInstance().getInstanceId());
         ImageMission imageMission = imageMissionDao.findImageMissionByMissionId(imageInstanceDetailVo.getInstance().getMissionId());
         List<MissionAsset> missionAssets = imageMission.getMissionAssets();
         for (int i = 0; i < missionAssets.size(); i++) {
@@ -133,18 +141,5 @@ public class PythonServiceImpl implements PythonService {
         }
     }
 
-    private ImageInstance getImageInstance(String instanceId) throws IOException, ClassNotFoundException {
-        return getImageInstance(instanceId, imageInstanceDao.findImageInstanceByInstanceId(instanceId));
-    }
-
-    private static ImageInstance getImageInstance(String instanceId, ImageInstance imageInstanceByInstanceId) throws IOException, ClassNotFoundException {
-        ImageInstance imageInstance = imageInstanceByInstanceId;
-        FileInputStream fileIn = new FileInputStream(PathUtil.getSerPath() + "image_instance" + "_" + instanceId);
-        ObjectInputStream in = new ObjectInputStream(fileIn);
-        List<ImageResult> imageResults = (List<ImageResult>) in.readObject();
-        in.close();
-        fileIn.close();
-        imageInstance.setImageResults(imageResults);
-        return imageInstance;
-    }
+    
 }

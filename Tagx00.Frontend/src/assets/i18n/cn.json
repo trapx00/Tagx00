@@ -13,6 +13,16 @@
       "ACTIVE": "可接受",
       "ENDED": "已结束"
     },
+    "instanceState" :{
+      "IN_PROGRESS": "进行中",
+      "FINALIZED": "已结束",
+      "SUBMITTED": "已提交",
+      "ABANDONED": "已放弃"
+    },
+    "userRole": {
+      "WORKER": "工人",
+      "REQUESTER": "发起者"
+    },
     "needLogin": "请登录。"
   },
   "admin": {
@@ -184,7 +194,8 @@
       "registerDateFormat": "YYYY/MM/DD",
       "credits":"积分",
       "level":"等级",
-      "exp":"经验"
+      "exp":"经验",
+      "role": "角色"
     },
     "worker":{
       "acceptedMissionCount":"接受任务总数",
@@ -194,11 +205,10 @@
       "finalizedMissionCount":"完成任务总数"
     },
     "requester": {
-      "submittedMissionCount": "创建任务总数",
-      "instanceCount":"管理实例总数",
-      "inProgressInstanceCount":"正在进行实例",
-      "awaitingCommentInstanceCount":"等待评价实例",
-      "finalizedInstanceCount":"已结束任务数"
+      "total": "创建任务总数",
+      "pending":"未生效任务",
+      "active":"正在进行任务",
+      "ended":"已结束"
     }
   },
   "drawingPad": {

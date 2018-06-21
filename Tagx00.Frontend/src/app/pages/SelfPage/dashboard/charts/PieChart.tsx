@@ -33,7 +33,14 @@ export class PieChart extends React.Component<Props, {}> {
     const cols = {
       percent: {
         formatter: val => {
-          return val * total;
+          const r = val * total;
+          if (r-Math.floor(r)<0.1) {
+            return Math.floor(r);
+          }
+          if (Math.ceil(r)-r<0.1) {
+            return Math.ceil(r);
+          }
+          return r;
         }
       }
     };

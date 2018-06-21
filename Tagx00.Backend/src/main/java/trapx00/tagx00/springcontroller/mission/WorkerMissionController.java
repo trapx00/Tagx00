@@ -25,6 +25,7 @@ import trapx00.tagx00.vo.mission.instance.InstanceVo;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 @PreAuthorize(value = "hasRole('" + Role.WORKER_NAME + "') or hasRole('" + Role.ADMIN_NAME + "')")
@@ -52,9 +53,16 @@ public class WorkerMissionController {
     })
     @ResponseBody
     public ResponseEntity<Response> queryOnesAllMissions(@RequestParam(value = "pageSize", defaultValue = "10000") Integer pageSize,
-                                                         @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber) {
+                                                         @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber,
+                                                         @RequestParam(value = "state", required = false) ArrayList<String> states
+    ) {
         try {
-            return new ResponseEntity<>(workerMissionBlService.queryOnesAllMissions(UserInfoUtil.getUsername(), new PagingQueryVo(pageSize, pageNumber)), HttpStatus.OK);
+            return new ResponseEntity<>(
+                workerMissionBlService.queryOnesAllMissions(UserInfoUtil.getUsername(),
+                new PagingQueryVo(pageSize, pageNumber),
+                    states),
+                HttpStatus.OK
+            );
         } catch (MissionDoesNotExistFromUsernameException e) {
             e.printStackTrace();
             return new ResponseEntity<>(e.getResponse(), HttpStatus.FORBIDDEN);

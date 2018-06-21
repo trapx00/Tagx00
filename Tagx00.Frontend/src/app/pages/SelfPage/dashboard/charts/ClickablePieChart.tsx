@@ -1,10 +1,9 @@
 import React from 'react';
 import { Axis, Chart as BizChart, Coord, Geom, Guide, Label, Legend, Tooltip } from 'bizCharts';
 import { DataView } from '@antv/data-set';
-import { Axis as BizAxis } from "bizcharts";
 import { arraySum } from "../../../../../utils/Array";
 
-interface PieChartItem<T> {
+export interface PieChartItem<T> {
   name: string;
   items: T[];
 }
@@ -27,10 +26,14 @@ export class ClickablePieChart<T> extends React.Component<Props<T>, {}> {
 
   };
 
+  onItemSelectedChange = (e) => {
+    console.log(e);
+  }
+
   render() {
 
     const total = arraySum(this.props.items, x=> x.items.length);
-    const data=  this.props.items.map(x => ({ item: x.name, count: x.items.length / total}));
+    const data=  this.props.items.map(x => ({ item: x.name, count: x.items.length}));
 
     const dv = new DataView();
     dv.source(data).transform({
@@ -42,16 +45,22 @@ export class ClickablePieChart<T> extends React.Component<Props<T>, {}> {
     const cols = {
       percent: {
         formatter: val => {
-          return val * total;
+          const r = val * total;
+          if (r-Math.floor(r)<0.1) {
+            return Math.floor(r);
+          }
+          if (Math.ceil(r)-r<0.1) {
+            return Math.ceil(r);
+          }
+          return r;
         }
       }
     };
 
     const Chart = BizChart as any;
-    const Axis = BizAxis as any;
 
     return <div>
-      <Chart height={600} data={dv} scale={cols} forceFit onIntervalClick={this.onClick} >
+      <Chart height={600} data={dv} scale={cols} forceFit onIntervalClick={this.onClick} onItemSelectedChange={this.onItemSelectedChange}>
         <Coord type={'theta'} radius={0.75} innerRadius={0.6} />
         <Axis name="percent" />
         <Legend position='right' offsetY={-window.innerHeight / 2 + 120} offsetX={-100} />
@@ -69,7 +78,7 @@ export class ClickablePieChart<T> extends React.Component<Props<T>, {}> {
           position="percent"
           color='item'
           tooltip={['item*percent',(item, percent) => {
-            percent = percent * 100 + '%';
+            percent = (percent * 100).toFixed(2)+ '%';
             return {
               name: item,
               value: percent

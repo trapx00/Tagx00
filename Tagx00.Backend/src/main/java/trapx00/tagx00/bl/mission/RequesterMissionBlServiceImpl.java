@@ -109,11 +109,17 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
             return queryAllInstances();
         }
         InstanceVo[] instance = requesterMissionDataService.getInstancesByMissionId(missionId, MissionUtil.getType(missionId));
+
+
         return new InstanceResponse(Arrays.asList(instance));
     }
 
     private InstanceResponse queryAllInstances() {
         InstanceVo[] instance = requesterMissionDataService.getAllInstances();
+
+
+
+
         return new InstanceResponse(Arrays.asList(instance));
     }
 

@@ -31,12 +31,9 @@ function createRequesterFull(time: number, registerDate: string = "2018-6-2"): R
     role: UserRole.ROLE_REQUESTER,
     avatarUrl: "https://en.gravatar.com/userimage/57315252/e9c37404163b4b2e73fd72003e391aac.jpg?size=200",
     registerDate: registerDate,
-    submittedMissionCount: 20,
-  instanceCount: 40,
-  submittedInstanceCount: 10,
-  inProgressInstanceCount: 10,
-  finalizedInstanceCount: 10,
-  abandonedInstanceCount: 10,
+    pendingMissionCount: 10,
+    activeMissionCount: 10,
+    endedMissionCount: 20
   }))
 }
 

@@ -42,7 +42,17 @@ function getActions(mission: MissionDetail) {
   ]
 }
 
-export class RequesterMissionCard extends React.Component<Props, {}> {
+interface State {
+  key: number;
+  previous: MissionPublicItem
+}
+
+export class RequesterMissionCard extends React.Component<Props, State> {
+
+  state = {
+    key: 0,
+    previous: this.props.mission
+  }
 
   @Inject missionService: MissionService;
 
@@ -62,8 +72,19 @@ export class RequesterMissionCard extends React.Component<Props, {}> {
       </Card>;
   };
 
+  componentDidUpdate() {
+    if (this.props.mission !== this.state.previous) {
+      this.setState({
+        key: this.state.key+1,
+        previous: this.props.mission
+      });
+    }
+
+  }
+
+
   render() {
-    return <AsyncComponent render={this.renderCard} componentWhenLoading={stubCard}/>
+    return <AsyncComponent key={this.state.key} render={this.renderCard} componentWhenLoading={stubCard}/>
 
   }
 }

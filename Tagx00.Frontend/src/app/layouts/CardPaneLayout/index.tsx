@@ -1,10 +1,14 @@
 import React, { ReactNode } from 'react';
 import { List } from 'antd';
 import styled from "styled-components";
+import { PagingInfo } from "../../models/PagingInfo";
 
 interface Props<T> {
   dataSource: T[];
   renderItem(item: T): ReactNode;
+  pagination: PagingInfo;
+  loading: boolean;
+  onPageChange(page: number, pageSize: number): void;
 }
 
 
@@ -25,12 +29,26 @@ export class CardPaneLayout<T> extends React.Component<Props<T>, {}> {
     </List.Item>
   };
 
+  onChange = (page: number, pageSize: number) => {
+    this.props.onPageChange(page, pageSize);
+  };
+
   render() {
+    const { dataSource, pagination } = this.props;
+
+
+    console.log(dataSource, pagination);
     return <List
       grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 4, xl: 4, xxl: 6 }}
-      dataSource={this.props.dataSource}
+      dataSource={dataSource}
+      loading={this.props.loading}
       renderItem={this.renderItem}
-      pagination={{total: this.props.dataSource.length}}
+      pagination={{
+        current: pagination.currentPage,
+        total: pagination.totalCount,
+        pageSize: pagination.pageSize,
+        onChange: this.onChange,
+      }}
     />
   }
 }

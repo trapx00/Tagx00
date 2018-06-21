@@ -11,11 +11,11 @@ public class PagingInfoVo implements Serializable {
     public PagingInfoVo() {
     }
 
-    public PagingInfoVo(int totalCount, int currentPage, int pageSize, int totalPages) {
+    public PagingInfoVo(int totalCount, int currentPage, int pageSize) {
         this.totalCount = totalCount;
         this.currentPage = currentPage;
         this.pageSize = pageSize;
-        this.totalPages = totalPages;
+        this.totalPages = (int)Math.ceil((double)totalCount/pageSize);
     }
 
     public int getTotalCount() {

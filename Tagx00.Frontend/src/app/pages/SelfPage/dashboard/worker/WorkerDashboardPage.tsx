@@ -1,17 +1,17 @@
 import React from 'react';
-import { UserStore } from "../../../stores/UserStore";
+import { UserStore } from "../../../../stores/UserStore";
 import { Inject } from "react.di";
-import { WorkerService } from "../../../api/WorkerService";
-import { LocaleDate, LocaleMessage } from "../../../internationalization/components";
-import { AsyncComponent } from "../../../router/AsyncComponent";
-import { DefinitionItem } from "../../../components/DefinitionItem";
+import { WorkerService } from "../../../../api/WorkerService";
+import { LocaleDate, LocaleMessage } from "../../../../internationalization/components/index";
+import { AsyncComponent } from "../../../../router/AsyncComponent";
+import { DefinitionItem } from "../../../../components/DefinitionItem/index";
 import { Col, Row, Progress } from "antd";
-import { PayService } from "../../../api/PayService";
-import { LevelStore } from "../../../stores/LevelStore";
-import { InstanceCyclePieChart } from "./charts/InstanceCyclePieChart";
-import { WorkerMissionCyclePieChart } from "./charts/WorkerMissionCyclePieChart";
-import { AvatarContainer } from "./AvatarContainer";
-import { UserProfileLayout } from "./UserProfileLayout";
+import { PayService } from "../../../../api/PayService";
+import { LevelStore } from "../../../../stores/LevelStore";
+import { InstanceCyclePieChart } from "../charts/InstanceCyclePieChart";
+import { WorkerMissionCyclePieChart } from "./WorkerMissionCyclePieChart";
+import { AvatarContainer } from "../AvatarContainer";
+import { UserProfileLayout } from "../UserProfileLayout";
 
 const ID_PREFIX = "dashboard.";
 
@@ -39,9 +39,6 @@ export class WorkerDashboardPage extends React.Component<Props, {}> {
         <div>
           <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.username"}/>}>
             {info.username}
-          </DefinitionItem>
-          <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.role"}/>}>
-            <LocaleMessage id={"common.userRole.WORKER"}/>
           </DefinitionItem>
           <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.email"}/>}>
             {info.email}
