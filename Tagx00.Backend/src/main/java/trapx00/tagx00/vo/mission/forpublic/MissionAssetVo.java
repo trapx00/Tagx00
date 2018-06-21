@@ -7,13 +7,21 @@ import java.util.List;
 public class MissionAssetVo {
     private String url;
     private List<TagConfTuple> tagConfTuple;
+    private List<TagConfTuple> baiduTagConfTuple;
 
-    public MissionAssetVo() {
-    }
 
-    public MissionAssetVo(String url, List<TagConfTuple> tagConfTuple) {
+    public MissionAssetVo(String url, List<TagConfTuple> tagConfTuple, List<TagConfTuple> baiduTagConfTuple) {
         this.url = url;
         this.tagConfTuple = tagConfTuple;
+        this.baiduTagConfTuple = baiduTagConfTuple;
+    }
+
+    public List<TagConfTuple> getBaiduTagConfTuple() {
+        return baiduTagConfTuple;
+    }
+
+    public void setBaiduTagConfTuple(List<TagConfTuple> baiduTagConfTuple) {
+        this.baiduTagConfTuple = baiduTagConfTuple;
     }
 
     public String getUrl() {

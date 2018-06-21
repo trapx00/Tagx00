@@ -71,24 +71,15 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
 
                 ImageMissionDetailVo imageMissionDetailVo = (ImageMissionDetailVo) missionDetailVo;
 
-                Optional<Mission> first = Arrays.stream(publicMissionDataService.getAllMissions()).filter(x -> x.getMissionId().equals(missionId)).findFirst();
-                if (!first.isPresent()) {
-                    throw new MissionIdDoesNotExistException();
-                }
-
-                ImageMission mission = (ImageMission) first.get();
-
-                List<MissionAsset> originMissionAssets = mission.getMissionAssets();
+                List<MissionAssetVo> originMissionAssets = imageMissionDetailVo.getMissionAssetVos();
 
                 List<RecommendTagItem> recommendTagItems = new ArrayList<>();
                 List<RecommendTagItem> baiduItems = new ArrayList<>();
 
-                for (MissionAsset asset : originMissionAssets) {
+                for (MissionAssetVo asset : originMissionAssets) {
                     recommendTagItems.add(new RecommendTagItem(asset.getUrl(), asset.getTagConfTuple()));
                     baiduItems.add(new RecommendTagItem(asset.getUrl(), asset.getBaiduTagConfTuple()));
                 }
-
-
 
                 RecommendTagsVo recommendTagsVo = pythonService.getRecommendTag(
                     new RecommendRequestVo(
@@ -96,12 +87,10 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
                         baiduItems
                     ));
 
-
                 List<RecommendTagItem> resultRecommendTagItemList = recommendTagsVo.getRecommendTagItemList();
                 for (int i = 0; i < originMissionAssets.size(); i++) {
-                    MissionAssetVo missionAsset = imageMissionDetailVo.getMissionAssetVos().get(i);
+                    MissionAssetVo missionAsset = originMissionAssets.get(i);
                     missionAsset.setTagConfTuple(resultRecommendTagItemList.get(i).getTagConfTuples());
-                    imageMissionDetailVo.getMissionAssetVos().set(i, missionAsset);
                 }
             }
         } catch (IOException | ClassNotFoundException e) {

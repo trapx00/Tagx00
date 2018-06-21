@@ -141,7 +141,7 @@ public class PublicMissionDataServiceImpl implements PublicMissionDataService {
                 ImageMission imageMission = imageMissionDao.findImageMissionByMissionId(missionId);
                 List<MissionAssetVo> missionAssetVos = new ArrayList<>();
                 for (MissionAsset missionAsset : imageMission.getMissionAssets()) {
-                    MissionAssetVo missionAssetVo = new MissionAssetVo(missionAsset.getUrl(), missionAsset.getTagConfTuple());
+                    MissionAssetVo missionAssetVo = new MissionAssetVo(missionAsset.getUrl(), missionAsset.getTagConfTuple(), missionAsset.getBaiduTagConfTuple());
                     missionAssetVos.add(missionAssetVo);
                 }
                 if (imageMission == null)
