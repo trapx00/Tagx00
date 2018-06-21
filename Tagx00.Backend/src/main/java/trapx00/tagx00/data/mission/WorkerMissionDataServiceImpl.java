@@ -98,6 +98,8 @@ public class WorkerMissionDataServiceImpl implements WorkerMissionDataService {
         switch (missionType) {
             case IMAGE:
                 ImageInstanceDetailVo imageInstanceDetailVo = (ImageInstanceDetailVo) instanceDetailVo;
+
+
                 ImageInstance imageInstance = generateImageInstance(instanceVo, imageInstanceDetailVo);
                 result = saveImageInstance(imageInstance);
                 break;

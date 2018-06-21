@@ -49,7 +49,7 @@ public interface RequesterMissionDataService {
      *
      * @return the instances
      */
-    InstanceVo[] getAllInstances();
+    InstanceVo[] getAllInstances(String username);
 
     /**
      * get mission by id

@@ -75,10 +75,6 @@ Tagx00.MachineLearning/data/proval/train.txt
 deploy/data/**
 deploy/static/**
 deploy/python/__pycache__/**
-deploy/python/data/trainmodels/checkpoint
-deploy/python/data/trainmodels/model.ckpt.data-00000-of-00001
-deploy/python/data/trainmodels/model.ckpt.index
-deploy/python/data/trainmodels/model.ckpt.meta
 deploy/python/data/proval/test.txt
 deploy/python/data/proval/train.txt
 deploy/tagx00_backend.txt

@@ -344,20 +344,23 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
      * @return the instances
      */
     @Override
-    public InstanceVo[] getAllInstances() {
+    public InstanceVo[] getAllInstances(String username) {
         ArrayList<InstanceVo> result = new ArrayList<>();
 
         for (ImageInstance imageInstance : imageInstanceDao.findAll()) {
             int imageResultSize = 0;
             try {
                 ImageInstance real = instanceService.getImageInstance(imageInstance.getInstanceId());
-                List<ImageResult> imageResults = real.getImageResults();
-                for (ImageResult imageResult : imageResults) {
-                    if (imageResult.isDone()) {
-                        imageResultSize++;
+                if (real.getImageMission().getRequesterUsername().equals(username)) {
+                    List<ImageResult> imageResults = real.getImageResults();
+                    for (ImageResult imageResult : imageResults) {
+                        if (imageResult.isDone()) {
+                            imageResultSize++;
+                        }
                     }
+                    result.add(generateImageInstanceVo(real, imageResultSize));
                 }
-                result.add(generateImageInstanceVo(real, imageResultSize));
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -366,12 +369,15 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
             int textResultSize = 0;
             try {
                 TextInstance real = instanceService.getTextInstance(textInstance.getInstanceId());
-                List<TextResult> textResults = real.getTextResults();
-                for (TextResult textResult : textResults) {
-                    if (textResult.isDone())
-                        textResultSize++;
+                if (real.getTextMission().getRequesterUsername().equals(username)) {
+                    List<TextResult> textResults = real.getTextResults();
+                    for (TextResult textResult : textResults) {
+                        if (textResult.isDone())
+                            textResultSize++;
+                    }
+                    result.add(generateTextInstanceVo(real, textResultSize));
                 }
-                result.add(generateTextInstanceVo(real, textResultSize));
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -380,12 +386,15 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
             int audioResultSize = 0;
             try {
                 AudioInstance real = instanceService.getAudioInstance(audioInstance.getInstanceId());
-                List<AudioResult> audioResults = real.getAudioResults();
-                for (AudioResult textResult : audioResults) {
-                    if (textResult.isDone())
-                        audioResultSize++;
+                if (real.getAudioMission().getRequesterUsername().equals(username)) {
+                    List<AudioResult> audioResults = real.getAudioResults();
+                    for (AudioResult textResult : audioResults) {
+                        if (textResult.isDone())
+                            audioResultSize++;
+                    }
+                    result.add(generateAudioInstanceVo(real, audioResultSize));
                 }
-                result.add(generateAudioInstanceVo(real, audioResultSize));
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -394,12 +403,15 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
             try {
                 int videoResultSize = 0;
                 VideoInstance real = instanceService.getVideoInstance(videoInstance.getInstanceId());
-                List<VideoResult> videoResults = real.getVideoResults();
-                for (VideoResult textResult : videoResults) {
-                    if (textResult.isDone())
-                        videoResultSize++;
+                if (real.getVideoMission().getRequesterUsername().equals(username)) {
+                    List<VideoResult> videoResults = real.getVideoResults();
+                    for (VideoResult textResult : videoResults) {
+                        if (textResult.isDone())
+                            videoResultSize++;
+                    }
+                    result.add(generateVideoInstanceVo(real, videoResultSize));
                 }
-                result.add(generateVideoInstanceVo(real, videoResultSize));
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -409,12 +421,15 @@ public class RequesterMissionDataServiceImpl implements RequesterMissionDataServ
             int threeDimensionResultSize = 0;
             try {
                 ThreeDimensionInstance real = instanceService.getThreeDimensionInstance(threeDimensionInstance.getInstanceId());
-                List<ThreeDimensionResult> threeDimensionResults = real.getThreeDimensionResults();
-                for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
-                    if (threeDimensionResult.isDone())
-                        threeDimensionResultSize++;
+                if (real.getThreeDimensionMission().getRequesterUsername().equals(username)) {
+                    List<ThreeDimensionResult> threeDimensionResults = real.getThreeDimensionResults();
+                    for (ThreeDimensionResult threeDimensionResult : threeDimensionResults) {
+                        if (threeDimensionResult.isDone())
+                            threeDimensionResultSize++;
+                    }
+                    result.add(generateThreeDimensionInstanceVo(real, threeDimensionResultSize));
                 }
-                result.add(generateThreeDimensionInstanceVo(real, threeDimensionResultSize));
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

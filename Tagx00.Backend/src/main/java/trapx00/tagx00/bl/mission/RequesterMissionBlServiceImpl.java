@@ -2,6 +2,7 @@ package trapx00.tagx00.bl.mission;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import trapx00.tagx00.blservice.mission.RequesterMissionBlService;
@@ -24,6 +25,7 @@ import trapx00.tagx00.security.jwt.JwtService;
 import trapx00.tagx00.security.jwt.JwtUser;
 import trapx00.tagx00.util.MissionUtil;
 import trapx00.tagx00.util.UserInfoUtil;
+import trapx00.tagx00.vo.admin.user.UserInfo;
 import trapx00.tagx00.vo.mission.audio.AudioMissionProperties;
 import trapx00.tagx00.vo.mission.image.ImageMissionProperties;
 import trapx00.tagx00.vo.mission.instance.InstanceDetailVo;
@@ -115,9 +117,7 @@ public class RequesterMissionBlServiceImpl implements RequesterMissionBlService 
     }
 
     private InstanceResponse queryAllInstances() {
-        InstanceVo[] instance = requesterMissionDataService.getAllInstances();
-
-
+        InstanceVo[] instance = requesterMissionDataService.getAllInstances(UserInfoUtil.getUsername());
 
 
         return new InstanceResponse(Arrays.asList(instance));
