@@ -28,15 +28,23 @@ interface Props {
 
 const ID_PREFIX = "missions.worker.myMissions.";
 
+interface State {
+  key: number;
+  instance: Instance;
+}
 
-
-export class WorkerInstanceCard extends React.PureComponent<Props, any> {
+export class WorkerInstanceCard extends React.PureComponent<Props, State> {
 
   @Inject userStore: UserStore;
   @Inject routerStore: RouterStore;
 
   @Inject missionService: MissionService;
   @Inject workerService: WorkerService;
+
+  state = {
+    key: 0,
+    instance: this.props.instance
+  };
 
   goToDoMission = () => {
     const missionId = this.props.instance.missionId;
@@ -105,6 +113,16 @@ export class WorkerInstanceCard extends React.PureComponent<Props, any> {
 
   };
 
+  componentDidUpdate() {
+    if (this.props.instance !== this.state.instance) {
+      this.setState({
+        key: this.state.key+1,
+        instance: this.props.instance
+      });
+    }
+
+  }
+
 
 
   renderCard = async () => {
@@ -123,6 +141,6 @@ export class WorkerInstanceCard extends React.PureComponent<Props, any> {
   };
 
   render() {
-    return <AsyncComponent render={this.renderCard} componentWhenLoading={stubCard}/>;
+    return <AsyncComponent key={this.state.key} render={this.renderCard} componentWhenLoading={stubCard}/>;
   }
 }
