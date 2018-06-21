@@ -7,69 +7,38 @@ import java.sql.Date;
 import java.util.Calendar;
 
 public class RequesterInfoVo extends UserInfoVo {
-    private int submittedMissionCount;
-    private int instanceCount;
-    private int submittedInstanceCount;
-    private int inProgressInstanceCount;
-    private int finalizedInstanceCount;
-    private int abandonedInstanceCount;
+    private int pendingMissionCount;
+    private int activeMissionCount;
+    private int endedMissionCount;
 
-
-    public RequesterInfoVo(String username, String email, String registerDate, String avatarUrl, int submittedMissionCount, int instanceCount, int submittedInstanceCount, int inProgressInstanceCount, int finalizedInstanceCount, int abandonedInstanceCount) {
+    public RequesterInfoVo(String username, String email, String registerDate, String avatarUrl, int pendingMissionCount, int activeMissionCount, int endedMissionCount) {
         super(username, email, Role.REQUESTER_NAME, registerDate, avatarUrl);
-        this.submittedMissionCount = submittedMissionCount;
-        this.instanceCount = instanceCount;
-        this.submittedInstanceCount = submittedInstanceCount;
-        this.inProgressInstanceCount = inProgressInstanceCount;
-        this.finalizedInstanceCount = finalizedInstanceCount;
-        this.abandonedInstanceCount = abandonedInstanceCount;
+        this.pendingMissionCount = pendingMissionCount;
+        this.activeMissionCount = activeMissionCount;
+        this.endedMissionCount = endedMissionCount;
     }
 
-    public int getAbandonedInstanceCount() {
-        return abandonedInstanceCount;
+    public int getPendingMissionCount() {
+        return pendingMissionCount;
     }
 
-    public void setAbandonedInstanceCount(int abandonedInstanceCount) {
-        this.abandonedInstanceCount = abandonedInstanceCount;
+    public void setPendingMissionCount(int pendingMissionCount) {
+        this.pendingMissionCount = pendingMissionCount;
     }
 
-    public int getSubmittedMissionCount() {
-        return submittedMissionCount;
+    public int getActiveMissionCount() {
+        return activeMissionCount;
     }
 
-    public void setSubmittedMissionCount(int submittedMissionCount) {
-        this.submittedMissionCount = submittedMissionCount;
+    public void setActiveMissionCount(int activeMissionCount) {
+        this.activeMissionCount = activeMissionCount;
     }
 
-    public int getInstanceCount() {
-        return instanceCount;
+    public int getEndedMissionCount() {
+        return endedMissionCount;
     }
 
-    public void setInstanceCount(int instanceCount) {
-        this.instanceCount = instanceCount;
-    }
-
-    public int getSubmittedInstanceCount() {
-        return submittedInstanceCount;
-    }
-
-    public void setSubmittedInstanceCount(int submittedInstanceCount) {
-        this.submittedInstanceCount = submittedInstanceCount;
-    }
-
-    public int getInProgressInstanceCount() {
-        return inProgressInstanceCount;
-    }
-
-    public void setInProgressInstanceCount(int inProgressInstanceCount) {
-        this.inProgressInstanceCount = inProgressInstanceCount;
-    }
-
-    public int getFinalizedInstanceCount() {
-        return finalizedInstanceCount;
-    }
-
-    public void setFinalizedInstanceCount(int finalizedInstanceCount) {
-        this.finalizedInstanceCount = finalizedInstanceCount;
+    public void setEndedMissionCount(int endedMissionCount) {
+        this.endedMissionCount = endedMissionCount;
     }
 }

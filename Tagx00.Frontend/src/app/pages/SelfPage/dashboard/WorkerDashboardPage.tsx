@@ -40,6 +40,9 @@ export class WorkerDashboardPage extends React.Component<Props, {}> {
           <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.username"}/>}>
             {info.username}
           </DefinitionItem>
+          <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.role"}/>}>
+            <LocaleMessage id={"common.userRole.WORKER"}/>
+          </DefinitionItem>
           <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.email"}/>}>
             {info.email}
           </DefinitionItem>

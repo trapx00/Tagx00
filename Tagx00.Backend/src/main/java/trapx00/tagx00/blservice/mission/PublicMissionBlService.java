@@ -4,8 +4,11 @@ import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.exception.viewexception.ThreeDimensionNotExistException;
+import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.response.mission.*;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
+
+import java.util.ArrayList;
 
 public interface PublicMissionBlService {
     /**
@@ -13,7 +16,7 @@ public interface PublicMissionBlService {
      *
      * @return the list of MissionPublicItemVo
      */
-    MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo, String searchTarget, String requesterUsername);
+    MissionPublicResponse getMissions(PagingQueryVo pagingQueryVo, ArrayList<String> states, String searchTarget, String requesterUsername);
 
     /**
      * get one mission

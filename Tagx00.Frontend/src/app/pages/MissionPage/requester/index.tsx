@@ -36,7 +36,7 @@ export default class RequesterMissionPage extends React.Component<Props, {}> {
       <Route render={() =>
         <Switch>
           <AsyncRoute path={"/mission/requester/create"} component={import("./create")}/>
-          <AsyncRoute exact path={"/mission/requester"} component={import("./RequesterMissionPanel")}/>
+          <AsyncRoute exact path={"/mission/requester"} component={import("./MissionPanel/index")}/>
           <AsyncRoute path={"/mission/requester/instance"} exact
                  render={renderInstancePanel}/>
         </Switch>}/>

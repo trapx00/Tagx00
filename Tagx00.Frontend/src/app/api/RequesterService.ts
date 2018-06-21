@@ -13,6 +13,7 @@ import { MissionRequestQueryResponse } from "../models/response/mission/MissionR
 import { MissionChargeResponse } from "../models/response/mission/MissionChargeResponse";
 import { AudioUploadResponse } from "../models/mission/audio/AudioUploadResponse";
 import { VideoUploadResponse } from "../models/mission/video/VideoUploadResponse";
+import { MissionState } from "../models/mission/Mission";
 
 @Injectable
 export class RequesterService {
@@ -84,11 +85,11 @@ export class RequesterService {
     return res.response;
   }
 
-  async getAllMissionsBySelf(username: string, pageNumber:number=1, pageSize: number = 10000): Promise<MissionPublicResponse> {
+  async getAllMissionsBySelf(username: string, states: MissionState[], pageNumber:number=1, pageSize: number = 10000): Promise<MissionPublicResponse> {
     const res = await this.http.fetch({
       method: HttpMethod.GET,
       path: "/mission",
-      queryParams: {requester: username, pageNumber, pageSize},
+      queryParams: {requester: username, states, pageNumber, pageSize},
     });
 
     return res.response;

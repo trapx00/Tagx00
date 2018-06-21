@@ -96,7 +96,7 @@ public class PythonServiceImpl implements PythonService {
                 throw new SystemException();
             }
         } catch (HttpServerErrorException e) {
-            return new RecommendTagsVo(new ArrayList<>());
+            return recommendTagsVo;
         }
 
     }

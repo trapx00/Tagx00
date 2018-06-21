@@ -48,14 +48,6 @@ public class Converter {
     }
 
 
-    public static RequesterInfoVo userToRequesterInfoVo(User user, String avatarUrl, int submittedMissionCount,
-                                                        int instanceCount, int awaitingCommentInstanceCount,
-                                                        int inProgressInstanceCount, int finalizedInstanceCount, int abandonedInstanceCount) {
-        return new RequesterInfoVo(user.getUsername(), user.getEmail(), generateDateStr(user.getRegisterDate()),  avatarUrl,submittedMissionCount,
-                instanceCount, awaitingCommentInstanceCount, inProgressInstanceCount,
-                finalizedInstanceCount, abandonedInstanceCount);
-    }
-
     public static WorkerInfoVo userToWorkerInfoVo(User user,String avatarUrl, int completedMissionCount, int acceptedMissionCount, int inProgressMissionCount, int abandonedMissionCount, int finalizedMissionCount) {
         return new WorkerInfoVo(user.getUsername(), user.getEmail(), generateDateStr(user.getRegisterDate()), avatarUrl, user.getCredits(), user.getExp(), LevelUtil.calculateLevel(user.getExp()),
                 completedMissionCount, acceptedMissionCount, inProgressMissionCount, abandonedMissionCount, finalizedMissionCount);

@@ -14,12 +14,14 @@ import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.exception.viewexception.TextNotExistException;
 import trapx00.tagx00.exception.viewexception.ThreeDimensionNotExistException;
+import trapx00.tagx00.publicdatas.mission.MissionState;
 import trapx00.tagx00.response.Response;
 import trapx00.tagx00.response.WrongResponse;
 import trapx00.tagx00.response.mission.*;
 import trapx00.tagx00.vo.paging.PagingQueryVo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @RestController
 public class PublicMissionController {
@@ -47,8 +49,10 @@ public class PublicMissionController {
     public ResponseEntity<Response> getMissions(@RequestParam(value = "pageSize", defaultValue = "10000") Integer pageSize,
                                                 @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber,
                                                 @RequestParam(value = "searchTarget", defaultValue = "") String searchTarget,
-                                                @RequestParam(value = "requester", defaultValue = "") String requesterUsername) {
-        return new ResponseEntity<>(publicMissionBlService.getMissions(new PagingQueryVo(pageSize, pageNumber), searchTarget, requesterUsername), HttpStatus.OK);
+                                                @RequestParam(value = "requester", defaultValue = "") String requesterUsername,
+                                                @RequestParam(value = "states", required= false) ArrayList<String> states
+                                                ) {
+        return new ResponseEntity<>(publicMissionBlService.getMissions(new PagingQueryVo(pageSize, pageNumber), states, searchTarget, requesterUsername), HttpStatus.OK);
     }
 
 

@@ -10,6 +10,9 @@ import { PayService } from "../../../../api/PayService";
 import { InstanceCyclePieChart } from "../charts/InstanceCyclePieChart";
 import { AvatarContainer } from "../AvatarContainer";
 import { UserProfileLayout } from "../UserProfileLayout";
+import { ClickablePieChart } from "../charts/ClickablePieChart";
+import { LocaleStore } from "../../../../stores/LocaleStore";
+import { RequesterMissionChart } from "./RequesterMissionChart";
 
 const ID_PREFIX = "dashboard.";
 
@@ -21,9 +24,15 @@ export class RequesterDashboardPage extends React.Component<Props, {}> {
   @Inject requesterService: RequesterService;
   @Inject payService: PayService;
 
+
+  nameMap = []
+
   requesterInfo = async () => {
     const info = await this.requesterService.getRequesterInfo(this.props.username);
     const credit = await this.payService.getCredits();
+
+
+
 
     return <div style={{maxWidth: "1000px", marginLeft: "auto", marginRight: "auto"}}>
       <UserProfileLayout avatarUrl={info.avatarUrl}>
@@ -31,9 +40,13 @@ export class RequesterDashboardPage extends React.Component<Props, {}> {
           <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.username"}/>}>
             {info.username}
           </DefinitionItem>
+          <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.role"}/>}>
+            <LocaleMessage id={"common.userRole.REQUESTER"}/>
+          </DefinitionItem>
           <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.email"}/>}>
             {info.email}
           </DefinitionItem>
+
           <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "selfInfo.registerDate"}/>}>
             <LocaleDate formatId={ID_PREFIX + "selfInfo.registerDateFormat"} input={info.registerDate}/>
           </DefinitionItem>
@@ -49,21 +62,7 @@ export class RequesterDashboardPage extends React.Component<Props, {}> {
       </h2>
       <br/>
       <div>
-        <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "requester.submittedMissionCount"}/>}
-                        children={info.submittedMissionCount}/>
-        <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "requester.instanceCount"}/>}
-                        children={info.instanceCount}/>
-        <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "requester.inProgressInstanceCount"}/>}
-                        children={info.inProgressInstanceCount}/>
-        <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "requester.awaitingCommentInstanceCount"}/>}
-                        children={info.submittedInstanceCount}/>
-        <DefinitionItem prompt={<LocaleMessage id={ID_PREFIX + "requester.finalizedInstanceCount"}/>}
-                        children={info.finalizedInstanceCount}/>
-        <InstanceCyclePieChart
-          inProgress={info.inProgressInstanceCount}
-          submitted={info.submittedMissionCount}
-          finalized={info.finalizedInstanceCount}
-          abandoned={info.abandonedInstanceCount}/>
+        <RequesterMissionChart data={info}/>
       </div>
 
     </div>;
