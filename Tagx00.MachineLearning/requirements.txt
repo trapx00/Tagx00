@@ -2,3 +2,4 @@ jieba
 tensorflow
 numpy
 flask
+baidu-aip

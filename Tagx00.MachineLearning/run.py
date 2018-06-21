@@ -5,7 +5,7 @@ from flask import (
     request,
     jsonify)
 
-from api_util import write_baidu_results, get_baidu_results
+from api_util import write_baidu_results, get_baidu_results, get_baidu_api
 from my_encoder import MyEncoder
 from path_util import PathUtil
 from pickup import pickup
@@ -34,7 +34,7 @@ def separateSentence():
 @app.route('/getRecommendTag', methods=['POST'])
 def getRecommendTag():
     data = json.loads(request.data.decode('utf-8'))
-    result = tag.recommend(data['recommendTagItemList'], get_baidu_results(data))
+    result = tag.recommend(data['recommendTagItemList'], data['baiduResults'])
     return json.dumps({'recommendTagItemList': result}, cls=MyEncoder)
 
 
@@ -42,12 +42,28 @@ def getRecommendTag():
 def trainRecommend():
     data = json.loads(request.data.decode('utf-8'))
     with open(PathUtil.get_path() + "proval/train_aliyun.txt", "a+") as file:
-        for i in range(data.__len__()):
-            file.write('\n')
-            file.write(str(data[i]))
-    write_baidu_results(data)
+        with open(PathUtil.get_path() + "proval/train_baidu.txt", "a+") as file_baidu:
+            for i in range(data.__len__()):
+                aliyun_data = {}
+                aliyun_data["url"] = data[i]["url"]
+                aliyun_data["tags"] = data[i]["tags"]
+                aliyun_data["response"] = data[i]["response"]
+                baidu_data = {}
+                baidu_data["url"] = data[i]["url"]
+                baidu_data["tags"] = data[i]["tags"]
+                baidu_data["response"] = data[i]["baiduResponse"]
+                file.write('\n')
+                file.write(str(aliyun_data))
+                file_baidu.write('\n')
+                file_baidu.write(str(baidu_data))
     tag.train()
     return "success"
+
+
+@app.route('/baiduApi', methods=['POST'])
+def baiduApi():
+    data = json.loads(request.data.decode('utf-8'))["imageUrl"]
+    return jsonify({"objects": get_baidu_api(data)})
 
 
 if __name__ == '__main__':

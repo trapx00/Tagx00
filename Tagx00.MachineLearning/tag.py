@@ -6,13 +6,13 @@ import tensorflow as tf
 from path_util import PathUtil
 
 learning_rate_aliyun = 0.003
-training_epochs_aliyun = 100
+training_epochs_aliyun = 300
 learning_rate_baidu = 0.003
-training_epochs_baidu = 100
+training_epochs_baidu = 300
 learning_rate = 0.003
 training_epochs = 2000
 batch_size = 3
-n_size = 5
+n_size = 3
 dismiss_percent = 0.05
 
 n_hidden_units = 128
@@ -214,7 +214,7 @@ class Tag:
             result.append({"tagConfTuples": result_tuple})
         return result
 
-    def recommand(self, data_aliyun, data_baidu):
+    def recommend(self, data_aliyun, data_baidu):
         try:
             self.load_models()
         except Exception:
@@ -223,36 +223,39 @@ class Tag:
         tags_aliyun, pred_aliyun = self.aliyun_recommend(data_aliyun)
         tags_baidu, pred_baidu = self.baidu_recommend(data_baidu)
 
-        tags = tags_aliyun
-        confs = pred_aliyun
-
-        for i in range(n_size):
-            tags.append(tags_baidu[i])
-            confs.append(pred_baidu[i])
+        confs, tags = self.inter_recommend_data(pred_aliyun, tags_aliyun, pred_baidu, tags_baidu, tags_aliyun.__len__())
 
         pred = self.inter_recommend(tags, confs)
 
         return_tags = []
         return_confs = []
-        for i in range(tags.__len__()):
-            for j in range(return_tags.__len__()):
-                if tags[i] == return_tags[j]:
-                    return_confs[j] += confs[i]
-                else:
-                    return_tags.append(tags[i])
-                    return_confs.append(confs[i])
+        for k in range(tags.__len__()):
+            return_tag = []
+            return_conf = []
+            for i in range(tags[k].__len__()):
+                is_added = False
+                for j in range(return_tag.__len__()):
+                    if tags[k][i] == return_tag[j]:
+                        return_conf[j] += confs[k][i]
+                        is_added = True
+                        break
+                if not is_added:
+                    return_tag.append(tags[k][i])
+                    return_conf.append(confs[k][i])
+            return_tags.append(return_tag)
+            return_confs.append(return_conf)
 
         result = []
-        for i in range(pred.__len__()):
+        for i in range(return_tags.__len__()):
             result_tuple = []
             is_reject = True
-            for j in range(return_tags.__len__()):
+            for j in range(return_tags[i].__len__()):
                 if return_confs[i][j] > self.dismiss_value:
                     is_reject = False
                     break
             if not is_reject:
-                for j in range(return_tags.__len__()):
-                    if return_confs[i][j].__len__() != 0:
+                for j in range(return_tags[i].__len__()):
+                    if return_tags[i][j].__len__() != 0:
                         result_tuple.append(
                             {"tag": return_tags[i][j], "confidence": format(return_confs[i][j], '0.2f')})
             result.append({"tagConfTuples": result_tuple})
@@ -272,7 +275,25 @@ class Tag:
         #         confs.append(0)
         #
         # pred = self.inter_recommend(tags, confs)
-        return pred
+        return result
+
+    def inter_recommend_data(self, batch_xs_aliyun, tags_aliyun, batch_xs_baidu, tags_baidu, batch_size):
+        batch_x = np.empty([batch_size, n_size * 2])
+        batch_y = []
+        for i in range(batch_size):
+            temp = []
+            for j in range(n_size * 2):
+                temp.append("")
+            batch_y.append(temp)
+        for i in range(n_size * 2):
+            for j in range(batch_size):
+                if i < n_size:
+                    batch_x[j][i] = batch_xs_aliyun[j][i]
+                    batch_y[j][i] = tags_aliyun[j][i]
+                else:
+                    batch_x[j][i] = batch_xs_baidu[j][i - n_size]
+                    batch_y[j][i] = tags_baidu[j][i - n_size]
+        return batch_x, batch_y
 
     def calculate_confidence(self):
         all_xs_aliyun, all_ys_aliyun = self.all_aliyun_train_data()
@@ -281,7 +302,7 @@ class Tag:
                                                       self.Y_aliyun: all_ys_aliyun,
                                                       self.scale: 0.1,
                                                       self.keep_prob: 1})
-        all_xs_baidu, all_ys_baidu = self.next_test_batch_baidu()
+        all_xs_baidu, all_ys_baidu = self.all_baidu_train_data()
         all_ys_baidu_pred = self.sess.run([self.y_pred_baidu],
                                           feed_dict={self.X_baidu: all_xs_baidu,
                                                      self.Y_baidu: all_ys_baidu,
@@ -292,14 +313,14 @@ class Tag:
         pred = self.sess.run([self.y_pred],
                              feed_dict={self.X: bacth_xs,
                                         self.Y: batch_ys,
-                                        self.keep_prob: 1})
-        total_train = all_xs_aliyun.__len__()
+                                        self.keep_prob: 1})[0]
+        total_train = pred.__len__()
         hit_confidence = []
         for i in range(total_train):
-            for j in range(n_size):
-                if batch_ys[i][j] == 1:
+            for j in range(pred[0].__len__()):
+                if batch_ys[i][j] == 0:
                     hit_confidence.append(pred[i][j])
-        sorted(hit_confidence)
+        hit_confidence = sorted(hit_confidence)
         self.dismiss_value = hit_confidence[np.math.floor(dismiss_percent * total_train)]
 
     def all_aliyun_train_data(self):
@@ -456,6 +477,7 @@ class Tag:
                                              self.keep_prob: 0.5})
                 if epoch % 10 == 9:
                     self.compute_accuracy()
+        self.calculate_confidence()
         self.save_models()
 
     def inter_data(self, batch_xs_aliyun, batch_ys_aliyun, batch_xs_baidu, batch_ys_baidu):
@@ -593,4 +615,3 @@ class Tag:
 
 
 tag = Tag()
-tag.train()

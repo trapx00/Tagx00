@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.HttpServerErrorException;
@@ -16,7 +15,6 @@ import trapx00.tagx00.datacollect.DataObject;
 import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.MissionAsset;
 import trapx00.tagx00.entity.mission.instance.ImageInstance;
-import trapx00.tagx00.entity.mission.instance.workresult.ImageResult;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.mlservice.PythonService;
 import trapx00.tagx00.parameters.ExtractKeyParameter;
@@ -24,17 +22,11 @@ import trapx00.tagx00.parameters.SegmentWordParameter;
 import trapx00.tagx00.publicdatas.mission.TagTuple;
 import trapx00.tagx00.publicdatas.mission.image.whole.ImageWholeJob;
 import trapx00.tagx00.response.mission.ImageIdentificationResponse;
-import trapx00.tagx00.util.PathUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageMissionType;
-import trapx00.tagx00.vo.ml.KeysVo;
-import trapx00.tagx00.vo.ml.RecommendRequestVo;
-import trapx00.tagx00.vo.ml.RecommendTagsVo;
-import trapx00.tagx00.vo.ml.WordsVo;
+import trapx00.tagx00.vo.ml.*;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,10 +118,10 @@ public class PythonServiceImpl implements PythonService {
                 List<String> tags = tagTuples.stream().collect(ArrayList::new, (list, tagTuple) -> list.add(tagTuple.getTag()), ArrayList::addAll);
 
                 DataObject dataObject = new DataObject(
-                    missionAssets.get(i).getUrl(),
-                    tags,
-                    missionAssets.get(i).getTagConfTuple(),
-                    missionAssets.get(i).getBaiduTagConfTuple()
+                        missionAssets.get(i).getUrl(),
+                        tags,
+                        missionAssets.get(i).getTagConfTuple(),
+                        missionAssets.get(i).getBaiduTagConfTuple()
                 );
 
                 dataObjects.add(dataObject);
@@ -165,10 +157,12 @@ public class PythonServiceImpl implements PythonService {
 
         String url = mlAddress + baiduApi;
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        HttpEntity<String> entity = new HttpEntity<>(imageUrl, headers);
+        HttpEntity<BaiduRequestVo> entity = new HttpEntity<>(new BaiduRequestVo(imageUrl
+
+        ), headers);
 
 
-        ResponseEntity<ImageIdentificationResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, ImageIdentificationResponse.class);
+        ResponseEntity<ImageIdentificationResponse> response = restTemplate.exchange(url, HttpMethod.POST, entity, ImageIdentificationResponse.class);
 
         return response.getBody();
 
