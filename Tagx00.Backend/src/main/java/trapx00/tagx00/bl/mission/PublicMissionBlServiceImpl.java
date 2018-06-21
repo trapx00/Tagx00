@@ -6,7 +6,9 @@ import trapx00.tagx00.blservice.mission.PublicMissionBlService;
 import trapx00.tagx00.dataservice.mission.PublicMissionDataService;
 import trapx00.tagx00.dataservice.upload.TextDataService;
 import trapx00.tagx00.dataservice.upload.ThreeDimensionDataService;
+import trapx00.tagx00.entity.mission.ImageMission;
 import trapx00.tagx00.entity.mission.Mission;
+import trapx00.tagx00.entity.mission.MissionAsset;
 import trapx00.tagx00.entity.mission.instance.Instance;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
@@ -21,6 +23,7 @@ import trapx00.tagx00.vo.mission.forpublic.MissionAssetVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionDetailVo;
 import trapx00.tagx00.vo.mission.forpublic.MissionPublicItemVo;
 import trapx00.tagx00.vo.mission.image.ImageMissionDetailVo;
+import trapx00.tagx00.vo.ml.RecommendRequestVo;
 import trapx00.tagx00.vo.ml.RecommendTagItem;
 import trapx00.tagx00.vo.ml.RecommendTagsVo;
 import trapx00.tagx00.vo.paging.PagingInfoVo;
@@ -32,6 +35,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -54,24 +58,51 @@ public class PublicMissionBlServiceImpl implements PublicMissionBlService {
 
     @Override
     public MissionDetailResponse getOneMissionDetail(String missionId) throws MissionIdDoesNotExistException, SystemException {
+
+
+
+
+
         MissionDetailVo missionDetailVo;
+
         try {
             missionDetailVo = publicMissionDataService.getOneMissionDetail(missionId, MissionUtil.getType(missionId));
             if (missionDetailVo.getMissionType() == MissionType.IMAGE) {
-                ImageMissionDetailVo imageMissionPublicItemVo = (ImageMissionDetailVo) missionDetailVo;
-                List<MissionAssetVo> originMissionAssets = imageMissionPublicItemVo.getMissionAssetVos();
-                List<RecommendTagItem> recommendTagItems = new ArrayList<>();
-                for (int i = 0; i < originMissionAssets.size(); i++) {
-                    recommendTagItems.add(new RecommendTagItem(originMissionAssets.get(i).getUrl(), originMissionAssets.get(i).getTagConfTuple()));
+
+                ImageMissionDetailVo imageMissionDetailVo = (ImageMissionDetailVo) missionDetailVo;
+
+                Optional<Mission> first = Arrays.stream(publicMissionDataService.getAllMissions()).filter(x -> x.getMissionId().equals(missionId)).findFirst();
+                if (!first.isPresent()) {
+                    throw new MissionIdDoesNotExistException();
                 }
-                RecommendTagsVo recommendTagsVo = pythonService.getRecommendTag(new RecommendTagsVo(recommendTagItems));
+
+                ImageMission mission = (ImageMission) first.get();
+
+                List<MissionAsset> originMissionAssets = mission.getMissionAssets();
+
+                List<RecommendTagItem> recommendTagItems = new ArrayList<>();
+                List<RecommendTagItem> baiduItems = new ArrayList<>();
+
+                for (MissionAsset asset : originMissionAssets) {
+                    recommendTagItems.add(new RecommendTagItem(asset.getUrl(), asset.getTagConfTuple()));
+                    baiduItems.add(new RecommendTagItem(asset.getUrl(), asset.getBaiduTagConfTuple()));
+                }
+
+
+
+                RecommendTagsVo recommendTagsVo = pythonService.getRecommendTag(
+                    new RecommendRequestVo(
+                        recommendTagItems,
+                        baiduItems
+                    ));
+
+
                 List<RecommendTagItem> resultRecommendTagItemList = recommendTagsVo.getRecommendTagItemList();
                 for (int i = 0; i < originMissionAssets.size(); i++) {
-                    MissionAssetVo missionAsset = originMissionAssets.get(i);
+                    MissionAssetVo missionAsset = imageMissionDetailVo.getMissionAssetVos().get(i);
                     missionAsset.setTagConfTuple(resultRecommendTagItemList.get(i).getTagConfTuples());
-                    originMissionAssets.set(i, missionAsset);
+                    imageMissionDetailVo.getMissionAssetVos().set(i, missionAsset);
                 }
-                imageMissionPublicItemVo.setMissionAssetVos(originMissionAssets);
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

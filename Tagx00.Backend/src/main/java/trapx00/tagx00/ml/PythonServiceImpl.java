@@ -23,10 +23,12 @@ import trapx00.tagx00.parameters.ExtractKeyParameter;
 import trapx00.tagx00.parameters.SegmentWordParameter;
 import trapx00.tagx00.publicdatas.mission.TagTuple;
 import trapx00.tagx00.publicdatas.mission.image.whole.ImageWholeJob;
+import trapx00.tagx00.response.mission.ImageIdentificationResponse;
 import trapx00.tagx00.util.PathUtil;
 import trapx00.tagx00.vo.mission.image.ImageInstanceDetailVo;
 import trapx00.tagx00.vo.mission.image.ImageMissionType;
 import trapx00.tagx00.vo.ml.KeysVo;
+import trapx00.tagx00.vo.ml.RecommendRequestVo;
 import trapx00.tagx00.vo.ml.RecommendTagsVo;
 import trapx00.tagx00.vo.ml.WordsVo;
 
@@ -44,6 +46,10 @@ public class PythonServiceImpl implements PythonService {
     private String apiExtractKey;
     @Value("${ml.apiSeparateSentence}")
     private String apiSeparateSentence;
+
+    @Value("${ml.apiBaidu}")
+    private String baiduApi;
+
     @Value("${ml.apiGetRecommend}")
     private String apiGetRecommend;
     @Value("${ml.apiTrainRecommend}")
@@ -79,24 +85,24 @@ public class PythonServiceImpl implements PythonService {
     }
 
     @Override
-    public RecommendTagsVo getRecommendTag(RecommendTagsVo recommendTagsVo) throws SystemException {
+    public RecommendTagsVo getRecommendTag(RecommendRequestVo request) throws SystemException {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        HttpEntity<RecommendTagsVo> entity = new HttpEntity<>(recommendTagsVo, headers);
+        HttpEntity<RecommendRequestVo> entity = new HttpEntity<>(request, headers);
         String url = mlAddress + apiGetRecommend;
         try {
             ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            if (responseEntity.getStatusCode().equals(HttpStatus.OK)) {
                 Gson g = new Gson();
                 return g.fromJson(responseEntity.getBody(), RecommendTagsVo.class);
             } else {
                 throw new SystemException();
             }
         } catch (HttpServerErrorException e) {
-            return recommendTagsVo;
+            return new RecommendTagsVo(request.getRecommendTagItemList());
         }
 
     }
@@ -108,14 +114,24 @@ public class PythonServiceImpl implements PythonService {
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
         List<DataObject> dataObjects = new ArrayList<>();
+
         ImageInstance imageInstanceWithResults = instanceService.getImageInstance(imageInstanceDetailVo.getInstance().getInstanceId());
         ImageMission imageMission = imageMissionDao.findImageMissionByMissionId(imageInstanceDetailVo.getInstance().getMissionId());
+
         List<MissionAsset> missionAssets = imageMission.getMissionAssets();
         for (int i = 0; i < missionAssets.size(); i++) {
             if (imageInstanceWithResults.getImageResults().get(i).getImageJob().getType() == ImageMissionType.WHOLE) {
+
                 List<TagTuple> tagTuples = ((ImageWholeJob) imageInstanceWithResults.getImageResults().get(i).getImageJob()).getTuple().getTagTuples();
                 List<String> tags = tagTuples.stream().collect(ArrayList::new, (list, tagTuple) -> list.add(tagTuple.getTag()), ArrayList::addAll);
-                DataObject dataObject = new DataObject(missionAssets.get(i).getUrl(), tags, missionAssets.get(i).getTagConfTuple());
+
+                DataObject dataObject = new DataObject(
+                    missionAssets.get(i).getUrl(),
+                    tags,
+                    missionAssets.get(i).getTagConfTuple(),
+                    missionAssets.get(i).getBaiduTagConfTuple()
+                );
+
                 dataObjects.add(dataObject);
             }
         }
@@ -141,5 +157,22 @@ public class PythonServiceImpl implements PythonService {
         }
     }
 
-    
+    @Override
+    public ImageIdentificationResponse getBaiduResults(String imageUrl) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+
+        String url = mlAddress + baiduApi;
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+        HttpEntity<String> entity = new HttpEntity<>(imageUrl, headers);
+
+
+        ResponseEntity<ImageIdentificationResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity, ImageIdentificationResponse.class);
+
+        return response.getBody();
+
+    }
+
+
 }

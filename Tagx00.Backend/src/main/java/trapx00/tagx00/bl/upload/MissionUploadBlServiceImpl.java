@@ -11,6 +11,7 @@ import trapx00.tagx00.entity.mission.*;
 import trapx00.tagx00.exception.viewexception.MissionIdDoesNotExistException;
 import trapx00.tagx00.exception.viewexception.SystemException;
 import trapx00.tagx00.mlservice.PythonService;
+import trapx00.tagx00.response.mission.ImageIdentificationResponse;
 import trapx00.tagx00.response.upload.*;
 import trapx00.tagx00.util.Converter;
 import trapx00.tagx00.util.MissionUtil;
@@ -81,17 +82,29 @@ public class MissionUploadBlServiceImpl implements MissionUploadBlService {
                         imageMission.setCoverUrl(url);
                     } else {
                         Map<java.lang.String, Double> tagConfTuple = new HashMap<>();
+                        Map<String, Double> baiduTuple = new HashMap<>();
                         if (imageMission.isAllowCustomTag()) {
                             Map<String, Double> apiTagConfTuple = workerMissionBlService.identifyImage(multipartFile).getObjects();
                             apiTagConfTuple.forEach((key, value) -> {
                                 tagConfTuple.put(key, value * 0.01);
                             });
+                            ImageIdentificationResponse baiduResults = pythonService.getBaiduResults(url);
+                            baiduTuple = baiduResults.getObjects();
                         }
-                        missionAssets.add(new MissionAsset(url, Converter.MapToTagConfTupleList(tagConfTuple), imageMission));
+
+
+
+
+                        missionAssets.add(new MissionAsset(url,
+                            Converter.MapToTagConfTupleList(tagConfTuple),
+                            Converter.MapToTagConfTupleList(baiduTuple),
+                            imageMission));
                     }
+
                     imageMission.setMissionAssets(missionAssets);
                     requesterMissionDataService.updateMission(imageMission);
                     return new UploadMissionImageResponse(url);
+
                 case THREE_DIMENSION:
                     ThreeDimensionMission threeDimensionMission = (ThreeDimensionMission) requesterMissionDataService.getMissionByMissionId(missionId);
                     java.lang.String url1 = imageDataService.uploadImage(generateImageKey(missionId, order, isCover), multipartFile.getBytes());

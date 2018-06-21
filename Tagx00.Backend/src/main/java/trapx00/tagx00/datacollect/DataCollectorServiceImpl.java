@@ -37,7 +37,12 @@ public class DataCollectorServiceImpl implements DataCollectorService {
                 for (int i = 0; i < missionAssets.size(); i++) {
                     List<TagTuple> tagTuples = ((ImageWholeJob) imageInstanceWithResults.getImageResults().get(i).getImageJob()).getTuple().getTagTuples();
                     List<String> tags = tagTuples.stream().collect(ArrayList::new, (list, tagTuple) -> list.add(tagTuple.getTag()), ArrayList::addAll);
-                    DataObject dataObject = new DataObject(missionAssets.get(i).getUrl(), tags, missionAssets.get(i).getTagConfTuple());
+                    DataObject dataObject = new DataObject(
+                        missionAssets.get(i).getUrl(),
+                        tags,
+                        missionAssets.get(i).getTagConfTuple(),
+                        missionAssets.get(i).getBaiduTagConfTuple()
+                    );
                     out.write(new Gson().toJson(dataObject));
                     out.newLine();
                 }

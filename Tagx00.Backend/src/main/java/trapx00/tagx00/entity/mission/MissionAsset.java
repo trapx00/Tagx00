@@ -14,6 +14,12 @@ public class MissionAsset {
     @Column(name = "tagConfTuple")
     @ElementCollection(targetClass = TagConfTuple.class)
     private List<TagConfTuple> tagConfTuple;
+
+
+    @Column(name = "baiduTagConfTuple")
+    @ElementCollection(targetClass = TagConfTuple.class)
+    private List<TagConfTuple> baiduTagConfTuple;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "mission_missionId")
     private ImageMission imageMission;
@@ -21,10 +27,19 @@ public class MissionAsset {
     public MissionAsset() {
     }
 
-    public MissionAsset(String url, List<TagConfTuple> tagConfTuple, ImageMission imageMission) {
+    public MissionAsset(String url, List<TagConfTuple> tagConfTuple, List<TagConfTuple> baiduTagConfTuple, ImageMission imageMission) {
         this.url = url;
         this.tagConfTuple = tagConfTuple;
+        this.baiduTagConfTuple = baiduTagConfTuple;
         this.imageMission = imageMission;
+    }
+
+    public List<TagConfTuple> getBaiduTagConfTuple() {
+        return baiduTagConfTuple;
+    }
+
+    public void setBaiduTagConfTuple(List<TagConfTuple> baiduTagConfTuple) {
+        this.baiduTagConfTuple = baiduTagConfTuple;
     }
 
     public String getUrl() {

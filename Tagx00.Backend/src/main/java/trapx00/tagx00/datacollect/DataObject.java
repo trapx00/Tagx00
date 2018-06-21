@@ -8,14 +8,25 @@ public class DataObject {
     private String url;
     private List<String> tags;
     private List<TagConfTuple> response;
+    private List<TagConfTuple> baiduResponse;
 
-    public DataObject() {
-    }
-
-    public DataObject(String url, List<String> tags, List<TagConfTuple> response) {
+    public DataObject(String url, List<String> tags, List<TagConfTuple> response, List<TagConfTuple> baiduResponse) {
         this.url = url;
         this.tags = tags;
         this.response = response;
+        this.baiduResponse = baiduResponse;
+    }
+
+
+    public List<TagConfTuple> getBaiduResponse() {
+        return baiduResponse;
+    }
+
+    public void setBaiduResponse(List<TagConfTuple> baiduResponse) {
+        this.baiduResponse = baiduResponse;
+    }
+
+    public DataObject() {
     }
 
     public String getUrl() {

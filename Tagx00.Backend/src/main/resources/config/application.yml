@@ -64,6 +64,7 @@ ml:
   apiSeparateSentence: /separateSentence
   apiGetRecommend: /getRecommendTag
   apiTrainRecommend: /trainRecommend
+  apiBaidu: /baiduApi
 aliyun:
   akId: LTAIfeJPa5mmsKhL
   akSecret: Dfz3Tj7Tyuojl84vSBHX7E9eluivj5
