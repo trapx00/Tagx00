@@ -13,12 +13,12 @@ jwt:
   header: Authorization
   tokenHead: "Bearer "
 oos:
-  accessKey: "c4582dec5d0809103126"
-  secretKey: "47c783687d4c452c5d71b817b8c481915fb0094a"
+  accessKey: "secret"
+  secretKey: "secret"
   endPoint: "http://oos-bj2.ctyunapi.cn"
   bucketName: "tagx00"
 email:
-  sender: "chencjd123@126.com"
+  sender: "secret"
   subject: "Tagx00账号注册邮箱认证"
   content1: "亲爱的用户： 您好!
             您正在注册Tagx00账号，请在验证码输入框中输入："
@@ -42,8 +42,8 @@ spring:
     proxy-target-class: false
   mail:
     host: smtp.126.com
-    username: chencjd123@126.com
-    password: cqwzcjd123
+    username: secret
+    password: secret
     properties:
       mail:
         smtp:
@@ -66,6 +66,6 @@ ml:
   apiTrainRecommend: /trainRecommend
   apiBaidu: /baiduApi
 aliyun:
-  akId: LTAIfeJPa5mmsKhL
-  akSecret: Dfz3Tj7Tyuojl84vSBHX7E9eluivj5
+  akId: secret
+  akSecret: secret
   imageHostUrl: https://dtplus-cn-shanghai.data.aliyuncs.com/image/tag

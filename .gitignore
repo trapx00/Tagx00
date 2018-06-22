@@ -67,6 +67,7 @@ Tagx00.MachineLearning/.idea/modules.xml
 Tagx00.MachineLearning/.idea/Tagx00.MachineLearning.iml
 Tagx00.MachineLearning/__pycache__/pickup.cpython-36.pyc
 Tagx00.Backend/static
+Tagx00.Backend/src/main/resources/config/secrets.yml
 
 ## test 
 Tagx00.Backend/static
